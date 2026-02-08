@@ -141,59 +141,49 @@ import com.landawn.abacus.util.stream.Stream;
  *
  * // Mathematical operations (type-specific)
  * IntMatrix result = intMatrix.add(5);   // Add scalar to all elements
+ * IntMatrix otherMatrix = IntMatrix.of(new int[][] {{6, 5, 4}, {3, 2, 1}});
  * IntMatrix sum = intMatrix.add(otherMatrix);   // Element-wise addition
  * }</pre>
  *
  * <p><b>Advanced Stream Processing Examples:</b>
  * <pre>{@code
  * // Complex stream operations with multiple access patterns
- * public class MatrixAnalytics {
- *     public static double calculateRowVariance(DoubleMatrix matrix, int rowIndex) {
- *         double[] row = matrix.row(rowIndex);
- *         double mean = java.util.stream.DoubleStream.of(row).average().orElse(0.0);
- *         return java.util.stream.DoubleStream.of(row)
- *             .map(x -> Math.pow(x - mean, 2))
- *             .average()
- *             .orElse(0.0);
- *     }
+ * DoubleMatrix analyticsMatrix = DoubleMatrix.of(new double[][] {{1.0, 3.0, 5.0}, {2.0, 4.0, 8.0}});
+ * int rowIndex = 0;
+ * double[] row = analyticsMatrix.row(rowIndex);
+ * double mean = java.util.stream.DoubleStream.of(row).average().orElse(0.0);
+ * double variance = java.util.stream.DoubleStream.of(row)
+ *     .map(x -> Math.pow(x - mean, 2))
+ *     .average()
+ *     .orElse(0.0);
  *
- *     public static IntMatrix findLocalMaxima(IntMatrix matrix) {
- *         IntMatrix result = IntMatrix.of(new int[matrix.rowCount()][matrix.columnCount()]);
- *
- *         for (int i = 1; i < matrix.rowCount() - 1; i++) {
- *             for (int j = 1; j < matrix.columnCount() - 1; j++) {
- *                 int current = matrix.get(i, j);
- *                 int finalI = i;
- *                 int finalJ = j;
- *                 boolean isMaxima = matrix.adjacent8Points(i, j)
- *                     .allMatch(point -> current >= matrix.get(point.rowIndex(), point.columnIndex()));
- *                 if (isMaxima) {
- *                     result.set(i, j, 1);
- *                 }
- *             }
+ * IntMatrix localMaximaInput = IntMatrix.of(new int[][] {{1, 2, 1}, {2, 9, 2}, {1, 2, 1}});
+ * IntMatrix maxima = IntMatrix.of(new int[localMaximaInput.rowCount()][localMaximaInput.columnCount()]);
+ * for (int i = 1; i < localMaximaInput.rowCount() - 1; i++) {
+ *     for (int j = 1; j < localMaximaInput.columnCount() - 1; j++) {
+ *         int current = localMaximaInput.get(i, j);
+ *         boolean isMaxima = localMaximaInput.adjacent8Points(i, j)
+ *             .allMatch(point -> current >= localMaximaInput.get(point.rowIndex(), point.columnIndex()));
+ *         if (isMaxima) {
+ *             maxima.set(i, j, 1);
  *         }
- *         return result;
- *     }
- *
- *     public static Matrix<Double> normalizeColumns(Matrix<Double> input) {
- *         Matrix<Double> result = Matrix.of(Matrixes.newArray(input.rowCount(), input.columnCount(), Double.class));
- *
- *         input.pointsC().forEach(colStream -> {
- *             List<Point> colPoints = colStream.toList();
- *             double max = colPoints.stream()
- *                 .mapToDouble(p -> input.get(p.rowIndex(), p.columnIndex()))
- *                 .max()
- *                 .orElse(1.0);
- *
- *             colPoints.forEach(p -> {
- *                 double normalized = input.get(p.rowIndex(), p.columnIndex()) / max;
- *                 result.set(p.rowIndex(), p.columnIndex(), normalized);
- *             });
- *         });
- *
- *         return result;
  *     }
  * }
+ *
+ * Matrix<Double> input = Matrix.of(new Double[][] {{2.0, 4.0}, {6.0, 8.0}});
+ * Matrix<Double> normalized = Matrix.of(Matrixes.newArray(input.rowCount(), input.columnCount(), Double.class));
+ * input.pointsC().forEach(colStream -> {
+ *     List<Point> colPoints = colStream.toList();
+ *     double max = colPoints.stream()
+ *         .mapToDouble(p -> input.get(p.rowIndex(), p.columnIndex()))
+ *         .max()
+ *         .orElse(1.0);
+ *
+ *     colPoints.forEach(p -> {
+ *         double normalizedValue = input.get(p.rowIndex(), p.columnIndex()) / max;
+ *         normalized.set(p.rowIndex(), p.columnIndex(), normalizedValue);
+ *     });
+ * });
  * }</pre>
  *
  * <p><b>Naming Conventions and Terminology:</b>
@@ -266,62 +256,49 @@ import com.landawn.abacus.util.stream.Stream;
  *
  * <p><b>Example: Scientific Computing Application</b>
  * <pre>{@code
- * public class LinearAlgebraOperations {
- *     
- *     // Matrix multiplication implementation
- *     public static DoubleMatrix multiply(DoubleMatrix a, DoubleMatrix b) {
- *         if (a.columnCount() != b.rowCount()) {
- *             throw new IllegalArgumentException("Matrix dimensions incompatible for multiplication");
- *         }
- *
- *         DoubleMatrix result = DoubleMatrix.of(new double[a.rowCount()][b.columnCount()]);
- *
- *         IntStream.range(0, a.rowCount()).parallel().forEach(i -> {
- *             IntStream.range(0, b.columnCount()).forEach(j -> {
- *                 double sum = IntStream.range(0, a.columnCount())
- *                     .mapToDouble(k -> a.get(i, k) * b.get(k, j))
- *                     .sum();
- *                 result.set(i, j, sum);
- *             });
- *         });
- *         
- *         return result;
- *     }
- *     
- *     // Statistical analysis
- *     public static double[] computeColumnStatistics(DoubleMatrix matrix) {
- *         double[] stats = new double[matrix.columnCount()];
- *         for (int c = 0; c < matrix.columnCount(); c++) {
- *             stats[c] = java.util.stream.DoubleStream.of(matrix.column(c))
- *                 .filter(x -> !Double.isNaN(x))
- *                 .average()
- *                 .orElse(0.0);
- *         }
- *         return stats;
- *     }
- *     
- *     // Image processing convolution
- *     public static IntMatrix applyFilter(IntMatrix image, DoubleMatrix filter) {
- *         IntMatrix result = IntMatrix.of(new int[image.rowCount()][image.columnCount()]);
- *         int filterSize = filter.rowCount();
- *         int offset = filterSize / 2;
- *
- *         IntStream.range(offset, image.rowCount() - offset).parallel().forEach(i -> {
- *             IntStream.range(offset, image.columnCount() - offset).forEach(j -> {
- *                 double sum = 0.0;
- *                 for (int fi = 0; fi < filterSize; fi++) {
- *                     for (int fj = 0; fj < filterSize; fj++) {
- *                         sum += image.get(i - offset + fi, j - offset + fj) * 
- *                                filter.get(fi, fj);
- *                     }
- *                 }
- *                 result.set(i, j, (int) Math.round(sum));
- *             });
- *         });
- *         
- *         return result;
- *     }
+ * // Matrix multiplication
+ * DoubleMatrix a = DoubleMatrix.of(new double[][] {{1, 2, 3}, {4, 5, 6}});
+ * DoubleMatrix b = DoubleMatrix.of(new double[][] {{7, 8}, {9, 10}, {11, 12}});
+ * if (a.columnCount() != b.rowCount()) {
+ *     throw new IllegalArgumentException("Matrix dimensions incompatible for multiplication");
  * }
+ *
+ * DoubleMatrix multiplied = DoubleMatrix.of(new double[a.rowCount()][b.columnCount()]);
+ * java.util.stream.IntStream.range(0, a.rowCount()).parallel().forEach(i -> {
+ *     java.util.stream.IntStream.range(0, b.columnCount()).forEach(j -> {
+ *         double sum = java.util.stream.IntStream.range(0, a.columnCount())
+ *             .mapToDouble(k -> a.get(i, k) * b.get(k, j))
+ *             .sum();
+ *         multiplied.set(i, j, sum);
+ *     });
+ * });
+ *
+ * // Column statistics
+ * double[] stats = new double[multiplied.columnCount()];
+ * for (int c = 0; c < multiplied.columnCount(); c++) {
+ *     stats[c] = java.util.stream.DoubleStream.of(multiplied.column(c))
+ *         .filter(x -> !Double.isNaN(x))
+ *         .average()
+ *         .orElse(0.0);
+ * }
+ *
+ * // Image-style convolution
+ * IntMatrix image = IntMatrix.of(new int[][] {{0, 1, 0}, {1, 2, 1}, {0, 1, 0}});
+ * DoubleMatrix filter = DoubleMatrix.of(new double[][] {{0, 1, 0}, {1, 4, 1}, {0, 1, 0}});
+ * IntMatrix filtered = IntMatrix.of(new int[image.rowCount()][image.columnCount()]);
+ * int filterSize = filter.rowCount();
+ * int offset = filterSize / 2;
+ * java.util.stream.IntStream.range(offset, image.rowCount() - offset).parallel().forEach(i -> {
+ *     java.util.stream.IntStream.range(offset, image.columnCount() - offset).forEach(j -> {
+ *         double sum = 0.0;
+ *         for (int fi = 0; fi < filterSize; fi++) {
+ *             for (int fj = 0; fj < filterSize; fj++) {
+ *                 sum += image.get(i - offset + fi, j - offset + fj) * filter.get(fi, fj);
+ *             }
+ *         }
+ *         filtered.set(i, j, (int) Math.round(sum));
+ *     });
+ * });
  * }</pre>
  *
  * <p><b>Debugging and Profiling Considerations:</b>

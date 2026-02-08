@@ -425,7 +425,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * char value = matrix.get(point);   // Returns 'b'
      * }</pre>
      *
@@ -465,7 +465,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * matrix.set(point, 'x');
      * assert matrix.get(point) == 'x';
      * }</pre>
@@ -2818,7 +2818,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * matrix.forEach(ch -> System.out.print(ch + " "));   // Prints: a b c d
      *
      * List<Character> chars = new ArrayList<>();
-     * matrix.forEach(chars::add);   // Collects all characters
+     * matrix.forEach(ch -> chars.add(ch));   // Collects all characters
      * }</pre>
      *
      * @param <E> the type of exception that the action may throw

@@ -267,7 +267,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param leftUp2RightDownDiagonal the main diagonal values.
      * @param rightUp2LeftDownDiagonal the anti-diagonal values.
      * @return a square matrix with the given diagonal values
-     * @throws IllegalArgumentException if both arrays are null, or if both are non-null and have different lengths
+     * @throws IllegalArgumentException if both arrays are null, or if both diagonals are non-empty and have different lengths
      */
     @SuppressWarnings("null")
     public static <T> Matrix<T> diagonal(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
@@ -338,8 +338,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return the element at position (rowIndex, columnIndex)
-     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
+     * @return the element at position ({@code i}, {@code j})
+     * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
      */
     @MayReturnNull
     public T get(final int i, final int j) {

@@ -433,7 +433,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * short value = matrix.get(point);   // Returns 2
      * }</pre>
      *
@@ -473,7 +473,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * matrix.set(point, (short) 9);
      * assert matrix.get(point) == 9;
      * }</pre>

@@ -471,19 +471,19 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns the element at the specified point.
-     * This is a convenience method that accepts a Point object instead of separate row and column indices.
+     * Returns the element at the specified Sheet.Point.
+     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * double value = matrix.get(point);   // Returns 2.0
      * }</pre>
      *
-     * @param point the point containing row and column indices (must not be null)
-     * @return the double element at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @return the double element at the specified Sheet.Point
+     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #get(int, int)
      */
     public double get(final Point point) {
@@ -511,20 +511,20 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the element at the specified point to the given value.
-     * This is a convenience method that accepts a Point object instead of separate row and column indices.
+     * Sets the element at the specified Sheet.Point to the given value.
+     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * matrix.set(point, 9.0);
      * assert matrix.get(point) == 9.0;
      * }</pre>
      *
-     * @param point the point containing row and column indices (must not be null)
-     * @param val the new double value to set at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @param val the new double value to set at the specified Sheet.Point
+     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #set(int, int, double)
      */
     public void set(final Point point, final double val) {
@@ -541,13 +541,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * OptionalDouble value = matrix.upOf(1, 0);   // Returns OptionalDouble.of(1.0)
-     * OptionalDouble empty = matrix.upOf(0, 0);   // Returns OptionalDouble.empty() - no row above
+     * u.OptionalDouble value = matrix.upOf(1, 0);   // Returns u.OptionalDouble.of(1.0)
+     * u.OptionalDouble empty = matrix.upOf(0, 0);   // Returns u.OptionalDouble.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalDouble containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
+     * @return an u.OptionalDouble containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalDouble upOf(final int i, final int j) {
@@ -564,13 +564,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * OptionalDouble value = matrix.downOf(0, 0);   // Returns OptionalDouble.of(3.0)
-     * OptionalDouble empty = matrix.downOf(1, 0);   // Returns OptionalDouble.empty() - no row below
+     * u.OptionalDouble value = matrix.downOf(0, 0);   // Returns u.OptionalDouble.of(3.0)
+     * u.OptionalDouble empty = matrix.downOf(1, 0);   // Returns u.OptionalDouble.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalDouble containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
+     * @return an u.OptionalDouble containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalDouble downOf(final int i, final int j) {
@@ -587,13 +587,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * OptionalDouble value = matrix.leftOf(0, 1);   // Returns OptionalDouble.of(1.0)
-     * OptionalDouble empty = matrix.leftOf(0, 0);   // Returns OptionalDouble.empty() - no column to the left
+     * u.OptionalDouble value = matrix.leftOf(0, 1);   // Returns u.OptionalDouble.of(1.0)
+     * u.OptionalDouble empty = matrix.leftOf(0, 0);   // Returns u.OptionalDouble.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalDouble containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
+     * @return an u.OptionalDouble containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalDouble leftOf(final int i, final int j) {
@@ -610,13 +610,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * OptionalDouble value = matrix.rightOf(0, 0);   // Returns OptionalDouble.of(2.0)
-     * OptionalDouble empty = matrix.rightOf(0, 1);   // Returns OptionalDouble.empty() - no column to the right
+     * u.OptionalDouble value = matrix.rightOf(0, 0);   // Returns u.OptionalDouble.of(2.0)
+     * u.OptionalDouble empty = matrix.rightOf(0, 1);   // Returns u.OptionalDouble.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalDouble containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
+     * @return an u.OptionalDouble containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalDouble rightOf(final int i, final int j) {
@@ -738,8 +738,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * The matrix is modified in-place. Each element in the row is transformed by the operator
      * and replaced with the result.
      *
-     * <p>This modifies the matrix directly.
-     *
      * <p>The operator is applied to each element in the specified row sequentially
      * from left to right (column 0 to column columnCount-1).</p>
      *
@@ -852,7 +850,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}}); matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -932,7 +930,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}}); matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -984,7 +982,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}});
-     * matrix.updateAll((i, j) -> i + j);   // Sets each element to sum of its indices
+     * matrix.updateAll((i, j) -> (double) (i + j));   // Sets each element to sum of its indices
      * // matrix is now [[0.0, 1.0, 2.0], [1.0, 2.0, 3.0]]
      *
      * matrix.updateAll((i, j) -> i * 10.0 + j);   // Position encoding
@@ -1312,7 +1310,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix sub = matrix.copy(0, 2, 1, 3);   // Copy rows 0-1, columns 1-2
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}}); DoubleMatrix sub = matrix.copy(0, 2, 1, 3);   // Copy rows 0-1, columns 1-2
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)

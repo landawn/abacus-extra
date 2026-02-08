@@ -553,19 +553,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the element at the specified point.
-     * This is a convenience method that accepts a Point object instead of separate row and column indices.
+     * Returns the element at the specified Sheet.Point.
+     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * int value = matrix.get(point);   // Returns 2
      * }</pre>
      *
-     * @param point the point containing row and column indices (must not be null)
-     * @return the int element at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @return the int element at the specified Sheet.Point
+     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #get(int, int)
      */
     public int get(final Point point) {
@@ -593,20 +593,20 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the element at the specified point to the given value.
-     * This is a convenience method that accepts a Point object instead of separate row and column indices.
+     * Sets the element at the specified Sheet.Point to the given value.
+     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * matrix.set(point, 9);
      * assert matrix.get(point) == 9;
      * }</pre>
      *
-     * @param point the point containing row and column indices (must not be null)
-     * @param val the new int value to set at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @param val the new int value to set at the specified Sheet.Point
+     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #set(int, int, int)
      */
     public void set(final Point point, final int val) {
@@ -623,13 +623,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * OptionalInt value = matrix.upOf(1, 0);   // Returns OptionalInt.of(1)
-     * OptionalInt empty = matrix.upOf(0, 0);   // Returns OptionalInt.empty() - no row above
+     * u.OptionalInt value = matrix.upOf(1, 0);   // Returns u.OptionalInt.of(1)
+     * u.OptionalInt empty = matrix.upOf(0, 0);   // Returns u.OptionalInt.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
+     * @return an u.OptionalInt containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalInt upOf(final int i, final int j) {
@@ -646,13 +646,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * OptionalInt value = matrix.downOf(0, 0);   // Returns OptionalInt.of(3)
-     * OptionalInt empty = matrix.downOf(1, 0);   // Returns OptionalInt.empty() - no row below
+     * u.OptionalInt value = matrix.downOf(0, 0);   // Returns u.OptionalInt.of(3)
+     * u.OptionalInt empty = matrix.downOf(1, 0);   // Returns u.OptionalInt.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
+     * @return an u.OptionalInt containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalInt downOf(final int i, final int j) {
@@ -669,13 +669,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * OptionalInt value = matrix.leftOf(0, 1);   // Returns OptionalInt.of(1)
-     * OptionalInt empty = matrix.leftOf(0, 0);   // Returns OptionalInt.empty() - no column to the left
+     * u.OptionalInt value = matrix.leftOf(0, 1);   // Returns u.OptionalInt.of(1)
+     * u.OptionalInt empty = matrix.leftOf(0, 0);   // Returns u.OptionalInt.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
+     * @return an u.OptionalInt containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalInt leftOf(final int i, final int j) {
@@ -692,13 +692,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * OptionalInt value = matrix.rightOf(0, 0);   // Returns OptionalInt.of(2)
-     * OptionalInt empty = matrix.rightOf(0, 1);   // Returns OptionalInt.empty() - no column to the right
+     * u.OptionalInt value = matrix.rightOf(0, 0);   // Returns u.OptionalInt.of(2)
+     * u.OptionalInt empty = matrix.rightOf(0, 1);   // Returns u.OptionalInt.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
+     * @return an u.OptionalInt containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalInt rightOf(final int i, final int j) {
@@ -805,6 +805,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to copy into the column; must have length equal to the number of rows
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
+     * @throws ArrayIndexOutOfBoundsException if the underlying wrapped array has been externally modified into a non-rectangular shape
      */
     public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);

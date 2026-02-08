@@ -50,62 +50,62 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     protected short[] elements;
 
     /**
-     * Creates a ShortTuple1 containing a single short value.
+     * Creates a ShortTuple.ShortTuple1 containing a single short value.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple1 single = ShortTuple.of((short)42);
+     * ShortTuple.ShortTuple1 single = ShortTuple.of((short)42);
      * short value = single._1;  // 42
      * }</pre>
      *
      * @param _1 the short value to store in the tuple
-     * @return a new ShortTuple1 containing the provided value
+     * @return a new ShortTuple.ShortTuple1 containing the provided value
      */
     public static ShortTuple1 of(final short _1) {
         return new ShortTuple1(_1);
     }
 
     /**
-     * Creates a ShortTuple2 containing two short values.
+     * Creates a ShortTuple.ShortTuple2 containing two short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple2 pair = ShortTuple.of((short)1, (short)2);
+     * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)1, (short)2);
      * int sum = pair._1 + pair._2;  // 3
      * }</pre>
      *
      * @param _1 the first short value
      * @param _2 the second short value
-     * @return a new ShortTuple2 containing the provided values
+     * @return a new ShortTuple.ShortTuple2 containing the provided values
      */
     public static ShortTuple2 of(final short _1, final short _2) {
         return new ShortTuple2(_1, _2);
     }
 
     /**
-     * Creates a ShortTuple3 containing three short values.
+     * Creates a ShortTuple.ShortTuple3 containing three short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 triple = ShortTuple.of((short)1, (short)2, (short)3);
+     * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)1, (short)2, (short)3);
      * double average = triple.average();   // 2.0
      * }</pre>
      *
      * @param _1 the first short value
      * @param _2 the second short value
      * @param _3 the third short value
-     * @return a new ShortTuple3 containing the provided values
+     * @return a new ShortTuple.ShortTuple3 containing the provided values
      */
     public static ShortTuple3 of(final short _1, final short _2, final short _3) {
         return new ShortTuple3(_1, _2, _3);
     }
 
     /**
-     * Creates a ShortTuple4 containing four short values.
+     * Creates a ShortTuple.ShortTuple4 containing four short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple4 quad = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+     * ShortTuple.ShortTuple4 quad = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
      * // quad._1 == 1, quad._2 == 2, quad._3 == 3, quad._4 == 4
      * }</pre>
      *
@@ -113,18 +113,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _2 the second short value
      * @param _3 the third short value
      * @param _4 the fourth short value
-     * @return a new ShortTuple4 containing the provided values
+     * @return a new ShortTuple.ShortTuple4 containing the provided values
      */
     public static ShortTuple4 of(final short _1, final short _2, final short _3, final short _4) {
         return new ShortTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * Creates a ShortTuple5 containing five short values.
+     * Creates a ShortTuple.ShortTuple5 containing five short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple5 quint = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+     * ShortTuple.ShortTuple5 quint = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
      * // quint._5 == 5
      * }</pre>
      *
@@ -133,18 +133,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _3 the third short value
      * @param _4 the fourth short value
      * @param _5 the fifth short value
-     * @return a new ShortTuple5 containing the provided values
+     * @return a new ShortTuple.ShortTuple5 containing the provided values
      */
     public static ShortTuple5 of(final short _1, final short _2, final short _3, final short _4, final short _5) {
         return new ShortTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * Creates a ShortTuple6 containing six short values.
+     * Creates a ShortTuple.ShortTuple6 containing six short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple6 sext = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+     * ShortTuple.ShortTuple6 sext = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
      * // sext._6 == 6
      * }</pre>
      *
@@ -154,18 +154,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _4 the fourth short value
      * @param _5 the fifth short value
      * @param _6 the sixth short value
-     * @return a new ShortTuple6 containing the provided values
+     * @return a new ShortTuple.ShortTuple6 containing the provided values
      */
     public static ShortTuple6 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6) {
         return new ShortTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * Creates a ShortTuple7 containing seven short values.
+     * Creates a ShortTuple.ShortTuple7 containing seven short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple7 sept = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+     * ShortTuple.ShortTuple7 sept = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
      * // sept._7 == 7
      * }</pre>
      *
@@ -176,18 +176,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _5 the fifth short value
      * @param _6 the sixth short value
      * @param _7 the seventh short value
-     * @return a new ShortTuple7 containing the provided values
+     * @return a new ShortTuple.ShortTuple7 containing the provided values
      */
     public static ShortTuple7 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7) {
         return new ShortTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     * Creates a ShortTuple8 containing eight short values.
+     * Creates a ShortTuple.ShortTuple8 containing eight short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple8 oct = ShortTuple.of((short)1, (short)2, (short)3, (short)4,
+     * ShortTuple.ShortTuple8 oct = ShortTuple.of((short)1, (short)2, (short)3, (short)4,
      *                                  (short)5, (short)6, (short)7, (short)8);
      * // oct._8 == 8
      * }</pre>
@@ -200,7 +200,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _6 the sixth short value
      * @param _7 the seventh short value
      * @param _8 the eighth short value
-     * @return a new ShortTuple8 containing the provided values
+     * @return a new ShortTuple.ShortTuple8 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more short values
      */
     @Deprecated
@@ -210,11 +210,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Creates a ShortTuple9 containing nine short values.
+     * Creates a ShortTuple.ShortTuple9 containing nine short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple9 non = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5,
+     * ShortTuple.ShortTuple9 non = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5,
      *                                  (short)6, (short)7, (short)8, (short)9);
      * // non._9 == 9
      * }</pre>
@@ -228,7 +228,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _7 the seventh short value
      * @param _8 the eighth short value
      * @param _9 the ninth short value
-     * @return a new ShortTuple9 containing the provided values
+     * @return a new ShortTuple.ShortTuple9 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more short values
      */
     @Deprecated
@@ -244,13 +244,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] values = {1, 2, 3};
-     * ShortTuple3 tuple = ShortTuple.create(values);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.create(values);
      * // tuple._1 == 1, tuple._2 == 2, tuple._3 == 3
      *
      * short[] empty = {};
-     * ShortTuple0 emptyTuple = ShortTuple.create(empty);  // returns ShortTuple0.EMPTY
+     * ShortTuple<?> emptyTuple = ShortTuple.create(empty);  // returns ShortTuple<?>.EMPTY
      *
-     * ShortTuple0 nullTuple = ShortTuple.create(null);    // returns ShortTuple0.EMPTY
+     * ShortTuple<?> nullTuple = ShortTuple.create(null);    // returns ShortTuple<?>.EMPTY
      * }</pre>
      *
      * @param <TP> the specific ShortTuple type to return
@@ -302,7 +302,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)3, (short)1, (short)2);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)3, (short)1, (short)2);
      * short min = tuple.min();   // 1
      * }</pre>
      *
@@ -318,7 +318,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)3, (short)1, (short)2);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)3, (short)1, (short)2);
      * short max = tuple.max();   // 3
      * }</pre>
      *
@@ -335,11 +335,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)1, (short)3, (short)2);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)3, (short)2);
      * short median = tuple.median();   // 2 (middle value when sorted: 1, 2, 3)
      *
-     * ShortTuple4 evenTuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
-     * short median = evenTuple.median();   // 2 (lower middle when sorted: 1, [2], 3, 4)
+     * ShortTuple.ShortTuple4 evenTuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+     * short evenMedian = evenTuple.median();   // 2 (lower middle when sorted: 1, [2], 3, 4)
      * }</pre>
      *
      * @return the median short value in this tuple
@@ -358,7 +358,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
      * int sum = tuple.sum();   // 6 (returned as int, not short)
      * }</pre>
      *
@@ -377,7 +377,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+     * ShortTuple.ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
      * double avg = tuple.average();   // 2.5
      * }</pre>
      *
@@ -393,8 +393,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-     * ShortTuple3 reversed = tuple.reverse();   // (3, 2, 1)
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+     * ShortTuple.ShortTuple3 reversed = tuple.reverse();   // (3, 2, 1)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -406,7 +406,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * boolean has2 = tuple.contains((short) 2);   // true
      * boolean has5 = tuple.contains((short) 5);   // false
      * }</pre>
@@ -422,7 +422,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * short[] array = tuple.toArray();   // [1, 2, 3]
      * }</pre>
      *
@@ -437,7 +437,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * ShortList list = tuple.toList();
      * }</pre>
      *
@@ -452,7 +452,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
      * tuple.forEach(System.out::println);   // prints each value
      * }</pre>
      *
@@ -471,7 +471,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * int sum = tuple.stream().sum();   // 6
      * }</pre>
      *
@@ -664,7 +664,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple1 single = ShortTuple.of((short)42);
+     * ShortTuple.ShortTuple1 single = ShortTuple.of((short)42);
      * short value = single._1;  // 42
      * }</pre>
      */
@@ -750,7 +750,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a new tuple with the same value.
          *
-         * @return a new ShortTuple1 with the same value
+         * @return a new ShortTuple.ShortTuple1 with the same value
          */
         @Override
         public ShortTuple1 reverse() {
@@ -782,7 +782,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is a ShortTuple1 with the same value
+         * @return {@code true} if the object is a ShortTuple.ShortTuple1 with the same value
          */
         @Override
         public boolean equals(final Object obj) {
@@ -823,12 +823,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * <ul>
      *   <li>{@link #accept(Throwables.ShortBiConsumer)} - consume both values</li>
      *   <li>{@link #map(Throwables.ShortBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.ShortBiPredicate)} - conditionally wrap in Optional</li>
+     *   <li>{@link #filter(Throwables.ShortBiPredicate)} - conditionally wrap in u.Optional</li>
      * </ul>
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
+     * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
      * int product = pair.map((a, b) -> a * b);   // 15
      * }</pre>
      */
@@ -912,7 +912,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new ShortTuple2 with values (_2, _1)
+         * @return a new ShortTuple.ShortTuple2 with values (_2, _1)
          */
         @Override
         public ShortTuple2 reverse() {
@@ -948,7 +948,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
+         * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
          * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
          * }</pre>
          *
@@ -965,7 +965,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
+         * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
          * int product = pair.map((a, b) -> a * b);   // 15
          * }</pre>
          *
@@ -986,8 +986,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
-         * Optional<ShortTuple2> result = pair.filter((a, b) -> a < b);   // Optional containing the pair
+         * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
+         * u.Optional<ShortTuple.ShortTuple2> result = pair.filter((a, b) -> a < b);   // Optional containing the pair
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1013,7 +1013,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is a ShortTuple2 with the same values
+         * @return {@code true} if the object is a ShortTuple.ShortTuple2 with the same values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1054,12 +1054,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * <ul>
      *   <li>{@link #accept(Throwables.ShortTriConsumer)} - consume all three values</li>
      *   <li>{@link #map(Throwables.ShortTriFunction)} - transform the triple to a single value</li>
-     *   <li>{@link #filter(Throwables.ShortTriPredicate)} - conditionally wrap in Optional</li>
+     *   <li>{@link #filter(Throwables.ShortTriPredicate)} - conditionally wrap in u.Optional</li>
      * </ul>
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
+     * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
      * int sum = triple.map((a, b, c) -> a + b + c);   // 10
      * }</pre>
      */
@@ -1145,7 +1145,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new ShortTuple3 with values (_3, _2, _1)
+         * @return a new ShortTuple.ShortTuple3 with values (_3, _2, _1)
          */
         @Override
         public ShortTuple3 reverse() {
@@ -1182,7 +1182,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
+         * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
          * triple.accept((a, b, c) -> System.out.println(a + " + " + b + " + " + c + " = " + (a + b + c)));
          * }</pre>
          *
@@ -1199,7 +1199,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
+         * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
          * int product = triple.map((a, b, c) -> a * b * c);   // 30
          * }</pre>
          *
@@ -1220,8 +1220,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
-         * Optional<ShortTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the triple
+         * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
+         * u.Optional<ShortTuple.ShortTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the triple
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1247,7 +1247,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is a ShortTuple3 with the same values
+         * @return {@code true} if the object is a ShortTuple.ShortTuple3 with the same values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1286,7 +1286,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple4 quad = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+     * ShortTuple.ShortTuple4 quad = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
      * double avg = quad.average();   // 2.5
      * }</pre>
      */
@@ -1376,7 +1376,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new ShortTuple4 with values (_4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple4 with values (_4, _3, _2, _1)
          */
         @Override
         public ShortTuple4 reverse() {
@@ -1423,11 +1423,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple4 instances
+         * Two tuples are equal if they are both ShortTuple.ShortTuple4 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple4 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a ShortTuple.ShortTuple4 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1467,7 +1467,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+     * ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
      * short median = tuple.median();   // 3
      * }</pre>
      */
@@ -1560,7 +1560,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new ShortTuple5 with values (_5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple5 with values (_5, _4, _3, _2, _1)
          */
         @Override
         public ShortTuple5 reverse() {
@@ -1608,11 +1608,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple5 instances
+         * Two tuples are equal if they are both ShortTuple.ShortTuple5 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple5 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a ShortTuple.ShortTuple5 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1652,7 +1652,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+     * ShortTuple.ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
      * int sum = tuple.sum();   // 21
      * }</pre>
      */
@@ -1748,7 +1748,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new ShortTuple6 with values (_6, _5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple6 with values (_6, _5, _4, _3, _2, _1)
          */
         @Override
         public ShortTuple6 reverse() {
@@ -1797,11 +1797,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple6 instances
+         * Two tuples are equal if they are both ShortTuple.ShortTuple6 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple6 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a ShortTuple.ShortTuple6 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1841,8 +1841,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
-     * ShortTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
+     * ShortTuple.ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+     * ShortTuple.ShortTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
      */
     public static final class ShortTuple7 extends ShortTuple<ShortTuple7> {
@@ -1940,7 +1940,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new ShortTuple7 with values (_7, _6, _5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple7 with values (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public ShortTuple7 reverse() {
@@ -1991,11 +1991,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple7 instances
+         * Two tuples are equal if they are both ShortTuple.ShortTuple7 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple7 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a ShortTuple.ShortTuple7 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2035,7 +2035,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4,
+     * ShortTuple.ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4,
      *                                    (short)5, (short)6, (short)7, (short)8);
      * boolean contains5 = tuple.contains((short)5);   // true
      * }</pre>
@@ -2141,7 +2141,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new ShortTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public ShortTuple8 reverse() {
@@ -2193,11 +2193,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple8 instances
+         * Two tuples are equal if they are both ShortTuple.ShortTuple8 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple8 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a ShortTuple.ShortTuple8 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2238,7 +2238,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5,
+     * ShortTuple.ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5,
      *                                    (short)6, (short)7, (short)8, (short)9);
      * double avg = tuple.average();   // 5.0
      * }</pre>
@@ -2348,7 +2348,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new ShortTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public ShortTuple9 reverse() {
@@ -2401,11 +2401,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple9 instances
+         * Two tuples are equal if they are both ShortTuple.ShortTuple9 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple9 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a ShortTuple.ShortTuple9 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {

@@ -343,7 +343,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * boolean value = matrix.get(point);   // Returns false
      * }</pre>
      *
@@ -383,7 +383,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * Point point = Point.of(1, 0);
+     * Sheet.Point point = Sheet.Point.of(1, 0);
      * matrix.set(point, true);
      * assert matrix.get(point) == true;
      * }</pre>
@@ -1709,6 +1709,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // [[true, false]] with repelem(2, 3) becomes:
      * // [[true, true, true, false, false, false],
      * //  [true, true, true, false, false, false]]
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}});
      * BooleanMatrix repeated = matrix.repelem(2, 3);
      * }</pre>
      *
@@ -1756,6 +1757,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // [[true, false]] with repmat(2, 3) becomes:
      * // [[true, false, true, false, true, false],
      * //  [true, false, true, false, true, false]]
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}});
      * BooleanMatrix tiled = matrix.repmat(2, 3);
      * }</pre>
      *
@@ -1828,8 +1830,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * matrix.flatOp(row -> Arrays.sort(row));   // Sorts each row independently
-     * // Each row is now sorted
+     * matrix.flatOp(row -> java.util.Arrays.fill(row, true));   // Sets each row to all true
+     * // Each row is now all true
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
@@ -2272,7 +2274,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Stream<Boolean> middleRows = matrix.streamH(1, 3);   // Stream rows 1 and 2: [false, true, true, true]
      * 
      * // Process subset of rows
-     * boolean[] subset = matrix.streamH(0, 2)
+     * int[] subset = matrix.streamH(0, 2)
      *     .mapToInt(b -> b ? 1 : 0)
      *     .toArray();   // [1, 0, 0, 1]
      * }</pre>
@@ -2675,7 +2677,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Process last two columns
      * List<String> patterns = matrix.streamC(2, 4)
      *     .map(col -> col.map(b -> b ? "1" : "0")
-     *                    .joining())
+     *                    .collect(java.util.stream.Collectors.joining()))
      *     .toList();   // ["10", "01"]
      * }</pre>
      * 

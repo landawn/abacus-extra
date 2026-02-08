@@ -432,7 +432,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * byte value = matrix.get(point);   // Returns 2
      * }</pre>
      *
@@ -472,7 +472,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * matrix.set(point, (byte) 9);
      * assert matrix.get(point) == 9;
      * }</pre>
@@ -1848,7 +1848,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * matrix.flatOp(row -> {
      *     // Process each row array directly
-     *     Arrays.sort(row);
+     *     java.util.Arrays.sort(row);
      * });
      * // Matrix rows are now sorted
      * }</pre>

@@ -32,9 +32,9 @@ import com.landawn.abacus.util.stream.FloatStream;
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Creating tuples
- * FloatTuple1 single = FloatTuple.of(3.14f);
- * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
- * FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+ * FloatTuple.FloatTuple1 single = FloatTuple.of(3.14f);
+ * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+ * FloatTuple.FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
  *
  * // Using statistical operations
  * float min = triple.min();   // 1.0f
@@ -66,62 +66,62 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Creates a FloatTuple1 containing a single float value.
+     * Creates a FloatTuple.FloatTuple1 containing a single float value.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple1 single = FloatTuple.of(3.14f);
+     * FloatTuple.FloatTuple1 single = FloatTuple.of(3.14f);
      * float value = single._1;  // 3.14f
      * }</pre>
      *
      * @param _1 the float value to wrap in a tuple
-     * @return a new FloatTuple1 containing the provided value
+     * @return a new FloatTuple.FloatTuple1 containing the provided value
      */
     public static FloatTuple1 of(final float _1) {
         return new FloatTuple1(_1);
     }
 
     /**
-     * Creates a FloatTuple2 containing two float values.
+     * Creates a FloatTuple.FloatTuple2 containing two float values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
      * float sum = pair._1 + pair._2;  // 4.0f
      * }</pre>
      *
      * @param _1 the first float value
      * @param _2 the second float value
-     * @return a new FloatTuple2 containing the provided values
+     * @return a new FloatTuple.FloatTuple2 containing the provided values
      */
     public static FloatTuple2 of(final float _1, final float _2) {
         return new FloatTuple2(_1, _2);
     }
 
     /**
-     * Creates a FloatTuple3 containing three float values.
+     * Creates a FloatTuple.FloatTuple3 containing three float values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+     * FloatTuple.FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * double average = triple.average();   // 2.0
      * }</pre>
      *
      * @param _1 the first float value
      * @param _2 the second float value
      * @param _3 the third float value
-     * @return a new FloatTuple3 containing the provided values
+     * @return a new FloatTuple.FloatTuple3 containing the provided values
      */
     public static FloatTuple3 of(final float _1, final float _2, final float _3) {
         return new FloatTuple3(_1, _2, _3);
     }
 
     /**
-     * Creates a FloatTuple4 containing four float values.
+     * Creates a FloatTuple.FloatTuple4 containing four float values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple4 quad = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+     * FloatTuple.FloatTuple4 quad = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
      * float sum = quad.sum();   // 10.0f
      * }</pre>
      *
@@ -129,18 +129,18 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _2 the second float value
      * @param _3 the third float value
      * @param _4 the fourth float value
-     * @return a new FloatTuple4 containing the provided values
+     * @return a new FloatTuple.FloatTuple4 containing the provided values
      */
     public static FloatTuple4 of(final float _1, final float _2, final float _3, final float _4) {
         return new FloatTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * Creates a FloatTuple5 containing five float values.
+     * Creates a FloatTuple.FloatTuple5 containing five float values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
+     * FloatTuple.FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
      * float median = tuple.median();   // 3.0f
      * }</pre>
      *
@@ -149,18 +149,18 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _3 the third float value
      * @param _4 the fourth float value
      * @param _5 the fifth float value
-     * @return a new FloatTuple5 containing the provided values
+     * @return a new FloatTuple.FloatTuple5 containing the provided values
      */
     public static FloatTuple5 of(final float _1, final float _2, final float _3, final float _4, final float _5) {
         return new FloatTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * Creates a FloatTuple6 containing six float values.
+     * Creates a FloatTuple.FloatTuple6 containing six float values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+     * FloatTuple.FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
      * double average = tuple.average();   // 3.5
      * }</pre>
      *
@@ -170,18 +170,18 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _4 the fourth float value
      * @param _5 the fifth float value
      * @param _6 the sixth float value
-     * @return a new FloatTuple6 containing the provided values
+     * @return a new FloatTuple.FloatTuple6 containing the provided values
      */
     public static FloatTuple6 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6) {
         return new FloatTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * Creates a FloatTuple7 containing seven float values.
+     * Creates a FloatTuple.FloatTuple7 containing seven float values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
+     * FloatTuple.FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
      * float max = tuple.max();   // 7.0f
      * }</pre>
      *
@@ -192,18 +192,18 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _5 the fifth float value
      * @param _6 the sixth float value
      * @param _7 the seventh float value
-     * @return a new FloatTuple7 containing the provided values
+     * @return a new FloatTuple.FloatTuple7 containing the provided values
      */
     public static FloatTuple7 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7) {
         return new FloatTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     * Creates a FloatTuple8 containing eight float values.
+     * Creates a FloatTuple.FloatTuple8 containing eight float values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
+     * FloatTuple.FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
      * float min = tuple.min();   // 1.0f
      * }</pre>
      *
@@ -215,7 +215,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _6 the sixth float value
      * @param _7 the seventh float value
      * @param _8 the eighth float value
-     * @return a new FloatTuple8 containing the provided values
+     * @return a new FloatTuple.FloatTuple8 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more float values
      */
     @Deprecated
@@ -225,11 +225,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Creates a FloatTuple9 containing nine float values.
+     * Creates a FloatTuple.FloatTuple9 containing nine float values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
+     * FloatTuple.FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
      * float sum = tuple.sum();   // 45.0f
      * }</pre>
      *
@@ -242,7 +242,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _7 the seventh float value
      * @param _8 the eighth float value
      * @param _9 the ninth float value
-     * @return a new FloatTuple9 containing the provided values
+     * @return a new FloatTuple.FloatTuple9 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more float values
      */
     @Deprecated
@@ -256,21 +256,21 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p>
      * The size of the returned tuple depends on the length of the input array.
      * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty FloatTuple0. For arrays with 1-9 elements, returns
-     * the corresponding FloatTuple1-9 instance.
+     * arrays, returns an empty FloatTuple.FloatTuple0. For arrays with 1-9 elements, returns
+     * the corresponding FloatTuple.FloatTuple1-9 instance.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Create from array
      * float[] values = {1.0f, 2.0f, 3.0f};
-     * FloatTuple3 tuple = FloatTuple.create(values);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.create(values);
      *
-     * // Empty array returns FloatTuple0
-     * FloatTuple0 empty = FloatTuple.create(new float[0]);
+     * // Empty array returns FloatTuple.FloatTuple0
+     * FloatTuple<?> empty = FloatTuple.create(new float[0]);
      *
      * // Single element
-     * FloatTuple1 single = FloatTuple.create(new float[]{3.14f});
+     * FloatTuple.FloatTuple1 single = FloatTuple.create(new float[]{3.14f});
      * }</pre>
      *
      * @param <TP> the specific FloatTuple subtype to return
@@ -326,10 +326,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
      * float min = tuple.min();   // 1.0f
      *
-     * FloatTuple2 pair = FloatTuple.of(2.5f, 1.5f);
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(2.5f, 1.5f);
      * float minPair = pair.min();   // 1.5f
      * }</pre>
      *
@@ -349,10 +349,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
      * float max = tuple.max();   // 3.0f
      *
-     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
      * float maxPair = pair.max();   // 2.5f
      * }</pre>
      *
@@ -369,11 +369,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Odd number of elements
-     * FloatTuple3 tuple3 = FloatTuple.of(30.0f, 10.0f, 20.0f);
+     * FloatTuple.FloatTuple3 tuple3 = FloatTuple.of(30.0f, 10.0f, 20.0f);
      * float median = tuple3.median();   // 20.0f (middle value when sorted: 10.0f, 20.0f, 30.0f)
      *
      * // Even number of elements
-     * FloatTuple4 tuple4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+     * FloatTuple.FloatTuple4 tuple4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
      * float median2 = tuple4.median();   // 2.0f (lower middle value)
      * }</pre>
      *
@@ -393,10 +393,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * float sum = tuple.sum();   // 6.0f
      *
-     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
      * float pairSum = pair.sum();   // 4.0f
      * }</pre>
      *
@@ -416,10 +416,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * double avg = tuple.average();   // 2.0
      *
-     * FloatTuple2 pair = FloatTuple.of(1.0f, 2.0f);
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.0f, 2.0f);
      * double avgPair = pair.average();   // 1.5
      * }</pre>
      *
@@ -440,11 +440,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * FloatTuple3 reversed = tuple.reverse();   // (3.0f, 2.0f, 1.0f)
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+     * FloatTuple.FloatTuple3 reversed = tuple.reverse();   // (3.0f, 2.0f, 1.0f)
      *
-     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-     * FloatTuple2 reversedPair = pair.reverse();   // (2.5f, 1.5f)
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatTuple.FloatTuple2 reversedPair = pair.reverse();   // (2.5f, 1.5f)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -462,11 +462,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * boolean hasTwo = tuple.contains(2.0f);    // true
      * boolean hasFive = tuple.contains(5.0f);   // false
      *
-     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
      * boolean has1_5 = pair.contains(1.5f);   // true
      * boolean has3_5 = pair.contains(3.5f);   // false
      * }</pre>
@@ -485,11 +485,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * float[] array = tuple.toArray();   // [1.0f, 2.0f, 3.0f]
      * array[0] = 5.0f;  // Does not modify the original tuple
      *
-     * FloatTuple0 empty = FloatTuple.create(new float[0]);
+     * FloatTuple<?> empty = FloatTuple.create(new float[0]);
      * float[] emptyArray = empty.toArray();   // []
      * }</pre>
      *
@@ -508,11 +508,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * FloatList list = tuple.toList();
      * list.add(4.0f);   // Does not affect the original tuple
      *
-     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
      * FloatList pairList = pair.toList();   // [1.5f, 2.5f]
      * }</pre>
      *
@@ -531,11 +531,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * tuple.forEach(f -> System.out.print(f + " "));   // prints "1.0 2.0 3.0 "
      *
-     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-     * FloatList list = FloatList.empty();
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatList list = FloatList.of();
      * pair.forEach(list::add);   // adds 1.5f and 2.5f to the list
      * }</pre>
      *
@@ -559,10 +559,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * float sum = tuple.stream().sum();   // 6.0f
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+     * double sum = tuple.stream().sum();   // 6.0
      *
-     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
      * long count = pair.stream().filter(f -> f > 2.0f).count();   // 1
      * }</pre>
      *
@@ -593,7 +593,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * Two tuples are considered equal if and only if:
      * </p>
      * <ul>
-     * <li>They are of the exact same class (e.g., both FloatTuple2)</li>
+     * <li>They are of the exact same class (e.g., both FloatTuple.FloatTuple2)</li>
      * <li>They contain the same elements in the same order</li>
      * </ul>
      * <p>
@@ -624,10 +624,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * <p><b>Example output:</b></p>
      * <ul>
-     * <li>{@code (1.0, 2.0, 3.0)} - for a FloatTuple3</li>
-     * <li>{@code (1.5, 2.5)} - for a FloatTuple2</li>
-     * <li>{@code (3.14)} - for a FloatTuple1</li>
-     * <li>{@code ()} - for an empty FloatTuple0</li>
+     * <li>{@code (1.0, 2.0, 3.0)} - for a FloatTuple.FloatTuple3</li>
+     * <li>{@code (1.5, 2.5)} - for a FloatTuple.FloatTuple2</li>
+     * <li>{@code (3.14)} - for a FloatTuple.FloatTuple1</li>
+     * <li>{@code ()} - for an empty FloatTuple.FloatTuple0</li>
      * </ul>
      *
      * @return a string representation of this tuple
@@ -658,7 +658,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p>
      * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
      * with a single shared instance accessed via {@code FloatTuple.create(new float[0])} or returned
-     * when creating tuples from null/empty arrays. All statistical operations on FloatTuple0 either
+     * when creating tuples from null/empty arrays. All statistical operations on FloatTuple.FloatTuple0 either
      * return 0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
      * </p>
      */
@@ -742,7 +742,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * Returns a new tuple with the elements in reverse order.
          * Since this tuple is empty, returns itself.
          *
-         * @return this FloatTuple0 instance
+         * @return this FloatTuple.FloatTuple0 instance
          */
         @Override
         public FloatTuple0 reverse() {
@@ -864,11 +864,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple1 tuple = FloatTuple.of(3.14f);
-         * FloatTuple1 reversed = tuple.reverse();   // (3.14f)
+         * FloatTuple.FloatTuple1 tuple = FloatTuple.of(3.14f);
+         * FloatTuple.FloatTuple1 reversed = tuple.reverse();   // (3.14f)
          * }</pre>
          *
-         * @return a new FloatTuple1 with the same value
+         * @return a new FloatTuple.FloatTuple1 with the same value
          */
         @Override
         public FloatTuple1 reverse() {
@@ -899,11 +899,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both FloatTuple1 instances
+         * Two tuples are equal if they are both FloatTuple.FloatTuple1 instances
          * and the element is equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple1 with equal value, {@code false} otherwise
+         * @return {@code true} if obj is a FloatTuple.FloatTuple1 with equal value, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -941,7 +941,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * A FloatTuple containing exactly two float values.
      * <p>
      * This class provides direct access to elements through public final fields {@code _1} and {@code _2}.
-     * FloatTuple2 offers additional functional methods like {@link #accept(Throwables.FloatBiConsumer)},
+     * FloatTuple.FloatTuple2 offers additional functional methods like {@link #accept(Throwables.FloatBiConsumer)},
      * {@link #map(Throwables.FloatBiFunction)}, and {@link #filter(Throwables.FloatBiPredicate)} that
      * operate on both elements simultaneously.
      * </p>
@@ -1028,11 +1028,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple2 tuple = FloatTuple.of(1.5f, 2.5f);
-         * FloatTuple2 reversed = tuple.reverse();   // (2.5f, 1.5f)
+         * FloatTuple.FloatTuple2 tuple = FloatTuple.of(1.5f, 2.5f);
+         * FloatTuple.FloatTuple2 reversed = tuple.reverse();   // (2.5f, 1.5f)
          * }</pre>
          *
-         * @return a new FloatTuple2 with (_2, _1)
+         * @return a new FloatTuple.FloatTuple2 with (_2, _1)
          */
         @Override
         public FloatTuple2 reverse() {
@@ -1073,13 +1073,13 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
+         * FloatTuple.FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
          * // Prints: 3.0 + 4.0 = 7.0
          *
-         * FloatTuple2 coordinates = FloatTuple.of(10.5f, 20.3f);
-         * coordinates.accept((x, y) -> System.out.printf("Point: (%.1f, %.1f)%n", x, y));
-         * // Prints: Point: (10.5, 20.3)
+         * FloatTuple.FloatTuple2 coordinates = FloatTuple.of(10.5f, 20.3f);
+         * coordinates.accept((x, y) -> System.out.printf("Sheet.Point: (%.1f, %.1f)%n", x, y));
+         * // Prints: Sheet.Point: (10.5, 20.3)
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1100,14 +1100,14 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
+         * FloatTuple.FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
          * float product = tuple.map((a, b) -> a * b);   // 12.0f
          *
-         * FloatTuple2 dimensions = FloatTuple.of(5.0f, 3.0f);
+         * FloatTuple.FloatTuple2 dimensions = FloatTuple.of(5.0f, 3.0f);
          * String description = dimensions.map((w, h) -> String.format("%.0f x %.0f", w, h));
          * // Returns: "5 x 3"
          *
-         * FloatTuple2 point = FloatTuple.of(3.0f, 4.0f);
+         * FloatTuple.FloatTuple2 point = FloatTuple.of(3.0f, 4.0f);
          * Double distance = point.map((x, y) -> Math.sqrt(x * x + y * y));   // 5.0
          * }</pre>
          *
@@ -1133,17 +1133,17 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
-         * Optional<FloatTuple2> result = tuple.filter((a, b) -> a + b > 5);
+         * FloatTuple.FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
+         * u.Optional<FloatTuple.FloatTuple2> result = tuple.filter((a, b) -> a + b > 5);
          * // Returns: Optional containing tuple (since 3.0f + 4.0f = 7.0f > 5)
          *
-         * FloatTuple2 small = FloatTuple.of(1.0f, 2.0f);
-         * Optional<FloatTuple2> empty = small.filter((a, b) -> a + b > 10);
+         * FloatTuple.FloatTuple2 small = FloatTuple.of(1.0f, 2.0f);
+         * u.Optional<FloatTuple.FloatTuple2> empty = small.filter((a, b) -> a + b > 10);
          * // Returns: Optional.empty() (since 1.0f + 2.0f = 3.0f is not > 10)
          *
-         * FloatTuple2 point = FloatTuple.of(3.0f, 4.0f);
-         * Optional<FloatTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0);
-         * // Returns: Optional containing point (both coordinates are positive)
+         * FloatTuple.FloatTuple2 point = FloatTuple.of(3.0f, 4.0f);
+         * u.Optional<FloatTuple.FloatTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0);
+         * // Returns: Optional containing Sheet.Point (both coordinates are positive)
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1171,11 +1171,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both FloatTuple2 instances
+         * Two tuples are equal if they are both FloatTuple.FloatTuple2 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple2 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a FloatTuple.FloatTuple2 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1213,7 +1213,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * A FloatTuple containing exactly three float values.
      * <p>
      * This class provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
-     * FloatTuple3 offers additional functional methods like {@link #accept(Throwables.FloatTriConsumer)},
+     * FloatTuple.FloatTuple3 offers additional functional methods like {@link #accept(Throwables.FloatTriConsumer)},
      * {@link #map(Throwables.FloatTriFunction)}, and {@link #filter(Throwables.FloatTriPredicate)} that
      * operate on all three elements simultaneously.
      * </p>
@@ -1302,11 +1302,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * FloatTuple3 reversed = tuple.reverse();   // (3.0f, 2.0f, 1.0f)
+         * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+         * FloatTuple.FloatTuple3 reversed = tuple.reverse();   // (3.0f, 2.0f, 1.0f)
          * }</pre>
          *
-         * @return a new FloatTuple3 with (_3, _2, _1)
+         * @return a new FloatTuple.FloatTuple3 with (_3, _2, _1)
          */
         @Override
         public FloatTuple3 reverse() {
@@ -1348,15 +1348,15 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+         * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
          * // Prints: Sum: 6.0
          *
-         * FloatTuple3 dimensions = FloatTuple.of(5.0f, 3.0f, 2.0f);
+         * FloatTuple.FloatTuple3 dimensions = FloatTuple.of(5.0f, 3.0f, 2.0f);
          * dimensions.accept((l, w, h) -> System.out.printf("Volume: %.1f%n", l * w * h));
          * // Prints: Volume: 30.0
          *
-         * FloatTuple3 rgb = FloatTuple.of(0.5f, 0.7f, 0.3f);
+         * FloatTuple.FloatTuple3 rgb = FloatTuple.of(0.5f, 0.7f, 0.3f);
          * rgb.accept((r, g, b) -> System.out.printf("Color: RGB(%.1f, %.1f, %.1f)%n", r, g, b));
          * // Prints: Color: RGB(0.5, 0.7, 0.3)
          * }</pre>
@@ -1380,15 +1380,15 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+         * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
          * float product = tuple.map((a, b, c) -> a * b * c);   // 6.0f
          *
-         * FloatTuple3 dimensions = FloatTuple.of(5.0f, 3.0f, 2.0f);
+         * FloatTuple.FloatTuple3 dimensions = FloatTuple.of(5.0f, 3.0f, 2.0f);
          * String description = dimensions.map((l, w, h) ->
          *     String.format("Box: %.0f x %.0f x %.0f", l, w, h));
          * // Returns: "Box: 5 x 3 x 2"
          *
-         * FloatTuple3 point = FloatTuple.of(1.0f, 2.0f, 2.0f);
+         * FloatTuple.FloatTuple3 point = FloatTuple.of(1.0f, 2.0f, 2.0f);
          * Double distance = point.map((x, y, z) -> Math.sqrt(x*x + y*y + z*z));   // 3.0
          * }</pre>
          *
@@ -1414,16 +1414,16 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * Optional<FloatTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
+         * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+         * u.Optional<FloatTuple.FloatTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
          * // Returns: Optional containing tuple (since 1.0f + 2.0f + 3.0f = 6.0f > 5)
          *
-         * FloatTuple3 small = FloatTuple.of(1.0f, 1.0f, 1.0f);
-         * Optional<FloatTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
+         * FloatTuple.FloatTuple3 small = FloatTuple.of(1.0f, 1.0f, 1.0f);
+         * u.Optional<FloatTuple.FloatTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
          * // Returns: Optional.empty() (since 1.0f + 1.0f + 1.0f = 3.0f is not > 10)
          *
-         * FloatTuple3 dimensions = FloatTuple.of(5.0f, 3.0f, 2.0f);
-         * Optional<FloatTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0);
+         * FloatTuple.FloatTuple3 dimensions = FloatTuple.of(5.0f, 3.0f, 2.0f);
+         * u.Optional<FloatTuple.FloatTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0);
          * // Returns: Optional containing dimensions (all values are positive)
          * }</pre>
          *
@@ -1452,11 +1452,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both FloatTuple3 instances
+         * Two tuples are equal if they are both FloatTuple.FloatTuple3 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple3 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a FloatTuple.FloatTuple3 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1582,11 +1582,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-         * FloatTuple4 reversed = tuple.reverse();   // (4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple.FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+         * FloatTuple.FloatTuple4 reversed = tuple.reverse();   // (4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
-         * @return a new FloatTuple4 with (_4, _3, _2, _1)
+         * @return a new FloatTuple.FloatTuple4 with (_4, _3, _2, _1)
          */
         @Override
         public FloatTuple4 reverse() {
@@ -1636,11 +1636,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both FloatTuple4 instances
+         * Two tuples are equal if they are both FloatTuple.FloatTuple4 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple4 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a FloatTuple.FloatTuple4 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1768,11 +1768,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * FloatTuple5 reversed = tuple.reverse();   // (5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple.FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
+         * FloatTuple.FloatTuple5 reversed = tuple.reverse();   // (5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
-         * @return a new FloatTuple5 with (_5, _4, _3, _2, _1)
+         * @return a new FloatTuple.FloatTuple5 with (_5, _4, _3, _2, _1)
          */
         @Override
         public FloatTuple5 reverse() {
@@ -1825,11 +1825,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both FloatTuple5 instances
+         * Two tuples are equal if they are both FloatTuple.FloatTuple5 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple5 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a FloatTuple.FloatTuple5 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1961,11 +1961,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * FloatTuple6 reversed = tuple.reverse();   // (6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple.FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+         * FloatTuple.FloatTuple6 reversed = tuple.reverse();   // (6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
-         * @return a new FloatTuple6 with (_6, _5, _4, _3, _2, _1)
+         * @return a new FloatTuple.FloatTuple6 with (_6, _5, _4, _3, _2, _1)
          */
         @Override
         public FloatTuple6 reverse() {
@@ -2020,11 +2020,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both FloatTuple6 instances
+         * Two tuples are equal if they are both FloatTuple.FloatTuple6 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple6 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a FloatTuple.FloatTuple6 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2159,11 +2159,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-         * FloatTuple7 reversed = tuple.reverse();   // (7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple.FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
+         * FloatTuple.FloatTuple7 reversed = tuple.reverse();   // (7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
-         * @return a new FloatTuple7 with (_7, _6, _5, _4, _3, _2, _1)
+         * @return a new FloatTuple.FloatTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public FloatTuple7 reverse() {
@@ -2220,11 +2220,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both FloatTuple7 instances
+         * Two tuples are equal if they are both FloatTuple.FloatTuple7 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple7 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a FloatTuple.FloatTuple7 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2366,11 +2366,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-         * FloatTuple8 reversed = tuple.reverse();   // (8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple.FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
+         * FloatTuple.FloatTuple8 reversed = tuple.reverse();   // (8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
-         * @return a new FloatTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new FloatTuple.FloatTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public FloatTuple8 reverse() {
@@ -2429,11 +2429,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both FloatTuple8 instances
+         * Two tuples are equal if they are both FloatTuple.FloatTuple8 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple8 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a FloatTuple.FloatTuple8 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2578,11 +2578,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-         * FloatTuple9 reversed = tuple.reverse();   // (9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple.FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
+         * FloatTuple.FloatTuple9 reversed = tuple.reverse();   // (9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
-         * @return a new FloatTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new FloatTuple.FloatTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public FloatTuple9 reverse() {
@@ -2643,11 +2643,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both FloatTuple9 instances
+         * Two tuples are equal if they are both FloatTuple.FloatTuple9 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple9 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a FloatTuple.FloatTuple9 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {

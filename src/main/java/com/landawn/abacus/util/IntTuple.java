@@ -32,9 +32,9 @@ import com.landawn.abacus.util.stream.IntStream;
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Creating tuples
- * IntTuple1 single = IntTuple.of(42);
- * IntTuple2 pair = IntTuple.of(1, 2);
- * IntTuple3 triple = IntTuple.of(1, 2, 3);
+ * IntTuple.IntTuple1 single = IntTuple.of(42);
+ * IntTuple.IntTuple2 pair = IntTuple.of(1, 2);
+ * IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
  *
  * // Using statistical operations
  * int min = triple.min();   // 1
@@ -65,62 +65,62 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     protected int[] elements;
 
     /**
-     * Creates an IntTuple1 containing a single int value.
+     * Creates an IntTuple.IntTuple1 containing a single int value.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple1 single = IntTuple.of(42);
+     * IntTuple.IntTuple1 single = IntTuple.of(42);
      * int value = single._1;  // 42
      * }</pre>
      *
      * @param _1 the int value to wrap in a tuple
-     * @return a new IntTuple1 containing the provided value
+     * @return a new IntTuple.IntTuple1 containing the provided value
      */
     public static IntTuple1 of(final int _1) {
         return new IntTuple1(_1);
     }
 
     /**
-     * Creates an IntTuple2 containing two int values.
+     * Creates an IntTuple.IntTuple2 containing two int values.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple2 pair = IntTuple.of(1, 2);
+     * IntTuple.IntTuple2 pair = IntTuple.of(1, 2);
      * int sum = pair._1 + pair._2;  // 3
      * }</pre>
      *
      * @param _1 the first int value
      * @param _2 the second int value
-     * @return a new IntTuple2 containing the provided values
+     * @return a new IntTuple.IntTuple2 containing the provided values
      */
     public static IntTuple2 of(final int _1, final int _2) {
         return new IntTuple2(_1, _2);
     }
 
     /**
-     * Creates an IntTuple3 containing three int values.
+     * Creates an IntTuple.IntTuple3 containing three int values.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 triple = IntTuple.of(1, 2, 3);
+     * IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
      * double average = triple.average();   // 2.0
      * }</pre>
      *
      * @param _1 the first int value
      * @param _2 the second int value
      * @param _3 the third int value
-     * @return a new IntTuple3 containing the provided values
+     * @return a new IntTuple.IntTuple3 containing the provided values
      */
     public static IntTuple3 of(final int _1, final int _2, final int _3) {
         return new IntTuple3(_1, _2, _3);
     }
 
     /**
-     * Creates an IntTuple4 containing four int values.
+     * Creates an IntTuple.IntTuple4 containing four int values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple4 quad = IntTuple.of(1, 2, 3, 4);
+     * IntTuple.IntTuple4 quad = IntTuple.of(1, 2, 3, 4);
      * // quad._1 == 1, quad._2 == 2, quad._3 == 3, quad._4 == 4
      * }</pre>
      *
@@ -128,18 +128,18 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @param _2 the second int value
      * @param _3 the third int value
      * @param _4 the fourth int value
-     * @return a new IntTuple4 containing the provided values
+     * @return a new IntTuple.IntTuple4 containing the provided values
      */
     public static IntTuple4 of(final int _1, final int _2, final int _3, final int _4) {
         return new IntTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * Creates an IntTuple5 containing five int values.
+     * Creates an IntTuple.IntTuple5 containing five int values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple5 quint = IntTuple.of(1, 2, 3, 4, 5);
+     * IntTuple.IntTuple5 quint = IntTuple.of(1, 2, 3, 4, 5);
      * // quint._5 == 5
      * }</pre>
      *
@@ -148,18 +148,18 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @param _3 the third int value
      * @param _4 the fourth int value
      * @param _5 the fifth int value
-     * @return a new IntTuple5 containing the provided values
+     * @return a new IntTuple.IntTuple5 containing the provided values
      */
     public static IntTuple5 of(final int _1, final int _2, final int _3, final int _4, final int _5) {
         return new IntTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * Creates an IntTuple6 containing six int values.
+     * Creates an IntTuple.IntTuple6 containing six int values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple6 sext = IntTuple.of(1, 2, 3, 4, 5, 6);
+     * IntTuple.IntTuple6 sext = IntTuple.of(1, 2, 3, 4, 5, 6);
      * // sext._6 == 6
      * }</pre>
      *
@@ -169,18 +169,18 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @param _4 the fourth int value
      * @param _5 the fifth int value
      * @param _6 the sixth int value
-     * @return a new IntTuple6 containing the provided values
+     * @return a new IntTuple.IntTuple6 containing the provided values
      */
     public static IntTuple6 of(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6) {
         return new IntTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * Creates an IntTuple7 containing seven int values.
+     * Creates an IntTuple.IntTuple7 containing seven int values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple7 sept = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+     * IntTuple.IntTuple7 sept = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
      * // sept._7 == 7
      * }</pre>
      *
@@ -191,18 +191,18 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @param _5 the fifth int value
      * @param _6 the sixth int value
      * @param _7 the seventh int value
-     * @return a new IntTuple7 containing the provided values
+     * @return a new IntTuple.IntTuple7 containing the provided values
      */
     public static IntTuple7 of(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7) {
         return new IntTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     * Creates an IntTuple8 containing eight int values.
+     * Creates an IntTuple.IntTuple8 containing eight int values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple8 oct = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+     * IntTuple.IntTuple8 oct = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
      * // oct._8 == 8
      * }</pre>
      *
@@ -214,7 +214,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @param _6 the sixth int value
      * @param _7 the seventh int value
      * @param _8 the eighth int value
-     * @return a new IntTuple8 containing the provided values
+     * @return a new IntTuple.IntTuple8 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more int values
      */
     @Deprecated
@@ -223,11 +223,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Creates an IntTuple9 containing nine int values.
+     * Creates an IntTuple.IntTuple9 containing nine int values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple9 non = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+     * IntTuple.IntTuple9 non = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
      * // non._9 == 9
      * }</pre>
      *
@@ -240,7 +240,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @param _7 the seventh int value
      * @param _8 the eighth int value
      * @param _9 the ninth int value
-     * @return a new IntTuple9 containing the provided values
+     * @return a new IntTuple.IntTuple9 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more int values
      */
     @Deprecated
@@ -253,21 +253,21 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p>
      * The size of the returned tuple depends on the length of the input array.
      * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty IntTuple0. For arrays with 1-9 elements, returns
-     * the corresponding IntTuple1-9 instance.
+     * arrays, returns an empty IntTuple.IntTuple0. For arrays with 1-9 elements, returns
+     * the corresponding IntTuple.IntTuple1-9 instance.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Create from array
      * int[] values = {1, 2, 3};
-     * IntTuple3 tuple = IntTuple.create(values);
+     * IntTuple.IntTuple3 tuple = IntTuple.create(values);
      *
-     * // Empty array returns IntTuple0
-     * IntTuple0 empty = IntTuple.create(new int[0]);
+     * // Empty array returns IntTuple.IntTuple0
+     * IntTuple<?> empty = IntTuple.create(new int[0]);
      *
      * // Single element
-     * IntTuple1 single = IntTuple.create(new int[]{42});
+     * IntTuple.IntTuple1 single = IntTuple.create(new int[]{42});
      * }</pre>
      *
      * @param <TP> the specific IntTuple subtype to return
@@ -323,10 +323,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(3, 1, 2);
+     * IntTuple.IntTuple3 tuple = IntTuple.of(3, 1, 2);
      * int min = tuple.min();   // 1
      *
-     * IntTuple2 pair = IntTuple.of(25, 15);
+     * IntTuple.IntTuple2 pair = IntTuple.of(25, 15);
      * int minPair = pair.min();   // 15
      * }</pre>
      *
@@ -346,10 +346,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(3, 1, 2);
+     * IntTuple.IntTuple3 tuple = IntTuple.of(3, 1, 2);
      * int max = tuple.max();   // 3
      *
-     * IntTuple2 pair = IntTuple.of(15, 25);
+     * IntTuple.IntTuple2 pair = IntTuple.of(15, 25);
      * int maxPair = pair.max();   // 25
      * }</pre>
      *
@@ -370,11 +370,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Odd number of elements
-     * IntTuple3 tuple3 = IntTuple.of(30, 10, 20);
+     * IntTuple.IntTuple3 tuple3 = IntTuple.of(30, 10, 20);
      * int median = tuple3.median();   // 20 (middle value when sorted: 10, 20, 30)
      *
      * // Even number of elements
-     * IntTuple4 tuple4 = IntTuple.of(1, 2, 3, 4);
+     * IntTuple.IntTuple4 tuple4 = IntTuple.of(1, 2, 3, 4);
      * int median2 = tuple4.median();   // 2 (lower middle value when sorted)
      * }</pre>
      *
@@ -398,10 +398,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(1, 2, 3);
+     * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * int sum = tuple.sum();   // 6
      *
-     * IntTuple2 pair = IntTuple.of(100, 200);
+     * IntTuple.IntTuple2 pair = IntTuple.of(100, 200);
      * int total = pair.sum();  // 300
      * }</pre>
      *
@@ -421,10 +421,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(1, 2, 3);
+     * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * double avg = tuple.average();   // 2.0
      *
-     * IntTuple2 pair = IntTuple.of(1, 2);
+     * IntTuple.IntTuple2 pair = IntTuple.of(1, 2);
      * double avgPair = pair.average();   // 1.5
      * }</pre>
      *
@@ -445,11 +445,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * IntTuple3 reversed = tuple.reverse();   // (3, 2, 1)
+     * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+     * IntTuple.IntTuple3 reversed = tuple.reverse();   // (3, 2, 1)
      *
-     * IntTuple2 pair = IntTuple.of(15, 25);
-     * IntTuple2 reversedPair = pair.reverse();   // (25, 15)
+     * IntTuple.IntTuple2 pair = IntTuple.of(15, 25);
+     * IntTuple.IntTuple2 reversedPair = pair.reverse();   // (25, 15)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -465,11 +465,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(1, 2, 3);
+     * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * boolean hasTwo = tuple.contains(2);    // true
      * boolean hasFive = tuple.contains(5);   // false
      *
-     * IntTuple5 numbers = IntTuple.of(10, 20, 30, 40, 50);
+     * IntTuple.IntTuple5 numbers = IntTuple.of(10, 20, 30, 40, 50);
      * if (numbers.contains(30)) {
      *     System.out.println("Found 30!");  // This will be printed
      * }
@@ -489,11 +489,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(1, 2, 3);
+     * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * int[] array = tuple.toArray();   // [1, 2, 3]
      * array[0] = 5;  // Does not modify the original tuple
      *
-     * IntTuple0 empty = IntTuple.create(new int[0]);
+     * IntTuple<?> empty = IntTuple.create(new int[0]);
      * int[] emptyArray = empty.toArray();   // []
      * }</pre>
      *
@@ -512,11 +512,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(1, 2, 3);
+     * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * IntList list = tuple.toList();
      * list.add(4);   // Does not affect the original tuple
      *
-     * IntTuple2 pair = IntTuple.of(15, 25);
+     * IntTuple.IntTuple2 pair = IntTuple.of(15, 25);
      * IntList pairList = pair.toList();   // [15, 25]
      * }</pre>
      *
@@ -535,10 +535,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(1, 2, 3);
+     * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * tuple.forEach(i -> System.out.print(i + " "));   // prints "1 2 3 "
      *
-     * IntTuple2 pair = IntTuple.of(15, 25);
+     * IntTuple.IntTuple2 pair = IntTuple.of(15, 25);
      * List<Integer> list = new ArrayList<>();
      * pair.forEach(list::add);   // adds 15 and 25 to the list
      * }</pre>
@@ -563,10 +563,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntTuple3 tuple = IntTuple.of(1, 2, 3);
+     * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * int sum = tuple.stream().sum();   // 6
      *
-     * IntTuple2 pair = IntTuple.of(15, 25);
+     * IntTuple.IntTuple2 pair = IntTuple.of(15, 25);
      * long count = pair.stream().filter(i -> i > 20).count();   // 1
      * }</pre>
      *
@@ -850,7 +850,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a copy of itself.
          *
-         * @return a new IntTuple1 with the same value
+         * @return a new IntTuple.IntTuple1 with the same value
          */
         @Override
         public IntTuple1 reverse() {
@@ -882,7 +882,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple1 with equal value
+         * @return {@code true} if obj is an IntTuple.IntTuple1 with equal value
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1000,7 +1000,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new IntTuple2 with (_2, _1)
+         * @return a new IntTuple.IntTuple2 with (_2, _1)
          */
         @Override
         public IntTuple2 reverse() {
@@ -1036,7 +1036,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple2 tuple = IntTuple.of(3, 4);
+         * IntTuple.IntTuple2 tuple = IntTuple.of(3, 4);
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
          * }</pre>
          *
@@ -1053,14 +1053,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple2 tuple = IntTuple.of(3, 4);
+         * IntTuple.IntTuple2 tuple = IntTuple.of(3, 4);
          * int product = tuple.map((a, b) -> a * b);   // 12
          * }</pre>
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements
-         * @return the result of applying the mapper to _1 and _2
+         * @return the result of applying the mapper to _1 and _2, may be {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1074,8 +1074,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple2 tuple = IntTuple.of(3, 4);
-         * Optional<IntTuple2> result = tuple.filter((a, b) -> a + b > 5);   // present
+         * IntTuple.IntTuple2 tuple = IntTuple.of(3, 4);
+         * u.Optional<IntTuple.IntTuple2> result = tuple.filter((a, b) -> a + b > 5);   // present
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1101,7 +1101,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple2 with equal elements
+         * @return {@code true} if obj is an IntTuple.IntTuple2 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1222,7 +1222,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new IntTuple3 with (_3, _2, _1)
+         * @return a new IntTuple.IntTuple3 with (_3, _2, _1)
          */
         @Override
         public IntTuple3 reverse() {
@@ -1259,7 +1259,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple3 tuple = IntTuple.of(1, 2, 3);
+         * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
          * }</pre>
          *
@@ -1276,14 +1276,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple3 tuple = IntTuple.of(1, 2, 3);
+         * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
          * int product = tuple.map((a, b, c) -> a * b * c);   // 6
          * }</pre>
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements
-         * @return the result of applying the mapper to _1, _2, and _3
+         * @return the result of applying the mapper to _1, _2, and _3, may be {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1297,8 +1297,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-         * Optional<IntTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);   // present
+         * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+         * u.Optional<IntTuple.IntTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);   // present
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1324,7 +1324,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple3 with equal elements
+         * @return {@code true} if obj is an IntTuple.IntTuple3 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1448,7 +1448,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new IntTuple4 with (_4, _3, _2, _1)
+         * @return a new IntTuple.IntTuple4 with (_4, _3, _2, _1)
          */
         @Override
         public IntTuple4 reverse() {
@@ -1495,11 +1495,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both IntTuple4 instances
+         * Two tuples are equal if they are both IntTuple.IntTuple4 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple4 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is an IntTuple.IntTuple4 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1627,7 +1627,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new IntTuple5 with (_5, _4, _3, _2, _1)
+         * @return a new IntTuple.IntTuple5 with (_5, _4, _3, _2, _1)
          */
         @Override
         public IntTuple5 reverse() {
@@ -1675,11 +1675,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both IntTuple5 instances
+         * Two tuples are equal if they are both IntTuple.IntTuple5 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple5 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is an IntTuple.IntTuple5 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1810,7 +1810,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new IntTuple6 with (_6, _5, _4, _3, _2, _1)
+         * @return a new IntTuple.IntTuple6 with (_6, _5, _4, _3, _2, _1)
          */
         @Override
         public IntTuple6 reverse() {
@@ -1859,11 +1859,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both IntTuple6 instances
+         * Two tuples are equal if they are both IntTuple.IntTuple6 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple6 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is an IntTuple.IntTuple6 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1997,7 +1997,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new IntTuple7 with (_7, _6, _5, _4, _3, _2, _1)
+         * @return a new IntTuple.IntTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public IntTuple7 reverse() {
@@ -2048,11 +2048,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both IntTuple7 instances
+         * Two tuples are equal if they are both IntTuple.IntTuple7 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple7 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is an IntTuple.IntTuple7 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2192,7 +2192,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new IntTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new IntTuple.IntTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public IntTuple8 reverse() {
@@ -2244,11 +2244,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both IntTuple8 instances
+         * Two tuples are equal if they are both IntTuple.IntTuple8 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple8 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is an IntTuple.IntTuple8 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2392,7 +2392,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new IntTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new IntTuple.IntTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public IntTuple9 reverse() {
@@ -2445,11 +2445,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both IntTuple9 instances
+         * Two tuples are equal if they are both IntTuple.IntTuple9 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple9 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is an IntTuple.IntTuple9 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {

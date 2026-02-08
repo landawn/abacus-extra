@@ -464,19 +464,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns the element at the specified point.
-     * This is a convenience method that accepts a Point object instead of separate row and column indices.
+     * Returns the element at the specified Sheet.Point.
+     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * long value = matrix.get(point);   // Returns 2L
      * }</pre>
      *
-     * @param point the point containing row and column indices (must not be null)
-     * @return the long element at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @return the long element at the specified Sheet.Point
+     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #get(int, int)
      */
     public long get(final Point point) {
@@ -504,20 +504,20 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the element at the specified point to the given value.
-     * This is a convenience method that accepts a Point object instead of separate row and column indices.
+     * Sets the element at the specified Sheet.Point to the given value.
+     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * Point point = Point.of(0, 1);
+     * Sheet.Point point = Sheet.Point.of(0, 1);
      * matrix.set(point, 9L);
      * assert matrix.get(point) == 9L;
      * }</pre>
      *
-     * @param point the point containing row and column indices (must not be null)
-     * @param val the new long value to set at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @param val the new long value to set at the specified Sheet.Point
+     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #set(int, int, long)
      */
     public void set(final Point point, final long val) {
@@ -534,13 +534,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.upOf(1, 0);   // Returns OptionalLong.of(1L)
-     * OptionalLong empty = matrix.upOf(0, 0);   // Returns OptionalLong.empty() - no row above
+     * u.OptionalLong value = matrix.upOf(1, 0);   // Returns u.OptionalLong.of(1L)
+     * u.OptionalLong empty = matrix.upOf(0, 0);   // Returns u.OptionalLong.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalLong containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
+     * @return an u.OptionalLong containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalLong upOf(final int i, final int j) {
@@ -557,13 +557,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.downOf(0, 0);   // Returns OptionalLong.of(3L)
-     * OptionalLong empty = matrix.downOf(1, 0);   // Returns OptionalLong.empty() - no row below
+     * u.OptionalLong value = matrix.downOf(0, 0);   // Returns u.OptionalLong.of(3L)
+     * u.OptionalLong empty = matrix.downOf(1, 0);   // Returns u.OptionalLong.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalLong containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
+     * @return an u.OptionalLong containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalLong downOf(final int i, final int j) {
@@ -580,13 +580,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.leftOf(0, 1);   // Returns OptionalLong.of(1L)
-     * OptionalLong empty = matrix.leftOf(0, 0);   // Returns OptionalLong.empty() - no column to the left
+     * u.OptionalLong value = matrix.leftOf(0, 1);   // Returns u.OptionalLong.of(1L)
+     * u.OptionalLong empty = matrix.leftOf(0, 0);   // Returns u.OptionalLong.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalLong containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
+     * @return an u.OptionalLong containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalLong leftOf(final int i, final int j) {
@@ -603,13 +603,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.rightOf(0, 0);   // Returns OptionalLong.of(2L)
-     * OptionalLong empty = matrix.rightOf(0, 1);   // Returns OptionalLong.empty() - no column to the right
+     * u.OptionalLong value = matrix.rightOf(0, 0);   // Returns u.OptionalLong.of(2L)
+     * u.OptionalLong empty = matrix.rightOf(0, 1);   // Returns u.OptionalLong.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalLong containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
+     * @return an u.OptionalLong containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalLong rightOf(final int i, final int j) {

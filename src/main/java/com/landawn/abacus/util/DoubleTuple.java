@@ -32,9 +32,9 @@ import com.landawn.abacus.util.stream.DoubleStream;
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Creating tuples
- * DoubleTuple1 single = DoubleTuple.of(3.14);
- * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
- * DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
+ * DoubleTuple.DoubleTuple1 single = DoubleTuple.of(3.14);
+ * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+ * DoubleTuple.DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
  *
  * // Using statistical operations
  * double min = triple.min();   // 1.0
@@ -66,63 +66,63 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Creates a DoubleTuple1 containing a single double value.
+     * Creates a DoubleTuple.DoubleTuple1 containing a single double value.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple1 single = DoubleTuple.of(3.14);
+     * DoubleTuple.DoubleTuple1 single = DoubleTuple.of(3.14);
      * double value = single._1;  // 3.14
      * }</pre>
      *
      * @param _1 the double value to wrap in a tuple
-     * @return a new DoubleTuple1 containing the provided value
+     * @return a new DoubleTuple.DoubleTuple1 containing the provided value
      */
     public static DoubleTuple1 of(final double _1) {
         return new DoubleTuple1(_1);
     }
 
     /**
-     * Creates a DoubleTuple2 containing two double values.
+     * Creates a DoubleTuple.DoubleTuple2 containing two double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * double first = pair._1;  // 1.5
      * double second = pair._2;  // 2.5
      * }</pre>
      *
      * @param _1 the first double value
      * @param _2 the second double value
-     * @return a new DoubleTuple2 containing the provided values
+     * @return a new DoubleTuple.DoubleTuple2 containing the provided values
      */
     public static DoubleTuple2 of(final double _1, final double _2) {
         return new DoubleTuple2(_1, _2);
     }
 
     /**
-     * Creates a DoubleTuple3 containing three double values.
+     * Creates a DoubleTuple.DoubleTuple3 containing three double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple.DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double third = triple._3;  // 3.0
      * }</pre>
      *
      * @param _1 the first double value
      * @param _2 the second double value
      * @param _3 the third double value
-     * @return a new DoubleTuple3 containing the provided values
+     * @return a new DoubleTuple.DoubleTuple3 containing the provided values
      */
     public static DoubleTuple3 of(final double _1, final double _2, final double _3) {
         return new DoubleTuple3(_1, _2, _3);
     }
 
     /**
-     * Creates a DoubleTuple4 containing four double values.
+     * Creates a DoubleTuple.DoubleTuple4 containing four double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+     * DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
      * double fourth = tuple._4;  // 4.0
      * }</pre>
      *
@@ -130,18 +130,18 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _2 the second double value
      * @param _3 the third double value
      * @param _4 the fourth double value
-     * @return a new DoubleTuple4 containing the provided values
+     * @return a new DoubleTuple.DoubleTuple4 containing the provided values
      */
     public static DoubleTuple4 of(final double _1, final double _2, final double _3, final double _4) {
         return new DoubleTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * Creates a DoubleTuple5 containing five double values.
+     * Creates a DoubleTuple.DoubleTuple5 containing five double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+     * DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
      * double median = tuple.median();   // 3.0
      * }</pre>
      *
@@ -150,18 +150,18 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _3 the third double value
      * @param _4 the fourth double value
      * @param _5 the fifth double value
-     * @return a new DoubleTuple5 containing the provided values
+     * @return a new DoubleTuple.DoubleTuple5 containing the provided values
      */
     public static DoubleTuple5 of(final double _1, final double _2, final double _3, final double _4, final double _5) {
         return new DoubleTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * Creates a DoubleTuple6 containing six double values.
+     * Creates a DoubleTuple.DoubleTuple6 containing six double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+     * DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
      * double sum = tuple.sum();   // 21.0
      * }</pre>
      *
@@ -171,19 +171,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _4 the fourth double value
      * @param _5 the fifth double value
      * @param _6 the sixth double value
-     * @return a new DoubleTuple6 containing the provided values
+     * @return a new DoubleTuple.DoubleTuple6 containing the provided values
      */
     public static DoubleTuple6 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6) {
         return new DoubleTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * Creates a DoubleTuple7 containing seven double values.
+     * Creates a DoubleTuple.DoubleTuple7 containing seven double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-     * DoubleTuple7 reversed = tuple.reverse();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+     * DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+     * DoubleTuple.DoubleTuple7 reversed = tuple.reverse();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
      * }</pre>
      *
      * @param _1 the first double value
@@ -193,18 +193,18 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _5 the fifth double value
      * @param _6 the sixth double value
      * @param _7 the seventh double value
-     * @return a new DoubleTuple7 containing the provided values
+     * @return a new DoubleTuple.DoubleTuple7 containing the provided values
      */
     public static DoubleTuple7 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7) {
         return new DoubleTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     * Creates a DoubleTuple8 containing eight double values.
+     * Creates a DoubleTuple.DoubleTuple8 containing eight double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+     * DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
      * double[] array = tuple.toArray();   // [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
      * }</pre>
      *
@@ -216,7 +216,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _6 the sixth double value
      * @param _7 the seventh double value
      * @param _8 the eighth double value
-     * @return a new DoubleTuple8 containing the provided values
+     * @return a new DoubleTuple.DoubleTuple8 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more double values
      */
     @Deprecated
@@ -226,12 +226,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Creates a DoubleTuple9 containing nine double values.
+     * Creates a DoubleTuple.DoubleTuple9 containing nine double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-     * DoubleTuple9 reversed = tuple.reverse();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+     * DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+     * DoubleTuple.DoubleTuple9 reversed = tuple.reverse();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
      * }</pre>
      *
      * @param _1 the first double value
@@ -243,7 +243,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _7 the seventh double value
      * @param _8 the eighth double value
      * @param _9 the ninth double value
-     * @return a new DoubleTuple9 containing the provided values
+     * @return a new DoubleTuple.DoubleTuple9 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more double values
      */
     @Deprecated
@@ -257,21 +257,21 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p>
      * The size of the returned tuple depends on the length of the input array.
      * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty DoubleTuple0. For arrays with 1-9 elements, returns
-     * the corresponding DoubleTuple1-9 instance.
+     * arrays, returns an empty DoubleTuple.DoubleTuple0. For arrays with 1-9 elements, returns
+     * the corresponding DoubleTuple.DoubleTuple1-9 instance.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Create from array
      * double[] values = {1.0, 2.0, 3.0};
-     * DoubleTuple3 tuple = DoubleTuple.create(values);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.create(values);
      *
-     * // Empty array returns DoubleTuple0
-     * DoubleTuple0 empty = DoubleTuple.create(new double[0]);
+     * // Empty array returns DoubleTuple.DoubleTuple0
+     * DoubleTuple<?> empty = DoubleTuple.create(new double[0]);
      *
      * // Single element
-     * DoubleTuple1 single = DoubleTuple.create(new double[]{3.14});
+     * DoubleTuple.DoubleTuple1 single = DoubleTuple.create(new double[]{3.14});
      * }</pre>
      *
      * @param <TP> the specific DoubleTuple subtype to return
@@ -327,10 +327,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
      * double min = tuple.min();   // 1.0
      *
-     * DoubleTuple2 pair = DoubleTuple.of(2.5, 1.5);
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(2.5, 1.5);
      * double minPair = pair.min();   // 1.5
      * }</pre>
      *
@@ -350,10 +350,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
      * double max = tuple.max();   // 3.0
      *
-     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * double maxPair = pair.max();   // 2.5
      * }</pre>
      *
@@ -374,11 +374,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Odd number of elements
-     * DoubleTuple3 tuple3 = DoubleTuple.of(30.0, 10.0, 20.0);
+     * DoubleTuple.DoubleTuple3 tuple3 = DoubleTuple.of(30.0, 10.0, 20.0);
      * double median = tuple3.median();   // 20.0 (middle value when sorted: 10.0, 20.0, 30.0)
      *
      * // Even number of elements
-     * DoubleTuple4 tuple4 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+     * DoubleTuple.DoubleTuple4 tuple4 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
      * double median2 = tuple4.median();   // 2.0 (lower middle value when sorted)
      * }</pre>
      *
@@ -398,10 +398,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double sum = tuple.sum();   // 6.0
      *
-     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * double pairSum = pair.sum();   // 4.0
      * }</pre>
      *
@@ -421,10 +421,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double avg = tuple.average();   // 2.0
      *
-     * DoubleTuple2 pair = DoubleTuple.of(1.0, 2.0);
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.0, 2.0);
      * double avgPair = pair.average();   // 1.5
      * }</pre>
      *
@@ -445,11 +445,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-     * DoubleTuple3 reversed = tuple.reverse();   // (3.0, 2.0, 1.0)
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple.DoubleTuple3 reversed = tuple.reverse();   // (3.0, 2.0, 1.0)
      *
-     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
-     * DoubleTuple2 reversedPair = pair.reverse();   // (2.5, 1.5)
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleTuple.DoubleTuple2 reversedPair = pair.reverse();   // (2.5, 1.5)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -467,11 +467,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * boolean hasTwo = tuple.contains(2.0);    // true
      * boolean hasFive = tuple.contains(5.0);   // false
      *
-     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * boolean has1_5 = pair.contains(1.5);   // true
      * boolean has3_5 = pair.contains(3.5);   // false
      * }</pre>
@@ -490,11 +490,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double[] array = tuple.toArray();   // [1.0, 2.0, 3.0]
      * array[0] = 5.0;  // Does not modify the original tuple
      *
-     * DoubleTuple0 empty = DoubleTuple.create(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.create(new double[0]);
      * double[] emptyArray = empty.toArray();   // []
      * }</pre>
      *
@@ -513,11 +513,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * DoubleList list = tuple.toList();
      * list.add(4.0);   // Does not affect the original tuple
      *
-     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * DoubleList pairList = pair.toList();   // [1.5, 2.5]
      * }</pre>
      *
@@ -536,10 +536,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * tuple.forEach(d -> System.out.print(d + " "));   // prints "1.0 2.0 3.0 "
      *
-     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * List<Double> list = new ArrayList<>();
      * pair.forEach(list::add);   // adds 1.5 and 2.5 to the list
      * }</pre>
@@ -564,10 +564,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double sum = tuple.stream().sum();   // 6.0
      *
-     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * long count = pair.stream().filter(d -> d > 2.0).count();   // 1
      * }</pre>
      *
@@ -598,7 +598,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Two tuples are considered equal if and only if:
      * </p>
      * <ul>
-     * <li>They are of the exact same class (e.g., both DoubleTuple2)</li>
+     * <li>They are of the exact same class (e.g., both DoubleTuple.DoubleTuple2)</li>
      * <li>They contain the same elements in the same order</li>
      * </ul>
      * <p>
@@ -629,10 +629,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Example output:</b></p>
      * <ul>
-     * <li>{@code (1.0, 2.0, 3.0)} - for a DoubleTuple3</li>
-     * <li>{@code (1.5, 2.5)} - for a DoubleTuple2</li>
-     * <li>{@code (3.14)} - for a DoubleTuple1</li>
-     * <li>{@code ()} - for an empty DoubleTuple0</li>
+     * <li>{@code (1.0, 2.0, 3.0)} - for a DoubleTuple.DoubleTuple3</li>
+     * <li>{@code (1.5, 2.5)} - for a DoubleTuple.DoubleTuple2</li>
+     * <li>{@code (3.14)} - for a DoubleTuple.DoubleTuple1</li>
+     * <li>{@code ()} - for an empty DoubleTuple.DoubleTuple0</li>
      * </ul>
      *
      * @return a string representation of this tuple
@@ -663,7 +663,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p>
      * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
      * with a single shared instance accessed via {@code DoubleTuple.create(new double[0])} or returned
-     * when creating tuples from null/empty arrays. All statistical operations on DoubleTuple0 either
+     * when creating tuples from null/empty arrays. All statistical operations on DoubleTuple.DoubleTuple0 either
      * return 0.0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
      * </p>
      */
@@ -749,8 +749,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple0 tuple = DoubleTuple.of();
-         * DoubleTuple0 reversed = tuple.reverse();   // same instance
+         * DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+         * DoubleTuple<?> reversed = tuple.reverse();   // same instance
          * }</pre>
          *
          * @return this instance
@@ -875,11 +875,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple1 tuple = DoubleTuple.of(5.0);
-         * DoubleTuple1 reversed = tuple.reverse();   // (5.0)
+         * DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(5.0);
+         * DoubleTuple.DoubleTuple1 reversed = tuple.reverse();   // (5.0)
          * }</pre>
          *
-         * @return a new DoubleTuple1 with the same value
+         * @return a new DoubleTuple.DoubleTuple1 with the same value
          */
         @Override
         public DoubleTuple1 reverse() {
@@ -911,7 +911,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a DoubleTuple1 with equal value
+         * @return {@code true} if obj is a DoubleTuple.DoubleTuple1 with equal value
          */
         @Override
         public boolean equals(final Object obj) {
@@ -948,7 +948,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * A DoubleTuple containing exactly two double values.
      * <p>
      * This class provides direct access to elements through public final fields {@code _1} and {@code _2}.
-     * DoubleTuple2 offers additional functional methods like {@link #accept(Throwables.DoubleBiConsumer)},
+     * DoubleTuple.DoubleTuple2 offers additional functional methods like {@link #accept(Throwables.DoubleBiConsumer)},
      * {@link #map(Throwables.DoubleBiFunction)}, and {@link #filter(Throwables.DoubleBiPredicate)} that
      * operate on both elements simultaneously.
      * </p>
@@ -1035,11 +1035,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
-         * DoubleTuple2 reversed = tuple.reverse();   // (4.0, 3.0)
+         * DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
+         * DoubleTuple.DoubleTuple2 reversed = tuple.reverse();   // (4.0, 3.0)
          * }</pre>
          *
-         * @return a new DoubleTuple2 with (_2, _1)
+         * @return a new DoubleTuple.DoubleTuple2 with (_2, _1)
          */
         @Override
         public DoubleTuple2 reverse() {
@@ -1080,13 +1080,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
+         * DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
          * // Prints: 3.0 + 4.0 = 7.0
          *
-         * DoubleTuple2 coordinates = DoubleTuple.of(10.5, 20.3);
-         * coordinates.accept((x, y) -> System.out.printf("Point: (%.1f, %.1f)%n", x, y));
-         * // Prints: Point: (10.5, 20.3)
+         * DoubleTuple.DoubleTuple2 coordinates = DoubleTuple.of(10.5, 20.3);
+         * coordinates.accept((x, y) -> System.out.printf("Sheet.Point: (%.1f, %.1f)%n", x, y));
+         * // Prints: Sheet.Point: (10.5, 20.3)
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -1107,14 +1107,14 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
+         * DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
          * double product = tuple.map((a, b) -> a * b);   // 12.0
          *
-         * DoubleTuple2 dimensions = DoubleTuple.of(5.0, 3.0);
+         * DoubleTuple.DoubleTuple2 dimensions = DoubleTuple.of(5.0, 3.0);
          * String description = dimensions.map((w, h) -> String.format("%.0f x %.0f", w, h));
          * // Returns: "5 x 3"
          *
-         * DoubleTuple2 point = DoubleTuple.of(3.0, 4.0);
+         * DoubleTuple.DoubleTuple2 point = DoubleTuple.of(3.0, 4.0);
          * Double distance = point.map((x, y) -> Math.sqrt(x * x + y * y));   // 5.0
          * }</pre>
          *
@@ -1140,17 +1140,17 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
-         * Optional<DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5);
+         * DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
+         * u.Optional<DoubleTuple.DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5);
          * // Returns: Optional containing tuple (since 3.0 + 4.0 = 7.0 > 5)
          *
-         * DoubleTuple2 small = DoubleTuple.of(1.0, 2.0);
-         * Optional<DoubleTuple2> empty = small.filter((a, b) -> a + b > 10);
+         * DoubleTuple.DoubleTuple2 small = DoubleTuple.of(1.0, 2.0);
+         * u.Optional<DoubleTuple.DoubleTuple2> empty = small.filter((a, b) -> a + b > 10);
          * // Returns: Optional.empty() (since 1.0 + 2.0 = 3.0 is not > 10)
          *
-         * DoubleTuple2 point = DoubleTuple.of(3.0, 4.0);
-         * Optional<DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0);
-         * // Returns: Optional containing point (both coordinates are positive)
+         * DoubleTuple.DoubleTuple2 point = DoubleTuple.of(3.0, 4.0);
+         * u.Optional<DoubleTuple.DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0);
+         * // Returns: Optional containing Sheet.Point (both coordinates are positive)
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
@@ -1177,7 +1177,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a DoubleTuple2 with equal elements
+         * @return {@code true} if obj is a DoubleTuple.DoubleTuple2 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1214,7 +1214,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * A DoubleTuple containing exactly three double values.
      * <p>
      * This class provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
-     * DoubleTuple3 offers additional functional methods like {@link #accept(Throwables.DoubleTriConsumer)},
+     * DoubleTuple.DoubleTuple3 offers additional functional methods like {@link #accept(Throwables.DoubleTriConsumer)},
      * {@link #map(Throwables.DoubleTriFunction)}, and {@link #filter(Throwables.DoubleTriPredicate)} that
      * operate on all three elements simultaneously.
      * </p>
@@ -1304,11 +1304,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-         * DoubleTuple3 reversed = tuple.reverse();   // (3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+         * DoubleTuple.DoubleTuple3 reversed = tuple.reverse();   // (3.0, 2.0, 1.0)
          * }</pre>
          *
-         * @return a new DoubleTuple3 with (_3, _2, _1)
+         * @return a new DoubleTuple.DoubleTuple3 with (_3, _2, _1)
          */
         @Override
         public DoubleTuple3 reverse() {
@@ -1350,15 +1350,15 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+         * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
          * // Prints: Sum: 6.0
          *
-         * DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
+         * DoubleTuple.DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
          * dimensions.accept((l, w, h) -> System.out.printf("Volume: %.1f%n", l * w * h));
          * // Prints: Volume: 30.0
          *
-         * DoubleTuple3 rgb = DoubleTuple.of(0.5, 0.7, 0.3);
+         * DoubleTuple.DoubleTuple3 rgb = DoubleTuple.of(0.5, 0.7, 0.3);
          * rgb.accept((r, g, b) -> System.out.printf("Color: RGB(%.1f, %.1f, %.1f)%n", r, g, b));
          * // Prints: Color: RGB(0.5, 0.7, 0.3)
          * }</pre>
@@ -1381,15 +1381,15 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+         * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
          * double product = tuple.map((a, b, c) -> a * b * c);   // 6.0
          *
-         * DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
+         * DoubleTuple.DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
          * String description = dimensions.map((l, w, h) ->
          *     String.format("Box: %.0f x %.0f x %.0f", l, w, h));
          * // Returns: "Box: 5 x 3 x 2"
          *
-         * DoubleTuple3 point = DoubleTuple.of(1.0, 2.0, 2.0);
+         * DoubleTuple.DoubleTuple3 point = DoubleTuple.of(1.0, 2.0, 2.0);
          * Double distance = point.map((x, y, z) -> Math.sqrt(x*x + y*y + z*z));   // 3.0
          * }</pre>
          *
@@ -1415,16 +1415,16 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-         * Optional<DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
+         * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+         * u.Optional<DoubleTuple.DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
          * // Returns: Optional containing tuple (since 1.0 + 2.0 + 3.0 = 6.0 > 5)
          *
-         * DoubleTuple3 small = DoubleTuple.of(1.0, 1.0, 1.0);
-         * Optional<DoubleTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
+         * DoubleTuple.DoubleTuple3 small = DoubleTuple.of(1.0, 1.0, 1.0);
+         * u.Optional<DoubleTuple.DoubleTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
          * // Returns: Optional.empty() (since 1.0 + 1.0 + 1.0 = 3.0 is not > 10)
          *
-         * DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
-         * Optional<DoubleTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0);
+         * DoubleTuple.DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
+         * u.Optional<DoubleTuple.DoubleTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0);
          * // Returns: Optional containing dimensions (all values are positive)
          * }</pre>
          *
@@ -1453,7 +1453,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a DoubleTuple3 with equal elements
+         * @return {@code true} if obj is a DoubleTuple.DoubleTuple3 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1578,11 +1578,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-         * DoubleTuple4 reversed = tuple.reverse();   // (4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+         * DoubleTuple.DoubleTuple4 reversed = tuple.reverse();   // (4.0, 3.0, 2.0, 1.0)
          * }</pre>
          *
-         * @return a new DoubleTuple4 with (_4, _3, _2, _1)
+         * @return a new DoubleTuple.DoubleTuple4 with (_4, _3, _2, _1)
          */
         @Override
         public DoubleTuple4 reverse() {
@@ -1632,7 +1632,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a DoubleTuple4 with equal elements
+         * @return {@code true} if obj is a DoubleTuple.DoubleTuple4 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1760,11 +1760,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-         * DoubleTuple5 reversed = tuple.reverse();   // (5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+         * DoubleTuple.DoubleTuple5 reversed = tuple.reverse();   // (5.0, 4.0, 3.0, 2.0, 1.0)
          * }</pre>
          *
-         * @return a new DoubleTuple5 with (_5, _4, _3, _2, _1)
+         * @return a new DoubleTuple.DoubleTuple5 with (_5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple5 reverse() {
@@ -1817,7 +1817,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a DoubleTuple5 with equal elements
+         * @return {@code true} if obj is a DoubleTuple.DoubleTuple5 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1948,11 +1948,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-         * DoubleTuple6 reversed = tuple.reverse();   // (6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+         * DoubleTuple.DoubleTuple6 reversed = tuple.reverse();   // (6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          * }</pre>
          *
-         * @return a new DoubleTuple6 with (_6, _5, _4, _3, _2, _1)
+         * @return a new DoubleTuple.DoubleTuple6 with (_6, _5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple6 reverse() {
@@ -2007,7 +2007,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a DoubleTuple6 with equal elements
+         * @return {@code true} if obj is a DoubleTuple.DoubleTuple6 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2142,11 +2142,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * DoubleTuple7 reversed = tuple.reverse();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+         * DoubleTuple.DoubleTuple7 reversed = tuple.reverse();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          * }</pre>
          *
-         * @return a new DoubleTuple7 with (_7, _6, _5, _4, _3, _2, _1)
+         * @return a new DoubleTuple.DoubleTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple7 reverse() {
@@ -2203,7 +2203,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a DoubleTuple7 with equal elements
+         * @return {@code true} if obj is a DoubleTuple.DoubleTuple7 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2344,11 +2344,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * DoubleTuple8 reversed = tuple.reverse();   // (8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+         * DoubleTuple.DoubleTuple8 reversed = tuple.reverse();   // (8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          * }</pre>
          *
-         * @return a new DoubleTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new DoubleTuple.DoubleTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple8 reverse() {
@@ -2407,7 +2407,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a DoubleTuple8 with equal elements
+         * @return {@code true} if obj is a DoubleTuple.DoubleTuple8 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2552,11 +2552,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * DoubleTuple9 reversed = tuple.reverse();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+         * DoubleTuple.DoubleTuple9 reversed = tuple.reverse();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          * }</pre>
          *
-         * @return a new DoubleTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new DoubleTuple.DoubleTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple9 reverse() {
@@ -2617,7 +2617,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a DoubleTuple9 with equal elements
+         * @return {@code true} if obj is a DoubleTuple.DoubleTuple9 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {

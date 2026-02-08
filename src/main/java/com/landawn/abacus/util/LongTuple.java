@@ -50,62 +50,62 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     protected long[] elements;
 
     /**
-     * Creates a LongTuple1 containing a single long value.
+     * Creates a LongTuple.LongTuple1 containing a single long value.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple1 single = LongTuple.of(42L);
+     * LongTuple.LongTuple1 single = LongTuple.of(42L);
      * long value = single._1;  // 42
      * }</pre>
      *
      * @param _1 the long value to wrap in a tuple
-     * @return a new LongTuple1 containing the provided value
+     * @return a new LongTuple.LongTuple1 containing the provided value
      */
     public static LongTuple1 of(final long _1) {
         return new LongTuple1(_1);
     }
 
     /**
-     * Creates a LongTuple2 containing two long values.
+     * Creates a LongTuple.LongTuple2 containing two long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple2 pair = LongTuple.of(1L, 2L);
+     * LongTuple.LongTuple2 pair = LongTuple.of(1L, 2L);
      * long sum = pair._1 + pair._2;  // 3
      * }</pre>
      *
      * @param _1 the first long value
      * @param _2 the second long value
-     * @return a new LongTuple2 containing the provided values
+     * @return a new LongTuple.LongTuple2 containing the provided values
      */
     public static LongTuple2 of(final long _1, final long _2) {
         return new LongTuple2(_1, _2);
     }
 
     /**
-     * Creates a LongTuple3 containing three long values.
+     * Creates a LongTuple.LongTuple3 containing three long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
      * double average = triple.average();   // 2.0
      * }</pre>
      *
      * @param _1 the first long value
      * @param _2 the second long value
      * @param _3 the third long value
-     * @return a new LongTuple3 containing the provided values
+     * @return a new LongTuple.LongTuple3 containing the provided values
      */
     public static LongTuple3 of(final long _1, final long _2, final long _3) {
         return new LongTuple3(_1, _2, _3);
     }
 
     /**
-     * Creates a LongTuple4 containing four long values.
+     * Creates a LongTuple.LongTuple4 containing four long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
+     * LongTuple.LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
      * // quad._1 == 1, quad._2 == 2, quad._3 == 3, quad._4 == 4
      * }</pre>
      *
@@ -113,18 +113,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _2 the second long value
      * @param _3 the third long value
      * @param _4 the fourth long value
-     * @return a new LongTuple4 containing the provided values
+     * @return a new LongTuple.LongTuple4 containing the provided values
      */
     public static LongTuple4 of(final long _1, final long _2, final long _3, final long _4) {
         return new LongTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * Creates a LongTuple5 containing five long values.
+     * Creates a LongTuple.LongTuple5 containing five long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple5 quint = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+     * LongTuple.LongTuple5 quint = LongTuple.of(1L, 2L, 3L, 4L, 5L);
      * // quint._5 == 5
      * }</pre>
      *
@@ -133,18 +133,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _3 the third long value
      * @param _4 the fourth long value
      * @param _5 the fifth long value
-     * @return a new LongTuple5 containing the provided values
+     * @return a new LongTuple.LongTuple5 containing the provided values
      */
     public static LongTuple5 of(final long _1, final long _2, final long _3, final long _4, final long _5) {
         return new LongTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * Creates a LongTuple6 containing six long values.
+     * Creates a LongTuple.LongTuple6 containing six long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple6 sext = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+     * LongTuple.LongTuple6 sext = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
      * // sext._6 == 6
      * }</pre>
      *
@@ -154,18 +154,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _4 the fourth long value
      * @param _5 the fifth long value
      * @param _6 the sixth long value
-     * @return a new LongTuple6 containing the provided values
+     * @return a new LongTuple.LongTuple6 containing the provided values
      */
     public static LongTuple6 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6) {
         return new LongTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * Creates a LongTuple7 containing seven long values.
+     * Creates a LongTuple.LongTuple7 containing seven long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple7 sept = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+     * LongTuple.LongTuple7 sept = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
      * // sept._7 == 7
      * }</pre>
      *
@@ -176,18 +176,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _5 the fifth long value
      * @param _6 the sixth long value
      * @param _7 the seventh long value
-     * @return a new LongTuple7 containing the provided values
+     * @return a new LongTuple.LongTuple7 containing the provided values
      */
     public static LongTuple7 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7) {
         return new LongTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     * Creates a LongTuple8 containing eight long values.
+     * Creates a LongTuple.LongTuple8 containing eight long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple8 oct = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+     * LongTuple.LongTuple8 oct = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
      * // oct._8 == 8
      * }</pre>
      *
@@ -199,7 +199,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _6 the sixth long value
      * @param _7 the seventh long value
      * @param _8 the eighth long value
-     * @return a new LongTuple8 containing the provided values
+     * @return a new LongTuple.LongTuple8 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
      */
     @Deprecated
@@ -208,11 +208,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Creates a LongTuple9 containing nine long values.
+     * Creates a LongTuple.LongTuple9 containing nine long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple9 non = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+     * LongTuple.LongTuple9 non = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
      * // non._9 == 9
      * }</pre>
      *
@@ -225,7 +225,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _7 the seventh long value
      * @param _8 the eighth long value
      * @param _9 the ninth long value
-     * @return a new LongTuple9 containing the provided values
+     * @return a new LongTuple.LongTuple9 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more long values
      */
     @Deprecated
@@ -241,7 +241,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] values = {1L, 2L, 3L};
-     * LongTuple3 tuple = LongTuple.create(values);
+     * LongTuple.LongTuple3 tuple = LongTuple.create(values);
      * // tuple._1 == 1, tuple._2 == 2, tuple._3 == 3
      * }</pre>
      *
@@ -294,7 +294,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
      * long min = tuple.min();   // 1
      * }</pre>
      *
@@ -310,7 +310,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
      * long max = tuple.max();   // 3
      * }</pre>
      *
@@ -332,11 +332,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
      * long median = tuple.median();   // 2
      *
-     * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * long median = quad.median();   // 2 (lower middle value)
+     * LongTuple.LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
+     * long median2 = quad.median();   // 2 (lower middle value)
      * }</pre>
      *
      * @return the median long value in this tuple
@@ -355,10 +355,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * long sum = tuple.sum();   // 6
      *
-     * LongTuple2 pair = LongTuple.of(100L, 200L);
+     * LongTuple.LongTuple2 pair = LongTuple.of(100L, 200L);
      * long total = pair.sum();  // 300
      * }</pre>
      *
@@ -377,7 +377,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * double avg = tuple.average();   // 2.0
      * }</pre>
      *
@@ -397,12 +397,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * LongTuple3 reversed = tuple.reverse();   // (3, 2, 1)
+     * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 reversed = tuple.reverse();   // (3, 2, 1)
      * // original tuple remains (1, 2, 3)
      *
-     * LongTuple2 pair = LongTuple.of(10L, 20L);
-     * LongTuple2 flipped = pair.reverse();     // (20, 10)
+     * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
+     * LongTuple.LongTuple2 flipped = pair.reverse();     // (20, 10)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -418,11 +418,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * boolean hasTwo = tuple.contains(2L);    // true
      * boolean hasFive = tuple.contains(5L);   // false
      *
-     * LongTuple5 numbers = LongTuple.of(10L, 20L, 30L, 40L, 50L);
+     * LongTuple.LongTuple5 numbers = LongTuple.of(10L, 20L, 30L, 40L, 50L);
      * if (numbers.contains(30L)) {
      *     System.out.println("Found 30!");  // This will be printed
      * }
@@ -443,11 +443,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * long[] array = tuple.toArray();   // [1, 2, 3]
      * array[0] = 100L;                  // tuple is unchanged
      *
-     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
      * long[] values = pair.toArray();   // [10, 20]
      * }</pre>
      *
@@ -467,11 +467,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * LongList list = tuple.toList();
      * list.add(4L);  // list is now [1, 2, 3, 4], tuple is unchanged
      *
-     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
      * LongList mutableList = pair.toList();
      * }</pre>
      *
@@ -491,11 +491,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * tuple.forEach(System.out::println);   // prints 1, 2, 3 on separate lines
      *
      * LongList results = new LongList();
-     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
      * pair.forEach(results::add);  // results now contains [10, 20]
      * }</pre>
      *
@@ -518,13 +518,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * long sum = tuple.stream().sum();   // 6
      *
-     * LongTuple5 numbers = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+     * LongTuple.LongTuple5 numbers = LongTuple.of(1L, 2L, 3L, 4L, 5L);
      * long evenCount = numbers.stream().filter(n -> n % 2 == 0).count();  // 2
      *
-     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
      * long max = pair.stream().max().orElse(0L);  // 20
      * }</pre>
      *
@@ -713,7 +713,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple1 single = LongTuple.of(42L);
+     * LongTuple.LongTuple1 single = LongTuple.of(42L);
      * long value = single._1;  // 42
      * }</pre>
      */
@@ -799,7 +799,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a new tuple with the same value.
          *
-         * @return a new LongTuple1 with the same value
+         * @return a new LongTuple.LongTuple1 with the same value
          */
         @Override
         public LongTuple1 reverse() {
@@ -831,7 +831,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is a LongTuple1 with the same value
+         * @return {@code true} if the object is a LongTuple.LongTuple1 with the same value
          */
         @Override
         public boolean equals(final Object obj) {
@@ -872,12 +872,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <ul>
      *   <li>{@link #accept(Throwables.LongBiConsumer)} - consume both values</li>
      *   <li>{@link #map(Throwables.LongBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.LongBiPredicate)} - conditionally wrap in Optional</li>
+     *   <li>{@link #filter(Throwables.LongBiPredicate)} - conditionally wrap in u.Optional</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
      * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
      * long product = pair.map((a, b) -> a * b);
      * }</pre>
@@ -962,7 +962,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple2 with values (_2, _1)
+         * @return a new LongTuple.LongTuple2 with values (_2, _1)
          */
         @Override
         public LongTuple2 reverse() {
@@ -1003,11 +1003,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * LongTuple2 pair = LongTuple.of(3L, 4L);
+         * LongTuple.LongTuple2 pair = LongTuple.of(3L, 4L);
          * pair.accept((a, b) -> System.out.println("Distance: " + Math.sqrt(a*a + b*b)));
          *
-         * LongTuple2 coordinates = LongTuple.of(10L, 20L);
-         * coordinates.accept((x, y) -> System.out.println("Point at (" + x + ", " + y + ")"));
+         * LongTuple.LongTuple2 coordinates = LongTuple.of(10L, 20L);
+         * coordinates.accept((x, y) -> System.out.println("Sheet.Point at (" + x + ", " + y + ")"));
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1028,13 +1028,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * LongTuple2 pair = LongTuple.of(10L, 3L);
+         * LongTuple.LongTuple2 pair = LongTuple.of(10L, 3L);
          * long remainder = pair.map((a, b) -> a % b);   // 1
          *
-         * LongTuple2 dimensions = LongTuple.of(5L, 10L);
+         * LongTuple.LongTuple2 dimensions = LongTuple.of(5L, 10L);
          * Long area = dimensions.map((width, height) -> width * height);  // 50
          *
-         * LongTuple2 coords = LongTuple.of(3L, 4L);
+         * LongTuple.LongTuple2 coords = LongTuple.of(3L, 4L);
          * String result = coords.map((x, y) -> "(" + x + ", " + y + ")");  // "(3, 4)"
          * }</pre>
          *
@@ -1060,13 +1060,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * LongTuple2 pair = LongTuple.of(10L, 20L);
-         * Optional<LongTuple2> result = pair.filter((a, b) -> a < b);   // Optional containing the tuple
+         * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
+         * u.Optional<LongTuple.LongTuple2> result = pair.filter((a, b) -> a < b);   // Optional containing the tuple
          *
-         * LongTuple2 values = LongTuple.of(5L, 3L);
-         * Optional<LongTuple2> empty = values.filter((a, b) -> a < b);  // Empty Optional
+         * LongTuple.LongTuple2 values = LongTuple.of(5L, 3L);
+         * u.Optional<LongTuple.LongTuple2> empty = values.filter((a, b) -> a < b);  // Empty Optional
          *
-         * LongTuple2 coords = LongTuple.of(10L, 10L);
+         * LongTuple.LongTuple2 coords = LongTuple.of(10L, 10L);
          * coords.filter((x, y) -> x == y)
          *       .ifPresent(t -> System.out.println("Equal values!"));
          * }</pre>
@@ -1094,7 +1094,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is a LongTuple2 with the same values
+         * @return {@code true} if the object is a LongTuple.LongTuple2 with the same values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1135,12 +1135,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <ul>
      *   <li>{@link #accept(Throwables.LongTriConsumer)} - consume all three values</li>
      *   <li>{@link #map(Throwables.LongTriFunction)} - transform the triple to a single value</li>
-     *   <li>{@link #filter(Throwables.LongTriPredicate)} - conditionally wrap in Optional</li>
+     *   <li>{@link #filter(Throwables.LongTriPredicate)} - conditionally wrap in u.Optional</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
      * triple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
      * long product = triple.map((a, b, c) -> a * b * c);
      * }</pre>
@@ -1228,7 +1228,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple3 with values (_3, _2, _1)
+         * @return a new LongTuple.LongTuple3 with values (_3, _2, _1)
          */
         @Override
         public LongTuple3 reverse() {
@@ -1270,12 +1270,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * LongTuple3 triple = LongTuple.of(3L, 4L, 5L);
+         * LongTuple.LongTuple3 triple = LongTuple.of(3L, 4L, 5L);
          * triple.accept((a, b, c) -> {
          *     if (a*a + b*b == c*c) System.out.println("Pythagorean triple!");
          * });
          *
-         * LongTuple3 rgb = LongTuple.of(255L, 128L, 64L);
+         * LongTuple.LongTuple3 rgb = LongTuple.of(255L, 128L, 64L);
          * rgb.accept((r, g, b) -> System.out.println("RGB(" + r + ", " + g + ", " + b + ")"));
          * }</pre>
          *
@@ -1298,13 +1298,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * LongTuple3 triple = LongTuple.of(2L, 3L, 4L);
+         * LongTuple.LongTuple3 triple = LongTuple.of(2L, 3L, 4L);
          * long volume = triple.map((l, w, h) -> l * w * h);   // 24
          *
-         * LongTuple3 dimensions = LongTuple.of(10L, 20L, 30L);
+         * LongTuple.LongTuple3 dimensions = LongTuple.of(10L, 20L, 30L);
          * String formatted = dimensions.map((x, y, z) -> x + "x" + y + "x" + z);  // "10x20x30"
          *
-         * LongTuple3 values = LongTuple.of(1L, 2L, 3L);
+         * LongTuple.LongTuple3 values = LongTuple.of(1L, 2L, 3L);
          * Double avg = values.map((a, b, c) -> (a + b + c) / 3.0);  // 2.0
          * }</pre>
          *
@@ -1330,15 +1330,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
-         * Optional<LongTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
+         * LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
+         * u.Optional<LongTuple.LongTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
          *
-         * LongTuple3 pythagorean = LongTuple.of(3L, 4L, 5L);
+         * LongTuple.LongTuple3 pythagorean = LongTuple.of(3L, 4L, 5L);
          * pythagorean.filter((a, b, c) -> a*a + b*b == c*c)
          *            .ifPresent(t -> System.out.println("Pythagorean triple found!"));
          *
-         * LongTuple3 descending = LongTuple.of(5L, 4L, 3L);
-         * Optional<LongTuple3> empty = descending.filter((a, b, c) -> a < b && b < c);  // Empty Optional
+         * LongTuple.LongTuple3 descending = LongTuple.of(5L, 4L, 3L);
+         * u.Optional<LongTuple.LongTuple3> empty = descending.filter((a, b, c) -> a < b && b < c);  // Empty Optional
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1364,7 +1364,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is a LongTuple3 with the same values
+         * @return {@code true} if the object is a LongTuple.LongTuple3 with the same values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1403,10 +1403,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
+     * LongTuple.LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
      * long sum = quad.sum();                  // 10L
      * long min = quad.min();                  // 1L
-     * LongTuple4 reversed = quad.reverse();   // (4, 3, 2, 1)
+     * LongTuple.LongTuple4 reversed = quad.reverse();   // (4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple4 extends LongTuple<LongTuple4> {
@@ -1444,7 +1444,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple4 with values (_4, _3, _2, _1)
+         * @return a new LongTuple.LongTuple4 with values (_4, _3, _2, _1)
          */
         @Override
         public LongTuple4 reverse() {
@@ -1542,11 +1542,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both LongTuple4 instances
+         * Two tuples are equal if they are both LongTuple.LongTuple4 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a LongTuple4 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a LongTuple.LongTuple4 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1586,10 +1586,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+     * LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
      * double avg = tuple.average();            // 3.0
      * long median = tuple.median();            // 3
-     * LongTuple5 reversed = tuple.reverse();   // (5, 4, 3, 2, 1)
+     * LongTuple.LongTuple5 reversed = tuple.reverse();   // (5, 4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple5 extends LongTuple<LongTuple5> {
@@ -1681,7 +1681,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple5 with values (_5, _4, _3, _2, _1)
+         * @return a new LongTuple.LongTuple5 with values (_5, _4, _3, _2, _1)
          */
         @Override
         public LongTuple5 reverse() {
@@ -1729,11 +1729,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both LongTuple5 instances
+         * Two tuples are equal if they are both LongTuple.LongTuple5 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a LongTuple5 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a LongTuple.LongTuple5 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1773,7 +1773,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+     * LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
      * long sum = tuple.sum();         // 21
      * double avg = tuple.average();   // 3.5
      * }</pre>
@@ -1819,7 +1819,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple6 with elements in order (_6, _5, _4, _3, _2, _1)
+         * @return a new LongTuple.LongTuple6 with elements in order (_6, _5, _4, _3, _2, _1)
          */
         @Override
         public LongTuple6 reverse() {
@@ -1920,11 +1920,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both LongTuple6 instances
+         * Two tuples are equal if they are both LongTuple.LongTuple6 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a LongTuple6 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a LongTuple.LongTuple6 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1964,10 +1964,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+     * LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
      * long sum = tuple.sum();                  // 28
      * long median = tuple.median();            // 4
-     * LongTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
+     * LongTuple.LongTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple7 extends LongTuple<LongTuple7> {
@@ -2014,7 +2014,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple7 with elements in order (_7, _6, _5, _4, _3, _2, _1)
+         * @return a new LongTuple.LongTuple7 with elements in order (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public LongTuple7 reverse() {
@@ -2117,11 +2117,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both LongTuple7 instances
+         * Two tuples are equal if they are both LongTuple.LongTuple7 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a LongTuple7 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a LongTuple.LongTuple7 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2161,7 +2161,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+     * LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
      * long sum = tuple.sum();                   // 36
      * double avg = tuple.average();             // 4.5
      * boolean contains5 = tuple.contains(5L);   // true
@@ -2217,7 +2217,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple8 with elements in order (_8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new LongTuple.LongTuple8 with elements in order (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public LongTuple8 reverse() {
@@ -2323,11 +2323,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both LongTuple8 instances
+         * Two tuples are equal if they are both LongTuple.LongTuple8 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a LongTuple8 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a LongTuple.LongTuple8 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2368,7 +2368,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+     * LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
      * long sum = tuple.sum();         // 45
      * long median = tuple.median();   // 5
      * double avg = tuple.average();   // 5.0
@@ -2427,7 +2427,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple9 with elements in order (_9, _8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new LongTuple.LongTuple9 with elements in order (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public LongTuple9 reverse() {
@@ -2534,11 +2534,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both LongTuple9 instances
+         * Two tuples are equal if they are both LongTuple.LongTuple9 instances
          * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a LongTuple9 with equal elements, {@code false} otherwise
+         * @return {@code true} if obj is a LongTuple.LongTuple9 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
