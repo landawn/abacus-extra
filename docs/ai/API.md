@@ -1,7 +1,7 @@
 # abacus-extra API Index (v3.3.1)
 - Build: unknown
 - Java: 17
-- Generated: 2026-02-08
+- Generated: 2026-02-09
 
 ## Packages
 - com.landawn.abacus.util
@@ -9231,7 +9231,7 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Signature:** `public double get(final Point point)`
 - **Summary:** Returns the element at the specified Sheet.Point.
 - **Parameters:**
-  - `point` (`Point`)
+  - `point` (`Point`) — the Sheet.Point containing row and column indices (must not be null)
 - **Returns:** the double element at the specified Sheet.Point
 - **See also:** #get(int, int)
 ##### set(...) -> void
@@ -9244,7 +9244,7 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Signature:** `public void set(final Point point, final double val)`
 - **Summary:** Sets the element at the specified Sheet.Point to the given value.
 - **Parameters:**
-  - `point` (`Point`)
+  - `point` (`Point`) — the Sheet.Point containing row and column indices (must not be null)
   - `val` (`double`) — the new double value to set at the specified Sheet.Point
 - **See also:** #set(int, int, double)
 ##### upOf(...) -> OptionalDouble
@@ -11017,7 +11017,7 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Signature:** `public float get(final Point point)`
 - **Summary:** Returns the element at the specified Sheet.Point.
 - **Parameters:**
-  - `point` (`Point`)
+  - `point` (`Point`) — the Sheet.Point containing row and column indices (must not be null)
 - **Returns:** the float element at the specified Sheet.Point
 - **See also:** #get(int, int)
 ##### set(...) -> void
@@ -11030,7 +11030,7 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Signature:** `public void set(final Point point, final float val)`
 - **Summary:** Sets the element at the specified Sheet.Point to the given value.
 - **Parameters:**
-  - `point` (`Point`)
+  - `point` (`Point`) — the Sheet.Point containing row and column indices (must not be null)
   - `val` (`float`) — the new float value to set at the specified Sheet.Point
 - **See also:** #set(int, int, float)
 ##### upOf(...) -> OptionalFloat
@@ -12954,7 +12954,7 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Signature:** `public int get(final Point point)`
 - **Summary:** Returns the element at the specified Sheet.Point.
 - **Parameters:**
-  - `point` (`Point`)
+  - `point` (`Point`) — the Sheet.Point containing row and column indices (must not be null)
 - **Returns:** the int element at the specified Sheet.Point
 - **See also:** #get(int, int)
 ##### set(...) -> void
@@ -12967,7 +12967,7 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Signature:** `public void set(final Point point, final int val)`
 - **Summary:** Sets the element at the specified Sheet.Point to the given value.
 - **Parameters:**
-  - `point` (`Point`)
+  - `point` (`Point`) — the Sheet.Point containing row and column indices (must not be null)
   - `val` (`int`) — the new int value to set at the specified Sheet.Point
 - **See also:** #set(int, int, int)
 ##### upOf(...) -> OptionalInt
@@ -14825,7 +14825,7 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Signature:** `public long get(final Point point)`
 - **Summary:** Returns the element at the specified Sheet.Point.
 - **Parameters:**
-  - `point` (`Point`)
+  - `point` (`Point`) — the Sheet.Point containing row and column indices (must not be null)
 - **Returns:** the long element at the specified Sheet.Point
 - **See also:** #get(int, int)
 ##### set(...) -> void
@@ -14838,7 +14838,7 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Signature:** `public void set(final Point point, final long val)`
 - **Summary:** Sets the element at the specified Sheet.Point to the given value.
 - **Parameters:**
-  - `point` (`Point`)
+  - `point` (`Point`) — the Sheet.Point containing row and column indices (must not be null)
   - `val` (`long`) — the new long value to set at the specified Sheet.Point
 - **See also:** #set(int, int, long)
 ##### upOf(...) -> OptionalLong
@@ -17317,30 +17317,46 @@ Utility class providing static methods for matrix operations, parallel processin
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code flag} is {@code null}
 - **See also:** #getParallelEnabled(), ParallelEnabled
-##### isParallelable(...) -> boolean
-- **Signature:** `public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x)`
+##### isParallelizable(...) -> boolean
+- **Signature:** `public static boolean isParallelizable(final AbstractMatrix<?, ?, ?, ?, ?> x)`
 - **Summary:** Determines whether the given matrix should be processed using parallel execution.
 - **Contract:**
   - Determines whether the given matrix should be processed using parallel execution.
   - <p> This method evaluates whether parallel processing should be used for operations on the specified matrix based on its total element count.
-  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code IntMatrix matrix = IntMatrix.of(new int\[1000\]\[1000\]); if (Matrixes.isParallelable(matrix)) { // Matrix is large enough for parallel processing } } </pre>
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code IntMatrix matrix = IntMatrix.of(new int\[1000\]\[1000\]); if (Matrixes.isParallelizable(matrix)) { // Matrix is large enough for parallel processing } } </pre>
 - **Parameters:**
   - `x` (`AbstractMatrix<?, ?, ?, ?, ?>`) — the matrix to evaluate for parallelization, must not be {@code null}
 - **Returns:** {@code true} if parallel processing should be used for this matrix; {@code false} for sequential processing
-- **See also:** #isParallelable(AbstractMatrix, long), #setParallelEnabled(ParallelEnabled)
-- **Signature:** `public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count)`
+- **See also:** #isParallelizable(AbstractMatrix, long), #setParallelEnabled(ParallelEnabled)
+- **Signature:** `public static boolean isParallelizable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count)`
 - **Summary:** Determines whether a matrix operation should be processed using parallel execution based on the element count and current parallel settings.
 - **Contract:**
   - Determines whether a matrix operation should be processed using parallel execution based on the element count and current parallel settings.
   - <p> This method makes the parallelization decision using a multifactor evaluation: </p> <ol> <li> <b> Runtime Support: </b> Parallel streams must be available in the runtime environment.
   - If not supported, always returns {@code false} .
   - </li> <li> <b> Thread Setting: </b> Checks the current thread's {@link ParallelEnabled} setting: <ul> <li> {@link ParallelEnabled#YES} - Always returns {@code true} (if runtime supports it) </li> <li> {@link ParallelEnabled#NO} - Always returns {@code false} </li> <li> {@link ParallelEnabled#DEFAULT} - Decides based on element count </li> </ul> </li> <li> <b> Element Count: </b> When using {@code DEFAULT} setting, returns {@code true} only if {@code count >= 8192} .
-  - </li> </ol> <p> <b> Usage Examples: </b> </p> <pre> {@code IntMatrix matrix = IntMatrix.of(new int\[100\]\[100\]); boolean shouldParallelize = Matrixes.isParallelable(matrix, 5000); // Returns true only if settings allow and count >= 8192 } </pre>
+  - </li> </ol> <p> <b> Usage Examples: </b> </p> <pre> {@code IntMatrix matrix = IntMatrix.of(new int\[100\]\[100\]); boolean shouldParallelize = Matrixes.isParallelizable(matrix, 5000); // Returns true only if settings allow and count >= 8192 } </pre>
 - **Parameters:**
   - `x` (`@SuppressWarnings(value = "unused") AbstractMatrix<?, ?, ?, ?, ?>`) — the matrix being evaluated (reserved for future extensibility, currently not used in the decision logic)
   - `count` (`long`) — the number of elements to process; typically the total element count or a subset being operated on
 - **Returns:** {@code true} if parallel processing should be used; {@code false} for sequential processing
 - **See also:** #setParallelEnabled(ParallelEnabled), ParallelEnabled
+##### isParallelable(...) -> boolean
+- **Signature:** `@Deprecated public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x)`
+- **Summary:** Determines whether the given matrix should be processed using parallel execution.
+- **Contract:**
+  - Determines whether the given matrix should be processed using parallel execution.
+- **Parameters:**
+  - `x` (`AbstractMatrix<?, ?, ?, ?, ?>`)
+- **Returns:** unspecified
+- **Signature:** `@Deprecated public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count)`
+- **Summary:** Determines whether a matrix operation should be processed using parallel execution.
+- **Contract:**
+  - Determines whether a matrix operation should be processed using parallel execution.
+- **Parameters:**
+  - `x` (`@SuppressWarnings(value = "unused") AbstractMatrix<?, ?, ?, ?, ?>`)
+  - `count` (`long`)
+- **Returns:** unspecified
 ##### isSameShape(...) -> boolean
 - **Signature:** `public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b)`
 - **Summary:** Checks if two matrices have the same shape (identical dimensions).
