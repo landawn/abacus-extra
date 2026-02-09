@@ -162,13 +162,13 @@ public final class Matrixes {
      * <li>The total number of elements in the matrix (rows × columns)</li>
      * </ul>
      *
-     * <p>This is a convenience method that delegates to {@link #isParallelable(AbstractMatrix, long)}
+     * <p>This is a convenience method that delegates to {@link #isParallelizable(AbstractMatrix, long)}
      * using the matrix's total element count.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[1000][1000]);
-     * if (Matrixes.isParallelable(matrix)) {
+     * if (Matrixes.isParallelizable(matrix)) {
      *     // Matrix is large enough for parallel processing
      * }
      * }</pre>
@@ -176,12 +176,22 @@ public final class Matrixes {
      * @param x the matrix to evaluate for parallelization, must not be {@code null}
      * @return {@code true} if parallel processing should be used for this matrix; {@code false} for sequential processing
      * @throws IllegalArgumentException if {@code x} is {@code null}
-     * @see #isParallelable(AbstractMatrix, long)
+     * @see #isParallelizable(AbstractMatrix, long)
      * @see #setParallelEnabled(ParallelEnabled)
      */
-    public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x) {
+    public static boolean isParallelizable(final AbstractMatrix<?, ?, ?, ?, ?> x) {
         N.checkArgNotNull(x, "x");
-        return isParallelable(x, x.elementCount);
+        return isParallelizable(x, x.elementCount);
+    }
+
+    /**
+     * Determines whether the given matrix should be processed using parallel execution.
+     *
+     * @deprecated Use {@link #isParallelizable(AbstractMatrix)}.
+     */
+    @Deprecated
+    public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x) {
+        return isParallelizable(x);
     }
 
     /**
@@ -207,7 +217,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[100][100]);
-     * boolean shouldParallelize = Matrixes.isParallelable(matrix, 5000);
+     * boolean shouldParallelize = Matrixes.isParallelizable(matrix, 5000);
      * // Returns true only if settings allow and count >= 8192
      * }</pre>
      *
@@ -217,10 +227,20 @@ public final class Matrixes {
      * @see #setParallelEnabled(ParallelEnabled)
      * @see ParallelEnabled
      */
-    public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
+    public static boolean isParallelizable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
         N.checkArgNotNull(x, "x");
         return IS_PARALLEL_STREAM_SUPPORTED && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
                 || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
+    }
+
+    /**
+     * Determines whether a matrix operation should be processed using parallel execution.
+     *
+     * @deprecated Use {@link #isParallelizable(AbstractMatrix, long)}.
+     */
+    @Deprecated
+    public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
+        return isParallelizable(x, count);
     }
 
     /**
@@ -767,7 +787,7 @@ public final class Matrixes {
      * The resulting matrix would have dimensions {@code a.rowCount × b.columnCount}.</p>
      *
      * <p>Parallelization is automatically determined based on the matrix sizes and current
-     * thread settings using {@link #isParallelable(AbstractMatrix, long)}.</p>
+     * thread settings using {@link #isParallelizable(AbstractMatrix, long)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -790,7 +810,7 @@ public final class Matrixes {
                 "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
                 b.rowCount, b.columnCount);
 
-        multiply(a, b, action, Matrixes.isParallelable(a, a.elementCount * b.columnCount));
+        multiply(a, b, action, Matrixes.isParallelizable(a, a.elementCount * b.columnCount));
     }
 
     /**
@@ -1095,7 +1115,7 @@ public final class Matrixes {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
 
         return new ByteMatrix(result);
     }
@@ -1184,7 +1204,7 @@ public final class Matrixes {
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
+        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final byte[] intermediateArray = new byte[size];
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
@@ -1246,7 +1266,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(a));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
 
         return new IntMatrix(result);
     }
@@ -1301,7 +1321,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(a));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
 
         return new IntMatrix(result);
     }
@@ -1396,7 +1416,7 @@ public final class Matrixes {
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
+        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final byte[] intermediateArray = new byte[size];
         final int[][] result = new int[rowCount][columnCount];
@@ -1556,7 +1576,7 @@ public final class Matrixes {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
 
         return new IntMatrix(result);
     }
@@ -1651,7 +1671,7 @@ public final class Matrixes {
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
+        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final int[] intermediateArray = new int[size];
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
@@ -1710,7 +1730,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(a));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
 
         return new LongMatrix(result);
     }
@@ -1759,7 +1779,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(a));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
 
         return new LongMatrix(result);
     }
@@ -1840,7 +1860,7 @@ public final class Matrixes {
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
+        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final int[] intermediateArray = new int[size];
         final long[][] result = new long[rowCount][columnCount];
@@ -1897,7 +1917,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(a));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -1943,7 +1963,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(a));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -2018,7 +2038,7 @@ public final class Matrixes {
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
+        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final int[] intermediateArray = new int[size];
         final double[][] result = new double[rowCount][columnCount];
@@ -2165,7 +2185,7 @@ public final class Matrixes {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
 
         return new LongMatrix(result);
     }
@@ -2248,7 +2268,7 @@ public final class Matrixes {
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
+        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final long[] intermediateArray = new long[size];
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
@@ -2307,7 +2327,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(a));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -2355,7 +2375,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(a));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -2430,7 +2450,7 @@ public final class Matrixes {
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
+        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final long[] intermediateArray = new long[size];
         final double[][] result = new double[rowCount][columnCount];
@@ -2578,7 +2598,7 @@ public final class Matrixes {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
 
         return new DoubleMatrix(result);
     }
@@ -2662,7 +2682,7 @@ public final class Matrixes {
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
+        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final double[] intermediateArray = new double[size];
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
@@ -2918,7 +2938,7 @@ public final class Matrixes {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
 
         return new Matrix<>(result);
     }
@@ -3024,7 +3044,7 @@ public final class Matrixes {
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
+        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final T[] intermediateArray = N.newArray(matrixes[0].elementType, size);
         final R[][] result = newArray(rowCount, columnCount, targetElementType);

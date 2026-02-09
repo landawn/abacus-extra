@@ -474,7 +474,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * long value = matrix.get(point);   // Returns 2L
      * }</pre>
      *
-     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @param point the Sheet.Point containing row and column indices (must not be null)
      * @return the long element at the specified Sheet.Point
      * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #get(int, int)
@@ -515,7 +515,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * assert matrix.get(point) == 9L;
      * }</pre>
      *
-     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @param point the Sheet.Point containing row and column indices (must not be null)
      * @param val the new long value to set at the specified Sheet.Point
      * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #set(int, int, long)
@@ -962,7 +962,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <E extends Exception> void updateAll(final Throwables.LongUnaryOperator<E> operator) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.applyAsLong(a[i][j]);
-        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelizable(this));
     }
 
     /**
@@ -990,7 +990,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Long, E> operator) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(i, j);
-        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelizable(this));
     }
 
     /**
@@ -1018,7 +1018,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <E extends Exception> void replaceIf(final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelizable(this));
     }
 
     /**
@@ -1047,7 +1047,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final long newValue) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelizable(this));
     }
 
     /**
@@ -1078,7 +1078,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         final long[][] result = new long[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsLong(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelizable(this));
 
         return LongMatrix.of(result);
     }
@@ -1105,7 +1105,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         final int[][] result = new int[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsInt(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelizable(this));
 
         return IntMatrix.of(result);
     }
@@ -1132,7 +1132,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         final double[][] result = new double[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsDouble(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelizable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -1161,7 +1161,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         final T[][] result = Matrixes.newArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, operation, Matrixes.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -2044,7 +2044,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         final long[][] result = new long[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] + otherArray[i][j]);
 
-        Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelizable(this));
 
         return LongMatrix.of(result);
     }
@@ -2075,7 +2075,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         final long[][] result = new long[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] - otherArray[i][j]);
 
-        Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelizable(this));
 
         return LongMatrix.of(result);
     }
@@ -2255,7 +2255,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j]);
 
-        Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelizable(this));
 
         return LongMatrix.of(result);
     }
@@ -2297,7 +2297,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j], c[i][j]);
 
-        Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelizable(this));
 
         return LongMatrix.of(result);
     }
@@ -2942,7 +2942,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
-        if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
+        if (Matrixes.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);
             Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
         } else {

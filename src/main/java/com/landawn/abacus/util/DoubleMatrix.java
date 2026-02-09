@@ -481,7 +481,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * double value = matrix.get(point);   // Returns 2.0
      * }</pre>
      *
-     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @param point the Sheet.Point containing row and column indices (must not be null)
      * @return the double element at the specified Sheet.Point
      * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #get(int, int)
@@ -522,7 +522,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * assert matrix.get(point) == 9.0;
      * }</pre>
      *
-     * @param Sheet.Point the Sheet.Point containing row and column indices (must not be null)
+     * @param point the Sheet.Point containing row and column indices (must not be null)
      * @param val the new double value to set at the specified Sheet.Point
      * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
      * @see #set(int, int, double)
@@ -968,7 +968,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> void updateAll(final Throwables.DoubleUnaryOperator<E> operator) throws E {
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.applyAsDouble(a[i][j]);
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
     }
 
     /**
@@ -996,7 +996,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Double, E> operator) throws E {
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.apply(i, j);
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
     }
 
     /**
@@ -1024,7 +1024,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> void replaceIf(final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
     }
 
     /**
@@ -1053,7 +1053,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final double newValue) throws E {
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
     }
 
     /**
@@ -1084,7 +1084,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final double[][] result = new double[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.applyAsDouble(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -1111,7 +1111,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final int[][] result = new int[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.applyAsInt(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
 
         return IntMatrix.of(result);
     }
@@ -1138,7 +1138,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final long[][] result = new long[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.applyAsLong(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
 
         return LongMatrix.of(result);
     }
@@ -1167,7 +1167,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final T[][] result = Matrixes.newArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -2042,7 +2042,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final double[][] result = new double[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] + otherData[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -2070,7 +2070,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final double[][] result = new double[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] - otherData[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -2172,7 +2172,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsDouble(a[i][j], matrixBData[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -2211,7 +2211,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsDouble(a[i][j], matrixBData[i][j], matrixCData[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelable(this));
+        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -2850,7 +2850,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
-        if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
+        if (Matrixes.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(a[i][j]);
             Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
