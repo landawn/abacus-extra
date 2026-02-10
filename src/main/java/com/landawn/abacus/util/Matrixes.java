@@ -185,16 +185,6 @@ public final class Matrixes {
     }
 
     /**
-     * Determines whether the given matrix should be processed using parallel execution.
-     *
-     * @deprecated Use {@link #isParallelizable(AbstractMatrix)}.
-     */
-    @Deprecated
-    public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x) {
-        return isParallelizable(x);
-    }
-
-    /**
      * Determines whether a matrix operation should be processed using parallel execution
      * based on the element count and current parallel settings.
      *
@@ -231,16 +221,6 @@ public final class Matrixes {
         N.checkArgNotNull(x, "x");
         return IS_PARALLEL_STREAM_SUPPORTED && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
                 || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
-    }
-
-    /**
-     * Determines whether a matrix operation should be processed using parallel execution.
-     *
-     * @deprecated Use {@link #isParallelizable(AbstractMatrix, long)}.
-     */
-    @Deprecated
-    public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
-        return isParallelizable(x, count);
     }
 
     /**

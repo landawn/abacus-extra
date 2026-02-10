@@ -55,45 +55,45 @@ public class Matrixes2512Test extends TestBase {
     }
 
     @Test
-    public void test_isParallelable_withMatrix() {
+    public void test_isParallelizable_withMatrix() {
         IntMatrix largeMatrix = IntMatrix.of(new int[100][100]); // 10000 elements
         IntMatrix smallMatrix = IntMatrix.of(new int[10][10]); // 100 elements
 
         // With DEFAULT, large matrix should be parallelable
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        assertTrue(Matrixes.isParallelable(largeMatrix));
-        assertFalse(Matrixes.isParallelable(smallMatrix));
+        assertTrue(Matrixes.isParallelizable(largeMatrix));
+        assertFalse(Matrixes.isParallelizable(smallMatrix));
 
         // With YES, both should be parallelable
         Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        assertTrue(Matrixes.isParallelable(largeMatrix));
-        assertTrue(Matrixes.isParallelable(smallMatrix));
+        assertTrue(Matrixes.isParallelizable(largeMatrix));
+        assertTrue(Matrixes.isParallelizable(smallMatrix));
 
         // With NO, neither should be parallelable
         Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        assertFalse(Matrixes.isParallelable(largeMatrix));
-        assertFalse(Matrixes.isParallelable(smallMatrix));
+        assertFalse(Matrixes.isParallelizable(largeMatrix));
+        assertFalse(Matrixes.isParallelizable(smallMatrix));
     }
 
     @Test
-    public void test_isParallelable_withCount() {
+    public void test_isParallelizable_withCount() {
         IntMatrix matrix = IntMatrix.of(new int[1][1]);
 
         // Default: parallelable when count >= 8192
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        assertTrue(Matrixes.isParallelable(matrix, 8192));
-        assertTrue(Matrixes.isParallelable(matrix, 10000));
-        assertFalse(Matrixes.isParallelable(matrix, 100));
+        assertTrue(Matrixes.isParallelizable(matrix, 8192));
+        assertTrue(Matrixes.isParallelizable(matrix, 10000));
+        assertFalse(Matrixes.isParallelizable(matrix, 100));
 
         // YES: always parallelable
         Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        assertTrue(Matrixes.isParallelable(matrix, 1));
-        assertTrue(Matrixes.isParallelable(matrix, 10000));
+        assertTrue(Matrixes.isParallelizable(matrix, 1));
+        assertTrue(Matrixes.isParallelizable(matrix, 10000));
 
         // NO: never parallelable
         Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        assertFalse(Matrixes.isParallelable(matrix, 1));
-        assertFalse(Matrixes.isParallelable(matrix, 1000000));
+        assertFalse(Matrixes.isParallelizable(matrix, 1));
+        assertFalse(Matrixes.isParallelizable(matrix, 1000000));
     }
 
     // ============ Shape Comparison Tests ============

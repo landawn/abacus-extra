@@ -62,13 +62,13 @@ public class Matrixes2025Test extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> Matrixes.setParallelEnabled(null));
     }
 
-    // ============ isParallelable Tests ============
+    // ============ isParallelizable Tests ============
 
     @Test
     public void testIsParallelable_withMatrix() {
         IntMatrix small = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         // Small matrix usually not parallelable by default
-        boolean result = Matrixes.isParallelable(small);
+        boolean result = Matrixes.isParallelizable(small);
         // Result depends on parallel settings
         assertNotNull(result);
     }
@@ -76,14 +76,14 @@ public class Matrixes2025Test extends TestBase {
     @Test
     public void testIsParallelable_withCount() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        boolean result = Matrixes.isParallelable(m, 10);
+        boolean result = Matrixes.isParallelizable(m, 10);
         assertNotNull(result);
     }
 
     @Test
     public void testIsParallelable_largeCount() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        boolean result = Matrixes.isParallelable(m, 10000);
+        boolean result = Matrixes.isParallelizable(m, 10000);
         // Large count may trigger parallel
         assertNotNull(result);
     }
@@ -92,7 +92,7 @@ public class Matrixes2025Test extends TestBase {
     public void testIsParallelable_forcedYes() {
         Matrixes.setParallelEnabled(ParallelEnabled.YES);
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        boolean result = Matrixes.isParallelable(m);
+        boolean result = Matrixes.isParallelizable(m);
         assertTrue(result);
     }
 
@@ -100,7 +100,7 @@ public class Matrixes2025Test extends TestBase {
     public void testIsParallelable_forcedNo() {
         Matrixes.setParallelEnabled(ParallelEnabled.NO);
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        boolean result = Matrixes.isParallelable(m);
+        boolean result = Matrixes.isParallelizable(m);
         assertFalse(result);
     }
 

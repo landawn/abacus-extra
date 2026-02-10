@@ -63,14 +63,14 @@ public class Matrixes2510Test extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> Matrixes.setParallelEnabled(null));
     }
 
-    // ============ isParallelable Tests ============
+    // ============ isParallelizable Tests ============
 
     @Test
     public void testIsParallelable_singleArg_smallMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
         // Small matrix (count = 4) should not be parallelable by default
-        boolean result = Matrixes.isParallelable(m);
+        boolean result = Matrixes.isParallelizable(m);
         assertFalse(result);
     }
 
@@ -79,7 +79,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[100][100]); // count = 10000
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
         // Large matrix should be parallelable by default if parallel streams supported
-        boolean result = Matrixes.isParallelable(m);
+        boolean result = Matrixes.isParallelizable(m);
         // Result depends on IS_PARALLEL_STREAM_SUPPORTED
         assertNotNull(result);
     }
@@ -89,7 +89,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         Matrixes.setParallelEnabled(ParallelEnabled.YES);
         // Should be parallelable when forced YES (if parallel streams supported)
-        boolean result = Matrixes.isParallelable(m);
+        boolean result = Matrixes.isParallelizable(m);
         assertNotNull(result);
     }
 
@@ -98,7 +98,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[100][100]);
         Matrixes.setParallelEnabled(ParallelEnabled.NO);
         // Should not be parallelable when forced NO
-        boolean result = Matrixes.isParallelable(m);
+        boolean result = Matrixes.isParallelizable(m);
         assertFalse(result);
     }
 
@@ -106,7 +106,7 @@ public class Matrixes2510Test extends TestBase {
     public void testIsParallelable_twoArgs_smallCount() {
         IntMatrix m = IntMatrix.of(new int[10][10]);
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        boolean result = Matrixes.isParallelable(m, 100);
+        boolean result = Matrixes.isParallelizable(m, 100);
         assertFalse(result);
     }
 
@@ -114,7 +114,7 @@ public class Matrixes2510Test extends TestBase {
     public void testIsParallelable_twoArgs_largeCount() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        boolean result = Matrixes.isParallelable(m, 10000);
+        boolean result = Matrixes.isParallelizable(m, 10000);
         // Result depends on IS_PARALLEL_STREAM_SUPPORTED
         assertNotNull(result);
     }
@@ -123,7 +123,7 @@ public class Matrixes2510Test extends TestBase {
     public void testIsParallelable_twoArgs_exactThreshold() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        boolean result = Matrixes.isParallelable(m, 8192);
+        boolean result = Matrixes.isParallelizable(m, 8192);
         // At exact threshold should be parallelable
         assertNotNull(result);
     }
@@ -132,7 +132,7 @@ public class Matrixes2510Test extends TestBase {
     public void testIsParallelable_twoArgs_belowThreshold() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        boolean result = Matrixes.isParallelable(m, 8191);
+        boolean result = Matrixes.isParallelizable(m, 8191);
         assertFalse(result);
     }
 

@@ -78,7 +78,7 @@ public class Matrixes2511Test extends TestBase {
     @Test
     public void testIsParallelable_smallMatrix_defaultSetting() {
         IntMatrix small = IntMatrix.of(new int[10][10]);
-        boolean result = Matrixes.isParallelable(small);
+        boolean result = Matrixes.isParallelizable(small);
         assertFalse(result); // 100 elements < 8192
     }
 
@@ -88,7 +88,7 @@ public class Matrixes2511Test extends TestBase {
         ParallelEnabled original = Matrixes.getParallelEnabled();
         try {
             Matrixes.setParallelEnabled(ParallelEnabled.YES);
-            boolean result = Matrixes.isParallelable(small);
+            boolean result = Matrixes.isParallelizable(small);
             // Result depends on whether parallel streams are supported
             assertTrue(result || !result); // Just verify it returns a boolean
         } finally {
@@ -102,7 +102,7 @@ public class Matrixes2511Test extends TestBase {
         ParallelEnabled original = Matrixes.getParallelEnabled();
         try {
             Matrixes.setParallelEnabled(ParallelEnabled.NO);
-            assertFalse(Matrixes.isParallelable(small));
+            assertFalse(Matrixes.isParallelizable(small));
         } finally {
             Matrixes.setParallelEnabled(original);
         }
@@ -111,7 +111,7 @@ public class Matrixes2511Test extends TestBase {
     @Test
     public void testIsParallelable_largeMatrix_defaultSetting() {
         IntMatrix large = IntMatrix.of(new int[100][100]);
-        boolean result = Matrixes.isParallelable(large);
+        boolean result = Matrixes.isParallelizable(large);
         // 10000 elements >= 8192, so should be true if supported
         assertTrue(result || !result); // Verify it returns a boolean
     }
@@ -122,7 +122,7 @@ public class Matrixes2511Test extends TestBase {
         ParallelEnabled original = Matrixes.getParallelEnabled();
         try {
             Matrixes.setParallelEnabled(ParallelEnabled.NO);
-            assertFalse(Matrixes.isParallelable(large));
+            assertFalse(Matrixes.isParallelizable(large));
         } finally {
             Matrixes.setParallelEnabled(original);
         }
@@ -131,7 +131,7 @@ public class Matrixes2511Test extends TestBase {
     @Test
     public void testIsParallelable_withCount_small() {
         IntMatrix matrix = IntMatrix.of(new int[10][10]);
-        boolean result = Matrixes.isParallelable(matrix, 100);
+        boolean result = Matrixes.isParallelizable(matrix, 100);
         assertFalse(result);
     }
 
@@ -141,7 +141,7 @@ public class Matrixes2511Test extends TestBase {
         ParallelEnabled original = Matrixes.getParallelEnabled();
         try {
             Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-            boolean result = Matrixes.isParallelable(matrix, 10000);
+            boolean result = Matrixes.isParallelizable(matrix, 10000);
             // Result depends on parallel streams being available
             assertTrue(result || !result);
         } finally {
@@ -155,7 +155,7 @@ public class Matrixes2511Test extends TestBase {
         ParallelEnabled original = Matrixes.getParallelEnabled();
         try {
             Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-            boolean result = Matrixes.isParallelable(matrix, 8192);
+            boolean result = Matrixes.isParallelizable(matrix, 8192);
             assertTrue(result || !result);
         } finally {
             Matrixes.setParallelEnabled(original);

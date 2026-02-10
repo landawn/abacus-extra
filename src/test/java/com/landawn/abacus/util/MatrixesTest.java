@@ -113,15 +113,15 @@ class MatrixesTest extends TestBase {
     public void testIsParallelableWithMatrix() {
         // Test with small matrix (should return false for default setting)
         IntMatrix smallMatrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        assertFalse(Matrixes.isParallelable(smallMatrix));
+        assertFalse(Matrixes.isParallelizable(smallMatrix));
 
         // Test with forced parallel enabled
         Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        assertTrue(Matrixes.isParallelable(smallMatrix));
+        assertTrue(Matrixes.isParallelizable(smallMatrix));
 
         // Test with forced parallel disabled
         Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        assertFalse(Matrixes.isParallelable(smallMatrix));
+        assertFalse(Matrixes.isParallelizable(smallMatrix));
     }
 
     @Test
@@ -129,18 +129,18 @@ class MatrixesTest extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
 
         // Test with small count
-        assertFalse(Matrixes.isParallelable(matrix, 100));
+        assertFalse(Matrixes.isParallelizable(matrix, 100));
 
         // Test with large count (above threshold)
-        boolean result = Matrixes.isParallelable(matrix, 10000);
+        boolean result = Matrixes.isParallelizable(matrix, 10000);
         assertTrue(result || !result); // Depends on IS_PARALLEL_STREAM_SUPPORTED
 
         // Test with forced settings
         Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        assertTrue(Matrixes.isParallelable(matrix, 1));
+        assertTrue(Matrixes.isParallelizable(matrix, 1));
 
         Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        assertFalse(Matrixes.isParallelable(matrix, 100000));
+        assertFalse(Matrixes.isParallelizable(matrix, 100000));
     }
 
     @Test
