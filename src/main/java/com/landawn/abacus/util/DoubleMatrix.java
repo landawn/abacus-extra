@@ -1776,6 +1776,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
     public DoubleMatrix reshape(final int newRowCount, final int newColumnCount) {
+        N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
+        N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+
         final double[][] c = new double[newRowCount][newColumnCount];
 
         if (newRowCount == 0 || newColumnCount == 0 || N.isEmpty(a)) {

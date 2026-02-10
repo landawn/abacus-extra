@@ -114,6 +114,12 @@ public class Matrix2025Test extends TestBase {
     }
 
     @Test
+    public void testRepeat_withNegativeDimensions() {
+        assertThrows(IllegalArgumentException.class, () -> Matrix.repeat(-1, 2, "a"));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.repeat(1, -2, "a"));
+    }
+
+    @Test
     public void testDiagonalLU2RD() {
         Matrix<Integer> m = Matrix.diagonalLU2RD(new Integer[] { 1, 2, 3 });
         assertEquals(3, m.rowCount());

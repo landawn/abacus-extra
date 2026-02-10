@@ -329,6 +329,21 @@ public class AbstractMatrix2025Test extends TestBase {
     // ============ Reshape Tests ============
 
     @Test
+    public void testReshape_withNegativeDimensions_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> Matrix.of(new String[][] { { "a" } }).reshape(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.of(new String[][] { { "a" } }).reshape(1, -1));
+
+        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.of(new boolean[][] { { true } }).reshape(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.of(new byte[][] { { 1 } }).reshape(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> CharMatrix.of(new char[][] { { 'a' } }).reshape(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> ShortMatrix.of(new short[][] { { 1 } }).reshape(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.of(new int[][] { { 1 } }).reshape(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> LongMatrix.of(new long[][] { { 1L } }).reshape(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.of(new float[][] { { 1F } }).reshape(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.of(new double[][] { { 1D } }).reshape(-1, 1));
+    }
+
+    @Test
     public void testReshape_withCols() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 } });
         IntMatrix reshaped = m.reshape(2);
