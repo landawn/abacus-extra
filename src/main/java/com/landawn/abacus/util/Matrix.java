@@ -338,14 +338,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * String corner = matrix.get(1, 1);   // Returns "D"
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return the element at position ({@code i}, {@code j})
      * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
      */
     @MayReturnNull
-    public T get(final int i, final int j) {
-        return a[i][j];
+    public T get(final int rowIndex, final int columnIndex) {
+        return a[rowIndex][columnIndex];
     }
 
     /**
@@ -380,13 +380,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Element at row 1, column 2 is now "newValue"
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @param val the new value to set
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public void set(final int i, final int j, final T val) {
-        a[i][j] = val;
+    public void set(final int rowIndex, final int columnIndex, final T val) {
+        a[rowIndex][columnIndex] = val;
     }
 
     /**
@@ -421,15 +421,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Nullable<String> empty = matrix.upOf(0, 0);   // Returns Nullable.empty() (no row above)
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return a Nullable containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> upOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public Nullable<T> upOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return i == 0 ? Nullable.empty() : Nullable.of(a[i - 1][j]);
+        return rowIndex == 0 ? Nullable.empty() : Nullable.of(a[rowIndex - 1][columnIndex]);
     }
 
     /**
@@ -443,15 +443,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Nullable<String> empty = matrix.downOf(1, 0);   // Returns Nullable.empty() (no row below)
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return a Nullable containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> downOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public Nullable<T> downOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return i == rowCount - 1 ? Nullable.empty() : Nullable.of(a[i + 1][j]);
+        return rowIndex == rowCount - 1 ? Nullable.empty() : Nullable.of(a[rowIndex + 1][columnIndex]);
     }
 
     /**
@@ -465,15 +465,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Nullable<String> empty = matrix.leftOf(0, 0);   // Returns Nullable.empty() (no column to left)
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return a Nullable containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> leftOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public Nullable<T> leftOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return j == 0 ? Nullable.empty() : Nullable.of(a[i][j - 1]);
+        return columnIndex == 0 ? Nullable.empty() : Nullable.of(a[rowIndex][columnIndex - 1]);
     }
 
     /**
@@ -487,15 +487,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Nullable<String> empty = matrix.rightOf(0, 1);   // Returns Nullable.empty() (no column to right)
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return a Nullable containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> rightOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public Nullable<T> rightOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return j == columnCount - 1 ? Nullable.empty() : Nullable.of(a[i][j + 1]);
+        return columnIndex == columnCount - 1 ? Nullable.empty() : Nullable.of(a[rowIndex][columnIndex + 1]);
     }
 
     /**

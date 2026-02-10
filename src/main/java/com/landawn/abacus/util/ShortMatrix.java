@@ -417,13 +417,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * short value = matrix.get(0, 1);   // Returns 2
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return the element at position (rowIndex, columnIndex)
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public short get(final int i, final int j) {
-        return a[i][j];
+    public short get(final int rowIndex, final int columnIndex) {
+        return a[rowIndex][columnIndex];
     }
 
     /**
@@ -457,13 +457,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * matrix.set(0, 1, (short) 9);   // Sets element at row 0, column 1 to 9
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public void set(final int i, final int j, final short val) {
-        a[i][j] = val;
+    public void set(final int rowIndex, final int columnIndex, final short val) {
+        a[rowIndex][columnIndex] = val;
     }
 
     /**
@@ -501,15 +501,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * OptionalShort empty = matrix.upOf(0, 0);   // Returns OptionalShort.empty() - no row above
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an OptionalShort containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalShort upOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalShort upOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return i == 0 ? OptionalShort.empty() : OptionalShort.of(a[i - 1][j]);
+        return rowIndex == 0 ? OptionalShort.empty() : OptionalShort.of(a[rowIndex - 1][columnIndex]);
     }
 
     /**
@@ -524,15 +524,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * OptionalShort empty = matrix.downOf(1, 0);   // Returns OptionalShort.empty() - no row below
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an OptionalShort containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalShort downOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalShort downOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return i == rowCount - 1 ? OptionalShort.empty() : OptionalShort.of(a[i + 1][j]);
+        return rowIndex == rowCount - 1 ? OptionalShort.empty() : OptionalShort.of(a[rowIndex + 1][columnIndex]);
     }
 
     /**
@@ -547,15 +547,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * OptionalShort empty = matrix.leftOf(0, 0);   // Returns OptionalShort.empty() - no column to the left
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an OptionalShort containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalShort leftOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalShort leftOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return j == 0 ? OptionalShort.empty() : OptionalShort.of(a[i][j - 1]);
+        return columnIndex == 0 ? OptionalShort.empty() : OptionalShort.of(a[rowIndex][columnIndex - 1]);
     }
 
     /**
@@ -570,15 +570,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * OptionalShort empty = matrix.rightOf(0, 1);   // Returns OptionalShort.empty() - no column to the right
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an OptionalShort containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalShort rightOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalShort rightOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return j == columnCount - 1 ? OptionalShort.empty() : OptionalShort.of(a[i][j + 1]);
+        return columnIndex == columnCount - 1 ? OptionalShort.empty() : OptionalShort.of(a[rowIndex][columnIndex + 1]);
     }
 
     /**

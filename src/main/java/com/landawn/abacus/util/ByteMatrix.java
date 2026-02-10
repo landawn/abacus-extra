@@ -416,13 +416,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * byte value = matrix.get(0, 1);   // Returns 2
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return the element at position (rowIndex, columnIndex)
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public byte get(final int i, final int j) {
-        return a[i][j];
+    public byte get(final int rowIndex, final int columnIndex) {
+        return a[rowIndex][columnIndex];
     }
 
     /**
@@ -456,13 +456,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * matrix.set(0, 1, (byte) 9);   // Sets element at row 0, column 1 to 9
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public void set(final int i, final int j, final byte val) {
-        a[i][j] = val;
+    public void set(final int rowIndex, final int columnIndex, final byte val) {
+        a[rowIndex][columnIndex] = val;
     }
 
     /**
@@ -500,15 +500,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * OptionalByte empty = matrix.upOf(0, 0);   // Returns OptionalByte.empty() - no row above
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an OptionalByte containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte upOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalByte upOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return i == 0 ? OptionalByte.empty() : OptionalByte.of(a[i - 1][j]);
+        return rowIndex == 0 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex - 1][columnIndex]);
     }
 
     /**
@@ -523,15 +523,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * OptionalByte empty = matrix.downOf(1, 0);   // Returns OptionalByte.empty() - no row below
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an OptionalByte containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte downOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalByte downOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return i == rowCount - 1 ? OptionalByte.empty() : OptionalByte.of(a[i + 1][j]);
+        return rowIndex == rowCount - 1 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex + 1][columnIndex]);
     }
 
     /**
@@ -546,15 +546,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * OptionalByte empty = matrix.leftOf(0, 0);   // Returns OptionalByte.empty() - no column to the left
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an OptionalByte containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte leftOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalByte leftOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return j == 0 ? OptionalByte.empty() : OptionalByte.of(a[i][j - 1]);
+        return columnIndex == 0 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex][columnIndex - 1]);
     }
 
     /**
@@ -569,15 +569,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * OptionalByte empty = matrix.rightOf(0, 1);   // Returns OptionalByte.empty() - no column to the right
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an OptionalByte containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte rightOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalByte rightOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return j == columnCount - 1 ? OptionalByte.empty() : OptionalByte.of(a[i][j + 1]);
+        return columnIndex == columnCount - 1 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex][columnIndex + 1]);
     }
 
     /**

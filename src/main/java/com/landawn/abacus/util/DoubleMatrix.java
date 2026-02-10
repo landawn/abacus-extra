@@ -461,13 +461,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * double value = matrix.get(0, 1);   // Returns 2.0
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return the element at position (rowIndex, columnIndex)
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public double get(final int i, final int j) {
-        return a[i][j];
+    public double get(final int rowIndex, final int columnIndex) {
+        return a[rowIndex][columnIndex];
     }
 
     /**
@@ -501,13 +501,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * matrix.set(0, 1, 9.0);   // Sets element at row 0, column 1 to 9.0
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public void set(final int i, final int j, final double val) {
-        a[i][j] = val;
+    public void set(final int rowIndex, final int columnIndex, final double val) {
+        a[rowIndex][columnIndex] = val;
     }
 
     /**
@@ -545,15 +545,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * u.OptionalDouble empty = matrix.upOf(0, 0);   // Returns u.OptionalDouble.empty() - no row above
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an u.OptionalDouble containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalDouble upOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalDouble upOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return i == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i - 1][j]);
+        return rowIndex == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[rowIndex - 1][columnIndex]);
     }
 
     /**
@@ -568,15 +568,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * u.OptionalDouble empty = matrix.downOf(1, 0);   // Returns u.OptionalDouble.empty() - no row below
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an u.OptionalDouble containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalDouble downOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalDouble downOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return i == rowCount - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i + 1][j]);
+        return rowIndex == rowCount - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[rowIndex + 1][columnIndex]);
     }
 
     /**
@@ -591,15 +591,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * u.OptionalDouble empty = matrix.leftOf(0, 0);   // Returns u.OptionalDouble.empty() - no column to the left
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an u.OptionalDouble containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalDouble leftOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalDouble leftOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return j == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j - 1]);
+        return columnIndex == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[rowIndex][columnIndex - 1]);
     }
 
     /**
@@ -614,15 +614,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * u.OptionalDouble empty = matrix.rightOf(0, 1);   // Returns u.OptionalDouble.empty() - no column to the right
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return an u.OptionalDouble containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalDouble rightOf(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public OptionalDouble rightOf(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
-        return j == columnCount - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j + 1]);
+        return columnIndex == columnCount - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[rowIndex][columnIndex + 1]);
     }
 
     /**

@@ -1132,27 +1132,27 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // Returns all 4 adjacent points: (0,1), (1,2), (2,1), (1,0)
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return a stream of adjacent points in cardinal directions (0-4 points depending on position)
      * @throws IndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Stream<Point> adjacent4Points(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public Stream<Point> adjacent4Points(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
         final List<Point> points = new ArrayList<>(4);
 
-        if (i > 0) {
-            points.add(Point.of(i - 1, j)); // up
+        if (rowIndex > 0) {
+            points.add(Point.of(rowIndex - 1, columnIndex)); // up
         }
-        if (j < columnCount - 1) {
-            points.add(Point.of(i, j + 1)); // right
+        if (columnIndex < columnCount - 1) {
+            points.add(Point.of(rowIndex, columnIndex + 1)); // right
         }
-        if (i < rowCount - 1) {
-            points.add(Point.of(i + 1, j)); // down
+        if (rowIndex < rowCount - 1) {
+            points.add(Point.of(rowIndex + 1, columnIndex)); // down
         }
-        if (j > 0) {
-            points.add(Point.of(i, j - 1)); // left
+        if (columnIndex > 0) {
+            points.add(Point.of(rowIndex, columnIndex - 1)); // left
         }
 
         return Stream.of(points);
@@ -1179,46 +1179,46 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // Returns 3 points: (0,1), (1,1), (1,0)
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
+     * @param rowIndex the row index (0-based)
+     * @param columnIndex the column index (0-based)
      * @return a stream of adjacent points in all 8 directions (0-8 points depending on position)
      * @throws IndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Stream<Point> adjacent8Points(final int i, final int j) {
-        checkRowColumnIndex(i, j);
+    public Stream<Point> adjacent8Points(final int rowIndex, final int columnIndex) {
+        checkRowColumnIndex(rowIndex, columnIndex);
 
         final List<Point> points = new ArrayList<>(8);
 
-        if (i > 0 && j > 0) {
-            points.add(Point.of(i - 1, j - 1)); // leftUp
+        if (rowIndex > 0 && columnIndex > 0) {
+            points.add(Point.of(rowIndex - 1, columnIndex - 1)); // leftUp
         }
 
-        if (i > 0) {
-            points.add(Point.of(i - 1, j)); // up
+        if (rowIndex > 0) {
+            points.add(Point.of(rowIndex - 1, columnIndex)); // up
         }
 
-        if (i > 0 && j < columnCount - 1) {
-            points.add(Point.of(i - 1, j + 1)); // rightUp
+        if (rowIndex > 0 && columnIndex < columnCount - 1) {
+            points.add(Point.of(rowIndex - 1, columnIndex + 1)); // rightUp
         }
 
-        if (j < columnCount - 1) {
-            points.add(Point.of(i, j + 1)); // right
+        if (columnIndex < columnCount - 1) {
+            points.add(Point.of(rowIndex, columnIndex + 1)); // right
         }
 
-        if (i < rowCount - 1 && j < columnCount - 1) {
-            points.add(Point.of(i + 1, j + 1)); // rightDown
+        if (rowIndex < rowCount - 1 && columnIndex < columnCount - 1) {
+            points.add(Point.of(rowIndex + 1, columnIndex + 1)); // rightDown
         }
 
-        if (i < rowCount - 1) {
-            points.add(Point.of(i + 1, j)); // down
+        if (rowIndex < rowCount - 1) {
+            points.add(Point.of(rowIndex + 1, columnIndex)); // down
         }
 
-        if (i < rowCount - 1 && j > 0) {
-            points.add(Point.of(i + 1, j - 1)); // leftDown
+        if (rowIndex < rowCount - 1 && columnIndex > 0) {
+            points.add(Point.of(rowIndex + 1, columnIndex - 1)); // leftDown
         }
 
-        if (j > 0) {
-            points.add(Point.of(i, j - 1)); // left
+        if (columnIndex > 0) {
+            points.add(Point.of(rowIndex, columnIndex - 1)); // left
         }
 
         return Stream.of(points);
@@ -1821,13 +1821,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         N.checkArgument(this.isSameShape(x), MSG_SHAPE_MISMATCH, rowCount, columnCount, x.rowCount, x.columnCount);
     }
 
-    protected void checkRowColumnIndex(final int i, final int j) {
-        if (i < 0 || i >= rowCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, i, rowCount));
+    protected void checkRowColumnIndex(final int rowIndex, final int columnIndex) {
+        if (rowIndex < 0 || rowIndex >= rowCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
         }
 
-        if (j < 0 || j >= columnCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, j, columnCount));
+        if (columnIndex < 0 || columnIndex >= columnCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
         }
     }
 
