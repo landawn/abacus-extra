@@ -454,6 +454,15 @@ public class CharMatrixTest extends TestBase {
     }
 
     @Test
+    public void testMapNullMapper() {
+        char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
+        CharMatrix matrix = CharMatrix.of(a);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.CharUnaryOperator<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.mapToObj((Throwables.CharFunction<String, RuntimeException>) null, String.class));
+    }
+
+    @Test
     public void testMapToObj() {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
@@ -1142,6 +1151,15 @@ public class CharMatrixTest extends TestBase {
 
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.forEach(0, 4, 0, 3, c -> {
         }));
+    }
+
+    @Test
+    public void testForEachNullAction() {
+        char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
+        CharMatrix matrix = CharMatrix.of(a);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.CharConsumer<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, 1, 0, 2, (Throwables.CharConsumer<RuntimeException>) null));
     }
 
     @Test

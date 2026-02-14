@@ -273,9 +273,12 @@ public final class Matrixes {
      * @param b the second matrix to compare, must not be {@code null}
      * @param c the third matrix to compare, must not be {@code null}
      * @return {@code true} if all three matrices have the same number of rows and columns; {@code false} otherwise
-     * @throws NullPointerException if {@code a}, {@code b}, or {@code c} is {@code null}
+     * @throws IllegalArgumentException if {@code a}, {@code b}, or {@code c} is {@code null}
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b, final X c) {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(c, "c");
         return a.rowCount == b.rowCount && a.rowCount == c.rowCount && a.columnCount == b.columnCount && a.columnCount == c.columnCount;
     }
 
@@ -417,6 +420,8 @@ public final class Matrixes {
      * @see #getParallelEnabled()
      */
     public static <E extends Exception> void run(final Throwables.Runnable<E> cmd, final ParallelEnabled parallelEnabled) throws E {
+        N.checkArgNotNull(cmd, "cmd");
+
         final ParallelEnabled original = Matrixes.getParallelEnabled();
         Matrixes.setParallelEnabled(parallelEnabled);
 
@@ -462,6 +467,8 @@ public final class Matrixes {
      */
     public static <E extends Exception> void run(final int rowCount, final int columnCount, final Throwables.IntBiConsumer<E> cmd, final boolean inParallel)
             throws E {
+        N.checkArgNotNull(cmd, "cmd");
+
         run(0, rowCount, 0, columnCount, cmd, inParallel);
     }
 
@@ -501,6 +508,8 @@ public final class Matrixes {
      */
     public static <E extends Exception> void run(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E {
+        N.checkArgNotNull(cmd, "cmd");
+
         N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
 
@@ -572,6 +581,8 @@ public final class Matrixes {
      */
     public static <T> Stream<T> call(final int rowCount, final int columnCount, final Throwables.IntBiFunction<? extends T, ? extends Exception> cmd,
             final boolean inParallel) {
+        N.checkArgNotNull(cmd, "cmd");
+
         return call(0, rowCount, 0, columnCount, cmd, inParallel);
     }
 
@@ -612,6 +623,7 @@ public final class Matrixes {
             final Throwables.IntBiFunction<? extends T, ? extends Exception> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
+        N.checkArgNotNull(cmd, "cmd");
 
         final int rowCount = toRowIndex - fromRowIndex;
         final int columnCount = toColumnIndex - fromColumnIndex;
@@ -675,6 +687,8 @@ public final class Matrixes {
      */
     public static IntStream callToInt(final int rowCount, final int columnCount, final Throwables.IntBinaryOperator<? extends Exception> cmd,
             final boolean inParallel) {
+        N.checkArgNotNull(cmd, "cmd");
+
         return callToInt(0, rowCount, 0, columnCount, cmd, inParallel);
     }
 
@@ -710,6 +724,7 @@ public final class Matrixes {
             final Throwables.IntBinaryOperator<? extends Exception> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
+        N.checkArgNotNull(cmd, "cmd");
 
         final int rowCount = toRowIndex - fromRowIndex;
         final int columnCount = toColumnIndex - fromColumnIndex;
@@ -786,6 +801,10 @@ public final class Matrixes {
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> action)
             throws IllegalArgumentException {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(action, "action");
+
         N.checkArgument(a.columnCount == b.rowCount,
                 "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
                 b.rowCount, b.columnCount);
@@ -827,6 +846,10 @@ public final class Matrixes {
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> action, // NOSONAR
             final boolean inParallel) throws IllegalArgumentException {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(action, "action");
+
         N.checkArgument(a.columnCount == b.rowCount,
                 "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
                 b.rowCount, b.columnCount);
@@ -856,27 +879,10 @@ public final class Matrixes {
                         }
                     });
                 }
-            } else if (N.min(rowsA, columnCountA, columnCountB) == columnCountA) {
-                if (N.min(rowsA, columnCountB) == rowsA) {
-                    //noinspection resource
-                    IntStream.range(0, columnCountA).parallel().forEach(k -> {
-                        for (int i = 0; i < rowsA; i++) {
-                            for (int j = 0; j < columnCountB; j++) {
-                                action.accept(i, j, k);
-                            }
-                        }
-                    });
-                } else {
-                    //noinspection resource
-                    IntStream.range(0, columnCountA).parallel().forEach(k -> {
-                        for (int j = 0; j < columnCountB; j++) {
-                            for (int i = 0; i < rowsA; i++) {
-                                action.accept(i, j, k);
-                            }
-                        }
-                    });
-                }
             } else {
+                // Never parallelize over k (columnCountA), as multiple threads would write to
+                // the same result[i][j] cell concurrently (non-atomic +=), causing lost updates.
+                // Instead, parallelize over j (columnCountB) which gives each thread independent output cells.
                 if (N.min(rowsA, columnCountA) == rowsA) {
                     //noinspection resource
                     IntStream.range(0, columnCountB).parallel().forEach(j -> {

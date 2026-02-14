@@ -460,6 +460,15 @@ public class ByteMatrixTest extends TestBase {
     }
 
     @Test
+    public void testMapNullMapper() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        ByteMatrix matrix = ByteMatrix.of(a);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.ByteUnaryOperator<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.mapToObj((Throwables.ByteFunction<String, RuntimeException>) null, String.class));
+    }
+
+    @Test
     public void testMapToObj() {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
@@ -1151,6 +1160,15 @@ public class ByteMatrixTest extends TestBase {
 
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.forEach(0, 4, 0, 3, b -> {
         }));
+    }
+
+    @Test
+    public void testForEachNullAction() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        ByteMatrix matrix = ByteMatrix.of(a);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.ByteConsumer<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, 1, 0, 2, (Throwables.ByteConsumer<RuntimeException>) null));
     }
 
     @Test

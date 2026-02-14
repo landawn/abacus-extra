@@ -1026,6 +1026,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see #updateAll(Throwables.CharUnaryOperator)
      */
     public <E extends Exception> CharMatrix map(final Throwables.CharUnaryOperator<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
         final char[][] result = new char[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.applyAsChar(a[i][j]);
 
@@ -1059,6 +1060,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E if the function throws an exception
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
         final T[][] result = Matrixes.newArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
@@ -2868,6 +2870,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             final Throwables.CharConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        N.checkArgNotNull(action, "action");
 
         if (Matrixes.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);

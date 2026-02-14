@@ -147,6 +147,7 @@ class MatrixesTest extends TestBase {
     public void testIsSameShapeTwoMatrices() {
         // Test same shape
         assertTrue(Matrixes.isSameShape(intMatrix1, intMatrix2));
+        assertThrows(IllegalArgumentException.class, () -> intMatrix1.isSameShape((IntMatrix) null));
 
         // Test different shapes
         IntMatrix differentShape = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
@@ -164,6 +165,10 @@ class MatrixesTest extends TestBase {
         // Test different shapes
         IntMatrix differentShape = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         assertFalse(Matrixes.isSameShape(intMatrix1, intMatrix2, differentShape));
+
+        // Test null arguments
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.isSameShape(intMatrix1, null, intMatrix3));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.isSameShape(intMatrix1, intMatrix2, null));
     }
 
     @Test
@@ -219,6 +224,23 @@ class MatrixesTest extends TestBase {
 
         // Verify setting is still restored after exception
         assertEquals(original, Matrixes.getParallelEnabled());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testRunWithNullCommand() {
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.run((Throwables.Runnable<RuntimeException>) null, ParallelEnabled.NO));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.run(2, 3, (Throwables.IntBiConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.run(0, 2, 0, 2, (Throwables.IntBiConsumer<RuntimeException>) null, false));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCallWithNullCommand() {
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.call(2, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.call(0, 2, 0, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.callToInt(2, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.callToInt(0, 2, 0, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
     }
 
     @Test
@@ -357,6 +379,17 @@ class MatrixesTest extends TestBase {
         IntMatrix c = IntMatrix.of(new int[][] { { 1, 2, 3 } });
         assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, c, (i, j, k) -> {
         }));
+
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(null, b, (i, j, k) -> {
+        }));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, null, (i, j, k) -> {
+        }));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, b, (Throwables.IntTriConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, b, (Throwables.IntTriConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(null, b, (i, j, k) -> {
+        }, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, null, (i, j, k) -> {
+        }, false));
     }
 
     @Test

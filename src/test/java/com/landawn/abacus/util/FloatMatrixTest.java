@@ -457,6 +457,14 @@ public class FloatMatrixTest extends TestBase {
     }
 
     @Test
+    public void testMapNullMapper() {
+        FloatMatrix matrix = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.FloatUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.mapToObj((Throwables.FloatFunction<String, RuntimeException>) null, String.class));
+    }
+
+    @Test
     public void testMapToObj() {
         Matrix<String> result = matrix.mapToObj(x -> "val:" + x, String.class);
         assertEquals("val:1.0", result.get(0, 0));
@@ -1082,6 +1090,12 @@ public class FloatMatrixTest extends TestBase {
         }));
         assertThrows(IndexOutOfBoundsException.class, () -> matrix.forEach(0, 4, 0, 2, v -> {
         }));
+    }
+
+    @Test
+    public void testForEachNullAction() {
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.FloatConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.FloatConsumer<RuntimeException>) null));
     }
 
     @Test

@@ -487,6 +487,14 @@ public class ShortMatrixTest extends TestBase {
     }
 
     @Test
+    public void testMapNullMapper() {
+        ShortMatrix matrix = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.ShortUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.mapToObj((Throwables.ShortFunction<String, RuntimeException>) null, String.class));
+    }
+
+    @Test
     public void testMapToObj() {
         Matrix<String> result = matrix.mapToObj(x -> "val:" + x, String.class);
         assertEquals("val:1", result.get(0, 0));
@@ -1139,6 +1147,12 @@ public class ShortMatrixTest extends TestBase {
         }));
         assertThrows(IndexOutOfBoundsException.class, () -> matrix.forEach(0, 4, 0, 2, v -> {
         }));
+    }
+
+    @Test
+    public void testForEachNullAction() {
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.ShortConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.ShortConsumer<RuntimeException>) null));
     }
 
     @Test

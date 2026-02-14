@@ -431,6 +431,15 @@ public class DoubleMatrixTest extends TestBase {
     }
 
     @Test
+    public void testMapNullMapper() {
+        double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
+        DoubleMatrix matrix = DoubleMatrix.of(arr);
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.DoubleUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.mapToObj((Throwables.DoubleFunction<String, RuntimeException>) null, String.class));
+    }
+
+    @Test
     public void testMapToInt() {
         double[][] arr = { { 1.5, 2.5 }, { 3.5, 4.5 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
@@ -1034,6 +1043,15 @@ public class DoubleMatrixTest extends TestBase {
 
         assertThrows(IndexOutOfBoundsException.class, () -> matrix.forEach(-1, 2, 0, 2, val -> {
         }));
+    }
+
+    @Test
+    public void testForEachNullAction() {
+        double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
+        DoubleMatrix matrix = DoubleMatrix.of(arr);
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.DoubleConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, 1, 0, 2, (Throwables.DoubleConsumer<RuntimeException>) null));
     }
 
     @Test

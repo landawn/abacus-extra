@@ -529,6 +529,14 @@ public class IntMatrixTest extends TestBase {
     }
 
     @Test
+    public void testMapNullMapper() {
+        IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.mapToObj((Throwables.IntFunction<String, RuntimeException>) null, String.class));
+    }
+
+    @Test
     public void testMapToLong() {
         LongMatrix result = matrix.mapToLong(x -> (long) x * 1000000);
         assertEquals(1000000L, result.get(0, 0));
@@ -1186,6 +1194,12 @@ public class IntMatrixTest extends TestBase {
         }));
         assertThrows(IndexOutOfBoundsException.class, () -> matrix.forEach(0, 4, 0, 2, v -> {
         }));
+    }
+
+    @Test
+    public void testForEachNullAction() {
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.IntConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.IntConsumer<RuntimeException>) null));
     }
 
     @Test

@@ -351,6 +351,29 @@ public class AbstractMatrixTest extends TestBase {
     }
 
     @Test
+    public void testForEachNullAction() {
+        IntMatrix matrix = createTestMatrix();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.IntBiConsumer<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.IntBiConsumer<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.BiIntObjConsumer<IntMatrix, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(),
+                (Throwables.BiIntObjConsumer<IntMatrix, RuntimeException>) null));
+    }
+
+    @Test
+    public void testAcceptNullAction() {
+        IntMatrix matrix = createTestMatrix();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.accept((Throwables.Consumer<IntMatrix, RuntimeException>) null));
+    }
+
+    @Test
+    public void testApplyNullAction() {
+        IntMatrix matrix = createTestMatrix();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.apply((Throwables.Function<IntMatrix, String, RuntimeException>) null));
+    }
+
+    @Test
     public void testPointsLU2RD() {
         IntMatrix matrix = createTestMatrix();
         List<Sheet.Point> points = matrix.pointsLU2RD().collect(Collectors.toList());

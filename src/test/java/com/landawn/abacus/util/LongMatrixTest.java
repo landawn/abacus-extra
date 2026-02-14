@@ -469,6 +469,15 @@ public class LongMatrixTest extends TestBase {
     }
 
     @Test
+    public void testMapNullMapper() {
+        long[][] a = { { 1L, 2L }, { 3L, 4L } };
+        LongMatrix matrix = LongMatrix.of(a);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.LongUnaryOperator<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.mapToObj((Throwables.LongFunction<String, RuntimeException>) null, String.class));
+    }
+
+    @Test
     public void testMapToInt() {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
@@ -1158,6 +1167,15 @@ public class LongMatrixTest extends TestBase {
 
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.forEach(0, 4, 0, 3, val -> {
         }));
+    }
+
+    @Test
+    public void testForEachNullAction() {
+        long[][] a = { { 1L, 2 }, { 3L, 4L } };
+        LongMatrix matrix = LongMatrix.of(a);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.LongConsumer<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, 1, 0, 2, (Throwables.LongConsumer<RuntimeException>) null));
     }
 
     @Test

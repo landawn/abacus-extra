@@ -441,6 +441,15 @@ public class MatrixTest extends TestBase {
     }
 
     @Test
+    public void testMapNullMapper() throws Exception {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.UnaryOperator<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.mapToBoolean((Throwables.ToBooleanFunction<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.Function) null, String.class));
+    }
+
+    @Test
     public void testMapToDifferentType() throws Exception {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
 
@@ -1052,6 +1061,14 @@ public class MatrixTest extends TestBase {
         matrix.forEach(1, 3, 1, 3, it -> values.add(it));
 
         Assertions.assertEquals(Arrays.asList(5, 6, 8, 9), values);
+    }
+
+    @Test
+    public void testForEachNullAction() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.Consumer<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, 2, 0, 2, (Throwables.Consumer<Integer, RuntimeException>) null));
     }
 
     @Test

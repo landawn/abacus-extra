@@ -394,6 +394,15 @@ public class BooleanMatrixTest extends TestBase {
     }
 
     @Test
+    public void testMapNullMapper() {
+        boolean[][] arr = { { true, false }, { false, true } };
+        BooleanMatrix matrix = BooleanMatrix.of(arr);
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.map((Throwables.BooleanUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.mapToObj((Throwables.BooleanFunction<String, RuntimeException>) null, String.class));
+    }
+
+    @Test
     public void testMapToObj() {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
@@ -929,6 +938,15 @@ public class BooleanMatrixTest extends TestBase {
 
         assertThrows(IndexOutOfBoundsException.class, () -> matrix.forEach(-1, 2, 0, 2, val -> {
         }));
+    }
+
+    @Test
+    public void testForEachNullAction() {
+        boolean[][] arr = { { true, false }, { false, true } };
+        BooleanMatrix matrix = BooleanMatrix.of(arr);
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.BooleanConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, 1, 0, 2, (Throwables.BooleanConsumer<RuntimeException>) null));
     }
 
     @Test

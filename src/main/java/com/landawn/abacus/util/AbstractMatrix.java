@@ -823,6 +823,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return {@code true} if both matrices have the same dimensions, {@code false} otherwise
      */
     public boolean isSameShape(final X x) {
+        N.checkArgNotNull(x, "x");
         return rowCount == x.rowCount && columnCount == x.columnCount;
     }
 
@@ -959,6 +960,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.IntBiConsumer<E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (Matrixes.isParallelizable(this)) {
             //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> elementAction = action::accept;
@@ -1006,6 +1009,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
             final Throwables.IntBiConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        N.checkArgNotNull(action, "action");
 
         if (Matrixes.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             //noinspection FunctionalExpressionCanBeFolded
@@ -1047,6 +1051,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     public <E extends Exception> void forEach(final Throwables.BiIntObjConsumer<X, E> action) throws E {
         final X matrix = (X) this;
+        N.checkArgNotNull(action, "action");
+
         if (Matrixes.isParallelizable(this)) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
             Matrixes.run(rowCount, columnCount, elementAction, true);
@@ -1096,6 +1102,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
             final Throwables.BiIntObjConsumer<X, E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        N.checkArgNotNull(action, "action");
 
         final X matrix = (X) this;
 
@@ -1762,6 +1769,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super X, E> action) throws E {
+        N.checkArgNotNull(action, "action");
         action.accept((X) this);
     }
 
@@ -1789,6 +1797,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws E if the function throws an exception
      */
     public <R, E extends Exception> R apply(final Throwables.Function<? super X, R, E> action) throws E {
+        N.checkArgNotNull(action, "action");
         return action.apply((X) this);
     }
 
