@@ -630,11 +630,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Updates all values in the specified column by applying the given operator to each element.
-     * The operator is applied in-place, modifying the matrix directly.
+     * Updates all elements in the specified column in-place by applying the given operator to each element.
+     * This modifies the matrix directly.
      *
-     * <p>This method is useful for column-wise transformations such as inverting values,
-     * applying conditional logic, or performing element-wise operations on a specific column.
+     * <p>The operator is applied to each element in the specified column sequentially
+     * from top to bottom (row 0 to row rowCount-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -649,9 +649,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param <E> the type of exception that the operator may throw
      * @param columnIndex the index of the column to update (0-based)
-     * @param operator the unary operator to apply to each element in the column; must not be null
-     * @throws E if the operator throws an exception
+     * @param operator the operator to apply to each element in the column; receives the current
+     *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
+     * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         for (int i = 0; i < rowCount; i++) {
@@ -661,7 +662,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Returns a copy of the elements on the main diagonal from left-upper to right-down.
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      * The returned array is a copy; modifications to it will not affect the matrix.
@@ -676,8 +677,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * boolean[] diagonal = matrix.getLU2RD();   // Returns [true, true, true]
      * }</pre>
      *
-     * @return a new boolean array containing a copy of the main diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @return a new boolean array containing the main diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public boolean[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -693,7 +694,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -710,9 +711,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Diagonal is now all false
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length equal to rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rows
+     * @param diagonal the new values for the main diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
     public void setLU2RD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -725,7 +726,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Updates the diagonal elements from left-up to right-down by applying the given operator.
-     * The matrix must be square (rows == columns).
+     * The matrix must be square (rowCount == columnCount).
      *
      * <p>This method applies the operator to each main diagonal element at positions (0,0), (1,1), (2,2), etc.
      *
@@ -743,7 +744,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the operator may throw
      * @param operator the unary operator to apply to each diagonal element; must not be null
      * @throws E if the operator throws an exception
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public <E extends Exception> void updateLU2RD(final Throwables.BooleanUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -755,7 +756,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
@@ -771,8 +772,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * boolean[] antiDiag = matrix.getRU2LD();   // Returns [true, true, true]
      * }</pre>
      *
-     * @return a new boolean array containing a copy of the anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @return a new boolean array containing the anti-diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public boolean[] getRU2LD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -788,7 +789,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
@@ -806,9 +807,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Anti-diagonal is now all true
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length equal to rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rows
+     * @param diagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
     public void setRU2LD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -821,7 +822,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Updates the diagonal elements from right-up to left-down by applying the given operator.
-     * The matrix must be square (rows == columns).
+     * The matrix must be square (rowCount == columnCount).
      *
      * <p>This method applies the operator to each anti-diagonal element from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
@@ -840,7 +841,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the operator may throw
      * @param operator the unary operator to apply to each anti-diagonal element; must not be null
      * @throws E if the operator throws an exception
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public <E extends Exception> void updateRU2LD(final Throwables.BooleanUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -1151,7 +1152,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a new BooleanMatrix containing the specified rows
-     * @throws IndexOutOfBoundsException if {@code fromRowIndex} &lt; 0, {@code toRowIndex} &gt; rows,
+     * @throws IndexOutOfBoundsException if {@code fromRowIndex} &lt; 0, {@code toRowIndex} &gt; rowCount,
      *         or {@code fromRowIndex} &gt; {@code toRowIndex}
      */
     @Override
@@ -1196,7 +1197,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a new BooleanMatrix containing the specified rectangular region
-     * @throws IndexOutOfBoundsException if {@code fromRowIndex} &lt; 0, {@code toRowIndex} &gt; rows,
+     * @throws IndexOutOfBoundsException if {@code fromRowIndex} &lt; 0, {@code toRowIndex} &gt; rowCount,
      *         {@code fromColumnIndex} &lt; 0, {@code toColumnIndex} &gt; columnCount,
      *         {@code fromRowIndex} &gt; {@code toRowIndex}, or {@code fromColumnIndex} &gt; {@code toColumnIndex}
      */
@@ -2250,7 +2251,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * @param rowIndex the index of the row to stream (0-based)
      * @return a Stream&lt;Boolean&gt; of elements from the specified row
-     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
     public Stream<Boolean> streamH(final int rowIndex) {
@@ -2284,7 +2285,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a Stream&lt;Boolean&gt; of elements from the specified row range, or an empty stream if the matrix is empty
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
     public Stream<Boolean> streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -2582,7 +2583,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param toRowIndex the ending row index (exclusive)
      * @return a Stream of Stream&lt;Boolean&gt; objects for the specified row range,
      *         or an empty stream if the matrix is empty
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows,
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount,
      *         or fromRowIndex &gt; toRowIndex
      */
     @Override

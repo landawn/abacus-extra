@@ -636,7 +636,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return the specified row array (direct reference to internal storage)
-     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     public long[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
@@ -758,7 +758,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * This modifies the matrix directly.
      *
      * <p>The operator is applied to each element in the specified column sequentially
-     * from top to bottom (row 0 to row rows-1).</p>
+     * from top to bottom (row 0 to row rowCount-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -794,7 +794,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @return a new long array containing a copy of the main diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public long[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -823,9 +823,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // Diagonal is now [9L, 8L]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length == rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal rows
+     * @param diagonal the new values for the main diagonal; must have length == rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if diagonal array length does not equal rowCount
      */
     public void setLU2RD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -875,7 +875,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @return a new long array containing a copy of the anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public long[] getRU2LD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -904,9 +904,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // Anti-diagonal is now [9L, 8L]
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length equal to rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal rows
+     * @param diagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if diagonal array length does not equal rowCount
      */
     public void setRU2LD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -1218,10 +1218,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // Result: [[0, 0, 0], [0, 1, 2], [0, 3, 4]]
      * }</pre>
      *
-     * @param fromRowIndex the starting row index in this matrix (0-based, must be 0 &lt;= fromRowIndex &lt;= rows)
+     * @param fromRowIndex the starting row index in this matrix (0-based, must be 0 &lt;= fromRowIndex &lt;= rowCount)
      * @param fromColumnIndex the starting column index in this matrix (0-based, must be 0 &lt;= fromColumnIndex &lt;= columnCount)
      * @param b the source array to copy values from
-     * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rows, or if fromColumnIndex &lt; 0 or &gt; columnCount
+     * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rowCount, or if fromColumnIndex &lt; 0 or &gt; columnCount
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final long[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, cs.b);
@@ -2468,7 +2468,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param rowIndex the index of the row to stream (0-based)
      * @return a stream of elements from the specified row
-     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
     public LongStream streamH(final int rowIndex) {
@@ -2495,7 +2495,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a stream of elements from the specified row range, or an empty stream if the matrix is empty
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
     public LongStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -2941,7 +2941,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @param action the action to apply to each element in the specified region
-     * @throws IndexOutOfBoundsException if the indices are out of bounds [0, rows] or [0, columnCount], or if fromRowIndex &gt; toRowIndex or fromColumnIndex &gt; toColumnIndex
+     * @throws IndexOutOfBoundsException if the indices are out of bounds [0, rowCount] or [0, columnCount], or if fromRowIndex &gt; toRowIndex or fromColumnIndex &gt; toColumnIndex
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,

@@ -591,7 +591,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return the specified row array (direct reference to internal storage)
-     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     public char[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
@@ -711,7 +711,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Updates all elements in a column in-place by applying the specified operator.
+     * Updates all elements in the specified column in-place by applying the given operator to each element.
      * This modifies the matrix directly.
      *
      * <p>The operator is applied to each element in the specified column sequentially
@@ -1323,10 +1323,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //          ['\u0000', '\u0000', '\u0000', '\u0000']]
      * }</pre>
      *
-     * @param toUp number of rowCount to add above; must be non-negative
-     * @param toDown number of rowCount to add below; must be non-negative
-     * @param toLeft number of columnCount to add to the left; must be non-negative
-     * @param toRight number of columnCount to add to the right; must be non-negative
+     * @param toUp number of rows to add above; must be non-negative
+     * @param toDown number of rows to add below; must be non-negative
+     * @param toLeft number of columns to add to the left; must be non-negative
+     * @param toRight number of columns to add to the right; must be non-negative
      * @return a new extended CharMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any parameter is negative
      */
@@ -1364,10 +1364,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //          ['\u0000', '\u0000', '\u0000', '\u0000']]
      * }</pre>
      *
-     * @param toUp number of rowCount to add above; must be non-negative
-     * @param toDown number of rowCount to add below; must be non-negative
-     * @param toLeft number of columnCount to add to the left; must be non-negative
-     * @param toRight number of columnCount to add to the right; must be non-negative
+     * @param toUp number of rows to add above; must be non-negative
+     * @param toDown number of rows to add below; must be non-negative
+     * @param toLeft number of columns to add to the left; must be non-negative
+     * @param toRight number of columns to add to the right; must be non-negative
      * @param defaultValueForNewCell the char value to fill all new cells with
      * @return a new extended CharMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any padding parameter is negative,
@@ -1971,7 +1971,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Performs matrix multiplication with another matrix.
-     * The number of columnCount in this matrix must equal the number of rowCount in the other matrix.
+     * The number of columns in this matrix must equal the number of rows in the other matrix.
      * The resulting matrix will have dimensions [this.rowCount x b.columnCount].
      * 
      * <p>Note: Since char values are used, the multiplication may result in overflow

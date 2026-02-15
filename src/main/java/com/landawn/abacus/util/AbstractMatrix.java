@@ -532,7 +532,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * boolean isEmpty1 = empty1.isEmpty();   // Returns true (0×0)
      *
      * IntMatrix empty2 = IntMatrix.of(new int[0][5]);
-     * boolean isEmpty2 = empty2.isEmpty();   // Returns true (0×5)
+     * boolean isEmpty2 = empty2.isEmpty();   // Returns true (0×0 empty matrix)
      *
      * IntMatrix notEmpty = IntMatrix.of(new int[][] {{1}});
      * boolean isEmpty3 = notEmpty.isEmpty();   // Returns false (1×1)

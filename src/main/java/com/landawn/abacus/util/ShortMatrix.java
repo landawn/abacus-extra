@@ -381,15 +381,16 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // primitiveMatrix now uses primitive short[] arrays internally for better performance
      * }</pre>
      *
-     * @param matrix the boxed Short matrix to convert
+     * @param matrix the boxed Short matrix to convert; must not be null
      * @return a new ShortMatrix with unboxed primitive values
+     * @see #boxed()
      */
     public static ShortMatrix unbox(final Matrix<Short> matrix) {
         return ShortMatrix.of(Array.unbox(matrix.a));
     }
 
     /**
-     * Returns the component type of the matrix elements.
+     * Returns the component type of the matrix elements, which is always {@code short.class}.
      *
      * <p>This method returns the Class object representing the component type of the internal array,
      * which is always {@code short.class} for ShortMatrix.</p>
@@ -400,7 +401,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * Class<?> type = matrix.componentType();   // Returns short.class
      * }</pre>
      *
-     * @return {@code short.class}, the component type of the matrix elements
+     * @return {@code short.class}
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -1102,7 +1103,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a deep copy of this matrix.
+     * Returns a deep copy of this matrix.
      *
      * <p>All elements are copied into a new matrix, so modifications to the copy
      * will not affect the original matrix and vice versa. This method performs a deep copy,

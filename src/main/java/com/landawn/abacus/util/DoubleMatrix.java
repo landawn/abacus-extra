@@ -443,7 +443,16 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns the component type of the matrix elements, which is always {@code double.class}.
-     * 
+     * This method is useful for reflection-based code that needs to determine the element type.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
+     * Class componentType = matrix.componentType();
+     * // componentType is double.class
+     * assert componentType == double.class;
+     * }</pre>
+     *
      * @return {@code double.class}
      */
     @SuppressWarnings("rawtypes")
@@ -762,7 +771,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Updates all elements in a column in-place by applying the specified operator.
+     * Updates all elements in the specified column in-place by applying the given operator to each element.
      * This modifies the matrix directly.
      *
      * <p>The operator is applied to each element in the specified column sequentially
@@ -802,7 +811,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @return a new double array containing a copy of the main diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public double[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -831,7 +840,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Diagonal is now [9.0, 8.0]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length == rows
+     * @param diagonal the new values for the main diagonal; must have length equal to rowCount
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -850,7 +859,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}}); matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
+     * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -930,7 +940,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}}); matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
+     * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw

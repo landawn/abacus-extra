@@ -662,7 +662,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Updates all elements in a column in-place by applying the specified operator.
+     * Updates all elements in the specified column in-place by applying the given operator to each element.
      * This modifies the matrix directly.
      *
      * <p>The operator is applied to each element in the specified column sequentially
@@ -702,7 +702,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * }</pre>
      *
      * @return a new float array containing a copy of the main diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public float[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -720,6 +720,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
+     * The diagonal array length must exactly match the number of rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      *
@@ -730,9 +731,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Diagonal is now [9.0f, 8.0f]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length == rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rows
+     * @param diagonal the new values for the main diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
     public void setLU2RD(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -749,7 +750,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}}); matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -829,7 +831,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}}); matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw

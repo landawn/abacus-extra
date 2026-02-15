@@ -1784,9 +1784,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[] prices = {19.99, 29.99, 39.99};
+     * double[] prices = {10.50, 20.75, 30.25};
      * long[] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
-     * // Result: {1999, 2999, 3999}
+     * // Result: {1050, 2075, 3025}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1817,9 +1817,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][] prices = {{19.99, 29.99}, {39.99, 49.99}};
+     * double[][] prices = {{10.50, 20.75}, {30.25, 40.50}};
      * long[][] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
-     * // Result: {{1999, 2999}, {3999, 4999}}
+     * // Result: {{1050, 2075}, {3025, 4050}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.

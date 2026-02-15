@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.CharStream;
 
@@ -1174,6 +1175,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @return the result of applying the mapping function
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
@@ -1429,6 +1431,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @return the result of applying the mapping function
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }

@@ -340,8 +340,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowIndex the row index (0-based)
      * @param columnIndex the column index (0-based)
-     * @return the element at position ({@code i}, {@code j})
-     * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
+     * @return the element at position ({@code rowIndex}, {@code columnIndex})
+     * @throws ArrayIndexOutOfBoundsException if {@code rowIndex} or {@code columnIndex} is out of bounds
      */
     @MayReturnNull
     public T get(final int rowIndex, final int columnIndex) {
@@ -1683,7 +1683,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{5, 3, 1}, {6, 4, 2}}
      * }</pre>
      *
-     * @return a new matrix rotated 90 degrees clockwise with dimensions columnCount × rows
+     * @return a new matrix rotated 90 degrees clockwise with dimensions columnCount × rowCount
      */
     @Override
     public Matrix<T> rotate90() {
@@ -1731,7 +1731,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Matrix<Integer> rotated = matrix.rotate180();   // Dimensions remain 2×3
      * }</pre>
      *
-     * @return a new matrix rotated 180 degrees with the same dimensions (rows × columnCount)
+     * @return a new matrix rotated 180 degrees with the same dimensions (rowCount × columnCount)
      */
     @Override
     public Matrix<T> rotate180() {
@@ -1773,7 +1773,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{2, 4, 6}, {1, 3, 5}}
      * }</pre>
      *
-     * @return a new matrix rotated 270 degrees clockwise with dimensions columnCount × rows
+     * @return a new matrix rotated 270 degrees clockwise with dimensions columnCount × rowCount
      */
     @Override
     public Matrix<T> rotate270() {
@@ -1824,7 +1824,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Matrix<Integer> transposed = original.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rows
+     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rowCount
      */
     @Override
     public Matrix<T> transpose() {
@@ -2035,7 +2035,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: ["A", "B", "C", "D"]
      * }</pre>
      *
-     * @return a new list containing all elements in row-major order with size equal to count
+     * @return a new list containing all elements in row-major order with size equal to elementCount
      * @throws IllegalStateException if the matrix is too large to flatten (rows * columnCount > Integer.MAX_VALUE)
      */
     @Override

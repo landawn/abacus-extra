@@ -39,6 +39,9 @@ import com.landawn.abacus.util.u.Optional;
  * @see FloatTuple
  * @see DoubleTuple
  * @see ShortTuple
+ * @see BooleanTuple
+ * @see ByteTuple
+ * @see CharTuple
  */
 @com.landawn.abacus.annotation.Immutable
 abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutable {

@@ -100,7 +100,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates an empty matrix with zero rowCount and zero columnCount.
+     * Creates an empty matrix with zero rows and zero columns.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -279,8 +279,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements.
-     * All other elements are set to zero.
+     * Creates a square matrix from the specified main diagonal elements (left-upper to right-down).
+     * All other elements are set to zero. The resulting matrix has dimensions n×n where n is the length
+     * of the diagonal array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -289,7 +290,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param leftUp2RightDownDiagonal the array of diagonal elements
-     * @return a square matrix with the specified main diagonal
+     * @return a square n×n matrix with the specified main diagonal, where n is the array length
      */
     public static ByteMatrix diagonalLU2RD(final byte[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
@@ -1418,7 +1419,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Reverses the order of rowCount in the matrix (vertical flip in-place).
+     * Reverses the order of rows in the matrix (vertical flip in-place).
      * This modifies the matrix directly. For a non-destructive version, use {@link #flipV()}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1453,7 +1454,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // original matrix is unchanged
      * }</pre>
      *
-     * @return a new ByteMatrix with rowCount reversed
+     * @return a new ByteMatrix with each row reversed
      * @see #flipV()
      * @see IntMatrix#flipH()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
@@ -1476,7 +1477,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // original matrix is unchanged
      * }</pre>
      *
-     * @return a new ByteMatrix with columns reversed
+     * @return a new ByteMatrix with rows in reversed order
      * @see #flipH()
      * @see IntMatrix#flipV()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
@@ -1533,7 +1534,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Returns a new matrix rotated 180 degrees.
      * The dimensions remain the same: a matrix with dimensions (rowCount x columnCount) stays (rowCount x columnCount).
-     * This is equivalent to reversing both rowCount and columnCount.
+     * This is equivalent to reversing both rows and columns.
      *
      * <p>Rotation rules:
      * <ul>
@@ -1609,7 +1610,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates the transpose of this matrix by swapping rowCount and columnCount.
+     * Creates the transpose of this matrix by swapping rows and columns.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
      * matrix has dimensions swapped (rowCount × columnCount becomes columnCount × rowCount).
@@ -1907,7 +1908,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Stacks this matrix horizontally with another matrix (column-wise concatenation).
-     * The matrices must have the same number of rowCount.
+     * The matrices must have the same number of rows.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1920,7 +1921,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param other the matrix to concatenate to the right of this matrix
      * @return a new ByteMatrix with other appended to the right of this matrix
-     * @throws IllegalArgumentException if the matrices have different rowCount
+     * @throws IllegalArgumentException if the matrices have different row counts
      * @see IntMatrix#hstack(IntMatrix)
      */
     public ByteMatrix hstack(final ByteMatrix other) throws IllegalArgumentException {

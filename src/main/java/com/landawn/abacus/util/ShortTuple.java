@@ -33,6 +33,7 @@ import com.landawn.abacus.util.stream.ShortStream;
  * </ul>
  *
  * @param <TP> The specific ShortTuple subtype for fluent method chaining
+ * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {

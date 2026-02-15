@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ByteStream;
 
@@ -1191,6 +1192,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @return the result of applying the bi-function to both elements
          * @throws E if the mapper throws an exception during execution
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ByteBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
@@ -1522,6 +1524,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @return the result of applying the tri-function to all three elements
          * @throws E if the mapper throws an exception during execution
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ByteTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }

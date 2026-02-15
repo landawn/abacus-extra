@@ -844,7 +844,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Updates all elements in a column in-place by applying the specified operator to each element.
+     * Updates all elements in the specified column in-place by applying the specified operator to each element.
      * This modifies the matrix directly.
      *
      * <p>The operator is applied to each element in the specified column sequentially
@@ -2003,7 +2003,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @return a list of all elements in row-major order
-     * @throws IllegalStateException if the matrix is too large to flatten (rows * columnCount &gt; Integer.MAX_VALUE)
+     * @throws IllegalStateException if the matrix is too large to flatten (rowCount * columnCount &gt; Integer.MAX_VALUE)
      */
     @Override
     public IntList flatten() {
@@ -2543,7 +2543,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * 
      * @param rowIndex the index of the row to stream (0-based)
      * @return an IntStream of elements from the specified row
-     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
     public IntStream streamH(final int rowIndex) {
@@ -2569,7 +2569,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return an IntStream of elements from the specified row range, or an empty stream if the matrix is empty
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
     public IntStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -2832,7 +2832,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param toRowIndex the ending row index (exclusive)
      * @return a Stream of IntStream objects for the specified row range,
      *         or an empty stream if the matrix is empty
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows,
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount,
      *         or fromRowIndex &gt; toRowIndex
      */
     @Override

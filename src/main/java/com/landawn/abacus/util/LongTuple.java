@@ -33,6 +33,7 @@ import com.landawn.abacus.util.stream.LongStream;
  * </ul>
  *
  * @param <TP> The specific LongTuple subtype for fluent method chaining
+ * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP> {
