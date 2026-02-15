@@ -1444,11 +1444,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param newColumnCount the number of columns in the new matrix
      * @param defaultValueForNewCell the value to fill new cells with (can be null)
      * @return a new matrix with the specified dimensions
-     * @throws IllegalArgumentException if newRowCount or newColumnCount is negative
+     * @throws IllegalArgumentException if newRowCount or newColumnCount is negative,
+     *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
     public Matrix<T> extend(final int newRowCount, final int newColumnCount, final T defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+
+        // Check for overflow before allocation
+        if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
+        }
 
         if (newRowCount <= rowCount && newColumnCount <= columnCount) {
             return copy(0, newRowCount, 0, newColumnCount);
