@@ -2907,7 +2907,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         if (Matrixes.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> operation = (i, j) -> action.accept(a[i][j]);
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, operation, Matrixes.isParallelizable(this));
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, operation, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 final short[] aa = a[i];
