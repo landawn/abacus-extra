@@ -254,7 +254,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p>
      * The size of the returned tuple depends on the length of the input array.
      * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty CharTuple<?>. For arrays with 1-9 elements, returns
+     * arrays, returns an empty {@code CharTuple<?>}. For arrays with 1-9 elements, returns
      * the corresponding CharTuple.CharTuple1-9 instance.
      * </p>
      *
@@ -631,7 +631,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <li>{@code (A, B, C)} - for a CharTuple.CharTuple3</li>
      * <li>{@code (X, Y)} - for a CharTuple.CharTuple2</li>
      * <li>{@code (A)} - for a CharTuple.CharTuple1</li>
-     * <li>{@code ()} - for an empty CharTuple<?></li>
+     * <li>{@code ()} - for an empty {@code CharTuple<?>}</li>
      * </ul>
      *
      * @return a string representation of this tuple

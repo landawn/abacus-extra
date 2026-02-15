@@ -262,7 +262,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p>
      * The size of the returned tuple depends on the length of the input array.
      * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty BooleanTuple<?>. For arrays with 1-9 elements, returns
+     * arrays, returns an empty {@code BooleanTuple<?>}. For arrays with 1-9 elements, returns
      * the corresponding BooleanTuple.BooleanTuple1-9 instance.
      * </p>
      *
@@ -528,7 +528,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *   <li>{@code (true, false, true)} for a BooleanTuple.BooleanTuple3</li>
      *   <li>{@code (true, false)} for a BooleanTuple.BooleanTuple2</li>
      *   <li>{@code (true)} for a BooleanTuple.BooleanTuple1</li>
-     *   <li>{@code ()} for an empty BooleanTuple<?></li>
+     *   <li>{@code ()} for an empty {@code BooleanTuple<?>}</li>
      * </ul>
      *
      * @return a string representation of this tuple

@@ -266,7 +266,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p>
      * The size of the returned tuple depends on the length of the input array.
      * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty ByteTuple<?>. For arrays with 1-9 elements, returns
+     * arrays, returns an empty {@code ByteTuple<?>}. For arrays with 1-9 elements, returns
      * the corresponding ByteTuple.ByteTuple1-9 instance.
      * </p>
      *
@@ -650,7 +650,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *   <li>{@code (10, 20, 30)} for a ByteTuple.ByteTuple3</li>
      *   <li>{@code (5, 10)} for a ByteTuple.ByteTuple2</li>
      *   <li>{@code (42)} for a ByteTuple.ByteTuple1</li>
-     *   <li>{@code ()} for an empty ByteTuple<?></li>
+     *   <li>{@code ()} for an empty {@code ByteTuple<?>}</li>
      * </ul>
      *
      * @return a string representation of this tuple

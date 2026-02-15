@@ -1,3 +1,7 @@
+## 3.3.1
+* Naming convention improvements
+* Improvements and bug fixes
+
 ## 3.3.0
 * Naming convention improvements
 * Improvements and bug fixes
