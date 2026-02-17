@@ -2552,7 +2552,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
             @Override
             public long[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final long[] c = new long[len];
 
                 for (int k = 0; k < len; k++) {
@@ -2680,7 +2680,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
             @Override
             public long[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final long[] c = new long[len];
 
                 for (int k = 0; k < len; k++) {

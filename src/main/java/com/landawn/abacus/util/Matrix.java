@@ -2511,7 +2511,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             @Override
             public <A> A[] toArray(A[] c) {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
 
                 if (c.length < len) {
                     c = N.copyOf(c, len);
@@ -2642,7 +2642,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             @Override
             public <A> A[] toArray(A[] c) {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
 
                 if (c.length < len) {
                     c = N.copyOf(c, len);

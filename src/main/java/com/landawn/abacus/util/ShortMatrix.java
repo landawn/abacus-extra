@@ -2491,7 +2491,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
             @Override
             public short[] toArray() {
-                final int arrayLength = (int) count();
+                final int arrayLength = toArrayLength(count());
                 final short[] result = new short[arrayLength];
 
                 for (int k = 0; k < arrayLength; k++) {
@@ -2627,7 +2627,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
             @Override
             public short[] toArray() {
-                final int arrayLength = (int) count();
+                final int arrayLength = toArrayLength(count());
                 final short[] result = new short[arrayLength];
 
                 for (int k = 0; k < arrayLength; k++) {

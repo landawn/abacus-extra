@@ -2522,7 +2522,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
             @Override
             public byte[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final byte[] c = new byte[len];
 
                 for (int k = 0; k < len; k++) {
@@ -2656,7 +2656,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
             @Override
             public byte[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final byte[] c = new byte[len];
 
                 for (int k = 0; k < len; k++) {

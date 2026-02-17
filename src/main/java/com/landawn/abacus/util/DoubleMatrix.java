@@ -2468,7 +2468,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
             @Override
             public double[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final double[] c = new double[len];
 
                 for (int k = 0; k < len; k++) {
@@ -2596,7 +2596,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
             @Override
             public double[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final double[] c = new double[len];
 
                 for (int k = 0; k < len; k++) {

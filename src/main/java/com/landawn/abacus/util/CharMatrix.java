@@ -2456,7 +2456,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
             @Override
             public char[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final char[] c = new char[len];
 
                 for (int k = 0; k < len; k++) {
@@ -2586,7 +2586,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
             @Override
             public char[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final char[] c = new char[len];
 
                 for (int k = 0; k < len; k++) {

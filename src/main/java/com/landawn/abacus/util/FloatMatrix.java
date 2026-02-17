@@ -2272,7 +2272,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
             @Override
             public float[] toArray() {
-                final int elementCount = (int) count();
+                final int elementCount = toArrayLength(count());
                 final float[] result = new float[elementCount];
 
                 for (int k = 0; k < elementCount; k++) {
@@ -2397,7 +2397,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
             @Override
             public float[] toArray() {
-                final int elementCount = (int) count();
+                final int elementCount = toArrayLength(count());
                 final float[] result = new float[elementCount];
 
                 for (int k = 0; k < elementCount; k++) {

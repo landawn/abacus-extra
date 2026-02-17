@@ -448,6 +448,21 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
+     * Converts a non-negative element count to an array length with overflow protection.
+     *
+     * @param count the number of remaining elements
+     * @return the count as an int array length
+     * @throws IllegalStateException if count is negative or exceeds Integer.MAX_VALUE
+     */
+    protected static int toArrayLength(final long count) {
+        if (count < 0 || count > Integer.MAX_VALUE) {
+            throw new IllegalStateException("Matrix stream too large to convert to array: " + count + " elements");
+        }
+
+        return (int) count;
+    }
+
+    /**
      * Returns the component type of the elements in this matrix.
      * For primitive matrices, this returns the corresponding primitive class (e.g., {@code int.class} for {@link IntMatrix}).
      * For object matrices, this returns the element's class type.

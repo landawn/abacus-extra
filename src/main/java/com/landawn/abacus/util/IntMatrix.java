@@ -2626,7 +2626,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
             @Override
             public int[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final int[] c = new int[len];
 
                 for (int k = 0; k < len; k++) {
@@ -2770,7 +2770,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
             @Override
             public int[] toArray() {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
                 final int[] c = new int[len];
 
                 for (int k = 0; k < len; k++) {

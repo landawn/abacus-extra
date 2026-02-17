@@ -2342,7 +2342,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
             @Override
             public <A> A[] toArray(A[] c) {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
 
                 if (c.length < len) {
                     c = N.copyOf(c, len);
@@ -2500,7 +2500,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
             @Override
             public <A> A[] toArray(A[] c) {
-                final int len = (int) count();
+                final int len = toArrayLength(count());
 
                 if (c.length < len) {
                     c = N.copyOf(c, len);
