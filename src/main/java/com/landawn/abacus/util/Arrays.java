@@ -2249,7 +2249,8 @@ public sealed class Arrays permits Arrays.f {
         }
     }
 
-    /**Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
+    /**
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure,
      * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
      *

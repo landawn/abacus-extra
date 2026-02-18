@@ -802,6 +802,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             return "()";
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * For an empty tuple, returns an empty char array.
+         *
+         * @return an empty char array
+         */
         @Override
         protected char[] elements() {
             return N.EMPTY_CHAR_ARRAY;
@@ -983,6 +989,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ")";
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a char array containing the single element
+         */
         @Override
         protected char[] elements() {
             if (elements == null) {
@@ -1236,6 +1248,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ")";
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a char array containing all elements in order
+         */
         @Override
         protected char[] elements() {
             if (elements == null) {
@@ -1492,6 +1510,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ")";
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a char array containing all elements in order
+         */
         @Override
         protected char[] elements() {
             if (elements == null) {
@@ -1682,6 +1706,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_4);
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a char array containing all elements in order
+         */
         @Override
         protected char[] elements() {
             if (elements == null) {
@@ -1876,6 +1906,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_5);
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a char array containing all elements in order
+         */
         @Override
         protected char[] elements() {
             if (elements == null) {
@@ -2074,6 +2110,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_6);
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a char array containing all elements in order
+         */
         @Override
         protected char[] elements() {
             if (elements == null) {
@@ -2277,6 +2319,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_7);
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a char array containing all elements in order
+         */
         @Override
         protected char[] elements() {
             if (elements == null) {
@@ -2482,6 +2530,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_8);
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a char array containing all elements in order
+         */
         @Override
         protected char[] elements() {
             if (elements == null) {
@@ -2691,6 +2745,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_9);
         }
 
+        /**
+         * Returns the internal array of char elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a char array containing all elements in order
+         */
         @Override
         protected char[] elements() {
             if (elements == null) {

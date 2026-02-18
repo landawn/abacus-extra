@@ -414,13 +414,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements.
+     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
      * All other elements are set to zero.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.diagonalLU2RD(new int[] {1, 2, 3});
-     * // Creates 3x3 matrix with diagonal [1, 2, 3] and zeros elsewhere
+     * // Creates 3x3 matrix:
+     * //   {1, 0, 0},
+     * //   {0, 2, 0},
+     * //   {0, 0, 3}
      * }</pre>
      *
      * @param leftUp2RightDownDiagonal the array of diagonal elements
@@ -431,13 +434,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements.
+     * Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
      * All other elements are set to zero.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.diagonalRU2LD(new int[] {1, 2, 3});
-     * // Creates 3x3 matrix with anti-diagonal [1, 2, 3] and zeros elsewhere
+     * // Creates 3x3 matrix:
+     * //   {0, 0, 1},
+     * //   {0, 2, 0},
+     * //   {3, 0, 0}
      * }</pre>
      *
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
@@ -500,15 +506,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Converts a boxed Integer Matrix to a primitive IntMatrix.
      * Null values in the input matrix are converted to 0.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> boxed = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * IntMatrix primitive = IntMatrix.unbox(boxed);
+     * // primitive contains {{1, 2}, {3, 4}} as int values
      * }</pre>
-     * 
-     * @param x the boxed Integer matrix to convert
+     *
+     * @param x the boxed Integer matrix to convert (must not be null)
      * @return a new IntMatrix with primitive int values
+     * @see #boxed()
      */
     public static IntMatrix unbox(final Matrix<Integer> x) {
         return IntMatrix.of(Array.unbox(x.a));
@@ -553,8 +561,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the element at the specified Sheet.Point.
-     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
+     * Returns the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -563,9 +571,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * int value = matrix.get(point);   // Returns 2
      * }</pre>
      *
-     * @param point the Sheet.Point containing row and column indices (must not be null)
-     * @return the int element at the specified Sheet.Point
-     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @return the int element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #get(int, int)
      */
     public int get(final Point point) {
@@ -593,8 +601,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the element at the specified Sheet.Point to the given value.
-     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
+     * Sets the element at the specified point to the given value.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -604,9 +612,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * assert matrix.get(point) == 9;
      * }</pre>
      *
-     * @param point the Sheet.Point containing row and column indices (must not be null)
-     * @param val the new int value to set at the specified Sheet.Point
-     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @param val the new int value to set at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #set(int, int, int)
      */
     public void set(final Point point, final int val) {
@@ -616,9 +624,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the element above the specified position, if it exists.
-     * This method provides safe access to the element directly above the given position
-     * without throwing an exception when at the top edge of the matrix.
+     * Returns the element directly above the specified position, if it exists.
+     * This method provides safe access without throwing an exception when at the top edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -639,9 +646,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the element below the specified position, if it exists.
-     * This method provides safe access to the element directly below the given position
-     * without throwing an exception when at the bottom edge of the matrix.
+     * Returns the element directly below the specified position, if it exists.
+     * This method provides safe access without throwing an exception when at the bottom edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -662,9 +668,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the element to the left of the specified position, if it exists.
-     * This method provides safe access to the element directly to the left of the given position
-     * without throwing an exception when at the leftmost edge of the matrix.
+     * Returns the element directly to the left of the specified position, if it exists.
+     * This method provides safe access without throwing an exception when at the leftmost edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -685,9 +690,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the element to the right of the specified position, if it exists.
-     * This method provides safe access to the element directly to the right of the given position
-     * without throwing an exception when at the rightmost edge of the matrix.
+     * Returns the element directly to the right of the specified position, if it exists.
+     * This method provides safe access without throwing an exception when at the rightmost edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -871,7 +875,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a copy of the elements on the main diagonal from left-upper to right-down.
+     * Returns a copy of the main diagonal elements (left-up to right-down) as an array.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -950,7 +954,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
+     * Returns a copy of the anti-diagonal elements (right-up to left-down) as an array.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
@@ -1307,7 +1311,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rowCount, or if fromColumnIndex &lt; 0 or &gt; columnCount
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final int[][] b) throws IllegalArgumentException {
-        N.checkArgNotNull(b, cs.b);
+        N.checkArgNotNull(b, "b");
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex out of bounds: %s. Valid range is [0, %s]", fromRowIndex, rowCount);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex out of bounds: %s. Valid range is [0, %s]", fromColumnIndex,
                 columnCount);
@@ -1320,7 +1324,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a copy of this matrix.
+     * Returns a deep copy of this matrix.
      * The returned matrix is a completely independent copy; modifications to one
      * do not affect the other.
      *
@@ -1660,9 +1664,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a horizontally flipped copy of this matrix.
+     * Returns a new matrix that is a horizontal flip of this matrix (columns in reversed order).
      * Each row is reversed left-to-right (the leftmost element becomes rightmost).
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1682,9 +1686,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a vertically flipped copy of this matrix.
-     * The rows are reversed top-to-bottom (the topmost row becomes bottommost).
-     * Creates a new matrix; the original matrix is not modified.
+     * Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
+     * The topmost row becomes bottommost.
+     * The original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1704,10 +1708,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Rotates this matrix 90 degrees clockwise.
+     * Returns a new matrix that is this matrix rotated 90 degrees clockwise.
      * The resulting matrix has dimensions swapped (rows become columns), with the first
      * column of the result being the last row of the original, reading upward.
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1717,7 +1721,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // 7 8 9        9 6 3
      * }</pre>
      *
-     * @return a new matrix rotated 90 degrees clockwise
+     * @return a new matrix that is this matrix rotated 90 degrees clockwise
      */
     @Override
     public IntMatrix rotate90() {
@@ -1741,10 +1745,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Rotates this matrix 180 degrees.
+     * Returns a new matrix that is this matrix rotated 180 degrees clockwise.
      * This is equivalent to flipping both horizontally and vertically, reversing the
      * order of all elements. The resulting matrix has the same dimensions as the original.
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1754,7 +1758,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // 7 8 9        3 2 1
      * }</pre>
      *
-     * @return a new matrix rotated 180 degrees
+     * @return a new matrix that is this matrix rotated 180 degrees clockwise
      */
     @Override
     public IntMatrix rotate180() {
@@ -1769,10 +1773,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Rotates this matrix 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * Returns a new matrix that is this matrix rotated 270 degrees clockwise.
+     * This is equivalent to rotating 90 degrees counter-clockwise.
      * The resulting matrix has dimensions swapped (rows become columns), with the first
      * column of the result being the first row of the original, reading downward.
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1782,7 +1787,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // 7 8 9        1 4 7
      * }</pre>
      *
-     * @return a new matrix rotated 270 degrees clockwise
+     * @return a new matrix that is this matrix rotated 270 degrees clockwise
      */
     @Override
     public IntMatrix rotate270() {
@@ -1806,11 +1811,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates the transpose of this matrix by swapping rows and columns.
+     * Returns a new matrix that is the transpose of this matrix.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
-     * Creates a new matrix; the original matrix is not modified.
+     * matrix has dimensions swapped (rows x columns becomes columns x rows).
+     * The original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2209,14 +2214,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Converts this primitive int matrix to a boxed Integer matrix.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix primitive = IntMatrix.of(new int[][] {{1, 2}});
+     * IntMatrix primitive = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * Matrix<Integer> boxed = primitive.boxed();
+     * // boxed contains {{1, 2}, {3, 4}} as Integer values
      * }</pre>
-     * 
+     *
      * @return a new Matrix containing boxed Integer values
+     * @see #unbox(Matrix)
      */
     public Matrix<Integer> boxed() {
         final Integer[][] c = new Integer[rowCount][columnCount];
@@ -2504,14 +2511,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a stream of all elements in row-major order (horizontal).
-     * Elements are streamed row by row from left to right, starting from the
-     * top-left corner and proceeding to the bottom-right corner.
-     * 
+     * Returns a stream of all elements in this matrix, traversed horizontally (left to right, top to bottom).
+     * Elements are streamed row by row from the top-left corner to the bottom-right corner.
+     *
      * <p>This method is useful for processing all matrix elements sequentially
      * without concern for their row/column positions. The stream supports all
      * standard IntStream operations including sum, average, filter, map, etc.</p>
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
@@ -2519,7 +2525,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * int sum = matrix.streamH().sum();           // Returns 10
      * int[] array = matrix.streamH().toArray();   // Returns [1, 2, 3, 4]
      * }</pre>
-     * 
+     *
      * @return an IntStream of all elements in row-major order, or an empty stream if the matrix is empty
      */
     @Override
@@ -2646,21 +2652,20 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a stream of all elements in column-major order (vertical).
-     * Elements are streamed column by column from top to bottom, starting from
-     * the leftmost column and proceeding to the rightmost column.
-     * 
+     * Returns a stream of all elements in this matrix, traversed vertically (top to bottom, left to right).
+     * Elements are streamed column by column from the top-left corner to the bottom-right corner.
+     *
      * <p>This method is marked as @Beta, indicating it may be subject to change
      * in future versions. It provides an alternative way to iterate through matrix
-     * elements compared to the row-major order of streamH().</p>
-     * 
+     * elements compared to the row-major order of {@link #streamH()}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntStream stream = matrix.streamV();           // Stream of [1, 3, 2, 4]
      * int[] colMajor = matrix.streamV().toArray();   // Returns [1, 3, 2, 4]
      * }</pre>
-     * 
+     *
      * @return an IntStream of all elements in column-major order, or an empty stream if the matrix is empty
      */
     @Override
@@ -3017,7 +3022,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Applies the given action to each element in the matrix.
+     * Performs the specified action for each element in this matrix.
      * Elements are processed in row-major order (row by row, left to right) when executed sequentially.
      *
      * <p>The operation may be parallelized internally for large matrices to improve performance,
@@ -3058,7 +3063,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Applies the given action to each element in the specified sub-matrix region.
+     * Performs the specified action for each element in the specified sub-matrix region.
      * Elements are processed in row-major order within the specified bounds.
      * 
      * <p>This method allows for processing a rectangular subset of the matrix.

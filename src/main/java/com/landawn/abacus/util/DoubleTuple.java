@@ -747,12 +747,6 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Returns a reversed version of this tuple.
          * For an empty tuple, returns the same instance.
          *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
-         * DoubleTuple<?> reversed = tuple.reverse();   // same instance
-         * }</pre>
-         *
          * @return this instance
          */
         @Override
@@ -1085,8 +1079,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * // Prints: 3.0 + 4.0 = 7.0
          *
          * DoubleTuple.DoubleTuple2 coordinates = DoubleTuple.of(10.5, 20.3);
-         * coordinates.accept((x, y) -> System.out.printf("Sheet.Point: (%.1f, %.1f)%n", x, y));
-         * // Prints: Sheet.Point: (10.5, 20.3)
+         * coordinates.accept((x, y) -> System.out.printf("Point: (%.1f, %.1f)%n", x, y));
+         * // Prints: Point: (10.5, 20.3)
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -1150,7 +1144,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * DoubleTuple.DoubleTuple2 point = DoubleTuple.of(3.0, 4.0);
          * u.Optional<DoubleTuple.DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0);
-         * // Returns: Optional containing Sheet.Point (both coordinates are positive)
+         * // Returns: Optional containing point (both coordinates are positive)
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate

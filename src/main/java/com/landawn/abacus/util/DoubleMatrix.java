@@ -332,7 +332,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements (left-upper to right-down).
+     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
      * All other elements are set to zero. The resulting matrix has dimensions n×n where n is the length
      * of the diagonal array.
      *
@@ -353,7 +353,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
+     * Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
      * All other elements are set to zero. The resulting matrix has dimensions n×n where n is the length
      * of the diagonal array.
      *
@@ -436,6 +436,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param x the boxed Double matrix to convert
      * @return a new DoubleMatrix with unboxed values (nulls become 0.0)
+     * @see #boxed()
      */
     public static DoubleMatrix unbox(final Matrix<Double> x) {
         return DoubleMatrix.of(Array.unbox(x.a));
@@ -480,8 +481,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns the element at the specified Sheet.Point.
-     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
+     * Returns the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -490,9 +491,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * double value = matrix.get(point);   // Returns 2.0
      * }</pre>
      *
-     * @param point the Sheet.Point containing row and column indices (must not be null)
-     * @return the double element at the specified Sheet.Point
-     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @return the double element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #get(int, int)
      */
     public double get(final Point point) {
@@ -520,8 +521,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the element at the specified Sheet.Point to the given value.
-     * This is a convenience method that accepts a Sheet.Point object instead of separate row and column indices.
+     * Sets the element at the specified point to the given value.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -531,9 +532,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * assert matrix.get(point) == 9.0;
      * }</pre>
      *
-     * @param point the Sheet.Point containing row and column indices (must not be null)
-     * @param val the new double value to set at the specified Sheet.Point
-     * @throws ArrayIndexOutOfBoundsException if the Sheet.Point coordinates are out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @param val the new double value to set at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #set(int, int, double)
      */
     public void set(final Point point, final double val) {
@@ -798,7 +799,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns a copy of the elements on the main diagonal from left-upper to right-down.
+     * Returns a copy of the main diagonal elements (left-up to right-down).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -826,7 +827,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -878,7 +879,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
+     * Returns a copy of the anti-diagonal elements (right-up to left-down).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
@@ -907,7 +908,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * Sets the elements on the anti-diagonal from right-up to left-down (anti-diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -1247,7 +1248,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final double[][] b) throws IllegalArgumentException {
-        N.checkArgNotNull(b, cs.b);
+        N.checkArgNotNull(b, "b");
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rowCount);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and columnCount(%s)", fromColumnIndex,
                 columnCount);
@@ -1592,7 +1593,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a new matrix that is horizontally flipped (each row reversed).
+     * Returns a new matrix that is a horizontal flip of this matrix (columns in reversed order within each row).
      * The original matrix is not modified. This is a non-mutating version of {@link #reverseH()}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1601,7 +1602,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix flipped = matrix.flipH();   // returns [[3.0, 2.0, 1.0]], original unchanged
      * }</pre>
      *
-     * @return a new DoubleMatrix with each row reversed
+     * @return a new matrix that is a horizontal flip of this matrix (columns in reversed order within each row)
      * @see #reverseH()
      */
     public DoubleMatrix flipH() {
@@ -1611,7 +1612,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a new matrix that is vertically flipped (rows reversed).
+     * Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
      * The original matrix is not modified. This is a non-mutating version of {@link #reverseV()}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1620,7 +1621,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix flipped = matrix.flipV();   // returns [[3.0], [2.0], [1.0]], original unchanged
      * }</pre>
      *
-     * @return a new DoubleMatrix with rows reversed
+     * @return a new matrix that is a vertical flip of this matrix (rows in reversed order)
      * @see #reverseV()
      */
     public DoubleMatrix flipV() {
@@ -1630,10 +1631,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Rotates this matrix 90 degrees clockwise.
+     * Returns a new matrix that is this matrix rotated 90 degrees clockwise.
      * The resulting matrix has dimensions swapped (rows become columns), with the first
      * column of the result being the last row of the original, reading upward.
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1642,7 +1643,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // 3.0 4.0  =>  4.0 2.0
      * }</pre>
      *
-     * @return a new matrix rotated 90 degrees clockwise
+     * @return a new matrix that is this matrix rotated 90 degrees clockwise
      */
     @Override
     public DoubleMatrix rotate90() {
@@ -1666,10 +1667,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Rotates this matrix 180 degrees.
+     * Returns a new matrix that is this matrix rotated 180 degrees clockwise.
      * This is equivalent to flipping both horizontally and vertically, reversing the
      * order of all elements. The resulting matrix has the same dimensions as the original.
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1678,7 +1679,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // 3.0 4.0  =>  2.0 1.0
      * }</pre>
      *
-     * @return a new matrix rotated 180 degrees
+     * @return a new matrix that is this matrix rotated 180 degrees clockwise
      */
     @Override
     public DoubleMatrix rotate180() {
@@ -1693,10 +1694,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Rotates this matrix 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * Returns a new matrix that is this matrix rotated 270 degrees clockwise.
      * The resulting matrix has dimensions swapped (rows become columns), with the first
      * column of the result being the first row of the original, reading downward.
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1705,7 +1706,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // 3.0 4.0  =>  1.0 3.0
      * }</pre>
      *
-     * @return a new matrix rotated 270 degrees clockwise
+     * @return a new matrix that is this matrix rotated 270 degrees clockwise
      */
     @Override
     public DoubleMatrix rotate270() {
@@ -2135,6 +2136,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @return a new Matrix&lt;Double&gt; containing boxed Double values (same dimensions as the original)
+     * @see #unbox(Matrix)
      */
     public Matrix<Double> boxed() {
         final Double[][] c = new Double[rowCount][columnCount];
@@ -2237,9 +2239,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns a stream of all matrix elements in row-major order (left to right, then top to bottom).
-     * The stream includes all elements from all rows, proceeding from left to right within each row,
-     * and from the first row to the last row.
+     * Returns a stream of all elements in this matrix, traversed horizontally (left to right, top to bottom).
      *
      * <p>This method is useful for processing all matrix elements sequentially. The returned
      * stream can be used with all standard DoubleStream operations including sum, average, filter, map, etc.</p>
@@ -2259,7 +2259,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a stream of elements from the main diagonal (left-upper to right-down).
+     * Creates a stream of elements from the main diagonal (left-up to right-down).
      * The matrix must be square (same number of rows and columns).
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2314,7 +2314,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a stream of elements from the anti-diagonal (right-upper to left-down).
+     * Creates a stream of elements from the anti-diagonal (right-up to left-down).
      * The matrix must be square (same number of rows and columns).
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2822,10 +2822,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Applies the specified action to each element of the matrix.
-     * The action is performed on all elements in the matrix. For large matrices, the operation may be
-     * parallelized to improve performance, so the order of execution is not guaranteed. This method
-     * does not modify the matrix unless the action itself modifies external state.
+     * Performs the specified action for each element in this matrix.
+     * For large matrices, the operation may be parallelized to improve performance,
+     * so the order of execution is not guaranteed. This method does not modify the matrix
+     * unless the action itself modifies external state.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2843,8 +2843,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Applies the specified action to each element in a sub-region of the matrix.
-     * The action is performed on elements within the specified row and column ranges.
+     * Performs the specified action for each element in the specified sub-region of this matrix.
      * For large sub-regions, the operation may be parallelized to improve performance, so the order
      * of execution is not guaranteed. This method does not modify the matrix unless the action itself
      * modifies external state.

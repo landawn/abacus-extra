@@ -214,6 +214,7 @@ public final class Matrixes {
      * @param x the matrix being evaluated (reserved for future extensibility, currently not used in the decision logic)
      * @param count the number of elements to process; typically the total element count or a subset being operated on
      * @return {@code true} if parallel processing should be used; {@code false} for sequential processing
+     * @throws IllegalArgumentException if {@code x} is {@code null}
      * @see #setParallelEnabled(ParallelEnabled)
      * @see ParallelEnabled
      */
@@ -576,6 +577,7 @@ public final class Matrixes {
      * @param cmd the function to apply at each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return a {@link Stream} of results from applying the function at each position, never {@code null}
+     * @throws IllegalArgumentException if {@code cmd} is {@code null}
      * @throws IndexOutOfBoundsException if {@code rowCount} or {@code columnCount} is negative
      * @see #call(int, int, int, int, Throwables.IntBiFunction, boolean)
      */
@@ -616,6 +618,7 @@ public final class Matrixes {
      * @param cmd the function to apply at each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return a {@link Stream} of results from applying the function at each position, never {@code null}
+     * @throws IllegalArgumentException if {@code cmd} is {@code null}
      * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex is less than fromRowIndex or toColumnIndex is less than fromColumnIndex
      */
     @SuppressWarnings("resource")
@@ -682,6 +685,7 @@ public final class Matrixes {
      * @param cmd the function to apply at each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return an {@link IntStream} of results from applying the function at each position, never {@code null}
+     * @throws IllegalArgumentException if {@code cmd} is {@code null}
      * @throws IndexOutOfBoundsException if {@code rowCount} or {@code columnCount} is negative
      * @see #callToInt(int, int, int, int, Throwables.IntBinaryOperator, boolean)
      */
@@ -717,6 +721,7 @@ public final class Matrixes {
      * @param cmd the function to apply at each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return an {@link IntStream} of results from applying the function at each position, never {@code null}
+     * @throws IllegalArgumentException if {@code cmd} is {@code null}
      * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex is less than fromRowIndex or toColumnIndex is less than fromColumnIndex
      */
     @SuppressWarnings("resource")

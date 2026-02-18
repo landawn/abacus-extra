@@ -277,9 +277,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements (left-upper to right-down).
-     * All other elements (off-diagonal) are set to zero. The matrix size is n×n where n is the length
-     * of the diagonal array.
+     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
+     * All other elements are set to zero.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -290,17 +289,16 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * //  [0, 0, 3]]
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (from top-left to bottom-right)
-     * @return a square n×n matrix with the specified main diagonal, where n is the array length
+     * @param leftUp2RightDownDiagonal the array of diagonal elements
+     * @return a square matrix with the specified main diagonal
      */
     public static ShortMatrix diagonalLU2RD(final short[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
-     * All other elements (off-diagonal) are set to zero. The matrix size is n×n where n is the length
-     * of the diagonal array. The anti-diagonal runs from top-right to bottom-left.
+     * Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
+     * All other elements are set to zero.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -311,8 +309,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * //  [3, 0, 0]]
      * }</pre>
      *
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (from top-right to bottom-left)
-     * @return a square n×n matrix with the specified anti-diagonal, where n is the array length
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified anti-diagonal
      */
     public static ShortMatrix diagonalRU2LD(final short[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
@@ -376,30 +374,25 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Short> boxedMatrix = Matrix.of(new Short[][] {{1, 2}, {3, 4}});
-     * ShortMatrix primitiveMatrix = ShortMatrix.unbox(boxedMatrix);
+     * Matrix<Short> boxed = Matrix.of(new Short[][] {{1, 2}, {3, 4}});
+     * ShortMatrix primitiveMatrix = ShortMatrix.unbox(boxed);
      * // primitiveMatrix now uses primitive short[] arrays internally for better performance
      * }</pre>
      *
-     * @param matrix the boxed Short matrix to convert; must not be null
+     * @param x the boxed Short matrix to convert; must not be null
      * @return a new ShortMatrix with unboxed primitive values
      * @see #boxed()
      */
-    public static ShortMatrix unbox(final Matrix<Short> matrix) {
-        return ShortMatrix.of(Array.unbox(matrix.a));
+    public static ShortMatrix unbox(final Matrix<Short> x) {
+        return ShortMatrix.of(Array.unbox(x.a));
     }
 
     /**
      * Returns the component type of the matrix elements, which is always {@code short.class}.
      *
      * <p>This method returns the Class object representing the component type of the internal array,
-     * which is always {@code short.class} for ShortMatrix.</p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * Class<?> type = matrix.componentType();   // Returns short.class
-     * }</pre>
+     * which is always {@code short.class} for ShortMatrix.
+     * This method is useful for reflection-based code that needs to determine the element type at runtime.</p>
      *
      * @return {@code short.class}
      */
@@ -491,7 +484,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns the element above the specified position, if it exists.
+     * Returns the element directly above the specified position, if it exists.
      * This method provides safe access to the element directly above the given position
      * without throwing an exception when at the top edge of the matrix.
      *
@@ -514,7 +507,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns the element below the specified position, if it exists.
+     * Returns the element directly below the specified position, if it exists.
      * This method provides safe access to the element directly below the given position
      * without throwing an exception when at the bottom edge of the matrix.
      *
@@ -537,7 +530,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns the element to the left of the specified position, if it exists.
+     * Returns the element directly to the left of the specified position, if it exists.
      * This method provides safe access to the element directly to the left of the given position
      * without throwing an exception when at the leftmost edge of the matrix.
      *
@@ -560,7 +553,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns the element to the right of the specified position, if it exists.
+     * Returns the element directly to the right of the specified position, if it exists.
      * This method provides safe access to the element directly to the right of the given position
      * without throwing an exception when at the rightmost edge of the matrix.
      *
@@ -737,7 +730,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns the elements on the main diagonal from left-upper to right-down.
+     * Returns a copy of the main diagonal elements (left-up to right-down).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -764,7 +757,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down.
      * The matrix must be square (rows == columns), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -792,7 +785,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Updates all elements on the main diagonal (left-up to right-down) by applying the given operator.
+     * Updates all elements on the main diagonal from left-up to right-down by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -816,7 +809,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * Returns a copy of the anti-diagonal elements (right-up to left-down).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
@@ -844,7 +837,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * Sets the elements on the anti-diagonal from right-up to left-down.
      * The matrix must be square (rows == columns), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -872,7 +865,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Updates all elements on the anti-diagonal (right-up to left-down) by applying the given operator.
+     * Updates all elements on the anti-diagonal from right-up to left-down by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -1090,7 +1083,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rows, or if fromColumnIndex &lt; 0 or &gt; columnCount
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final short[][] b) throws IllegalArgumentException {
-        N.checkArgNotNull(b, cs.b);
+        N.checkArgNotNull(b, "b");
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rowCount);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and columnCount(%s)", fromColumnIndex,
                 columnCount);
@@ -1435,9 +1428,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a new matrix that is horizontally flipped (each row reversed).
+     * Returns a new matrix that is a horizontal flip of this matrix (each row reversed).
      * The original matrix is not modified.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
@@ -1458,9 +1451,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a new matrix that is vertically flipped (each column reversed).
+     * Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
      * The original matrix is not modified.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
@@ -1468,7 +1461,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Result: [[4, 5, 6],
      * //          [1, 2, 3]]
      * }</pre>
-     * 
+     *
      * @return a new matrix with rows in reversed order
      * @see #flipH()
      * @see IntMatrix#flipV()
@@ -1481,9 +1474,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a new matrix rotated 90 degrees clockwise.
+     * Returns a new matrix that is this matrix rotated 90 degrees clockwise.
      *
-     * <p>The resulting matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
+     * <p>The resulting matrix has dimensions swapped (rows x columns becomes columns x rows).
      * The element at position (i, j) in the original matrix appears at position (j, rows-1-i)
      * in the rotated matrix. The original matrix is not modified.</p>
      *
@@ -1519,10 +1512,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a new matrix rotated 180 degrees.
+     * Returns a new matrix that is this matrix rotated 180 degrees clockwise.
      *
      * <p>The resulting matrix has the same dimensions as the original. The element at position (i, j)
-     * in the original matrix appears at position (rows-1-i, columnCount-1-j) in the rotated matrix.
+     * in the original matrix appears at position (rows-1-i, columns-1-j) in the rotated matrix.
      * This is equivalent to reversing both row order and element order within each row.
      * The original matrix is not modified.</p>
      *
@@ -1549,10 +1542,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * Returns a new matrix that is this matrix rotated 270 degrees clockwise.
      *
-     * <p>The resulting matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
-     * The element at position (i, j) in the original matrix appears at position (columnCount-1-j, i)
+     * <p>This is equivalent to rotating 90 degrees counter-clockwise.
+     * The resulting matrix has dimensions swapped (rows x columns becomes columns x rows).
+     * The element at position (i, j) in the original matrix appears at position (columns-1-j, i)
      * in the rotated matrix. The original matrix is not modified.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1587,11 +1581,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates the transpose of this matrix by swapping rows and columns.
+     * Returns the transpose of this matrix by swapping rows and columns.
      *
      * <p>The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
+     * matrix has dimensions swapped (rows x columns becomes columns x rows).
      * The original matrix is not modified.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2254,7 +2248,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of elements on the main diagonal from left-upper to right-down.
+     * Returns a stream of elements on the main diagonal from left-up to right-down.
      *
      * <p>The matrix must be square (same number of rows and columns). The stream contains elements
      * at positions (0,0), (1,1), (2,2), ..., (n-1,n-1) where n is the matrix dimension.
@@ -2269,7 +2263,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Stream contains: 1, 5, 9
      * }</pre>
      *
-     * @return a ShortStream of diagonal elements from left-upper to right-down
+     * @return a ShortStream of diagonal elements from left-up to right-down
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     @Override
@@ -2315,7 +2309,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of elements on the anti-diagonal from right-upper to left-down.
+     * Returns a stream of elements on the anti-diagonal from right-up to left-down.
      *
      * <p>The matrix must be square (same number of rows and columns). The stream contains elements
      * at positions (0,n-1), (1,n-2), (2,n-3), ..., (n-1,0) where n is the matrix dimension.
@@ -2330,7 +2324,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Stream contains: 3, 5, 7
      * }</pre>
      *
-     * @return a ShortStream of anti-diagonal elements from right-upper to left-down
+     * @return a ShortStream of anti-diagonal elements from right-up to left-down
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     @Override
@@ -2378,7 +2372,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of all elements in the matrix in row-major order (horizontally).
+     * Returns a stream of all elements in this matrix, traversed horizontally (left to right, top to bottom).
      *
      * <p>Elements are streamed row by row from left to right, top to bottom. This is the most common
      * streaming order for matrix traversal and corresponds to the natural iteration order of the
@@ -2399,7 +2393,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of elements from a specific row.
+     * Returns a stream of elements from a specific row.
      *
      * <p>All elements in the specified row are streamed from left to right (column index 0 to columnCount-1).
      * This is equivalent to calling {@code streamH(rowIndex, rowIndex + 1)}.</p>
@@ -2421,7 +2415,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of elements from a range of rows in row-major order.
+     * Returns a stream of elements from a range of rows in row-major order.
      *
      * <p>Elements from the specified rows are streamed row by row from left to right, top to bottom.
      * Each complete row is streamed before moving to the next row within the specified range.</p>
@@ -2511,7 +2505,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of all elements in the matrix in column-major order (vertically).
+     * Returns a stream of all elements in this matrix, traversed vertically (top to bottom, left to right).
      *
      * <p>Elements are streamed column by column from top to bottom, left to right. This traversal
      * order processes all elements in the first column, then all elements in the second column, and so on.
@@ -2533,7 +2527,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of elements from a specific column.
+     * Returns a stream of elements from a specific column.
      *
      * <p>All elements in the specified column are streamed from top to bottom (row index 0 to rows-1).
      * This is equivalent to calling {@code streamV(columnIndex, columnIndex + 1)}.</p>
@@ -2555,7 +2549,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of elements from a range of columns in column-major order.
+     * Returns a stream of elements from a range of columns in column-major order.
      *
      * <p>Elements from the specified columns are streamed column by column from top to bottom, left to right.
      * Each complete column is streamed before moving to the next column within the specified range.</p>
@@ -2647,7 +2641,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of row streams, where each element is a stream representing a complete row.
+     * Returns a stream of row streams, where each element is a stream representing a complete row.
      *
      * <p>Rows are streamed in order from top to bottom. This method is useful for processing the matrix
      * row-by-row where each row needs to be handled as a separate stream. Each row stream contains
@@ -2669,7 +2663,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of row streams from a range of rows.
+     * Returns a stream of row streams from a range of rows.
      *
      * <p>Each element in the returned stream is a ShortStream representing a complete row within the
      * specified range. Rows are streamed in order within the range. Each row stream contains all
@@ -2731,7 +2725,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of column streams, where each element is a stream representing a complete column.
+     * Returns a stream of column streams, where each element is a stream representing a complete column.
      *
      * <p>Columns are streamed in order from left to right. This method is useful for processing the matrix
      * column-by-column where each column needs to be handled as a separate stream. Each column stream
@@ -2755,7 +2749,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a stream of column streams from a range of columns.
+     * Returns a stream of column streams from a range of columns.
      *
      * <p>Each element in the returned stream is a ShortStream representing a complete column within the
      * specified range. Columns are streamed in order within the range. Each column stream contains all
@@ -2862,7 +2856,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Applies the specified action to each element in the matrix.
+     * Performs the specified action for each element in this matrix.
      * Elements are processed in row-major order (left to right, top to bottom).
      * This operation may be performed in parallel for large matrices.
      *
@@ -2882,7 +2876,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Applies the specified action to each element in a rectangular sub-region of the matrix.
+     * Performs the specified action for each element in a rectangular sub-region of this matrix.
      * Elements are processed in row-major order (left to right, top to bottom) within the specified bounds.
      * This operation may be performed in parallel for large regions.
      *

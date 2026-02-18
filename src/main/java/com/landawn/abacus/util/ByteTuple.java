@@ -798,6 +798,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             return "()";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * For an empty tuple, returns an empty byte array.
+         *
+         * @return an empty byte array
+         */
         @Override
         protected byte[] elements() {
             return N.EMPTY_BYTE_ARRAY;
@@ -957,6 +963,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ")";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a byte array containing the single element
+         */
         @Override
         protected byte[] elements() {
             if (elements == null) {
@@ -1276,6 +1288,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ")";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a byte array containing all elements in order
+         */
         @Override
         protected byte[] elements() {
             if (elements == null) {
@@ -1613,6 +1631,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ")";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a byte array containing all elements in order
+         */
         @Override
         protected byte[] elements() {
             if (elements == null) {
@@ -1783,10 +1807,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all four elements.
          *
-         * @return a hash code based on all four elements
+         * @return a hash code value calculated from all four elements
          */
         @Override
         public int hashCode() {
@@ -1794,12 +1816,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ByteTuple.ByteTuple4 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ByteTuple.ByteTuple4 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple4 with the same elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1814,7 +1834,6 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (element1, element2, element3, element4) where each element is displayed in order.
          *
          * @return a string representation in the format "(element1, element2, element3, element4)"
          */
@@ -1823,6 +1842,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a byte array containing all elements in order
+         */
         @Override
         protected byte[] elements() {
             if (elements == null) {
@@ -1996,10 +2021,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all five elements.
          *
-         * @return a hash code based on all five elements
+         * @return a hash code value calculated from all five elements
          */
         @Override
         public int hashCode() {
@@ -2007,12 +2030,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ByteTuple.ByteTuple5 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ByteTuple.ByteTuple5 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple5 with the same elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2027,7 +2048,6 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (element1, element2, element3, element4, element5) where each element is displayed in order.
          *
          * @return a string representation in the format "(element1, element2, element3, element4, element5)"
          */
@@ -2036,6 +2056,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a byte array containing all elements in order
+         */
         @Override
         protected byte[] elements() {
             if (elements == null) {
@@ -2213,10 +2239,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all six elements.
          *
-         * @return a hash code based on all six elements
+         * @return a hash code value calculated from all six elements
          */
         @Override
         public int hashCode() {
@@ -2224,12 +2248,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ByteTuple.ByteTuple6 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ByteTuple.ByteTuple6 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple6 with the same elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2244,7 +2266,6 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (element1, element2, element3, element4, element5, element6) where each element is displayed in order.
          *
          * @return a string representation in the format "(element1, element2, element3, element4, element5, element6)"
          */
@@ -2253,6 +2274,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a byte array containing all elements in order
+         */
         @Override
         protected byte[] elements() {
             if (elements == null) {
@@ -2435,10 +2462,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all seven elements.
          *
-         * @return a hash code based on all seven elements
+         * @return a hash code value calculated from all seven elements
          */
         @Override
         public int hashCode() {
@@ -2446,12 +2471,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ByteTuple.ByteTuple7 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ByteTuple.ByteTuple7 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple7 with the same elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2466,15 +2489,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (element1, element2, element3, element4, element5, element6, element7) where each element is displayed in order.
          *
-         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6, element7)"
+         * @return a string representation in the format "(element1, element2, ..., element7)"
          */
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a byte array containing all elements in order
+         */
         @Override
         protected byte[] elements() {
             if (elements == null) {
@@ -2664,10 +2692,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all eight elements.
          *
-         * @return a hash code based on all eight elements
+         * @return a hash code value calculated from all eight elements
          */
         @Override
         public int hashCode() {
@@ -2675,12 +2701,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ByteTuple.ByteTuple8 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ByteTuple.ByteTuple8 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple8 with the same elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2696,15 +2720,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (element1, element2, element3, element4, element5, element6, element7, element8) where each element is displayed in order.
          *
-         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6, element7, element8)"
+         * @return a string representation in the format "(element1, element2, ..., element8)"
          */
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a byte array containing all elements in order
+         */
         @Override
         protected byte[] elements() {
             if (elements == null) {
@@ -2898,10 +2927,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all nine elements.
          *
-         * @return a hash code based on all nine elements
+         * @return a hash code value calculated from all nine elements
          */
         @Override
         public int hashCode() {
@@ -2909,12 +2936,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ByteTuple.ByteTuple9 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ByteTuple.ByteTuple9 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple9 with the same elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2930,15 +2955,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (element1, element2, element3, element4, element5, element6, element7, element8, element9) where each element is displayed in order.
          *
-         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6, element7, element8, element9)"
+         * @return a string representation in the format "(element1, element2, ..., element9)"
          */
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
         }
 
+        /**
+         * Returns the internal array of byte elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a byte array containing all elements in order
+         */
         @Override
         protected byte[] elements() {
             if (elements == null) {

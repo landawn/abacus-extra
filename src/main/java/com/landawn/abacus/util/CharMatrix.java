@@ -367,8 +367,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Character> boxed = Matrix.of(new Character[][] {{'a', 'b'}, {null, 'c'}});
-     * CharMatrix primitive = CharMatrix.unbox(boxed);
+     * Matrix<Character> boxedMatrix = Matrix.of(new Character[][] {{'a', 'b'}, {null, 'c'}});
+     * CharMatrix primitive = CharMatrix.unbox(boxedMatrix);
      * // null is converted to '\u0000': [['a', 'b'], ['\u0000', 'c']]
      * }</pre>
      *
@@ -482,7 +482,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the element above the specified position, if it exists.
+     * Returns the element directly above the specified position, if it exists.
      * This method provides safe access to the element directly above the given position
      * without throwing an exception when at the top edge of the matrix.
      *
@@ -505,7 +505,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the element below the specified position, if it exists.
+     * Returns the element directly below the specified position, if it exists.
      * This method provides safe access to the element directly below the given position
      * without throwing an exception when at the bottom edge of the matrix.
      *
@@ -528,7 +528,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the element to the left of the specified position, if it exists.
+     * Returns the element directly to the left of the specified position, if it exists.
      * This method provides safe access to the element directly to the left of the given position
      * without throwing an exception when at the leftmost edge of the matrix.
      *
@@ -551,7 +551,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the element to the right of the specified position, if it exists.
+     * Returns the element directly to the right of the specified position, if it exists.
      * This method provides safe access to the element directly to the right of the given position
      * without throwing an exception when at the rightmost edge of the matrix.
      *
@@ -738,7 +738,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the elements on the main diagonal from left-upper to right-down.
+     * Returns a copy of the main diagonal elements (left-up to right-down).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -1127,7 +1127,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final char[][] b) throws IllegalArgumentException {
-        N.checkArgNotNull(b, cs.b);
+        N.checkArgNotNull(b, "b");
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex(%s) must be between 0 and rowCount(%s)", fromRowIndex, rowCount);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and columnCount(%s)", fromColumnIndex,
                 columnCount);
@@ -1140,7 +1140,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a copy of this matrix.
+     * Returns a deep copy of this matrix.
+     * Modifications to the returned matrix will not affect this matrix, and vice versa.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1149,7 +1150,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // copy is independent from original
      * }</pre>
      *
-     * @return a new matrix that is a copy of this matrix
+     * @return a deep copy of this matrix
      */
     @Override
     public CharMatrix copy() {
@@ -1485,7 +1486,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a new matrix that is vertically flipped (rows reversed).
+     * Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
      * The original matrix is not modified. The first row becomes the last row, etc.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1495,7 +1496,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // original matrix is unchanged
      * }</pre>
      *
-     * @return a new CharMatrix with rows in reversed order
+     * @return a new matrix that is a vertical flip of this matrix (rows in reversed order)
      * @see #reverseV() for an in-place version
      */
     public CharMatrix flipV() {
@@ -1505,7 +1506,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a new matrix rotated 90 degrees clockwise.
+     * Returns a new matrix that is this matrix rotated 90 degrees clockwise.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1514,7 +1515,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // rotated is {{'c', 'a'}, {'d', 'b'}}
      * }</pre>
      *
-     * @return a new matrix rotated 90 degrees clockwise
+     * @return a new matrix that is this matrix rotated 90 degrees clockwise
      */
     @Override
     public CharMatrix rotate90() {
@@ -1538,7 +1539,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a new matrix rotated 180 degrees.
+     * Returns a new matrix that is this matrix rotated 180 degrees clockwise.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1547,7 +1548,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // rotated is {{'d', 'c'}, {'b', 'a'}}
      * }</pre>
      *
-     * @return a new matrix rotated 180 degrees
+     * @return a new matrix that is this matrix rotated 180 degrees clockwise
      */
     @Override
     public CharMatrix rotate180() {
@@ -1562,7 +1563,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * Returns a new matrix that is this matrix rotated 270 degrees clockwise.
+     * This is equivalent to rotating 90 degrees counter-clockwise.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1571,7 +1573,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // rotated is {{'b', 'd'}, {'a', 'c'}}
      * }</pre>
      *
-     * @return a new matrix rotated 270 degrees clockwise
+     * @return a new matrix that is this matrix rotated 270 degrees clockwise
      */
     @Override
     public CharMatrix rotate270() {
@@ -2353,17 +2355,17 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a stream of all elements in the matrix, traversed horizontally (row by row).
+     * Returns a stream of all elements in this matrix, traversed horizontally (left to right, top to bottom).
      * Elements are returned in row-major order: all elements from the first row,
      * then all elements from the second row, and so on.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
      * CharStream stream = matrix.streamH();   // Stream of: 'a', 'b', 'c', 'd'
      * }</pre>
      *
-     * @return a CharStream containing all matrix elements in row-major order
+     * @return a CharStream containing all matrix elements traversed horizontally (left to right, top to bottom)
      */
     @Override
     public CharStream streamH() {
@@ -2814,7 +2816,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Applies the specified action to each element in the matrix.
+     * Performs the specified action for each element in this matrix.
      *
      * <p>The action is performed on all elements in row-major order (left to right, top to bottom).
      * For large matrices, the operation may be parallelized automatically to improve performance.
@@ -2837,7 +2839,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Applies the specified action to each element in a sub-region of the matrix.
+     * Performs the specified action for each element in a sub-region of this matrix.
      *
      * <p>The action is performed on elements within the specified row and column ranges
      * in row-major order. This allows you to operate on a rectangular portion of the matrix

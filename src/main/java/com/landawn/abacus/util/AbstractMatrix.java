@@ -448,11 +448,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Converts a non-negative element count to an array length with overflow protection.
+     * Converts a non-negative element count to an {@code int} array length with overflow protection.
+     * This utility method ensures that the element count fits within an {@code int} range before
+     * converting it, guarding against overflow when materializing streams or arrays from large matrices.
      *
-     * @param count the number of remaining elements
-     * @return the count as an int array length
-     * @throws IllegalStateException if count is negative or exceeds Integer.MAX_VALUE
+     * @param count the number of remaining elements (must be non-negative and at most {@code Integer.MAX_VALUE})
+     * @return the count cast to an {@code int} array length
+     * @throws IllegalStateException if count is negative or exceeds {@code Integer.MAX_VALUE}
      */
     protected static int toArrayLength(final long count) {
         if (count < 0 || count > Integer.MAX_VALUE) {
@@ -510,6 +512,12 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Returns the number of rows in this matrix.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
+     * int rows = matrix.rowCount();   // Returns 2
+     * }</pre>
+     *
      * @return the number of rows
      */
     public int rowCount() {
@@ -519,6 +527,12 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Returns the number of columns in this matrix.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
+     * int cols = matrix.columnCount();   // Returns 3
+     * }</pre>
+     *
      * @return the number of columns
      */
     public int columnCount() {
@@ -526,7 +540,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Returns the total number of elements in this matrix (rows × columns).
+     * Returns the total number of elements in this matrix (rows x columns).
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
+     * long count = matrix.elementCount();   // Returns 6
+     * }</pre>
      *
      * @return the total number of elements
      */
@@ -535,22 +555,19 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Checks if the matrix is empty (contains no elements).
+     * Returns {@code true} if this matrix is empty (contains no elements).
      * A matrix is considered empty if either the number of rows or columns is zero,
      * resulting in a total count of zero elements.
      *
-     * <p>Note: An empty matrix can have various shapes such as 0×0, 0×n, or m×0.</p>
+     * <p>Note: An empty matrix has zero rows (and therefore zero elements).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix empty1 = IntMatrix.of(new int[0][0]);
-     * boolean isEmpty1 = empty1.isEmpty();   // Returns true (0×0)
-     *
-     * IntMatrix empty2 = IntMatrix.of(new int[0][5]);
-     * boolean isEmpty2 = empty2.isEmpty();   // Returns true (0×0 empty matrix)
+     * IntMatrix empty = IntMatrix.of(new int[0][0]);
+     * boolean result1 = empty.isEmpty();   // Returns true (0x0)
      *
      * IntMatrix notEmpty = IntMatrix.of(new int[][] {{1}});
-     * boolean isEmpty3 = notEmpty.isEmpty();   // Returns false (1×1)
+     * boolean result2 = notEmpty.isEmpty();   // Returns false (1x1)
      * }</pre>
      *
      * @return {@code true} if the matrix has no elements (count == 0), {@code false} otherwise
@@ -560,7 +577,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Prints the matrix to standard output in a formatted, human-readable manner and returns the output string.
+     * Prints this matrix to standard output in a formatted, human-readable manner and returns the output string.
      * Each concrete implementation provides its own formatting based on the element type.
      * This method is primarily intended for debugging and logging purposes.
      *
@@ -585,7 +602,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract String println();
 
     /**
-     * Creates a copy of this matrix.
+     * Returns a deep copy of this matrix.
      * The returned matrix is a completely independent copy with its own underlying array;
      * modifications to one matrix do not affect the other.
      *
@@ -601,12 +618,12 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // copy:     {{10, 2}, {3, 4}}
      * }</pre>
      *
-     * @return a new matrix that is a copy of this matrix with the same dimensions and values
+     * @return a new matrix that is a deep copy of this matrix with the same dimensions and values
      */
     public abstract X copy();
 
     /**
-     * Creates a copy of a row range from this matrix.
+     * Returns a deep copy of a row range from this matrix.
      * The returned matrix contains only the specified rows (with all columns) and is completely
      * independent from the original matrix.
      *
@@ -630,7 +647,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract X copy(int fromRowIndex, int toRowIndex);
 
     /**
-     * Creates a copy of a rectangular region from this matrix.
+     * Returns a deep copy of a rectangular region from this matrix.
      * The returned matrix contains only the specified rows and columns and is completely
      * independent from the original matrix.
      *
@@ -657,34 +674,34 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract X copy(int fromRowIndex, int toRowIndex, int fromColumnIndex, int toColumnIndex);
 
     /**
-     * Rotates this matrix 90 degrees clockwise.
+     * Returns a new matrix that is this matrix rotated 90 degrees clockwise.
      * The resulting matrix has dimensions swapped (rows become columns), with the first
      * column of the result being the last row of the original matrix reading upward.
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p>Rotation formula: element at position (i, j) in the original matrix
      * moves to position (j, rowCount - 1 - i) in the rotated matrix.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Original:    Rotated 90° clockwise:
+     * // Original:    Rotated 90 degrees clockwise:
      * // 1 2 3        7 4 1
      * // 4 5 6   =>   8 5 2
      * // 7 8 9        9 6 3
      *
      * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * IntMatrix rotated = original.rotate90();   // 3×3 remains 3×3
+     * IntMatrix rotated = original.rotate90();   // 3x3 remains 3x3
      * }</pre>
      *
-     * @return a new matrix rotated 90 degrees clockwise with dimensions columnCount × rowCount
+     * @return a new matrix that is this matrix rotated 90 degrees clockwise, with dimensions columnCount x rowCount
      */
     public abstract X rotate90();
 
     /**
-     * Rotates this matrix 180 degrees.
+     * Returns a new matrix that is this matrix rotated 180 degrees clockwise.
      * This is equivalent to flipping both horizontally and vertically, reversing the
      * order of all elements. The resulting matrix has the same dimensions as the original.
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p>Rotation formula: element at position (i, j) in the original matrix
      * moves to position (rowCount - 1 - i, columnCount - 1 - j) in the rotated matrix.</p>
@@ -693,52 +710,51 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Original:    Rotated 180°:
+     * // Original:    Rotated 180 degrees:
      * // 1 2 3        9 8 7
      * // 4 5 6   =>   6 5 4
      * // 7 8 9        3 2 1
      *
      * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntMatrix rotated = original.rotate180();   // Dimensions remain 2×3
+     * IntMatrix rotated = original.rotate180();   // Dimensions remain 2x3
      * }</pre>
      *
-     * @return a new matrix rotated 180 degrees with the same dimensions (rowCount × columnCount)
+     * @return a new matrix that is this matrix rotated 180 degrees clockwise, with the same dimensions (rowCount x columnCount)
      */
     public abstract X rotate180();
 
     /**
-     * Rotates this matrix 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * Returns a new matrix that is this matrix rotated 270 degrees clockwise (or equivalently, 90 degrees counter-clockwise).
      * The resulting matrix has dimensions swapped (rows become columns), with the first
      * column of the result being the first row of the original matrix reading downward.
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p>Rotation formula: element at position (i, j) in the original matrix
      * moves to position (columnCount - 1 - j, i) in the rotated matrix.</p>
      *
-     * <p>This operation is equivalent to calling {@code rotate90().rotate90().rotate90()}
-     * or {@code transpose().rotate180().transpose()}.</p>
+     * <p>This operation is equivalent to calling {@code rotate90().rotate90().rotate90()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Original:    Rotated 270° clockwise:
+     * // Original:    Rotated 270 degrees clockwise:
      * // 1 2 3        3 6 9
      * // 4 5 6   =>   2 5 8
      * // 7 8 9        1 4 7
      *
      * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * IntMatrix rotated = original.rotate270();   // 3×3 becomes 3×3
+     * IntMatrix rotated = original.rotate270();   // 3x3 becomes 3x3
      * }</pre>
      *
-     * @return a new matrix rotated 270 degrees clockwise with dimensions columnCount × rowCount
+     * @return a new matrix that is this matrix rotated 270 degrees clockwise, with dimensions columnCount x rowCount
      */
     public abstract X rotate270();
 
     /**
-     * Creates the transpose of this matrix by swapping rows and columns.
-     * The transpose operation converts each row into a column, so element at position (i, j)
+     * Returns a new matrix that is the transpose of this matrix.
+     * The transpose operation swaps rows and columns, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rowCount × columnCount becomes columnCount × rowCount).
-     * Creates a new matrix; the original matrix is not modified.
+     * matrix has dimensions swapped (rowCount x columnCount becomes columnCount x rowCount).
+     * The original matrix is not modified.
      *
      * <p>Transpose formula: element at position (i, j) in the original matrix
      * moves to position (j, i) in the transposed matrix.</p>
@@ -754,20 +770,20 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // 7 8 9        3 6 9
      *
      * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntMatrix transposed = original.transpose();   // 2×3 becomes 3×2
+     * IntMatrix transposed = original.transpose();   // 2x3 becomes 3x2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rowCount
+     * @return a new matrix that is the transpose of this matrix, with dimensions columnCount x rowCount
      */
     public abstract X transpose();
 
     /**
-     * Reshapes this matrix to have the specified number of columns.
+     * Returns a new matrix with the elements of this matrix rearranged into the specified number of columns.
      * The number of rows is automatically calculated based on the total element count.
      * Elements are taken in row-major order from the original matrix and placed into the
      * new shape. If the total element count is not evenly divisible by the new column count,
      * the last row will be padded with default values (0 for numeric types, false for boolean, null for objects).
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p>The new row count is calculated as: {@code ceiling(elementCount / newColumnCount)}</p>
      *
@@ -796,12 +812,12 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Reshapes this matrix to have the specified dimensions.
+     * Returns a new matrix with the elements of this matrix rearranged into the specified dimensions.
      * Elements are taken in row-major order from the original matrix and placed into the
      * new shape. If the new shape has fewer elements than the original, excess elements are
      * discarded. If the new shape has more elements, the extra positions are filled with
      * default values (0 for numeric types, false for boolean, null for objects).
-     * Creates a new matrix; the original matrix is not modified.
+     * The original matrix is not modified.
      *
      * <p>This is a fundamental operation for restructuring matrix data without changing
      * the underlying element values (within the bounds of the new shape).</p>
@@ -822,7 +838,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract X reshape(int newRowCount, int newColumnCount);
 
     /**
-     * Checks if this matrix has the same shape (dimensions) as another matrix.
+     * Returns {@code true} if this matrix has the same shape (dimensions) as the specified matrix.
      * Two matrices have the same shape if they have the same number of rows and columns.
      * The element values are not compared, only the dimensions.
      *
@@ -848,10 +864,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Repeats each element in the matrix the specified number of times in both dimensions.
-     * Each element is expanded into a block of size rowRepeats × colRepeats.
-     * The resulting matrix has dimensions (rows × rowRepeats) × (columnCount × colRepeats).
-     * Creates a new matrix; the original matrix is not modified.
+     * Returns a new matrix with each element repeated the specified number of times in both dimensions.
+     * Each element is expanded into a block of size rowRepeats x colRepeats.
+     * The resulting matrix has dimensions (rowCount x rowRepeats) x (columnCount x colRepeats).
+     * The original matrix is not modified.
      *
      * <p>This operation is similar to MATLAB's repelem function. Each element becomes a block,
      * effectively creating a "zoomed in" version of the matrix where each original element
@@ -871,17 +887,17 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param rowRepeats number of times to repeat each element in the row direction (must be &gt;= 1)
      * @param colRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
-     * @return a new matrix with repeated elements, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
+     * @return a new matrix with repeated elements, with dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">MATLAB repelem</a>
      */
     public abstract X repelem(int rowRepeats, int colRepeats);
 
     /**
-     * Repeats the entire matrix the specified number of times in both dimensions.
+     * Returns a new matrix formed by tiling this matrix the specified number of times in both dimensions.
      * The matrix is tiled rowRepeats times vertically and colRepeats times horizontally.
-     * The resulting matrix has dimensions (rows × rowRepeats) × (columnCount × colRepeats).
-     * Creates a new matrix; the original matrix is not modified.
+     * The resulting matrix has dimensions (rowCount x rowRepeats) x (columnCount x colRepeats).
+     * The original matrix is not modified.
      *
      * <p>This operation is similar to MATLAB's repmat function. The entire matrix pattern
      * is replicated, creating a tiled arrangement.</p>
@@ -900,16 +916,16 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param rowRepeats number of times to repeat the matrix in the row direction (must be &gt;= 1)
      * @param colRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
-     * @return a new matrix with the original matrix repeated, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
+     * @return a new matrix with this matrix tiled, with dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">MATLAB repmat</a>
      */
     public abstract X repmat(int rowRepeats, int colRepeats);
 
     /**
-     * Flattens the matrix into a one-dimensional list.
+     * Flattens this matrix into a one-dimensional list.
      * Elements are taken in row-major order (row by row from left to right).
-     * The returned list is a new instance containing all matrix elements.
+     * The returned list is a new instance; modifications to it do not affect this matrix.
      *
      * <p>The flattening operation converts a two-dimensional matrix structure into a one-dimensional sequence,
      * which is useful for operations that work on linear data structures.</p>
@@ -928,14 +944,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract PL flatten();
 
     /**
-     * Applies an operation to the flattened view of the matrix and updates the matrix with the result.
-     * This method provides access to the underlying array representation in row-major order,
-     * executes the operation on it, and the changes are reflected back in the matrix structure.
+     * Applies the specified operation to the flattened (row-major order) view of this matrix.
+     * The operation receives a single one-dimensional array containing all elements in row-major order,
+     * and any modifications to that array are reflected back in this matrix.
      *
      * <p>This is useful for operations that are easier to perform on a flat array representation,
      * such as sorting all elements, applying statistical transformations, or batch updates.</p>
      *
-     * <p><strong>Note:</strong> The operation modifies the array in place, which affects the matrix.</p>
+     * <p><strong>Note:</strong> The operation modifies the array in place, which directly affects the matrix.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -954,7 +970,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract <E extends Exception> void flatOp(Throwables.Consumer<? super A, E> op) throws E;
 
     /**
-     * Performs the given action for each position in the matrix.
+     * Performs the specified action for each element position in the matrix.
      * The action receives the row and column indices for each element.
      * Elements are processed in row-major order (row by row from left to right).
      * For large matrices, the operation may be automatically parallelized for better performance.
@@ -996,7 +1012,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Performs the given action for each position in the specified rectangular region of the matrix.
+     * Performs the specified action for each element position in the specified rectangular region of the matrix.
      * The action receives the row and column indices for each element in the region.
      * Elements are processed in row-major order within the specified region.
      * For large regions, the operation may be automatically parallelized for better performance.
@@ -1045,7 +1061,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Performs the given action for each position in the matrix, providing the matrix itself as a parameter.
+     * Performs the specified action for each element position in the matrix, providing the matrix itself as a parameter.
      * The action receives the row index, column index, and the matrix instance.
      * Elements are processed in row-major order (row by row from left to right).
      * For large matrices, the operation may be automatically parallelized for better performance.
@@ -1086,7 +1102,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Performs the given action for each position in the specified rectangular region, providing the matrix itself.
+     * Performs the specified action for each element position in the specified rectangular region, providing the matrix itself.
      * The action receives the row index, column index, and the matrix instance for each position in the region.
      * Elements are processed in row-major order within the specified region.
      * For large regions, the operation may be automatically parallelized for better performance.
@@ -1139,30 +1155,30 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Returns a stream of points adjacent to the specified position in the four cardinal directions
-     * (up, down, left, right). Only includes points within matrix bounds, filtering out null values
-     * for positions at the matrix edges.
+     * Returns a stream of points directly above, below, to the left of, and to the right of the
+     * specified position (the four cardinal directions). Only includes points that are within
+     * matrix bounds; positions at the edges will have fewer than 4 adjacent points.
      *
      * <p>This method is useful for grid traversal algorithms, pathfinding, and neighbor analysis
      * where only orthogonal (non-diagonal) adjacency is considered. Points are returned in the
-     * order: up, right, down, left.
+     * order: up, right, down, left.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
-     * // Returns stream of Point.of(0, 1) and Point.of(1, 0) - only right and down exist
+     * // Returns stream of Point(0, 1) and Point(1, 0) - only right and down exist
      *
      * // Center position has all 4 neighbors
-     * BooleanMatrix larger = BooleanMatrix.of(new boolean[3][3]);
+     * IntMatrix larger = IntMatrix.of(new int[3][3]);
      * Stream<Point> centerAdj = larger.adjacent4Points(1, 1);
      * // Returns all 4 adjacent points: (0,1), (1,2), (2,1), (1,0)
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
      * @param columnIndex the column index (0-based)
-     * @return a stream of adjacent points in cardinal directions (0-4 points depending on position)
-     * @throws IndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
+     * @return a stream of adjacent points in the four cardinal directions (0 to 4 points depending on position)
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public Stream<Point> adjacent4Points(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
@@ -1186,14 +1202,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Returns a stream of all 8 points adjacent to the specified position, including both
-     * cardinal directions (up, down, left, right) and diagonal directions. Only includes
-     * points within matrix bounds.
+     * Returns a stream of all 8 points adjacent to the specified position, including the points
+     * directly above, below, to the left of, to the right of, and diagonally adjacent to the
+     * specified position. Only includes points that are within matrix bounds.
      *
      * <p>This method is useful for algorithms requiring full 8-way adjacency, such as
      * certain pathfinding algorithms, cellular automaton simulations (like Conway's Game of Life),
      * or flood fill operations. Points are returned clockwise starting from the top-left:
-     * leftUp, up, rightUp, right, rightDown, down, leftDown, left.
+     * leftUp, up, rightUp, right, rightDown, down, leftDown, left.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1208,8 +1224,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param rowIndex the row index (0-based)
      * @param columnIndex the column index (0-based)
-     * @return a stream of adjacent points in all 8 directions (0-8 points depending on position)
-     * @throws IndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
+     * @return a stream of adjacent points in all 8 directions (0 to 8 points depending on position)
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public Stream<Point> adjacent8Points(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
@@ -1656,8 +1672,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream columnCount1and2 = matrix.streamV(1, 3);   // Stream of: 2, 5, 3, 6
-     * double avg = columnCount1and2.average().orElse(0);   // 4.0
+     * IntStream cols1and2 = matrix.streamV(1, 3);   // Stream of: 2, 5, 3, 6
+     * double avg = cols1and2.average().orElse(0);   // 4.0
      * }</pre>
      *
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
@@ -1754,7 +1770,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract RS streamC(final int fromColumnIndex, final int toColumnIndex);
 
     /**
-     * Executes the given action with this matrix as the parameter.
+     * Executes the specified action with this matrix as the parameter.
      * This method enables the functional programming pattern of passing the matrix to a consumer function
      * for side-effect operations such as logging, validation, or modification.
      *
@@ -1794,7 +1810,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Applies the given function to this matrix and returns the result.
+     * Applies the specified function to this matrix and returns the result.
      * This method enables fluent-style transformations where the matrix needs to be passed to a function.
      * It follows the functional programming pattern of applying a function and returning its result.
      *
@@ -1822,34 +1838,36 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Returns the length of the given array.
-     * This abstract method must be implemented by concrete subclasses to handle
-     * their specific array types (primitive arrays like int[], double[], or object arrays).
+     * Returns the length of the given row array.
+     * This abstract method must be implemented by concrete subclasses to return the length
+     * of their specific array type (e.g., {@code int[]}, {@code double[]}, or {@code Object[]}).
      *
-     * <p>Implementors should return the appropriate length for their array type:
-     * <ul>
-     *   <li>For primitive arrays: use the array's length field (e.g., {@code ((int[])a).length})</li>
-     *   <li>For object arrays: use {@link java.lang.reflect.Array#getLength(Object)}</li>
-     * </ul>
-     * </p>
-     *
-     * @param a the array to measure
+     * @param a the row array whose length is to be determined
      * @return the length of the array
      */
     protected abstract int length(@SuppressWarnings("hiding") A a);
 
     /**
-     * Validates that this matrix has the same shape (dimensions) as the given matrix.
+     * Validates that this matrix has the same shape (dimensions) as the specified matrix.
      * This is a helper method used internally to enforce shape compatibility before
-     * operations that require matrices of the same dimensions.
+     * operations that require matrices of the same dimensions (e.g., element-wise addition).
      *
-     * @param x the matrix to compare with
-     * @throws IllegalArgumentException if the matrices have different shapes (different rows or columnCount)
+     * @param x the matrix to compare shape with
+     * @throws IllegalArgumentException if the matrices have different row counts or column counts
      */
     protected void checkSameShape(final X x) {
         N.checkArgument(this.isSameShape(x), MSG_SHAPE_MISMATCH, rowCount, columnCount, x.rowCount, x.columnCount);
     }
 
+    /**
+     * Validates that the specified row and column indices are within the bounds of this matrix.
+     * This is a helper method used internally to enforce index validity before element access
+     * or neighbor lookup operations.
+     *
+     * @param rowIndex the row index to validate (must be in range [0, rowCount))
+     * @param columnIndex the column index to validate (must be in range [0, columnCount))
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
+     */
     protected void checkRowColumnIndex(final int rowIndex, final int columnIndex) {
         if (rowIndex < 0 || rowIndex >= rowCount) {
             throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
@@ -1861,18 +1879,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Validates that this matrix is square (has the same number of rows and columns).
+     * Validates that this matrix is square (rowCount == columnCount).
      * This is a helper method used internally to enforce the square matrix requirement
-     * for operations like diagonal access.
-     *
-     * <p>Square matrices are required for operations such as:
-     * <ul>
-     *   <li>{@link #streamLU2RD()} - main diagonal stream</li>
-     *   <li>{@link #streamRU2LD()} - anti-diagonal stream</li>
-     *   <li>{@link #pointsLU2RD()} - main diagonal points</li>
-     *   <li>{@link #pointsRU2LD()} - anti-diagonal points</li>
-     * </ul>
-     * </p>
+     * for diagonal operations such as {@link #streamLU2RD()}, {@link #streamRU2LD()},
+     * {@link #pointsLU2RD()}, and {@link #pointsRU2LD()}.
      *
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */

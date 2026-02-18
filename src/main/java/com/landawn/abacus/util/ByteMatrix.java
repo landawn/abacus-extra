@@ -279,7 +279,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements (left-upper to right-down).
+     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
      * All other elements are set to zero. The resulting matrix has dimensions n×n where n is the length
      * of the diagonal array.
      *
@@ -393,6 +393,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns the component type of the matrix elements, which is always {@code byte.class}.
+     * This method is useful for reflection-based code that needs to determine the element type.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -490,7 +491,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the element above the specified position, if it exists.
+     * Returns the element directly above the specified position, if it exists.
      * This method provides safe access to the element directly above the given position
      * without throwing an exception when at the top edge of the matrix.
      *
@@ -513,7 +514,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the element below the specified position, if it exists.
+     * Returns the element directly below the specified position, if it exists.
      * This method provides safe access to the element directly below the given position
      * without throwing an exception when at the bottom edge of the matrix.
      *
@@ -536,7 +537,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the element to the left of the specified position, if it exists.
+     * Returns the element directly to the left of the specified position, if it exists.
      * This method provides safe access to the element directly to the left of the given position
      * without throwing an exception when at the leftmost edge of the matrix.
      *
@@ -559,7 +560,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the element to the right of the specified position, if it exists.
+     * Returns the element directly to the right of the specified position, if it exists.
      * This method provides safe access to the element directly to the right of the given position
      * without throwing an exception when at the rightmost edge of the matrix.
      *
@@ -738,7 +739,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the elements on the main diagonal from left-upper to right-down.
+     * Returns a copy of the main diagonal elements from left-upper to right-down.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -1103,7 +1104,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final byte[][] b) throws IllegalArgumentException {
-        N.checkArgNotNull(b, cs.b);
+        N.checkArgNotNull(b, "b");
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex(%s) must be between 0 and rowCount(%s)", fromRowIndex, rowCount);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and columnCount(%s)", fromColumnIndex,
                 columnCount);
@@ -1116,7 +1117,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a copy of this matrix.
+     * Returns a deep copy of this matrix.
      * The returned matrix is a completely independent copy; modifications to one
      * do not affect the other.
      *
@@ -1127,7 +1128,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * copy.set(0, 0, (byte) 10);   // Original matrix remains unchanged
      * }</pre>
      *
-     * @return a new matrix that is a copy of this matrix
+     * @return a deep copy of this matrix
      */
     @Override
     public ByteMatrix copy() {
@@ -1443,9 +1444,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new matrix that is horizontally flipped (each row reversed).
+     * Returns a new matrix that is a horizontal flip of this matrix (each row reversed).
      * The original matrix is not modified.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
@@ -1454,7 +1455,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // original matrix is unchanged
      * }</pre>
      *
-     * @return a new ByteMatrix with each row reversed
+     * @return a new ByteMatrix that is a horizontal flip of this matrix (each row reversed)
      * @see #flipV()
      * @see IntMatrix#flipH()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
@@ -1466,9 +1467,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new matrix that is vertically flipped (each column reversed).
+     * Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
      * The original matrix is not modified.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
@@ -1477,7 +1478,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // original matrix is unchanged
      * }</pre>
      *
-     * @return a new ByteMatrix with rows in reversed order
+     * @return a new ByteMatrix that is a vertical flip of this matrix (rows in reversed order)
      * @see #flipH()
      * @see IntMatrix#flipV()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
@@ -1489,7 +1490,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a new matrix rotated 90 degrees clockwise.
+     * Returns a new matrix that is this matrix rotated 90 degrees clockwise.
      * The dimensions are transposed: a matrix with dimensions (rowCount x columnCount) becomes (columnCount x rowCount).
      *
      * <p>Rotation rules:
@@ -1532,7 +1533,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a new matrix rotated 180 degrees.
+     * Returns a new matrix that is this matrix rotated 180 degrees clockwise.
      * The dimensions remain the same: a matrix with dimensions (rowCount x columnCount) stays (rowCount x columnCount).
      * This is equivalent to reversing both rows and columns.
      *
@@ -1567,7 +1568,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * Returns a new matrix that is this matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
      * The dimensions are transposed: a matrix with dimensions (rowCount x columnCount) becomes (columnCount x rowCount).
      *
      * <p>Rotation rules:
@@ -2412,7 +2413,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a stream of all elements in row-major order (horizontally).
+     * Returns a stream of all elements in this matrix, traversed horizontally (left to right, top to bottom).
      * Elements are streamed row by row from left to right. This is the default
      * iteration order for most matrix operations.
      *
@@ -2903,7 +2904,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Applies the specified action to each element in the matrix.
+     * Performs the specified action for each element in this matrix.
      * Elements are processed in row-major order (left to right, top to bottom).
      * This operation may be performed in parallel for large matrices.
      *
@@ -2923,7 +2924,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Applies the specified action to each element in a rectangular sub-region of the matrix.
+     * Performs the specified action for each element in a rectangular sub-region of this matrix.
      * Elements are processed in row-major order (left to right, top to bottom) within the specified bounds.
      * This operation may be performed in parallel for large regions.
      *
