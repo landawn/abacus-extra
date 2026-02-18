@@ -789,8 +789,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
         final long newRowCount = elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1;
 
-        N.checkArgument(newRowCount <= Integer.MAX_VALUE,
-                "Reshaped row count overflow: ceil(%s / %s) = %s exceeds Integer.MAX_VALUE", elementCount, newColumnCount, newRowCount);
+        N.checkArgument(newRowCount <= Integer.MAX_VALUE, "Reshaped row count overflow: ceil(%s / %s) = %s exceeds Integer.MAX_VALUE", elementCount,
+                newColumnCount, newRowCount);
 
         return reshape((int) newRowCount, newColumnCount);
     }

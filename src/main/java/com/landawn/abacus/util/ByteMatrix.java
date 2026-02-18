@@ -2033,7 +2033,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
         final byte[][] otherArray = other.a;
         final byte[][] result = new byte[rowCount][other.columnCount];
-        final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += (byte) (a[i][k] * otherArray[k][j]);
+        final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherArray[k][j];
 
         Matrixes.multiply(this, other, multiplyAction);
 
@@ -2248,6 +2248,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
                 matrixB.rowCount, matrixB.columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final byte[][] b = matrixB.a;
         final byte[][] result = new byte[rowCount][columnCount];
@@ -2285,6 +2286,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rowCount,
                 columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final byte[][] b = matrixB.a;
         final byte[][] c = matrixC.a;

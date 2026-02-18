@@ -2000,7 +2000,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         final short[][] otherArray = other.a;
         final short[][] result = new short[rowCount][other.columnCount];
-        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += (short) (a[i][k] * otherArray[k][j]);
+        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * otherArray[k][j];
 
         Matrixes.multiply(this, other, cmd);
 
@@ -2201,6 +2201,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
                 matrixB.rowCount, matrixB.columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final short[][] arrayB = matrixB.a;
         final short[][] result = new short[rowCount][columnCount];
@@ -2239,6 +2240,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rowCount,
                 columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final short[][] arrayB = matrixB.a;
         final short[][] arrayC = matrixC.a;

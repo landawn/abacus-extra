@@ -2185,6 +2185,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
                 matrixB.rowCount, matrixB.columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final char[][] b = matrixB.a;
         final char[][] result = new char[rowCount][columnCount];
@@ -2222,6 +2223,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rowCount,
                 columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final char[][] b = matrixB.a;
         final char[][] c = matrixC.a;

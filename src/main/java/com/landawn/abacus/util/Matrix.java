@@ -2206,6 +2206,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             final Class<R> targetElementType) throws IllegalArgumentException, E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
                 columnCount, matrixB.rowCount, matrixB.columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(targetElementType, "targetElementType");
 
         final B[][] b = matrixB.a;
         final R[][] result = Matrixes.newArray(rowCount, columnCount, targetElementType);
@@ -2279,6 +2281,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             throws IllegalArgumentException, E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB, matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rowCount,
                 columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(targetElementType, "targetElementType");
 
         final B[][] b = matrixB.a;
         final C[][] c = matrixC.a;

@@ -2256,6 +2256,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
                 matrixB.rowCount, matrixB.columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final long[][] b = matrixB.a;
         final long[][] result = new long[rowCount][columnCount];
@@ -2297,6 +2298,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rowCount,
                 columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final long[][] b = matrixB.a;
         final long[][] c = matrixC.a;

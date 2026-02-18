@@ -2015,6 +2015,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
                 matrixB.rowCount, matrixB.columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final float[][] secondMatrix = matrixB.a;
         final float[][] result = new float[rowCount][columnCount];
@@ -2047,6 +2048,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rowCount,
                 columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final float[][] secondMatrix = matrixB.a;
         final float[][] thirdMatrix = matrixC.a;

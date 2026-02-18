@@ -2327,6 +2327,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
                 matrixB.rowCount, matrixB.columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int[][] matrixBData = matrixB.a;
         final int[][] result = new int[rowCount][columnCount];
@@ -2377,6 +2378,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rowCount,
                 columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int[][] matrixBData = matrixB.a;
         final int[][] matrixCData = matrixC.a;

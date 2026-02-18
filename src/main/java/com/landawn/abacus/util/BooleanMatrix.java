@@ -2011,6 +2011,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
                 matrixB.rowCount, matrixB.columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final boolean[][] matrixBData = matrixB.a;
         final boolean[][] result = new boolean[rowCount][columnCount];
@@ -2056,6 +2057,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rowCount,
                 columnCount);
+        N.checkArgNotNull(zipFunction, "zipFunction");
 
         final boolean[][] matrixBData = matrixB.a;
         final boolean[][] matrixCData = matrixC.a;

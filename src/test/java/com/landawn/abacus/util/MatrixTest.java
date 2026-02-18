@@ -906,6 +906,27 @@ public class MatrixTest extends TestBase {
     }
 
     @Test
+    public void testZipWithNullArguments() {
+        Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } });
+        Matrix<Integer> m3 = Matrix.of(new Integer[][] { { 9, 10 }, { 11, 12 } });
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> m1.zipWith(m2, (Throwables.BiFunction<Integer, Integer, Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> m1.zipWith(m2, (Throwables.BiFunction<Integer, Integer, String, RuntimeException>) null, String.class));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> m1.zipWith(m2, (a, b) -> a + b, (Class<Integer>) null));
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> m1.zipWith(m2, m3, (Throwables.TriFunction<Integer, Integer, Integer, Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> m1.zipWith(m2, m3, (Throwables.TriFunction<Integer, Integer, Integer, String, RuntimeException>) null, String.class));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> m1.zipWith(m2, m3, (a, b, c) -> a + b + c, (Class<Integer>) null));
+    }
+
+    @Test
     public void testZipWith3Matrices() throws Exception {
         Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } });
