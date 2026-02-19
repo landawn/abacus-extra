@@ -1604,7 +1604,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Reshapes the matrix to new dimensions while preserving element order.
      * Elements are read in row-major order from the original matrix and placed into the new shape.
      *
-     * <p>If the new shape has fewer total elements than the original, excess elements are truncated.
+     * <p>The new shape must have at least as many total elements as the original
+     * ({@code newRowCount * newColumnCount >= elementCount()}).
      * If the new shape has more total elements, the additional positions are filled with zeros.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1617,12 +1618,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param newRowCount the number of rows in the reshaped matrix
      * @param newColumnCount the number of columns in the reshaped matrix
      * @return a new FloatMatrix with the specified shape containing this matrix's elements
+     * @throws IllegalArgumentException if the new shape is too small to hold all elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
     public FloatMatrix reshape(final int newRowCount, final int newColumnCount) {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+        N.checkArgument((long) newRowCount * newColumnCount >= elementCount(), "New shape [{}x{}={}] is too small to hold all {} elements", newRowCount,
+                newColumnCount, (long) newRowCount * newColumnCount, elementCount());
 
         final float[][] c = new float[newRowCount][newColumnCount];
 

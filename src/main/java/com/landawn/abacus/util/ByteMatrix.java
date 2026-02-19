@@ -1659,7 +1659,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <ul>
      * <li>Elements are extracted from the original matrix in row-major order (left to right, top to bottom)</li>
      * <li>Elements are placed into the new matrix in row-major order</li>
-     * <li>If the new shape has fewer total elements than the original, excess elements are truncated</li>
+     * <li>The new shape must have at least as many total elements as the original ({@code newRowCount * newColumnCount >= elementCount()})</li>
      * <li>If the new shape has more total elements, the additional positions are filled with zeros</li>
      * </ul>
      *
@@ -1668,12 +1668,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
      * ByteMatrix reshaped = matrix.reshape(3, 2);    // Becomes [[1, 2], [3, 4], [5, 6]]
      * ByteMatrix extended = matrix.reshape(2, 4);    // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
-     * ByteMatrix truncated = matrix.reshape(1, 4);   // Becomes [[1, 2, 3, 4]]
      * }</pre>
      *
      * @param newRowCount the number of rows in the reshaped matrix (must be non-negative)
      * @param newColumnCount the number of columns in the reshaped matrix (must be non-negative)
      * @return a new ByteMatrix with the specified shape containing this matrix's elements
+     * @throws IllegalArgumentException if the new shape is too small to hold all elements
      * @see #extend(int, int)
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
@@ -1681,6 +1681,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     public ByteMatrix reshape(final int newRowCount, final int newColumnCount) {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+        N.checkArgument((long) newRowCount * newColumnCount >= elementCount(), "New shape [{}x{}={}] is too small to hold all {} elements", newRowCount,
+                newColumnCount, (long) newRowCount * newColumnCount, elementCount());
 
         final byte[][] c = new byte[newRowCount][newColumnCount];
 

@@ -1626,7 +1626,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * Reshapes the matrix to new dimensions while preserving element order in row-major layout.
      *
      * <p>Elements are read in row-major order from the original matrix and placed into the new shape.
-     * If the new shape has fewer total elements than the original, excess elements are truncated.
+     * The new shape must have at least as many total elements as the original
+     * ({@code newRowCount * newColumnCount >= elementCount()}).
      * If the new shape has more total elements, the additional positions are filled with zeros (default value for short).</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1639,12 +1640,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param newRowCount the number of rows in the reshaped matrix (must be non-negative)
      * @param newColumnCount the number of columns in the reshaped matrix (must be non-negative)
      * @return a new ShortMatrix with the specified shape containing this matrix's elements in row-major order
+     * @throws IllegalArgumentException if the new shape is too small to hold all elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
     public ShortMatrix reshape(final int newRowCount, final int newColumnCount) {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+        N.checkArgument((long) newRowCount * newColumnCount >= elementCount(), "New shape [{}x{}={}] is too small to hold all {} elements", newRowCount,
+                newColumnCount, (long) newRowCount * newColumnCount, elementCount());
 
         final short[][] result = new short[newRowCount][newColumnCount];
 

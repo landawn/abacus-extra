@@ -1641,12 +1641,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Reshapes the matrix to the specified dimensions.
      *
      * <p>Elements are read from the source matrix in row-major order (left to right, top to bottom)
-     * and written to the new matrix in row-major order. If the new shape requires more elements
-     * than available in the source matrix, the remaining positions are filled with default char
-     * values ('\u0000'). If the new shape requires fewer elements, the excess elements are discarded.
-     *
-     * <p><b>Note:</b> Unlike some matrix libraries, this operation does not require the new
-     * dimensions to match the total number of elements in the original matrix.
+     * and written to the new matrix in row-major order. The new shape must have at least as many
+     * total elements as the original ({@code newRowCount * newColumnCount >= elementCount()}).
+     * If the new shape requires more elements than available in the source matrix, the remaining
+     * positions are filled with default char values ('\u0000').
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1658,20 +1656,20 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * CharMatrix reshaped2 = matrix.reshape(2, 4);
      * // Result: [['a', 'b', 'c', 'd'], ['e', 'f', '\u0000', '\u0000']] - 8 positions, last 2 filled with default
-     *
-     * CharMatrix reshaped3 = matrix.reshape(1, 4);
-     * // Result: [['a', 'b', 'c', 'd']] - only first 4 elements used
      * }</pre>
      *
      * @param newRowCount the number of rows in the reshaped matrix (must be &gt;= 0)
      * @param newColumnCount the number of columns in the reshaped matrix (must be &gt;= 0)
      * @return a new CharMatrix with the specified dimensions
+     * @throws IllegalArgumentException if the new shape is too small to hold all elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
     public CharMatrix reshape(final int newRowCount, final int newColumnCount) {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+        N.checkArgument((long) newRowCount * newColumnCount >= elementCount(), "New shape [{}x{}={}] is too small to hold all {} elements", newRowCount,
+                newColumnCount, (long) newRowCount * newColumnCount, elementCount());
 
         final char[][] c = new char[newRowCount][newColumnCount];
 

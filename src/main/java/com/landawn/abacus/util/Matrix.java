@@ -1806,8 +1806,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Reshapes this matrix to have the specified dimensions.
      * Elements are taken in row-major order from the original matrix and placed into the
-     * new shape. If the new shape has fewer elements than the original, excess elements are
-     * discarded. If the new shape has more elements, the extra positions are filled with
+     * new shape. The new shape must have at least as many total elements as the original
+     * ({@code newRowCount * newColumnCount >= elementCount()}).
+     * If the new shape has more elements, the extra positions are filled with
      * {@code null}. Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1820,12 +1821,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param newRowCount the number of rows in the reshaped matrix (must be non-negative)
      * @param newColumnCount the number of columns in the reshaped matrix (must be non-negative)
      * @return a new Matrix with the specified dimensions
+     * @throws IllegalArgumentException if the new shape is too small to hold all elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
     public Matrix<T> reshape(final int newRowCount, final int newColumnCount) {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+        N.checkArgument((long) newRowCount * newColumnCount >= elementCount(), "New shape [{}x{}={}] is too small to hold all {} elements", newRowCount,
+                newColumnCount, (long) newRowCount * newColumnCount, elementCount());
 
         final T[][] c = N.newArray(arrayType, newRowCount);
 

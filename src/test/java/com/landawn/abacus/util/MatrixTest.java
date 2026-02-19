@@ -773,6 +773,10 @@ public class MatrixTest extends TestBase {
         Assertions.assertEquals(2, reshaped.get(0, 1));
         Assertions.assertEquals(3, reshaped.get(1, 0));
         Assertions.assertEquals(4, reshaped.get(1, 1));
+
+        // Test reshape with too-small dimensions throws exception
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(1, 4));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(2, 2));
     }
 
     @Test

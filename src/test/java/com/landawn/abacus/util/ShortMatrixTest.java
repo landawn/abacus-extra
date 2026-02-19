@@ -752,6 +752,10 @@ public class ShortMatrixTest extends TestBase {
         ShortMatrix emptyReshaped = emptyMatrix.reshape(2, 3);
         assertEquals(2, emptyReshaped.rowCount());
         assertEquals(3, emptyReshaped.columnCount());
+
+        // Test reshape with too-small dimensions throws exception
+        assertThrows(IllegalArgumentException.class, () -> matrix.reshape(1, 4));
+        assertThrows(IllegalArgumentException.class, () -> matrix.reshape(2, 2));
     }
 
     @Test

@@ -587,15 +587,12 @@ public class AbstractMatrix2510Test extends TestBase {
     }
 
     @Test
-    public void testReshape_twoParams_truncate() {
+    public void testReshape_twoParams_tooSmallThrows() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        IntMatrix reshaped = m.reshape(1, 3);
 
-        assertEquals(1, reshaped.rowCount());
-        assertEquals(3, reshaped.columnCount());
-        assertEquals(1, reshaped.get(0, 0));
-        assertEquals(2, reshaped.get(0, 1));
-        assertEquals(3, reshaped.get(0, 2));
+        // New shape is too small to hold all 6 elements
+        assertThrows(IllegalArgumentException.class, () -> m.reshape(1, 3));
+        assertThrows(IllegalArgumentException.class, () -> m.reshape(2, 2));
     }
 
     // ============ isSameShape Tests ============

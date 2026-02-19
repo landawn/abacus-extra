@@ -641,6 +641,10 @@ public class BooleanMatrixTest extends TestBase {
         assertEquals(4, reshaped.columnCount());
         assertTrue(reshaped.get(0, 0));
         assertFalse(reshaped.get(0, 1));
+
+        // Test reshape with too-small dimensions throws exception
+        assertThrows(IllegalArgumentException.class, () -> matrix.reshape(1, 3));
+        assertThrows(IllegalArgumentException.class, () -> matrix.reshape(1, 1));
     }
 
     @Test

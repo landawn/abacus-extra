@@ -814,26 +814,26 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Returns a new matrix with the elements of this matrix rearranged into the specified dimensions.
      * Elements are taken in row-major order from the original matrix and placed into the
-     * new shape. If the new shape has fewer elements than the original, excess elements are
-     * discarded. If the new shape has more elements, the extra positions are filled with
+     * new shape. The new shape must have at least as many total elements as the original
+     * ({@code newRowCount * newColumnCount >= elementCount()}).
+     * If the new shape has more elements, the extra positions are filled with
      * default values (0 for numeric types, false for boolean, null for objects).
      * The original matrix is not modified.
      *
      * <p>This is a fundamental operation for restructuring matrix data without changing
-     * the underlying element values (within the bounds of the new shape).</p>
+     * the underlying element values.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntMatrix reshaped = matrix.reshape(3, 2);    // Becomes [[1, 2], [3, 4], [5, 6]]
      * IntMatrix extended = matrix.reshape(2, 4);    // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
-     * IntMatrix truncated = matrix.reshape(1, 3);   // Becomes [[1, 2, 3]] (remaining elements discarded)
      * }</pre>
      *
      * @param newRowCount the number of rows in the reshaped matrix; must be non-negative
      * @param newColumnCount the number of columns in the reshaped matrix; must be non-negative
      * @return a new matrix with the specified dimensions (newRowCount × newColumnCount)
-     * @throws IllegalArgumentException if newRowCount &lt; 0 or newColumnCount &lt; 0
+     * @throws IllegalArgumentException if newRowCount &lt; 0 or newColumnCount &lt; 0, or if the new shape is too small to hold all elements
      */
     public abstract X reshape(int newRowCount, int newColumnCount);
 

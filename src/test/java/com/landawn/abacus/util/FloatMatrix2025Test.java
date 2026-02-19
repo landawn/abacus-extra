@@ -1095,9 +1095,14 @@ public class FloatMatrix2025Test extends TestBase {
     }
 
     @Test
-    public void testReshape_toZeroDimensions() {
+    public void testReshape_toZeroDimensions_throwsForNonEmpty() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix reshaped = m.reshape(0, 0);
+        // New shape 0x0 is too small to hold all 4 elements
+        assertThrows(IllegalArgumentException.class, () -> m.reshape(0, 0));
+
+        // Empty matrix can be reshaped to 0x0
+        FloatMatrix empty = FloatMatrix.empty();
+        FloatMatrix reshaped = empty.reshape(0, 0);
         assertEquals(0, reshaped.rowCount());
         assertEquals(0, reshaped.columnCount());
     }

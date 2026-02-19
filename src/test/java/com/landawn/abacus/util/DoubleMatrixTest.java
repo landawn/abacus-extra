@@ -707,6 +707,10 @@ public class DoubleMatrixTest extends TestBase {
         assertEquals(2.0, reshaped.get(0, 1));
         assertEquals(3.0, reshaped.get(0, 2));
         assertEquals(4.0, reshaped.get(0, 3));
+
+        // Test reshape with too-small dimensions throws exception
+        assertThrows(IllegalArgumentException.class, () -> matrix.reshape(1, 3));
+        assertThrows(IllegalArgumentException.class, () -> matrix.reshape(1, 1));
     }
 
     @Test

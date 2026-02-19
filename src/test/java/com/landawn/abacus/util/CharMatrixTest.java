@@ -736,6 +736,10 @@ public class CharMatrixTest extends TestBase {
         CharMatrix empty = CharMatrix.empty().reshape(2, 3);
         Assertions.assertEquals(2, empty.rowCount());
         Assertions.assertEquals(3, empty.columnCount());
+
+        // Test reshape with too-small dimensions throws exception
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(1, 4));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(2, 2));
     }
 
     @Test
