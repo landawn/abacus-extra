@@ -345,11 +345,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * //  [0.0, 0.0, 3.0]]
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements, or null/empty for an empty matrix
+     * @param mainDiagonal the array of main diagonal elements, or null/empty for an empty matrix
      * @return a square matrix with the specified main diagonal, or an empty matrix if input is null or empty
      */
-    public static DoubleMatrix mainDiagonal(final double[] leftUp2RightDownDiagonal) {
-        return fromDiagonals(leftUp2RightDownDiagonal, null);
+    public static DoubleMatrix mainDiagonal(final double[] mainDiagonal) {
+        return fromDiagonals(mainDiagonal, null);
     }
 
     /**
@@ -366,11 +366,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * //  [3.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements, or null/empty for an empty matrix
+     * @param antiDiagonal the array of anti-diagonal elements, or null/empty for an empty matrix
      * @return a square matrix with the specified anti-diagonal, or an empty matrix if input is null or empty
      */
-    public static DoubleMatrix antiDiagonal(final double[] rightUp2LeftDownDiagonal) {
-        return fromDiagonals(null, rightUp2LeftDownDiagonal);
+    public static DoubleMatrix antiDiagonal(final double[] antiDiagonal) {
+        return fromDiagonals(null, antiDiagonal);
     }
 
     /**
@@ -390,33 +390,31 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * 
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @param mainDiagonal the array of main diagonal elements (can be null or empty)
+     * @param antiDiagonal the array of anti-diagonal elements (can be null or empty)
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static DoubleMatrix fromDiagonals(final double[] leftUp2RightDownDiagonal, final double[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
-        N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
-                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
-                "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
+    public static DoubleMatrix fromDiagonals(final double[] mainDiagonal, final double[] antiDiagonal) throws IllegalArgumentException {
+        N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
+                "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 
-        if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.isEmpty(mainDiagonal) && N.isEmpty(antiDiagonal)) {
             return EMPTY_DOUBLE_MATRIX;
         }
 
-        final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
+        final int len = N.max(N.len(mainDiagonal), N.len(antiDiagonal));
         final double[][] c = new double[len][len];
 
-        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.notEmpty(antiDiagonal)) {
             for (int i = 0, j = len - 1; i < len; i++, j--) {
-                c[i][j] = rightUp2LeftDownDiagonal[i];
+                c[i][j] = antiDiagonal[i];
             }
         }
 
-        if (N.notEmpty(leftUp2RightDownDiagonal)) {
+        if (N.notEmpty(mainDiagonal)) {
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
+                c[i][i] = mainDiagonal[i]; // NOSONAR
             }
         }
 
@@ -845,7 +843,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
-    public void setMainDiagonal(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final double[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final double[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -926,7 +925,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal rows
      */
-    public void setAntiDiagonal(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final double[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final double[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 

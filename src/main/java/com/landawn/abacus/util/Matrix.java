@@ -196,14 +196,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
-     * @param leftUp2RightDownDiagonal the diagonal values (must not be null)
+     * @param mainDiagonal the diagonal values (must not be null)
      * @return a square matrix with the given diagonal values on the main diagonal
      * @throws IllegalArgumentException if the diagonal array is null
      * @see #fromDiagonals(Object[], Object[])
      * @see #antiDiagonal(Object[])
      */
-    public static <T> Matrix<T> mainDiagonal(final T[] leftUp2RightDownDiagonal) {
-        return fromDiagonals(leftUp2RightDownDiagonal, null);
+    public static <T> Matrix<T> mainDiagonal(final T[] mainDiagonal) {
+        return fromDiagonals(mainDiagonal, null);
     }
 
     /**
@@ -229,14 +229,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
-     * @param rightUp2LeftDownDiagonal the anti-diagonal values (must not be null)
+     * @param antiDiagonal the anti-diagonal values (must not be null)
      * @return a square matrix with the given anti-diagonal values
      * @throws IllegalArgumentException if the diagonal array is null
      * @see #fromDiagonals(Object[], Object[])
      * @see #mainDiagonal(Object[])
      */
-    public static <T> Matrix<T> antiDiagonal(final T[] rightUp2LeftDownDiagonal) {
-        return fromDiagonals(null, rightUp2LeftDownDiagonal);
+    public static <T> Matrix<T> antiDiagonal(final T[] antiDiagonal) {
+        return fromDiagonals(null, antiDiagonal);
     }
 
     /**
@@ -266,27 +266,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
-     * @param leftUp2RightDownDiagonal the main diagonal values.
-     * @param rightUp2LeftDownDiagonal the anti-diagonal values.
+     * @param mainDiagonal the main diagonal values.
+     * @param antiDiagonal the anti-diagonal values.
      * @return a square matrix with the given diagonal values
      * @throws IllegalArgumentException if both arrays are null, or if both diagonals are non-empty and have different lengths
      */
     @SuppressWarnings("null")
-    public static <T> Matrix<T> fromDiagonals(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
-        N.checkArgument(leftUp2RightDownDiagonal != null || rightUp2LeftDownDiagonal != null,
-                "Both 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' can't be null");
+    public static <T> Matrix<T> fromDiagonals(final T[] mainDiagonal, final T[] antiDiagonal) throws IllegalArgumentException {
+        N.checkArgument(mainDiagonal != null || antiDiagonal != null, "Both 'mainDiagonal' and 'antiDiagonal' can't be null");
 
-        N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
-                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
-                "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
+        N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
+                "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 
-        final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
-        final Class<?> leftComponentClass = leftUp2RightDownDiagonal == null ? null : leftUp2RightDownDiagonal.getClass().getComponentType();
-        final Class<?> rightComponentClass = rightUp2LeftDownDiagonal == null ? null : rightUp2LeftDownDiagonal.getClass().getComponentType();
+        final int len = N.max(N.len(mainDiagonal), N.len(antiDiagonal));
+        final Class<?> leftComponentClass = mainDiagonal == null ? null : mainDiagonal.getClass().getComponentType();
+        final Class<?> rightComponentClass = antiDiagonal == null ? null : antiDiagonal.getClass().getComponentType();
         final Class<?> componentClass;
 
-        if (N.notEmpty(leftUp2RightDownDiagonal) && N.notEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.notEmpty(mainDiagonal) && N.notEmpty(antiDiagonal)) {
             if (leftComponentClass.isAssignableFrom(rightComponentClass)) {
                 componentClass = leftComponentClass;
             } else if (rightComponentClass.isAssignableFrom(leftComponentClass)) {
@@ -294,9 +291,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             } else {
                 throw new IllegalArgumentException("Incompatible component types: " + leftComponentClass.getName() + " and " + rightComponentClass.getName());
             }
-        } else if (N.notEmpty(leftUp2RightDownDiagonal)) {
+        } else if (N.notEmpty(mainDiagonal)) {
             componentClass = leftComponentClass;
-        } else if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+        } else if (N.notEmpty(antiDiagonal)) {
             componentClass = rightComponentClass;
         } else {
             componentClass = leftComponentClass != null ? leftComponentClass : rightComponentClass;
@@ -309,15 +306,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             c[i] = N.newArray(componentClass, len);
         }
 
-        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.notEmpty(antiDiagonal)) {
             for (int i = 0, j = len - 1; i < len; i++, j--) {
-                c[i][j] = rightUp2LeftDownDiagonal[i];
+                c[i][j] = antiDiagonal[i];
             }
         }
 
-        if (N.notEmpty(leftUp2RightDownDiagonal)) {
+        if (N.notEmpty(mainDiagonal)) {
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
+                c[i][i] = mainDiagonal[i]; // NOSONAR
             }
         }
 
@@ -730,7 +727,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
-    public void setMainDiagonal(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final T[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final T[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, "The length of specified array does not equal to rows=%s", rowCount);
 
@@ -815,7 +813,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      * @throws IllegalArgumentException if diagonal array does not have exactly {@code rows} elements
      */
-    public void setAntiDiagonal(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final T[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final T[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, "The length of specified array does not equal to rows=%s", rowCount);
 

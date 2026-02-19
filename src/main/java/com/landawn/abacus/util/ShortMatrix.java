@@ -289,11 +289,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * //  [0, 0, 3]]
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of diagonal elements
+     * @param mainDiagonal the array of diagonal elements
      * @return a square matrix with the specified main diagonal
      */
-    public static ShortMatrix mainDiagonal(final short[] leftUp2RightDownDiagonal) {
-        return fromDiagonals(leftUp2RightDownDiagonal, null);
+    public static ShortMatrix mainDiagonal(final short[] mainDiagonal) {
+        return fromDiagonals(mainDiagonal, null);
     }
 
     /**
@@ -309,11 +309,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * //  [3, 0, 0]]
      * }</pre>
      *
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @param antiDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal
      */
-    public static ShortMatrix antiDiagonal(final short[] rightUp2LeftDownDiagonal) {
-        return fromDiagonals(null, rightUp2LeftDownDiagonal);
+    public static ShortMatrix antiDiagonal(final short[] antiDiagonal) {
+        return fromDiagonals(null, antiDiagonal);
     }
 
     /**
@@ -333,33 +333,31 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @param mainDiagonal the array of main diagonal elements (can be null or empty)
+     * @param antiDiagonal the array of anti-diagonal elements (can be null or empty)
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static ShortMatrix fromDiagonals(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
-        N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
-                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
-                "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
+    public static ShortMatrix fromDiagonals(final short[] mainDiagonal, final short[] antiDiagonal) throws IllegalArgumentException {
+        N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
+                "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 
-        if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.isEmpty(mainDiagonal) && N.isEmpty(antiDiagonal)) {
             return EMPTY_SHORT_MATRIX;
         }
 
-        final int matrixSize = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
+        final int matrixSize = N.max(N.len(mainDiagonal), N.len(antiDiagonal));
         final short[][] result = new short[matrixSize][matrixSize];
 
-        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.notEmpty(antiDiagonal)) {
             for (int i = 0, j = matrixSize - 1; i < matrixSize; i++, j--) {
-                result[i][j] = rightUp2LeftDownDiagonal[i];
+                result[i][j] = antiDiagonal[i];
             }
         }
 
-        if (N.notEmpty(leftUp2RightDownDiagonal)) {
+        if (N.notEmpty(mainDiagonal)) {
             for (int i = 0; i < matrixSize; i++) {
-                result[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
+                result[i][i] = mainDiagonal[i]; // NOSONAR
             }
         }
 
@@ -775,7 +773,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
-    public void setMainDiagonal(final short[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final short[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final short[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -855,7 +854,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length != rows
      */
-    public void setAntiDiagonal(final short[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final short[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final short[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 

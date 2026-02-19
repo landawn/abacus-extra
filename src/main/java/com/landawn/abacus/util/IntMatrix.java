@@ -426,11 +426,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * //   {0, 0, 3}
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of diagonal elements
+     * @param mainDiagonal the array of diagonal elements
      * @return a square matrix with the specified main diagonal
      */
-    public static IntMatrix mainDiagonal(final int[] leftUp2RightDownDiagonal) {
-        return fromDiagonals(leftUp2RightDownDiagonal, null);
+    public static IntMatrix mainDiagonal(final int[] mainDiagonal) {
+        return fromDiagonals(mainDiagonal, null);
     }
 
     /**
@@ -446,11 +446,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * //   {3, 0, 0}
      * }</pre>
      *
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @param antiDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal
      */
-    public static IntMatrix antiDiagonal(final int[] rightUp2LeftDownDiagonal) {
-        return fromDiagonals(null, rightUp2LeftDownDiagonal);
+    public static IntMatrix antiDiagonal(final int[] antiDiagonal) {
+        return fromDiagonals(null, antiDiagonal);
     }
 
     /**
@@ -470,33 +470,31 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @param mainDiagonal the array of main diagonal elements (can be null or empty)
+     * @param antiDiagonal the array of anti-diagonal elements (can be null or empty)
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static IntMatrix fromDiagonals(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
-        N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
-                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
-                "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
+    public static IntMatrix fromDiagonals(final int[] mainDiagonal, final int[] antiDiagonal) throws IllegalArgumentException {
+        N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
+                "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 
-        if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.isEmpty(mainDiagonal) && N.isEmpty(antiDiagonal)) {
             return EMPTY_INT_MATRIX;
         }
 
-        final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
+        final int len = N.max(N.len(mainDiagonal), N.len(antiDiagonal));
         final int[][] c = new int[len][len];
 
-        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.notEmpty(antiDiagonal)) {
             for (int i = 0, j = len - 1; i < len; i++, j--) {
-                c[i][j] = rightUp2LeftDownDiagonal[i];
+                c[i][j] = antiDiagonal[i];
             }
         }
 
-        if (N.notEmpty(leftUp2RightDownDiagonal)) {
+        if (N.notEmpty(mainDiagonal)) {
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
+                c[i][i] = mainDiagonal[i]; // NOSONAR
             }
         }
 
@@ -920,7 +918,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setMainDiagonal(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final int[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final int[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -1001,7 +1000,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length != rowCount
      */
-    public void setAntiDiagonal(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final int[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final int[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 

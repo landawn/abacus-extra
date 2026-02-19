@@ -242,11 +242,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //  [0.0, 0.0, 3.0]]
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements
+     * @param mainDiagonal the array of main diagonal elements
      * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
-    public static FloatMatrix mainDiagonal(final float[] leftUp2RightDownDiagonal) {
-        return fromDiagonals(leftUp2RightDownDiagonal, null);
+    public static FloatMatrix mainDiagonal(final float[] mainDiagonal) {
+        return fromDiagonals(mainDiagonal, null);
     }
 
     /**
@@ -263,11 +263,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //  [3.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @param antiDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
-    public static FloatMatrix antiDiagonal(final float[] rightUp2LeftDownDiagonal) {
-        return fromDiagonals(null, rightUp2LeftDownDiagonal);
+    public static FloatMatrix antiDiagonal(final float[] antiDiagonal) {
+        return fromDiagonals(null, antiDiagonal);
     }
 
     /**
@@ -287,33 +287,31 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @param mainDiagonal the array of main diagonal elements (can be null or empty)
+     * @param antiDiagonal the array of anti-diagonal elements (can be null or empty)
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static FloatMatrix fromDiagonals(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
-        N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
-                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
-                "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
+    public static FloatMatrix fromDiagonals(final float[] mainDiagonal, final float[] antiDiagonal) throws IllegalArgumentException {
+        N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
+                "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 
-        if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.isEmpty(mainDiagonal) && N.isEmpty(antiDiagonal)) {
             return EMPTY_FLOAT_MATRIX;
         }
 
-        final int diagonalLength = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
+        final int diagonalLength = N.max(N.len(mainDiagonal), N.len(antiDiagonal));
         final float[][] result = new float[diagonalLength][diagonalLength];
 
-        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.notEmpty(antiDiagonal)) {
             for (int i = 0, j = diagonalLength - 1; i < diagonalLength; i++, j--) {
-                result[i][j] = rightUp2LeftDownDiagonal[i];
+                result[i][j] = antiDiagonal[i];
             }
         }
 
-        if (N.notEmpty(leftUp2RightDownDiagonal)) {
+        if (N.notEmpty(mainDiagonal)) {
             for (int i = 0; i < diagonalLength; i++) {
-                result[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
+                result[i][i] = mainDiagonal[i]; // NOSONAR
             }
         }
 
@@ -741,7 +739,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setMainDiagonal(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final float[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final float[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -821,7 +820,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length != rows
      */
-    public void setAntiDiagonal(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final float[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final float[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 

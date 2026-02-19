@@ -195,11 +195,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * //   {false, false, true}
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements
+     * @param mainDiagonal the array of main diagonal elements
      * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
-    public static BooleanMatrix mainDiagonal(final boolean[] leftUp2RightDownDiagonal) {
-        return fromDiagonals(leftUp2RightDownDiagonal, null);
+    public static BooleanMatrix mainDiagonal(final boolean[] mainDiagonal) {
+        return fromDiagonals(mainDiagonal, null);
     }
 
     /**
@@ -216,11 +216,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * //   {true, false, false}
      * }</pre>
      *
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @param antiDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
-    public static BooleanMatrix antiDiagonal(final boolean[] rightUp2LeftDownDiagonal) {
-        return fromDiagonals(null, rightUp2LeftDownDiagonal);
+    public static BooleanMatrix antiDiagonal(final boolean[] antiDiagonal) {
+        return fromDiagonals(null, antiDiagonal);
     }
 
     /**
@@ -240,34 +240,31 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @param mainDiagonal the array of main diagonal elements (can be null or empty)
+     * @param antiDiagonal the array of anti-diagonal elements (can be null or empty)
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static BooleanMatrix fromDiagonals(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal)
-            throws IllegalArgumentException {
-        N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
-                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
-                "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
+    public static BooleanMatrix fromDiagonals(final boolean[] mainDiagonal, final boolean[] antiDiagonal) throws IllegalArgumentException {
+        N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
+                "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 
-        if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.isEmpty(mainDiagonal) && N.isEmpty(antiDiagonal)) {
             return EMPTY_BOOLEAN_MATRIX;
         }
 
-        final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
+        final int len = N.max(N.len(mainDiagonal), N.len(antiDiagonal));
         final boolean[][] c = new boolean[len][len];
 
-        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+        if (N.notEmpty(antiDiagonal)) {
             for (int i = 0, j = len - 1; i < len; i++, j--) {
-                c[i][j] = rightUp2LeftDownDiagonal[i];
+                c[i][j] = antiDiagonal[i];
             }
         }
 
-        if (N.notEmpty(leftUp2RightDownDiagonal)) {
+        if (N.notEmpty(mainDiagonal)) {
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
+                c[i][i] = mainDiagonal[i]; // NOSONAR
             }
         }
 
@@ -714,7 +711,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setMainDiagonal(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final boolean[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final boolean[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected %s but got %s", rowCount, diagonal.length);
 
@@ -807,7 +805,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setAntiDiagonal(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final boolean[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
+        final boolean[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected %s but got %s", rowCount, diagonal.length);
 
