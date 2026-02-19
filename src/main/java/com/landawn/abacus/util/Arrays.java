@@ -15302,11 +15302,12 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value used when second array has no element at a position.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
+         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip(a, b, defaultValueA, defaultValueB, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
+            return zip(a, b, defaultValueA, defaultValueB, zipFunction, resolveTargetElementTypeForZipWithDefaults(a, defaultValueA));
         }
 
         /**
@@ -15467,11 +15468,12 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueC default value for the third array.
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
+         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
+            return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction, resolveTargetElementTypeForZipWithDefaults(a, defaultValueA));
         }
 
         /**
@@ -15526,6 +15528,24 @@ public sealed class Arrays permits Arrays.f {
             }
 
             return result;
+        }
+
+        /**
+         * Resolves target element type for zip methods that infer result type from {@code A}.
+         * When {@code a} is null, falls back to {@code defaultValueA}.
+         */
+        @SuppressWarnings("unchecked")
+        private static <A> Class<A> resolveTargetElementTypeForZipWithDefaults(final A[][] a, final A defaultValueA) {
+            if (a != null) {
+                return (Class<A>) a.getClass().getComponentType().getComponentType();
+            }
+
+            if (defaultValueA != null) {
+                return (Class<A>) defaultValueA.getClass();
+            }
+
+            throw new IllegalArgumentException(
+                    "Unable to infer target element type: both 'a' and 'defaultValueA' are null. Use the overload with targetElementType.");
         }
 
         /**

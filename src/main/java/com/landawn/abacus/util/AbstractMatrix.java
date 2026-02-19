@@ -830,10 +830,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix truncated = matrix.reshape(1, 3);   // Becomes [[1, 2, 3]] (remaining elements discarded)
      * }</pre>
      *
-     * @param newRowCount the number of rows in the reshaped matrix (must be positive)
-     * @param newColumnCount the number of columns in the reshaped matrix (must be positive)
+     * @param newRowCount the number of rows in the reshaped matrix; must be non-negative
+     * @param newColumnCount the number of columns in the reshaped matrix; must be non-negative
      * @return a new matrix with the specified dimensions (newRowCount × newColumnCount)
-     * @throws IllegalArgumentException if newRowCount &lt;= 0 or newColumnCount &lt;= 0
+     * @throws IllegalArgumentException if newRowCount &lt; 0 or newColumnCount &lt; 0
      */
     public abstract X reshape(int newRowCount, int newColumnCount);
 

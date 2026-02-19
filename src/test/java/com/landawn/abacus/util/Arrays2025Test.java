@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -2845,6 +2846,37 @@ public class Arrays2025Test extends TestBase {
         assertEquals(2, result[0][1]);
         assertEquals(8, result[1][0]);
         assertEquals(6, result[1][1]);
+    }
+
+    @Test
+    public void testZip_Object2D_BinaryOp_WithDefaults_AllowsNullFirstArray() throws Exception {
+        Integer[][] a = null;
+        Integer[][] b = { { 10, 20 }, { 30 } };
+        Integer[][] result = Arrays.ff.zip(a, b, 0, 0, Integer::sum);
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new Integer[] { 10, 20 }, result[0]);
+        assertArrayEquals(new Integer[] { 30 }, result[1]);
+    }
+
+    @Test
+    public void testZip_Object2D_TernaryOp_WithDefaults_AllowsNullFirstArray() throws Exception {
+        Integer[][] a = null;
+        Integer[][] b = { { 10 }, { 20, 30 } };
+        Integer[][] c = { { 1, 2 }, { 3 } };
+        Integer[][] result = Arrays.ff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new Integer[] { 11, 2 }, result[0]);
+        assertArrayEquals(new Integer[] { 23, 30 }, result[1]);
+    }
+
+    @Test
+    public void testZip_Object2D_BinaryOp_WithDefaults_RejectsUnknownTargetType() {
+        Integer[][] a = null;
+        Integer[][] b = { { 10 } };
+
+        assertThrows(IllegalArgumentException.class, () -> Arrays.ff.zip(a, b, null, 0, Integer::sum));
     }
 
     @Test
