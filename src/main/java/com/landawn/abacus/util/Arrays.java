@@ -2220,7 +2220,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {false, true}};
-     * flatOp(arr, t -> Arrays.sort(t));   // Sorts all elements
+     * flatOp(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });   // Flips all elements
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -2257,8 +2257,8 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}};
-     * Arrays.flatOp(cube, arr -> java.util.Arrays.sort(arr));   // Sorts all elements
-     * // cube's structure is preserved but elements are sorted
+     * Arrays.flatOp(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; });   // Flips all elements
+     * // cube's structure is preserved while values are inverted
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -3549,7 +3549,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'c', 'a'}, {'b'}};
-     * Arrays.flatOp(array, t -> Arrays.sort(t));
+     * Arrays.flatOp(array, t -> java.util.Arrays.sort(t));
      * // array becomes {{'a', 'b'}, {'c'}}
      * }</pre>
      *
@@ -3585,7 +3585,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'d', 'a'}}, {{'c'}, {'b'}}};
-     * Arrays.flatOp(array, t -> Arrays.sort(t));
+     * Arrays.flatOp(array, t -> java.util.Arrays.sort(t));
      * // array becomes {{{'a', 'b'}}, {{'c'}, {'d'}}}
      * }</pre>
      *
@@ -4810,7 +4810,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] arr = {{3, 1}, {4, 2}};
-     * flatOp(arr, t -> Arrays.sort(t));   // Sorts all elements
+     * flatOp(arr, t -> java.util.Arrays.sort(t));   // Sorts all elements
      * // arr becomes: {{1, 2}, {3, 4}}
      * }</pre>
      *
@@ -4960,7 +4960,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6, 7};
-     * byte[] result = Arrays.zip(a, b, (x, y) -> x + y);
+     * byte[] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
      * // result: {6, 8, 10}
      * }</pre>
      * 
@@ -5205,7 +5205,7 @@ public sealed class Arrays permits Arrays.f {
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}};
      * byte[][] c = {{10, 11}, {12, 13, 14}};
-     * byte[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+     * byte[][] result = Arrays.zip(a, b, c, (x, y, z) -> (byte) (x + y + z));
      * // result: {{16, 19}, {23, 26}}
      * }</pre>
      * 
@@ -5242,7 +5242,7 @@ public sealed class Arrays permits Arrays.f {
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * byte[][] c = {{10, 11}};
-     * byte[][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
+     * byte[][] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte) (x + y + z));
      * // result: {{16, 19, 27}, {31, 33, 35}, {30}}
      * }</pre>
      * 
@@ -6135,7 +6135,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{3, 1}, {4, 2}};
-     * flatOp(array, t -> Arrays.sort(t));   // sorts all elements across sub-arrays
+     * flatOp(array, t -> java.util.Arrays.sort(t));   // sorts all elements across sub-arrays
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -6168,7 +6168,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{5, 2}}, {{3, 1}}};
-     * flatOp(array, t -> Arrays.sort(t));   // sorts all elements across all sub-arrays
+     * flatOp(array, t -> java.util.Arrays.sort(t));   // sorts all elements across all sub-arrays
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -6207,7 +6207,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6, 7};
-     * short[] result = Arrays.zip(a, b, (x, y) -> x + y);
+     * short[] result = Arrays.zip(a, b, (x, y) -> (short) (x + y));
      * // result: {6, 8, 10}
      * }</pre>
      * 
@@ -6240,7 +6240,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6};
-     * short[] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
+     * short[] result = Arrays.zip(a, b, (short) 0, (short) 10, (x, y) -> (short) (x + y));
      * // result: {6, 8, 13, 14} (using 10 for missing b elements)
      * }</pre>
      * 
@@ -6288,7 +6288,7 @@ public sealed class Arrays permits Arrays.f {
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6, 7};
      * short[] c = {8, 9};
-     * short[] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+     * short[] result = Arrays.zip(a, b, c, (x, y, z) -> (short) (x + y + z));
      * // result: {14, 17}
      * }</pre>
      * 
@@ -6325,7 +6325,7 @@ public sealed class Arrays permits Arrays.f {
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6};
      * short[] c = {8, 9, 10};
-     * short[] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
+     * short[] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short) (x + y + z));
      * // result: {14, 17, 23, 34} (using defaults for missing elements)
      * }</pre>
      * 
@@ -6371,7 +6371,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}};
-     * short[][] result = Arrays.zip(a, b, (x, y) -> x + y);
+     * short[][] result = Arrays.zip(a, b, (x, y) -> (short) (x + y));
      * // result: {{6, 8}, {11, 13}}
      * }</pre>
      * 
@@ -6404,7 +6404,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}, {10}};
-     * short[][] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
+     * short[][] result = Arrays.zip(a, b, (short) 0, (short) 10, (x, y) -> (short) (x + y));
      * // result: {{6, 8, 7}, {11, 13, 15}, {10}}
      * }</pre>
      * 
@@ -6452,7 +6452,7 @@ public sealed class Arrays permits Arrays.f {
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}};
      * short[][] c = {{10, 11}, {12, 13, 14}};
-     * short[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+     * short[][] result = Arrays.zip(a, b, c, (x, y, z) -> (short) (x + y + z));
      * // result: {{16, 19}, {23, 26}}
      * }</pre>
      * 
@@ -6489,7 +6489,7 @@ public sealed class Arrays permits Arrays.f {
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * short[][] c = {{10, 11}};
-     * short[][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
+     * short[][] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short) (x + y + z));
      * // result: {{16, 19, 27}, {31, 33, 35}, {30}}
      * }</pre>
      * 
@@ -6536,7 +6536,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * short[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * short[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
-     * short[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
+     * short[][][] result = Arrays.zip(a, b, (x, y) -> (short) (x + y));
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {77, 88}}}
      * }</pre>
      * 
@@ -6570,7 +6570,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * short[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * short[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
-     * short[][][] result = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
+     * short[][][] result = Arrays.zip(a, b, (short) 0, (short) 10, (x, y) -> (short) (x + y));
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
      * }</pre>
      * 
@@ -6618,7 +6618,7 @@ public sealed class Arrays permits Arrays.f {
      * short[][][] a = {{{1, 2}}};
      * short[][][] b = {{{11, 12}, {13, 14}}};
      * short[][][] c = {{{21, 22}}};
-     * short[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+     * short[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (short) (x + y + z));
      * // result: {{{33, 36}}}
      * }</pre>
      * 
@@ -6655,7 +6655,7 @@ public sealed class Arrays permits Arrays.f {
      * short[][][] a = {{{1, 2}}};
      * short[][][] b = {{{11, 12}, {13, 14}}};
      * short[][][] c = {{{21, 22}}};
-     * short[][][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
+     * short[][][] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short) (x + y + z));
      * // result: {{{33, 36}, {33, 34}}}}
      * }</pre>
      * 
@@ -7420,7 +7420,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] arr = {{3, 1, 4}, {1, 5, 9}};
-     * Arrays.flatOp(arr, t -> Arrays.sort(t));
+     * Arrays.flatOp(arr, t -> java.util.Arrays.sort(t));
      * // arr is now {{1, 1, 3}, {4, 5, 9}}
      * }</pre>
      *
@@ -7458,7 +7458,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] arr = {{{5, 2}}, {{8, 1}}};
-     * Arrays.flatOp(arr, t -> Arrays.sort(t));
+     * Arrays.flatOp(arr, t -> java.util.Arrays.sort(t));
      * // arr is now {{{1, 2}}, {{5, 8}}}
      * }</pre>
      *
@@ -7859,7 +7859,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * int[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * int[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
-     * int[][][] result = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
+     * int[][][] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
      * }</pre>
      * 
@@ -8014,7 +8014,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[][][] a = {{{1}, {2, 3}}, null, {{{4, 5, 6}}}};
+     * int[][][] a = {{{1}, {2, 3}}, null, {{4, 5, 6}}};
      * long count = totalCountOfElements(a);
      * // count will be 6
      * }</pre>
@@ -8123,7 +8123,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints to console and returns: "[1, 2, 3, 4, 5]"
      *
      * // Null array
-     * String nullResult = Arrays.println(null);
+     * String nullResult = Arrays.println((int[]) null);
      * // Prints "null"
      *
      * // Empty array
@@ -8178,7 +8178,7 @@ public sealed class Arrays permits Arrays.f {
      * //  [6]]
      * 
      * // Null array
-     * String nullResult = Arrays.println(null);
+     * String nullResult = Arrays.println((int[][]) null);
      * // Prints "null"
      * 
      * // Empty array
@@ -8675,7 +8675,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{3L, 1L}, {4L, 2L}};
-     * flatOp(array, t -> Arrays.sort(t));
+     * flatOp(array, t -> java.util.Arrays.sort(t));
      * // array is now {{1L, 2L}, {3L, 4L}}
      * }</pre>
      *
@@ -8709,7 +8709,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{3L}, {1L}}, {{4L, 2L}}};
-     * flatOp(array, t -> Arrays.sort(t));
+     * flatOp(array, t -> java.util.Arrays.sort(t));
      * // array is now {{{1L}, {2L}}, {{3L, 4L}}}
      * }</pre>
      *
@@ -9264,7 +9264,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] array = {{{1}, {2, 3}}, null, {{{4, 5, 6}}}};
+     * long[][][] array = {{{1}, {2, 3}}, null, {{4, 5, 6}}};
      * long count = totalCountOfElements(array);
      * // count is 6
      * }</pre>
@@ -11180,7 +11180,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] matrix = {{5.0, 2.0}, {8.0, 1.0}};
-     * Arrays.flatOp(matrix, arr -> Arrays.sort(arr));
+     * Arrays.flatOp(matrix, arr -> java.util.Arrays.sort(arr));
      * // matrix is now {{1.0, 2.0}, {5.0, 8.0}}
      * }</pre>
      *
@@ -11216,7 +11216,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] cube = {{{9.0, 2.0}}, {{5.0}, {1.0}}};
-     * Arrays.flatOp(cube, arr -> Arrays.sort(arr));
+     * Arrays.flatOp(cube, arr -> java.util.Arrays.sort(arr));
      * // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
      * }</pre>
      *
@@ -11772,7 +11772,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][][] cube = {{{1}, {2, 3}}, null, {{{4}}}};
+     * double[][][] cube = {{{1}, {2, 3}}, null, {{4}}};
      * long count = Arrays.totalCountOfElements(cube);
      * // count is 4
      * }</pre>

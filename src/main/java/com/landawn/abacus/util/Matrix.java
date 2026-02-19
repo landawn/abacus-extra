@@ -397,11 +397,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowIndex the row index (0-based)
      * @param columnIndex the column index (0-based)
-     * @param val the new value to set
+     * @param value the new value to set
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public void set(final int rowIndex, final int columnIndex, final T val) {
-        a[rowIndex][columnIndex] = val;
+    public void set(final int rowIndex, final int columnIndex, final T value) {
+        a[rowIndex][columnIndex] = value;
     }
 
     /**

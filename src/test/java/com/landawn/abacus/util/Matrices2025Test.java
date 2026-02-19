@@ -215,7 +215,7 @@ public class Matrices2025Test extends TestBase {
     @Test
     public void testRun_withParallelMode() {
         List<String> values = new ArrayList<>();
-        Matrices.runWithParallelMode(() -> values.add("test"), ParallelMode.FORCE_OFF);
+        Matrices.runWithParallelMode(ParallelMode.FORCE_OFF, () -> values.add("test"));
         assertEquals(1, values.size());
         assertEquals("test", values.get(0));
         // Should restore original setting
@@ -225,9 +225,9 @@ public class Matrices2025Test extends TestBase {
     @Test
     public void testRun_withParallelMode_exception() {
         assertThrows(RuntimeException.class, () -> {
-            Matrices.runWithParallelMode(() -> {
+            Matrices.runWithParallelMode(ParallelMode.FORCE_OFF, () -> {
                 throw new RuntimeException("test exception");
-            }, ParallelMode.FORCE_OFF);
+            });
         });
     }
 

@@ -140,6 +140,31 @@ public final class ImmutableIntArray implements Immutable {
      * @return the int element at the specified index
      * @throws ArrayIndexOutOfBoundsException if the index is negative or greater than or equal to {@code length}
      */
+    /**
+     * Returns {@code true} if this ImmutableIntArray contains no elements.
+     *
+     * @return {@code true} if {@code length == 0}
+     */
+    public boolean isEmpty() {
+        return length == 0;
+    }
+
+    /**
+     * Returns {@code true} if this ImmutableIntArray contains the specified value.
+     *
+     * @param value the value to search for
+     * @return {@code true} if the value is found in this array
+     */
+    public boolean contains(final int value) {
+        for (int i = 0; i < length; i++) {
+            if (elements[i] == value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public int get(final int index) {
         return elements[index];
     }

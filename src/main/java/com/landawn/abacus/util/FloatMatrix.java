@@ -2665,7 +2665,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * matrix.forEach(value -> System.out.println(value));
      *
      * List<Float> values = new ArrayList<>();
-     * matrix.forEach(values::add);   // values contains [1.0f, 2.0f, 3.0f, 4.0f]
+     * matrix.forEach((float value) -> values.add(value));   // values contains [1.0f, 2.0f, 3.0f, 4.0f]
      * }</pre>
      *
      * @param <E> the type of exception that the action may throw

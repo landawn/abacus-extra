@@ -214,9 +214,9 @@ public class Matrices2512Test extends TestBase {
 
         final ParallelMode[] capturedSetting = new ParallelMode[1];
 
-        Matrices.runWithParallelMode(() -> {
+        Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> {
             capturedSetting[0] = Matrices.getParallelMode();
-        }, ParallelMode.FORCE_ON);
+        });
 
         // Inside the run, it should have been FORCE_ON
         assertEquals(ParallelMode.FORCE_ON, capturedSetting[0]);
@@ -230,9 +230,9 @@ public class Matrices2512Test extends TestBase {
         Matrices.setParallelMode(ParallelMode.AUTO);
 
         try {
-            Matrices.runWithParallelMode(() -> {
+            Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> {
                 throw new RuntimeException("Test exception");
-            }, ParallelMode.FORCE_ON);
+            });
         } catch (RuntimeException e) {
             // Expected
         }

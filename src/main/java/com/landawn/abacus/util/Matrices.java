@@ -140,15 +140,15 @@ public final class Matrices {
      * }
      * }</pre>
      *
-     * @param flag the {@link ParallelMode} setting to apply to the current thread, must not be {@code null}
+     * @param parallelMode the {@link ParallelMode} setting to apply to the current thread, must not be {@code null}
      * @throws IllegalArgumentException if {@code flag} is {@code null}
      * @see #getParallelMode()
      * @see ParallelMode
      */
-    public static void setParallelMode(final ParallelMode flag) throws IllegalArgumentException {
-        N.checkArgNotNull(flag);
+    public static void setParallelMode(final ParallelMode parallelMode) throws IllegalArgumentException {
+        N.checkArgNotNull(parallelMode);
 
-        PARALLEL_MODE_TL.set(flag);
+        PARALLEL_MODE_TL.set(parallelMode);
     }
 
     /**
@@ -412,15 +412,15 @@ public final class Matrices {
      *     smallMatrix.transpose();
      * }, ParallelMode.FORCE_OFF);
      * }</pre>
+     * @param parallelMode the temporary {@link ParallelMode} setting to use during command execution
+     * @param cmd the command to execute, must not be {@code null}
      *
      * @param <E> the type of exception that the command might throw
-     * @param cmd the command to execute, must not be {@code null}
-     * @param parallelMode the temporary {@link ParallelMode} setting to use during command execution
      * @throws E if the command throws an exception during execution
      * @see #setParallelMode(ParallelMode)
      * @see #getParallelMode()
      */
-    public static <E extends Exception> void runWithParallelMode(final Throwables.Runnable<E> cmd, final ParallelMode parallelMode) throws E {
+    public static <E extends Exception> void runWithParallelMode(final ParallelMode parallelMode, final Throwables.Runnable<E> cmd) throws E {
         N.checkArgNotNull(cmd, "cmd");
 
         final ParallelMode original = Matrices.getParallelMode();

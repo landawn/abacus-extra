@@ -324,10 +324,10 @@ public class Matrices2511Test extends TestBase {
         ParallelMode original = Matrices.getParallelMode();
         try {
             final AtomicInteger counter = new AtomicInteger(0);
-            Matrices.runWithParallelMode(() -> {
+            Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> {
                 assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
                 counter.incrementAndGet();
-            }, ParallelMode.FORCE_ON);
+            });
             assertEquals(1, counter.get());
             // Original setting should be restored
             assertEquals(original, Matrices.getParallelMode());
@@ -340,9 +340,9 @@ public class Matrices2511Test extends TestBase {
     public void testRun_withParallelMode_no() throws Exception {
         ParallelMode original = Matrices.getParallelMode();
         try {
-            Matrices.runWithParallelMode(() -> {
+            Matrices.runWithParallelMode(ParallelMode.FORCE_OFF, () -> {
                 assertEquals(ParallelMode.FORCE_OFF, Matrices.getParallelMode());
-            }, ParallelMode.FORCE_OFF);
+            });
             // Original setting should be restored
             assertEquals(original, Matrices.getParallelMode());
         } finally {
@@ -355,9 +355,9 @@ public class Matrices2511Test extends TestBase {
         ParallelMode original = Matrices.getParallelMode();
         try {
             assertThrows(RuntimeException.class, () -> {
-                Matrices.runWithParallelMode(() -> {
+                Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> {
                     throw new RuntimeException("test exception");
-                }, ParallelMode.FORCE_ON);
+                });
             });
             // Original setting should be restored even after exception
             assertEquals(original, Matrices.getParallelMode());

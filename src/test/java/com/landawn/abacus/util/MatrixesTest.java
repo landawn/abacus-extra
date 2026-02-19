@@ -209,17 +209,17 @@ class MatricesTest extends TestBase {
         // Test that parallel setting is restored after execution
         ParallelMode original = Matrices.getParallelMode();
 
-        Matrices.runWithParallelMode(() -> {
+        Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> {
             assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
-        }, ParallelMode.FORCE_ON);
+        });
 
         assertEquals(original, Matrices.getParallelMode());
 
         // Test with exception
         assertThrows(RuntimeException.class, () -> {
-            Matrices.runWithParallelMode(() -> {
+            Matrices.runWithParallelMode(ParallelMode.FORCE_OFF, () -> {
                 throw new RuntimeException("Test exception");
-            }, ParallelMode.FORCE_OFF);
+            });
         });
 
         // Verify setting is still restored after exception
@@ -229,7 +229,7 @@ class MatricesTest extends TestBase {
     @SuppressWarnings("unchecked")
     @Test
     public void testRunWithNullCommand() {
-        assertThrows(IllegalArgumentException.class, () -> Matrices.runWithParallelMode((Throwables.Runnable<RuntimeException>) null, ParallelMode.FORCE_OFF));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.runWithParallelMode(ParallelMode.FORCE_OFF, (Throwables.Runnable<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class, () -> Matrices.forEachIndex(2, 3, (Throwables.IntBiConsumer<RuntimeException>) null, false));
         assertThrows(IllegalArgumentException.class, () -> Matrices.forEachIndex(0, 2, 0, 2, (Throwables.IntBiConsumer<RuntimeException>) null, false));
     }

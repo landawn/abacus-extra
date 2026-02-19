@@ -306,16 +306,16 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_withParallelMode_executesCommand() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrices.runWithParallelMode(() -> counter.incrementAndGet(), ParallelMode.FORCE_OFF);
+        Matrices.runWithParallelMode(ParallelMode.FORCE_OFF, () -> counter.incrementAndGet());
         assertEquals(1, counter.get());
     }
 
     @Test
     public void testRun_withParallelMode_restoresOriginalSetting() {
         Matrices.setParallelMode(ParallelMode.FORCE_ON);
-        Matrices.runWithParallelMode(() -> {
+        Matrices.runWithParallelMode(ParallelMode.FORCE_OFF, () -> {
             assertEquals(ParallelMode.FORCE_OFF, Matrices.getParallelMode());
-        }, ParallelMode.FORCE_OFF);
+        });
         assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
     }
 
@@ -323,9 +323,9 @@ public class Matrices2510Test extends TestBase {
     public void testRun_withParallelMode_restoresOnException() {
         Matrices.setParallelMode(ParallelMode.AUTO);
         try {
-            Matrices.runWithParallelMode(() -> {
+            Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> {
                 throw new RuntimeException("Test exception");
-            }, ParallelMode.FORCE_ON);
+            });
         } catch (RuntimeException e) {
             // Expected
         }
