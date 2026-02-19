@@ -4139,26 +4139,26 @@ A matrix implementation for boolean primitive values, providing efficient storag
   - `element` (`boolean`) — the boolean value to fill the matrix with
 - **Returns:** a new BooleanMatrix of dimensions rowCount x columnCount filled with the specified element
 ##### mainDiagonal(...) -> BooleanMatrix
-- **Signature:** `public static BooleanMatrix mainDiagonal(final boolean[] leftUp2RightDownDiagonal)`
+- **Signature:** `public static BooleanMatrix mainDiagonal(final boolean[] mainDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`boolean[]`) — the array of main diagonal elements
+  - `mainDiagonal` (`boolean[]`) — the array of main diagonal elements
 - **Returns:** a square matrix with the specified main diagonal (n×n where n = diagonal length)
 ##### antiDiagonal(...) -> BooleanMatrix
-- **Signature:** `public static BooleanMatrix antiDiagonal(final boolean[] rightUp2LeftDownDiagonal)`
+- **Signature:** `public static BooleanMatrix antiDiagonal(final boolean[] antiDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements.
 - **Parameters:**
-  - `rightUp2LeftDownDiagonal` (`boolean[]`) — the array of anti-diagonal elements
+  - `antiDiagonal` (`boolean[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
 ##### fromDiagonals(...) -> BooleanMatrix
-- **Signature:** `public static BooleanMatrix fromDiagonals(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **Signature:** `public static BooleanMatrix fromDiagonals(final boolean[] mainDiagonal, final boolean[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
   - The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array (or the maximum length if both are provided).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`boolean[]`) — the array of main diagonal elements (can be null or empty)
-  - `rightUp2LeftDownDiagonal` (`boolean[]`) — the array of anti-diagonal elements (can be null or empty)
+  - `mainDiagonal` (`boolean[]`) — the array of main diagonal elements (can be null or empty)
+  - `antiDiagonal` (`boolean[]`) — the array of anti-diagonal elements (can be null or empty)
 - **Returns:** a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if both arrays are non-empty and have different lengths
@@ -4317,12 +4317,12 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
-- **Signature:** `public void setMainDiagonal(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setMainDiagonal(final boolean[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`boolean[]`) — the new values for the main diagonal; must have length equal to rowCount
+  - `mainDiagonal` (`boolean[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
@@ -4346,12 +4346,12 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
-- **Signature:** `public void setAntiDiagonal(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setAntiDiagonal(final boolean[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`boolean[]`) — the new values for the anti-diagonal; must have length equal to rowCount
+  - `antiDiagonal` (`boolean[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
@@ -5606,26 +5606,26 @@ A matrix implementation for byte primitive values, providing efficient storage a
   - `by` (`byte`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n ByteMatrix with values incremented by the step size
 ##### mainDiagonal(...) -> ByteMatrix
-- **Signature:** `public static ByteMatrix mainDiagonal(final byte[] leftUp2RightDownDiagonal)`
+- **Signature:** `public static ByteMatrix mainDiagonal(final byte[] mainDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`byte[]`) — the array of diagonal elements
+  - `mainDiagonal` (`byte[]`) — the array of diagonal elements
 - **Returns:** a square n×n matrix with the specified main diagonal, where n is the array length
 ##### antiDiagonal(...) -> ByteMatrix
-- **Signature:** `public static ByteMatrix antiDiagonal(final byte[] rightUp2LeftDownDiagonal)`
+- **Signature:** `public static ByteMatrix antiDiagonal(final byte[] antiDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
 - **Parameters:**
-  - `rightUp2LeftDownDiagonal` (`byte[]`) — the array of anti-diagonal elements
+  - `antiDiagonal` (`byte[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
 ##### fromDiagonals(...) -> ByteMatrix
-- **Signature:** `public static ByteMatrix fromDiagonals(final byte[] leftUp2RightDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **Signature:** `public static ByteMatrix fromDiagonals(final byte[] mainDiagonal, final byte[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
   - The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array (or the maximum length if both are provided).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`byte[]`) — the array of main diagonal elements (can be null or empty)
-  - `rightUp2LeftDownDiagonal` (`byte[]`) — the array of anti-diagonal elements (can be null or empty)
+  - `mainDiagonal` (`byte[]`) — the array of main diagonal elements (can be null or empty)
+  - `antiDiagonal` (`byte[]`) — the array of anti-diagonal elements (can be null or empty)
 - **Returns:** a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if both arrays are non-empty and have different lengths
@@ -5784,12 +5784,12 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
-- **Signature:** `public void setMainDiagonal(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setMainDiagonal(final byte[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`byte[]`) — the new values for the main diagonal; must have length equal to rowCount
+  - `mainDiagonal` (`byte[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
@@ -5813,12 +5813,12 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
-- **Signature:** `public void setAntiDiagonal(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setAntiDiagonal(final byte[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`byte[]`) — the new values for the anti-diagonal; must have length equal to rowCount
+  - `antiDiagonal` (`byte[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
@@ -7451,26 +7451,26 @@ A matrix implementation for char primitive values, providing efficient storage a
   - `by` (`int`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n CharMatrix with values incremented by the step size
 ##### mainDiagonal(...) -> CharMatrix
-- **Signature:** `public static CharMatrix mainDiagonal(final char[] leftUp2RightDownDiagonal)`
+- **Signature:** `public static CharMatrix mainDiagonal(final char[] mainDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`char[]`) — the array of main diagonal elements
+  - `mainDiagonal` (`char[]`) — the array of main diagonal elements
 - **Returns:** a square matrix with the specified main diagonal (n×n where n = diagonal length)
 ##### antiDiagonal(...) -> CharMatrix
-- **Signature:** `public static CharMatrix antiDiagonal(final char[] rightUp2LeftDownDiagonal)`
+- **Signature:** `public static CharMatrix antiDiagonal(final char[] antiDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
 - **Parameters:**
-  - `rightUp2LeftDownDiagonal` (`char[]`) — the array of anti-diagonal elements
+  - `antiDiagonal` (`char[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
 ##### fromDiagonals(...) -> CharMatrix
-- **Signature:** `public static CharMatrix fromDiagonals(final char[] leftUp2RightDownDiagonal, final char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **Signature:** `public static CharMatrix fromDiagonals(final char[] mainDiagonal, final char[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
   - The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array (or the maximum length if both are provided).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`char[]`) — the array of main diagonal elements (can be null or empty)
-  - `rightUp2LeftDownDiagonal` (`char[]`) — the array of anti-diagonal elements (can be null or empty)
+  - `mainDiagonal` (`char[]`) — the array of main diagonal elements (can be null or empty)
+  - `antiDiagonal` (`char[]`) — the array of anti-diagonal elements (can be null or empty)
 - **Returns:** a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if both arrays are non-empty and have different lengths
@@ -7629,12 +7629,12 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
 ##### setMainDiagonal(...) -> void
-- **Signature:** `public void setMainDiagonal(final char[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setMainDiagonal(final char[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`char[]`) — the new values for the main diagonal; must have length equal to rows
+  - `mainDiagonal` (`char[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
@@ -7658,12 +7658,12 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
 ##### setAntiDiagonal(...) -> void
-- **Signature:** `public void setAntiDiagonal(final char[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setAntiDiagonal(final char[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have a length equal to the number of rows in the matrix.
 - **Parameters:**
-  - `diagonal` (`char[]`) — the new values for the anti-diagonal; must have length equal to rows
+  - `antiDiagonal` (`char[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length != rows
@@ -9161,26 +9161,26 @@ A matrix implementation for double primitive values, providing efficient storage
   - `element` (`double`) — the double value to fill the matrix with
 - **Returns:** a new DoubleMatrix of dimensions rowCount x columnCount filled with the specified element
 ##### mainDiagonal(...) -> DoubleMatrix
-- **Signature:** `public static DoubleMatrix mainDiagonal(final double[] leftUp2RightDownDiagonal)`
+- **Signature:** `public static DoubleMatrix mainDiagonal(final double[] mainDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`double[]`) — the array of main diagonal elements, or null/empty for an empty matrix
+  - `mainDiagonal` (`double[]`) — the array of main diagonal elements, or null/empty for an empty matrix
 - **Returns:** a square matrix with the specified main diagonal, or an empty matrix if input is null or empty
 ##### antiDiagonal(...) -> DoubleMatrix
-- **Signature:** `public static DoubleMatrix antiDiagonal(final double[] rightUp2LeftDownDiagonal)`
+- **Signature:** `public static DoubleMatrix antiDiagonal(final double[] antiDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
 - **Parameters:**
-  - `rightUp2LeftDownDiagonal` (`double[]`) — the array of anti-diagonal elements, or null/empty for an empty matrix
+  - `antiDiagonal` (`double[]`) — the array of anti-diagonal elements, or null/empty for an empty matrix
 - **Returns:** a square matrix with the specified anti-diagonal, or an empty matrix if input is null or empty
 ##### fromDiagonals(...) -> DoubleMatrix
-- **Signature:** `public static DoubleMatrix fromDiagonals(final double[] leftUp2RightDownDiagonal, final double[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **Signature:** `public static DoubleMatrix fromDiagonals(final double[] mainDiagonal, final double[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
   - The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array (or the maximum length if both are provided).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`double[]`) — the array of main diagonal elements (can be null or empty)
-  - `rightUp2LeftDownDiagonal` (`double[]`) — the array of anti-diagonal elements (can be null or empty)
+  - `mainDiagonal` (`double[]`) — the array of main diagonal elements (can be null or empty)
+  - `antiDiagonal` (`double[]`) — the array of anti-diagonal elements (can be null or empty)
 - **Returns:** a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if both arrays are non-empty and have different lengths
@@ -9337,13 +9337,13 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
-- **Signature:** `public void setMainDiagonal(final double[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setMainDiagonal(final double[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-up to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
   - The diagonal array length must exactly match the number of rows.
 - **Parameters:**
-  - `diagonal` (`double[]`) — the new values for the main diagonal; must have length equal to rowCount
+  - `mainDiagonal` (`double[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
@@ -9367,12 +9367,12 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
 ##### setAntiDiagonal(...) -> void
-- **Signature:** `public void setAntiDiagonal(final double[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setAntiDiagonal(final double[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-up to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`double[]`) — the new values for the anti-diagonal; must have length equal to rows
+  - `antiDiagonal` (`double[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal rows
@@ -10948,26 +10948,26 @@ A matrix implementation for float primitive values, providing efficient storage 
   - `element` (`float`) — the float value to fill the matrix with
 - **Returns:** a new FloatMatrix of dimensions rowCount x columnCount filled with the specified element
 ##### mainDiagonal(...) -> FloatMatrix
-- **Signature:** `public static FloatMatrix mainDiagonal(final float[] leftUp2RightDownDiagonal)`
+- **Signature:** `public static FloatMatrix mainDiagonal(final float[] mainDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`float[]`) — the array of main diagonal elements
+  - `mainDiagonal` (`float[]`) — the array of main diagonal elements
 - **Returns:** a square matrix with the specified main diagonal (n×n where n = diagonal length)
 ##### antiDiagonal(...) -> FloatMatrix
-- **Signature:** `public static FloatMatrix antiDiagonal(final float[] rightUp2LeftDownDiagonal)`
+- **Signature:** `public static FloatMatrix antiDiagonal(final float[] antiDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
 - **Parameters:**
-  - `rightUp2LeftDownDiagonal` (`float[]`) — the array of anti-diagonal elements
+  - `antiDiagonal` (`float[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
 ##### fromDiagonals(...) -> FloatMatrix
-- **Signature:** `public static FloatMatrix fromDiagonals(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **Signature:** `public static FloatMatrix fromDiagonals(final float[] mainDiagonal, final float[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
   - The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array (or the maximum length if both are provided).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`float[]`) — the array of main diagonal elements (can be null or empty)
-  - `rightUp2LeftDownDiagonal` (`float[]`) — the array of anti-diagonal elements (can be null or empty)
+  - `mainDiagonal` (`float[]`) — the array of main diagonal elements (can be null or empty)
+  - `antiDiagonal` (`float[]`) — the array of anti-diagonal elements (can be null or empty)
 - **Returns:** a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if both arrays are non-empty and have different lengths
@@ -11127,13 +11127,13 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
 ##### setMainDiagonal(...) -> void
-- **Signature:** `public void setMainDiagonal(final float[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setMainDiagonal(final float[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
   - The diagonal array length must exactly match the number of rows.
 - **Parameters:**
-  - `diagonal` (`float[]`) — the new values for the main diagonal; must have length equal to rowCount
+  - `mainDiagonal` (`float[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
@@ -11157,12 +11157,12 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
 ##### setAntiDiagonal(...) -> void
-- **Signature:** `public void setAntiDiagonal(final float[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setAntiDiagonal(final float[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array length must be equal to the number of rows.
 - **Parameters:**
-  - `diagonal` (`float[]`) — the new values for the anti-diagonal; must have length equal to rows
+  - `antiDiagonal` (`float[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length != rows
@@ -12883,26 +12883,26 @@ A matrix implementation for int primitive values, providing efficient storage an
   - `by` (`int`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n IntMatrix with values incremented by the step size
 ##### mainDiagonal(...) -> IntMatrix
-- **Signature:** `public static IntMatrix mainDiagonal(final int[] leftUp2RightDownDiagonal)`
+- **Signature:** `public static IntMatrix mainDiagonal(final int[] mainDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`int[]`) — the array of diagonal elements
+  - `mainDiagonal` (`int[]`) — the array of diagonal elements
 - **Returns:** a square matrix with the specified main diagonal
 ##### antiDiagonal(...) -> IntMatrix
-- **Signature:** `public static IntMatrix antiDiagonal(final int[] rightUp2LeftDownDiagonal)`
+- **Signature:** `public static IntMatrix antiDiagonal(final int[] antiDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
 - **Parameters:**
-  - `rightUp2LeftDownDiagonal` (`int[]`) — the array of anti-diagonal elements
+  - `antiDiagonal` (`int[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal
 ##### fromDiagonals(...) -> IntMatrix
-- **Signature:** `public static IntMatrix fromDiagonals(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **Signature:** `public static IntMatrix fromDiagonals(final int[] mainDiagonal, final int[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
   - The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array (or the maximum length if both are provided).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`int[]`) — the array of main diagonal elements (can be null or empty)
-  - `rightUp2LeftDownDiagonal` (`int[]`) — the array of anti-diagonal elements (can be null or empty)
+  - `mainDiagonal` (`int[]`) — the array of main diagonal elements (can be null or empty)
+  - `antiDiagonal` (`int[]`) — the array of anti-diagonal elements (can be null or empty)
 - **Returns:** a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if both arrays are non-empty and have different lengths
@@ -13061,12 +13061,12 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
-- **Signature:** `public void setMainDiagonal(final int[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setMainDiagonal(final int[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`int[]`) — the new values for the main diagonal; must have length equal to rowCount
+  - `mainDiagonal` (`int[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
@@ -13091,12 +13091,12 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
-- **Signature:** `public void setAntiDiagonal(final int[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setAntiDiagonal(final int[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`int[]`) — the new values for the anti-diagonal; must have length equal to rowCount
+  - `antiDiagonal` (`int[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length != rowCount
@@ -14736,26 +14736,26 @@ A matrix implementation for long primitive values, providing efficient storage a
   - `by` (`long`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n LongMatrix with values incremented by the step size
 ##### mainDiagonal(...) -> LongMatrix
-- **Signature:** `public static LongMatrix mainDiagonal(final long[] leftUp2RightDownDiagonal)`
+- **Signature:** `public static LongMatrix mainDiagonal(final long[] mainDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`long[]`) — the array of main diagonal elements (from top-left to bottom-right)
+  - `mainDiagonal` (`long[]`) — the array of main diagonal elements (from top-left to bottom-right)
 - **Returns:** a square n×n matrix with the specified main diagonal, where n is the array length
 ##### antiDiagonal(...) -> LongMatrix
-- **Signature:** `public static LongMatrix antiDiagonal(final long[] rightUp2LeftDownDiagonal)`
+- **Signature:** `public static LongMatrix antiDiagonal(final long[] antiDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
 - **Parameters:**
-  - `rightUp2LeftDownDiagonal` (`long[]`) — the array of anti-diagonal elements (from top-right to bottom-left)
+  - `antiDiagonal` (`long[]`) — the array of anti-diagonal elements (from top-right to bottom-left)
 - **Returns:** a square n×n matrix with the specified anti-diagonal, where n is the array length
 ##### fromDiagonals(...) -> LongMatrix
-- **Signature:** `public static LongMatrix fromDiagonals(final long[] leftUp2RightDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **Signature:** `public static LongMatrix fromDiagonals(final long[] mainDiagonal, final long[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
   - The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array (or the maximum length if both are provided).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`long[]`) — the array of main diagonal elements (can be null or empty)
-  - `rightUp2LeftDownDiagonal` (`long[]`) — the array of anti-diagonal elements (can be null or empty)
+  - `mainDiagonal` (`long[]`) — the array of main diagonal elements (can be null or empty)
+  - `antiDiagonal` (`long[]`) — the array of anti-diagonal elements (can be null or empty)
 - **Returns:** a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if both arrays are non-empty and have different lengths
@@ -14915,13 +14915,13 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
-- **Signature:** `public void setMainDiagonal(final long[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setMainDiagonal(final long[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
   - The diagonal array length must exactly match the number of rows.
 - **Parameters:**
-  - `diagonal` (`long[]`) — the new values for the main diagonal; must have length == rowCount
+  - `mainDiagonal` (`long[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal rowCount
@@ -14945,12 +14945,12 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
-- **Signature:** `public void setAntiDiagonal(final long[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setAntiDiagonal(final long[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`long[]`) — the new values for the anti-diagonal; must have length equal to rowCount
+  - `antiDiagonal` (`long[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal rowCount
@@ -17255,28 +17255,28 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowCount or columnCount is negative, or if element is null
 ##### mainDiagonal(...) -> Matrix<T>
-- **Signature:** `public static <T> Matrix<T> mainDiagonal(final T[] leftUp2RightDownDiagonal)`
+- **Signature:** `public static <T> Matrix<T> mainDiagonal(final T[] mainDiagonal)`
 - **Summary:** Creates a square diagonal matrix with the given values on the main diagonal (left-up to right-down).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`T[]`) — the diagonal values (must not be null)
+  - `mainDiagonal` (`T[]`) — the diagonal values (must not be null)
 - **Returns:** a square matrix with the given diagonal values on the main diagonal
 - **See also:** #fromDiagonals(Object\[\], Object\[\]), #antiDiagonal(Object\[\])
 ##### antiDiagonal(...) -> Matrix<T>
-- **Signature:** `public static <T> Matrix<T> antiDiagonal(final T[] rightUp2LeftDownDiagonal)`
+- **Signature:** `public static <T> Matrix<T> antiDiagonal(final T[] antiDiagonal)`
 - **Summary:** Creates a square diagonal matrix with the given values on the anti-diagonal (right-up to left-down).
 - **Parameters:**
-  - `rightUp2LeftDownDiagonal` (`T[]`) — the anti-diagonal values (must not be null)
+  - `antiDiagonal` (`T[]`) — the anti-diagonal values (must not be null)
 - **Returns:** a square matrix with the given anti-diagonal values
 - **See also:** #fromDiagonals(Object\[\], Object\[\]), #mainDiagonal(Object\[\])
 ##### fromDiagonals(...) -> Matrix<T>
-- **Signature:** `@SuppressWarnings("null") public static <T> Matrix<T> fromDiagonals(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **Signature:** `@SuppressWarnings("null") public static <T> Matrix<T> fromDiagonals(final T[] mainDiagonal, final T[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix with values on both diagonals.
 - **Contract:**
   - If diagonals intersect (odd dimension), the main diagonal value takes precedence.
   - At least one diagonal must be non-null.
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`T[]`) — the main diagonal values.
-  - `rightUp2LeftDownDiagonal` (`T[]`) — the anti-diagonal values.
+  - `mainDiagonal` (`T[]`) — the main diagonal values.
+  - `antiDiagonal` (`T[]`) — the anti-diagonal values.
 - **Returns:** a square matrix with the given diagonal values
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if both arrays are null, or if both diagonals are non-empty and have different lengths
@@ -17427,13 +17427,13 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
 ##### setMainDiagonal(...) -> void
-- **Signature:** `public void setMainDiagonal(final T[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setMainDiagonal(final T[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the main diagonal elements (left-up to right-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
   - The diagonal array must have exactly as many elements as the matrix dimension.
 - **Parameters:**
-  - `diagonal` (`T[]`) — the new diagonal values (must not be null and must have exactly {@code rows} elements)
+  - `mainDiagonal` (`T[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
@@ -17457,13 +17457,13 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
 ##### setAntiDiagonal(...) -> void
-- **Signature:** `public void setAntiDiagonal(final T[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setAntiDiagonal(final T[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the anti-diagonal elements (right-up to left-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
   - The diagonal array must have exactly as many elements as the matrix dimension.
 - **Parameters:**
-  - `diagonal` (`T[]`) — the new anti-diagonal values (must not be null and must have exactly {@code rows} elements)
+  - `antiDiagonal` (`T[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array does not have exactly {@code rows} elements
@@ -19305,26 +19305,26 @@ A matrix implementation for short primitive values, providing efficient storage 
   - `by` (`short`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n ShortMatrix with values incremented by the step size
 ##### mainDiagonal(...) -> ShortMatrix
-- **Signature:** `public static ShortMatrix mainDiagonal(final short[] leftUp2RightDownDiagonal)`
+- **Signature:** `public static ShortMatrix mainDiagonal(final short[] mainDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`short[]`) — the array of diagonal elements
+  - `mainDiagonal` (`short[]`) — the array of diagonal elements
 - **Returns:** a square matrix with the specified main diagonal
 ##### antiDiagonal(...) -> ShortMatrix
-- **Signature:** `public static ShortMatrix antiDiagonal(final short[] rightUp2LeftDownDiagonal)`
+- **Signature:** `public static ShortMatrix antiDiagonal(final short[] antiDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
 - **Parameters:**
-  - `rightUp2LeftDownDiagonal` (`short[]`) — the array of anti-diagonal elements
+  - `antiDiagonal` (`short[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal
 ##### fromDiagonals(...) -> ShortMatrix
-- **Signature:** `public static ShortMatrix fromDiagonals(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **Signature:** `public static ShortMatrix fromDiagonals(final short[] mainDiagonal, final short[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
   - The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array (or the maximum length if both are provided).
 - **Parameters:**
-  - `leftUp2RightDownDiagonal` (`short[]`) — the array of main diagonal elements (can be null or empty)
-  - `rightUp2LeftDownDiagonal` (`short[]`) — the array of anti-diagonal elements (can be null or empty)
+  - `mainDiagonal` (`short[]`) — the array of main diagonal elements (can be null or empty)
+  - `antiDiagonal` (`short[]`) — the array of anti-diagonal elements (can be null or empty)
 - **Returns:** a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if both arrays are non-empty and have different lengths
@@ -19483,13 +19483,13 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
 ##### setMainDiagonal(...) -> void
-- **Signature:** `public void setMainDiagonal(final short[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setMainDiagonal(final short[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-up to right-down.
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
   - The diagonal array length must exactly match the number of rows (and columns) in the matrix.
 - **Parameters:**
-  - `diagonal` (`short[]`) — the new values for the main diagonal; must have length == rows
+  - `mainDiagonal` (`short[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
@@ -19513,12 +19513,12 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
 ##### setAntiDiagonal(...) -> void
-- **Signature:** `public void setAntiDiagonal(final short[] diagonal) throws IllegalStateException, IllegalArgumentException`
+- **Signature:** `public void setAntiDiagonal(final short[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-up to left-down.
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `diagonal` (`short[]`) — the new values for the anti-diagonal; must have length equal to rows
+  - `antiDiagonal` (`short[]`)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length != rows
