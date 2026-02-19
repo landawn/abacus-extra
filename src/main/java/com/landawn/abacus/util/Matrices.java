@@ -36,22 +36,22 @@ import com.landawn.abacus.util.stream.Stream;
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Check if two matrices have the same shape
- * boolean same = Matrixes.isSameShape(matrixA, matrixB);
+ * boolean same = Matrices.isSameShape(matrixA, matrixB);
  * 
  * // Enable parallel processing
- * Matrixes.setParallelEnabled(ParallelEnabled.YES);
+ * Matrices.setParallelEnabled(ParallelEnabled.YES);
  * 
  * // Zip two matrices with a custom function
- * IntMatrix result = Matrixes.zip(matrix1, matrix2, (a, b) -> a + b);
+ * IntMatrix result = Matrices.zip(matrix1, matrix2, (a, b) -> a + b);
  * }</pre>
  * 
  * @see AbstractMatrix
  * @see Matrix
  * @see ParallelEnabled
  */
-public final class Matrixes {
+public final class Matrices {
 
-    static final Logger logger = LoggerFactory.getLogger(Matrixes.class);
+    static final Logger logger = LoggerFactory.getLogger(Matrices.class);
 
     static final int MIN_COUNT_FOR_PARALLEL = 8192;
 
@@ -73,7 +73,7 @@ public final class Matrixes {
         IS_PARALLEL_STREAM_SUPPORTED = tmp;
     }
 
-    private Matrixes() {
+    private Matrices() {
         // singleton: utility class.
     }
 
@@ -94,10 +94,10 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ParallelEnabled current = Matrixes.getParallelEnabled();
+     * ParallelEnabled current = Matrices.getParallelEnabled();
      * // Check current setting before changing it
      * if (current == ParallelEnabled.DEFAULT) {
-     *     Matrixes.setParallelEnabled(ParallelEnabled.YES);
+     *     Matrices.setParallelEnabled(ParallelEnabled.YES);
      * }
      * }</pre>
      *
@@ -129,14 +129,14 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Force parallel execution for large matrix operations
-     * Matrixes.setParallelEnabled(ParallelEnabled.YES);
+     * Matrices.setParallelEnabled(ParallelEnabled.YES);
      * try {
      *     // All matrix operations here will use parallel processing
      *     matrix1.multiply(matrix2);
      *     matrix3.add(matrix4);
      * } finally {
      *     // Always reset to default to avoid affecting other code
-     *     Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
+     *     Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
      * }
      * }</pre>
      *
@@ -168,7 +168,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[1000][1000]);
-     * if (Matrixes.isParallelizable(matrix)) {
+     * if (Matrices.isParallelizable(matrix)) {
      *     // Matrix is large enough for parallel processing
      * }
      * }</pre>
@@ -207,7 +207,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[100][100]);
-     * boolean shouldParallelize = Matrixes.isParallelizable(matrix, 5000);
+     * boolean shouldParallelize = Matrices.isParallelizable(matrix, 5000);
      * // Returns true only if settings allow and count >= 8192
      * }</pre>
      *
@@ -220,8 +220,8 @@ public final class Matrixes {
      */
     public static boolean isParallelizable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
         N.checkArgNotNull(x, "x");
-        return IS_PARALLEL_STREAM_SUPPORTED && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
-                || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
+        return IS_PARALLEL_STREAM_SUPPORTED && (Matrices.isParallelEnabled_TL.get() == ParallelEnabled.YES
+                || (Matrices.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
     }
 
     /**
@@ -238,8 +238,8 @@ public final class Matrixes {
      * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});         // 2×2 matrix
      * IntMatrix m3 = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});   // 2×3 matrix
      *
-     * boolean same1 = Matrixes.isSameShape(m1, m2);                      // true
-     * boolean same2 = Matrixes.isSameShape(m1, m3);                      // false
+     * boolean same1 = Matrices.isSameShape(m1, m2);                      // true
+     * boolean same2 = Matrices.isSameShape(m1, m3);                      // false
      * }</pre>
      *
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
@@ -266,7 +266,7 @@ public final class Matrixes {
      * IntMatrix m1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});
      * IntMatrix m3 = IntMatrix.of(new int[][] {{9, 10}, {11, 12}});
-     * boolean same = Matrixes.isSameShape(m1, m2, m3);   // true
+     * boolean same = Matrices.isSameShape(m1, m2, m3);   // true
      * }</pre>
      *
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
@@ -301,7 +301,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3, m4);
-     * if (Matrixes.isSameShape(matrices)) {
+     * if (Matrices.isSameShape(matrices)) {
      *     // All matrices have the same dimensions
      * }
      * }</pre>
@@ -352,13 +352,13 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Create a 3×4 array of Double objects
-     * Double[][] doubles = Matrixes.newArray(3, 4, Double.class);
+     * Double[][] doubles = Matrices.newArray(3, 4, Double.class);
      *
      * // Create a 2×5 array of String objects
-     * String[][] strings = Matrixes.newArray(2, 5, String.class);
+     * String[][] strings = Matrices.newArray(2, 5, String.class);
      *
      * // Primitive types are automatically wrapped
-     * Integer[][] ints = Matrixes.newArray(10, 20, int.class);
+     * Integer[][] ints = Matrices.newArray(10, 20, int.class);
      * }</pre>
      *
      * @param <T> the element type of the array
@@ -399,7 +399,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Force parallel execution for specific operations
-     * Matrixes.run(() -> {
+     * Matrices.run(() -> {
      *     // This operation will use parallel processing
      *     matrix1.multiply(matrix2);
      *     matrix3.add(matrix4);
@@ -408,7 +408,7 @@ public final class Matrixes {
      * // After execution, the original setting is restored
      *
      * // Force sequential execution for small operations
-     * Matrixes.run(() -> {
+     * Matrices.run(() -> {
      *     smallMatrix.transpose();
      * }, ParallelEnabled.NO);
      * }</pre>
@@ -423,13 +423,13 @@ public final class Matrixes {
     public static <E extends Exception> void run(final Throwables.Runnable<E> cmd, final ParallelEnabled parallelEnabled) throws E {
         N.checkArgNotNull(cmd, "cmd");
 
-        final ParallelEnabled original = Matrixes.getParallelEnabled();
-        Matrixes.setParallelEnabled(parallelEnabled);
+        final ParallelEnabled original = Matrices.getParallelEnabled();
+        Matrices.setParallelEnabled(parallelEnabled);
 
         try {
             cmd.run();
         } finally {
-            Matrixes.setParallelEnabled(original);
+            Matrices.setParallelEnabled(original);
         }
     }
 
@@ -448,12 +448,12 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Print all positions in a 3×4 matrix
-     * Matrixes.run(3, 4, (i, j) ->
+     * Matrices.run(3, 4, (i, j) ->
      *     System.out.println("(" + i + "," + j + ")"), false);
      *
      * // Initialize a result array in parallel
      * int[][] result = new int[100][100];
-     * Matrixes.run(100, 100, (i, j) ->
+     * Matrices.run(100, 100, (i, j) ->
      *     result[i][j] = i * j, true);
      * }</pre>
      *
@@ -493,7 +493,7 @@ public final class Matrixes {
      * <pre>{@code
      * // Process a subregion of a matrix
      * int[][] result = new int[10][10];
-     * Matrixes.run(2, 5, 3, 8, (i, j) -> result[i][j] = i + j, false);
+     * Matrices.run(2, 5, 3, 8, (i, j) -> result[i][j] = i + j, false);
      * }</pre>
      *
      * @param <E> the type of exception that the command might throw
@@ -564,11 +564,11 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Generate coordinates as strings
-     * Stream<String> coords = Matrixes.call(2, 3, (i, j) -> i + "," + j, false);
+     * Stream<String> coords = Matrices.call(2, 3, (i, j) -> i + "," + j, false);
      * // Results: "0,0", "0,1", "0,2", "1,0", "1,1", "1,2"
      *
      * // Create Point objects for each position
-     * Stream<Point> points = Matrixes.call(10, 10, (i, j) -> new Point(i, j), true);
+     * Stream<Point> points = Matrices.call(10, 10, (i, j) -> new Point(i, j), true);
      * }</pre>
      *
      * @param <T> the type of elements in the result stream
@@ -605,7 +605,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Stream<String> coords = Matrixes.call(1, 4, 2, 5,
+     * Stream<String> coords = Matrices.call(1, 4, 2, 5,
      *     (i, j) -> i + "," + j, false);
      * // Generates coordinates for subregion
      * }</pre>
@@ -676,7 +676,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntStream sums = Matrixes.callToInt(3, 4, (i, j) -> i + j, false);
+     * IntStream sums = Matrices.callToInt(3, 4, (i, j) -> i + j, false);
      * // Generates sum of indices for each position
      * }</pre>
      *
@@ -710,7 +710,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntStream products = Matrixes.callToInt(1, 4, 2, 5,
+     * IntStream products = Matrices.callToInt(1, 4, 2, 5,
      *     (i, j) -> i * j, false);
      * }</pre>
      *
@@ -792,7 +792,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] result = new int[matrixA.rowCount][matrixB.columnCount];
-     * Matrixes.multiply(matrixA, matrixB, (i, j, k) -> {
+     * Matrices.multiply(matrixA, matrixB, (i, j, k) -> {
      *     result[i][j] += matrixA.get(i, k) * matrixB.get(k, j);
      * });
      * }</pre>
@@ -814,7 +814,7 @@ public final class Matrixes {
                 "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
                 b.rowCount, b.columnCount);
 
-        multiply(a, b, action, Matrixes.isParallelizable(a, a.elementCount * b.columnCount));
+        multiply(a, b, action, Matrices.isParallelizable(a, a.elementCount * b.columnCount));
     }
 
     /**
@@ -837,7 +837,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] result = new double[a.rowCount][b.columnCount];
-     * Matrixes.multiply(a, b, (i, j, k) ->
+     * Matrices.multiply(a, b, (i, j, k) ->
      *     result[i][j] += a.get(i, k) * b.get(k, j), true);
      * }</pre>
      *
@@ -983,11 +983,11 @@ public final class Matrixes {
      * ByteMatrix m2 = ByteMatrix.of(new byte[][] {{5, 6}, {7, 8}});
      *
      * // Element-wise addition
-     * ByteMatrix sum = Matrixes.zip(m1, m2, (a, b) -> (byte)(a + b));
+     * ByteMatrix sum = Matrices.zip(m1, m2, (a, b) -> (byte)(a + b));
      * // Result: [[6, 8], [10, 12]]
      *
      * // Element-wise maximum
-     * ByteMatrix max = Matrixes.zip(m1, m2, (a, b) -> (byte)Math.max(a, b));
+     * ByteMatrix max = Matrices.zip(m1, m2, (a, b) -> (byte)Math.max(a, b));
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1020,7 +1020,7 @@ public final class Matrixes {
      * ByteMatrix m1 = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * ByteMatrix m2 = ByteMatrix.of(new byte[][] {{5, 6}, {7, 8}});
      * ByteMatrix m3 = ByteMatrix.of(new byte[][] {{10, 20}, {30, 40}});
-     * ByteMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> (byte)(a + b + c));
+     * ByteMatrix result = Matrices.zip(m1, m2, m3, (a, b, c) -> (byte)(a + b + c));
      * // Result: [[16, 28], [40, 52]]
      * }</pre>
      *
@@ -1064,10 +1064,10 @@ public final class Matrixes {
      * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Element-wise maximum across all matrices
-     * ByteMatrix max = Matrixes.zip(matrices, (a, b) -> (byte)Math.max(a, b));
+     * ByteMatrix max = Matrices.zip(matrices, (a, b) -> (byte)Math.max(a, b));
      *
      * // Element-wise sum across all matrices
-     * ByteMatrix sum = Matrixes.zip(matrices, (a, b) -> (byte)(a + b));
+     * ByteMatrix sum = Matrices.zip(matrices, (a, b) -> (byte)(a + b));
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1086,28 +1086,28 @@ public final class Matrixes {
         N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int size = c.size();
-        final ByteMatrix[] matrixes = c.toArray(new ByteMatrix[size]);
+        final ByteMatrix[] matrices = c.toArray(new ByteMatrix[size]);
 
         if (c.size() == 1) {
-            return matrixes[0].copy();
+            return matrices[0].copy();
         } else if (c.size() == 2) {
-            return matrixes[0].zipWith(matrixes[1], zipFunction);
+            return matrices[0].zipWith(matrices[1], zipFunction);
         }
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
         final byte[][] result = new byte[rowCount][columnCount];
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final byte[] ret = result[i];
-            ret[j] = matrixes[0].a[i][j];
+            ret[j] = matrices[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                ret[j] = zipFunction.applyAsByte(ret[j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.applyAsByte(ret[j], matrices[k].a[i][j]);
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new ByteMatrix(result);
     }
@@ -1127,7 +1127,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
-     * Matrix<Double> avg = Matrixes.zip(matrices, arr -> {
+     * Matrix<Double> avg = Matrices.zip(matrices, arr -> {
      *     double sum = 0;
      *     for (byte b : arr) sum += b;
      *     return sum / arr.length;
@@ -1170,7 +1170,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
-     * Matrix<String> hex = Matrixes.zip(matrices,
+     * Matrix<String> hex = Matrices.zip(matrices,
      *     arr -> Integer.toHexString(arr[0] ^ arr[1] ^ arr[2]), true, String.class);
      * }</pre>
      *
@@ -1194,11 +1194,11 @@ public final class Matrixes {
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         final int size = c.size();
-        final ByteMatrix[] matrixes = c.toArray(new ByteMatrix[size]);
+        final ByteMatrix[] matrices = c.toArray(new ByteMatrix[size]);
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final byte[] intermediateArray = new byte[size];
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
@@ -1207,7 +1207,7 @@ public final class Matrixes {
             final byte[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
 
             for (int k = 0; k < size; k++) {
-                tmp[k] = matrixes[k].a[i][j];
+                tmp[k] = matrices[k].a[i][j];
             }
 
             result[i][j] = zipFunction.apply(tmp);
@@ -1235,7 +1235,7 @@ public final class Matrixes {
      * ByteMatrix m2 = ByteMatrix.of(new byte[][] {{60, 40}, {-30, 90}});
      *
      * // Compute sum as integers (to avoid byte overflow)
-     * IntMatrix sum = Matrixes.zipToInt(m1, m2, (a, b) -> (int)a + (int)b);
+     * IntMatrix sum = Matrices.zipToInt(m1, m2, (a, b) -> (int)a + (int)b);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1261,7 +1261,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new IntMatrix(result);
     }
@@ -1288,7 +1288,7 @@ public final class Matrixes {
      * ByteMatrix m3 = ByteMatrix.of(new byte[][] {{2, 3}, {4, 5}});
      *
      * // Compute weighted sum: a*2 + b*3 + c
-     * IntMatrix result = Matrixes.zipToInt(m1, m2, m3, (a, b, c) -> a*2 + b*3 + c);
+     * IntMatrix result = Matrices.zipToInt(m1, m2, m3, (a, b, c) -> a*2 + b*3 + c);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1317,7 +1317,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new IntMatrix(result);
     }
@@ -1342,7 +1342,7 @@ public final class Matrixes {
      * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute sum as integers (avoiding byte overflow)
-     * IntMatrix sum = Matrixes.zipToInt(matrices, arr -> {
+     * IntMatrix sum = Matrices.zipToInt(matrices, arr -> {
      *     int total = 0;
      *     for (byte b : arr) total += b;
      *     return total;
@@ -1386,7 +1386,7 @@ public final class Matrixes {
      * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute average as integer (safe with shareIntermediateArray = true)
-     * IntMatrix avg = Matrixes.zipToInt(matrices, arr -> {
+     * IntMatrix avg = Matrices.zipToInt(matrices, arr -> {
      *     int sum = 0;
      *     for (byte b : arr) sum += b;
      *     return sum / arr.length;
@@ -1409,11 +1409,11 @@ public final class Matrixes {
         N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int size = c.size();
-        final ByteMatrix[] matrixes = c.toArray(new ByteMatrix[size]);
+        final ByteMatrix[] matrices = c.toArray(new ByteMatrix[size]);
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final byte[] intermediateArray = new byte[size];
         final int[][] result = new int[rowCount][columnCount];
@@ -1422,7 +1422,7 @@ public final class Matrixes {
             final byte[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
 
             for (int k = 0; k < size; k++) {
-                tmp[k] = matrixes[k].a[i][j];
+                tmp[k] = matrices[k].a[i][j];
             }
 
             result[i][j] = zipFunction.apply(tmp);
@@ -1449,11 +1449,11 @@ public final class Matrixes {
      * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});
      *
      * // Element-wise addition
-     * IntMatrix sum = Matrixes.zip(m1, m2, (a, b) -> a + b);
+     * IntMatrix sum = Matrices.zip(m1, m2, (a, b) -> a + b);
      * // Result: [[6, 8], [10, 12]]
      *
      * // Element-wise maximum
-     * IntMatrix max = Matrixes.zip(m1, m2, Integer::max);
+     * IntMatrix max = Matrices.zip(m1, m2, Integer::max);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1488,7 +1488,7 @@ public final class Matrixes {
      * IntMatrix m3 = IntMatrix.of(new int[][] {{10, 20}, {30, 40}});
      *
      * // Compute weighted sum: a*2 + b*3 + c
-     * IntMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a*2 + b*3 + c);
+     * IntMatrix result = Matrices.zip(m1, m2, m3, (a, b, c) -> a*2 + b*3 + c);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1531,10 +1531,10 @@ public final class Matrixes {
      * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3, m4);
      *
      * // Element-wise maximum across all matrices
-     * IntMatrix max = Matrixes.zip(matrices, Integer::max);
+     * IntMatrix max = Matrices.zip(matrices, Integer::max);
      *
      * // Element-wise sum across all matrices
-     * IntMatrix sum = Matrixes.zip(matrices, (a, b) -> a + b);
+     * IntMatrix sum = Matrices.zip(matrices, (a, b) -> a + b);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1553,28 +1553,28 @@ public final class Matrixes {
         N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int size = c.size();
-        final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
+        final IntMatrix[] matrices = c.toArray(new IntMatrix[size]);
 
         if (c.size() == 1) {
-            return matrixes[0].copy();
+            return matrices[0].copy();
         } else if (c.size() == 2) {
-            return matrixes[0].zipWith(matrixes[1], zipFunction);
+            return matrices[0].zipWith(matrices[1], zipFunction);
         }
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
         final int[][] result = new int[rowCount][columnCount];
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final int[] ret = result[i];
-            ret[j] = matrixes[0].a[i][j];
+            ret[j] = matrices[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                ret[j] = zipFunction.applyAsInt(ret[j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.applyAsInt(ret[j], matrices[k].a[i][j]);
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new IntMatrix(result);
     }
@@ -1598,7 +1598,7 @@ public final class Matrixes {
      * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute statistics at each position
-     * Matrix<String> stats = Matrixes.zip(matrices,
+     * Matrix<String> stats = Matrices.zip(matrices,
      *     arr -> "avg=" + java.util.Arrays.stream(arr).average().orElse(0),
      *     String.class);
      * }</pre>
@@ -1642,7 +1642,7 @@ public final class Matrixes {
      * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute median at each position (safe with shareIntermediateArray = false)
-     * Matrix<Double> median = Matrixes.zip(matrices, arr -> {
+     * Matrix<Double> median = Matrices.zip(matrices, arr -> {
      *     int[] sorted = java.util.Arrays.copyOf(arr, arr.length);
      *     java.util.Arrays.sort(sorted);
      *     return (double) sorted[sorted.length / 2];
@@ -1667,11 +1667,11 @@ public final class Matrixes {
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         final int size = c.size();
-        final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
+        final IntMatrix[] matrices = c.toArray(new IntMatrix[size]);
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final int[] intermediateArray = new int[size];
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
@@ -1680,7 +1680,7 @@ public final class Matrixes {
             final int[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
 
             for (int k = 0; k < size; k++) {
-                tmp[k] = matrixes[k].a[i][j];
+                tmp[k] = matrices[k].a[i][j];
             }
 
             result[i][j] = zipFunction.apply(tmp);
@@ -1707,7 +1707,7 @@ public final class Matrixes {
      * IntMatrix m2 = IntMatrix.of(new int[][] {{5000000, 6000000}, {7000000, 8000000}});
      *
      * // Compute product as longs (to avoid integer overflow)
-     * LongMatrix product = Matrixes.zipToLong(m1, m2, (a, b) -> (long)a * (long)b);
+     * LongMatrix product = Matrices.zipToLong(m1, m2, (a, b) -> (long)a * (long)b);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1731,7 +1731,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new LongMatrix(result);
     }
@@ -1754,7 +1754,7 @@ public final class Matrixes {
      * IntMatrix m3 = IntMatrix.of(new int[][] {{500000, 600000}});
      *
      * // Compute a*b + c as long (to avoid overflow)
-     * LongMatrix result = Matrixes.zipToLong(m1, m2, m3, (a, b, c) -> (long)a * b + c);
+     * LongMatrix result = Matrices.zipToLong(m1, m2, m3, (a, b, c) -> (long)a * b + c);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1781,7 +1781,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new LongMatrix(result);
     }
@@ -1802,7 +1802,7 @@ public final class Matrixes {
      * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Sum all values as long (avoiding overflow)
-     * LongMatrix sum = Matrixes.zipToLong(matrices, arr -> {
+     * LongMatrix sum = Matrices.zipToLong(matrices, arr -> {
      *     long total = 0;
      *     for (int i : arr) total += i;
      *     return total;
@@ -1837,7 +1837,7 @@ public final class Matrixes {
      * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute product of all values as long
-     * LongMatrix product = Matrixes.zipToLong(matrices, arr -> {
+     * LongMatrix product = Matrices.zipToLong(matrices, arr -> {
      *     long result = 1L;
      *     for (int i : arr) result *= i;
      *     return result;
@@ -1859,11 +1859,11 @@ public final class Matrixes {
         N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int size = c.size();
-        final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
+        final IntMatrix[] matrices = c.toArray(new IntMatrix[size]);
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final int[] intermediateArray = new int[size];
         final long[][] result = new long[rowCount][columnCount];
@@ -1872,7 +1872,7 @@ public final class Matrixes {
             final int[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
 
             for (int k = 0; k < size; k++) {
-                tmp[k] = matrixes[k].a[i][j];
+                tmp[k] = matrices[k].a[i][j];
             }
 
             result[i][j] = zipFunction.apply(tmp);
@@ -1897,7 +1897,7 @@ public final class Matrixes {
      * IntMatrix m2 = IntMatrix.of(new int[][] {{3, 4}, {5, 6}});
      *
      * // Compute division with double precision
-     * DoubleMatrix ratio = Matrixes.zipToDouble(m1, m2, (a, b) -> (double)a / b);
+     * DoubleMatrix ratio = Matrices.zipToDouble(m1, m2, (a, b) -> (double)a / b);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1921,7 +1921,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -1941,7 +1941,7 @@ public final class Matrixes {
      * IntMatrix m3 = IntMatrix.of(new int[][] {{2, 5}});
      *
      * // Compute (a + b) / c with double precision
-     * DoubleMatrix result = Matrixes.zipToDouble(m1, m2, m3, (a, b, c) -> (double)(a + b) / c);
+     * DoubleMatrix result = Matrices.zipToDouble(m1, m2, m3, (a, b, c) -> (double)(a + b) / c);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1968,7 +1968,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -1985,7 +1985,7 @@ public final class Matrixes {
      * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute average as double
-     * DoubleMatrix avg = Matrixes.zipToDouble(matrices,
+     * DoubleMatrix avg = Matrices.zipToDouble(matrices,
      *     arr -> java.util.Arrays.stream(arr).average().orElse(0.0));
      * }</pre>
      *
@@ -2018,7 +2018,7 @@ public final class Matrixes {
      * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute standard deviation at each position
-     * DoubleMatrix stdDev = Matrixes.zipToDouble(matrices, arr -> {
+     * DoubleMatrix stdDev = Matrices.zipToDouble(matrices, arr -> {
      *     double avg = java.util.Arrays.stream(arr).average().orElse(0);
      *     double variance = java.util.Arrays.stream(arr).mapToDouble(i -> Math.pow(i - avg, 2)).average().orElse(0);
      *     return Math.sqrt(variance);
@@ -2040,11 +2040,11 @@ public final class Matrixes {
         N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int size = c.size();
-        final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
+        final IntMatrix[] matrices = c.toArray(new IntMatrix[size]);
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final int[] intermediateArray = new int[size];
         final double[][] result = new double[rowCount][columnCount];
@@ -2053,7 +2053,7 @@ public final class Matrixes {
             final int[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
 
             for (int k = 0; k < size; k++) {
-                tmp[k] = matrixes[k].a[i][j];
+                tmp[k] = matrices[k].a[i][j];
             }
 
             result[i][j] = zipFunction.apply(tmp);
@@ -2080,10 +2080,10 @@ public final class Matrixes {
      * LongMatrix m2 = LongMatrix.of(new long[][] {{50L, 60L}, {70L, 80L}});
      *
      * // Element-wise addition
-     * LongMatrix sum = Matrixes.zip(m1, m2, (a, b) -> a + b);
+     * LongMatrix sum = Matrices.zip(m1, m2, (a, b) -> a + b);
      *
      * // Element-wise maximum
-     * LongMatrix max = Matrixes.zip(m1, m2, Long::max);
+     * LongMatrix max = Matrices.zip(m1, m2, Long::max);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -2117,7 +2117,7 @@ public final class Matrixes {
      * LongMatrix m3 = LongMatrix.of(new long[][] {{5L, 6L}});
      *
      * // Compute a*b + c
-     * LongMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a * b + c);
+     * LongMatrix result = Matrices.zip(m1, m2, m3, (a, b, c) -> a * b + c);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -2149,10 +2149,10 @@ public final class Matrixes {
      * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Element-wise sum
-     * LongMatrix sum = Matrixes.zip(matrices, (a, b) -> a + b);
+     * LongMatrix sum = Matrices.zip(matrices, (a, b) -> a + b);
      *
      * // Element-wise minimum
-     * LongMatrix min = Matrixes.zip(matrices, Long::min);
+     * LongMatrix min = Matrices.zip(matrices, Long::min);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -2171,28 +2171,28 @@ public final class Matrixes {
         N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int size = c.size();
-        final LongMatrix[] matrixes = c.toArray(new LongMatrix[size]);
+        final LongMatrix[] matrices = c.toArray(new LongMatrix[size]);
 
         if (c.size() == 1) {
-            return matrixes[0].copy();
+            return matrices[0].copy();
         } else if (c.size() == 2) {
-            return matrixes[0].zipWith(matrixes[1], zipFunction);
+            return matrices[0].zipWith(matrices[1], zipFunction);
         }
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
         final long[][] result = new long[rowCount][columnCount];
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final long[] ret = result[i];
-            ret[j] = matrixes[0].a[i][j];
+            ret[j] = matrices[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                ret[j] = zipFunction.applyAsLong(ret[j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.applyAsLong(ret[j], matrices[k].a[i][j]);
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new LongMatrix(result);
     }
@@ -2209,7 +2209,7 @@ public final class Matrixes {
      * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Find the range (max - min) at each position
-     * Matrix<Long> range = Matrixes.zip(matrices, arr -> {
+     * Matrix<Long> range = Matrices.zip(matrices, arr -> {
      *     long max = java.util.Arrays.stream(arr).max().orElse(0L);
      *     long min = java.util.Arrays.stream(arr).min().orElse(0L);
      *     return max - min;
@@ -2249,7 +2249,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
-     * Matrix<java.math.BigInteger> sums = Matrixes.zip(matrices,
+     * Matrix<java.math.BigInteger> sums = Matrices.zip(matrices,
      *     arr -> java.math.BigInteger.valueOf(java.util.Arrays.stream(arr).sum()), true, java.math.BigInteger.class);
      * }</pre>
      *
@@ -2273,11 +2273,11 @@ public final class Matrixes {
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         final int size = c.size();
-        final LongMatrix[] matrixes = c.toArray(new LongMatrix[size]);
+        final LongMatrix[] matrices = c.toArray(new LongMatrix[size]);
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final long[] intermediateArray = new long[size];
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
@@ -2286,7 +2286,7 @@ public final class Matrixes {
             final long[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
 
             for (int k = 0; k < size; k++) {
-                tmp[k] = matrixes[k].a[i][j];
+                tmp[k] = matrices[k].a[i][j];
             }
 
             result[i][j] = zipFunction.apply(tmp);
@@ -2311,7 +2311,7 @@ public final class Matrixes {
      * LongMatrix m2 = LongMatrix.of(new long[][] {{3L, 4L}, {5L, 6L}});
      *
      * // Compute division with double precision
-     * DoubleMatrix ratio = Matrixes.zipToDouble(m1, m2, (a, b) -> (double)a / b);
+     * DoubleMatrix ratio = Matrices.zipToDouble(m1, m2, (a, b) -> (double)a / b);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -2337,7 +2337,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -2357,7 +2357,7 @@ public final class Matrixes {
      * LongMatrix m3 = LongMatrix.of(new long[][] {{3L, 4L}});
      *
      * // Compute (a + b) / c with double precision
-     * DoubleMatrix result = Matrixes.zipToDouble(m1, m2, m3, (a, b, c) -> (double)(a + b) / c);
+     * DoubleMatrix result = Matrices.zipToDouble(m1, m2, m3, (a, b, c) -> (double)(a + b) / c);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -2386,7 +2386,7 @@ public final class Matrixes {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(a));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -2403,7 +2403,7 @@ public final class Matrixes {
      * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute average as double
-     * DoubleMatrix avg = Matrixes.zipToDouble(matrices,
+     * DoubleMatrix avg = Matrices.zipToDouble(matrices,
      *     arr -> java.util.Arrays.stream(arr).average().orElse(0.0));
      * }</pre>
      *
@@ -2435,7 +2435,7 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
-     * DoubleMatrix variance = Matrixes.zipToDouble(matrices, arr -> {
+     * DoubleMatrix variance = Matrices.zipToDouble(matrices, arr -> {
      *     double mean = java.util.Arrays.stream(arr).average().orElse(0);
      *     return java.util.Arrays.stream(arr).mapToDouble(v -> Math.pow(v - mean, 2)).average().orElse(0);
      * }, true);
@@ -2458,11 +2458,11 @@ public final class Matrixes {
         N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int size = c.size();
-        final LongMatrix[] matrixes = c.toArray(new LongMatrix[size]);
+        final LongMatrix[] matrices = c.toArray(new LongMatrix[size]);
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final long[] intermediateArray = new long[size];
         final double[][] result = new double[rowCount][columnCount];
@@ -2471,7 +2471,7 @@ public final class Matrixes {
             final long[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
 
             for (int k = 0; k < size; k++) {
-                tmp[k] = matrixes[k].a[i][j];
+                tmp[k] = matrices[k].a[i][j];
             }
 
             result[i][j] = zipFunction.apply(tmp);
@@ -2498,10 +2498,10 @@ public final class Matrixes {
      * DoubleMatrix m2 = DoubleMatrix.of(new double[][] {{0.5, 1.0}, {1.5, 2.0}});
      *
      * // Element-wise multiplication
-     * DoubleMatrix product = Matrixes.zip(m1, m2, (a, b) -> a * b);
+     * DoubleMatrix product = Matrices.zip(m1, m2, (a, b) -> a * b);
      *
      * // Element-wise power
-     * DoubleMatrix power = Matrixes.zip(m1, m2, Math::pow);
+     * DoubleMatrix power = Matrices.zip(m1, m2, Math::pow);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -2536,7 +2536,7 @@ public final class Matrixes {
      * DoubleMatrix m3 = DoubleMatrix.of(new double[][] {{0.5, 0.25}});
      *
      * // Compute (a + b) * c
-     * DoubleMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> (a + b) * c);
+     * DoubleMatrix result = Matrices.zip(m1, m2, m3, (a, b, c) -> (a + b) * c);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -2568,10 +2568,10 @@ public final class Matrixes {
      * List<DoubleMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Element-wise sum
-     * DoubleMatrix sum = Matrixes.zip(matrices, (a, b) -> a + b);
+     * DoubleMatrix sum = Matrices.zip(matrices, (a, b) -> a + b);
      *
      * // Element-wise weighted average
-     * DoubleMatrix weightedAvg = Matrixes.zip(matrices, (a, b) -> (a + b) / 2.0);
+     * DoubleMatrix weightedAvg = Matrices.zip(matrices, (a, b) -> (a + b) / 2.0);
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -2590,28 +2590,28 @@ public final class Matrixes {
         N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int size = c.size();
-        final DoubleMatrix[] matrixes = c.toArray(new DoubleMatrix[size]);
+        final DoubleMatrix[] matrices = c.toArray(new DoubleMatrix[size]);
 
         if (c.size() == 1) {
-            return matrixes[0].copy();
+            return matrices[0].copy();
         } else if (c.size() == 2) {
-            return matrixes[0].zipWith(matrixes[1], zipFunction);
+            return matrices[0].zipWith(matrices[1], zipFunction);
         }
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
         final double[][] result = new double[rowCount][columnCount];
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final double[] ret = result[i];
-            ret[j] = matrixes[0].a[i][j];
+            ret[j] = matrices[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                ret[j] = zipFunction.applyAsDouble(ret[j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.applyAsDouble(ret[j], matrices[k].a[i][j]);
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new DoubleMatrix(result);
     }
@@ -2628,7 +2628,7 @@ public final class Matrixes {
      * List<DoubleMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Find variance at each position
-     * Matrix<Double> variance = Matrixes.zip(matrices, arr -> {
+     * Matrix<Double> variance = Matrices.zip(matrices, arr -> {
      *     double mean = java.util.Arrays.stream(arr).average().orElse(0);
      *     return java.util.Arrays.stream(arr).map(v -> Math.pow(v - mean, 2)).average().orElse(0);
      * }, Double.class);
@@ -2668,7 +2668,7 @@ public final class Matrixes {
      * <pre>{@code
      * List<DoubleMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      * // Compute average across all matrices at each position
-     * Matrix<Double> avg = Matrixes.zip(matrices,
+     * Matrix<Double> avg = Matrices.zip(matrices,
      *     arr -> java.util.Arrays.stream(arr).average().orElse(0.0),
      *     true, Double.class);
      * }</pre>
@@ -2693,11 +2693,11 @@ public final class Matrixes {
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         final int size = c.size();
-        final DoubleMatrix[] matrixes = c.toArray(new DoubleMatrix[size]);
+        final DoubleMatrix[] matrices = c.toArray(new DoubleMatrix[size]);
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final double[] intermediateArray = new double[size];
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
@@ -2706,7 +2706,7 @@ public final class Matrixes {
             final double[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
 
             for (int k = 0; k < size; k++) {
-                tmp[k] = matrixes[k].a[i][j];
+                tmp[k] = matrices[k].a[i][j];
             }
 
             result[i][j] = zipFunction.apply(tmp);
@@ -2734,7 +2734,7 @@ public final class Matrixes {
      * Matrix<Integer> ages = Matrix.of(new Integer[][] {{25, 30}, {35, 40}});
      *
      * // Combine names and ages into formatted strings
-     * Matrix<String> result = Matrixes.zip(names, ages,
+     * Matrix<String> result = Matrices.zip(names, ages,
      *     (name, age) -> name + " (age " + age + ")");
      * // Result: [["Alice (age 25)", "Bob (age 30)"], ["Carol (age 35)", "Dave (age 40)"]]
      * }</pre>
@@ -2775,7 +2775,7 @@ public final class Matrixes {
      * Matrix<String> labels = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
      *
      * // Combine numbers and labels into formatted strings
-     * Matrix<String> result = Matrixes.zip(numbers, labels,
+     * Matrix<String> result = Matrices.zip(numbers, labels,
      *     (num, label) -> label + ":" + num,
      *     String.class);
      * // Result: [["A:1", "B:2"], ["C:3", "D:4"]]
@@ -2819,7 +2819,7 @@ public final class Matrixes {
      * Matrix<Integer> m3 = Matrix.of(new Integer[][] {{5, 6}});
      *
      * // Compute (a + b) * c
-     * Matrix<Integer> result = Matrixes.zip(m1, m2, m3, (a, b, c) -> (a + b) * c);
+     * Matrix<Integer> result = Matrices.zip(m1, m2, m3, (a, b, c) -> (a + b) * c);
      * }</pre>
      *
      * @param <A> the element type of the first matrix and the result matrix
@@ -2861,7 +2861,7 @@ public final class Matrixes {
      * Matrix<Boolean> valid = Matrix.of(new Boolean[][] {{true, false}});
      *
      * // Combine all three into formatted strings
-     * Matrix<String> result = Matrixes.zip(numbers, units, valid,
+     * Matrix<String> result = Matrices.zip(numbers, units, valid,
      *     (num, unit, isValid) -> (isValid ? num + unit : "N/A"),
      *     String.class);
      * }</pre>
@@ -2911,10 +2911,10 @@ public final class Matrixes {
      * List<Matrix<String>> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Concatenate strings at each position
-     * Matrix<String> concatenated = Matrixes.zip(matrices, (a, b) -> a + "," + b);
+     * Matrix<String> concatenated = Matrices.zip(matrices, (a, b) -> a + "," + b);
      *
      * // Find first non-null value at each position
-     * Matrix<String> firstNonNull = Matrixes.zip(matrices, (a, b) -> a != null ? a : b);
+     * Matrix<String> firstNonNull = Matrices.zip(matrices, (a, b) -> a != null ? a : b);
      * }</pre>
      *
      * @param <T> the element type of the matrices
@@ -2933,27 +2933,27 @@ public final class Matrixes {
         N.checkArgNotNull(zipFunction, "zipFunction");
 
         final int size = c.size();
-        final Matrix<T>[] matrixes = c.toArray(new Matrix[size]);
+        final Matrix<T>[] matrices = c.toArray(new Matrix[size]);
 
         if (c.size() == 1) {
-            return matrixes[0].copy();
+            return matrices[0].copy();
         }
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final Class<T> elementType = resolveCommonElementType(matrixes);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final Class<T> elementType = resolveCommonElementType(matrices);
         final T[][] result = newArray(rowCount, columnCount, elementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final T[] ret = result[i];
-            ret[j] = matrixes[0].a[i][j];
+            ret[j] = matrices[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                ret[j] = zipFunction.apply(ret[j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.apply(ret[j], matrices[k].a[i][j]);
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrixes.isParallelizable(matrixes[0]));
+        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new Matrix<>(result);
     }
@@ -2977,7 +2977,7 @@ public final class Matrixes {
      * List<Matrix<Integer>> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Find the most common value at each position
-     * Matrix<Integer> mode = Matrixes.zip(matrices, arr -> {
+     * Matrix<Integer> mode = Matrices.zip(matrices, arr -> {
      *     java.util.Map<Integer, Long> freq = java.util.Arrays.stream(arr)
      *         .collect(java.util.stream.Collectors.groupingBy(java.util.function.Function.identity(), java.util.stream.Collectors.counting()));
      *     return freq.entrySet().stream().max(java.util.Map.Entry.comparingByValue()).map(java.util.Map.Entry::getKey).orElse(null);
@@ -3026,12 +3026,12 @@ public final class Matrixes {
      * List<Matrix<Integer>> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute average across all matrices at each position
-     * Matrix<Double> avg = Matrixes.zip(matrices,
+     * Matrix<Double> avg = Matrices.zip(matrices,
      *     arr -> java.util.Arrays.stream(arr).mapToInt(i -> i).average().orElse(0.0),
      *     true, Double.class);
      *
      * // Find maximum value at each position
-     * Matrix<Integer> max = Matrixes.zip(matrices,
+     * Matrix<Integer> max = Matrices.zip(matrices,
      *     arr -> java.util.Arrays.stream(arr).max(Integer::compare).orElse(0),
      *     false, Integer.class);
      * }</pre>
@@ -3057,13 +3057,13 @@ public final class Matrixes {
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         final int size = c.size();
-        final Matrix<T>[] matrixes = c.toArray(new Matrix[size]);
+        final Matrix<T>[] matrices = c.toArray(new Matrix[size]);
 
-        final int rowCount = matrixes[0].rowCount;
-        final int columnCount = matrixes[0].columnCount;
-        final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
+        final int rowCount = matrices[0].rowCount;
+        final int columnCount = matrices[0].columnCount;
+        final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
-        final Class<T> elementType = resolveCommonElementType(matrixes);
+        final Class<T> elementType = resolveCommonElementType(matrices);
         final T[] intermediateArray = N.newArray(elementType, size);
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
 
@@ -3071,7 +3071,7 @@ public final class Matrixes {
             final T[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
 
             for (int k = 0; k < size; k++) {
-                tmp[k] = matrixes[k].a[i][j];
+                tmp[k] = matrices[k].a[i][j];
             }
 
             result[i][j] = zipFunction.apply(tmp);
@@ -3083,11 +3083,11 @@ public final class Matrixes {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> Class<T> resolveCommonElementType(final Matrix<T>[] matrixes) {
-        Class<?> commonType = matrixes[0].elementType;
+    private static <T> Class<T> resolveCommonElementType(final Matrix<T>[] matrices) {
+        Class<?> commonType = matrices[0].elementType;
 
-        for (int i = 1, len = matrixes.length; i < len; i++) {
-            commonType = resolveCommonSuperType(commonType, matrixes[i].elementType);
+        for (int i = 1, len = matrices.length; i < len; i++) {
+            commonType = resolveCommonSuperType(commonType, matrices[i].elementType);
         }
 
         return (Class<T>) commonType;
@@ -3116,7 +3116,7 @@ public final class Matrixes {
     }
 
     private static void checkShapeForZip(final Collection<? extends AbstractMatrix<?, ?, ?, ?, ?>> c) {
-        N.checkArgNotEmpty(c, "matrixes");
+        N.checkArgNotEmpty(c, "matrices");
 
         N.checkArgument(isSameShape(c), "Cannot zip matrices with different shapes");
     }

@@ -22,45 +22,45 @@ import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.Stream;
 
 @Tag("2510")
-public class Matrixes2510Test extends TestBase {
+public class Matrices2510Test extends TestBase {
 
     @AfterEach
     public void cleanup() {
         // Reset parallel setting after each test to avoid side effects
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
     }
 
     // ============ ParallelEnabled Configuration Tests ============
 
     @Test
     public void testGetParallelEnabled_default() {
-        ParallelEnabled result = Matrixes.getParallelEnabled();
+        ParallelEnabled result = Matrices.getParallelEnabled();
         assertNotNull(result);
         assertEquals(ParallelEnabled.DEFAULT, result);
     }
 
     @Test
     public void testSetParallelEnabled_yes() {
-        Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        assertEquals(ParallelEnabled.YES, Matrixes.getParallelEnabled());
+        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
     }
 
     @Test
     public void testSetParallelEnabled_no() {
-        Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        assertEquals(ParallelEnabled.NO, Matrixes.getParallelEnabled());
+        Matrices.setParallelEnabled(ParallelEnabled.NO);
+        assertEquals(ParallelEnabled.NO, Matrices.getParallelEnabled());
     }
 
     @Test
     public void testSetParallelEnabled_default() {
-        Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        assertEquals(ParallelEnabled.DEFAULT, Matrixes.getParallelEnabled());
+        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        assertEquals(ParallelEnabled.DEFAULT, Matrices.getParallelEnabled());
     }
 
     @Test
     public void testSetParallelEnabled_nullThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.setParallelEnabled(null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.setParallelEnabled(null));
     }
 
     // ============ isParallelizable Tests ============
@@ -68,18 +68,18 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testIsParallelable_singleArg_smallMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
         // Small matrix (count = 4) should not be parallelable by default
-        boolean result = Matrixes.isParallelizable(m);
+        boolean result = Matrices.isParallelizable(m);
         assertFalse(result);
     }
 
     @Test
     public void testIsParallelable_singleArg_largeMatrix() {
         IntMatrix m = IntMatrix.of(new int[100][100]); // count = 10000
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
         // Large matrix should be parallelable by default if parallel streams supported
-        boolean result = Matrixes.isParallelizable(m);
+        boolean result = Matrices.isParallelizable(m);
         // Result depends on IS_PARALLEL_STREAM_SUPPORTED
         assertNotNull(result);
     }
@@ -87,34 +87,34 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testIsParallelable_singleArg_forcedYes() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        Matrixes.setParallelEnabled(ParallelEnabled.YES);
+        Matrices.setParallelEnabled(ParallelEnabled.YES);
         // Should be parallelable when forced YES (if parallel streams supported)
-        boolean result = Matrixes.isParallelizable(m);
+        boolean result = Matrices.isParallelizable(m);
         assertNotNull(result);
     }
 
     @Test
     public void testIsParallelable_singleArg_forcedNo() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
-        Matrixes.setParallelEnabled(ParallelEnabled.NO);
+        Matrices.setParallelEnabled(ParallelEnabled.NO);
         // Should not be parallelable when forced NO
-        boolean result = Matrixes.isParallelizable(m);
+        boolean result = Matrices.isParallelizable(m);
         assertFalse(result);
     }
 
     @Test
     public void testIsParallelable_twoArgs_smallCount() {
         IntMatrix m = IntMatrix.of(new int[10][10]);
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        boolean result = Matrixes.isParallelizable(m, 100);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        boolean result = Matrices.isParallelizable(m, 100);
         assertFalse(result);
     }
 
     @Test
     public void testIsParallelable_twoArgs_largeCount() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        boolean result = Matrixes.isParallelizable(m, 10000);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        boolean result = Matrices.isParallelizable(m, 10000);
         // Result depends on IS_PARALLEL_STREAM_SUPPORTED
         assertNotNull(result);
     }
@@ -122,8 +122,8 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testIsParallelable_twoArgs_exactThreshold() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        boolean result = Matrixes.isParallelizable(m, 8192);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        boolean result = Matrices.isParallelizable(m, 8192);
         // At exact threshold should be parallelable
         assertNotNull(result);
     }
@@ -131,8 +131,8 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testIsParallelable_twoArgs_belowThreshold() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        boolean result = Matrixes.isParallelizable(m, 8191);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        boolean result = Matrices.isParallelizable(m, 8191);
         assertFalse(result);
     }
 
@@ -142,35 +142,35 @@ public class Matrixes2510Test extends TestBase {
     public void testIsSameShape_twoMatrices_sameShape() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 7, 8, 9 }, { 10, 11, 12 } });
-        assertTrue(Matrixes.isSameShape(m1, m2));
+        assertTrue(Matrices.isSameShape(m1, m2));
     }
 
     @Test
     public void testIsSameShape_twoMatrices_differentRows() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 }, { 9, 10 } });
-        assertFalse(Matrixes.isSameShape(m1, m2));
+        assertFalse(Matrices.isSameShape(m1, m2));
     }
 
     @Test
     public void testIsSameShape_twoMatrices_differentCols() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6, 7 }, { 8, 9, 10 } });
-        assertFalse(Matrixes.isSameShape(m1, m2));
+        assertFalse(Matrices.isSameShape(m1, m2));
     }
 
     @Test
     public void testIsSameShape_twoMatrices_emptyMatrices() {
         IntMatrix m1 = IntMatrix.empty();
         IntMatrix m2 = IntMatrix.empty();
-        assertTrue(Matrixes.isSameShape(m1, m2));
+        assertTrue(Matrices.isSameShape(m1, m2));
     }
 
     @Test
     public void testIsSameShape_twoMatrices_singleElement() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 2 } });
-        assertTrue(Matrixes.isSameShape(m1, m2));
+        assertTrue(Matrices.isSameShape(m1, m2));
     }
 
     @Test
@@ -178,7 +178,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } });
-        assertTrue(Matrixes.isSameShape(m1, m2, m3));
+        assertTrue(Matrices.isSameShape(m1, m2, m3));
     }
 
     @Test
@@ -186,7 +186,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10, 11 }, { 12, 13, 14 } });
-        assertFalse(Matrixes.isSameShape(m1, m2, m3));
+        assertFalse(Matrices.isSameShape(m1, m2, m3));
     }
 
     @Test
@@ -194,26 +194,26 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 }, { 9, 10 } });
         IntMatrix m3 = IntMatrix.of(new int[][] { { 11 } });
-        assertFalse(Matrixes.isSameShape(m1, m2, m3));
+        assertFalse(Matrices.isSameShape(m1, m2, m3));
     }
 
     @Test
     public void testIsSameShape_collection_nullCollection() {
         Collection<IntMatrix> matrices = null;
-        assertTrue(Matrixes.isSameShape(matrices));
+        assertTrue(Matrices.isSameShape(matrices));
     }
 
     @Test
     public void testIsSameShape_collection_emptyCollection() {
         Collection<IntMatrix> matrices = Collections.emptyList();
-        assertTrue(Matrixes.isSameShape(matrices));
+        assertTrue(Matrices.isSameShape(matrices));
     }
 
     @Test
     public void testIsSameShape_collection_singleMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         Collection<IntMatrix> matrices = Collections.singletonList(m);
-        assertTrue(Matrixes.isSameShape(matrices));
+        assertTrue(Matrices.isSameShape(matrices));
     }
 
     @Test
@@ -222,7 +222,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2, m3);
-        assertTrue(Matrixes.isSameShape(matrices));
+        assertTrue(Matrices.isSameShape(matrices));
     }
 
     @Test
@@ -231,7 +231,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10, 11 }, { 12, 13, 14 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2, m3);
-        assertFalse(Matrixes.isSameShape(matrices));
+        assertFalse(Matrices.isSameShape(matrices));
     }
 
     @Test
@@ -239,14 +239,14 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2);
-        assertFalse(Matrixes.isSameShape(matrices));
+        assertFalse(Matrices.isSameShape(matrices));
     }
 
     // ============ newArray Tests ============
 
     @Test
     public void testNewArray_basicDimensions() {
-        Integer[][] arr = Matrixes.newArray(3, 4, Integer.class);
+        Integer[][] arr = Matrices.newArray(3, 4, Integer.class);
         assertNotNull(arr);
         assertEquals(3, arr.length);
         for (Integer[] row : arr) {
@@ -256,7 +256,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testNewArray_singleRow() {
-        String[][] arr = Matrixes.newArray(1, 5, String.class);
+        String[][] arr = Matrices.newArray(1, 5, String.class);
         assertNotNull(arr);
         assertEquals(1, arr.length);
         assertEquals(5, arr[0].length);
@@ -264,7 +264,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testNewArray_singleColumn() {
-        Double[][] arr = Matrixes.newArray(5, 1, Double.class);
+        Double[][] arr = Matrices.newArray(5, 1, Double.class);
         assertNotNull(arr);
         assertEquals(5, arr.length);
         assertEquals(1, arr[0].length);
@@ -272,14 +272,14 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testNewArray_zeroRows() {
-        Integer[][] arr = Matrixes.newArray(0, 5, Integer.class);
+        Integer[][] arr = Matrices.newArray(0, 5, Integer.class);
         assertNotNull(arr);
         assertEquals(0, arr.length);
     }
 
     @Test
     public void testNewArray_zeroCols() {
-        Integer[][] arr = Matrixes.newArray(5, 0, Integer.class);
+        Integer[][] arr = Matrices.newArray(5, 0, Integer.class);
         assertNotNull(arr);
         assertEquals(5, arr.length);
         assertEquals(0, arr[0].length);
@@ -287,7 +287,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testNewArray_primitiveInt() {
-        Integer[][] arr = Matrixes.newArray(2, 3, int.class);
+        Integer[][] arr = Matrices.newArray(2, 3, int.class);
         assertNotNull(arr);
         assertEquals(2, arr.length);
         assertEquals(3, arr[0].length);
@@ -295,7 +295,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testNewArray_primitiveDouble() {
-        Double[][] arr = Matrixes.newArray(2, 2, double.class);
+        Double[][] arr = Matrices.newArray(2, 2, double.class);
         assertNotNull(arr);
         assertEquals(2, arr.length);
         assertEquals(2, arr[0].length);
@@ -306,30 +306,30 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testRun_withParallelEnabled_executesCommand() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrixes.run(() -> counter.incrementAndGet(), ParallelEnabled.NO);
+        Matrices.run(() -> counter.incrementAndGet(), ParallelEnabled.NO);
         assertEquals(1, counter.get());
     }
 
     @Test
     public void testRun_withParallelEnabled_restoresOriginalSetting() {
-        Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        Matrixes.run(() -> {
-            assertEquals(ParallelEnabled.NO, Matrixes.getParallelEnabled());
+        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        Matrices.run(() -> {
+            assertEquals(ParallelEnabled.NO, Matrices.getParallelEnabled());
         }, ParallelEnabled.NO);
-        assertEquals(ParallelEnabled.YES, Matrixes.getParallelEnabled());
+        assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
     }
 
     @Test
     public void testRun_withParallelEnabled_restoresOnException() {
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
         try {
-            Matrixes.run(() -> {
+            Matrices.run(() -> {
                 throw new RuntimeException("Test exception");
             }, ParallelEnabled.YES);
         } catch (RuntimeException e) {
             // Expected
         }
-        assertEquals(ParallelEnabled.DEFAULT, Matrixes.getParallelEnabled());
+        assertEquals(ParallelEnabled.DEFAULT, Matrices.getParallelEnabled());
     }
 
     // ============ run Tests (IntBiConsumer variants) ============
@@ -337,7 +337,7 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_basic() {
         List<String> positions = new ArrayList<>();
-        Matrixes.run(2, 3, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.run(2, 3, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(6, positions.size());
         assertTrue(positions.contains("0,0"));
         assertTrue(positions.contains("1,2"));
@@ -346,21 +346,21 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_zeroRows() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrixes.run(0, 3, (i, j) -> counter.incrementAndGet(), false);
+        Matrices.run(0, 3, (i, j) -> counter.incrementAndGet(), false);
         assertEquals(0, counter.get());
     }
 
     @Test
     public void testRun_intBiConsumer_zeroCols() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrixes.run(3, 0, (i, j) -> counter.incrementAndGet(), false);
+        Matrices.run(3, 0, (i, j) -> counter.incrementAndGet(), false);
         assertEquals(0, counter.get());
     }
 
     @Test
     public void testRun_intBiConsumer_singleElement() {
         List<String> positions = new ArrayList<>();
-        Matrixes.run(1, 1, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.run(1, 1, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(1, positions.size());
         assertEquals("0,0", positions.get(0));
     }
@@ -368,7 +368,7 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange() {
         List<String> positions = new ArrayList<>();
-        Matrixes.run(1, 3, 2, 5, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.run(1, 3, 2, 5, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(6, positions.size()); // 2 rows * 3 columnCount
         assertTrue(positions.contains("1,2"));
         assertTrue(positions.contains("2,4"));
@@ -379,14 +379,14 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_emptyRange() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrixes.run(2, 2, 3, 3, (i, j) -> counter.incrementAndGet(), false);
+        Matrices.run(2, 2, 3, 3, (i, j) -> counter.incrementAndGet(), false);
         assertEquals(0, counter.get());
     }
 
     @Test
     public void testRun_intBiConsumer_withRange_invalidRowRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrixes.run(5, 3, 0, 2, (i, j) -> {
+            Matrices.run(5, 3, 0, 2, (i, j) -> {
             }, false);
         });
     }
@@ -394,7 +394,7 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_invalidColRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrixes.run(0, 2, 5, 3, (i, j) -> {
+            Matrices.run(0, 2, 5, 3, (i, j) -> {
             }, false);
         });
     }
@@ -402,7 +402,7 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_negativeIndex() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrixes.run(-1, 2, 0, 2, (i, j) -> {
+            Matrices.run(-1, 2, 0, 2, (i, j) -> {
             }, false);
         });
     }
@@ -411,7 +411,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testCall_basic() {
-        Stream<String> result = Matrixes.call(2, 3, (i, j) -> i + "," + j, false);
+        Stream<String> result = Matrices.call(2, 3, (i, j) -> i + "," + j, false);
         List<String> positions = result.toList();
         assertEquals(6, positions.size());
         assertTrue(positions.contains("0,0"));
@@ -420,14 +420,14 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testCall_zeroSize() {
-        Stream<String> result = Matrixes.call(0, 0, (i, j) -> i + "," + j, false);
+        Stream<String> result = Matrices.call(0, 0, (i, j) -> i + "," + j, false);
         List<String> positions = result.toList();
         assertEquals(0, positions.size());
     }
 
     @Test
     public void testCall_singleElement() {
-        Stream<Integer> result = Matrixes.call(1, 1, (i, j) -> i * 10 + j, false);
+        Stream<Integer> result = Matrices.call(1, 1, (i, j) -> i * 10 + j, false);
         List<Integer> values = result.toList();
         assertEquals(1, values.size());
         assertEquals(0, values.get(0));
@@ -435,7 +435,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testCall_withRange() {
-        Stream<Integer> result = Matrixes.call(1, 4, 2, 5, (i, j) -> i * 10 + j, false);
+        Stream<Integer> result = Matrices.call(1, 4, 2, 5, (i, j) -> i * 10 + j, false);
         List<Integer> values = result.toList();
         assertEquals(9, values.size()); // 3 rows * 3 columnCount
         assertTrue(values.contains(12)); // row 1, col 2
@@ -445,7 +445,7 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testCall_withRange_invalidRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrixes.call(5, 3, 0, 2, (i, j) -> "test", false);
+            Matrices.call(5, 3, 0, 2, (i, j) -> "test", false);
         });
     }
 
@@ -453,7 +453,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testCallToInt_basic() {
-        IntStream result = Matrixes.callToInt(2, 3, (i, j) -> i + j, false);
+        IntStream result = Matrices.callToInt(2, 3, (i, j) -> i + j, false);
         int[] values = result.toArray();
         assertEquals(6, values.length);
         assertEquals(0, values[0]); // 0+0
@@ -462,14 +462,14 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testCallToInt_zeroSize() {
-        IntStream result = Matrixes.callToInt(0, 0, (i, j) -> i + j, false);
+        IntStream result = Matrices.callToInt(0, 0, (i, j) -> i + j, false);
         int[] values = result.toArray();
         assertEquals(0, values.length);
     }
 
     @Test
     public void testCallToInt_multiplication() {
-        IntStream result = Matrixes.callToInt(2, 2, (i, j) -> i * j, false);
+        IntStream result = Matrices.callToInt(2, 2, (i, j) -> i * j, false);
         int[] values = result.toArray();
         assertEquals(4, values.length);
         assertTrue(IntStream.of(values).anyMatch(v -> v == 0));
@@ -478,7 +478,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testCallToInt_withRange() {
-        IntStream result = Matrixes.callToInt(0, 3, 0, 3, (i, j) -> i * 10 + j, false);
+        IntStream result = Matrices.callToInt(0, 3, 0, 3, (i, j) -> i * 10 + j, false);
         int[] values = result.toArray();
         assertEquals(9, values.length);
         assertTrue(IntStream.of(values).anyMatch(v -> v == 0));
@@ -488,7 +488,7 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testCallToInt_withRange_invalidRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrixes.callToInt(3, 1, 0, 2, (i, j) -> i + j, false);
+            Matrices.callToInt(3, 1, 0, 2, (i, j) -> i + j, false);
         });
     }
 
@@ -499,7 +499,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }); // 2x2
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }); // 2x2
         List<String> triplets = new ArrayList<>();
-        Matrixes.multiply(m1, m2, (i, j, k) -> triplets.add(i + "," + j + "," + k));
+        Matrices.multiply(m1, m2, (i, j, k) -> triplets.add(i + "," + j + "," + k));
         assertEquals(8, triplets.size()); // 2*2*2
         assertTrue(triplets.contains("0,0,0"));
         assertTrue(triplets.contains("1,1,1"));
@@ -510,7 +510,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } }); // 1x2
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3 }, { 4 }, { 5 } }); // 3x1
         assertThrows(IllegalArgumentException.class, () -> {
-            Matrixes.multiply(m1, m2, (i, j, k) -> {
+            Matrices.multiply(m1, m2, (i, j, k) -> {
             });
         });
     }
@@ -520,7 +520,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
         IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
         AtomicInteger count = new AtomicInteger(0);
-        Matrixes.multiply(m1, m2, (i, j, k) -> count.incrementAndGet());
+        Matrices.multiply(m1, m2, (i, j, k) -> count.incrementAndGet());
         assertEquals(3, count.get()); // 1*1*3
     }
 
@@ -529,7 +529,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         AtomicInteger count = new AtomicInteger(0);
-        Matrixes.multiply(m1, m2, (i, j, k) -> count.incrementAndGet(), false);
+        Matrices.multiply(m1, m2, (i, j, k) -> count.incrementAndGet(), false);
         assertEquals(8, count.get());
     }
 
@@ -538,7 +538,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3 } });
         assertThrows(IllegalArgumentException.class, () -> {
-            Matrixes.multiply(m1, m2, (i, j, k) -> {
+            Matrices.multiply(m1, m2, (i, j, k) -> {
             }, false);
         });
     }
@@ -549,7 +549,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZip_byteMatrix_twoMatrices() {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
-        ByteMatrix result = Matrixes.zip(m1, m2, (a, b) -> (byte) (a + b));
+        ByteMatrix result = Matrices.zip(m1, m2, (a, b) -> (byte) (a + b));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6, result.get(0, 0)); // 1+5
@@ -561,7 +561,7 @@ public class Matrixes2510Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
         ByteMatrix m3 = ByteMatrix.of(new byte[][] { { 10, 20 }, { 30, 40 } });
-        ByteMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> (byte) (a + b + c));
+        ByteMatrix result = Matrices.zip(m1, m2, m3, (a, b, c) -> (byte) (a + b + c));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(16, result.get(0, 0)); // 1+5+10
@@ -573,7 +573,7 @@ public class Matrixes2510Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
         Collection<ByteMatrix> matrices = Arrays.asList(m1, m2);
-        ByteMatrix result = Matrixes.zip(matrices, (a, b) -> (byte) (a + b));
+        ByteMatrix result = Matrices.zip(matrices, (a, b) -> (byte) (a + b));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6, result.get(0, 0));
@@ -584,7 +584,7 @@ public class Matrixes2510Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
         Collection<ByteMatrix> matrices = Arrays.asList(m1, m2);
-        Matrix<Integer> result = Matrixes.zip(matrices, arr -> (int) (arr[0] + arr[1]), Integer.class);
+        Matrix<Integer> result = Matrices.zip(matrices, arr -> (int) (arr[0] + arr[1]), Integer.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(Integer.valueOf(6), result.get(0, 0));
@@ -595,7 +595,7 @@ public class Matrixes2510Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
         Collection<ByteMatrix> matrices = Arrays.asList(m1, m2);
-        Matrix<String> result = Matrixes.zip(matrices, arr -> String.valueOf(arr[0] + arr[1]), String.class);
+        Matrix<String> result = Matrices.zip(matrices, arr -> String.valueOf(arr[0] + arr[1]), String.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals("6", result.get(0, 0));
@@ -607,7 +607,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZipToInt_byteMatrix_twoMatrices() {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
-        IntMatrix result = Matrixes.zipToInt(m1, m2, (a, b) -> a * b);
+        IntMatrix result = Matrices.zipToInt(m1, m2, (a, b) -> a * b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(5, result.get(0, 0)); // 1*5
@@ -619,7 +619,7 @@ public class Matrixes2510Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
         ByteMatrix m3 = ByteMatrix.of(new byte[][] { { 2, 2 }, { 2, 2 } });
-        IntMatrix result = Matrixes.zipToInt(m1, m2, m3, (a, b, c) -> a + b + c);
+        IntMatrix result = Matrices.zipToInt(m1, m2, m3, (a, b, c) -> a + b + c);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(8, result.get(0, 0)); // 1+5+2
@@ -631,7 +631,7 @@ public class Matrixes2510Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
         Collection<ByteMatrix> matrices = Arrays.asList(m1, m2);
-        IntMatrix result = Matrixes.zipToInt(matrices, arr -> arr[0] + arr[1]);
+        IntMatrix result = Matrices.zipToInt(matrices, arr -> arr[0] + arr[1]);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6, result.get(0, 0));
@@ -642,7 +642,7 @@ public class Matrixes2510Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
         Collection<ByteMatrix> matrices = Arrays.asList(m1, m2);
-        IntMatrix result = Matrixes.zipToInt(matrices, arr -> arr[0] * arr[1], false);
+        IntMatrix result = Matrices.zipToInt(matrices, arr -> arr[0] * arr[1], false);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(5, result.get(0, 0));
@@ -654,7 +654,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZip_intMatrix_twoMatrices() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-        IntMatrix result = Matrixes.zip(m1, m2, (a, b) -> a + b);
+        IntMatrix result = Matrices.zip(m1, m2, (a, b) -> a + b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6, result.get(0, 0));
@@ -666,7 +666,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix m3 = IntMatrix.of(new int[][] { { 10, 20 }, { 30, 40 } });
-        IntMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a + b + c);
+        IntMatrix result = Matrices.zip(m1, m2, m3, (a, b, c) -> a + b + c);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(16, result.get(0, 0));
@@ -680,7 +680,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m3 = IntMatrix.of(new int[][] { { 10, 20 }, { 30, 40 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2, m3);
         // Uses binary operator to reduce all matrices
-        IntMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
+        IntMatrix result = Matrices.zip(matrices, (a, b) -> a + b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(16, result.get(0, 0)); // 1+5+10
@@ -691,7 +691,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2);
-        Matrix<Long> result = Matrixes.zip(matrices, arr -> (long) (arr[0] + arr[1]), Long.class);
+        Matrix<Long> result = Matrices.zip(matrices, arr -> (long) (arr[0] + arr[1]), Long.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(Long.valueOf(6), result.get(0, 0));
@@ -702,7 +702,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2);
-        Matrix<String> result = Matrixes.zip(matrices, arr -> String.valueOf(arr[0] + arr[1]), String.class);
+        Matrix<String> result = Matrices.zip(matrices, arr -> String.valueOf(arr[0] + arr[1]), String.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals("6", result.get(0, 0));
@@ -714,7 +714,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZipToLong_intMatrix_twoMatrices() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-        LongMatrix result = Matrixes.zipToLong(m1, m2, (a, b) -> (long) a * b);
+        LongMatrix result = Matrices.zipToLong(m1, m2, (a, b) -> (long) a * b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(5L, result.get(0, 0));
@@ -726,7 +726,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix m3 = IntMatrix.of(new int[][] { { 2, 2 }, { 2, 2 } });
-        LongMatrix result = Matrixes.zipToLong(m1, m2, m3, (a, b, c) -> (long) (a + b + c));
+        LongMatrix result = Matrices.zipToLong(m1, m2, m3, (a, b, c) -> (long) (a + b + c));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(8L, result.get(0, 0));
@@ -738,7 +738,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2);
-        LongMatrix result = Matrixes.zipToLong(matrices, arr -> (long) (arr[0] + arr[1]));
+        LongMatrix result = Matrices.zipToLong(matrices, arr -> (long) (arr[0] + arr[1]));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6L, result.get(0, 0));
@@ -749,7 +749,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2);
-        LongMatrix result = Matrixes.zipToLong(matrices, arr -> (long) (arr[0] * arr[1]), false);
+        LongMatrix result = Matrices.zipToLong(matrices, arr -> (long) (arr[0] * arr[1]), false);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(5L, result.get(0, 0));
@@ -761,7 +761,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZipToDouble_intMatrix_twoMatrices() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-        DoubleMatrix result = Matrixes.zipToDouble(m1, m2, (a, b) -> (double) a / b);
+        DoubleMatrix result = Matrices.zipToDouble(m1, m2, (a, b) -> (double) a / b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(0.2, result.get(0, 0), 0.001);
@@ -773,7 +773,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix m3 = IntMatrix.of(new int[][] { { 2, 2 }, { 2, 2 } });
-        DoubleMatrix result = Matrixes.zipToDouble(m1, m2, m3, (a, b, c) -> (double) (a + b + c));
+        DoubleMatrix result = Matrices.zipToDouble(m1, m2, m3, (a, b, c) -> (double) (a + b + c));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(8.0, result.get(0, 0), 0.001);
@@ -785,7 +785,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2);
-        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> (double) (arr[0] + arr[1]));
+        DoubleMatrix result = Matrices.zipToDouble(matrices, arr -> (double) (arr[0] + arr[1]));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6.0, result.get(0, 0), 0.001);
@@ -796,7 +796,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         Collection<IntMatrix> matrices = Arrays.asList(m1, m2);
-        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> (double) (arr[0] * arr[1]), false);
+        DoubleMatrix result = Matrices.zipToDouble(matrices, arr -> (double) (arr[0] * arr[1]), false);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(5.0, result.get(0, 0), 0.001);
@@ -808,7 +808,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZip_longMatrix_twoMatrices() {
         LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
-        LongMatrix result = Matrixes.zip(m1, m2, (a, b) -> a + b);
+        LongMatrix result = Matrices.zip(m1, m2, (a, b) -> a + b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6L, result.get(0, 0));
@@ -820,7 +820,7 @@ public class Matrixes2510Test extends TestBase {
         LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
         LongMatrix m3 = LongMatrix.of(new long[][] { { 10L, 20L }, { 30L, 40L } });
-        LongMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a + b + c);
+        LongMatrix result = Matrices.zip(m1, m2, m3, (a, b, c) -> a + b + c);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(16L, result.get(0, 0));
@@ -832,7 +832,7 @@ public class Matrixes2510Test extends TestBase {
         LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
         Collection<LongMatrix> matrices = Arrays.asList(m1, m2);
-        LongMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
+        LongMatrix result = Matrices.zip(matrices, (a, b) -> a + b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6L, result.get(0, 0));
@@ -843,7 +843,7 @@ public class Matrixes2510Test extends TestBase {
         LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
         Collection<LongMatrix> matrices = Arrays.asList(m1, m2);
-        Matrix<Long> result = Matrixes.zip(matrices, arr -> arr[0] + arr[1], Long.class);
+        Matrix<Long> result = Matrices.zip(matrices, arr -> arr[0] + arr[1], Long.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(Long.valueOf(6L), result.get(0, 0));
@@ -854,7 +854,7 @@ public class Matrixes2510Test extends TestBase {
         LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
         Collection<LongMatrix> matrices = Arrays.asList(m1, m2);
-        Matrix<String> result = Matrixes.zip(matrices, arr -> String.valueOf(arr[0] + arr[1]), String.class);
+        Matrix<String> result = Matrices.zip(matrices, arr -> String.valueOf(arr[0] + arr[1]), String.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals("6", result.get(0, 0));
@@ -866,7 +866,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZipToDouble_longMatrix_twoMatrices() {
         LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
-        DoubleMatrix result = Matrixes.zipToDouble(m1, m2, (a, b) -> (double) a / b);
+        DoubleMatrix result = Matrices.zipToDouble(m1, m2, (a, b) -> (double) a / b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(0.2, result.get(0, 0), 0.001);
@@ -878,7 +878,7 @@ public class Matrixes2510Test extends TestBase {
         LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
         LongMatrix m3 = LongMatrix.of(new long[][] { { 2L, 2L }, { 2L, 2L } });
-        DoubleMatrix result = Matrixes.zipToDouble(m1, m2, m3, (a, b, c) -> (double) (a + b + c));
+        DoubleMatrix result = Matrices.zipToDouble(m1, m2, m3, (a, b, c) -> (double) (a + b + c));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(8.0, result.get(0, 0), 0.001);
@@ -890,7 +890,7 @@ public class Matrixes2510Test extends TestBase {
         LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
         Collection<LongMatrix> matrices = Arrays.asList(m1, m2);
-        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> (double) (arr[0] + arr[1]));
+        DoubleMatrix result = Matrices.zipToDouble(matrices, arr -> (double) (arr[0] + arr[1]));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6.0, result.get(0, 0), 0.001);
@@ -901,7 +901,7 @@ public class Matrixes2510Test extends TestBase {
         LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
         Collection<LongMatrix> matrices = Arrays.asList(m1, m2);
-        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> (double) (arr[0] * arr[1]), false);
+        DoubleMatrix result = Matrices.zipToDouble(matrices, arr -> (double) (arr[0] * arr[1]), false);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(5.0, result.get(0, 0), 0.001);
@@ -913,7 +913,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZip_doubleMatrix_twoMatrices() {
         DoubleMatrix m1 = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
         DoubleMatrix m2 = DoubleMatrix.of(new double[][] { { 5.5, 6.5 }, { 7.5, 8.5 } });
-        DoubleMatrix result = Matrixes.zip(m1, m2, (a, b) -> a + b);
+        DoubleMatrix result = Matrices.zip(m1, m2, (a, b) -> a + b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(7.0, result.get(0, 0), 0.001);
@@ -925,7 +925,7 @@ public class Matrixes2510Test extends TestBase {
         DoubleMatrix m1 = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix m2 = DoubleMatrix.of(new double[][] { { 5.0, 6.0 }, { 7.0, 8.0 } });
         DoubleMatrix m3 = DoubleMatrix.of(new double[][] { { 10.0, 20.0 }, { 30.0, 40.0 } });
-        DoubleMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a + b + c);
+        DoubleMatrix result = Matrices.zip(m1, m2, m3, (a, b, c) -> a + b + c);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(16.0, result.get(0, 0), 0.001);
@@ -937,7 +937,7 @@ public class Matrixes2510Test extends TestBase {
         DoubleMatrix m1 = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix m2 = DoubleMatrix.of(new double[][] { { 5.0, 6.0 }, { 7.0, 8.0 } });
         Collection<DoubleMatrix> matrices = Arrays.asList(m1, m2);
-        DoubleMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
+        DoubleMatrix result = Matrices.zip(matrices, (a, b) -> a + b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6.0, result.get(0, 0), 0.001);
@@ -948,7 +948,7 @@ public class Matrixes2510Test extends TestBase {
         DoubleMatrix m1 = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix m2 = DoubleMatrix.of(new double[][] { { 5.0, 6.0 }, { 7.0, 8.0 } });
         Collection<DoubleMatrix> matrices = Arrays.asList(m1, m2);
-        Matrix<Double> result = Matrixes.zip(matrices, arr -> arr[0] + arr[1], Double.class);
+        Matrix<Double> result = Matrices.zip(matrices, arr -> arr[0] + arr[1], Double.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(6.0, result.get(0, 0), 0.001);
@@ -959,7 +959,7 @@ public class Matrixes2510Test extends TestBase {
         DoubleMatrix m1 = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix m2 = DoubleMatrix.of(new double[][] { { 5.0, 6.0 }, { 7.0, 8.0 } });
         Collection<DoubleMatrix> matrices = Arrays.asList(m1, m2);
-        Matrix<String> result = Matrixes.zip(matrices, arr -> String.valueOf(arr[0] + arr[1]), String.class);
+        Matrix<String> result = Matrices.zip(matrices, arr -> String.valueOf(arr[0] + arr[1]), String.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals("6.0", result.get(0, 0));
@@ -971,7 +971,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZip_genericMatrix_twoMatrices_sameResult() {
         Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } });
-        Matrix<Integer> result = Matrixes.zip(m1, m2, (a, b) -> a + b);
+        Matrix<Integer> result = Matrices.zip(m1, m2, (a, b) -> a + b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(Integer.valueOf(6), result.get(0, 0));
@@ -982,7 +982,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZip_genericMatrix_twoMatrices_differentResult() {
         Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } });
-        Matrix<String> result = Matrixes.zip(m1, m2, (a, b) -> a + "+" + b, String.class);
+        Matrix<String> result = Matrices.zip(m1, m2, (a, b) -> a + "+" + b, String.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals("1+5", result.get(0, 0));
@@ -994,7 +994,7 @@ public class Matrixes2510Test extends TestBase {
         Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } });
         Matrix<Integer> m3 = Matrix.of(new Integer[][] { { 10, 20 }, { 30, 40 } });
-        Matrix<Integer> result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a + b + c);
+        Matrix<Integer> result = Matrices.zip(m1, m2, m3, (a, b, c) -> a + b + c);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(Integer.valueOf(16), result.get(0, 0));
@@ -1006,7 +1006,7 @@ public class Matrixes2510Test extends TestBase {
         Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } });
         Matrix<Integer> m3 = Matrix.of(new Integer[][] { { 10, 20 }, { 30, 40 } });
-        Matrix<String> result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a + "+" + b + "+" + c, String.class);
+        Matrix<String> result = Matrices.zip(m1, m2, m3, (a, b, c) -> a + "+" + b + "+" + c, String.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals("1+5+10", result.get(0, 0));
@@ -1020,7 +1020,7 @@ public class Matrixes2510Test extends TestBase {
         Matrix<Integer> m3 = Matrix.of(new Integer[][] { { 10, 20 }, { 30, 40 } });
         Collection<Matrix<Integer>> matrices = Arrays.asList(m1, m2, m3);
         // Uses binary operator to reduce all matrices
-        Matrix<Integer> result = Matrixes.zip(matrices, (a, b) -> a + b);
+        Matrix<Integer> result = Matrices.zip(matrices, (a, b) -> a + b);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(Integer.valueOf(16), result.get(0, 0));
@@ -1032,7 +1032,7 @@ public class Matrixes2510Test extends TestBase {
         Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } });
         Collection<Matrix<Integer>> matrices = Arrays.asList(m1, m2);
-        Matrix<String> result = Matrixes.zip(matrices, arr -> arr[0] + ":" + arr[1], String.class);
+        Matrix<String> result = Matrices.zip(matrices, arr -> arr[0] + ":" + arr[1], String.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals("1:5", result.get(0, 0));
@@ -1044,7 +1044,7 @@ public class Matrixes2510Test extends TestBase {
         Matrix<String> m1 = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "e", "f" }, { "g", "h" } });
         Collection<Matrix<String>> matrices = Arrays.asList(m1, m2);
-        Matrix<String> result = Matrixes.zip(matrices, arr -> arr[0] + arr[1], String.class);
+        Matrix<String> result = Matrices.zip(matrices, arr -> arr[0] + arr[1], String.class);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals("ae", result.get(0, 0));
@@ -1057,7 +1057,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZip_emptyMatrices() {
         IntMatrix m1 = IntMatrix.empty();
         IntMatrix m2 = IntMatrix.empty();
-        IntMatrix result = Matrixes.zip(m1, m2, (a, b) -> a + b);
+        IntMatrix result = Matrices.zip(m1, m2, (a, b) -> a + b);
         assertTrue(result.isEmpty());
     }
 
@@ -1065,7 +1065,7 @@ public class Matrixes2510Test extends TestBase {
     public void testZip_singleElementMatrices() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 5 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 10 } });
-        IntMatrix result = Matrixes.zip(m1, m2, (a, b) -> a + b);
+        IntMatrix result = Matrices.zip(m1, m2, (a, b) -> a + b);
         assertEquals(1, result.rowCount());
         assertEquals(1, result.columnCount());
         assertEquals(15, result.get(0, 0));
@@ -1074,7 +1074,7 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testCall_largeMatrix() {
         // Test with larger dimensions to verify iteration logic
-        Stream<Integer> result = Matrixes.call(10, 20, (i, j) -> i * 100 + j, false);
+        Stream<Integer> result = Matrices.call(10, 20, (i, j) -> i * 100 + j, false);
         List<Integer> values = result.toList();
         assertEquals(200, values.size());
         assertTrue(values.contains(0)); // 0*100 + 0
@@ -1083,7 +1083,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testCallToInt_largeMatrix() {
-        IntStream result = Matrixes.callToInt(10, 20, (i, j) -> i * 100 + j, false);
+        IntStream result = Matrices.callToInt(10, 20, (i, j) -> i * 100 + j, false);
         int[] values = result.toArray();
         assertEquals(200, values.length);
         assertEquals(0, values[0]);
@@ -1094,7 +1094,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
         IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
         List<Integer> kValues = new ArrayList<>();
-        Matrixes.multiply(m1, m2, (i, j, k) -> kValues.add(k));
+        Matrices.multiply(m1, m2, (i, j, k) -> kValues.add(k));
         assertEquals(3, kValues.size());
         assertTrue(kValues.contains(0));
         assertTrue(kValues.contains(1));
@@ -1103,7 +1103,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testNewArray_largeArray() {
-        Integer[][] arr = Matrixes.newArray(100, 100, Integer.class);
+        Integer[][] arr = Matrices.newArray(100, 100, Integer.class);
         assertNotNull(arr);
         assertEquals(100, arr.length);
         assertEquals(100, arr[0].length);

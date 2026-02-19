@@ -4,7 +4,7 @@
 [![Javadocs](https://img.shields.io/badge/javadoc-3.3.1-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn/abacus-extra/3.3.1/index.html)
 
 
-* Matrixes: 
+* Matrices: 
 [AbstractMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/AbstractMatrix_view.html), 
 [Matrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Matrix_view.html), 
 [ByteMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/ByteMatrix_view.html), 
@@ -20,7 +20,7 @@
 [LongTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/LongTuple_view.html), 
 [DoubleTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/DoubleTuple_view.html)...
 
-* More: [Matrixes](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Matrixes_view.html), 
+* More: [Matrices](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Matrices_view.html), 
 [Points](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Points_view.html), 
 [f](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/f_view.html), ...
 

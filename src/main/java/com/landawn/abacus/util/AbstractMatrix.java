@@ -171,7 +171,7 @@ import com.landawn.abacus.util.stream.Stream;
  * }
  *
  * Matrix<Double> input = Matrix.of(new Double[][] {{2.0, 4.0}, {6.0, 8.0}});
- * Matrix<Double> normalized = Matrix.of(Matrixes.newArray(input.rowCount(), input.columnCount(), Double.class));
+ * Matrix<Double> normalized = Matrix.of(Matrices.newArray(input.rowCount(), input.columnCount(), Double.class));
  * input.pointsC().forEach(colStream -> {
  *     List<Point> colPoints = colStream.toList();
  *     double max = colPoints.stream()
@@ -998,10 +998,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public <E extends Exception> void forEach(final Throwables.IntBiConsumer<E> action) throws E {
         N.checkArgNotNull(action, "action");
 
-        if (Matrixes.isParallelizable(this)) {
+        if (Matrices.isParallelizable(this)) {
             //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> elementAction = action::accept;
-            Matrixes.run(rowCount, columnCount, elementAction, true);
+            Matrices.run(rowCount, columnCount, elementAction, true);
         } else {
             for (int i = 0; i < rowCount; i++) {
                 for (int j = 0; j < columnCount; j++) {
@@ -1047,10 +1047,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
         N.checkArgNotNull(action, "action");
 
-        if (Matrixes.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
+        if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> elementAction = action::accept;
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
+            Matrices.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {
@@ -1089,9 +1089,9 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         final X matrix = (X) this;
         N.checkArgNotNull(action, "action");
 
-        if (Matrixes.isParallelizable(this)) {
+        if (Matrices.isParallelizable(this)) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
-            Matrixes.run(rowCount, columnCount, elementAction, true);
+            Matrices.run(rowCount, columnCount, elementAction, true);
         } else {
             for (int i = 0; i < rowCount; i++) {
                 for (int j = 0; j < columnCount; j++) {
@@ -1142,9 +1142,9 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
         final X matrix = (X) this;
 
-        if (Matrixes.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
+        if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
+            Matrices.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {

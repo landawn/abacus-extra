@@ -37,17 +37,17 @@ package com.landawn.abacus.util;
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Force parallel execution
- * Matrixes.setParallelEnabled(ParallelEnabled.YES);
+ * Matrices.setParallelEnabled(ParallelEnabled.YES);
  *
  * // Force sequential execution
- * Matrixes.setParallelEnabled(ParallelEnabled.NO);
+ * Matrices.setParallelEnabled(ParallelEnabled.NO);
  *
  * // Use default heuristics (recommended)
- * Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
+ * Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
  * }</pre>
  *
- * @see Matrixes#setParallelEnabled(ParallelEnabled)
- * @see Matrixes#getParallelEnabled()
+ * @see Matrices#setParallelEnabled(ParallelEnabled)
+ * @see Matrices#getParallelEnabled()
  */
 public enum ParallelEnabled {
     /**
@@ -68,7 +68,7 @@ public enum ParallelEnabled {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Force parallel execution for a computationally intensive operation
-     * Matrixes.setParallelEnabled(ParallelEnabled.YES);
+     * Matrices.setParallelEnabled(ParallelEnabled.YES);
      * IntMatrix matrix1 = IntMatrix.random(10, 10);
      * IntMatrix matrix2 = IntMatrix.random(10, 10);
      * IntMatrix result = matrix1.multiply(matrix2);   // Will use parallel processing
@@ -99,7 +99,7 @@ public enum ParallelEnabled {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Ensure sequential execution for deterministic behavior
-     * Matrixes.setParallelEnabled(ParallelEnabled.NO);
+     * Matrices.setParallelEnabled(ParallelEnabled.NO);
      * IntMatrix matrix = IntMatrix.random(20, 20);
      * IntMatrix result = matrix.transpose();   // Will execute sequentially
      *
@@ -131,7 +131,7 @@ public enum ParallelEnabled {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Let the framework decide based on matrix size (recommended)
-     * Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
+     * Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
      *
      * // Small matrix - will execute sequentially
      * IntMatrix small = IntMatrix.random(10, 10);

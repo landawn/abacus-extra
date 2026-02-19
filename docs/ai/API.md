@@ -17238,7 +17238,7 @@ A generic matrix implementation that stores elements in a two-dimensional array.
   - (none)
 - **Returns:** a string representation of this matrix
 
-### Class Matrixes (com.landawn.abacus.util.Matrixes)
+### Class Matrices (com.landawn.abacus.util.Matrices)
 Utility class providing static methods for matrix operations, parallel processing control, and matrix manipulation functions.
 
 **Thread-safety:** unspecified

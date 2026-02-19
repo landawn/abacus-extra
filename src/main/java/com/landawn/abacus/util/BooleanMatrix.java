@@ -868,7 +868,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> void updateAll(final Throwables.BooleanUnaryOperator<E> operator) throws E {
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.applyAsBoolean(a[i][j]);
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
+        Matrices.run(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
     }
 
     /**
@@ -897,7 +897,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Boolean, E> operator) throws E {
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.apply(i, j);
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
+        Matrices.run(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
     }
 
     /**
@@ -927,7 +927,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> void replaceIf(final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
+        Matrices.run(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
     }
 
     /**
@@ -957,7 +957,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final boolean newValue) throws E {
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
+        Matrices.run(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
     }
 
     /**
@@ -990,7 +990,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         final boolean[][] result = new boolean[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.applyAsBoolean(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
+        Matrices.run(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
 
         return BooleanMatrix.of(result);
     }
@@ -1021,10 +1021,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.BooleanFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, "mapper");
-        final T[][] result = Matrixes.newArray(rowCount, columnCount, targetElementType);
+        final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
+        Matrices.run(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -2024,7 +2024,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsBoolean(a[i][j], matrixBData[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
+        Matrices.run(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
 
         return BooleanMatrix.of(result);
     }
@@ -2077,7 +2077,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsBoolean(a[i][j], matrixBData[i][j], matrixCData[i][j]);
 
-        Matrixes.run(rowCount, columnCount, elementAction, Matrixes.isParallelizable(this));
+        Matrices.run(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
 
         return BooleanMatrix.of(result);
     }
@@ -2874,9 +2874,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
         N.checkArgNotNull(action, "action");
 
-        if (Matrixes.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
+        if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(a[i][j]);
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
+            Matrices.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 final boolean[] currentRow = a[i];

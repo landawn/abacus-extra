@@ -32,7 +32,7 @@ import com.landawn.abacus.util.stream.Collectors;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.LongStream;
 
-class MatrixesTest extends TestBase {
+class MatricesTest extends TestBase {
 
     private ByteMatrix byteMatrix1;
     private ByteMatrix byteMatrix2;
@@ -77,51 +77,51 @@ class MatrixesTest extends TestBase {
     @AfterEach
     public void tearDown() {
         // Reset parallel enabled to default
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
     }
 
     @Test
     public void testGetParallelEnabled() {
         // Test default value
-        assertEquals(ParallelEnabled.DEFAULT, Matrixes.getParallelEnabled());
+        assertEquals(ParallelEnabled.DEFAULT, Matrices.getParallelEnabled());
 
         // Test after setting
-        Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        assertEquals(ParallelEnabled.YES, Matrixes.getParallelEnabled());
+        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
 
-        Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        assertEquals(ParallelEnabled.NO, Matrixes.getParallelEnabled());
+        Matrices.setParallelEnabled(ParallelEnabled.NO);
+        assertEquals(ParallelEnabled.NO, Matrices.getParallelEnabled());
     }
 
     @Test
     public void testSetParallelEnabled() {
         // Test setting different values
-        Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        assertEquals(ParallelEnabled.YES, Matrixes.getParallelEnabled());
+        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
 
-        Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        assertEquals(ParallelEnabled.NO, Matrixes.getParallelEnabled());
+        Matrices.setParallelEnabled(ParallelEnabled.NO);
+        assertEquals(ParallelEnabled.NO, Matrices.getParallelEnabled());
 
-        Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
-        assertEquals(ParallelEnabled.DEFAULT, Matrixes.getParallelEnabled());
+        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        assertEquals(ParallelEnabled.DEFAULT, Matrices.getParallelEnabled());
 
         // Test null argument
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.setParallelEnabled(null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.setParallelEnabled(null));
     }
 
     @Test
     public void testIsParallelableWithMatrix() {
         // Test with small matrix (should return false for default setting)
         IntMatrix smallMatrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        assertFalse(Matrixes.isParallelizable(smallMatrix));
+        assertFalse(Matrices.isParallelizable(smallMatrix));
 
         // Test with forced parallel enabled
-        Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        assertTrue(Matrixes.isParallelizable(smallMatrix));
+        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        assertTrue(Matrices.isParallelizable(smallMatrix));
 
         // Test with forced parallel disabled
-        Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        assertFalse(Matrixes.isParallelizable(smallMatrix));
+        Matrices.setParallelEnabled(ParallelEnabled.NO);
+        assertFalse(Matrices.isParallelizable(smallMatrix));
     }
 
     @Test
@@ -129,77 +129,77 @@ class MatrixesTest extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
 
         // Test with small count
-        assertFalse(Matrixes.isParallelizable(matrix, 100));
+        assertFalse(Matrices.isParallelizable(matrix, 100));
 
         // Test with large count (above threshold)
-        boolean result = Matrixes.isParallelizable(matrix, 10000);
+        boolean result = Matrices.isParallelizable(matrix, 10000);
         assertTrue(result || !result); // Depends on IS_PARALLEL_STREAM_SUPPORTED
 
         // Test with forced settings
-        Matrixes.setParallelEnabled(ParallelEnabled.YES);
-        assertTrue(Matrixes.isParallelizable(matrix, 1));
+        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        assertTrue(Matrices.isParallelizable(matrix, 1));
 
-        Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        assertFalse(Matrixes.isParallelizable(matrix, 100000));
+        Matrices.setParallelEnabled(ParallelEnabled.NO);
+        assertFalse(Matrices.isParallelizable(matrix, 100000));
     }
 
     @Test
     public void testIsSameShapeTwoMatrices() {
         // Test same shape
-        assertTrue(Matrixes.isSameShape(intMatrix1, intMatrix2));
+        assertTrue(Matrices.isSameShape(intMatrix1, intMatrix2));
         assertThrows(IllegalArgumentException.class, () -> intMatrix1.isSameShape((IntMatrix) null));
 
         // Test different shapes
         IntMatrix differentShape = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertFalse(Matrixes.isSameShape(intMatrix1, differentShape));
+        assertFalse(Matrices.isSameShape(intMatrix1, differentShape));
 
         // Test with different matrix types but same shape
-        assertTrue(Matrixes.isSameShape(byteMatrix1, byteMatrix2));
+        assertTrue(Matrices.isSameShape(byteMatrix1, byteMatrix2));
     }
 
     @Test
     public void testIsSameShapeThreeMatrices() {
         // Test same shape
-        assertTrue(Matrixes.isSameShape(intMatrix1, intMatrix2, intMatrix3));
+        assertTrue(Matrices.isSameShape(intMatrix1, intMatrix2, intMatrix3));
 
         // Test different shapes
         IntMatrix differentShape = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertFalse(Matrixes.isSameShape(intMatrix1, intMatrix2, differentShape));
+        assertFalse(Matrices.isSameShape(intMatrix1, intMatrix2, differentShape));
 
         // Test null arguments
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.isSameShape(intMatrix1, null, intMatrix3));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.isSameShape(intMatrix1, intMatrix2, null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.isSameShape(intMatrix1, null, intMatrix3));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.isSameShape(intMatrix1, intMatrix2, null));
     }
 
     @Test
     public void testIsSameShapeCollection() {
         // Test empty collection
-        assertTrue(Matrixes.isSameShape(new ArrayList<IntMatrix>()));
+        assertTrue(Matrices.isSameShape(new ArrayList<IntMatrix>()));
 
         // Test single element
-        assertTrue(Matrixes.isSameShape(CommonUtil.asList(intMatrix1)));
+        assertTrue(Matrices.isSameShape(CommonUtil.asList(intMatrix1)));
 
         // Test multiple elements with same shape
-        assertTrue(Matrixes.isSameShape(CommonUtil.asList(intMatrix1, intMatrix2, intMatrix3)));
+        assertTrue(Matrices.isSameShape(CommonUtil.asList(intMatrix1, intMatrix2, intMatrix3)));
 
         // Test multiple elements with different shapes
         IntMatrix differentShape = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertFalse(Matrixes.isSameShape(CommonUtil.asList(intMatrix1, intMatrix2, differentShape)));
+        assertFalse(Matrices.isSameShape(CommonUtil.asList(intMatrix1, intMatrix2, differentShape)));
     }
 
     @Test
     public void testNewArray() {
         // Test creating different types of arrays
-        Integer[][] intArray = Matrixes.newArray(3, 4, Integer.class);
+        Integer[][] intArray = Matrices.newArray(3, 4, Integer.class);
         assertEquals(3, intArray.length);
         assertEquals(4, intArray[0].length);
 
-        String[][] stringArray = Matrixes.newArray(2, 5, String.class);
+        String[][] stringArray = Matrices.newArray(2, 5, String.class);
         assertEquals(2, stringArray.length);
         assertEquals(5, stringArray[0].length);
 
         // Test with primitive wrapper
-        Double[][] doubleArray = Matrixes.newArray(1, 1, Double.class);
+        Double[][] doubleArray = Matrices.newArray(1, 1, Double.class);
         assertEquals(1, doubleArray.length);
         assertEquals(1, doubleArray[0].length);
     }
@@ -207,47 +207,47 @@ class MatrixesTest extends TestBase {
     @Test
     public void testRunWithParallelEnabled() throws Exception {
         // Test that parallel setting is restored after execution
-        ParallelEnabled original = Matrixes.getParallelEnabled();
+        ParallelEnabled original = Matrices.getParallelEnabled();
 
-        Matrixes.run(() -> {
-            assertEquals(ParallelEnabled.YES, Matrixes.getParallelEnabled());
+        Matrices.run(() -> {
+            assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
         }, ParallelEnabled.YES);
 
-        assertEquals(original, Matrixes.getParallelEnabled());
+        assertEquals(original, Matrices.getParallelEnabled());
 
         // Test with exception
         assertThrows(RuntimeException.class, () -> {
-            Matrixes.run(() -> {
+            Matrices.run(() -> {
                 throw new RuntimeException("Test exception");
             }, ParallelEnabled.NO);
         });
 
         // Verify setting is still restored after exception
-        assertEquals(original, Matrixes.getParallelEnabled());
+        assertEquals(original, Matrices.getParallelEnabled());
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testRunWithNullCommand() {
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.run((Throwables.Runnable<RuntimeException>) null, ParallelEnabled.NO));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.run(2, 3, (Throwables.IntBiConsumer<RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.run(0, 2, 0, 2, (Throwables.IntBiConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.run((Throwables.Runnable<RuntimeException>) null, ParallelEnabled.NO));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.run(2, 3, (Throwables.IntBiConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.run(0, 2, 0, 2, (Throwables.IntBiConsumer<RuntimeException>) null, false));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testCallWithNullCommand() {
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.call(2, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.call(0, 2, 0, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.callToInt(2, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.callToInt(0, 2, 0, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.call(2, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.call(0, 2, 0, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.callToInt(2, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.callToInt(0, 2, 0, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
     }
 
     @Test
     public void testRunWithRowsColsAndCommand() throws Exception {
         // Test sequential execution
         int[][] result = new int[2][3];
-        Matrixes.run(2, 3, (i, j) -> result[i][j] = i * 10 + j, false);
+        Matrices.run(2, 3, (i, j) -> result[i][j] = i * 10 + j, false);
 
         assertEquals(0, result[0][0]);
         assertEquals(1, result[0][1]);
@@ -258,7 +258,7 @@ class MatrixesTest extends TestBase {
 
         // Test parallel execution
         int[][] parallelResult = new int[2][3];
-        Matrixes.run(2, 3, (i, j) -> parallelResult[i][j] = i * 10 + j, true);
+        Matrices.run(2, 3, (i, j) -> parallelResult[i][j] = i * 10 + j, true);
 
         assertEquals(0, parallelResult[0][0]);
         assertEquals(1, parallelResult[0][1]);
@@ -272,7 +272,7 @@ class MatrixesTest extends TestBase {
     public void testRunWithIndicesAndCommand() throws Exception {
         // Test with subregion
         int[][] result = new int[4][4];
-        Matrixes.run(1, 3, 1, 3, (i, j) -> result[i][j] = i * 10 + j, false);
+        Matrices.run(1, 3, 1, 3, (i, j) -> result[i][j] = i * 10 + j, false);
 
         assertEquals(0, result[0][0]); // Not touched
         assertEquals(11, result[1][1]);
@@ -282,14 +282,14 @@ class MatrixesTest extends TestBase {
         assertEquals(0, result[3][3]); // Not touched
 
         // Test with invalid indices
-        assertThrows(IndexOutOfBoundsException.class, () -> Matrixes.run(2, 1, 0, 2, (i, j) -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.run(2, 1, 0, 2, (i, j) -> {
         }, false));
     }
 
     @Test
     public void testCall() {
         // Test sequential call
-        List<String> results = Matrixes.call(2, 3, (i, j) -> i + "," + j, false).toList();
+        List<String> results = Matrices.call(2, 3, (i, j) -> i + "," + j, false).toList();
 
         assertEquals(6, results.size());
         assertTrue(results.contains("0,0"));
@@ -300,7 +300,7 @@ class MatrixesTest extends TestBase {
         assertTrue(results.contains("1,2"));
 
         // Test parallel call
-        List<Integer> parallelResults = Matrixes.call(3, 2, (i, j) -> i * 10 + j, true).toList();
+        List<Integer> parallelResults = Matrices.call(3, 2, (i, j) -> i * 10 + j, true).toList();
 
         assertEquals(6, parallelResults.size());
         assertTrue(parallelResults.contains(0));
@@ -314,7 +314,7 @@ class MatrixesTest extends TestBase {
     @Test
     public void testCallWithIndices() {
         // Test with subregion
-        List<String> results = Matrixes.call(1, 3, 1, 3, (i, j) -> i + "," + j, false).toList();
+        List<String> results = Matrices.call(1, 3, 1, 3, (i, j) -> i + "," + j, false).toList();
 
         assertEquals(4, results.size());
         assertTrue(results.contains("1,1"));
@@ -323,13 +323,13 @@ class MatrixesTest extends TestBase {
         assertTrue(results.contains("2,2"));
 
         // Test with invalid indices
-        assertThrows(IndexOutOfBoundsException.class, () -> Matrixes.call(2, 1, 0, 2, (i, j) -> "", false));
+        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.call(2, 1, 0, 2, (i, j) -> "", false));
     }
 
     @Test
     public void testCallToInt() {
         // Test sequential
-        int[] results = Matrixes.callToInt(2, 3, (i, j) -> i * 10 + j, false).toArray();
+        int[] results = Matrices.callToInt(2, 3, (i, j) -> i * 10 + j, false).toArray();
 
         assertEquals(6, results.length);
         assertTrue(IntStream.of(results).anyMatch(x -> x == 0));
@@ -340,7 +340,7 @@ class MatrixesTest extends TestBase {
         assertTrue(IntStream.of(results).anyMatch(x -> x == 12));
 
         // Test parallel
-        int[] parallelResults = Matrixes.callToInt(3, 2, (i, j) -> i + j, true).toArray();
+        int[] parallelResults = Matrices.callToInt(3, 2, (i, j) -> i + j, true).toArray();
 
         assertEquals(6, parallelResults.length);
     }
@@ -348,7 +348,7 @@ class MatrixesTest extends TestBase {
     @Test
     public void testCallToIntWithIndices() {
         // Test with subregion
-        int[] results = Matrixes.callToInt(1, 3, 1, 3, (i, j) -> i * 10 + j, false).toArray();
+        int[] results = Matrices.callToInt(1, 3, 1, 3, (i, j) -> i * 10 + j, false).toArray();
 
         assertEquals(4, results.length);
         assertTrue(IntStream.of(results).anyMatch(x -> x == 11));
@@ -365,7 +365,7 @@ class MatrixesTest extends TestBase {
 
         int[][] result = new int[2][2];
 
-        Matrixes.multiply(a, b, (i, j, k) -> {
+        Matrices.multiply(a, b, (i, j, k) -> {
             result[i][j] += a.get(i, k) * b.get(k, j);
         });
 
@@ -377,18 +377,18 @@ class MatrixesTest extends TestBase {
 
         // Test with incompatible dimensions
         IntMatrix c = IntMatrix.of(new int[][] { { 1, 2, 3 } });
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, c, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.multiply(a, c, (i, j, k) -> {
         }));
 
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(null, b, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.multiply(null, b, (i, j, k) -> {
         }));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, null, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.multiply(a, null, (i, j, k) -> {
         }));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, b, (Throwables.IntTriConsumer<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, b, (Throwables.IntTriConsumer<RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(null, b, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.multiply(a, b, (Throwables.IntTriConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.multiply(a, b, (Throwables.IntTriConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.multiply(null, b, (i, j, k) -> {
         }, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(a, null, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.multiply(a, null, (i, j, k) -> {
         }, false));
     }
 
@@ -399,13 +399,13 @@ class MatrixesTest extends TestBase {
 
         // Test sequential
         int[][] seqResult = new int[2][2];
-        Matrixes.multiply(a, b, (i, j, k) -> {
+        Matrices.multiply(a, b, (i, j, k) -> {
             seqResult[i][j] += a.get(i, k) * b.get(k, j);
         }, false);
 
         // Test parallel
         int[][] parResult = new int[2][2];
-        Matrixes.multiply(a, b, (i, j, k) -> {
+        Matrices.multiply(a, b, (i, j, k) -> {
             parResult[i][j] += a.get(i, k) * b.get(k, j);
         }, true);
 
@@ -417,14 +417,14 @@ class MatrixesTest extends TestBase {
     @Test
     public void testZipByteMatrix() throws Exception {
         // Test binary zip
-        ByteMatrix result = Matrixes.zip(byteMatrix1, byteMatrix2, (a, b) -> (byte) (a + b));
+        ByteMatrix result = Matrices.zip(byteMatrix1, byteMatrix2, (a, b) -> (byte) (a + b));
         assertEquals((byte) 6, result.get(0, 0)); // 1 + 5
         assertEquals((byte) 8, result.get(0, 1)); // 2 + 6
         assertEquals((byte) 10, result.get(1, 0)); // 3 + 7
         assertEquals((byte) 12, result.get(1, 1)); // 4 + 8
 
         // Test ternary zip
-        ByteMatrix ternaryResult = Matrixes.zip(byteMatrix1, byteMatrix2, byteMatrix3, (a, b, c) -> (byte) (a + b + c));
+        ByteMatrix ternaryResult = Matrices.zip(byteMatrix1, byteMatrix2, byteMatrix3, (a, b, c) -> (byte) (a + b + c));
         assertEquals((byte) 15, ternaryResult.get(0, 0)); // 1 + 5 + 9
     }
 
@@ -433,17 +433,17 @@ class MatrixesTest extends TestBase {
         List<ByteMatrix> matrices = CommonUtil.asList(byteMatrix1, byteMatrix2, byteMatrix3);
 
         // Test with binary operator
-        ByteMatrix result = Matrixes.zip(matrices, (a, b) -> (byte) Math.max(a, b));
+        ByteMatrix result = Matrices.zip(matrices, (a, b) -> (byte) Math.max(a, b));
         assertEquals((byte) 9, result.get(0, 0));
         assertEquals((byte) 10, result.get(0, 1));
         assertEquals((byte) 11, result.get(1, 0));
         assertEquals((byte) 12, result.get(1, 1));
 
         // Test with empty collection
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.zip(new ArrayList<ByteMatrix>(), (a, b) -> a));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(new ArrayList<ByteMatrix>(), (a, b) -> a));
 
         // Test with single element
-        ByteMatrix single = Matrixes.zip(CommonUtil.asList(byteMatrix1), (a, b) -> a);
+        ByteMatrix single = Matrices.zip(CommonUtil.asList(byteMatrix1), (a, b) -> a);
         assertEquals(byteMatrix1.get(0, 0), single.get(0, 0));
     }
 
@@ -452,24 +452,24 @@ class MatrixesTest extends TestBase {
         List<ByteMatrix> matrices = CommonUtil.asList(byteMatrix1, byteMatrix2);
 
         // Test without sharing array
-        Matrix<Integer> result = Matrixes.zip(matrices, arr -> arr[0] + arr[1], Integer.class);
+        Matrix<Integer> result = Matrices.zip(matrices, arr -> arr[0] + arr[1], Integer.class);
         assertEquals(6, result.get(0, 0)); // 1 + 5
         assertEquals(8, result.get(0, 1)); // 2 + 6
 
         // Test with sharing array
-        Matrix<String> stringResult = Matrixes.zip(matrices, arr -> CommonUtil.toString(arr), true, String.class);
+        Matrix<String> stringResult = Matrices.zip(matrices, arr -> CommonUtil.toString(arr), true, String.class);
         assertEquals("[1, 5]", stringResult.get(0, 0));
     }
 
     @Test
     public void testZipByteMatrixToInt() throws Exception {
         // Test binary
-        IntMatrix result = Matrixes.zipToInt(byteMatrix1, byteMatrix2, (a, b) -> a * b);
+        IntMatrix result = Matrices.zipToInt(byteMatrix1, byteMatrix2, (a, b) -> a * b);
         assertEquals(5, result.get(0, 0)); // 1 * 5
         assertEquals(12, result.get(0, 1)); // 2 * 6
 
         // Test ternary
-        IntMatrix ternaryResult = Matrixes.zipToInt(byteMatrix1, byteMatrix2, byteMatrix3, (a, b, c) -> a + b + c);
+        IntMatrix ternaryResult = Matrices.zipToInt(byteMatrix1, byteMatrix2, byteMatrix3, (a, b, c) -> a + b + c);
         assertEquals(15, ternaryResult.get(0, 0)); // 1 + 5 + 9
     }
 
@@ -478,23 +478,23 @@ class MatrixesTest extends TestBase {
         List<ByteMatrix> matrices = CommonUtil.asList(byteMatrix1, byteMatrix2, byteMatrix3);
 
         // Test without sharing array
-        IntMatrix result = Matrixes.zipToInt(matrices, arr -> ByteStream.of(arr).mapToInt(b -> b).sum());
+        IntMatrix result = Matrices.zipToInt(matrices, arr -> ByteStream.of(arr).mapToInt(b -> b).sum());
         assertEquals(15, result.get(0, 0)); // 1 + 5 + 9
 
         // Test with sharing array
-        IntMatrix sharedResult = Matrixes.zipToInt(matrices, arr -> ByteStream.of(arr).mapToInt(b -> b).max().orElse(0), true);
+        IntMatrix sharedResult = Matrices.zipToInt(matrices, arr -> ByteStream.of(arr).mapToInt(b -> b).max().orElse(0), true);
         assertEquals(9, sharedResult.get(0, 0));
     }
 
     @Test
     public void testZipIntMatrix() throws Exception {
         // Test binary zip
-        IntMatrix result = Matrixes.zip(intMatrix1, intMatrix2, (a, b) -> a + b);
+        IntMatrix result = Matrices.zip(intMatrix1, intMatrix2, (a, b) -> a + b);
         assertEquals(6, result.get(0, 0));
         assertEquals(8, result.get(0, 1));
 
         // Test ternary zip
-        IntMatrix ternaryResult = Matrixes.zip(intMatrix1, intMatrix2, intMatrix3, (a, b, c) -> a * b * c);
+        IntMatrix ternaryResult = Matrices.zip(intMatrix1, intMatrix2, intMatrix3, (a, b, c) -> a * b * c);
         assertEquals(45, ternaryResult.get(0, 0)); // 1 * 5 * 9
     }
 
@@ -502,7 +502,7 @@ class MatrixesTest extends TestBase {
     public void testZipIntMatrixCollection() throws Exception {
         List<IntMatrix> matrices = CommonUtil.asList(intMatrix1, intMatrix2, intMatrix3);
 
-        IntMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
+        IntMatrix result = Matrices.zip(matrices, (a, b) -> a + b);
         assertEquals(15, result.get(0, 0)); // 1 + 5 + 9
         assertEquals(18, result.get(0, 1)); // 2 + 6 + 10
     }
@@ -511,18 +511,18 @@ class MatrixesTest extends TestBase {
     public void testZipIntMatrixToGeneric() throws Exception {
         List<IntMatrix> matrices = CommonUtil.asList(intMatrix1, intMatrix2);
 
-        Matrix<Double> result = Matrixes.zip(matrices, arr -> IntStream.of(arr).average().orElse(0.0), Double.class);
+        Matrix<Double> result = Matrices.zip(matrices, arr -> IntStream.of(arr).average().orElse(0.0), Double.class);
         assertEquals(3.0, result.get(0, 0)); // (1 + 5) / 2
     }
 
     @Test
     public void testZipIntMatrixToLong() throws Exception {
         // Test binary
-        LongMatrix result = Matrixes.zipToLong(intMatrix1, intMatrix2, (a, b) -> (long) a * b);
+        LongMatrix result = Matrices.zipToLong(intMatrix1, intMatrix2, (a, b) -> (long) a * b);
         assertEquals(5L, result.get(0, 0));
 
         // Test ternary
-        LongMatrix ternaryResult = Matrixes.zipToLong(intMatrix1, intMatrix2, intMatrix3, (a, b, c) -> (long) (a + b + c));
+        LongMatrix ternaryResult = Matrices.zipToLong(intMatrix1, intMatrix2, intMatrix3, (a, b, c) -> (long) (a + b + c));
         assertEquals(15L, ternaryResult.get(0, 0));
     }
 
@@ -530,18 +530,18 @@ class MatrixesTest extends TestBase {
     public void testZipIntMatrixCollectionToLong() throws Exception {
         List<IntMatrix> matrices = CommonUtil.asList(intMatrix1, intMatrix2);
 
-        LongMatrix result = Matrixes.zipToLong(matrices, arr -> (long) IntStream.of(arr).sum());
+        LongMatrix result = Matrices.zipToLong(matrices, arr -> (long) IntStream.of(arr).sum());
         assertEquals(6L, result.get(0, 0));
     }
 
     @Test
     public void testZipIntMatrixToDouble() throws Exception {
         // Test binary
-        DoubleMatrix result = Matrixes.zipToDouble(intMatrix1, intMatrix2, (a, b) -> (double) a / b);
+        DoubleMatrix result = Matrices.zipToDouble(intMatrix1, intMatrix2, (a, b) -> (double) a / b);
         assertEquals(0.2, result.get(0, 0), 0.001); // 1 / 5
 
         // Test ternary
-        DoubleMatrix ternaryResult = Matrixes.zipToDouble(intMatrix1, intMatrix2, intMatrix3, (a, b, c) -> (double) (a + b) / c);
+        DoubleMatrix ternaryResult = Matrices.zipToDouble(intMatrix1, intMatrix2, intMatrix3, (a, b, c) -> (double) (a + b) / c);
         assertEquals(0.666, ternaryResult.get(0, 0), 0.001); // (1 + 5) / 9
     }
 
@@ -549,18 +549,18 @@ class MatrixesTest extends TestBase {
     public void testZipIntMatrixCollectionToDouble() throws Exception {
         List<IntMatrix> matrices = CommonUtil.asList(intMatrix1, intMatrix2);
 
-        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> IntStream.of(arr).average().orElse(0.0));
+        DoubleMatrix result = Matrices.zipToDouble(matrices, arr -> IntStream.of(arr).average().orElse(0.0));
         assertEquals(3.0, result.get(0, 0));
     }
 
     @Test
     public void testZipLongMatrix() throws Exception {
         // Test binary zip
-        LongMatrix result = Matrixes.zip(longMatrix1, longMatrix2, (a, b) -> a + b);
+        LongMatrix result = Matrices.zip(longMatrix1, longMatrix2, (a, b) -> a + b);
         assertEquals(6L, result.get(0, 0));
 
         // Test ternary zip
-        LongMatrix ternaryResult = Matrixes.zip(longMatrix1, longMatrix2, longMatrix3, (a, b, c) -> a * b + c);
+        LongMatrix ternaryResult = Matrices.zip(longMatrix1, longMatrix2, longMatrix3, (a, b, c) -> a * b + c);
         assertEquals(14L, ternaryResult.get(0, 0)); // 1 * 5 + 9
     }
 
@@ -568,7 +568,7 @@ class MatrixesTest extends TestBase {
     public void testZipLongMatrixCollection() throws Exception {
         List<LongMatrix> matrices = CommonUtil.asList(longMatrix1, longMatrix2, longMatrix3);
 
-        LongMatrix result = Matrixes.zip(matrices, Math::max);
+        LongMatrix result = Matrices.zip(matrices, Math::max);
         assertEquals(9L, result.get(0, 0));
     }
 
@@ -576,18 +576,18 @@ class MatrixesTest extends TestBase {
     public void testZipLongMatrixToGeneric() throws Exception {
         List<LongMatrix> matrices = CommonUtil.asList(longMatrix1, longMatrix2);
 
-        Matrix<String> result = Matrixes.zip(matrices, arr -> LongStream.of(arr).mapToObj(String::valueOf).collect(Collectors.joining(",")), String.class);
+        Matrix<String> result = Matrices.zip(matrices, arr -> LongStream.of(arr).mapToObj(String::valueOf).collect(Collectors.joining(",")), String.class);
         assertEquals("1,5", result.get(0, 0));
     }
 
     @Test
     public void testZipLongMatrixToDouble() throws Exception {
         // Test binary
-        DoubleMatrix result = Matrixes.zipToDouble(longMatrix1, longMatrix2, (a, b) -> (double) a / b);
+        DoubleMatrix result = Matrices.zipToDouble(longMatrix1, longMatrix2, (a, b) -> (double) a / b);
         assertEquals(0.2, result.get(0, 0), 0.001);
 
         // Test ternary
-        DoubleMatrix ternaryResult = Matrixes.zipToDouble(longMatrix1, longMatrix2, longMatrix3, (a, b, c) -> Math.sqrt(a * b * c));
+        DoubleMatrix ternaryResult = Matrices.zipToDouble(longMatrix1, longMatrix2, longMatrix3, (a, b, c) -> Math.sqrt(a * b * c));
         assertEquals(Math.sqrt(45), ternaryResult.get(0, 0), 0.001);
     }
 
@@ -595,18 +595,18 @@ class MatrixesTest extends TestBase {
     public void testZipLongMatrixCollectionToDouble() throws Exception {
         List<LongMatrix> matrices = CommonUtil.asList(longMatrix1, longMatrix2);
 
-        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> LongStream.of(arr).average().orElse(0.0));
+        DoubleMatrix result = Matrices.zipToDouble(matrices, arr -> LongStream.of(arr).average().orElse(0.0));
         assertEquals(3.0, result.get(0, 0));
     }
 
     @Test
     public void testZipDoubleMatrix() throws Exception {
         // Test binary zip
-        DoubleMatrix result = Matrixes.zip(doubleMatrix1, doubleMatrix2, (a, b) -> a + b);
+        DoubleMatrix result = Matrices.zip(doubleMatrix1, doubleMatrix2, (a, b) -> a + b);
         assertEquals(6.0, result.get(0, 0), 0.001);
 
         // Test ternary zip
-        DoubleMatrix ternaryResult = Matrixes.zip(doubleMatrix1, doubleMatrix2, doubleMatrix3, (a, b, c) -> (a + b) * c);
+        DoubleMatrix ternaryResult = Matrices.zip(doubleMatrix1, doubleMatrix2, doubleMatrix3, (a, b, c) -> (a + b) * c);
         assertEquals(54.0, ternaryResult.get(0, 0), 0.001); // (1 + 5) * 9
     }
 
@@ -614,7 +614,7 @@ class MatrixesTest extends TestBase {
     public void testZipDoubleMatrixCollection() throws Exception {
         List<DoubleMatrix> matrices = CommonUtil.asList(doubleMatrix1, doubleMatrix2, doubleMatrix3);
 
-        DoubleMatrix result = Matrixes.zip(matrices, Math::min);
+        DoubleMatrix result = Matrices.zip(matrices, Math::min);
         assertEquals(1.0, result.get(0, 0), 0.001);
     }
 
@@ -622,26 +622,26 @@ class MatrixesTest extends TestBase {
     public void testZipDoubleMatrixToGeneric() throws Exception {
         List<DoubleMatrix> matrices = CommonUtil.asList(doubleMatrix1, doubleMatrix2);
 
-        Matrix<Boolean> result = Matrixes.zip(matrices, arr -> arr[0] < arr[1], Boolean.class);
+        Matrix<Boolean> result = Matrices.zip(matrices, arr -> arr[0] < arr[1], Boolean.class);
         assertTrue(result.get(0, 0)); // 1.0 < 5.0
     }
 
     @Test
     public void testZipGenericMatrix() throws Exception {
         // Test binary zip with same result type
-        Matrix<String> result = Matrixes.zip(stringMatrix1, stringMatrix2, (a, b) -> a + b);
+        Matrix<String> result = Matrices.zip(stringMatrix1, stringMatrix2, (a, b) -> a + b);
         assertEquals("ae", result.get(0, 0));
 
         // Test binary zip with different result type
-        Matrix<Integer> lengthResult = Matrixes.zip(stringMatrix1, stringMatrix2, (a, b) -> a.length() + b.length(), Integer.class);
+        Matrix<Integer> lengthResult = Matrices.zip(stringMatrix1, stringMatrix2, (a, b) -> a.length() + b.length(), Integer.class);
         assertEquals(2, lengthResult.get(0, 0).intValue());
 
         // Test ternary zip
-        Matrix<String> ternaryResult = Matrixes.zip(stringMatrix1, stringMatrix2, stringMatrix3, (a, b, c) -> a + b + c);
+        Matrix<String> ternaryResult = Matrices.zip(stringMatrix1, stringMatrix2, stringMatrix3, (a, b, c) -> a + b + c);
         assertEquals("aei", ternaryResult.get(0, 0));
 
         // Test ternary zip with different result type
-        Matrix<Integer> ternaryLengthResult = Matrixes.zip(stringMatrix1, stringMatrix2, stringMatrix3, (a, b, c) -> a.length() + b.length() + c.length(),
+        Matrix<Integer> ternaryLengthResult = Matrices.zip(stringMatrix1, stringMatrix2, stringMatrix3, (a, b, c) -> a.length() + b.length() + c.length(),
                 Integer.class);
         assertEquals(3, ternaryLengthResult.get(0, 0).intValue());
     }
@@ -651,7 +651,7 @@ class MatrixesTest extends TestBase {
         List<Matrix<String>> matrices = CommonUtil.asList(stringMatrix1, stringMatrix2, stringMatrix3);
 
         // Test with binary operator
-        Matrix<String> result = Matrixes.zip(matrices, (a, b) -> a + b);
+        Matrix<String> result = Matrices.zip(matrices, (a, b) -> a + b);
         assertEquals("aei", result.get(0, 0));
     }
 
@@ -660,11 +660,11 @@ class MatrixesTest extends TestBase {
         List<Matrix<String>> matrices = CommonUtil.asList(stringMatrix1, stringMatrix2);
 
         // Test without sharing array
-        Matrix<String> result = Matrixes.zip(matrices, arr -> String.join("-", arr), String.class);
+        Matrix<String> result = Matrices.zip(matrices, arr -> String.join("-", arr), String.class);
         assertEquals("a-e", result.get(0, 0));
 
         // Test with sharing array
-        Matrix<Integer> countResult = Matrixes.zip(matrices, arr -> arr.length, true, Integer.class);
+        Matrix<Integer> countResult = Matrices.zip(matrices, arr -> arr.length, true, Integer.class);
         assertEquals(2, countResult.get(0, 0).intValue());
     }
 
@@ -674,7 +674,7 @@ class MatrixesTest extends TestBase {
         Number[][] doubleData = new Double[][] { { 0.5, 1.5 }, { 2.5, 3.5 } };
         List<Matrix<Number>> matrices = CommonUtil.asList(Matrix.of(intData), Matrix.of(doubleData));
 
-        Matrix<Number> result = Matrixes.zip(matrices, (a, b) -> a.doubleValue() + b.doubleValue());
+        Matrix<Number> result = Matrices.zip(matrices, (a, b) -> a.doubleValue() + b.doubleValue());
         assertEquals(1.5d, result.get(0, 0).doubleValue());
         assertEquals(7.5d, result.get(1, 1).doubleValue());
     }
@@ -685,7 +685,7 @@ class MatrixesTest extends TestBase {
         Number[][] doubleData = new Double[][] { { 0.5, 1.5 }, { 2.5, 3.5 } };
         List<Matrix<Number>> matrices = CommonUtil.asList(Matrix.of(intData), Matrix.of(doubleData));
 
-        Matrix<Double> result = Matrixes.zip(matrices, arr -> arr[0].doubleValue() + arr[1].doubleValue(), true, Double.class);
+        Matrix<Double> result = Matrices.zip(matrices, arr -> arr[0].doubleValue() + arr[1].doubleValue(), true, Double.class);
         assertEquals(1.5d, result.get(0, 0));
         assertEquals(7.5d, result.get(1, 1));
     }
@@ -693,65 +693,65 @@ class MatrixesTest extends TestBase {
     @Test
     public void testZipNullArguments() {
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteBinaryOperator<RuntimeException>) null));
+                () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteBinaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteNFunction<Integer, RuntimeException>) null, false, Integer.class));
+                () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteNFunction<Integer, RuntimeException>) null, false, Integer.class));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), arr -> (int) arr[0], false, (Class<Integer>) null));
+                () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), arr -> (int) arr[0], false, (Class<Integer>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToInt(byteMatrix1, byteMatrix2, (Throwables.ByteBiFunction<Integer, RuntimeException>) null));
+                () -> Matrices.zipToInt(byteMatrix1, byteMatrix2, (Throwables.ByteBiFunction<Integer, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToInt(byteMatrix1, byteMatrix2, byteMatrix3, (Throwables.ByteTriFunction<Integer, RuntimeException>) null));
+                () -> Matrices.zipToInt(byteMatrix1, byteMatrix2, byteMatrix3, (Throwables.ByteTriFunction<Integer, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToInt(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteNFunction<Integer, RuntimeException>) null, false));
+                () -> Matrices.zipToInt(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteNFunction<Integer, RuntimeException>) null, false));
 
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntBinaryOperator<RuntimeException>) null));
+                () -> Matrices.zip(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntBinaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Integer, RuntimeException>) null, false, Integer.class));
+                () -> Matrices.zip(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Integer, RuntimeException>) null, false, Integer.class));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(intMatrix1, intMatrix2), arr -> arr[0], false, (Class<Integer>) null));
+                () -> Matrices.zip(CommonUtil.asList(intMatrix1, intMatrix2), arr -> arr[0], false, (Class<Integer>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToLong(intMatrix1, intMatrix2, (Throwables.IntBiFunction<Long, RuntimeException>) null));
+                () -> Matrices.zipToLong(intMatrix1, intMatrix2, (Throwables.IntBiFunction<Long, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToLong(intMatrix1, intMatrix2, intMatrix3, (Throwables.IntTriFunction<Long, RuntimeException>) null));
+                () -> Matrices.zipToLong(intMatrix1, intMatrix2, intMatrix3, (Throwables.IntTriFunction<Long, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToLong(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Long, RuntimeException>) null, false));
+                () -> Matrices.zipToLong(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Long, RuntimeException>) null, false));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToDouble(intMatrix1, intMatrix2, (Throwables.IntBiFunction<Double, RuntimeException>) null));
+                () -> Matrices.zipToDouble(intMatrix1, intMatrix2, (Throwables.IntBiFunction<Double, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToDouble(intMatrix1, intMatrix2, intMatrix3, (Throwables.IntTriFunction<Double, RuntimeException>) null));
+                () -> Matrices.zipToDouble(intMatrix1, intMatrix2, intMatrix3, (Throwables.IntTriFunction<Double, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToDouble(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Double, RuntimeException>) null, false));
+                () -> Matrices.zipToDouble(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Double, RuntimeException>) null, false));
 
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongBinaryOperator<RuntimeException>) null));
+                () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongBinaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongNFunction<Long, RuntimeException>) null, false, Long.class));
+                () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongNFunction<Long, RuntimeException>) null, false, Long.class));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(longMatrix1, longMatrix2), arr -> arr[0], false, (Class<Long>) null));
+                () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), arr -> arr[0], false, (Class<Long>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToDouble(longMatrix1, longMatrix2, (Throwables.LongBiFunction<Double, RuntimeException>) null));
+                () -> Matrices.zipToDouble(longMatrix1, longMatrix2, (Throwables.LongBiFunction<Double, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToDouble(longMatrix1, longMatrix2, longMatrix3, (Throwables.LongTriFunction<Double, RuntimeException>) null));
+                () -> Matrices.zipToDouble(longMatrix1, longMatrix2, longMatrix3, (Throwables.LongTriFunction<Double, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zipToDouble(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongNFunction<Double, RuntimeException>) null, false));
+                () -> Matrices.zipToDouble(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongNFunction<Double, RuntimeException>) null, false));
 
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), (Throwables.DoubleBinaryOperator<RuntimeException>) null));
+                () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), (Throwables.DoubleBinaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), (Throwables.DoubleNFunction<Double, RuntimeException>) null, false,
+                () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), (Throwables.DoubleNFunction<Double, RuntimeException>) null, false,
                         Double.class));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), arr -> arr[0], false, (Class<Double>) null));
+                () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), arr -> arr[0], false, (Class<Double>) null));
 
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), (Throwables.BinaryOperator<String, RuntimeException>) null));
+                () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), (Throwables.BinaryOperator<String, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), (Throwables.Function<String[], String, RuntimeException>) null, false,
+                () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), (Throwables.Function<String[], String, RuntimeException>) null, false,
                         String.class));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrixes.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), arr -> arr[0], false, (Class<String>) null));
+                () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), arr -> arr[0], false, (Class<String>) null));
     }
 
     @Test
@@ -760,9 +760,9 @@ class MatrixesTest extends TestBase {
         IntMatrix differentShape = IntMatrix.of(new int[][] { { 1, 2, 3 } });
 
         // Test that zip methods throw exception for different shapes
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.zip(intMatrix1, differentShape, (a, b) -> a + b));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(intMatrix1, differentShape, (a, b) -> a + b));
 
-        assertThrows(IllegalArgumentException.class, () -> Matrixes.zip(CommonUtil.asList(intMatrix1, differentShape), (a, b) -> a + b));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(intMatrix1, differentShape), (a, b) -> a + b));
     }
 
     @Test
@@ -783,9 +783,9 @@ class MatrixesTest extends TestBase {
         IntMatrix large2 = IntMatrix.of(largeData2);
 
         // Force parallel processing
-        Matrixes.setParallelEnabled(ParallelEnabled.YES);
+        Matrices.setParallelEnabled(ParallelEnabled.YES);
 
-        IntMatrix result = Matrixes.zip(large1, large2, (a, b) -> a + b);
+        IntMatrix result = Matrices.zip(large1, large2, (a, b) -> a + b);
 
         // Verify a few results
         assertEquals(1, result.get(0, 0)); // 0 + 1
@@ -796,7 +796,7 @@ class MatrixesTest extends TestBase {
     public void testZipCollectionEdgeCases() throws Exception {
         // Test collection zip with two elements (should use optimized path)
         List<IntMatrix> twoMatrices = CommonUtil.asList(intMatrix1, intMatrix2);
-        IntMatrix twoResult = Matrixes.zip(twoMatrices, (a, b) -> a + b);
+        IntMatrix twoResult = Matrices.zip(twoMatrices, (a, b) -> a + b);
         assertEquals(6, twoResult.get(0, 0));
 
         // Test collection zip with many elements
@@ -805,7 +805,7 @@ class MatrixesTest extends TestBase {
             manyMatrices.add(IntMatrix.of(new int[][] { { i, i + 1 }, { i + 2, i + 3 } }));
         }
 
-        IntMatrix manyResult = Matrixes.zip(manyMatrices, (a, b) -> a + b);
+        IntMatrix manyResult = Matrices.zip(manyMatrices, (a, b) -> a + b);
         // Should sum all values at each position
         assertEquals(0 + 1 + 2 + 3 + 4, manyResult.get(0, 0));
     }
@@ -837,22 +837,22 @@ class MatrixesTest extends TestBase {
             mx.println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx), (i, j) -> (byte) (i + j)).println();
+            Matrices.zip(CommonUtil.asList(mx), (i, j) -> (byte) (i + j)).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx, mx), (i, j) -> (byte) (i + j)).println();
+            Matrices.zip(CommonUtil.asList(mx, mx), (i, j) -> (byte) (i + j)).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx, mx, mx), (i, j) -> (byte) (i + j)).println();
+            Matrices.zip(CommonUtil.asList(mx, mx, mx), (i, j) -> (byte) (i + j)).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx, mx, mx, mx), (i, j) -> (byte) (i + j)).println();
+            Matrices.zip(CommonUtil.asList(mx, mx, mx, mx), (i, j) -> (byte) (i + j)).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), Byte.class).println();
+            Matrices.zip(CommonUtil.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), Byte.class).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zipToInt(CommonUtil.asList(mx, mx, mx, mx), N::sum).println();
+            Matrices.zipToInt(CommonUtil.asList(mx, mx, mx, mx), N::sum).println();
         }
 
         N.println(Strings.repeat('=', 80));
@@ -863,22 +863,22 @@ class MatrixesTest extends TestBase {
             mx.println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx), (i, j) -> i + j).println();
+            Matrices.zip(CommonUtil.asList(mx), (i, j) -> i + j).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx, mx), (i, j) -> i + j).println();
+            Matrices.zip(CommonUtil.asList(mx, mx), (i, j) -> i + j).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx, mx, mx), (i, j) -> i + j).println();
+            Matrices.zip(CommonUtil.asList(mx, mx, mx), (i, j) -> i + j).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx, mx, mx, mx), (i, j) -> i + j).println();
+            Matrices.zip(CommonUtil.asList(mx, mx, mx, mx), (i, j) -> i + j).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(CommonUtil.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), byte.class).println();
+            Matrices.zip(CommonUtil.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), byte.class).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zipToLong(CommonUtil.asList(mx, mx, mx, mx), a -> (long) N.sum(a)).println();
+            Matrices.zipToLong(CommonUtil.asList(mx, mx, mx, mx), a -> (long) N.sum(a)).println();
         }
 
     }
@@ -934,12 +934,12 @@ class MatrixesTest extends TestBase {
         // mxc.println();
 
         Profiler.run(1, 1, 1, "seq-multiply(" + rows + ", " + columnCount + ")", () -> {
-            Matrixes.setParallelEnabled(ParallelEnabled.NO);
+            Matrices.setParallelEnabled(ParallelEnabled.NO);
             mxa.multiply(mxb);
         }).printResult();
 
         Profiler.run(1, 1, 1, "parallel-multiply(" + rows + ", " + columnCount + ")", () -> {
-            Matrixes.setParallelEnabled(ParallelEnabled.YES);
+            Matrices.setParallelEnabled(ParallelEnabled.YES);
             mxa.multiply(mxb);
         }).printResult();
 

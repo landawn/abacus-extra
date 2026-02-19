@@ -66372,8 +66372,8 @@
           "fields": []
         },
         {
-          "fqn": "com.landawn.abacus.util.Matrixes",
-          "name": "Matrixes",
+          "fqn": "com.landawn.abacus.util.Matrices",
+          "name": "Matrices",
           "kind": "class",
           "modifiers": [
             "public",

@@ -222,7 +222,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * <p><b>Related Utility Classes:</b>
  * <ul>
  *   <li><b>{@link Matrix}:</b> Specialized matrix operations and linear algebra</li>
- *   <li><b>{@link Matrixes}:</b> Advanced matrix manipulation utilities</li>
+ *   <li><b>{@link Matrices}:</b> Advanced matrix manipulation utilities</li>
  *   <li><b>{@link java.util.Arrays}:</b> Standard Java array utilities</li>
  *   <li><b>{@link java.util.stream.Stream}:</b> Stream-based array processing</li>
  * </ul>
@@ -237,7 +237,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * </ul>
  *
  * @see Matrix
- * @see Matrixes
+ * @see Matrices
  * @see java.util.Arrays
  * @see java.util.stream.Stream
  * @see java.lang.reflect.Array
