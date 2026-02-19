@@ -769,9 +769,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length == rows
+     * @param mainDiagonal the new values for the main diagonal; must have length == rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rows
+     * @throws IllegalArgumentException if mainDiagonal array length does not equal rows
      */
     public void setMainDiagonal(final short[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final short[] diagonal = mainDiagonal;
@@ -850,9 +850,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Anti-diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length equal to rows
+     * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length != rows
+     * @throws IllegalArgumentException if antiDiagonal array length does not equal rows
      */
     public void setAntiDiagonal(final short[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final short[] diagonal = antiDiagonal;

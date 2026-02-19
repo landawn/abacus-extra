@@ -707,9 +707,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Diagonal is now all false
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length equal to rowCount
+     * @param mainDiagonal the new values for the main diagonal; must have length equal to rowCount
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
+     * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
     public void setMainDiagonal(final boolean[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final boolean[] diagonal = mainDiagonal;
@@ -801,9 +801,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Anti-diagonal is now all true
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
+     * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
     public void setAntiDiagonal(final boolean[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final boolean[] diagonal = antiDiagonal;

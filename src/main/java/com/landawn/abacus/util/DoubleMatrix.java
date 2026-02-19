@@ -839,9 +839,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Diagonal is now [9.0, 8.0]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length equal to rowCount
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rows
+     * @param mainDiagonal the new values for the main diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
     public void setMainDiagonal(final double[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final double[] diagonal = mainDiagonal;
@@ -921,9 +921,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Anti-diagonal is now [9.0, 8.0]
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length equal to rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal rows
+     * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
     public void setAntiDiagonal(final double[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final double[] diagonal = antiDiagonal;

@@ -735,9 +735,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Diagonal is now [9.0f, 8.0f]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length equal to rowCount
+     * @param mainDiagonal the new values for the main diagonal; must have length equal to rowCount
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
+     * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
     public void setMainDiagonal(final float[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final float[] diagonal = mainDiagonal;
@@ -816,9 +816,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Anti-diagonal is now [9.0f, 8.0f]
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length equal to rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length != rows
+     * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
     public void setAntiDiagonal(final float[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final float[] diagonal = antiDiagonal;

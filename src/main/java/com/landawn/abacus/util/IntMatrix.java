@@ -914,9 +914,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length equal to rowCount
+     * @param mainDiagonal the new values for the main diagonal; must have length equal to rowCount
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
+     * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
     public void setMainDiagonal(final int[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final int[] diagonal = mainDiagonal;
@@ -996,9 +996,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Anti-diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
-     * @throws IllegalArgumentException if diagonal array length != rowCount
+     * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
     public void setAntiDiagonal(final int[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final int[] diagonal = antiDiagonal;

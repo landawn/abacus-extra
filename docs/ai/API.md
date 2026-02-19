@@ -4322,10 +4322,10 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `mainDiagonal` (`boolean[]`)
+  - `mainDiagonal` (`boolean[]`) — the new values for the main diagonal; must have length equal to rowCount
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
+  - `java.lang.IllegalArgumentException` — if mainDiagonal array length does not equal rowCount
 ##### updateMainDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
@@ -4351,10 +4351,10 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `antiDiagonal` (`boolean[]`)
+  - `antiDiagonal` (`boolean[]`) — the new values for the anti-diagonal; must have length equal to rowCount
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
+  - `java.lang.IllegalArgumentException` — if antiDiagonal array length does not equal rowCount
 ##### updateAntiDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
@@ -5789,10 +5789,10 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `mainDiagonal` (`byte[]`)
+  - `mainDiagonal` (`byte[]`) — the new values for the main diagonal; must have length equal to rowCount
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
+  - `java.lang.IllegalArgumentException` — if mainDiagonal array length does not equal rowCount
 ##### updateMainDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements on the main diagonal (left-up to right-down) by applying the given operator.
@@ -5818,10 +5818,10 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `antiDiagonal` (`byte[]`)
+  - `antiDiagonal` (`byte[]`) — the new values for the anti-diagonal; must have length equal to rowCount
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
+  - `java.lang.IllegalArgumentException` — if antiDiagonal array length does not equal rowCount
 ##### updateAntiDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements on the anti-diagonal (right-up to left-down) by applying the given operator.
@@ -7634,10 +7634,10 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `mainDiagonal` (`char[]`)
+  - `mainDiagonal` (`char[]`) — the new values for the main diagonal; must have length equal to rowCount
 - **Throws:**
-  - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
+  - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
+  - `java.lang.IllegalArgumentException` — if mainDiagonal array length does not equal rowCount
 ##### updateMainDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.CharUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
@@ -7663,10 +7663,10 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have a length equal to the number of rows in the matrix.
 - **Parameters:**
-  - `antiDiagonal` (`char[]`)
+  - `antiDiagonal` (`char[]`) — the new values for the anti-diagonal; must have length equal to rowCount
 - **Throws:**
-  - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-  - `java.lang.IllegalArgumentException` — if diagonal array length != rows
+  - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
+  - `java.lang.IllegalArgumentException` — if antiDiagonal array length does not equal rowCount
 ##### updateAntiDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.CharUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the elements on the anti-diagonal (right-upper to left-down) using the specified operator.
@@ -9343,10 +9343,10 @@ A matrix implementation for double primitive values, providing efficient storage
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
   - The diagonal array length must exactly match the number of rows.
 - **Parameters:**
-  - `mainDiagonal` (`double[]`)
+  - `mainDiagonal` (`double[]`) — the new values for the main diagonal; must have length equal to rowCount
 - **Throws:**
-  - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
+  - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
+  - `java.lang.IllegalArgumentException` — if mainDiagonal array length does not equal rowCount
 ##### updateMainDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
@@ -9372,10 +9372,10 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `antiDiagonal` (`double[]`)
+  - `antiDiagonal` (`double[]`) — the new values for the anti-diagonal; must have length equal to rowCount
 - **Throws:**
-  - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal rows
+  - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
+  - `java.lang.IllegalArgumentException` — if antiDiagonal array length does not equal rowCount
 ##### updateAntiDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
@@ -11133,10 +11133,10 @@ A matrix implementation for float primitive values, providing efficient storage 
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
   - The diagonal array length must exactly match the number of rows.
 - **Parameters:**
-  - `mainDiagonal` (`float[]`)
+  - `mainDiagonal` (`float[]`) — the new values for the main diagonal; must have length equal to rowCount
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
+  - `java.lang.IllegalArgumentException` — if mainDiagonal array length does not equal rowCount
 ##### updateMainDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
@@ -11162,10 +11162,10 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array length must be equal to the number of rows.
 - **Parameters:**
-  - `antiDiagonal` (`float[]`)
+  - `antiDiagonal` (`float[]`) — the new values for the anti-diagonal; must have length equal to rowCount
 - **Throws:**
-  - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-  - `java.lang.IllegalArgumentException` — if diagonal array length != rows
+  - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
+  - `java.lang.IllegalArgumentException` — if antiDiagonal array length does not equal rowCount
 ##### updateAntiDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
@@ -13066,10 +13066,10 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `mainDiagonal` (`int[]`)
+  - `mainDiagonal` (`int[]`) — the new values for the main diagonal; must have length equal to rowCount
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
+  - `java.lang.IllegalArgumentException` — if mainDiagonal array length does not equal rowCount
 ##### updateMainDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
@@ -13096,10 +13096,10 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `antiDiagonal` (`int[]`)
+  - `antiDiagonal` (`int[]`) — the new values for the anti-diagonal; must have length equal to rowCount
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length != rowCount
+  - `java.lang.IllegalArgumentException` — if antiDiagonal array length does not equal rowCount
 ##### updateAntiDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
@@ -14921,10 +14921,10 @@ A matrix implementation for long primitive values, providing efficient storage a
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
   - The diagonal array length must exactly match the number of rows.
 - **Parameters:**
-  - `mainDiagonal` (`long[]`)
+  - `mainDiagonal` (`long[]`) — the new values for the main diagonal; must have length == rowCount
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal rowCount
+  - `java.lang.IllegalArgumentException` — if mainDiagonal array length does not equal rowCount
 ##### updateMainDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.LongUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
@@ -14950,10 +14950,10 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `antiDiagonal` (`long[]`)
+  - `antiDiagonal` (`long[]`) — the new values for the anti-diagonal; must have length equal to rowCount
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal rowCount
+  - `java.lang.IllegalArgumentException` — if antiDiagonal array length does not equal rowCount
 ##### updateAntiDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.LongUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
@@ -17433,10 +17433,10 @@ A generic matrix implementation that stores elements in a two-dimensional array.
   - The matrix must be square (same number of rows and columns).
   - The diagonal array must have exactly as many elements as the matrix dimension.
 - **Parameters:**
-  - `mainDiagonal` (`T[]`)
+  - `mainDiagonal` (`T[]`) — the new diagonal values (must not be null and must have exactly {@code rows} elements)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
+  - `java.lang.IllegalArgumentException` — if mainDiagonal array length does not equal rows
 ##### updateMainDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E`
 - **Summary:** Updates the main diagonal elements (left-up to right-down) by applying the given operator.
@@ -17463,10 +17463,10 @@ A generic matrix implementation that stores elements in a two-dimensional array.
   - The matrix must be square (same number of rows and columns).
   - The diagonal array must have exactly as many elements as the matrix dimension.
 - **Parameters:**
-  - `antiDiagonal` (`T[]`)
+  - `antiDiagonal` (`T[]`) — the new anti-diagonal values (must not be null and must have exactly {@code rows} elements)
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
-  - `java.lang.IllegalArgumentException` — if diagonal array does not have exactly {@code rows} elements
+  - `java.lang.IllegalArgumentException` — if antiDiagonal array does not have exactly {@code rows} elements
 ##### updateAntiDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E`
 - **Summary:** Updates the anti-diagonal elements (right-up to left-down) by applying the given operator.
@@ -19489,10 +19489,10 @@ A matrix implementation for short primitive values, providing efficient storage 
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
   - The diagonal array length must exactly match the number of rows (and columns) in the matrix.
 - **Parameters:**
-  - `mainDiagonal` (`short[]`)
+  - `mainDiagonal` (`short[]`) — the new values for the main diagonal; must have length == rows
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-  - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
+  - `java.lang.IllegalArgumentException` — if mainDiagonal array length does not equal rows
 ##### updateMainDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements on the main diagonal from left-up to right-down by applying the given operator.
@@ -19518,10 +19518,10 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
-  - `antiDiagonal` (`short[]`)
+  - `antiDiagonal` (`short[]`) — the new values for the anti-diagonal; must have length equal to rows
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-  - `java.lang.IllegalArgumentException` — if diagonal array length != rows
+  - `java.lang.IllegalArgumentException` — if antiDiagonal array length does not equal rows
 ##### updateAntiDiagonal(...) -> void
 - **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements on the anti-diagonal from right-up to left-down by applying the given operator.

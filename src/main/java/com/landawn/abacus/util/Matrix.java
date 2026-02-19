@@ -723,9 +723,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Matrix is now: {{10,2,3},{4,20,6},{7,8,30}}
      * }</pre>
      *
-     * @param diagonal the new diagonal values (must not be null and must have exactly {@code rows} elements)
+     * @param mainDiagonal the new diagonal values (must not be null and must have exactly {@code rows} elements)
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rows
+     * @throws IllegalArgumentException if mainDiagonal array length does not equal rows
      */
     public void setMainDiagonal(final T[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final T[] diagonal = mainDiagonal;
@@ -809,9 +809,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Matrix is now: {{1,2,10},{4,20,6},{30,8,9}}
      * }</pre>
      *
-     * @param diagonal the new anti-diagonal values (must not be null and must have exactly {@code rows} elements)
+     * @param antiDiagonal the new anti-diagonal values (must not be null and must have exactly {@code rows} elements)
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
-     * @throws IllegalArgumentException if diagonal array does not have exactly {@code rows} elements
+     * @throws IllegalArgumentException if antiDiagonal array does not have exactly {@code rows} elements
      */
     public void setAntiDiagonal(final T[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final T[] diagonal = antiDiagonal;

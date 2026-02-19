@@ -778,9 +778,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Diagonal is now ['x', 'y', 'z']
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length equal to rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rows
+     * @param mainDiagonal the new values for the main diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
     public void setMainDiagonal(final char[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final char[] diagonal = mainDiagonal;
@@ -863,9 +863,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Anti-diagonal is now ['x', 'y', 'z']
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length equal to rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length != rows
+     * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
     public void setAntiDiagonal(final char[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final char[] diagonal = antiDiagonal;
