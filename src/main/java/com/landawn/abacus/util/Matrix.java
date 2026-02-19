@@ -184,13 +184,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Create a 3×3 diagonal matrix
-     * Matrix<Integer> diag = Matrix.diagonalLU2RD(new Integer[] {1, 2, 3});
+     * Matrix<Integer> diag = Matrix.mainDiagonal(new Integer[] {1, 2, 3});
      * // Creates: [[1, null, null],
      * //           [null, 2, null],
      * //           [null, null, 3]]
      *
      * // Create a 2×2 diagonal matrix with strings
-     * Matrix<String> strDiag = Matrix.diagonalLU2RD(new String[] {"A", "B"});
+     * Matrix<String> strDiag = Matrix.mainDiagonal(new String[] {"A", "B"});
      * // Creates: [["A", null],
      * //           [null, "B"]]
      * }</pre>
@@ -199,11 +199,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param leftUp2RightDownDiagonal the diagonal values (must not be null)
      * @return a square matrix with the given diagonal values on the main diagonal
      * @throws IllegalArgumentException if the diagonal array is null
-     * @see #diagonal(Object[], Object[])
-     * @see #diagonalRU2LD(Object[])
+     * @see #fromDiagonals(Object[], Object[])
+     * @see #antiDiagonal(Object[])
      */
-    public static <T> Matrix<T> diagonalLU2RD(final T[] leftUp2RightDownDiagonal) {
-        return diagonal(leftUp2RightDownDiagonal, null);
+    public static <T> Matrix<T> mainDiagonal(final T[] leftUp2RightDownDiagonal) {
+        return fromDiagonals(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -217,13 +217,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Create a 3×3 anti-diagonal matrix
-     * Matrix<Integer> diag = Matrix.diagonalRU2LD(new Integer[] {1, 2, 3});
+     * Matrix<Integer> diag = Matrix.antiDiagonal(new Integer[] {1, 2, 3});
      * // Creates: [[null, null, 1],
      * //           [null, 2, null],
      * //           [3, null, null]]
      *
      * // Create a 2×2 anti-diagonal matrix with strings
-     * Matrix<String> strDiag = Matrix.diagonalRU2LD(new String[] {"X", "Y"});
+     * Matrix<String> strDiag = Matrix.antiDiagonal(new String[] {"X", "Y"});
      * // Creates: [[null, "X"],
      * //           ["Y", null]]
      * }</pre>
@@ -232,11 +232,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param rightUp2LeftDownDiagonal the anti-diagonal values (must not be null)
      * @return a square matrix with the given anti-diagonal values
      * @throws IllegalArgumentException if the diagonal array is null
-     * @see #diagonal(Object[], Object[])
-     * @see #diagonalLU2RD(Object[])
+     * @see #fromDiagonals(Object[], Object[])
+     * @see #mainDiagonal(Object[])
      */
-    public static <T> Matrix<T> diagonalRU2LD(final T[] rightUp2LeftDownDiagonal) {
-        return diagonal(null, rightUp2LeftDownDiagonal);
+    public static <T> Matrix<T> antiDiagonal(final T[] rightUp2LeftDownDiagonal) {
+        return fromDiagonals(null, rightUp2LeftDownDiagonal);
     }
 
     /**
@@ -247,7 +247,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> diag = Matrix.diagonal(
+     * Matrix<String> diag = Matrix.fromDiagonals(
      *     new String[] {"A", "B", "C"},
      *     new String[] {"X", "Y", "Z"}
      * );
@@ -256,7 +256,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * //           ["Z", null, "C"]]
      * 
      * // With intersection (odd dimension)
-     * Matrix<Integer> numbers = Matrix.diagonal(
+     * Matrix<Integer> numbers = Matrix.fromDiagonals(
      *     new Integer[] {1, 2, 3},
      *     new Integer[] {7, 8, 9}
      * );
@@ -272,7 +272,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if both arrays are null, or if both diagonals are non-empty and have different lengths
      */
     @SuppressWarnings("null")
-    public static <T> Matrix<T> diagonal(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static <T> Matrix<T> fromDiagonals(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(leftUp2RightDownDiagonal != null || rightUp2LeftDownDiagonal != null,
                 "Both 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' can't be null");
 
@@ -693,13 +693,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][] {{1,2,3},{4,5,6},{7,8,9}});
-     * Integer[] diag = m.getLU2RD();   // Returns [1, 5, 9]
+     * Integer[] diag = m.getMainDiagonal();   // Returns [1, 5, 9]
      * }</pre>
      *
      * @return a new array containing the diagonal elements from top-left to bottom-right
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
-    public T[] getLU2RD() throws IllegalStateException {
+    public T[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final T[] res = N.newArray(elementType, rowCount);
@@ -721,7 +721,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][] {{1,2,3},{4,5,6},{7,8,9}});
-     * m.setLU2RD(new Integer[] {10, 20, 30});
+     * m.setMainDiagonal(new Integer[] {10, 20, 30});
      * // Diagonal is now [10, 20, 30]
      * // Matrix is now: {{10,2,3},{4,20,6},{7,8,30}}
      * }</pre>
@@ -730,7 +730,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
-    public void setLU2RD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, "The length of specified array does not equal to rows=%s", rowCount);
 
@@ -748,10 +748,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Double the diagonal values
-     * matrix.updateLU2RD(x -> x * 2);
+     * matrix.updateMainDiagonal(x -> x * 2);
      *
      * // Set diagonal to zeros
-     * matrix.updateLU2RD(x -> 0);
+     * matrix.updateMainDiagonal(x -> 0);
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown by the operator
@@ -759,7 +759,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.UnaryOperator<T, E> operator) throws E {
+    public <E extends Exception> void updateMainDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -777,13 +777,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][] {{1,2,3},{4,5,6},{7,8,9}});
-     * Integer[] diag = m.getRU2LD();   // Returns [3, 5, 7]
+     * Integer[] diag = m.getAntiDiagonal();   // Returns [3, 5, 7]
      * }</pre>
      *
      * @return a new array containing the anti-diagonal elements from top-right to bottom-left
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
-    public T[] getRU2LD() throws IllegalStateException {
+    public T[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final T[] res = N.newArray(elementType, rowCount);
@@ -806,7 +806,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][] {{1,2,3},{4,5,6},{7,8,9}});
-     * m.setRU2LD(new Integer[] {10, 20, 30});
+     * m.setAntiDiagonal(new Integer[] {10, 20, 30});
      * // Anti-diagonal is now [10, 20, 30] from top-right to bottom-left
      * // Matrix is now: {{1,2,10},{4,20,6},{30,8,9}}
      * }</pre>
@@ -815,7 +815,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      * @throws IllegalArgumentException if diagonal array does not have exactly {@code rows} elements
      */
-    public void setRU2LD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, "The length of specified array does not equal to rows=%s", rowCount);
 
@@ -833,10 +833,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Negate the anti-diagonal values
-     * matrix.updateRU2LD(x -> -x);
+     * matrix.updateAntiDiagonal(x -> -x);
      *
      * // Convert anti-diagonal strings to lowercase
-     * stringMatrix.updateRU2LD(String::toLowerCase);
+     * stringMatrix.updateAntiDiagonal(String::toLowerCase);
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown by the operator
@@ -844,7 +844,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.UnaryOperator<T, E> operator) throws E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -852,7 +852,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         }
     }
 
-    // TODO should the method name be "replaceAll"? If change the method name to replaceAll, what about updateLU2RD/updateRU2LD?
+    // TODO should the method name be "replaceAll"? If change the method name to replaceAll, what about updateMainDiagonal/updateAntiDiagonal?
 
     /**
      * Updates all elements in the matrix by applying the given operator.
@@ -2249,15 +2249,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Integer> diagonal = matrix.streamLU2RD();        // Stream of [1, 5, 9]
-     * Object[] diag = matrix.streamLU2RD().toArray();         // Returns [1, 5, 9]
+     * Stream<Integer> diagonal = matrix.streamMainDiagonal();        // Stream of [1, 5, 9]
+     * Object[] diag = matrix.streamMainDiagonal().toArray();         // Returns [1, 5, 9]
      * }</pre>
      *
      * @return a stream of diagonal elements from top-left to bottom-right, or an empty stream if the matrix is empty
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public Stream<T> streamLU2RD() {
+    public Stream<T> streamMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {
@@ -2305,15 +2305,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Integer> diagonal = matrix.streamRU2LD();        // Stream of [3, 5, 7]
-     * Object[] diag = matrix.streamRU2LD().toArray();         // Returns [3, 5, 7]
+     * Stream<Integer> diagonal = matrix.streamAntiDiagonal();        // Stream of [3, 5, 7]
+     * Object[] diag = matrix.streamAntiDiagonal().toArray();         // Returns [3, 5, 7]
      * }</pre>
      *
      * @return a stream of anti-diagonal elements from top-right to bottom-left, or an empty stream if the matrix is empty
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public Stream<T> streamRU2LD() {
+    public Stream<T> streamAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {

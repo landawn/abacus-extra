@@ -70,7 +70,7 @@ public class BooleanMatrixTest extends TestBase {
     @Test
     public void testDiagonalLU2RD() {
         boolean[] diagonal = { true, false, true };
-        BooleanMatrix matrix = BooleanMatrix.diagonalLU2RD(diagonal);
+        BooleanMatrix matrix = BooleanMatrix.mainDiagonal(diagonal);
         assertEquals(3, matrix.rowCount());
         assertEquals(3, matrix.columnCount());
         assertTrue(matrix.get(0, 0));
@@ -82,7 +82,7 @@ public class BooleanMatrixTest extends TestBase {
     @Test
     public void testDiagonalRU2LD() {
         boolean[] diagonal = { true, false, true };
-        BooleanMatrix matrix = BooleanMatrix.diagonalRU2LD(diagonal);
+        BooleanMatrix matrix = BooleanMatrix.antiDiagonal(diagonal);
         assertEquals(3, matrix.rowCount());
         assertEquals(3, matrix.columnCount());
         assertTrue(matrix.get(0, 2));
@@ -94,12 +94,12 @@ public class BooleanMatrixTest extends TestBase {
     public void testDiagonal() {
         boolean[] mainDiag = { true, true, false };
         boolean[] antiDiag = { false, true, false };
-        BooleanMatrix matrix = BooleanMatrix.diagonal(mainDiag, antiDiag);
+        BooleanMatrix matrix = BooleanMatrix.fromDiagonals(mainDiag, antiDiag);
         assertEquals(3, matrix.rowCount());
         assertEquals(3, matrix.columnCount());
 
         // Test with different lengths
-        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.diagonal(new boolean[] { true }, new boolean[] { true, false }));
+        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.fromDiagonals(new boolean[] { true }, new boolean[] { true, false }));
     }
 
     @Test
@@ -270,14 +270,14 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        boolean[] diag = matrix.getLU2RD();
+        boolean[] diag = matrix.getMainDiagonal();
         assertEquals(2, diag.length);
         assertTrue(diag[0]);
         assertTrue(diag[1]);
 
         // Test non-square matrix
         BooleanMatrix nonSquare = BooleanMatrix.of(new boolean[][] { { true, false, true } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.getMainDiagonal());
     }
 
     @Test
@@ -285,11 +285,11 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        matrix.setLU2RD(new boolean[] { false, false });
+        matrix.setMainDiagonal(new boolean[] { false, false });
         assertFalse(matrix.get(0, 0));
         assertFalse(matrix.get(1, 1));
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.setLU2RD(new boolean[] { true }));
+        assertThrows(IllegalArgumentException.class, () -> matrix.setMainDiagonal(new boolean[] { true }));
     }
 
     @Test
@@ -297,7 +297,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        matrix.updateLU2RD(val -> !val);
+        matrix.updateMainDiagonal(val -> !val);
         assertFalse(matrix.get(0, 0));
         assertFalse(matrix.get(1, 1));
     }
@@ -307,7 +307,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        boolean[] diag = matrix.getRU2LD();
+        boolean[] diag = matrix.getAntiDiagonal();
         assertEquals(2, diag.length);
         assertFalse(diag[0]);
         assertFalse(diag[1]);
@@ -318,7 +318,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        matrix.setRU2LD(new boolean[] { true, true });
+        matrix.setAntiDiagonal(new boolean[] { true, true });
         assertTrue(matrix.get(0, 1));
         assertTrue(matrix.get(1, 0));
     }
@@ -328,7 +328,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        matrix.updateRU2LD(val -> !val);
+        matrix.updateAntiDiagonal(val -> !val);
         assertTrue(matrix.get(0, 1));
         assertTrue(matrix.get(1, 0));
     }
@@ -777,13 +777,13 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        List<Boolean> diagonal = matrix.streamLU2RD().toList();
+        List<Boolean> diagonal = matrix.streamMainDiagonal().toList();
         assertEquals(2, diagonal.size());
         assertTrue(diagonal.get(0));
         assertTrue(diagonal.get(1));
 
         BooleanMatrix empty = BooleanMatrix.empty();
-        assertTrue(empty.streamLU2RD().toList().isEmpty());
+        assertTrue(empty.streamMainDiagonal().toList().isEmpty());
     }
 
     @Test
@@ -791,7 +791,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        List<Boolean> diagonal = matrix.streamRU2LD().toList();
+        List<Boolean> diagonal = matrix.streamAntiDiagonal().toList();
         assertEquals(2, diagonal.size());
         assertFalse(diagonal.get(0));
         assertFalse(diagonal.get(1));

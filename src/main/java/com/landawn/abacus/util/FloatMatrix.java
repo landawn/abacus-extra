@@ -235,7 +235,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.diagonalLU2RD(new float[] {1.0f, 2.0f, 3.0f});
+     * FloatMatrix matrix = FloatMatrix.mainDiagonal(new float[] {1.0f, 2.0f, 3.0f});
      * // Creates 3x3 matrix:
      * // [[1.0, 0.0, 0.0],
      * //  [0.0, 2.0, 0.0],
@@ -245,8 +245,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param leftUp2RightDownDiagonal the array of main diagonal elements
      * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
-    public static FloatMatrix diagonalLU2RD(final float[] leftUp2RightDownDiagonal) {
-        return diagonal(leftUp2RightDownDiagonal, null);
+    public static FloatMatrix mainDiagonal(final float[] leftUp2RightDownDiagonal) {
+        return fromDiagonals(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -256,7 +256,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.diagonalRU2LD(new float[] {1.0f, 2.0f, 3.0f});
+     * FloatMatrix matrix = FloatMatrix.antiDiagonal(new float[] {1.0f, 2.0f, 3.0f});
      * // Creates 3x3 matrix:
      * // [[0.0, 0.0, 1.0],
      * //  [0.0, 2.0, 0.0],
@@ -266,8 +266,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
-    public static FloatMatrix diagonalRU2LD(final float[] rightUp2LeftDownDiagonal) {
-        return diagonal(null, rightUp2LeftDownDiagonal);
+    public static FloatMatrix antiDiagonal(final float[] rightUp2LeftDownDiagonal) {
+        return fromDiagonals(null, rightUp2LeftDownDiagonal);
     }
 
     /**
@@ -278,7 +278,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.diagonal(new float[] {1.0f, 2.0f, 3.0f}, new float[] {4.0f, 5.0f, 6.0f});
+     * FloatMatrix matrix = FloatMatrix.fromDiagonals(new float[] {1.0f, 2.0f, 3.0f}, new float[] {4.0f, 5.0f, 6.0f});
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1.0, 0.0, 4.0},
@@ -292,7 +292,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static FloatMatrix diagonal(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static FloatMatrix fromDiagonals(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -704,13 +704,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
-     * float[] diagonal = matrix.getLU2RD();   // Returns [1.0f, 5.0f, 9.0f]
+     * float[] diagonal = matrix.getMainDiagonal();   // Returns [1.0f, 5.0f, 9.0f]
      * }</pre>
      *
      * @return a new float array containing the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public float[] getLU2RD() throws IllegalStateException {
+    public float[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final float[] diagonal = new float[rowCount];
@@ -733,7 +733,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * matrix.setLU2RD(new float[] {9.0f, 8.0f});
+     * matrix.setMainDiagonal(new float[] {9.0f, 8.0f});
      * // Diagonal is now [9.0f, 8.0f]
      * }</pre>
      *
@@ -741,7 +741,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setLU2RD(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -757,7 +757,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
+     * matrix.updateMainDiagonal(x -> x * x);   // Squares all diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -766,7 +766,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.FloatUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateMainDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -784,13 +784,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
-     * float[] diagonal = matrix.getRU2LD();   // Returns [3.0f, 5.0f, 7.0f]
+     * float[] diagonal = matrix.getAntiDiagonal();   // Returns [3.0f, 5.0f, 7.0f]
      * }</pre>
      *
      * @return a new float array containing the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public float[] getRU2LD() throws IllegalStateException {
+    public float[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final float[] diagonal = new float[rowCount];
@@ -813,7 +813,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * matrix.setRU2LD(new float[] {9.0f, 8.0f});
+     * matrix.setAntiDiagonal(new float[] {9.0f, 8.0f});
      * // Anti-diagonal is now [9.0f, 8.0f]
      * }</pre>
      *
@@ -821,7 +821,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length != rows
      */
-    public void setRU2LD(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -837,7 +837,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
+     * matrix.updateAntiDiagonal(x -> -x);   // Negates all anti-diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -846,7 +846,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.FloatUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -2098,14 +2098,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f},
      *                                                     {4.0f, 5.0f, 6.0f},
      *                                                     {7.0f, 8.0f, 9.0f}});
-     * FloatStream diagonal = matrix.streamLU2RD();   // Stream of: 1.0f, 5.0f, 9.0f
+     * FloatStream diagonal = matrix.streamMainDiagonal();   // Stream of: 1.0f, 5.0f, 9.0f
      * }</pre>
      *
      * @return a FloatStream containing the diagonal elements from top-left to bottom-right
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public FloatStream streamLU2RD() {
+    public FloatStream streamMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {
@@ -2155,14 +2155,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f},
      *                                                     {4.0f, 5.0f, 6.0f},
      *                                                     {7.0f, 8.0f, 9.0f}});
-     * FloatStream antiDiagonal = matrix.streamRU2LD();   // Stream of: 3.0f, 5.0f, 7.0f
+     * FloatStream antiDiagonal = matrix.streamAntiDiagonal();   // Stream of: 3.0f, 5.0f, 7.0f
      * }</pre>
      *
      * @return a FloatStream containing the anti-diagonal elements from top-right to bottom-left
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public FloatStream streamRU2LD() {
+    public FloatStream streamAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {

@@ -253,7 +253,7 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD() {
-        CharMatrix m = CharMatrix.diagonalLU2RD(new char[] { 'a', 'b', 'c' });
+        CharMatrix m = CharMatrix.mainDiagonal(new char[] { 'a', 'b', 'c' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 0));
@@ -265,13 +265,13 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD_empty() {
-        CharMatrix m = CharMatrix.diagonalLU2RD(new char[0]);
+        CharMatrix m = CharMatrix.mainDiagonal(new char[0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonalLU2RD_singleElement() {
-        CharMatrix m = CharMatrix.diagonalLU2RD(new char[] { 'x' });
+        CharMatrix m = CharMatrix.mainDiagonal(new char[] { 'x' });
         assertEquals(1, m.rowCount());
         assertEquals(1, m.columnCount());
         assertEquals('x', m.get(0, 0));
@@ -279,7 +279,7 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonalRU2LD() {
-        CharMatrix m = CharMatrix.diagonalRU2LD(new char[] { 'a', 'b', 'c' });
+        CharMatrix m = CharMatrix.antiDiagonal(new char[] { 'a', 'b', 'c' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 2));
@@ -291,13 +291,13 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonalRU2LD_empty() {
-        CharMatrix m = CharMatrix.diagonalRU2LD(new char[0]);
+        CharMatrix m = CharMatrix.antiDiagonal(new char[0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        CharMatrix m = CharMatrix.diagonal(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
+        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 0));
@@ -309,7 +309,7 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        CharMatrix m = CharMatrix.diagonal(new char[] { 'a', 'b', 'c' }, null);
+        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'a', 'b', 'c' }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 0));
@@ -319,7 +319,7 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        CharMatrix m = CharMatrix.diagonal(null, new char[] { 'x', 'y', 'z' });
+        CharMatrix m = CharMatrix.fromDiagonals(null, new char[] { 'x', 'y', 'z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('x', m.get(0, 2));
@@ -329,18 +329,18 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        CharMatrix m = CharMatrix.diagonal(null, null);
+        CharMatrix m = CharMatrix.fromDiagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> CharMatrix.diagonal(new char[] { 'a', 'b' }, new char[] { 'x', 'y', 'z' }));
+        assertThrows(IllegalArgumentException.class, () -> CharMatrix.fromDiagonals(new char[] { 'a', 'b' }, new char[] { 'x', 'y', 'z' }));
     }
 
     @Test
     public void testDiagonal_withBothDiagonalsOverlapping() {
-        CharMatrix m = CharMatrix.diagonal(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
+        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         // Center element should be from main diagonal (set second)
@@ -686,26 +686,26 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testGetLU2RD() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        char[] diag = m.getLU2RD();
+        char[] diag = m.getMainDiagonal();
         assertArrayEquals(new char[] { 'a', 'e', 'i' }, diag);
     }
 
     @Test
     public void testGetLU2RD_nonSquare() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
     public void testGetLU2RD_singleElement() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'x' } });
-        assertArrayEquals(new char[] { 'x' }, m.getLU2RD());
+        assertArrayEquals(new char[] { 'x' }, m.getMainDiagonal());
     }
 
     @Test
     public void testSetLU2RD() {
         CharMatrix m = CharMatrix.of(new char[][] { { ' ', ' ', ' ' }, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } });
-        m.setLU2RD(new char[] { 'a', 'b', 'c' });
+        m.setMainDiagonal(new char[] { 'a', 'b', 'c' });
         assertEquals('a', m.get(0, 0));
         assertEquals('b', m.get(1, 1));
         assertEquals('c', m.get(2, 2));
@@ -715,19 +715,19 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testSetLU2RD_invalidLength() {
         CharMatrix m = CharMatrix.of(new char[3][3]);
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new char[] { 'a', 'b' }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new char[] { 'a', 'b' }));
     }
 
     @Test
     public void testSetLU2RD_nonSquare() {
         CharMatrix m = CharMatrix.of(new char[2][3]);
-        assertThrows(IllegalStateException.class, () -> m.setLU2RD(new char[] { 'a', 'b' }));
+        assertThrows(IllegalStateException.class, () -> m.setMainDiagonal(new char[] { 'a', 'b' }));
     }
 
     @Test
     public void testUpdateLU2RD() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', ' ', ' ' }, { ' ', 'b', ' ' }, { ' ', ' ', 'c' } });
-        m.updateLU2RD(val -> Character.toUpperCase(val));
+        m.updateMainDiagonal(val -> Character.toUpperCase(val));
         assertEquals('A', m.get(0, 0));
         assertEquals('B', m.get(1, 1));
         assertEquals('C', m.get(2, 2));
@@ -736,7 +736,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testUpdateLU2RD_allValues() {
         CharMatrix m = CharMatrix.of(new char[][] { { ' ', 'x', ' ' }, { 'x', ' ', 'x' }, { ' ', 'x', ' ' } });
-        m.updateLU2RD(val -> 'z');
+        m.updateMainDiagonal(val -> 'z');
         assertEquals('z', m.get(0, 0));
         assertEquals('z', m.get(1, 1));
         assertEquals('z', m.get(2, 2));
@@ -745,20 +745,20 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testGetRU2LD() {
         CharMatrix m = CharMatrix.of(new char[][] { { ' ', ' ', 'a' }, { ' ', 'b', ' ' }, { 'c', ' ', ' ' } });
-        char[] diag = m.getRU2LD();
+        char[] diag = m.getAntiDiagonal();
         assertArrayEquals(new char[] { 'a', 'b', 'c' }, diag);
     }
 
     @Test
     public void testGetRU2LD_nonSquare() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        assertThrows(IllegalStateException.class, () -> m.getRU2LD());
+        assertThrows(IllegalStateException.class, () -> m.getAntiDiagonal());
     }
 
     @Test
     public void testSetRU2LD() {
         CharMatrix m = CharMatrix.of(new char[][] { { ' ', ' ', ' ' }, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } });
-        m.setRU2LD(new char[] { 'a', 'b', 'c' });
+        m.setAntiDiagonal(new char[] { 'a', 'b', 'c' });
         assertEquals('a', m.get(0, 2));
         assertEquals('b', m.get(1, 1));
         assertEquals('c', m.get(2, 0));
@@ -768,13 +768,13 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testSetRU2LD_invalidLength() {
         CharMatrix m = CharMatrix.of(new char[3][3]);
-        assertThrows(IllegalArgumentException.class, () -> m.setRU2LD(new char[] { 'a', 'b' }));
+        assertThrows(IllegalArgumentException.class, () -> m.setAntiDiagonal(new char[] { 'a', 'b' }));
     }
 
     @Test
     public void testUpdateRU2LD() {
         CharMatrix m = CharMatrix.of(new char[][] { { ' ', ' ', 'a' }, { ' ', 'b', ' ' }, { 'c', ' ', ' ' } });
-        m.updateRU2LD(val -> Character.toUpperCase(val));
+        m.updateAntiDiagonal(val -> Character.toUpperCase(val));
         assertEquals('A', m.get(0, 2));
         assertEquals('B', m.get(1, 1));
         assertEquals('C', m.get(2, 0));
@@ -783,7 +783,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testUpdateRU2LD_rectangular() {
         CharMatrix m = CharMatrix.of(new char[][] { { ' ', ' ', 'a' }, { 'b', ' ', ' ' } });
-        assertThrows(IllegalStateException.class, () -> m.updateRU2LD(val -> Character.toUpperCase(val)));
+        assertThrows(IllegalStateException.class, () -> m.updateAntiDiagonal(val -> Character.toUpperCase(val)));
     }
 
     // ============ Update/Replace Tests ============
@@ -1345,7 +1345,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testStreamLU2RD() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        List<Character> diagonal = m.streamLU2RD().boxed().toList();
+        List<Character> diagonal = m.streamMainDiagonal().boxed().toList();
         assertEquals(3, diagonal.size());
         assertEquals('a', diagonal.get(0).charValue());
         assertEquals('e', diagonal.get(1).charValue());
@@ -1355,7 +1355,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testStreamRU2LD() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        List<Character> diagonal = m.streamRU2LD().boxed().toList();
+        List<Character> diagonal = m.streamAntiDiagonal().boxed().toList();
         assertEquals(3, diagonal.size());
         assertEquals('c', diagonal.get(0).charValue());
         assertEquals('e', diagonal.get(1).charValue());
@@ -1469,7 +1469,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testPointsLU2RD() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        List<Point> points = m.pointsLU2RD().toList();
+        List<Point> points = m.pointsMainDiagonal().toList();
         assertEquals(3, points.size());
         assertEquals(0, points.get(0).rowIndex());
         assertEquals(0, points.get(0).columnIndex());
@@ -1478,7 +1478,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testPointsRU2LD() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        List<Point> points = m.pointsRU2LD().toList();
+        List<Point> points = m.pointsAntiDiagonal().toList();
         assertEquals(3, points.size());
         assertEquals(0, points.get(0).rowIndex());
         assertEquals(2, points.get(0).columnIndex());

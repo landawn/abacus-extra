@@ -221,16 +221,16 @@ A comprehensive abstract base class providing the foundational architecture for 
   - `rowIndex` (`int`) — the row index (0-based)
   - `columnIndex` (`int`) — the column index (0-based)
 - **Returns:** a stream of adjacent points in all 8 directions (0 to 8 points depending on position)
-##### pointsLU2RD(...) -> Stream<Point>
-- **Signature:** `public Stream<Point> pointsLU2RD()`
+##### pointsMainDiagonal(...) -> Stream<Point>
+- **Signature:** `public Stream<Point> pointsMainDiagonal()`
 - **Summary:** Returns a stream of points along the main diagonal (left-up to right-down).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
 - **Parameters:**
   - (none)
 - **Returns:** a stream of {@link Point} objects representing the main diagonal positions
-##### pointsRU2LD(...) -> Stream<Point>
-- **Signature:** `public Stream<Point> pointsRU2LD()`
+##### pointsAntiDiagonal(...) -> Stream<Point>
+- **Signature:** `public Stream<Point> pointsAntiDiagonal()`
 - **Summary:** Returns a stream of points along the anti-diagonal (right-up to left-down).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
@@ -303,16 +303,16 @@ A comprehensive abstract base class providing the foundational architecture for 
 - **Returns:** a stream of streams, where each inner stream contains {@link Point} objects for one column
 - **Throws:**
   - `java.lang.IndexOutOfBoundsException` — if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
-##### streamLU2RD(...) -> ES
-- **Signature:** `public abstract ES streamLU2RD()`
+##### streamMainDiagonal(...) -> ES
+- **Signature:** `public abstract ES streamMainDiagonal()`
 - **Summary:** Returns a stream of elements along the main diagonal (left-up to right-down).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
 - **Parameters:**
   - (none)
 - **Returns:** a stream of diagonal elements
-##### streamRU2LD(...) -> ES
-- **Signature:** `public abstract ES streamRU2LD()`
+##### streamAntiDiagonal(...) -> ES
+- **Signature:** `public abstract ES streamAntiDiagonal()`
 - **Summary:** Returns a stream of elements along the anti-diagonal (right-up to left-down).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
@@ -4138,20 +4138,20 @@ A matrix implementation for boolean primitive values, providing efficient storag
   - `columnCount` (`int`) — the number of columns in the new matrix
   - `element` (`boolean`) — the boolean value to fill the matrix with
 - **Returns:** a new BooleanMatrix of dimensions rowCount x columnCount filled with the specified element
-##### diagonalLU2RD(...) -> BooleanMatrix
-- **Signature:** `public static BooleanMatrix diagonalLU2RD(final boolean[] leftUp2RightDownDiagonal)`
+##### mainDiagonal(...) -> BooleanMatrix
+- **Signature:** `public static BooleanMatrix mainDiagonal(final boolean[] leftUp2RightDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
   - `leftUp2RightDownDiagonal` (`boolean[]`) — the array of main diagonal elements
 - **Returns:** a square matrix with the specified main diagonal (n×n where n = diagonal length)
-##### diagonalRU2LD(...) -> BooleanMatrix
-- **Signature:** `public static BooleanMatrix diagonalRU2LD(final boolean[] rightUp2LeftDownDiagonal)`
+##### antiDiagonal(...) -> BooleanMatrix
+- **Signature:** `public static BooleanMatrix antiDiagonal(final boolean[] rightUp2LeftDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements.
 - **Parameters:**
   - `rightUp2LeftDownDiagonal` (`boolean[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
-##### diagonal(...) -> BooleanMatrix
-- **Signature:** `public static BooleanMatrix diagonal(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+##### fromDiagonals(...) -> BooleanMatrix
+- **Signature:** `public static BooleanMatrix fromDiagonals(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -4306,8 +4306,8 @@ A matrix implementation for boolean primitive values, providing efficient storag
   - `operator` (`Throwables.BooleanUnaryOperator<E>`) — the operator to apply to each element in the column; receives the current element value and returns the new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getLU2RD(...) -> boolean\[\]
-- **Signature:** `public boolean[] getLU2RD() throws IllegalStateException`
+##### getMainDiagonal(...) -> boolean\[\]
+- **Signature:** `public boolean[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements (left-upper to right-down).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
@@ -4316,8 +4316,8 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Returns:** a new boolean array containing a copy of the main diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-##### setLU2RD(...) -> void
-- **Signature:** `public void setLU2RD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setMainDiagonal(...) -> void
+- **Signature:** `public void setMainDiagonal(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -4326,8 +4326,8 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
-##### updateLU2RD(...) -> void
-- **Signature:** `public <E extends Exception> void updateLU2RD(final Throwables.BooleanUnaryOperator<E> operator) throws E`
+##### updateMainDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -4335,8 +4335,8 @@ A matrix implementation for boolean primitive values, providing efficient storag
   - `operator` (`Throwables.BooleanUnaryOperator<E>`) — the operator to apply to each diagonal element; receives current element value and returns new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getRU2LD(...) -> boolean\[\]
-- **Signature:** `public boolean[] getRU2LD() throws IllegalStateException`
+##### getAntiDiagonal(...) -> boolean\[\]
+- **Signature:** `public boolean[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
@@ -4345,8 +4345,8 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Returns:** a new boolean array containing a copy of the anti-diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-##### setRU2LD(...) -> void
-- **Signature:** `public void setRU2LD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setAntiDiagonal(...) -> void
+- **Signature:** `public void setAntiDiagonal(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -4355,8 +4355,8 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
-##### updateRU2LD(...) -> void
-- **Signature:** `public <E extends Exception> void updateRU2LD(final Throwables.BooleanUnaryOperator<E> operator) throws E`
+##### updateAntiDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -4645,17 +4645,17 @@ A matrix implementation for boolean primitive values, providing efficient storag
   - `java.lang.IllegalArgumentException` — if any matrices have different dimensions (shape mismatch)
   - `E` — if the zip function throws an exception
 - **See also:** #zipWith(BooleanMatrix, Throwables.BooleanBinaryOperator)
-##### streamLU2RD(...) -> Stream<Boolean>
-- **Signature:** `@Override public Stream<Boolean> streamLU2RD()`
+##### streamMainDiagonal(...) -> Stream<Boolean>
+- **Signature:** `@Override public Stream<Boolean> streamMainDiagonal()`
 - **Summary:** Returns a stream of Boolean values from the main diagonal (left-up to right-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
-  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code BooleanMatrix matrix = BooleanMatrix.of(new boolean\[\]\[\] { {true, false, false}, {false, true, false}, {false, false, true} }); List<Boolean> diagonal = matrix.streamLU2RD().toList(); // \[true, true, true\] // Check if it's an identity-like matrix boolean allTrue = matrix.streamLU2RD().allMatch(b -> b); } </pre>
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code BooleanMatrix matrix = BooleanMatrix.of(new boolean\[\]\[\] { {true, false, false}, {false, true, false}, {false, false, true} }); List<Boolean> diagonal = matrix.streamMainDiagonal().toList(); // \[true, true, true\] // Check if it's an identity-like matrix boolean allTrue = matrix.streamMainDiagonal().allMatch(b -> b); } </pre>
 - **Parameters:**
   - (none)
 - **Returns:** a Stream &lt; Boolean &gt; containing the diagonal elements from top-left to bottom-right
-##### streamRU2LD(...) -> Stream<Boolean>
-- **Signature:** `@Override public Stream<Boolean> streamRU2LD()`
+##### streamAntiDiagonal(...) -> Stream<Boolean>
+- **Signature:** `@Override public Stream<Boolean> streamAntiDiagonal()`
 - **Summary:** Returns a stream of Boolean values from the anti-diagonal (right-up to left-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -4880,8 +4880,8 @@ Abstract base class for immutable tuple implementations that hold primitive bool
   - `_8` (`boolean`) — the eighth boolean value
   - `_9` (`boolean`) — the ninth boolean value
 - **Returns:** a new BooleanTuple.BooleanTuple9 containing the specified values
-##### create(...) -> TP
-- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends BooleanTuple<TP>> TP create(final boolean[] values)`
+##### fromArray(...) -> TP
+- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends BooleanTuple<TP>> TP fromArray(final boolean[] values)`
 - **Summary:** Creates a BooleanTuple from an array of boolean values.
 - **Parameters:**
   - `values` (`boolean[]`) — the array of boolean values (must have length 0-9), may be {@code null}
@@ -5605,20 +5605,20 @@ A matrix implementation for byte primitive values, providing efficient storage a
   - `endInclusive` (`byte`) — the ending value (inclusive, if reachable by stepping)
   - `by` (`byte`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n ByteMatrix with values incremented by the step size
-##### diagonalLU2RD(...) -> ByteMatrix
-- **Signature:** `public static ByteMatrix diagonalLU2RD(final byte[] leftUp2RightDownDiagonal)`
+##### mainDiagonal(...) -> ByteMatrix
+- **Signature:** `public static ByteMatrix mainDiagonal(final byte[] leftUp2RightDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
   - `leftUp2RightDownDiagonal` (`byte[]`) — the array of diagonal elements
 - **Returns:** a square n×n matrix with the specified main diagonal, where n is the array length
-##### diagonalRU2LD(...) -> ByteMatrix
-- **Signature:** `public static ByteMatrix diagonalRU2LD(final byte[] rightUp2LeftDownDiagonal)`
+##### antiDiagonal(...) -> ByteMatrix
+- **Signature:** `public static ByteMatrix antiDiagonal(final byte[] rightUp2LeftDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
 - **Parameters:**
   - `rightUp2LeftDownDiagonal` (`byte[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
-##### diagonal(...) -> ByteMatrix
-- **Signature:** `public static ByteMatrix diagonal(final byte[] leftUp2RightDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+##### fromDiagonals(...) -> ByteMatrix
+- **Signature:** `public static ByteMatrix fromDiagonals(final byte[] leftUp2RightDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -5773,8 +5773,8 @@ A matrix implementation for byte primitive values, providing efficient storage a
   - `operator` (`Throwables.ByteUnaryOperator<E>`) — the unary operator to apply to each element in the column, taking a byte and returning a byte
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getLU2RD(...) -> byte\[\]
-- **Signature:** `public byte[] getLU2RD() throws IllegalStateException`
+##### getMainDiagonal(...) -> byte\[\]
+- **Signature:** `public byte[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements from left-upper to right-down.
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
@@ -5783,8 +5783,8 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Returns:** a new byte array containing the main diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-##### setLU2RD(...) -> void
-- **Signature:** `public void setLU2RD(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setMainDiagonal(...) -> void
+- **Signature:** `public void setMainDiagonal(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -5793,8 +5793,8 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
-##### updateLU2RD(...) -> void
-- **Signature:** `public <E extends Exception> void updateLU2RD(final Throwables.ByteUnaryOperator<E> operator) throws E`
+##### updateMainDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements on the main diagonal (left-up to right-down) by applying the given operator.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -5802,8 +5802,8 @@ A matrix implementation for byte primitive values, providing efficient storage a
   - `operator` (`Throwables.ByteUnaryOperator<E>`) — the operator to apply to each diagonal element
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getRU2LD(...) -> byte\[\]
-- **Signature:** `public byte[] getRU2LD() throws IllegalStateException`
+##### getAntiDiagonal(...) -> byte\[\]
+- **Signature:** `public byte[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns the elements on the anti-diagonal from right-upper to left-down.
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
@@ -5812,8 +5812,8 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Returns:** a new byte array containing the anti-diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-##### setRU2LD(...) -> void
-- **Signature:** `public void setRU2LD(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setAntiDiagonal(...) -> void
+- **Signature:** `public void setAntiDiagonal(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -5822,8 +5822,8 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
-##### updateRU2LD(...) -> void
-- **Signature:** `public <E extends Exception> void updateRU2LD(final Throwables.ByteUnaryOperator<E> operator) throws E`
+##### updateAntiDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements on the anti-diagonal (right-up to left-down) by applying the given operator.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -6171,16 +6171,16 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Returns:** a new ByteMatrix containing the results
 - **Throws:**
   - `E` — if the zip function throws an exception
-##### streamLU2RD(...) -> ByteStream
-- **Signature:** `@Override public ByteStream streamLU2RD()`
+##### streamMainDiagonal(...) -> ByteStream
+- **Signature:** `@Override public ByteStream streamMainDiagonal()`
 - **Summary:** Returns a stream of elements on the main diagonal (left-up to right-down).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
 - **Parameters:**
   - (none)
 - **Returns:** a ByteStream of diagonal elements
-##### streamRU2LD(...) -> ByteStream
-- **Signature:** `@Override public ByteStream streamRU2LD()`
+##### streamAntiDiagonal(...) -> ByteStream
+- **Signature:** `@Override public ByteStream streamAntiDiagonal()`
 - **Summary:** Returns a stream of elements on the anti-diagonal (right-up to left-down).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
@@ -6403,8 +6403,8 @@ Abstract base class for immutable tuple implementations that hold primitive byte
   - `_8` (`byte`) — the eighth byte value
   - `_9` (`byte`) — the ninth byte value
 - **Returns:** a new ByteTuple.ByteTuple9 containing the specified values
-##### create(...) -> TP
-- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends ByteTuple<TP>> TP create(final byte[] values)`
+##### fromArray(...) -> TP
+- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends ByteTuple<TP>> TP fromArray(final byte[] values)`
 - **Summary:** Creates a ByteTuple from an array of byte values.
 - **Parameters:**
   - `values` (`byte[]`) — the array of byte values (must have length 0-9), may be {@code null}
@@ -7450,20 +7450,20 @@ A matrix implementation for char primitive values, providing efficient storage a
   - `endInclusive` (`char`) — the ending char value (inclusive, if reachable by stepping)
   - `by` (`int`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n CharMatrix with values incremented by the step size
-##### diagonalLU2RD(...) -> CharMatrix
-- **Signature:** `public static CharMatrix diagonalLU2RD(final char[] leftUp2RightDownDiagonal)`
+##### mainDiagonal(...) -> CharMatrix
+- **Signature:** `public static CharMatrix mainDiagonal(final char[] leftUp2RightDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
   - `leftUp2RightDownDiagonal` (`char[]`) — the array of main diagonal elements
 - **Returns:** a square matrix with the specified main diagonal (n×n where n = diagonal length)
-##### diagonalRU2LD(...) -> CharMatrix
-- **Signature:** `public static CharMatrix diagonalRU2LD(final char[] rightUp2LeftDownDiagonal)`
+##### antiDiagonal(...) -> CharMatrix
+- **Signature:** `public static CharMatrix antiDiagonal(final char[] rightUp2LeftDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
 - **Parameters:**
   - `rightUp2LeftDownDiagonal` (`char[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
-##### diagonal(...) -> CharMatrix
-- **Signature:** `public static CharMatrix diagonal(final char[] leftUp2RightDownDiagonal, final char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+##### fromDiagonals(...) -> CharMatrix
+- **Signature:** `public static CharMatrix fromDiagonals(final char[] leftUp2RightDownDiagonal, final char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -7618,8 +7618,8 @@ A matrix implementation for char primitive values, providing efficient storage a
   - `operator` (`Throwables.CharUnaryOperator<E>`) — the operator to apply to each element in the column; receives the current element value and returns the new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getLU2RD(...) -> char\[\]
-- **Signature:** `public char[] getLU2RD() throws IllegalStateException`
+##### getMainDiagonal(...) -> char\[\]
+- **Signature:** `public char[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements (left-up to right-down).
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -7628,8 +7628,8 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Returns:** a new char array containing the main diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-##### setLU2RD(...) -> void
-- **Signature:** `public void setLU2RD(final char[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setMainDiagonal(...) -> void
+- **Signature:** `public void setMainDiagonal(final char[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -7638,8 +7638,8 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
-##### updateLU2RD(...) -> void
-- **Signature:** `public <E extends Exception> void updateLU2RD(final Throwables.CharUnaryOperator<E> operator) throws E`
+##### updateMainDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.CharUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -7647,8 +7647,8 @@ A matrix implementation for char primitive values, providing efficient storage a
   - `operator` (`Throwables.CharUnaryOperator<E>`) — the operator to apply to each diagonal element
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getRU2LD(...) -> char\[\]
-- **Signature:** `public char[] getRU2LD() throws IllegalStateException`
+##### getAntiDiagonal(...) -> char\[\]
+- **Signature:** `public char[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns the elements on the anti-diagonal from right-upper to left-down.
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -7657,8 +7657,8 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Returns:** a new char array containing the anti-diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-##### setRU2LD(...) -> void
-- **Signature:** `public void setRU2LD(final char[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setAntiDiagonal(...) -> void
+- **Signature:** `public void setAntiDiagonal(final char[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have a length equal to the number of rows in the matrix.
@@ -7667,8 +7667,8 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length != rows
-##### updateRU2LD(...) -> void
-- **Signature:** `public <E extends Exception> void updateRU2LD(final Throwables.CharUnaryOperator<E> operator) throws E`
+##### updateAntiDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.CharUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the elements on the anti-diagonal (right-upper to left-down) using the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -8015,16 +8015,16 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if any of the matrices have different dimensions
   - `E` — if the zip function throws an exception
-##### streamLU2RD(...) -> CharStream
-- **Signature:** `@Override public CharStream streamLU2RD()`
+##### streamMainDiagonal(...) -> CharStream
+- **Signature:** `@Override public CharStream streamMainDiagonal()`
 - **Summary:** Returns a stream of elements on the diagonal from left-up to right-down.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
 - **Parameters:**
   - (none)
 - **Returns:** a CharStream containing the diagonal elements from top-left to bottom-right
-##### streamRU2LD(...) -> CharStream
-- **Signature:** `@Override public CharStream streamRU2LD()`
+##### streamAntiDiagonal(...) -> CharStream
+- **Signature:** `@Override public CharStream streamAntiDiagonal()`
 - **Summary:** Returns a stream of elements on the diagonal from right-up to left-down.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -8234,8 +8234,8 @@ Abstract base class for immutable tuple implementations that hold primitive char
   - `_8` (`char`) — the eighth char value
   - `_9` (`char`) — the ninth char value
 - **Returns:** a new CharTuple.CharTuple9 containing the specified values
-##### create(...) -> TP
-- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends CharTuple<TP>> TP create(final char[] values)`
+##### fromArray(...) -> TP
+- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends CharTuple<TP>> TP fromArray(final char[] values)`
 - **Summary:** Creates a CharTuple from an array of char values.
 - **Parameters:**
   - `values` (`char[]`) — the array of char values (must have length 0-9), may be {@code null}
@@ -9160,20 +9160,20 @@ A matrix implementation for double primitive values, providing efficient storage
   - `columnCount` (`int`) — the number of columns in the new matrix
   - `element` (`double`) — the double value to fill the matrix with
 - **Returns:** a new DoubleMatrix of dimensions rowCount x columnCount filled with the specified element
-##### diagonalLU2RD(...) -> DoubleMatrix
-- **Signature:** `public static DoubleMatrix diagonalLU2RD(final double[] leftUp2RightDownDiagonal)`
+##### mainDiagonal(...) -> DoubleMatrix
+- **Signature:** `public static DoubleMatrix mainDiagonal(final double[] leftUp2RightDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
   - `leftUp2RightDownDiagonal` (`double[]`) — the array of main diagonal elements, or null/empty for an empty matrix
 - **Returns:** a square matrix with the specified main diagonal, or an empty matrix if input is null or empty
-##### diagonalRU2LD(...) -> DoubleMatrix
-- **Signature:** `public static DoubleMatrix diagonalRU2LD(final double[] rightUp2LeftDownDiagonal)`
+##### antiDiagonal(...) -> DoubleMatrix
+- **Signature:** `public static DoubleMatrix antiDiagonal(final double[] rightUp2LeftDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
 - **Parameters:**
   - `rightUp2LeftDownDiagonal` (`double[]`) — the array of anti-diagonal elements, or null/empty for an empty matrix
 - **Returns:** a square matrix with the specified anti-diagonal, or an empty matrix if input is null or empty
-##### diagonal(...) -> DoubleMatrix
-- **Signature:** `public static DoubleMatrix diagonal(final double[] leftUp2RightDownDiagonal, final double[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+##### fromDiagonals(...) -> DoubleMatrix
+- **Signature:** `public static DoubleMatrix fromDiagonals(final double[] leftUp2RightDownDiagonal, final double[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -9326,8 +9326,8 @@ A matrix implementation for double primitive values, providing efficient storage
   - `operator` (`Throwables.DoubleUnaryOperator<E>`) — the operator to apply to each element in the column; receives the current element value and returns the new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getLU2RD(...) -> double\[\]
-- **Signature:** `public double[] getLU2RD() throws IllegalStateException`
+##### getMainDiagonal(...) -> double\[\]
+- **Signature:** `public double[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements (left-up to right-down).
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -9336,8 +9336,8 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Returns:** a new double array containing a copy of the main diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-##### setLU2RD(...) -> void
-- **Signature:** `public void setLU2RD(final double[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setMainDiagonal(...) -> void
+- **Signature:** `public void setMainDiagonal(final double[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-up to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -9347,8 +9347,8 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
-##### updateLU2RD(...) -> void
-- **Signature:** `public <E extends Exception> void updateLU2RD(final Throwables.DoubleUnaryOperator<E> operator) throws E`
+##### updateMainDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -9356,8 +9356,8 @@ A matrix implementation for double primitive values, providing efficient storage
   - `operator` (`Throwables.DoubleUnaryOperator<E>`) — the operator to apply to each diagonal element; receives the current element value and returns the new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getRU2LD(...) -> double\[\]
-- **Signature:** `public double[] getRU2LD() throws IllegalStateException`
+##### getAntiDiagonal(...) -> double\[\]
+- **Signature:** `public double[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the anti-diagonal elements (right-up to left-down).
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -9366,8 +9366,8 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Returns:** a new double array containing a copy of the anti-diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-##### setRU2LD(...) -> void
-- **Signature:** `public void setRU2LD(final double[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setAntiDiagonal(...) -> void
+- **Signature:** `public void setAntiDiagonal(final double[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-up to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -9376,8 +9376,8 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal rows
-##### updateRU2LD(...) -> void
-- **Signature:** `public <E extends Exception> void updateRU2LD(final Throwables.DoubleUnaryOperator<E> operator) throws E`
+##### updateAntiDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -9734,16 +9734,16 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Returns:** a DoubleStream of elements in the specified row range, or an empty stream if the matrix is empty
 - **Throws:**
   - `java.lang.IndexOutOfBoundsException` — if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
-##### streamLU2RD(...) -> DoubleStream
-- **Signature:** `@Override public DoubleStream streamLU2RD()`
+##### streamMainDiagonal(...) -> DoubleStream
+- **Signature:** `@Override public DoubleStream streamMainDiagonal()`
 - **Summary:** Creates a stream of elements from the main diagonal (left-up to right-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
 - **Parameters:**
   - (none)
 - **Returns:** a DoubleStream of diagonal elements from top-left to bottom-right
-##### streamRU2LD(...) -> DoubleStream
-- **Signature:** `@Override public DoubleStream streamRU2LD()`
+##### streamAntiDiagonal(...) -> DoubleStream
+- **Signature:** `@Override public DoubleStream streamAntiDiagonal()`
 - **Summary:** Creates a stream of elements from the anti-diagonal (right-up to left-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -9934,8 +9934,8 @@ Abstract base class for immutable tuple implementations that hold primitive doub
   - `_8` (`double`) — the eighth double value
   - `_9` (`double`) — the ninth double value
 - **Returns:** a new DoubleTuple.DoubleTuple9 containing the provided values
-##### create(...) -> TP
-- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends DoubleTuple<TP>> TP create(final double[] values)`
+##### fromArray(...) -> TP
+- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends DoubleTuple<TP>> TP fromArray(final double[] values)`
 - **Summary:** Creates a DoubleTuple from an array of double values.
 - **Parameters:**
   - `values` (`double[]`) — the array of double values (must have length 0-9), may be {@code null}
@@ -10947,20 +10947,20 @@ A matrix implementation for float primitive values, providing efficient storage 
   - `columnCount` (`int`) — the number of columns in the new matrix
   - `element` (`float`) — the float value to fill the matrix with
 - **Returns:** a new FloatMatrix of dimensions rowCount x columnCount filled with the specified element
-##### diagonalLU2RD(...) -> FloatMatrix
-- **Signature:** `public static FloatMatrix diagonalLU2RD(final float[] leftUp2RightDownDiagonal)`
+##### mainDiagonal(...) -> FloatMatrix
+- **Signature:** `public static FloatMatrix mainDiagonal(final float[] leftUp2RightDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
   - `leftUp2RightDownDiagonal` (`float[]`) — the array of main diagonal elements
 - **Returns:** a square matrix with the specified main diagonal (n×n where n = diagonal length)
-##### diagonalRU2LD(...) -> FloatMatrix
-- **Signature:** `public static FloatMatrix diagonalRU2LD(final float[] rightUp2LeftDownDiagonal)`
+##### antiDiagonal(...) -> FloatMatrix
+- **Signature:** `public static FloatMatrix antiDiagonal(final float[] rightUp2LeftDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
 - **Parameters:**
   - `rightUp2LeftDownDiagonal` (`float[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
-##### diagonal(...) -> FloatMatrix
-- **Signature:** `public static FloatMatrix diagonal(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+##### fromDiagonals(...) -> FloatMatrix
+- **Signature:** `public static FloatMatrix fromDiagonals(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -11116,8 +11116,8 @@ A matrix implementation for float primitive values, providing efficient storage 
   - `operator` (`Throwables.FloatUnaryOperator<E>`) — the operator to apply to each element in the column; receives the current element value and returns the new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getLU2RD(...) -> float\[\]
-- **Signature:** `public float[] getLU2RD() throws IllegalStateException`
+##### getMainDiagonal(...) -> float\[\]
+- **Signature:** `public float[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements (left-up to right-down).
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -11126,8 +11126,8 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Returns:** a new float array containing the main diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-##### setLU2RD(...) -> void
-- **Signature:** `public void setLU2RD(final float[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setMainDiagonal(...) -> void
+- **Signature:** `public void setMainDiagonal(final float[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -11137,8 +11137,8 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
-##### updateLU2RD(...) -> void
-- **Signature:** `public <E extends Exception> void updateLU2RD(final Throwables.FloatUnaryOperator<E> operator) throws E`
+##### updateMainDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -11146,8 +11146,8 @@ A matrix implementation for float primitive values, providing efficient storage 
   - `operator` (`Throwables.FloatUnaryOperator<E>`) — the operator to apply to each diagonal element; receives the current element value and returns the new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getRU2LD(...) -> float\[\]
-- **Signature:** `public float[] getRU2LD() throws IllegalStateException`
+##### getAntiDiagonal(...) -> float\[\]
+- **Signature:** `public float[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the anti-diagonal elements (right-up to left-down).
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -11156,8 +11156,8 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Returns:** a new float array containing the anti-diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-##### setRU2LD(...) -> void
-- **Signature:** `public void setRU2LD(final float[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setAntiDiagonal(...) -> void
+- **Signature:** `public void setAntiDiagonal(final float[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array length must be equal to the number of rows.
@@ -11166,8 +11166,8 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length != rows
-##### updateRU2LD(...) -> void
-- **Signature:** `public <E extends Exception> void updateRU2LD(final Throwables.FloatUnaryOperator<E> operator) throws E`
+##### updateAntiDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -11491,16 +11491,16 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Returns:** a new FloatMatrix with the results of the element-wise operation
 - **Throws:**
   - `E` — if the zip function throws an exception
-##### streamLU2RD(...) -> FloatStream
-- **Signature:** `@Override public FloatStream streamLU2RD()`
+##### streamMainDiagonal(...) -> FloatStream
+- **Signature:** `@Override public FloatStream streamMainDiagonal()`
 - **Summary:** Returns a stream of elements on the diagonal from left-up to right-down.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
 - **Parameters:**
   - (none)
 - **Returns:** a FloatStream containing the diagonal elements from top-left to bottom-right
-##### streamRU2LD(...) -> FloatStream
-- **Signature:** `@Override public FloatStream streamRU2LD()`
+##### streamAntiDiagonal(...) -> FloatStream
+- **Signature:** `@Override public FloatStream streamAntiDiagonal()`
 - **Summary:** Returns a stream of elements on the anti-diagonal from right-up to left-down.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -11710,8 +11710,8 @@ Abstract base class for immutable tuple implementations that hold primitive floa
   - `_8` (`float`) — the eighth float value
   - `_9` (`float`) — the ninth float value
 - **Returns:** a new FloatTuple.FloatTuple9 containing the provided values
-##### create(...) -> TP
-- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends FloatTuple<TP>> TP create(final float[] values)`
+##### fromArray(...) -> TP
+- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends FloatTuple<TP>> TP fromArray(final float[] values)`
 - **Summary:** Creates a FloatTuple from an array of float values.
 - **Parameters:**
   - `values` (`float[]`) — the array of float values (must have length 0-9), may be {@code null}
@@ -12882,20 +12882,20 @@ A matrix implementation for int primitive values, providing efficient storage an
   - `endInclusive` (`int`) — the ending value (inclusive, if reachable by stepping)
   - `by` (`int`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n IntMatrix with values incremented by the step size
-##### diagonalLU2RD(...) -> IntMatrix
-- **Signature:** `public static IntMatrix diagonalLU2RD(final int[] leftUp2RightDownDiagonal)`
+##### mainDiagonal(...) -> IntMatrix
+- **Signature:** `public static IntMatrix mainDiagonal(final int[] leftUp2RightDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
   - `leftUp2RightDownDiagonal` (`int[]`) — the array of diagonal elements
 - **Returns:** a square matrix with the specified main diagonal
-##### diagonalRU2LD(...) -> IntMatrix
-- **Signature:** `public static IntMatrix diagonalRU2LD(final int[] rightUp2LeftDownDiagonal)`
+##### antiDiagonal(...) -> IntMatrix
+- **Signature:** `public static IntMatrix antiDiagonal(final int[] rightUp2LeftDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
 - **Parameters:**
   - `rightUp2LeftDownDiagonal` (`int[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal
-##### diagonal(...) -> IntMatrix
-- **Signature:** `public static IntMatrix diagonal(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+##### fromDiagonals(...) -> IntMatrix
+- **Signature:** `public static IntMatrix fromDiagonals(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -13050,8 +13050,8 @@ A matrix implementation for int primitive values, providing efficient storage an
   - `operator` (`Throwables.IntUnaryOperator<E>`) — the operator to apply to each element in the column; receives the current element value and returns the new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getLU2RD(...) -> int\[\]
-- **Signature:** `public int[] getLU2RD() throws IllegalStateException`
+##### getMainDiagonal(...) -> int\[\]
+- **Signature:** `public int[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements (left-up to right-down) as an array.
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
@@ -13060,8 +13060,8 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Returns:** a new int array containing a copy of the main diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-##### setLU2RD(...) -> void
-- **Signature:** `public void setLU2RD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setMainDiagonal(...) -> void
+- **Signature:** `public void setMainDiagonal(final int[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -13070,8 +13070,8 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rowCount
-##### updateLU2RD(...) -> void
-- **Signature:** `public <E extends Exception> void updateLU2RD(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E`
+##### updateMainDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -13080,8 +13080,8 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square
   - `E` — if the operator throws an exception
-##### getRU2LD(...) -> int\[\]
-- **Signature:** `public int[] getRU2LD() throws IllegalStateException`
+##### getAntiDiagonal(...) -> int\[\]
+- **Signature:** `public int[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the anti-diagonal elements (right-up to left-down) as an array.
 - **Contract:**
   - The matrix must be square (rowCount == columnCount) for this operation.
@@ -13090,8 +13090,8 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Returns:** a new int array containing a copy of the anti-diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-##### setRU2LD(...) -> void
-- **Signature:** `public void setRU2LD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setAntiDiagonal(...) -> void
+- **Signature:** `public void setAntiDiagonal(final int[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -13100,8 +13100,8 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length != rowCount
-##### updateRU2LD(...) -> void
-- **Signature:** `public <E extends Exception> void updateRU2LD(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E`
+##### updateAntiDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -13455,16 +13455,16 @@ A matrix implementation for int primitive values, providing efficient storage an
   - `java.lang.IllegalArgumentException` — if any matrices have different dimensions (shape mismatch)
   - `E` — if the zip function throws an exception
 - **See also:** #zipWith(IntMatrix, Throwables.IntBinaryOperator)
-##### streamLU2RD(...) -> IntStream
-- **Signature:** `@Override public IntStream streamLU2RD()`
+##### streamMainDiagonal(...) -> IntStream
+- **Signature:** `@Override public IntStream streamMainDiagonal()`
 - **Summary:** Returns a stream of elements on the main diagonal (left-up to right-down).
 - **Contract:**
   - The matrix must be square.
 - **Parameters:**
   - (none)
 - **Returns:** an IntStream of diagonal elements
-##### streamRU2LD(...) -> IntStream
-- **Signature:** `@Override public IntStream streamRU2LD()`
+##### streamAntiDiagonal(...) -> IntStream
+- **Signature:** `@Override public IntStream streamAntiDiagonal()`
 - **Summary:** Returns a stream of elements on the anti-diagonal (right-up to left-down).
 - **Contract:**
   - The matrix must be square.
@@ -13683,8 +13683,8 @@ Abstract base class for immutable tuples containing int primitive values.
   - `_8` (`int`) — the eighth int value
   - `_9` (`int`) — the ninth int value
 - **Returns:** a new IntTuple.IntTuple9 containing the provided values
-##### create(...) -> TP
-- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends IntTuple<TP>> TP create(final int[] values)`
+##### fromArray(...) -> TP
+- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends IntTuple<TP>> TP fromArray(final int[] values)`
 - **Summary:** Creates an IntTuple from an array of int values.
 - **Parameters:**
   - `values` (`int[]`) — the array of int values (must have length 0-9), may be {@code null}
@@ -14735,20 +14735,20 @@ A matrix implementation for long primitive values, providing efficient storage a
   - `endInclusive` (`long`) — the ending value (inclusive, if reachable by stepping)
   - `by` (`long`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n LongMatrix with values incremented by the step size
-##### diagonalLU2RD(...) -> LongMatrix
-- **Signature:** `public static LongMatrix diagonalLU2RD(final long[] leftUp2RightDownDiagonal)`
+##### mainDiagonal(...) -> LongMatrix
+- **Signature:** `public static LongMatrix mainDiagonal(final long[] leftUp2RightDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
   - `leftUp2RightDownDiagonal` (`long[]`) — the array of main diagonal elements (from top-left to bottom-right)
 - **Returns:** a square n×n matrix with the specified main diagonal, where n is the array length
-##### diagonalRU2LD(...) -> LongMatrix
-- **Signature:** `public static LongMatrix diagonalRU2LD(final long[] rightUp2LeftDownDiagonal)`
+##### antiDiagonal(...) -> LongMatrix
+- **Signature:** `public static LongMatrix antiDiagonal(final long[] rightUp2LeftDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
 - **Parameters:**
   - `rightUp2LeftDownDiagonal` (`long[]`) — the array of anti-diagonal elements (from top-right to bottom-left)
 - **Returns:** a square n×n matrix with the specified anti-diagonal, where n is the array length
-##### diagonal(...) -> LongMatrix
-- **Signature:** `public static LongMatrix diagonal(final long[] leftUp2RightDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+##### fromDiagonals(...) -> LongMatrix
+- **Signature:** `public static LongMatrix fromDiagonals(final long[] leftUp2RightDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -14904,8 +14904,8 @@ A matrix implementation for long primitive values, providing efficient storage a
   - `operator` (`Throwables.LongUnaryOperator<E>`) — the operator to apply to each element in the column; receives the current element value and returns the new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getLU2RD(...) -> long\[\]
-- **Signature:** `public long[] getLU2RD() throws IllegalStateException`
+##### getMainDiagonal(...) -> long\[\]
+- **Signature:** `public long[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements (left-up to right-down).
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -14914,8 +14914,8 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Returns:** a new long array containing a copy of the main diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-##### setLU2RD(...) -> void
-- **Signature:** `public void setLU2RD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setMainDiagonal(...) -> void
+- **Signature:** `public void setMainDiagonal(final long[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -14925,8 +14925,8 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal rowCount
-##### updateLU2RD(...) -> void
-- **Signature:** `public <E extends Exception> void updateLU2RD(final Throwables.LongUnaryOperator<E> operator) throws E`
+##### updateMainDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.LongUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -14934,8 +14934,8 @@ A matrix implementation for long primitive values, providing efficient storage a
   - `operator` (`Throwables.LongUnaryOperator<E>`) — the operator to apply to each diagonal element; receives current element value and returns new value
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getRU2LD(...) -> long\[\]
-- **Signature:** `public long[] getRU2LD() throws IllegalStateException`
+##### getAntiDiagonal(...) -> long\[\]
+- **Signature:** `public long[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -14944,8 +14944,8 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Returns:** a new long array containing a copy of the anti-diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
-##### setRU2LD(...) -> void
-- **Signature:** `public void setRU2LD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setAntiDiagonal(...) -> void
+- **Signature:** `public void setAntiDiagonal(final long[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -14954,8 +14954,8 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal rowCount
-##### updateRU2LD(...) -> void
-- **Signature:** `public <E extends Exception> void updateRU2LD(final Throwables.LongUnaryOperator<E> operator) throws E`
+##### updateAntiDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.LongUnaryOperator<E> operator) throws E`
 - **Summary:** Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
@@ -15302,16 +15302,16 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Returns:** a new LongMatrix with the results of the zip operation
 - **Throws:**
   - `E` — if the zip function throws an exception
-##### streamLU2RD(...) -> LongStream
-- **Signature:** `@Override public LongStream streamLU2RD()`
+##### streamMainDiagonal(...) -> LongStream
+- **Signature:** `@Override public LongStream streamMainDiagonal()`
 - **Summary:** Creates a stream of elements on the diagonal from left-upper to right-down.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
 - **Parameters:**
   - (none)
 - **Returns:** a stream of diagonal elements from left-upper to right-down
-##### streamRU2LD(...) -> LongStream
-- **Signature:** `@Override public LongStream streamRU2LD()`
+##### streamAntiDiagonal(...) -> LongStream
+- **Signature:** `@Override public LongStream streamAntiDiagonal()`
 - **Summary:** Creates a stream of elements on the diagonal from right-upper to left-down.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -15523,8 +15523,8 @@ Abstract base class for immutable tuples containing long primitive values.
   - `_8` (`long`) — the eighth long value
   - `_9` (`long`) — the ninth long value
 - **Returns:** a new LongTuple.LongTuple9 containing the provided values
-##### create(...) -> TP
-- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends LongTuple<TP>> TP create(final long[] values)`
+##### fromArray(...) -> TP
+- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends LongTuple<TP>> TP fromArray(final long[] values)`
 - **Summary:** Creates a LongTuple from an array of long values.
 - **Parameters:**
   - `values` (`long[]`) — the array of long values (must have length 0-9), may be {@code null}
@@ -17254,22 +17254,22 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Returns:** a new Matrix of dimensions rowCount x columnCount filled with the specified element
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowCount or columnCount is negative, or if element is null
-##### diagonalLU2RD(...) -> Matrix<T>
-- **Signature:** `public static <T> Matrix<T> diagonalLU2RD(final T[] leftUp2RightDownDiagonal)`
+##### mainDiagonal(...) -> Matrix<T>
+- **Signature:** `public static <T> Matrix<T> mainDiagonal(final T[] leftUp2RightDownDiagonal)`
 - **Summary:** Creates a square diagonal matrix with the given values on the main diagonal (left-up to right-down).
 - **Parameters:**
   - `leftUp2RightDownDiagonal` (`T[]`) — the diagonal values (must not be null)
 - **Returns:** a square matrix with the given diagonal values on the main diagonal
-- **See also:** #diagonal(Object\[\], Object\[\]), #diagonalRU2LD(Object\[\])
-##### diagonalRU2LD(...) -> Matrix<T>
-- **Signature:** `public static <T> Matrix<T> diagonalRU2LD(final T[] rightUp2LeftDownDiagonal)`
+- **See also:** #fromDiagonals(Object\[\], Object\[\]), #antiDiagonal(Object\[\])
+##### antiDiagonal(...) -> Matrix<T>
+- **Signature:** `public static <T> Matrix<T> antiDiagonal(final T[] rightUp2LeftDownDiagonal)`
 - **Summary:** Creates a square diagonal matrix with the given values on the anti-diagonal (right-up to left-down).
 - **Parameters:**
   - `rightUp2LeftDownDiagonal` (`T[]`) — the anti-diagonal values (must not be null)
 - **Returns:** a square matrix with the given anti-diagonal values
-- **See also:** #diagonal(Object\[\], Object\[\]), #diagonalLU2RD(Object\[\])
-##### diagonal(...) -> Matrix<T>
-- **Signature:** `@SuppressWarnings("null") public static <T> Matrix<T> diagonal(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+- **See also:** #fromDiagonals(Object\[\], Object\[\]), #mainDiagonal(Object\[\])
+##### fromDiagonals(...) -> Matrix<T>
+- **Signature:** `@SuppressWarnings("null") public static <T> Matrix<T> fromDiagonals(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix with values on both diagonals.
 - **Contract:**
   - If diagonals intersect (odd dimension), the main diagonal value takes precedence.
@@ -17416,8 +17416,8 @@ A generic matrix implementation that stores elements in a two-dimensional array.
   - `operator` (`Throwables.UnaryOperator<T, E>`) — the operator to apply to each element (must not be null)
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getLU2RD(...) -> T\[\]
-- **Signature:** `public T[] getLU2RD() throws IllegalStateException`
+##### getMainDiagonal(...) -> T\[\]
+- **Signature:** `public T[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Gets the main diagonal elements (left-up to right-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -17426,8 +17426,8 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Returns:** a new array containing the diagonal elements from top-left to bottom-right
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
-##### setLU2RD(...) -> void
-- **Signature:** `public void setLU2RD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setMainDiagonal(...) -> void
+- **Signature:** `public void setMainDiagonal(final T[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the main diagonal elements (left-up to right-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -17437,8 +17437,8 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
-##### updateLU2RD(...) -> void
-- **Signature:** `public <E extends Exception> void updateLU2RD(final Throwables.UnaryOperator<T, E> operator) throws E`
+##### updateMainDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E`
 - **Summary:** Updates the main diagonal elements (left-up to right-down) by applying the given operator.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -17446,8 +17446,8 @@ A generic matrix implementation that stores elements in a two-dimensional array.
   - `operator` (`Throwables.UnaryOperator<T, E>`) — the operator to apply to each diagonal element (must not be null)
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getRU2LD(...) -> T\[\]
-- **Signature:** `public T[] getRU2LD() throws IllegalStateException`
+##### getAntiDiagonal(...) -> T\[\]
+- **Signature:** `public T[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Gets the anti-diagonal elements (right-up to left-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -17456,8 +17456,8 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Returns:** a new array containing the anti-diagonal elements from top-right to bottom-left
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
-##### setRU2LD(...) -> void
-- **Signature:** `public void setRU2LD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setAntiDiagonal(...) -> void
+- **Signature:** `public void setAntiDiagonal(final T[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the anti-diagonal elements (right-up to left-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -17467,8 +17467,8 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columnCount)
   - `java.lang.IllegalArgumentException` — if diagonal array does not have exactly {@code rows} elements
-##### updateRU2LD(...) -> void
-- **Signature:** `public <E extends Exception> void updateRU2LD(final Throwables.UnaryOperator<T, E> operator) throws E`
+##### updateAntiDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E`
 - **Summary:** Updates the anti-diagonal elements (right-up to left-down) by applying the given operator.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -17838,16 +17838,16 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if the matrices don't have the same shape
   - `E` — if the zip function throws an exception
-##### streamLU2RD(...) -> Stream<T>
-- **Signature:** `@Override public Stream<T> streamLU2RD()`
+##### streamMainDiagonal(...) -> Stream<T>
+- **Signature:** `@Override public Stream<T> streamMainDiagonal()`
 - **Summary:** Returns a stream of elements on the main diagonal (left-upper to right-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
 - **Parameters:**
   - (none)
 - **Returns:** a stream of diagonal elements from top-left to bottom-right, or an empty stream if the matrix is empty
-##### streamRU2LD(...) -> Stream<T>
-- **Signature:** `@Override public Stream<T> streamRU2LD()`
+##### streamAntiDiagonal(...) -> Stream<T>
+- **Signature:** `@Override public Stream<T> streamAntiDiagonal()`
 - **Summary:** Returns a stream of elements on the anti-diagonal (right-upper to left-down).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -19304,20 +19304,20 @@ A matrix implementation for short primitive values, providing efficient storage 
   - `endInclusive` (`short`) — the ending value (inclusive, if reachable by stepping)
   - `by` (`short`) — the step size (must not be zero; can be positive or negative)
 - **Returns:** a new 1×n ShortMatrix with values incremented by the step size
-##### diagonalLU2RD(...) -> ShortMatrix
-- **Signature:** `public static ShortMatrix diagonalLU2RD(final short[] leftUp2RightDownDiagonal)`
+##### mainDiagonal(...) -> ShortMatrix
+- **Signature:** `public static ShortMatrix mainDiagonal(final short[] leftUp2RightDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified main diagonal elements (left-up to right-down).
 - **Parameters:**
   - `leftUp2RightDownDiagonal` (`short[]`) — the array of diagonal elements
 - **Returns:** a square matrix with the specified main diagonal
-##### diagonalRU2LD(...) -> ShortMatrix
-- **Signature:** `public static ShortMatrix diagonalRU2LD(final short[] rightUp2LeftDownDiagonal)`
+##### antiDiagonal(...) -> ShortMatrix
+- **Signature:** `public static ShortMatrix antiDiagonal(final short[] rightUp2LeftDownDiagonal)`
 - **Summary:** Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
 - **Parameters:**
   - `rightUp2LeftDownDiagonal` (`short[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal
-##### diagonal(...) -> ShortMatrix
-- **Signature:** `public static ShortMatrix diagonal(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
+##### fromDiagonals(...) -> ShortMatrix
+- **Signature:** `public static ShortMatrix fromDiagonals(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -19472,8 +19472,8 @@ A matrix implementation for short primitive values, providing efficient storage 
   - `operator` (`Throwables.ShortUnaryOperator<E>`) — the unary operator to apply to each element in the column, taking a short and returning a short
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getLU2RD(...) -> short\[\]
-- **Signature:** `public short[] getLU2RD() throws IllegalStateException`
+##### getMainDiagonal(...) -> short\[\]
+- **Signature:** `public short[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements (left-up to right-down).
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -19482,8 +19482,8 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Returns:** a new short array containing the main diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-##### setLU2RD(...) -> void
-- **Signature:** `public void setLU2RD(final short[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setMainDiagonal(...) -> void
+- **Signature:** `public void setMainDiagonal(final short[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the main diagonal from left-up to right-down.
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -19493,8 +19493,8 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length does not equal to rows
-##### updateLU2RD(...) -> void
-- **Signature:** `public <E extends Exception> void updateLU2RD(final Throwables.ShortUnaryOperator<E> operator) throws E`
+##### updateMainDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateMainDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements on the main diagonal from left-up to right-down by applying the given operator.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -19502,8 +19502,8 @@ A matrix implementation for short primitive values, providing efficient storage 
   - `operator` (`Throwables.ShortUnaryOperator<E>`) — the operator to apply to each diagonal element
 - **Throws:**
   - `E` — if the operator throws an exception
-##### getRU2LD(...) -> short\[\]
-- **Signature:** `public short[] getRU2LD() throws IllegalStateException`
+##### getAntiDiagonal(...) -> short\[\]
+- **Signature:** `public short[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the anti-diagonal elements (right-up to left-down).
 - **Contract:**
   - The matrix must be square (rows == columns) for this operation.
@@ -19512,8 +19512,8 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Returns:** a new short array containing the anti-diagonal elements
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
-##### setRU2LD(...) -> void
-- **Signature:** `public void setRU2LD(final short[] diagonal) throws IllegalStateException, IllegalArgumentException`
+##### setAntiDiagonal(...) -> void
+- **Signature:** `public void setAntiDiagonal(final short[] diagonal) throws IllegalStateException, IllegalArgumentException`
 - **Summary:** Sets the elements on the anti-diagonal from right-up to left-down.
 - **Contract:**
   - The matrix must be square (rows == columns), and the diagonal array must have exactly as many elements as the matrix has rows.
@@ -19522,8 +19522,8 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Throws:**
   - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
   - `java.lang.IllegalArgumentException` — if diagonal array length != rows
-##### updateRU2LD(...) -> void
-- **Signature:** `public <E extends Exception> void updateRU2LD(final Throwables.ShortUnaryOperator<E> operator) throws E`
+##### updateAntiDiagonal(...) -> void
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements on the anti-diagonal from right-up to left-down by applying the given operator.
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
@@ -19863,16 +19863,16 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Returns:** a new matrix with the results of the zip operation
 - **Throws:**
   - `E` — if the zip function throws an exception
-##### streamLU2RD(...) -> ShortStream
-- **Signature:** `@Override public ShortStream streamLU2RD()`
+##### streamMainDiagonal(...) -> ShortStream
+- **Signature:** `@Override public ShortStream streamMainDiagonal()`
 - **Summary:** Returns a stream of elements on the main diagonal from left-up to right-down.
 - **Contract:**
   - <p> The matrix must be square (same number of rows and columns).
 - **Parameters:**
   - (none)
 - **Returns:** a ShortStream of diagonal elements from left-up to right-down
-##### streamRU2LD(...) -> ShortStream
-- **Signature:** `@Override public ShortStream streamRU2LD()`
+##### streamAntiDiagonal(...) -> ShortStream
+- **Signature:** `@Override public ShortStream streamAntiDiagonal()`
 - **Summary:** Returns a stream of elements on the anti-diagonal from right-up to left-down.
 - **Contract:**
   - <p> The matrix must be square (same number of rows and columns).
@@ -20082,8 +20082,8 @@ Abstract base class for immutable tuples containing short primitive values.
   - `_8` (`short`) — the eighth short value
   - `_9` (`short`) — the ninth short value
 - **Returns:** a new ShortTuple.ShortTuple9 containing the provided values
-##### create(...) -> TP
-- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends ShortTuple<TP>> TP create(final short[] values)`
+##### fromArray(...) -> TP
+- **Signature:** `@SuppressWarnings("deprecation") public static <TP extends ShortTuple<TP>> TP fromArray(final short[] values)`
 - **Summary:** Creates a ShortTuple from an array of short values.
 - **Parameters:**
   - `values` (`short[]`) — the array of short values (must have length 0-9), may be {@code null}

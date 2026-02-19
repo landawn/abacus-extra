@@ -419,7 +419,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.diagonalLU2RD(new int[] {1, 2, 3});
+     * IntMatrix matrix = IntMatrix.mainDiagonal(new int[] {1, 2, 3});
      * // Creates 3x3 matrix:
      * //   {1, 0, 0},
      * //   {0, 2, 0},
@@ -429,8 +429,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param leftUp2RightDownDiagonal the array of diagonal elements
      * @return a square matrix with the specified main diagonal
      */
-    public static IntMatrix diagonalLU2RD(final int[] leftUp2RightDownDiagonal) {
-        return diagonal(leftUp2RightDownDiagonal, null);
+    public static IntMatrix mainDiagonal(final int[] leftUp2RightDownDiagonal) {
+        return fromDiagonals(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -439,7 +439,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.diagonalRU2LD(new int[] {1, 2, 3});
+     * IntMatrix matrix = IntMatrix.antiDiagonal(new int[] {1, 2, 3});
      * // Creates 3x3 matrix:
      * //   {0, 0, 1},
      * //   {0, 2, 0},
@@ -449,8 +449,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal
      */
-    public static IntMatrix diagonalRU2LD(final int[] rightUp2LeftDownDiagonal) {
-        return diagonal(null, rightUp2LeftDownDiagonal);
+    public static IntMatrix antiDiagonal(final int[] rightUp2LeftDownDiagonal) {
+        return fromDiagonals(null, rightUp2LeftDownDiagonal);
     }
 
     /**
@@ -461,7 +461,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.diagonal(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
+     * IntMatrix matrix = IntMatrix.fromDiagonals(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1, 0, 4},
@@ -475,7 +475,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static IntMatrix diagonal(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static IntMatrix fromDiagonals(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -884,13 +884,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * int[] diagonal = matrix.getLU2RD();   // Returns [1, 5, 9]
+     * int[] diagonal = matrix.getMainDiagonal();   // Returns [1, 5, 9]
      * }</pre>
      *
      * @return a new int array containing a copy of the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public int[] getLU2RD() throws IllegalStateException {
+    public int[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final int[] res = new int[rowCount];
@@ -912,7 +912,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * matrix.setLU2RD(new int[] {9, 8});
+     * matrix.setMainDiagonal(new int[] {9, 8});
      * // Diagonal is now [9, 8]
      * }</pre>
      *
@@ -920,7 +920,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setLU2RD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -936,7 +936,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
+     * matrix.updateMainDiagonal(x -> x * x);   // Squares all diagonal values
      * // matrix is now {{1, 2}, {3, 16}}
      * }</pre>
      *
@@ -945,7 +945,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
+    public <E extends Exception> void updateMainDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -964,13 +964,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * int[] diagonal = matrix.getRU2LD();   // Returns [3, 5, 7]
+     * int[] diagonal = matrix.getAntiDiagonal();   // Returns [3, 5, 7]
      * }</pre>
      *
      * @return a new int array containing a copy of the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public int[] getRU2LD() throws IllegalStateException {
+    public int[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final int[] res = new int[rowCount];
@@ -993,7 +993,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * matrix.setRU2LD(new int[] {9, 8});
+     * matrix.setAntiDiagonal(new int[] {9, 8});
      * // Anti-diagonal is now [9, 8]
      * }</pre>
      *
@@ -1001,7 +1001,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length != rowCount
      */
-    public void setRU2LD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -1017,7 +1017,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
+     * matrix.updateAntiDiagonal(x -> -x);   // Negates all anti-diagonal values
      * // matrix is now {{1, -2}, {-3, 4}}
      * }</pre>
      *
@@ -1026,7 +1026,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -2408,14 +2408,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1,2,3},{4,5,6},{7,8,9}});
-     * IntStream diagonal = matrix.streamLU2RD();   // Stream of [1, 5, 9]
+     * IntStream diagonal = matrix.streamMainDiagonal();   // Stream of [1, 5, 9]
      * }</pre>
      * 
      * @return an IntStream of diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     @Override
-    public IntStream streamLU2RD() {
+    public IntStream streamMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {
@@ -2463,14 +2463,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1,2,3},{4,5,6},{7,8,9}});
-     * IntStream antiDiagonal = matrix.streamRU2LD();   // Stream of [3, 5, 7]
+     * IntStream antiDiagonal = matrix.streamAntiDiagonal();   // Stream of [3, 5, 7]
      * }</pre>
      * 
      * @return an IntStream of anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     @Override
-    public IntStream streamRU2LD() {
+    public IntStream streamAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {

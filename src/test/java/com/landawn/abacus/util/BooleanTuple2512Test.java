@@ -161,25 +161,25 @@ public class BooleanTuple2512Test extends TestBase {
         assertEquals(9, tuple.arity());
     }
 
-    // ============ Factory Method Tests - BooleanTuple.create() ============
+    // ============ Factory Method Tests - BooleanTuple.fromArray() ============
 
     @Test
     public void test_create_nullArray() {
-        BooleanTuple0 tuple = BooleanTuple.create(null);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_emptyArray() {
-        BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(new boolean[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_arraySize1() {
-        BooleanTuple1 tuple = BooleanTuple.create(new boolean[] { true });
+        BooleanTuple1 tuple = BooleanTuple.fromArray(new boolean[] { true });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals(true, tuple._1);
@@ -187,7 +187,7 @@ public class BooleanTuple2512Test extends TestBase {
 
     @Test
     public void test_create_arraySize2() {
-        BooleanTuple2 tuple = BooleanTuple.create(new boolean[] { true, false });
+        BooleanTuple2 tuple = BooleanTuple.fromArray(new boolean[] { true, false });
         assertNotNull(tuple);
         assertEquals(2, tuple.arity());
         assertEquals(true, tuple._1);
@@ -196,7 +196,7 @@ public class BooleanTuple2512Test extends TestBase {
 
     @Test
     public void test_create_arraySize9() {
-        BooleanTuple9 tuple = BooleanTuple.create(new boolean[] { true, false, true, false, true, false, true, false, true });
+        BooleanTuple9 tuple = BooleanTuple.fromArray(new boolean[] { true, false, true, false, true, false, true, false, true });
         assertNotNull(tuple);
         assertEquals(9, tuple.arity());
         assertEquals(true, tuple._1);
@@ -206,7 +206,7 @@ public class BooleanTuple2512Test extends TestBase {
     @Test
     public void test_create_arrayTooLarge() {
         assertThrows(IllegalArgumentException.class, () -> {
-            BooleanTuple.create(new boolean[10]);
+            BooleanTuple.fromArray(new boolean[10]);
         });
     }
 
@@ -214,27 +214,27 @@ public class BooleanTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_arity() {
-        BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(new boolean[0]);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_tuple0_reverse() {
-        BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(new boolean[0]);
         BooleanTuple0 reversed = tuple.reverse();
         assertSame(tuple, reversed);
     }
 
     @Test
     public void test_tuple0_contains() {
-        BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(new boolean[0]);
         assertFalse(tuple.contains(true));
         assertFalse(tuple.contains(false));
     }
 
     @Test
     public void test_tuple0_toArray() {
-        BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(new boolean[0]);
         boolean[] array = tuple.toArray();
         assertNotNull(array);
         assertEquals(0, array.length);
@@ -242,7 +242,7 @@ public class BooleanTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_toList() {
-        BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(new boolean[0]);
         BooleanList list = tuple.toList();
         assertNotNull(list);
         assertTrue(list.isEmpty());
@@ -250,7 +250,7 @@ public class BooleanTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_forEach() {
-        BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(new boolean[0]);
         List<Boolean> collected = new ArrayList<>();
         tuple.forEach(collected::add);
         assertTrue(collected.isEmpty());
@@ -258,14 +258,14 @@ public class BooleanTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_stream() {
-        BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(new boolean[0]);
         long count = tuple.stream().count();
         assertEquals(0, count);
     }
 
     @Test
     public void test_tuple0_toString() {
-        BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
+        BooleanTuple0 tuple = BooleanTuple.fromArray(new boolean[0]);
         assertEquals("()", tuple.toString());
     }
 
@@ -702,7 +702,7 @@ public class BooleanTuple2512Test extends TestBase {
     public void test_create_allSizes() {
         for (int i = 0; i <= 9; i++) {
             boolean[] array = new boolean[i];
-            BooleanTuple<?> tuple = BooleanTuple.create(array);
+            BooleanTuple<?> tuple = BooleanTuple.fromArray(array);
             assertNotNull(tuple);
             assertEquals(i, tuple.arity());
         }

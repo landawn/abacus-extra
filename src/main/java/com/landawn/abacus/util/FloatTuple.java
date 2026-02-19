@@ -265,13 +265,13 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <pre>{@code
      * // Create from array
      * float[] values = {1.0f, 2.0f, 3.0f};
-     * FloatTuple.FloatTuple3 tuple = FloatTuple.create(values);
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.fromArray(values);
      *
      * // Empty array returns FloatTuple.FloatTuple0
-     * FloatTuple<?> empty = FloatTuple.create(new float[0]);
+     * FloatTuple<?> empty = FloatTuple.fromArray(new float[0]);
      *
      * // Single element
-     * FloatTuple.FloatTuple1 single = FloatTuple.create(new float[]{3.14f});
+     * FloatTuple.FloatTuple1 single = FloatTuple.fromArray(new float[]{3.14f});
      * }</pre>
      *
      * @param <TP> the specific FloatTuple subtype to return
@@ -280,7 +280,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends FloatTuple<TP>> TP create(final float[] values) {
+    public static <TP extends FloatTuple<TP>> TP fromArray(final float[] values) {
         if (values == null || values.length == 0) {
             return (TP) FloatTuple0.EMPTY;
         }
@@ -494,7 +494,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * float[] array = tuple.toArray();   // [1.0f, 2.0f, 3.0f]
      * array[0] = 5.0f;  // Does not modify the original tuple
      *
-     * FloatTuple<?> empty = FloatTuple.create(new float[0]);
+     * FloatTuple<?> empty = FloatTuple.fromArray(new float[0]);
      * float[] emptyArray = empty.toArray();   // []
      * }</pre>
      *
@@ -662,7 +662,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * An empty FloatTuple containing no elements.
      * <p>
      * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
-     * with a single shared instance accessed via {@code FloatTuple.create(new float[0])} or returned
+     * with a single shared instance accessed via {@code FloatTuple.fromArray(new float[0])} or returned
      * when creating tuples from null/empty arrays. All statistical operations on FloatTuple.FloatTuple0 either
      * return 0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
      * </p>

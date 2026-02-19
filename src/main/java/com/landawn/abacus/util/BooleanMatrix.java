@@ -187,7 +187,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.diagonalLU2RD(new boolean[] {true, false, true});
+     * BooleanMatrix matrix = BooleanMatrix.mainDiagonal(new boolean[] {true, false, true});
      * // Creates 3x3 matrix with diagonal [true, false, true] and false elsewhere
      * // Resulting matrix:
      * //   {true, false, false},
@@ -198,8 +198,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param leftUp2RightDownDiagonal the array of main diagonal elements
      * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
-    public static BooleanMatrix diagonalLU2RD(final boolean[] leftUp2RightDownDiagonal) {
-        return diagonal(leftUp2RightDownDiagonal, null);
+    public static BooleanMatrix mainDiagonal(final boolean[] leftUp2RightDownDiagonal) {
+        return fromDiagonals(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -208,7 +208,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.diagonalRU2LD(new boolean[] {true, false, true});
+     * BooleanMatrix matrix = BooleanMatrix.antiDiagonal(new boolean[] {true, false, true});
      * // Creates 3x3 matrix with anti-diagonal [true, false, true] and false elsewhere
      * // Resulting matrix:
      * //   {false, false, true},
@@ -219,8 +219,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
-    public static BooleanMatrix diagonalRU2LD(final boolean[] rightUp2LeftDownDiagonal) {
-        return diagonal(null, rightUp2LeftDownDiagonal);
+    public static BooleanMatrix antiDiagonal(final boolean[] rightUp2LeftDownDiagonal) {
+        return fromDiagonals(null, rightUp2LeftDownDiagonal);
     }
 
     /**
@@ -231,7 +231,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.diagonal(new boolean[] {true, true, true}, new boolean[] {false, false, false});
+     * BooleanMatrix matrix = BooleanMatrix.fromDiagonals(new boolean[] {true, true, true}, new boolean[] {false, false, false});
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {true, false, false},
@@ -245,7 +245,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static BooleanMatrix diagonal(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static BooleanMatrix fromDiagonals(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal)
+            throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -673,13 +674,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {false, false, true}
      * });
-     * boolean[] diagonal = matrix.getLU2RD();   // Returns [true, true, true]
+     * boolean[] diagonal = matrix.getMainDiagonal();   // Returns [true, true, true]
      * }</pre>
      *
      * @return a new boolean array containing a copy of the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public boolean[] getLU2RD() throws IllegalStateException {
+    public boolean[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final boolean[] res = new boolean[rowCount];
@@ -705,7 +706,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {false, false, true}
      * });
-     * matrix.setLU2RD(new boolean[] {false, false, false});
+     * matrix.setMainDiagonal(new boolean[] {false, false, false});
      * // Diagonal is now all false
      * }</pre>
      *
@@ -713,7 +714,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setLU2RD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected %s but got %s", rowCount, diagonal.length);
 
@@ -733,7 +734,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {false, false, false}
      * });
-     * matrix.updateLU2RD(val -> !val);   // Invert diagonal
+     * matrix.updateMainDiagonal(val -> !val);   // Invert diagonal
      * // Diagonal is now [false, false, true]
      * }</pre>
      *
@@ -742,7 +743,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.BooleanUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateMainDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -765,13 +766,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {true, false, false}
      * });
-     * boolean[] antiDiag = matrix.getRU2LD();   // Returns [true, true, true]
+     * boolean[] antiDiag = matrix.getAntiDiagonal();   // Returns [true, true, true]
      * }</pre>
      *
      * @return a new boolean array containing a copy of the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public boolean[] getRU2LD() throws IllegalStateException {
+    public boolean[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final boolean[] res = new boolean[rowCount];
@@ -798,7 +799,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {false, false, true}
      * });
-     * matrix.setRU2LD(new boolean[] {true, true, true});
+     * matrix.setAntiDiagonal(new boolean[] {true, true, true});
      * // Anti-diagonal is now all true
      * }</pre>
      *
@@ -806,7 +807,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setRU2LD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected %s but got %s", rowCount, diagonal.length);
 
@@ -826,7 +827,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {true, false, false}
      * });
-     * matrix.updateRU2LD(val -> !val);   // Invert anti-diagonal
+     * matrix.updateAntiDiagonal(val -> !val);   // Invert anti-diagonal
      * // Anti-diagonal is now [false, false, true]
      * }</pre>
      *
@@ -835,7 +836,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.BooleanUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -2097,17 +2098,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {false, false, true}
      * });
-     * List<Boolean> diagonal = matrix.streamLU2RD().toList();   // [true, true, true]
+     * List<Boolean> diagonal = matrix.streamMainDiagonal().toList();   // [true, true, true]
      * 
      * // Check if it's an identity-like matrix
-     * boolean allTrue = matrix.streamLU2RD().allMatch(b -> b);
+     * boolean allTrue = matrix.streamMainDiagonal().allMatch(b -> b);
      * }</pre>
      *
      * @return a Stream&lt;Boolean&gt; containing the diagonal elements from top-left to bottom-right
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public Stream<Boolean> streamLU2RD() {
+    public Stream<Boolean> streamMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {
@@ -2163,17 +2164,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {true, false, false}
      * });
-     * List<Boolean> antiDiagonal = matrix.streamRU2LD().toList();   // [true, true, true]
+     * List<Boolean> antiDiagonal = matrix.streamAntiDiagonal().toList();   // [true, true, true]
      * 
      * // Count true values on anti-diagonal
-     * long trueCount = matrix.streamRU2LD().filter(b -> b).count();
+     * long trueCount = matrix.streamAntiDiagonal().filter(b -> b).count();
      * }</pre>
      *
      * @return a Stream&lt;Boolean&gt; containing the anti-diagonal elements from top-right to bottom-left
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public Stream<Boolean> streamRU2LD() {
+    public Stream<Boolean> streamAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {

@@ -182,7 +182,7 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testDiagonalLU2RD() {
-        IntMatrix m = IntMatrix.diagonalLU2RD(new int[] { 1, 2, 3 });
+        IntMatrix m = IntMatrix.mainDiagonal(new int[] { 1, 2, 3 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -194,7 +194,7 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testDiagonalRU2LD() {
-        IntMatrix m = IntMatrix.diagonalRU2LD(new int[] { 1, 2, 3 });
+        IntMatrix m = IntMatrix.antiDiagonal(new int[] { 1, 2, 3 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 2));
@@ -207,7 +207,7 @@ public class IntMatrixTest extends TestBase {
     @Test
     public void testDiagonal() {
         // Test with both diagonals
-        IntMatrix m = IntMatrix.diagonal(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
+        IntMatrix m = IntMatrix.fromDiagonals(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -218,23 +218,23 @@ public class IntMatrixTest extends TestBase {
         assertEquals(6, m.get(2, 0));
 
         // Test with only main diagonal
-        IntMatrix m2 = IntMatrix.diagonal(new int[] { 1, 2, 3 }, null);
+        IntMatrix m2 = IntMatrix.fromDiagonals(new int[] { 1, 2, 3 }, null);
         assertEquals(1, m2.get(0, 0));
         assertEquals(2, m2.get(1, 1));
         assertEquals(3, m2.get(2, 2));
 
         // Test with only anti-diagonal
-        IntMatrix m3 = IntMatrix.diagonal(null, new int[] { 4, 5, 6 });
+        IntMatrix m3 = IntMatrix.fromDiagonals(null, new int[] { 4, 5, 6 });
         assertEquals(4, m3.get(0, 2));
         assertEquals(5, m3.get(1, 1));
         assertEquals(6, m3.get(2, 0));
 
         // Test with empty arrays
-        IntMatrix empty = IntMatrix.diagonal(null, null);
+        IntMatrix empty = IntMatrix.fromDiagonals(null, null);
         assertTrue(empty.isEmpty());
 
         // Test illegal argument
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.diagonal(new int[] { 1, 2 }, new int[] { 3, 4, 5 }));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.fromDiagonals(new int[] { 1, 2 }, new int[] { 3, 4, 5 }));
     }
 
     @Test
@@ -406,77 +406,77 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testGetLU2RD() {
-        int[] diagonal = matrix.getLU2RD();
+        int[] diagonal = matrix.getMainDiagonal();
         assertArrayEquals(new int[] { 1, 5, 9 }, diagonal);
 
         // Test non-square matrix
         IntMatrix nonSquare = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.getMainDiagonal());
     }
 
     @Test
     public void testSetLU2RD() {
         IntMatrix m = matrix.copy();
-        m.setLU2RD(new int[] { 10, 20, 30 });
+        m.setMainDiagonal(new int[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 0));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 2));
 
         // Test non-square matrix
         IntMatrix nonSquare = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.setLU2RD(new int[] { 1 }));
+        assertThrows(IllegalStateException.class, () -> nonSquare.setMainDiagonal(new int[] { 1 }));
 
         // Test array too short
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new int[] { 1, 2 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new int[] { 1, 2 }));
     }
 
     @Test
     public void testUpdateLU2RD() {
         IntMatrix m = matrix.copy();
-        m.updateLU2RD(x -> x * 10);
+        m.updateMainDiagonal(x -> x * 10);
         assertEquals(10, m.get(0, 0));
         assertEquals(50, m.get(1, 1));
         assertEquals(90, m.get(2, 2));
 
         // Test non-square matrix
         IntMatrix nonSquare = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.updateLU2RD(x -> x * 2));
+        assertThrows(IllegalStateException.class, () -> nonSquare.updateMainDiagonal(x -> x * 2));
     }
 
     @Test
     public void testGetRU2LD() {
-        int[] antiDiagonal = matrix.getRU2LD();
+        int[] antiDiagonal = matrix.getAntiDiagonal();
         assertArrayEquals(new int[] { 3, 5, 7 }, antiDiagonal);
 
         // Test non-square matrix
         IntMatrix nonSquare = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.getRU2LD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.getAntiDiagonal());
     }
 
     @Test
     public void testSetRU2LD() {
         IntMatrix m = matrix.copy();
-        m.setRU2LD(new int[] { 10, 20, 30 });
+        m.setAntiDiagonal(new int[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 2));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 0));
 
         // Test non-square matrix
         IntMatrix nonSquare = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.setRU2LD(new int[] { 1 }));
+        assertThrows(IllegalStateException.class, () -> nonSquare.setAntiDiagonal(new int[] { 1 }));
     }
 
     @Test
     public void testUpdateRU2LD() {
         IntMatrix m = matrix.copy();
-        m.updateRU2LD(x -> x * 10);
+        m.updateAntiDiagonal(x -> x * 10);
         assertEquals(30, m.get(0, 2));
         assertEquals(50, m.get(1, 1));
         assertEquals(70, m.get(2, 0));
 
         // Test non-square matrix
         IntMatrix nonSquare = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.updateRU2LD(x -> x * 2));
+        assertThrows(IllegalStateException.class, () -> nonSquare.updateAntiDiagonal(x -> x * 2));
     }
 
     @Test
@@ -1034,28 +1034,28 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testStreamLU2RD() {
-        int[] diagonal = matrix.streamLU2RD().toArray();
+        int[] diagonal = matrix.streamMainDiagonal().toArray();
         assertArrayEquals(new int[] { 1, 5, 9 }, diagonal);
 
         // Test empty matrix
-        assertTrue(emptyMatrix.streamLU2RD().toArray().length == 0);
+        assertTrue(emptyMatrix.streamMainDiagonal().toArray().length == 0);
 
         // Test non-square
         IntMatrix nonSquare = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.streamLU2RD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.streamMainDiagonal());
     }
 
     @Test
     public void testStreamRU2LD() {
-        int[] antiDiagonal = matrix.streamRU2LD().toArray();
+        int[] antiDiagonal = matrix.streamAntiDiagonal().toArray();
         assertArrayEquals(new int[] { 3, 5, 7 }, antiDiagonal);
 
         // Test empty matrix
-        assertTrue(emptyMatrix.streamRU2LD().toArray().length == 0);
+        assertTrue(emptyMatrix.streamAntiDiagonal().toArray().length == 0);
 
         // Test non-square
         IntMatrix nonSquare = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.streamRU2LD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.streamAntiDiagonal());
     }
 
     @Test
@@ -1256,8 +1256,8 @@ public class IntMatrixTest extends TestBase {
         stream.toArray(); // Consume all
         assertThrows(IllegalStateException.class, () -> stream.iterator().next());
 
-        // Test streamLU2RD iterator
-        IntStream diagStream = matrix.streamLU2RD();
+        // Test streamMainDiagonal iterator
+        IntStream diagStream = matrix.streamMainDiagonal();
         diagStream.toArray(); // Consume all
         assertThrows(IllegalStateException.class, () -> diagStream.iterator().next());
     }
@@ -1302,10 +1302,10 @@ public class IntMatrixTest extends TestBase {
         assertEquals(5.0, avg, 0.0001);
 
         // Test statistical operations on diagonal
-        int diagonalSum = matrix.streamLU2RD().sum();
+        int diagonalSum = matrix.streamMainDiagonal().sum();
         assertEquals(15, diagonalSum); // 1+5+9 = 15
 
-        int antiDiagonalSum = matrix.streamRU2LD().sum();
+        int antiDiagonalSum = matrix.streamAntiDiagonal().sum();
         assertEquals(15, antiDiagonalSum); // 3+5+7 = 15
     }
 

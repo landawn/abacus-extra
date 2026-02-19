@@ -118,7 +118,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testDiagonalLU2RD_integers() {
         Integer[] diag = { 1, 2, 3 };
-        Matrix<Integer> m = Matrix.diagonalLU2RD(diag);
+        Matrix<Integer> m = Matrix.mainDiagonal(diag);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -131,7 +131,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testDiagonalLU2RD_strings() {
         String[] diag = { "A", "B", "C" };
-        Matrix<String> m = Matrix.diagonalLU2RD(diag);
+        Matrix<String> m = Matrix.mainDiagonal(diag);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals("A", m.get(0, 0));
@@ -142,7 +142,7 @@ public class Matrix2511Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD_emptyArray() {
-        Matrix<String> m = Matrix.diagonalLU2RD(new String[0]);
+        Matrix<String> m = Matrix.mainDiagonal(new String[0]);
         assertEquals(0, m.rowCount());
         assertEquals(0, m.columnCount());
     }
@@ -150,7 +150,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testDiagonalRU2LD_integers() {
         Integer[] diag = { 1, 2, 3 };
-        Matrix<Integer> m = Matrix.diagonalRU2LD(diag);
+        Matrix<Integer> m = Matrix.antiDiagonal(diag);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 2));
@@ -162,7 +162,7 @@ public class Matrix2511Test extends TestBase {
 
     @Test
     public void testDiagonalRU2LD_emptyArray() {
-        Matrix<String> m = Matrix.diagonalRU2LD(new String[0]);
+        Matrix<String> m = Matrix.antiDiagonal(new String[0]);
         assertEquals(0, m.rowCount());
         assertEquals(0, m.columnCount());
     }
@@ -171,7 +171,7 @@ public class Matrix2511Test extends TestBase {
     public void testDiagonal_bothDiagonals_integers() {
         Integer[] lu2rd = { 1, 2, 3 };
         Integer[] ru2ld = { 7, 8, 9 };
-        Matrix<Integer> m = Matrix.diagonal(lu2rd, ru2ld);
+        Matrix<Integer> m = Matrix.fromDiagonals(lu2rd, ru2ld);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -185,7 +185,7 @@ public class Matrix2511Test extends TestBase {
     public void testDiagonal_bothDiagonals_strings() {
         String[] lu2rd = { "A", "B" };
         String[] ru2ld = { "X", "Y" };
-        Matrix<String> m = Matrix.diagonal(lu2rd, ru2ld);
+        Matrix<String> m = Matrix.fromDiagonals(lu2rd, ru2ld);
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
         assertEquals("A", m.get(0, 0));
@@ -197,7 +197,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testDiagonal_onlyLU2RD() {
         Integer[] lu2rd = { 1, 2 };
-        Matrix<Integer> m = Matrix.diagonal(lu2rd, null);
+        Matrix<Integer> m = Matrix.fromDiagonals(lu2rd, null);
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -207,7 +207,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testDiagonal_onlyRU2LD() {
         Integer[] ru2ld = { 1, 2 };
-        Matrix<Integer> m = Matrix.diagonal(null, ru2ld);
+        Matrix<Integer> m = Matrix.fromDiagonals(null, ru2ld);
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
         assertEquals(1, m.get(0, 1));
@@ -216,14 +216,14 @@ public class Matrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_bothNull() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonal(null, null));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(null, null));
     }
 
     @Test
     public void testDiagonal_differentLengths() {
         Integer[] lu2rd = { 1, 2, 3 };
         Integer[] ru2ld = { 7, 8 };
-        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonal(lu2rd, ru2ld));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(lu2rd, ru2ld));
     }
 
     // ============ Basic Access Methods ============
@@ -514,27 +514,27 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testGetLU2RD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        Integer[] diag = m.getLU2RD();
+        Integer[] diag = m.getMainDiagonal();
         assertArrayEquals(new Integer[] { 1, 5, 9 }, diag);
     }
 
     @Test
     public void testGetLU2RD_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] diag = m.getLU2RD();
+        String[] diag = m.getMainDiagonal();
         assertArrayEquals(new String[] { "A", "D" }, diag);
     }
 
     @Test
     public void testGetLU2RD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
     public void testSetLU2RD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.setLU2RD(new Integer[] { 10, 20, 30 });
+        m.setMainDiagonal(new Integer[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 0));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 2));
@@ -543,7 +543,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testSetLU2RD_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        m.setLU2RD(new String[] { "X", "Y" });
+        m.setMainDiagonal(new String[] { "X", "Y" });
         assertEquals("X", m.get(0, 0));
         assertEquals("Y", m.get(1, 1));
     }
@@ -551,19 +551,19 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testSetLU2RD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.setLU2RD(new Integer[] { 10, 20 }));
+        assertThrows(IllegalStateException.class, () -> m.setMainDiagonal(new Integer[] { 10, 20 }));
     }
 
     @Test
     public void testSetLU2RD_wrongLength() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new Integer[] { 10 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new Integer[] { 10 }));
     }
 
     @Test
     public void testUpdateLU2RD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.updateLU2RD(x -> x * 2);
+        m.updateMainDiagonal(x -> x * 2);
         assertEquals(2, m.get(0, 0));
         assertEquals(10, m.get(1, 1));
         assertEquals(18, m.get(2, 2));
@@ -573,7 +573,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testUpdateLU2RD_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
-        m.updateLU2RD(String::toUpperCase);
+        m.updateMainDiagonal(String::toUpperCase);
         assertEquals("A", m.get(0, 0));
         assertEquals("D", m.get(1, 1));
         assertEquals("b", m.get(0, 1)); // Non-diagonal unchanged
@@ -582,33 +582,33 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testUpdateLU2RD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.updateLU2RD(x -> x * 2));
+        assertThrows(IllegalStateException.class, () -> m.updateMainDiagonal(x -> x * 2));
     }
 
     @Test
     public void testGetRU2LD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        Integer[] diag = m.getRU2LD();
+        Integer[] diag = m.getAntiDiagonal();
         assertArrayEquals(new Integer[] { 3, 5, 7 }, diag);
     }
 
     @Test
     public void testGetRU2LD_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] diag = m.getRU2LD();
+        String[] diag = m.getAntiDiagonal();
         assertArrayEquals(new String[] { "B", "C" }, diag);
     }
 
     @Test
     public void testGetRU2LD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.getRU2LD());
+        assertThrows(IllegalStateException.class, () -> m.getAntiDiagonal());
     }
 
     @Test
     public void testSetRU2LD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.setRU2LD(new Integer[] { 10, 20, 30 });
+        m.setAntiDiagonal(new Integer[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 2));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 0));
@@ -617,7 +617,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testSetRU2LD_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        m.setRU2LD(new String[] { "X", "Y" });
+        m.setAntiDiagonal(new String[] { "X", "Y" });
         assertEquals("X", m.get(0, 1));
         assertEquals("Y", m.get(1, 0));
     }
@@ -625,19 +625,19 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testSetRU2LD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.setRU2LD(new Integer[] { 10, 20 }));
+        assertThrows(IllegalStateException.class, () -> m.setAntiDiagonal(new Integer[] { 10, 20 }));
     }
 
     @Test
     public void testSetRU2LD_wrongLength() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.setRU2LD(new Integer[] { 10 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setAntiDiagonal(new Integer[] { 10 }));
     }
 
     @Test
     public void testUpdateRU2LD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.updateRU2LD(x -> x * 2);
+        m.updateAntiDiagonal(x -> x * 2);
         assertEquals(6, m.get(0, 2));
         assertEquals(10, m.get(1, 1));
         assertEquals(14, m.get(2, 0));
@@ -647,7 +647,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testUpdateRU2LD_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
-        m.updateRU2LD(String::toUpperCase);
+        m.updateAntiDiagonal(String::toUpperCase);
         assertEquals("B", m.get(0, 1));
         assertEquals("C", m.get(1, 0));
         assertEquals("a", m.get(0, 0)); // Non-diagonal unchanged
@@ -656,7 +656,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testUpdateRU2LD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.updateRU2LD(x -> x * 2));
+        assertThrows(IllegalStateException.class, () -> m.updateAntiDiagonal(x -> x * 2));
     }
 
     // ============ Update and Replace Methods ============
@@ -1750,7 +1750,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testStreamLU2RD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Integer> diagonal = m.streamLU2RD().toList();
+        List<Integer> diagonal = m.streamMainDiagonal().toList();
 
         assertEquals(3, diagonal.size());
         assertEquals(1, diagonal.get(0));
@@ -1761,7 +1761,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testStreamLU2RD_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        List<String> diagonal = m.streamLU2RD().toList();
+        List<String> diagonal = m.streamMainDiagonal().toList();
 
         assertEquals(2, diagonal.size());
         assertEquals("A", diagonal.get(0));
@@ -1771,13 +1771,13 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testStreamLU2RD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.streamLU2RD().toList());
+        assertThrows(IllegalStateException.class, () -> m.streamMainDiagonal().toList());
     }
 
     @Test
     public void testStreamRU2LD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Integer> diagonal = m.streamRU2LD().toList();
+        List<Integer> diagonal = m.streamAntiDiagonal().toList();
 
         assertEquals(3, diagonal.size());
         assertEquals(3, diagonal.get(0));
@@ -1788,7 +1788,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testStreamRU2LD_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        List<String> diagonal = m.streamRU2LD().toList();
+        List<String> diagonal = m.streamAntiDiagonal().toList();
 
         assertEquals(2, diagonal.size());
         assertEquals("B", diagonal.get(0));
@@ -1798,7 +1798,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testStreamRU2LD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.streamRU2LD().toList());
+        assertThrows(IllegalStateException.class, () -> m.streamAntiDiagonal().toList());
     }
 
     @Test
@@ -2072,14 +2072,14 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testPointsLU2RD() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Stream<Point> points = m.pointsLU2RD();
+        Stream<Point> points = m.pointsMainDiagonal();
         assertEquals(2, points.count());
     }
 
     @Test
     public void testPointsRU2LD() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Stream<Point> points = m.pointsRU2LD();
+        Stream<Point> points = m.pointsAntiDiagonal();
         assertEquals(2, points.count());
     }
 

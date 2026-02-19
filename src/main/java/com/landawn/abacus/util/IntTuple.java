@@ -241,13 +241,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] values = {1, 2, 3};
-     * IntTuple.IntTuple3 tuple = IntTuple.create(values);
+     * IntTuple.IntTuple3 tuple = IntTuple.fromArray(values);
      * // tuple._1 == 1, tuple._2 == 2, tuple._3 == 3
      *
      * int[] empty = {};
-     * IntTuple<?> emptyTuple = IntTuple.create(empty);  // returns IntTuple<?>.EMPTY
+     * IntTuple<?> emptyTuple = IntTuple.fromArray(empty);  // returns IntTuple<?>.EMPTY
      *
-     * IntTuple<?> nullTuple = IntTuple.create(null);    // returns IntTuple<?>.EMPTY
+     * IntTuple<?> nullTuple = IntTuple.fromArray(null);    // returns IntTuple<?>.EMPTY
      * }</pre>
      *
      * @param <TP> the specific IntTuple subtype to return
@@ -256,7 +256,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends IntTuple<TP>> TP create(final int[] values) {
+    public static <TP extends IntTuple<TP>> TP fromArray(final int[] values) {
         if (values == null || values.length == 0) {
             return (TP) IntTuple0.EMPTY;
         }
@@ -538,7 +538,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * An empty tuple containing no elements.
      * This class is used to represent a tuple with zero elements
-     * and is returned by {@link #create(int[])} when passed a null or empty array.
+     * and is returned by {@link #fromArray(int[])} when passed a null or empty array.
      */
     static final class IntTuple0 extends IntTuple<IntTuple0> {
 

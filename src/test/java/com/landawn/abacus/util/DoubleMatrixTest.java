@@ -103,7 +103,7 @@ public class DoubleMatrixTest extends TestBase {
     @Test
     public void testDiagonalLU2RD() {
         double[] diagonal = { 1.0, 2.0, 3.0 };
-        DoubleMatrix matrix = DoubleMatrix.diagonalLU2RD(diagonal);
+        DoubleMatrix matrix = DoubleMatrix.mainDiagonal(diagonal);
         assertEquals(3, matrix.rowCount());
         assertEquals(3, matrix.columnCount());
         assertEquals(1.0, matrix.get(0, 0));
@@ -115,7 +115,7 @@ public class DoubleMatrixTest extends TestBase {
     @Test
     public void testDiagonalRU2LD() {
         double[] diagonal = { 1.0, 2.0, 3.0 };
-        DoubleMatrix matrix = DoubleMatrix.diagonalRU2LD(diagonal);
+        DoubleMatrix matrix = DoubleMatrix.antiDiagonal(diagonal);
         assertEquals(3, matrix.rowCount());
         assertEquals(3, matrix.columnCount());
         assertEquals(1.0, matrix.get(0, 2));
@@ -127,14 +127,14 @@ public class DoubleMatrixTest extends TestBase {
     public void testDiagonal() {
         double[] mainDiag = { 1.0, 2.0, 3.0 };
         double[] antiDiag = { 7.0, 8.0, 9.0 };
-        DoubleMatrix matrix = DoubleMatrix.diagonal(mainDiag, antiDiag);
+        DoubleMatrix matrix = DoubleMatrix.fromDiagonals(mainDiag, antiDiag);
         assertEquals(3, matrix.rowCount());
         assertEquals(3, matrix.columnCount());
         assertEquals(1.0, matrix.get(0, 0));
         assertEquals(7.0, matrix.get(0, 2));
 
         // Test with different lengths
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.diagonal(new double[] { 1.0 }, new double[] { 2.0, 3.0 }));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.fromDiagonals(new double[] { 1.0 }, new double[] { 2.0, 3.0 }));
     }
 
     @Test
@@ -305,14 +305,14 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] diag = matrix.getLU2RD();
+        double[] diag = matrix.getMainDiagonal();
         assertEquals(2, diag.length);
         assertEquals(1.0, diag[0]);
         assertEquals(4.0, diag[1]);
 
         // Test non-square matrix
         DoubleMatrix nonSquare = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.getMainDiagonal());
     }
 
     @Test
@@ -320,11 +320,11 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        matrix.setLU2RD(new double[] { 5.0, 6.0 });
+        matrix.setMainDiagonal(new double[] { 5.0, 6.0 });
         assertEquals(5.0, matrix.get(0, 0));
         assertEquals(6.0, matrix.get(1, 1));
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.setLU2RD(new double[] { 1.0 }));
+        assertThrows(IllegalArgumentException.class, () -> matrix.setMainDiagonal(new double[] { 1.0 }));
     }
 
     @Test
@@ -332,7 +332,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        matrix.updateLU2RD(d -> d * 2);
+        matrix.updateMainDiagonal(d -> d * 2);
         assertEquals(2.0, matrix.get(0, 0));
         assertEquals(8.0, matrix.get(1, 1));
     }
@@ -342,7 +342,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] diag = matrix.getRU2LD();
+        double[] diag = matrix.getAntiDiagonal();
         assertEquals(2, diag.length);
         assertEquals(2.0, diag[0]);
         assertEquals(3.0, diag[1]);
@@ -353,11 +353,11 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        matrix.setRU2LD(new double[] { 5.0, 6.0 });
+        matrix.setAntiDiagonal(new double[] { 5.0, 6.0 });
         assertEquals(5.0, matrix.get(0, 1));
         assertEquals(6.0, matrix.get(1, 0));
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.setRU2LD(new double[] { 1.0 }));
+        assertThrows(IllegalArgumentException.class, () -> matrix.setAntiDiagonal(new double[] { 1.0 }));
     }
 
     @Test
@@ -365,7 +365,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        matrix.updateRU2LD(d -> d * 2);
+        matrix.updateAntiDiagonal(d -> d * 2);
         assertEquals(4.0, matrix.get(0, 1));
         assertEquals(6.0, matrix.get(1, 0));
     }
@@ -901,13 +901,13 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] diagonal = matrix.streamLU2RD().toArray();
+        double[] diagonal = matrix.streamMainDiagonal().toArray();
         assertEquals(2, diagonal.length);
         assertEquals(1.0, diagonal[0]);
         assertEquals(4.0, diagonal[1]);
 
         DoubleMatrix empty = DoubleMatrix.empty();
-        assertEquals(0, empty.streamLU2RD().toArray().length);
+        assertEquals(0, empty.streamMainDiagonal().toArray().length);
     }
 
     @Test
@@ -915,7 +915,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] diagonal = matrix.streamRU2LD().toArray();
+        double[] diagonal = matrix.streamAntiDiagonal().toArray();
         assertEquals(2, diagonal.length);
         assertEquals(2.0, diagonal[0]);
         assertEquals(3.0, diagonal[1]);
@@ -1133,10 +1133,10 @@ public class DoubleMatrixTest extends TestBase {
         assertEquals(5.0, avg, 0.0001);
 
         // Test statistical operations on diagonal
-        double diagonalSum = matrix.streamLU2RD().sum();
+        double diagonalSum = matrix.streamMainDiagonal().sum();
         assertEquals(15.0, diagonalSum, 0.0001); // 1+5+9 = 15
 
-        double antiDiagonalSum = matrix.streamRU2LD().sum();
+        double antiDiagonalSum = matrix.streamAntiDiagonal().sum();
         assertEquals(15.0, antiDiagonalSum, 0.0001); // 3+5+7 = 15
     }
 

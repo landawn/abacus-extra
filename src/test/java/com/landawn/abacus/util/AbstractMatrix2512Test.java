@@ -172,9 +172,9 @@ public class AbstractMatrix2512Test extends TestBase {
     // ============ Diagonal Point Stream Tests ============
 
     @Test
-    public void test_pointsLU2RD_squareMatrix() {
+    public void test_pointsMainDiagonal_squareMatrix() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Point> points = matrix.pointsLU2RD().toList();
+        List<Point> points = matrix.pointsMainDiagonal().toList();
         assertEquals(3, points.size());
         assertEquals(Point.of(0, 0), points.get(0));
         assertEquals(Point.of(1, 1), points.get(1));
@@ -182,15 +182,15 @@ public class AbstractMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_pointsLU2RD_nonSquareMatrix() {
+    public void test_pointsMainDiagonal_nonSquareMatrix() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> matrix.pointsLU2RD().toList());
+        assertThrows(IllegalStateException.class, () -> matrix.pointsMainDiagonal().toList());
     }
 
     @Test
-    public void test_pointsRU2LD_squareMatrix() {
+    public void test_pointsAntiDiagonal_squareMatrix() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Point> points = matrix.pointsRU2LD().toList();
+        List<Point> points = matrix.pointsAntiDiagonal().toList();
         assertEquals(3, points.size());
         assertEquals(Point.of(0, 2), points.get(0));
         assertEquals(Point.of(1, 1), points.get(1));
@@ -198,9 +198,9 @@ public class AbstractMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_pointsRU2LD_nonSquareMatrix() {
+    public void test_pointsAntiDiagonal_nonSquareMatrix() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> matrix.pointsRU2LD().toList());
+        assertThrows(IllegalStateException.class, () -> matrix.pointsAntiDiagonal().toList());
     }
 
     // ============ Horizontal Point Stream Tests ============

@@ -128,28 +128,28 @@ public class FloatTuple2025Test extends TestBase {
     // Create method tests
     @Test
     public void testCreateEmpty() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreateNull() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(null);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate1() {
-        FloatTuple1 tuple = FloatTuple.create(new float[] { 1.0f });
+        FloatTuple1 tuple = FloatTuple.fromArray(new float[] { 1.0f });
         assertEquals(1.0f, tuple._1, 0.001f);
         assertEquals(1, tuple.arity());
     }
 
     @Test
     public void testCreate3() {
-        FloatTuple3 tuple = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f });
+        FloatTuple3 tuple = FloatTuple.fromArray(new float[] { 1.0f, 2.0f, 3.0f });
         assertEquals(1.0f, tuple._1, 0.001f);
         assertEquals(2.0f, tuple._2, 0.001f);
         assertEquals(3.0f, tuple._3, 0.001f);
@@ -157,7 +157,7 @@ public class FloatTuple2025Test extends TestBase {
 
     @Test
     public void testCreate9() {
-        FloatTuple9 tuple = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f });
+        FloatTuple9 tuple = FloatTuple.fromArray(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f });
         assertEquals(1.0f, tuple._1, 0.001f);
         assertEquals(9.0f, tuple._9, 0.001f);
     }
@@ -165,7 +165,7 @@ public class FloatTuple2025Test extends TestBase {
     @Test
     public void testCreateTooMany() {
         assertThrows(IllegalArgumentException.class, () -> {
-            FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f });
+            FloatTuple.fromArray(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f });
         });
     }
 
@@ -184,7 +184,7 @@ public class FloatTuple2025Test extends TestBase {
 
     @Test
     public void testMinTuple0ThrowsException() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
@@ -203,7 +203,7 @@ public class FloatTuple2025Test extends TestBase {
 
     @Test
     public void testMaxTuple0ThrowsException() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
@@ -222,14 +222,14 @@ public class FloatTuple2025Test extends TestBase {
 
     @Test
     public void testMedianTuple0ThrowsException() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     // Statistical method tests - sum
     @Test
     public void testSumTuple0() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         assertEquals(0.0f, tuple.sum(), 0.001f);
     }
 
@@ -260,14 +260,14 @@ public class FloatTuple2025Test extends TestBase {
 
     @Test
     public void testAverageTuple0ThrowsException() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     // Reverse tests
     @Test
     public void testReverseTuple0() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         FloatTuple<FloatTuple0> reversed = tuple.reverse();
         assertNotNull(reversed);
         assertEquals(0, reversed.arity());
@@ -300,7 +300,7 @@ public class FloatTuple2025Test extends TestBase {
     // Contains tests
     @Test
     public void testContainsTuple0() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         assertFalse(tuple.contains(1.0f));
     }
 
@@ -328,7 +328,7 @@ public class FloatTuple2025Test extends TestBase {
     // toArray tests
     @Test
     public void testToArrayTuple0() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         float[] array = tuple.toArray();
         assertEquals(0, array.length);
     }
@@ -358,7 +358,7 @@ public class FloatTuple2025Test extends TestBase {
     // toList tests
     @Test
     public void testToListTuple0() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         FloatList list = tuple.toList();
         assertEquals(0, list.size());
     }
@@ -384,7 +384,7 @@ public class FloatTuple2025Test extends TestBase {
     // forEach tests
     @Test
     public void testForEachTuple0() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         List<Float> result = new ArrayList<>();
         tuple.forEach(i -> result.add(i));
         assertEquals(0, result.size());
@@ -413,7 +413,7 @@ public class FloatTuple2025Test extends TestBase {
     // stream tests
     @Test
     public void testStreamTuple0() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         FloatStream stream = tuple.stream();
         assertEquals(0, stream.count());
     }
@@ -503,7 +503,7 @@ public class FloatTuple2025Test extends TestBase {
     // toString tests
     @Test
     public void testToStringTuple0() {
-        FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
+        FloatTuple<FloatTuple0> tuple = FloatTuple.fromArray(new float[0]);
         assertEquals("()", tuple.toString());
     }
 
@@ -604,7 +604,7 @@ public class FloatTuple2025Test extends TestBase {
     // arity tests for all tuple sizes
     @Test
     public void testArity() {
-        assertEquals(0, FloatTuple.create(new float[0]).arity());
+        assertEquals(0, FloatTuple.fromArray(new float[0]).arity());
         assertEquals(1, FloatTuple.of(1.0f).arity());
         assertEquals(2, FloatTuple.of(1.0f, 2.0f).arity());
         assertEquals(3, FloatTuple.of(1.0f, 2.0f, 3.0f).arity());
@@ -784,27 +784,27 @@ public class FloatTuple2025Test extends TestBase {
     // Test create methods for sizes 2, 4-8
     @Test
     public void testCreate2Through8() {
-        FloatTuple2 tuple2 = FloatTuple.create(new float[] { 1.0f, 2.0f });
+        FloatTuple2 tuple2 = FloatTuple.fromArray(new float[] { 1.0f, 2.0f });
         assertEquals(1.0f, tuple2._1, 0.001f);
         assertEquals(2.0f, tuple2._2, 0.001f);
 
-        FloatTuple4 tuple4 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f });
+        FloatTuple4 tuple4 = FloatTuple.fromArray(new float[] { 1.0f, 2.0f, 3.0f, 4.0f });
         assertEquals(1.0f, tuple4._1, 0.001f);
         assertEquals(4.0f, tuple4._4, 0.001f);
 
-        FloatTuple5 tuple5 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f });
+        FloatTuple5 tuple5 = FloatTuple.fromArray(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f });
         assertEquals(1.0f, tuple5._1, 0.001f);
         assertEquals(5.0f, tuple5._5, 0.001f);
 
-        FloatTuple6 tuple6 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f });
+        FloatTuple6 tuple6 = FloatTuple.fromArray(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f });
         assertEquals(1.0f, tuple6._1, 0.001f);
         assertEquals(6.0f, tuple6._6, 0.001f);
 
-        FloatTuple7 tuple7 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f });
+        FloatTuple7 tuple7 = FloatTuple.fromArray(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f });
         assertEquals(1.0f, tuple7._1, 0.001f);
         assertEquals(7.0f, tuple7._7, 0.001f);
 
-        FloatTuple8 tuple8 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f });
+        FloatTuple8 tuple8 = FloatTuple.fromArray(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f });
         assertEquals(1.0f, tuple8._1, 0.001f);
         assertEquals(8.0f, tuple8._8, 0.001f);
     }

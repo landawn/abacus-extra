@@ -63,7 +63,7 @@ public class MatrixTest extends TestBase {
     @Test
     public void testDiagonalLU2RD() {
         Integer[] diagonal = { 1, 2, 3 };
-        Matrix<Integer> matrix = Matrix.diagonalLU2RD(diagonal);
+        Matrix<Integer> matrix = Matrix.mainDiagonal(diagonal);
 
         Assertions.assertEquals(3, matrix.rowCount());
         Assertions.assertEquals(3, matrix.columnCount());
@@ -77,7 +77,7 @@ public class MatrixTest extends TestBase {
     @Test
     public void testDiagonalRU2LD() {
         Integer[] diagonal = { 1, 2, 3 };
-        Matrix<Integer> matrix = Matrix.diagonalRU2LD(diagonal);
+        Matrix<Integer> matrix = Matrix.antiDiagonal(diagonal);
 
         Assertions.assertEquals(3, matrix.rowCount());
         Assertions.assertEquals(3, matrix.columnCount());
@@ -92,7 +92,7 @@ public class MatrixTest extends TestBase {
     public void testDiagonalBoth() {
         Integer[] mainDiag = { 1, 2, 3 };
         Integer[] antiDiag = { 7, 8, 9 };
-        Matrix<Integer> matrix = Matrix.diagonal(mainDiag, antiDiag);
+        Matrix<Integer> matrix = Matrix.fromDiagonals(mainDiag, antiDiag);
 
         Assertions.assertEquals(3, matrix.rowCount());
         Assertions.assertEquals(3, matrix.columnCount());
@@ -108,7 +108,7 @@ public class MatrixTest extends TestBase {
         Number[] mainDiag = new Integer[0];
         Number[] antiDiag = new Double[] { 1.5, 2.5 };
 
-        Matrix<Number> matrix = Matrix.diagonal(mainDiag, antiDiag);
+        Matrix<Number> matrix = Matrix.fromDiagonals(mainDiag, antiDiag);
 
         Assertions.assertEquals(2, matrix.rowCount());
         Assertions.assertEquals(2, matrix.columnCount());
@@ -121,7 +121,7 @@ public class MatrixTest extends TestBase {
         Number[] mainDiag = new Integer[] { 1, 2 };
         Number[] antiDiag = new Double[] { 3.0, 4.0 };
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Matrix.diagonal(mainDiag, antiDiag));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(mainDiag, antiDiag));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class MatrixTest extends TestBase {
         Integer[] antiDiag = { 7, 8 };
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Matrix.diagonal(mainDiag, antiDiag);
+            Matrix.fromDiagonals(mainDiag, antiDiag);
         });
     }
 
@@ -334,7 +334,7 @@ public class MatrixTest extends TestBase {
     public void testGetLU2RD() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        Integer[] diagonal = matrix.getLU2RD();
+        Integer[] diagonal = matrix.getMainDiagonal();
         Assertions.assertArrayEquals(new Integer[] { 1, 5, 9 }, diagonal);
     }
 
@@ -343,7 +343,7 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
         Assertions.assertThrows(IllegalStateException.class, () -> {
-            matrix.getLU2RD();
+            matrix.getMainDiagonal();
         });
     }
 
@@ -351,7 +351,7 @@ public class MatrixTest extends TestBase {
     public void testSetLU2RD() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        matrix.setLU2RD(new Integer[] { 10, 20, 30 });
+        matrix.setMainDiagonal(new Integer[] { 10, 20, 30 });
         Assertions.assertEquals(10, matrix.get(0, 0));
         Assertions.assertEquals(20, matrix.get(1, 1));
         Assertions.assertEquals(30, matrix.get(2, 2));
@@ -362,7 +362,7 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.setLU2RD(new Integer[] { 10 });
+            matrix.setMainDiagonal(new Integer[] { 10 });
         });
     }
 
@@ -370,7 +370,7 @@ public class MatrixTest extends TestBase {
     public void testUpdateLU2RD() throws Exception {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        matrix.updateLU2RD(x -> x * 10);
+        matrix.updateMainDiagonal(x -> x * 10);
         Assertions.assertEquals(10, matrix.get(0, 0));
         Assertions.assertEquals(50, matrix.get(1, 1));
         Assertions.assertEquals(90, matrix.get(2, 2));
@@ -381,7 +381,7 @@ public class MatrixTest extends TestBase {
     public void testGetRU2LD() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        Integer[] diagonal = matrix.getRU2LD();
+        Integer[] diagonal = matrix.getAntiDiagonal();
         Assertions.assertArrayEquals(new Integer[] { 3, 5, 7 }, diagonal);
     }
 
@@ -389,7 +389,7 @@ public class MatrixTest extends TestBase {
     public void testSetRU2LD() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        matrix.setRU2LD(new Integer[] { 10, 20, 30 });
+        matrix.setAntiDiagonal(new Integer[] { 10, 20, 30 });
         Assertions.assertEquals(10, matrix.get(0, 2));
         Assertions.assertEquals(20, matrix.get(1, 1));
         Assertions.assertEquals(30, matrix.get(2, 0));
@@ -399,7 +399,7 @@ public class MatrixTest extends TestBase {
     public void testUpdateRU2LD() throws Exception {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        matrix.updateRU2LD(x -> x * -1);
+        matrix.updateAntiDiagonal(x -> x * -1);
         Assertions.assertEquals(-3, matrix.get(0, 2));
         Assertions.assertEquals(-5, matrix.get(1, 1));
         Assertions.assertEquals(-7, matrix.get(2, 0));
@@ -966,7 +966,7 @@ public class MatrixTest extends TestBase {
     public void testStreamLU2RD() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        List<Integer> diagonal = matrix.streamLU2RD().toList();
+        List<Integer> diagonal = matrix.streamMainDiagonal().toList();
         Assertions.assertEquals(Arrays.asList(1, 5, 9), diagonal);
     }
 
@@ -974,7 +974,7 @@ public class MatrixTest extends TestBase {
     public void testStreamLU2RDEmpty() {
         Matrix<Integer> matrix = Matrix.of(new Integer[0][0]);
 
-        List<Integer> diagonal = matrix.streamLU2RD().toList();
+        List<Integer> diagonal = matrix.streamMainDiagonal().toList();
         Assertions.assertTrue(diagonal.isEmpty());
     }
 
@@ -982,7 +982,7 @@ public class MatrixTest extends TestBase {
     public void testStreamRU2LD() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        List<Integer> diagonal = matrix.streamRU2LD().toList();
+        List<Integer> diagonal = matrix.streamAntiDiagonal().toList();
         Assertions.assertEquals(Arrays.asList(3, 5, 7), diagonal);
     }
 

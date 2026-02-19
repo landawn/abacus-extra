@@ -155,8 +155,8 @@ public class ByteMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_diagonalLU2RD() {
-        ByteMatrix m = ByteMatrix.diagonalLU2RD(new byte[] { 1, 2, 3 });
+    public void test_mainDiagonal() {
+        ByteMatrix m = ByteMatrix.mainDiagonal(new byte[] { 1, 2, 3 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -166,14 +166,14 @@ public class ByteMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_diagonalLU2RD_empty() {
-        ByteMatrix m = ByteMatrix.diagonalLU2RD(new byte[0]);
+    public void test_mainDiagonal_empty() {
+        ByteMatrix m = ByteMatrix.mainDiagonal(new byte[0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
-    public void test_diagonalRU2LD() {
-        ByteMatrix m = ByteMatrix.diagonalRU2LD(new byte[] { 1, 2, 3 });
+    public void test_antiDiagonal() {
+        ByteMatrix m = ByteMatrix.antiDiagonal(new byte[] { 1, 2, 3 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 2));
@@ -183,7 +183,7 @@ public class ByteMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_both() {
-        ByteMatrix m = ByteMatrix.diagonal(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
+        ByteMatrix m = ByteMatrix.fromDiagonals(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -192,7 +192,7 @@ public class ByteMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_differentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.diagonal(new byte[] { 1, 2 }, new byte[] { 3, 4, 5 }));
+        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.fromDiagonals(new byte[] { 1, 2 }, new byte[] { 3, 4, 5 }));
     }
 
     @Test
@@ -380,62 +380,62 @@ public class ByteMatrix2512Test extends TestBase {
     // ============ Diagonal Access Tests ============
 
     @Test
-    public void test_getLU2RD() {
+    public void test_getMainDiagonal() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        byte[] diag = m.getLU2RD();
+        byte[] diag = m.getMainDiagonal();
         assertArrayEquals(new byte[] { 1, 5, 9 }, diag);
     }
 
     @Test
-    public void test_getLU2RD_nonSquare() {
+    public void test_getMainDiagonal_nonSquare() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
-    public void test_setLU2RD() {
+    public void test_setMainDiagonal() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.setLU2RD(new byte[] { 10, 20, 30 });
+        m.setMainDiagonal(new byte[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 0));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 2));
     }
 
     @Test
-    public void test_setLU2RD_invalidLength() {
+    public void test_setMainDiagonal_invalidLength() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new byte[] { 1 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new byte[] { 1 }));
     }
 
     @Test
-    public void test_updateLU2RD() {
+    public void test_updateMainDiagonal() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.updateLU2RD(val -> (byte) (val * 2));
+        m.updateMainDiagonal(val -> (byte) (val * 2));
         assertEquals(2, m.get(0, 0));
         assertEquals(10, m.get(1, 1));
         assertEquals(18, m.get(2, 2));
     }
 
     @Test
-    public void test_getRU2LD() {
+    public void test_getAntiDiagonal() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        byte[] diag = m.getRU2LD();
+        byte[] diag = m.getAntiDiagonal();
         assertArrayEquals(new byte[] { 3, 5, 7 }, diag);
     }
 
     @Test
-    public void test_setRU2LD() {
+    public void test_setAntiDiagonal() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.setRU2LD(new byte[] { 10, 20, 30 });
+        m.setAntiDiagonal(new byte[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 2));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 0));
     }
 
     @Test
-    public void test_updateRU2LD() {
+    public void test_updateAntiDiagonal() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.updateRU2LD(val -> (byte) (val * 2));
+        m.updateAntiDiagonal(val -> (byte) (val * 2));
         assertEquals(6, m.get(0, 2));
         assertEquals(10, m.get(1, 1));
         assertEquals(14, m.get(2, 0));
@@ -845,16 +845,16 @@ public class ByteMatrix2512Test extends TestBase {
     // ============ Stream Tests ============
 
     @Test
-    public void test_streamLU2RD() {
+    public void test_streamMainDiagonal() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        byte[] diag = m.streamLU2RD().toArray();
+        byte[] diag = m.streamMainDiagonal().toArray();
         assertArrayEquals(new byte[] { 1, 5, 9 }, diag);
     }
 
     @Test
-    public void test_streamRU2LD() {
+    public void test_streamAntiDiagonal() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        byte[] diag = m.streamRU2LD().toArray();
+        byte[] diag = m.streamAntiDiagonal().toArray();
         assertArrayEquals(new byte[] { 3, 5, 7 }, diag);
     }
 

@@ -112,7 +112,7 @@ import com.landawn.abacus.util.stream.Stream;
  * <ul>
  *   <li><b>Dimensional Operations:</b> {@code rowCount}, {@code columnCount}, {@code elementCount}, {@code isEmpty()}</li>
  *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code row()}, {@code column()}</li>
- *   <li><b>Stream Operations:</b> {@code streamH()}, {@code streamV()}, {@code streamR()}, {@code streamC()}, {@code streamLU2RD()}, {@code streamRU2LD()}</li>
+ *   <li><b>Stream Operations:</b> {@code streamH()}, {@code streamV()}, {@code streamR()}, {@code streamC()}, {@code streamMainDiagonal()}, {@code streamAntiDiagonal()}</li>
  *   <li><b>Transformation Operations:</b> {@code transpose()}, {@code rotate()}, {@code flip()}, {@code reshape()}</li>
  *   <li><b>Mathematical Operations:</b> Element-wise arithmetic, linear algebra, statistical functions</li>
  *   <li><b>Utility Operations:</b> {@code copy()}, {@code clone()}, {@code toArray()}, {@code toString()}</li>
@@ -1277,14 +1277,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Point> diagonal = matrix.pointsLU2RD();   // Points: (0,0), (1,1), (2,2)
+     * Stream<Point> diagonal = matrix.pointsMainDiagonal();   // Points: (0,0), (1,1), (2,2)
      * List<Point> points = diagonal.toList();          // [(0,0), (1,1), (2,2)]
      * }</pre>
      *
      * @return a stream of {@link Point} objects representing the main diagonal positions
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public Stream<Point> pointsLU2RD() {
+    public Stream<Point> pointsMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         //noinspection resource
@@ -1301,14 +1301,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Point> antiDiagonal = matrix.pointsRU2LD();   // Points: (0,2), (1,1), (2,0)
+     * Stream<Point> antiDiagonal = matrix.pointsAntiDiagonal();   // Points: (0,2), (1,1), (2,0)
      * List<Point> points = antiDiagonal.toList();          // [(0,2), (1,1), (2,0)]
      * }</pre>
      *
      * @return a stream of {@link Point} objects representing the anti-diagonal positions
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public Stream<Point> pointsRU2LD() {
+    public Stream<Point> pointsAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         //noinspection resource
@@ -1551,14 +1551,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * IntStream diagonal = matrix.streamLU2RD();   // Stream of: 1, 5, 9
+     * IntStream diagonal = matrix.streamMainDiagonal();   // Stream of: 1, 5, 9
      * int sum = diagonal.sum();                    // 15
      * }</pre>
      *
      * @return a stream of diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public abstract ES streamLU2RD();
+    public abstract ES streamMainDiagonal();
 
     /**
      * Returns a stream of elements along the anti-diagonal (right-up to left-down).
@@ -1570,14 +1570,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * IntStream antiDiagonal = matrix.streamRU2LD();   // Stream of: 3, 5, 7
+     * IntStream antiDiagonal = matrix.streamAntiDiagonal();   // Stream of: 3, 5, 7
      * int sum = antiDiagonal.sum();                    // 15
      * }</pre>
      *
      * @return a stream of anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public abstract ES streamRU2LD();
+    public abstract ES streamAntiDiagonal();
 
     /**
      * Returns a stream of all elements in row-major order (horizontal traversal).
@@ -1881,8 +1881,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Validates that this matrix is square (rowCount == columnCount).
      * This is a helper method used internally to enforce the square matrix requirement
-     * for diagonal operations such as {@link #streamLU2RD()}, {@link #streamRU2LD()},
-     * {@link #pointsLU2RD()}, and {@link #pointsRU2LD()}.
+     * for diagonal operations such as {@link #streamMainDiagonal()}, {@link #streamAntiDiagonal()},
+     * {@link #pointsMainDiagonal()}, and {@link #pointsAntiDiagonal()}.
      *
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */

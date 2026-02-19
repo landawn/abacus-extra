@@ -117,29 +117,29 @@ public class ShortTupleTest extends TestBase {
     @Test
     public void testCreate() {
         // Test empty array
-        ShortTuple<?> empty = ShortTuple.create(null);
+        ShortTuple<?> empty = ShortTuple.fromArray(null);
         assertEquals(0, empty.arity());
 
-        empty = ShortTuple.create(new short[0]);
+        empty = ShortTuple.fromArray(new short[0]);
         assertEquals(0, empty.arity());
 
         // Test array with 1 element
-        ShortTuple.ShortTuple1 tuple1 = ShortTuple.create(new short[] { 5 });
+        ShortTuple.ShortTuple1 tuple1 = ShortTuple.fromArray(new short[] { 5 });
         assertEquals(1, tuple1.arity());
         assertEquals(5, tuple1._1);
 
         // Test array with 5 elements
-        ShortTuple.ShortTuple5 tuple5 = ShortTuple.create(new short[] { 5, 10, 15, 20, 25 });
+        ShortTuple.ShortTuple5 tuple5 = ShortTuple.fromArray(new short[] { 5, 10, 15, 20, 25 });
         assertEquals(5, tuple5.arity());
         assertEquals(25, tuple5._5);
 
         // Test array with 9 elements
-        ShortTuple.ShortTuple9 tuple9 = ShortTuple.create(new short[] { 5, 10, 15, 20, 25, 30, 35, 40, 45 });
+        ShortTuple.ShortTuple9 tuple9 = ShortTuple.fromArray(new short[] { 5, 10, 15, 20, 25, 30, 35, 40, 45 });
         assertEquals(9, tuple9.arity());
         assertEquals(45, tuple9._9);
 
         // Test too many elements
-        assertThrows(IllegalArgumentException.class, () -> ShortTuple.create(new short[10]));
+        assertThrows(IllegalArgumentException.class, () -> ShortTuple.fromArray(new short[10]));
     }
 
     @Test
@@ -147,7 +147,7 @@ public class ShortTupleTest extends TestBase {
         ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 15, (short) 5, (short) 10);
         assertEquals(5, tuple.min());
 
-        ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
+        ShortTuple.ShortTuple0 empty = ShortTuple.fromArray(new short[0]);
         assertThrows(NoSuchElementException.class, () -> empty.min());
     }
 
@@ -156,7 +156,7 @@ public class ShortTupleTest extends TestBase {
         ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 15, (short) 5, (short) 10);
         assertEquals(15, tuple.max());
 
-        ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
+        ShortTuple.ShortTuple0 empty = ShortTuple.fromArray(new short[0]);
         assertThrows(NoSuchElementException.class, () -> empty.max());
     }
 
@@ -168,7 +168,7 @@ public class ShortTupleTest extends TestBase {
         ShortTuple.ShortTuple4 evenTuple = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20);
         assertEquals((short) 10, evenTuple.median()); // Should be (10 + 15) / 2 = 12
 
-        ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
+        ShortTuple.ShortTuple0 empty = ShortTuple.fromArray(new short[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());
     }
 
@@ -177,7 +177,7 @@ public class ShortTupleTest extends TestBase {
         ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 5, (short) 10, (short) 15);
         assertEquals(30, tuple.sum());
 
-        ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
+        ShortTuple.ShortTuple0 empty = ShortTuple.fromArray(new short[0]);
         assertEquals(0, empty.sum());
     }
 
@@ -186,14 +186,14 @@ public class ShortTupleTest extends TestBase {
         ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 5, (short) 10, (short) 15);
         assertEquals(10.0, tuple.average());
 
-        ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
+        ShortTuple.ShortTuple0 empty = ShortTuple.fromArray(new short[0]);
         assertThrows(NoSuchElementException.class, () -> empty.average());
     }
 
     @Test
     public void testReverse() {
         // Test Tuple0
-        ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
+        ShortTuple.ShortTuple0 empty = ShortTuple.fromArray(new short[0]);
         ShortTuple.ShortTuple0 reversedEmpty = empty.reverse();
         assertEquals(0, reversedEmpty.arity());
 
@@ -228,7 +228,7 @@ public class ShortTupleTest extends TestBase {
     @Test
     public void testContains() {
         // Test Tuple0
-        ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
+        ShortTuple.ShortTuple0 empty = ShortTuple.fromArray(new short[0]);
         assertFalse(empty.contains((short) 5));
 
         // Test Tuple1
@@ -348,7 +348,7 @@ public class ShortTupleTest extends TestBase {
 
     @Test
     public void testToString() {
-        ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
+        ShortTuple.ShortTuple0 empty = ShortTuple.fromArray(new short[0]);
         assertEquals("()", empty.toString());
 
         ShortTuple.ShortTuple1 single = ShortTuple.of((short) 5);

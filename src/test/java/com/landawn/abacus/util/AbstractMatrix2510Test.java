@@ -927,7 +927,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testPointsLU2RD() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        Stream<Point> points = m.pointsLU2RD();
+        Stream<Point> points = m.pointsMainDiagonal();
         List<Point> list = points.toList();
 
         assertEquals(3, list.size());
@@ -942,13 +942,13 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testPointsLU2RD_nonSquare() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.pointsLU2RD().toList());
+        assertThrows(IllegalStateException.class, () -> m.pointsMainDiagonal().toList());
     }
 
     @Test
     public void testPointsRU2LD() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        Stream<Point> points = m.pointsRU2LD();
+        Stream<Point> points = m.pointsAntiDiagonal();
         List<Point> list = points.toList();
 
         assertEquals(3, list.size());
@@ -963,7 +963,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testPointsRU2LD_nonSquare() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.pointsRU2LD().toList());
+        assertThrows(IllegalStateException.class, () -> m.pointsAntiDiagonal().toList());
     }
 
     @Test
@@ -1093,7 +1093,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testStreamLU2RD_intMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        int[] diagonal = m.streamLU2RD().toArray();
+        int[] diagonal = m.streamMainDiagonal().toArray();
 
         assertEquals(3, diagonal.length);
         assertEquals(1, diagonal[0]);
@@ -1104,7 +1104,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testStreamRU2LD_intMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        int[] diagonal = m.streamRU2LD().toArray();
+        int[] diagonal = m.streamAntiDiagonal().toArray();
 
         assertEquals(3, diagonal.length);
         assertEquals(3, diagonal[0]);

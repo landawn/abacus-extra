@@ -271,13 +271,13 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <pre>{@code
      * // Create from array
      * boolean[] values = {true, false, true};
-     * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.create(values);
+     * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.fromArray(values);
      *
      * // Empty array returns BooleanTuple<?>
-     * BooleanTuple<?> empty = BooleanTuple.create(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.fromArray(new boolean[0]);
      *
      * // Single element
-     * BooleanTuple.BooleanTuple1 single = BooleanTuple.create(new boolean[]{true});
+     * BooleanTuple.BooleanTuple1 single = BooleanTuple.fromArray(new boolean[]{true});
      * }</pre>
      *
      * @param <TP> the specific BooleanTuple subtype to return
@@ -286,7 +286,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends BooleanTuple<TP>> TP create(final boolean[] values) {
+    public static <TP extends BooleanTuple<TP>> TP fromArray(final boolean[] values) {
         if (values == null || values.length == 0) {
             return (TP) BooleanTuple0.EMPTY;
         }
@@ -557,13 +557,13 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p>
      * This class represents a tuple with arity 0, serving as a singleton instance
      * for cases where an empty boolean tuple is needed. It is typically returned
-     * by the {@link #create(boolean[])} method when a null or empty array is provided.
+     * by the {@link #fromArray(boolean[])} method when a null or empty array is provided.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple<?> empty = BooleanTuple.create(null);
-     * BooleanTuple<?> empty2 = BooleanTuple.create(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.fromArray(null);
+     * BooleanTuple<?> empty2 = BooleanTuple.fromArray(new boolean[0]);
      * int size = empty.arity();   // 0
      * }</pre>
      */

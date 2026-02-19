@@ -338,7 +338,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.diagonalLU2RD(new double[] {1.0, 2.0, 3.0});
+     * DoubleMatrix matrix = DoubleMatrix.mainDiagonal(new double[] {1.0, 2.0, 3.0});
      * // Creates 3x3 matrix:
      * // [[1.0, 0.0, 0.0],
      * //  [0.0, 2.0, 0.0],
@@ -348,8 +348,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param leftUp2RightDownDiagonal the array of main diagonal elements, or null/empty for an empty matrix
      * @return a square matrix with the specified main diagonal, or an empty matrix if input is null or empty
      */
-    public static DoubleMatrix diagonalLU2RD(final double[] leftUp2RightDownDiagonal) {
-        return diagonal(leftUp2RightDownDiagonal, null);
+    public static DoubleMatrix mainDiagonal(final double[] leftUp2RightDownDiagonal) {
+        return fromDiagonals(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -359,7 +359,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.diagonalRU2LD(new double[] {1.0, 2.0, 3.0});
+     * DoubleMatrix matrix = DoubleMatrix.antiDiagonal(new double[] {1.0, 2.0, 3.0});
      * // Creates 3x3 matrix:
      * // [[0.0, 0.0, 1.0],
      * //  [0.0, 2.0, 0.0],
@@ -369,8 +369,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements, or null/empty for an empty matrix
      * @return a square matrix with the specified anti-diagonal, or an empty matrix if input is null or empty
      */
-    public static DoubleMatrix diagonalRU2LD(final double[] rightUp2LeftDownDiagonal) {
-        return diagonal(null, rightUp2LeftDownDiagonal);
+    public static DoubleMatrix antiDiagonal(final double[] rightUp2LeftDownDiagonal) {
+        return fromDiagonals(null, rightUp2LeftDownDiagonal);
     }
 
     /**
@@ -381,7 +381,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.diagonal(new double[] { 1.0, 2.0, 3.0 }, new double[] { 4.0, 5.0, 6.0 });
+     * DoubleMatrix matrix = DoubleMatrix.fromDiagonals(new double[] { 1.0, 2.0, 3.0 }, new double[] { 4.0, 5.0, 6.0 });
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix: 
      * //   {1.0, 0, 4.0},
@@ -395,7 +395,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static DoubleMatrix diagonal(final double[] leftUp2RightDownDiagonal, final double[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static DoubleMatrix fromDiagonals(final double[] leftUp2RightDownDiagonal, final double[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -808,13 +808,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
-     * double[] diagonal = matrix.getLU2RD();   // Returns [1.0, 5.0, 9.0]
+     * double[] diagonal = matrix.getMainDiagonal();   // Returns [1.0, 5.0, 9.0]
      * }</pre>
      *
      * @return a new double array containing a copy of the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public double[] getLU2RD() throws IllegalStateException {
+    public double[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final double[] res = new double[rowCount];
@@ -837,7 +837,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.setLU2RD(new double[] {9.0, 8.0});
+     * matrix.setMainDiagonal(new double[] {9.0, 8.0});
      * // Diagonal is now [9.0, 8.0]
      * }</pre>
      *
@@ -845,7 +845,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
-    public void setLU2RD(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -861,7 +861,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
+     * matrix.updateMainDiagonal(x -> x * x);   // Squares all diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -870,7 +870,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.DoubleUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateMainDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -889,13 +889,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
-     * double[] diagonal = matrix.getRU2LD();   // Returns [3.0, 5.0, 7.0]
+     * double[] diagonal = matrix.getAntiDiagonal();   // Returns [3.0, 5.0, 7.0]
      * }</pre>
      *
      * @return a new double array containing a copy of the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public double[] getRU2LD() throws IllegalStateException {
+    public double[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final double[] res = new double[rowCount];
@@ -918,7 +918,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.setRU2LD(new double[] {9.0, 8.0});
+     * matrix.setAntiDiagonal(new double[] {9.0, 8.0});
      * // Anti-diagonal is now [9.0, 8.0]
      * }</pre>
      *
@@ -926,7 +926,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal rows
      */
-    public void setRU2LD(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -942,7 +942,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
+     * matrix.updateAntiDiagonal(x -> -x);   // Negates all anti-diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -951,7 +951,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.DoubleUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -2268,14 +2268,14 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double[] diagonal = matrix.streamLU2RD().toArray();   // [1.0, 4.0]
+     * double[] diagonal = matrix.streamMainDiagonal().toArray();   // [1.0, 4.0]
      * }</pre>
      *
      * @return a DoubleStream of diagonal elements from top-left to bottom-right
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public DoubleStream streamLU2RD() {
+    public DoubleStream streamMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {
@@ -2323,14 +2323,14 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double[] antiDiagonal = matrix.streamRU2LD().toArray();   // [2.0, 3.0]
+     * double[] antiDiagonal = matrix.streamAntiDiagonal().toArray();   // [2.0, 3.0]
      * }</pre>
      *
      * @return a DoubleStream of diagonal elements from top-right to bottom-left
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public DoubleStream streamRU2LD() {
+    public DoubleStream streamAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {

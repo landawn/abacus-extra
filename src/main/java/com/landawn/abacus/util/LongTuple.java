@@ -242,7 +242,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] values = {1L, 2L, 3L};
-     * LongTuple.LongTuple3 tuple = LongTuple.create(values);
+     * LongTuple.LongTuple3 tuple = LongTuple.fromArray(values);
      * // tuple._1 == 1, tuple._2 == 2, tuple._3 == 3
      * }</pre>
      *
@@ -252,7 +252,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends LongTuple<TP>> TP create(final long[] values) {
+    public static <TP extends LongTuple<TP>> TP fromArray(final long[] values) {
         if (values == null || values.length == 0) {
             return (TP) LongTuple0.EMPTY;
         }
@@ -542,7 +542,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * An empty tuple containing no elements.
      * This class is used to represent a tuple with zero elements
-     * and is returned by {@link #create(long[])} when passed a null or empty array.
+     * and is returned by {@link #fromArray(long[])} when passed a null or empty array.
      */
     static final class LongTuple0 extends LongTuple<LongTuple0> {
 

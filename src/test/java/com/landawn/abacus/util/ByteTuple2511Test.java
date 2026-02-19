@@ -136,25 +136,25 @@ public class ByteTuple2511Test extends TestBase {
         assertEquals(9, tuple.arity());
     }
 
-    // ============ Factory Method Tests - ByteTuple.create() ============
+    // ============ Factory Method Tests - ByteTuple.fromArray() ============
 
     @Test
     public void testCreate_nullArray() {
-        ByteTuple<?> tuple = ByteTuple.create(null);
+        ByteTuple<?> tuple = ByteTuple.fromArray(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_emptyArray() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_singleElement() {
-        ByteTuple1 tuple = ByteTuple.create(new byte[] { 10 });
+        ByteTuple1 tuple = ByteTuple.fromArray(new byte[] { 10 });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals((byte) 10, tuple._1);
@@ -162,7 +162,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testCreate_twoElements() {
-        ByteTuple2 tuple = ByteTuple.create(new byte[] { 10, 20 });
+        ByteTuple2 tuple = ByteTuple.fromArray(new byte[] { 10, 20 });
         assertNotNull(tuple);
         assertEquals(2, tuple.arity());
         assertEquals((byte) 10, tuple._1);
@@ -171,7 +171,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testCreate_nineElements() {
-        ByteTuple9 tuple = ByteTuple.create(new byte[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
+        ByteTuple9 tuple = ByteTuple.fromArray(new byte[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
         assertNotNull(tuple);
         assertEquals(9, tuple.arity());
         assertEquals((byte) 10, tuple._1);
@@ -180,7 +180,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testCreate_tooManyElements() {
-        assertThrows(IllegalArgumentException.class, () -> ByteTuple.create(new byte[10]));
+        assertThrows(IllegalArgumentException.class, () -> ByteTuple.fromArray(new byte[10]));
     }
 
     // ============ Accessor Tests - Direct Field Access ============
@@ -210,7 +210,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_min_throwsException() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
@@ -242,7 +242,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_max_throwsException() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
@@ -274,7 +274,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_median_throwsException() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
@@ -306,7 +306,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_sum() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         assertEquals(0, tuple.sum());
     }
 
@@ -338,7 +338,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_average_throwsException() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
@@ -370,7 +370,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_reverse() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         ByteTuple0 reversed = tuple.reverse();
         assertNotNull(reversed);
         assertEquals(tuple, reversed);
@@ -422,7 +422,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_contains() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         assertFalse(tuple.contains((byte) 10));
         assertFalse(tuple.contains((byte) 20));
     }
@@ -463,7 +463,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_toArray() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         byte[] array = tuple.toArray();
         assertNotNull(array);
         assertEquals(0, array.length);
@@ -507,7 +507,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_toList() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         ByteList list = tuple.toList();
         assertNotNull(list);
         assertEquals(0, list.size());
@@ -547,7 +547,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_forEach() throws Exception {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         List<Byte> results = new ArrayList<>();
         tuple.forEach(b -> results.add(b));
         assertEquals(0, results.size());
@@ -708,8 +708,8 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_hashCode() {
-        ByteTuple0 tuple1 = ByteTuple.create(new byte[0]);
-        ByteTuple0 tuple2 = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple1 = ByteTuple.fromArray(new byte[0]);
+        ByteTuple0 tuple2 = ByteTuple.fromArray(new byte[0]);
         assertEquals(tuple1.hashCode(), tuple2.hashCode());
     }
 
@@ -746,8 +746,8 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_equals() {
-        ByteTuple0 tuple1 = ByteTuple.create(new byte[0]);
-        ByteTuple0 tuple2 = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple1 = ByteTuple.fromArray(new byte[0]);
+        ByteTuple0 tuple2 = ByteTuple.fromArray(new byte[0]);
         assertEquals(tuple1, tuple2);
     }
 
@@ -817,7 +817,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_toString() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         assertEquals("()", tuple.toString());
     }
 
@@ -843,7 +843,7 @@ public class ByteTuple2511Test extends TestBase {
 
     @Test
     public void testTuple0_arity() {
-        ByteTuple0 tuple = ByteTuple.create(new byte[0]);
+        ByteTuple0 tuple = ByteTuple.fromArray(new byte[0]);
         assertEquals(0, tuple.arity());
     }
 

@@ -588,7 +588,7 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testPointsLU2RD() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Point> points = m.pointsLU2RD().toList();
+        List<Point> points = m.pointsMainDiagonal().toList();
 
         assertEquals(3, points.size());
         assertEquals(Point.of(0, 0), points.get(0));
@@ -599,13 +599,13 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testPointsLU2RD_nonSquare() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.pointsLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.pointsMainDiagonal());
     }
 
     @Test
     public void testPointsRU2LD() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Point> points = m.pointsRU2LD().toList();
+        List<Point> points = m.pointsAntiDiagonal().toList();
 
         assertEquals(3, points.size());
         assertEquals(Point.of(0, 2), points.get(0));
@@ -616,7 +616,7 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testPointsRU2LD_nonSquare() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.pointsRU2LD());
+        assertThrows(IllegalStateException.class, () -> m.pointsAntiDiagonal());
     }
 
     @Test
@@ -762,27 +762,27 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testStreamLU2RD() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        int[] diagonal = m.streamLU2RD().toArray();
+        int[] diagonal = m.streamMainDiagonal().toArray();
         assertArrayEquals(new int[] { 1, 5, 9 }, diagonal);
     }
 
     @Test
     public void testStreamLU2RD_nonSquare() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.streamLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.streamMainDiagonal());
     }
 
     @Test
     public void testStreamRU2LD() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        int[] antiDiagonal = m.streamRU2LD().toArray();
+        int[] antiDiagonal = m.streamAntiDiagonal().toArray();
         assertArrayEquals(new int[] { 3, 5, 7 }, antiDiagonal);
     }
 
     @Test
     public void testStreamRU2LD_nonSquare() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.streamRU2LD());
+        assertThrows(IllegalStateException.class, () -> m.streamAntiDiagonal());
     }
 
     @Test

@@ -107,21 +107,21 @@ public class FloatTuple2512Test extends TestBase {
 
     @Test
     public void test_create_nullArray() {
-        FloatTuple0 tuple = FloatTuple.create(null);
+        FloatTuple0 tuple = FloatTuple.fromArray(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_emptyArray() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_singleElementArray() {
-        FloatTuple1 tuple = FloatTuple.create(new float[] { 42.0f });
+        FloatTuple1 tuple = FloatTuple.fromArray(new float[] { 42.0f });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals(42.0f, tuple._1, 0.0001f);
@@ -129,7 +129,7 @@ public class FloatTuple2512Test extends TestBase {
 
     @Test
     public void test_create_multipleElementsArray() {
-        FloatTuple3 tuple = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f });
+        FloatTuple3 tuple = FloatTuple.fromArray(new float[] { 1.0f, 2.0f, 3.0f });
         assertNotNull(tuple);
         assertEquals(3, tuple.arity());
         assertEquals(1.0f, tuple._1, 0.0001f);
@@ -140,63 +140,63 @@ public class FloatTuple2512Test extends TestBase {
     @Test
     public void test_create_tooManyElements() {
         float[] array = new float[10];
-        assertThrows(IllegalArgumentException.class, () -> FloatTuple.create(array));
+        assertThrows(IllegalArgumentException.class, () -> FloatTuple.fromArray(array));
     }
 
     // ===== FloatTuple0 Tests =====
 
     @Test
     public void test_FloatTuple0_arity() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_FloatTuple0_min_throwsException() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
     @Test
     public void test_FloatTuple0_max_throwsException() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
     @Test
     public void test_FloatTuple0_median_throwsException() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     @Test
     public void test_FloatTuple0_sum() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         assertEquals(0.0f, tuple.sum(), 0.0001f);
     }
 
     @Test
     public void test_FloatTuple0_average_throwsException() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     @Test
     public void test_FloatTuple0_reverse() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         FloatTuple0 reversed = tuple.reverse();
         assertSame(tuple, reversed);
     }
 
     @Test
     public void test_FloatTuple0_contains() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         assertFalse(tuple.contains(1.0f));
     }
 
     @Test
     public void test_FloatTuple0_toString() {
-        FloatTuple0 tuple = FloatTuple.create(new float[0]);
+        FloatTuple0 tuple = FloatTuple.fromArray(new float[0]);
         assertEquals("()", tuple.toString());
     }
 

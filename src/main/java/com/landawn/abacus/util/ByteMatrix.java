@@ -285,15 +285,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.diagonalLU2RD(new byte[] {1, 2, 3});
+     * ByteMatrix matrix = ByteMatrix.mainDiagonal(new byte[] {1, 2, 3});
      * // Creates 3x3 matrix with diagonal [1, 2, 3] and zeros elsewhere
      * }</pre>
      *
      * @param leftUp2RightDownDiagonal the array of diagonal elements
      * @return a square n×n matrix with the specified main diagonal, where n is the array length
      */
-    public static ByteMatrix diagonalLU2RD(final byte[] leftUp2RightDownDiagonal) {
-        return diagonal(leftUp2RightDownDiagonal, null);
+    public static ByteMatrix mainDiagonal(final byte[] leftUp2RightDownDiagonal) {
+        return fromDiagonals(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -303,7 +303,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.diagonalRU2LD(new byte[] {1, 2, 3});
+     * ByteMatrix matrix = ByteMatrix.antiDiagonal(new byte[] {1, 2, 3});
      * // Creates 3x3 matrix with anti-diagonal [1, 2, 3] and zeros elsewhere
      * // Resulting matrix:
      * //   {0, 0, 1},
@@ -314,8 +314,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
-    public static ByteMatrix diagonalRU2LD(final byte[] rightUp2LeftDownDiagonal) {
-        return diagonal(null, rightUp2LeftDownDiagonal);
+    public static ByteMatrix antiDiagonal(final byte[] rightUp2LeftDownDiagonal) {
+        return fromDiagonals(null, rightUp2LeftDownDiagonal);
     }
 
     /**
@@ -326,7 +326,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.diagonal(new byte[] {1, 2, 3}, new byte[] {4, 5, 6});
+     * ByteMatrix matrix = ByteMatrix.fromDiagonals(new byte[] {1, 2, 3}, new byte[] {4, 5, 6});
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1, 0, 4},
@@ -340,7 +340,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static ByteMatrix diagonal(final byte[] leftUp2RightDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static ByteMatrix fromDiagonals(final byte[] leftUp2RightDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -747,13 +747,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * byte[] diagonal = matrix.getLU2RD();   // Returns [1, 5, 9]
+     * byte[] diagonal = matrix.getMainDiagonal();   // Returns [1, 5, 9]
      * }</pre>
      *
      * @return a new byte array containing the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public byte[] getLU2RD() throws IllegalStateException {
+    public byte[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final byte[] res = new byte[rowCount];
@@ -775,7 +775,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.setLU2RD(new byte[] {10, 11, 12});
+     * matrix.setMainDiagonal(new byte[] {10, 11, 12});
      * // Diagonal is now [10, 11, 12]
      * }</pre>
      *
@@ -783,7 +783,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setLU2RD(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -800,7 +800,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.updateLU2RD(b -> (byte)(b * 2));
+     * matrix.updateMainDiagonal(b -> (byte)(b * 2));
      * // Diagonal is now: [2, 10, 18]
      * }</pre>
      *
@@ -809,7 +809,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.ByteUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateMainDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -827,13 +827,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * byte[] diagonal = matrix.getRU2LD();   // Returns [3, 5, 7]
+     * byte[] diagonal = matrix.getAntiDiagonal();   // Returns [3, 5, 7]
      * }</pre>
      *
      * @return a new byte array containing the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public byte[] getRU2LD() throws IllegalStateException {
+    public byte[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final byte[] res = new byte[rowCount];
@@ -856,7 +856,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.setRU2LD(new byte[] {10, 11, 12});
+     * matrix.setAntiDiagonal(new byte[] {10, 11, 12});
      * // Anti-diagonal is now [10, 11, 12]
      * }</pre>
      *
@@ -864,7 +864,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
-    public void setRU2LD(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -881,7 +881,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.updateRU2LD(b -> (byte)(b + 1));
+     * matrix.updateAntiDiagonal(b -> (byte)(b + 1));
      * // Anti-diagonal is now: [4, 6, 8]
      * }</pre>
      *
@@ -890,7 +890,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.ByteUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -2309,14 +2309,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1,2,3},{4,5,6},{7,8,9}});
-     * ByteStream diagonal = matrix.streamLU2RD();   // Stream of [1, 5, 9]
+     * ByteStream diagonal = matrix.streamMainDiagonal();   // Stream of [1, 5, 9]
      * }</pre>
      * 
      * @return a ByteStream of diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     @Override
-    public ByteStream streamLU2RD() {
+    public ByteStream streamMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {
@@ -2364,14 +2364,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1,2,3},{4,5,6},{7,8,9}});
-     * ByteStream antiDiagonal = matrix.streamRU2LD();   // Stream of [3, 5, 7]
+     * ByteStream antiDiagonal = matrix.streamAntiDiagonal();   // Stream of [3, 5, 7]
      * }</pre>
      *
      * @return a ByteStream of anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     @Override
-    public ByteStream streamRU2LD() {
+    public ByteStream streamAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {

@@ -141,7 +141,7 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD() {
-        BooleanMatrix m = BooleanMatrix.diagonalLU2RD(new boolean[] { true, false, true });
+        BooleanMatrix m = BooleanMatrix.mainDiagonal(new boolean[] { true, false, true });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
@@ -153,13 +153,13 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD_empty() {
-        BooleanMatrix m = BooleanMatrix.diagonalLU2RD(new boolean[0]);
+        BooleanMatrix m = BooleanMatrix.mainDiagonal(new boolean[0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonalRU2LD() {
-        BooleanMatrix m = BooleanMatrix.diagonalRU2LD(new boolean[] { true, false, true });
+        BooleanMatrix m = BooleanMatrix.antiDiagonal(new boolean[] { true, false, true });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 2));
@@ -171,7 +171,7 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        BooleanMatrix m = BooleanMatrix.diagonal(new boolean[] { true, true, true }, new boolean[] { false, false, false });
+        BooleanMatrix m = BooleanMatrix.fromDiagonals(new boolean[] { true, true, true }, new boolean[] { false, false, false });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
@@ -183,7 +183,7 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        BooleanMatrix m = BooleanMatrix.diagonal(new boolean[] { true, false, true }, null);
+        BooleanMatrix m = BooleanMatrix.fromDiagonals(new boolean[] { true, false, true }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
@@ -193,7 +193,7 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        BooleanMatrix m = BooleanMatrix.diagonal(null, new boolean[] { false, true, false });
+        BooleanMatrix m = BooleanMatrix.fromDiagonals(null, new boolean[] { false, true, false });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertFalse(m.get(0, 2));
@@ -203,13 +203,13 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        BooleanMatrix m = BooleanMatrix.diagonal(null, null);
+        BooleanMatrix m = BooleanMatrix.fromDiagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.diagonal(new boolean[] { true, false }, new boolean[] { true, false, true }));
+        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.fromDiagonals(new boolean[] { true, false }, new boolean[] { true, false, true }));
     }
 
     @Test
@@ -432,20 +432,20 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testGetLU2RD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, false, true } });
-        boolean[] diag = m.getLU2RD();
+        boolean[] diag = m.getMainDiagonal();
         assertArrayEquals(new boolean[] { true, true, true }, diag);
     }
 
     @Test
     public void testGetLU2RD_nonSquare() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
     public void testSetLU2RD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, false }, { false, false, false }, { false, false, false } });
-        m.setLU2RD(new boolean[] { true, true, true });
+        m.setMainDiagonal(new boolean[] { true, true, true });
         assertTrue(m.get(0, 0));
         assertTrue(m.get(1, 1));
         assertTrue(m.get(2, 2));
@@ -455,13 +455,13 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testSetLU2RD_invalidLength() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[3][3]);
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new boolean[] { true, true }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new boolean[] { true, true }));
     }
 
     @Test
     public void testUpdateLU2RD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, false }, { false, false, false }, { false, false, true } });
-        m.updateLU2RD(val -> !val);
+        m.updateMainDiagonal(val -> !val);
         assertFalse(m.get(0, 0));
         assertTrue(m.get(1, 1));
         assertFalse(m.get(2, 2));
@@ -470,14 +470,14 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testGetRU2LD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, true }, { false, true, false }, { true, false, false } });
-        boolean[] diag = m.getRU2LD();
+        boolean[] diag = m.getAntiDiagonal();
         assertArrayEquals(new boolean[] { true, true, true }, diag);
     }
 
     @Test
     public void testSetRU2LD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, false }, { false, false, false }, { false, false, false } });
-        m.setRU2LD(new boolean[] { true, true, true });
+        m.setAntiDiagonal(new boolean[] { true, true, true });
         assertTrue(m.get(0, 2));
         assertTrue(m.get(1, 1));
         assertTrue(m.get(2, 0));
@@ -487,7 +487,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testUpdateRU2LD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, true }, { false, false, false }, { true, false, false } });
-        m.updateRU2LD(val -> !val);
+        m.updateAntiDiagonal(val -> !val);
         assertFalse(m.get(0, 2));
         assertTrue(m.get(1, 1));
         assertFalse(m.get(2, 0));
@@ -983,7 +983,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testStreamLU2RD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, false, true } });
-        List<Boolean> diag = m.streamLU2RD().toList();
+        List<Boolean> diag = m.streamMainDiagonal().toList();
         assertEquals(3, diag.size());
         assertTrue(diag.get(0));
         assertTrue(diag.get(1));
@@ -993,7 +993,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testStreamRU2LD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, true }, { false, true, false }, { true, false, false } });
-        List<Boolean> diag = m.streamRU2LD().toList();
+        List<Boolean> diag = m.streamAntiDiagonal().toList();
         assertEquals(3, diag.size());
         assertTrue(diag.get(0));
         assertTrue(diag.get(1));
@@ -1113,7 +1113,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testPointsLU2RD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[3][3]);
-        List<Point> points = m.pointsLU2RD().toList();
+        List<Point> points = m.pointsMainDiagonal().toList();
         assertEquals(3, points.size());
         assertEquals(Point.of(0, 0), points.get(0));
         assertEquals(Point.of(1, 1), points.get(1));
@@ -1123,7 +1123,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testPointsRU2LD() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[3][3]);
-        List<Point> points = m.pointsRU2LD().toList();
+        List<Point> points = m.pointsAntiDiagonal().toList();
         assertEquals(3, points.size());
         assertEquals(Point.of(0, 2), points.get(0));
         assertEquals(Point.of(1, 1), points.get(1));

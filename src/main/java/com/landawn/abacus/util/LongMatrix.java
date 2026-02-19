@@ -323,7 +323,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.diagonalLU2RD(new long[] {1, 2, 3});
+     * LongMatrix matrix = LongMatrix.mainDiagonal(new long[] {1, 2, 3});
      * // Creates a 3x3 matrix:
      * // [[1, 0, 0],
      * //  [0, 2, 0],
@@ -333,8 +333,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param leftUp2RightDownDiagonal the array of main diagonal elements (from top-left to bottom-right)
      * @return a square n×n matrix with the specified main diagonal, where n is the array length
      */
-    public static LongMatrix diagonalLU2RD(final long[] leftUp2RightDownDiagonal) {
-        return diagonal(leftUp2RightDownDiagonal, null);
+    public static LongMatrix mainDiagonal(final long[] leftUp2RightDownDiagonal) {
+        return fromDiagonals(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -344,7 +344,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.diagonalRU2LD(new long[] {1, 2, 3});
+     * LongMatrix matrix = LongMatrix.antiDiagonal(new long[] {1, 2, 3});
      * // Creates a 3x3 matrix:
      * // [[0, 0, 1],
      * //  [0, 2, 0],
@@ -354,8 +354,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (from top-right to bottom-left)
      * @return a square n×n matrix with the specified anti-diagonal, where n is the array length
      */
-    public static LongMatrix diagonalRU2LD(final long[] rightUp2LeftDownDiagonal) {
-        return diagonal(null, rightUp2LeftDownDiagonal);
+    public static LongMatrix antiDiagonal(final long[] rightUp2LeftDownDiagonal) {
+        return fromDiagonals(null, rightUp2LeftDownDiagonal);
     }
 
     /**
@@ -366,7 +366,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.diagonal(new long[] { 1, 2, 3 }, new long[] { 4, 5, 6 });
+     * LongMatrix matrix = LongMatrix.fromDiagonals(new long[] { 1, 2, 3 }, new long[] { 4, 5, 6 });
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1, 0, 4},
@@ -380,7 +380,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static LongMatrix diagonal(final long[] leftUp2RightDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static LongMatrix fromDiagonals(final long[] leftUp2RightDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -792,13 +792,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}, {7L, 8L, 9L}});
-     * long[] diagonal = matrix.getLU2RD();   // Returns [1L, 5L, 9L]
+     * long[] diagonal = matrix.getMainDiagonal();   // Returns [1L, 5L, 9L]
      * }</pre>
      *
      * @return a new long array containing a copy of the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public long[] getLU2RD() throws IllegalStateException {
+    public long[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final long[] res = new long[rowCount];
@@ -821,7 +821,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * matrix.setLU2RD(new long[] {9L, 8L});
+     * matrix.setMainDiagonal(new long[] {9L, 8L});
      * // Diagonal is now [9L, 8L]
      * }</pre>
      *
@@ -829,7 +829,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal rowCount
      */
-    public void setLU2RD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -845,7 +845,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
+     * matrix.updateMainDiagonal(x -> x * x);   // Squares all diagonal values
      * // matrix is now {{1L, 2L}, {3L, 16L}}
      * }</pre>
      *
@@ -854,7 +854,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.LongUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateMainDiagonal(final Throwables.LongUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -873,13 +873,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}, {7L, 8L, 9L}});
-     * long[] diagonal = matrix.getRU2LD();   // Returns [3L, 5L, 7L]
+     * long[] diagonal = matrix.getAntiDiagonal();   // Returns [3L, 5L, 7L]
      * }</pre>
      *
      * @return a new long array containing a copy of the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
-    public long[] getRU2LD() throws IllegalStateException {
+    public long[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final long[] res = new long[rowCount];
@@ -902,7 +902,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * matrix.setRU2LD(new long[] {9L, 8L});
+     * matrix.setAntiDiagonal(new long[] {9L, 8L});
      * // Anti-diagonal is now [9L, 8L]
      * }</pre>
      *
@@ -910,7 +910,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal rowCount
      */
-    public void setRU2LD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -926,7 +926,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
+     * matrix.updateAntiDiagonal(x -> -x);   // Negates all anti-diagonal values
      * // matrix is now {{1L, -2L}, {-3L, 4L}}
      * }</pre>
      *
@@ -935,7 +935,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.LongUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.LongUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -2328,7 +2328,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, 
      *                                                 {4, 5, 6}, 
      *                                                 {7, 8, 9}});
-     * LongStream diagonal = matrix.streamLU2RD();
+     * LongStream diagonal = matrix.streamMainDiagonal();
      * // Stream contains: 1, 5, 9
      * }</pre>
      *
@@ -2336,7 +2336,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public LongStream streamLU2RD() {
+    public LongStream streamMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {
@@ -2386,7 +2386,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, 
      *                                                 {4, 5, 6}, 
      *                                                 {7, 8, 9}});
-     * LongStream diagonal = matrix.streamRU2LD();
+     * LongStream diagonal = matrix.streamAntiDiagonal();
      * // Stream contains: 3, 5, 7
      * }</pre>
      *
@@ -2394,7 +2394,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public LongStream streamRU2LD() {
+    public LongStream streamAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {

@@ -208,7 +208,7 @@ public class ByteMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD() {
-        ByteMatrix m = ByteMatrix.diagonalLU2RD(new byte[] { 1, 2, 3 });
+        ByteMatrix m = ByteMatrix.mainDiagonal(new byte[] { 1, 2, 3 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -220,13 +220,13 @@ public class ByteMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD_empty() {
-        ByteMatrix m = ByteMatrix.diagonalLU2RD(new byte[0]);
+        ByteMatrix m = ByteMatrix.mainDiagonal(new byte[0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonalRU2LD() {
-        ByteMatrix m = ByteMatrix.diagonalRU2LD(new byte[] { 1, 2, 3 });
+        ByteMatrix m = ByteMatrix.antiDiagonal(new byte[] { 1, 2, 3 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 2));
@@ -238,7 +238,7 @@ public class ByteMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        ByteMatrix m = ByteMatrix.diagonal(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
+        ByteMatrix m = ByteMatrix.fromDiagonals(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -250,7 +250,7 @@ public class ByteMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        ByteMatrix m = ByteMatrix.diagonal(new byte[] { 1, 2, 3 }, null);
+        ByteMatrix m = ByteMatrix.fromDiagonals(new byte[] { 1, 2, 3 }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -260,7 +260,7 @@ public class ByteMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        ByteMatrix m = ByteMatrix.diagonal(null, new byte[] { 4, 5, 6 });
+        ByteMatrix m = ByteMatrix.fromDiagonals(null, new byte[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(4, m.get(0, 2));
@@ -270,13 +270,13 @@ public class ByteMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        ByteMatrix m = ByteMatrix.diagonal(null, null);
+        ByteMatrix m = ByteMatrix.fromDiagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.diagonal(new byte[] { 1, 2 }, new byte[] { 1, 2, 3 }));
+        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.fromDiagonals(new byte[] { 1, 2 }, new byte[] { 1, 2, 3 }));
     }
 
     @Test
@@ -499,20 +499,20 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testGetLU2RD() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        byte[] diag = m.getLU2RD();
+        byte[] diag = m.getMainDiagonal();
         assertArrayEquals(new byte[] { 1, 5, 9 }, diag);
     }
 
     @Test
     public void testGetLU2RD_nonSquare() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
     public void testSetLU2RD() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } });
-        m.setLU2RD(new byte[] { 1, 2, 3 });
+        m.setMainDiagonal(new byte[] { 1, 2, 3 });
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(1, 1));
         assertEquals(3, m.get(2, 2));
@@ -522,13 +522,13 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testSetLU2RD_invalidLength() {
         ByteMatrix m = ByteMatrix.of(new byte[3][3]);
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new byte[] { 1, 2 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new byte[] { 1, 2 }));
     }
 
     @Test
     public void testUpdateLU2RD() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 0, 0 }, { 0, 2, 0 }, { 0, 0, 3 } });
-        m.updateLU2RD(val -> (byte) (val * 10));
+        m.updateMainDiagonal(val -> (byte) (val * 10));
         assertEquals(10, m.get(0, 0));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 2));
@@ -537,14 +537,14 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testGetRU2LD() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        byte[] diag = m.getRU2LD();
+        byte[] diag = m.getAntiDiagonal();
         assertArrayEquals(new byte[] { 3, 5, 7 }, diag);
     }
 
     @Test
     public void testSetRU2LD() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } });
-        m.setRU2LD(new byte[] { 1, 2, 3 });
+        m.setAntiDiagonal(new byte[] { 1, 2, 3 });
         assertEquals(1, m.get(0, 2));
         assertEquals(2, m.get(1, 1));
         assertEquals(3, m.get(2, 0));
@@ -554,7 +554,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testUpdateRU2LD() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0, 1 }, { 0, 2, 0 }, { 3, 0, 0 } });
-        m.updateRU2LD(val -> (byte) (val * 5));
+        m.updateAntiDiagonal(val -> (byte) (val * 5));
         assertEquals(5, m.get(0, 2));
         assertEquals(10, m.get(1, 1));
         assertEquals(15, m.get(2, 0));
@@ -1049,7 +1049,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testStreamLU2RD() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Byte> diag = m.streamLU2RD().boxed().toList();
+        List<Byte> diag = m.streamMainDiagonal().boxed().toList();
         assertEquals(3, diag.size());
         assertEquals((byte) 1, diag.get(0));
         assertEquals((byte) 5, diag.get(1));
@@ -1059,7 +1059,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testStreamRU2LD() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Byte> diag = m.streamRU2LD().boxed().toList();
+        List<Byte> diag = m.streamAntiDiagonal().boxed().toList();
         assertEquals(3, diag.size());
         assertEquals((byte) 3, diag.get(0));
         assertEquals((byte) 5, diag.get(1));
@@ -1179,7 +1179,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testPointsLU2RD() {
         ByteMatrix m = ByteMatrix.of(new byte[3][3]);
-        List<Point> points = m.pointsLU2RD().toList();
+        List<Point> points = m.pointsMainDiagonal().toList();
         assertEquals(3, points.size());
         assertEquals(Point.of(0, 0), points.get(0));
         assertEquals(Point.of(1, 1), points.get(1));
@@ -1189,7 +1189,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testPointsRU2LD() {
         ByteMatrix m = ByteMatrix.of(new byte[3][3]);
-        List<Point> points = m.pointsRU2LD().toList();
+        List<Point> points = m.pointsAntiDiagonal().toList();
         assertEquals(3, points.size());
         assertEquals(Point.of(0, 2), points.get(0));
         assertEquals(Point.of(1, 1), points.get(1));

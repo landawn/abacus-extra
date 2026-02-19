@@ -377,7 +377,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsLU2RD() {
         IntMatrix matrix = createTestMatrix();
-        List<Sheet.Point> points = matrix.pointsLU2RD().collect(Collectors.toList());
+        List<Sheet.Point> points = matrix.pointsMainDiagonal().collect(Collectors.toList());
 
         Assertions.assertEquals(3, points.size());
         Assertions.assertEquals(Sheet.Point.of(0, 0), points.get(0));
@@ -390,14 +390,14 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix2x3();
 
         Assertions.assertThrows(IllegalStateException.class, () -> {
-            matrix.pointsLU2RD().collect(Collectors.toList());
+            matrix.pointsMainDiagonal().collect(Collectors.toList());
         });
     }
 
     @Test
     public void testPointsRU2LD() {
         IntMatrix matrix = createTestMatrix();
-        List<Sheet.Point> points = matrix.pointsRU2LD().collect(Collectors.toList());
+        List<Sheet.Point> points = matrix.pointsAntiDiagonal().collect(Collectors.toList());
 
         Assertions.assertEquals(3, points.size());
         Assertions.assertEquals(Sheet.Point.of(0, 2), points.get(0));
@@ -515,7 +515,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamLU2RD() {
         IntMatrix matrix = createTestMatrix();
-        List<Integer> diagonal = matrix.streamLU2RD().boxed().collect(Collectors.toList());
+        List<Integer> diagonal = matrix.streamMainDiagonal().boxed().collect(Collectors.toList());
 
         Assertions.assertEquals(3, diagonal.size());
         Assertions.assertEquals(1, diagonal.get(0));
@@ -526,7 +526,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamRU2LD() {
         IntMatrix matrix = createTestMatrix();
-        List<Integer> diagonal = matrix.streamRU2LD().boxed().collect(Collectors.toList());
+        List<Integer> diagonal = matrix.streamAntiDiagonal().boxed().collect(Collectors.toList());
 
         Assertions.assertEquals(3, diagonal.size());
         Assertions.assertEquals(3, diagonal.get(0));
@@ -735,7 +735,7 @@ public class AbstractMatrixTest extends TestBase {
         Assertions.assertFalse(single.isEmpty());
         Assertions.assertEquals(42, single.get(0, 0));
 
-        List<Integer> diagonal = single.streamLU2RD().boxed().collect(Collectors.toList());
+        List<Integer> diagonal = single.streamMainDiagonal().boxed().collect(Collectors.toList());
         Assertions.assertEquals(1, diagonal.size());
         Assertions.assertEquals(42, diagonal.get(0));
     }

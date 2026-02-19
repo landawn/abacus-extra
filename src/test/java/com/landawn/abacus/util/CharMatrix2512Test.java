@@ -155,8 +155,8 @@ public class CharMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_diagonalLU2RD() {
-        CharMatrix m = CharMatrix.diagonalLU2RD(new char[] { 'a', 'b', 'c' });
+    public void test_mainDiagonal() {
+        CharMatrix m = CharMatrix.mainDiagonal(new char[] { 'a', 'b', 'c' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 0));
@@ -166,14 +166,14 @@ public class CharMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_diagonalLU2RD_empty() {
-        CharMatrix m = CharMatrix.diagonalLU2RD(new char[0]);
+    public void test_mainDiagonal_empty() {
+        CharMatrix m = CharMatrix.mainDiagonal(new char[0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
-    public void test_diagonalRU2LD() {
-        CharMatrix m = CharMatrix.diagonalRU2LD(new char[] { 'a', 'b', 'c' });
+    public void test_antiDiagonal() {
+        CharMatrix m = CharMatrix.antiDiagonal(new char[] { 'a', 'b', 'c' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 2));
@@ -183,7 +183,7 @@ public class CharMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_both() {
-        CharMatrix m = CharMatrix.diagonal(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
+        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 0));
@@ -192,7 +192,7 @@ public class CharMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_differentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> CharMatrix.diagonal(new char[] { 'a', 'b' }, new char[] { 'x', 'y', 'z' }));
+        assertThrows(IllegalArgumentException.class, () -> CharMatrix.fromDiagonals(new char[] { 'a', 'b' }, new char[] { 'x', 'y', 'z' }));
     }
 
     @Test
@@ -380,62 +380,62 @@ public class CharMatrix2512Test extends TestBase {
     // ============ Diagonal Access Tests ============
 
     @Test
-    public void test_getLU2RD() {
+    public void test_getMainDiagonal() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        char[] diag = m.getLU2RD();
+        char[] diag = m.getMainDiagonal();
         assertArrayEquals(new char[] { 'a', 'e', 'i' }, diag);
     }
 
     @Test
-    public void test_getLU2RD_nonSquare() {
+    public void test_getMainDiagonal_nonSquare() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
-    public void test_setLU2RD() {
+    public void test_setMainDiagonal() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        m.setLU2RD(new char[] { 'x', 'y', 'z' });
+        m.setMainDiagonal(new char[] { 'x', 'y', 'z' });
         assertEquals('x', m.get(0, 0));
         assertEquals('y', m.get(1, 1));
         assertEquals('z', m.get(2, 2));
     }
 
     @Test
-    public void test_setLU2RD_invalidLength() {
+    public void test_setMainDiagonal_invalidLength() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new char[] { 'x' }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new char[] { 'x' }));
     }
 
     @Test
-    public void test_updateLU2RD() {
+    public void test_updateMainDiagonal() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        m.updateLU2RD(val -> (char) (val + 1));
+        m.updateMainDiagonal(val -> (char) (val + 1));
         assertEquals('b', m.get(0, 0));
         assertEquals('f', m.get(1, 1));
         assertEquals('j', m.get(2, 2));
     }
 
     @Test
-    public void test_getRU2LD() {
+    public void test_getAntiDiagonal() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        char[] diag = m.getRU2LD();
+        char[] diag = m.getAntiDiagonal();
         assertArrayEquals(new char[] { 'c', 'e', 'g' }, diag);
     }
 
     @Test
-    public void test_setRU2LD() {
+    public void test_setAntiDiagonal() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        m.setRU2LD(new char[] { 'x', 'y', 'z' });
+        m.setAntiDiagonal(new char[] { 'x', 'y', 'z' });
         assertEquals('x', m.get(0, 2));
         assertEquals('y', m.get(1, 1));
         assertEquals('z', m.get(2, 0));
     }
 
     @Test
-    public void test_updateRU2LD() {
+    public void test_updateAntiDiagonal() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        m.updateRU2LD(val -> (char) (val + 1));
+        m.updateAntiDiagonal(val -> (char) (val + 1));
         assertEquals('d', m.get(0, 2));
         assertEquals('f', m.get(1, 1));
         assertEquals('h', m.get(2, 0));
@@ -845,16 +845,16 @@ public class CharMatrix2512Test extends TestBase {
     // ============ Stream Tests ============
 
     @Test
-    public void test_streamLU2RD() {
+    public void test_streamMainDiagonal() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        char[] diag = m.streamLU2RD().toArray();
+        char[] diag = m.streamMainDiagonal().toArray();
         assertArrayEquals(new char[] { 'a', 'e', 'i' }, diag);
     }
 
     @Test
-    public void test_streamRU2LD() {
+    public void test_streamAntiDiagonal() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
-        char[] diag = m.streamRU2LD().toArray();
+        char[] diag = m.streamAntiDiagonal().toArray();
         assertArrayEquals(new char[] { 'c', 'e', 'g' }, diag);
     }
 

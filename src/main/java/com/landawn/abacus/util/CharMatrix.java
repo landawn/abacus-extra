@@ -270,7 +270,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.diagonalLU2RD(new char[] {'a', 'b', 'c'});
+     * CharMatrix matrix = CharMatrix.mainDiagonal(new char[] {'a', 'b', 'c'});
      * // Creates 3x3 matrix with diagonal ['a', 'b', 'c'] and zeros elsewhere
      * // Resulting matrix:
      * //   {'a', '\u0000', '\u0000'},
@@ -281,8 +281,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param leftUp2RightDownDiagonal the array of main diagonal elements
      * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
-    public static CharMatrix diagonalLU2RD(final char[] leftUp2RightDownDiagonal) {
-        return diagonal(leftUp2RightDownDiagonal, null);
+    public static CharMatrix mainDiagonal(final char[] leftUp2RightDownDiagonal) {
+        return fromDiagonals(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -292,7 +292,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.diagonalRU2LD(new char[] {'a', 'b', 'c'});
+     * CharMatrix matrix = CharMatrix.antiDiagonal(new char[] {'a', 'b', 'c'});
      * // Creates 3x3 matrix with anti-diagonal ['a', 'b', 'c'] and zeros elsewhere
      * // Resulting matrix:
      * //   {'\u0000', '\u0000', 'a'},
@@ -303,8 +303,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
-    public static CharMatrix diagonalRU2LD(final char[] rightUp2LeftDownDiagonal) {
-        return diagonal(null, rightUp2LeftDownDiagonal);
+    public static CharMatrix antiDiagonal(final char[] rightUp2LeftDownDiagonal) {
+        return fromDiagonals(null, rightUp2LeftDownDiagonal);
     }
 
     /**
@@ -315,7 +315,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.diagonal(new char[] {'a', 'b', 'c'}, new char[] {'x', 'y', 'z'});
+     * CharMatrix matrix = CharMatrix.fromDiagonals(new char[] {'a', 'b', 'c'}, new char[] {'x', 'y', 'z'});
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {'a', '\u0000', 'x'},
@@ -329,7 +329,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static CharMatrix diagonal(final char[] leftUp2RightDownDiagonal, final char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static CharMatrix fromDiagonals(final char[] leftUp2RightDownDiagonal, final char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -746,13 +746,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}});
-     * char[] diagonal = matrix.getLU2RD();   // Returns ['a', 'e', 'i']
+     * char[] diagonal = matrix.getMainDiagonal();   // Returns ['a', 'e', 'i']
      * }</pre>
      *
      * @return a new char array containing the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public char[] getLU2RD() throws IllegalStateException {
+    public char[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final char[] res = new char[rowCount];
@@ -776,7 +776,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
      *                                                 {'g', 'h', 'i'}});
-     * matrix.setLU2RD(new char[] {'x', 'y', 'z'});
+     * matrix.setMainDiagonal(new char[] {'x', 'y', 'z'});
      * // Diagonal is now ['x', 'y', 'z']
      * }</pre>
      *
@@ -784,7 +784,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
-    public void setLU2RD(final char[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final char[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -800,7 +800,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateLU2RD(c -> Character.toUpperCase(c));   // Converts diagonal to uppercase
+     * matrix.updateMainDiagonal(c -> Character.toUpperCase(c));   // Converts diagonal to uppercase
      * // Diagonal is now ['A', 'D'], matrix: [['A', 'b'], ['c', 'D']]
      * }</pre>
      *
@@ -809,7 +809,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.CharUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateMainDiagonal(final Throwables.CharUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -829,13 +829,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
      *                                                 {'g', 'h', 'i'}});
-     * char[] diagonal = matrix.getRU2LD();   // Returns ['c', 'e', 'g']
+     * char[] diagonal = matrix.getAntiDiagonal();   // Returns ['c', 'e', 'g']
      * }</pre>
      *
      * @return a new char array containing the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public char[] getRU2LD() throws IllegalStateException {
+    public char[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final char[] res = new char[rowCount];
@@ -860,7 +860,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
      *                                                 {'g', 'h', 'i'}});
-     * matrix.setRU2LD(new char[] {'x', 'y', 'z'});
+     * matrix.setAntiDiagonal(new char[] {'x', 'y', 'z'});
      * // Anti-diagonal is now ['x', 'y', 'z']
      * }</pre>
      *
@@ -868,7 +868,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length != rows
      */
-    public void setRU2LD(final char[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final char[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -885,7 +885,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateRU2LD(c -> Character.toUpperCase(c));
+     * matrix.updateAntiDiagonal(c -> Character.toUpperCase(c));
      * // Anti-diagonal is now ['B', 'C'], matrix: [['a', 'B'], ['C', 'd']]
      * }</pre>
      *
@@ -894,7 +894,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.CharUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.CharUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -2245,14 +2245,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, 
      *                                                 {'d', 'e', 'f'}, 
      *                                                 {'g', 'h', 'i'}});
-     * CharStream diagonal = matrix.streamLU2RD();   // Stream of: 'a', 'e', 'i'
+     * CharStream diagonal = matrix.streamMainDiagonal();   // Stream of: 'a', 'e', 'i'
      * }</pre>
      *
      * @return a CharStream containing the diagonal elements from top-left to bottom-right
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public CharStream streamLU2RD() {
+    public CharStream streamMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {
@@ -2302,14 +2302,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, 
      *                                                 {'d', 'e', 'f'}, 
      *                                                 {'g', 'h', 'i'}});
-     * CharStream diagonal = matrix.streamRU2LD();   // Stream of: 'c', 'e', 'g'
+     * CharStream diagonal = matrix.streamAntiDiagonal();   // Stream of: 'c', 'e', 'g'
      * }</pre>
      *
      * @return a CharStream containing the diagonal elements from top-right to bottom-left
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
-    public CharStream streamRU2LD() {
+    public CharStream streamAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {

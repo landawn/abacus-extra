@@ -135,25 +135,25 @@ public class CharTuple2512Test extends TestBase {
         assertEquals(9, tuple.arity());
     }
 
-    // ============ Factory Method Tests - CharTuple.create() ============
+    // ============ Factory Method Tests - CharTuple.fromArray() ============
 
     @Test
     public void test_create_nullArray() {
-        CharTuple0 tuple = CharTuple.create(null);
+        CharTuple0 tuple = CharTuple.fromArray(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_emptyArray() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_arraySize1() {
-        CharTuple1 tuple = CharTuple.create(new char[] { 'A' });
+        CharTuple1 tuple = CharTuple.fromArray(new char[] { 'A' });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals('A', tuple._1);
@@ -161,7 +161,7 @@ public class CharTuple2512Test extends TestBase {
 
     @Test
     public void test_create_arraySize2() {
-        CharTuple2 tuple = CharTuple.create(new char[] { 'A', 'B' });
+        CharTuple2 tuple = CharTuple.fromArray(new char[] { 'A', 'B' });
         assertNotNull(tuple);
         assertEquals(2, tuple.arity());
         assertEquals('A', tuple._1);
@@ -170,7 +170,7 @@ public class CharTuple2512Test extends TestBase {
 
     @Test
     public void test_create_arraySize9() {
-        CharTuple9 tuple = CharTuple.create(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' });
+        CharTuple9 tuple = CharTuple.fromArray(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' });
         assertNotNull(tuple);
         assertEquals(9, tuple.arity());
         assertEquals('A', tuple._1);
@@ -180,7 +180,7 @@ public class CharTuple2512Test extends TestBase {
     @Test
     public void test_create_arrayTooLarge() {
         assertThrows(IllegalArgumentException.class, () -> {
-            CharTuple.create(new char[10]);
+            CharTuple.fromArray(new char[10]);
         });
     }
 
@@ -188,56 +188,56 @@ public class CharTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_arity() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_tuple0_min_throwsException() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
     @Test
     public void test_tuple0_max_throwsException() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
     @Test
     public void test_tuple0_median_throwsException() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     @Test
     public void test_tuple0_sum() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         assertEquals(0, tuple.sum());
     }
 
     @Test
     public void test_tuple0_average_throwsException() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     @Test
     public void test_tuple0_reverse() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         CharTuple0 reversed = tuple.reverse();
         assertSame(tuple, reversed);
     }
 
     @Test
     public void test_tuple0_contains() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         assertFalse(tuple.contains('A'));
     }
 
     @Test
     public void test_tuple0_toArray() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         char[] array = tuple.toArray();
         assertNotNull(array);
         assertEquals(0, array.length);
@@ -245,7 +245,7 @@ public class CharTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_toList() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         CharList list = tuple.toList();
         assertNotNull(list);
         assertTrue(list.isEmpty());
@@ -253,7 +253,7 @@ public class CharTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_forEach() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         List<Character> collected = new ArrayList<>();
         tuple.forEach(collected::add);
         assertTrue(collected.isEmpty());
@@ -261,14 +261,14 @@ public class CharTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_stream() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         long count = tuple.stream().count();
         assertEquals(0, count);
     }
 
     @Test
     public void test_tuple0_toString() {
-        CharTuple0 tuple = CharTuple.create(new char[0]);
+        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
         assertEquals("()", tuple.toString());
     }
 
@@ -811,7 +811,7 @@ public class CharTuple2512Test extends TestBase {
     public void test_create_allSizes() {
         for (int i = 0; i <= 9; i++) {
             char[] array = new char[i];
-            CharTuple<?> tuple = CharTuple.create(array);
+            CharTuple<?> tuple = CharTuple.fromArray(array);
             assertNotNull(tuple);
             assertEquals(i, tuple.arity());
         }

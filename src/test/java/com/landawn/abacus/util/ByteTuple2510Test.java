@@ -106,25 +106,25 @@ public class ByteTuple2510Test extends TestBase {
         assertEquals(9, tuple.arity());
     }
 
-    // ============ Factory Method Tests - ByteTuple.create() ============
+    // ============ Factory Method Tests - ByteTuple.fromArray() ============
 
     @Test
     public void testCreate_nullArray() {
-        ByteTuple<?> tuple = ByteTuple.create(null);
+        ByteTuple<?> tuple = ByteTuple.fromArray(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_emptyArray() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_array1() {
-        ByteTuple1 tuple = ByteTuple.create(new byte[] { 10 });
+        ByteTuple1 tuple = ByteTuple.fromArray(new byte[] { 10 });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals((byte) 10, tuple._1);
@@ -132,7 +132,7 @@ public class ByteTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_array2() {
-        ByteTuple2 tuple = ByteTuple.create(new byte[] { 10, 20 });
+        ByteTuple2 tuple = ByteTuple.fromArray(new byte[] { 10, 20 });
         assertNotNull(tuple);
         assertEquals(2, tuple.arity());
         assertEquals((byte) 10, tuple._1);
@@ -141,51 +141,51 @@ public class ByteTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_array3() {
-        ByteTuple3 tuple = ByteTuple.create(new byte[] { 10, 20, 30 });
+        ByteTuple3 tuple = ByteTuple.fromArray(new byte[] { 10, 20, 30 });
         assertNotNull(tuple);
         assertEquals(3, tuple.arity());
     }
 
     @Test
     public void testCreate_array4() {
-        ByteTuple4 tuple = ByteTuple.create(new byte[] { 1, 2, 3, 4 });
+        ByteTuple4 tuple = ByteTuple.fromArray(new byte[] { 1, 2, 3, 4 });
         assertEquals(4, tuple.arity());
     }
 
     @Test
     public void testCreate_array5() {
-        ByteTuple5 tuple = ByteTuple.create(new byte[] { 1, 2, 3, 4, 5 });
+        ByteTuple5 tuple = ByteTuple.fromArray(new byte[] { 1, 2, 3, 4, 5 });
         assertEquals(5, tuple.arity());
     }
 
     @Test
     public void testCreate_array6() {
-        ByteTuple6 tuple = ByteTuple.create(new byte[] { 1, 2, 3, 4, 5, 6 });
+        ByteTuple6 tuple = ByteTuple.fromArray(new byte[] { 1, 2, 3, 4, 5, 6 });
         assertEquals(6, tuple.arity());
     }
 
     @Test
     public void testCreate_array7() {
-        ByteTuple7 tuple = ByteTuple.create(new byte[] { 1, 2, 3, 4, 5, 6, 7 });
+        ByteTuple7 tuple = ByteTuple.fromArray(new byte[] { 1, 2, 3, 4, 5, 6, 7 });
         assertEquals(7, tuple.arity());
     }
 
     @Test
     public void testCreate_array8() {
-        ByteTuple8 tuple = ByteTuple.create(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+        ByteTuple8 tuple = ByteTuple.fromArray(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
         assertEquals(8, tuple.arity());
     }
 
     @Test
     public void testCreate_array9() {
-        ByteTuple9 tuple = ByteTuple.create(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+        ByteTuple9 tuple = ByteTuple.fromArray(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         assertEquals(9, tuple.arity());
     }
 
     @Test
     public void testCreate_arrayTooLarge() {
         assertThrows(IllegalArgumentException.class, () -> {
-            ByteTuple.create(new byte[10]);
+            ByteTuple.fromArray(new byte[10]);
         });
     }
 
@@ -193,43 +193,43 @@ public class ByteTuple2510Test extends TestBase {
 
     @Test
     public void testTuple0_arity() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testTuple0_min_throwsException() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
     @Test
     public void testTuple0_max_throwsException() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
     @Test
     public void testTuple0_median_throwsException() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     @Test
     public void testTuple0_sum() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertEquals(0, tuple.sum());
     }
 
     @Test
     public void testTuple0_average_throwsException() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     @Test
     public void testTuple0_reverse() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         ByteTuple<?> reversed = tuple.reverse();
         assertNotNull(reversed);
         assertEquals(0, reversed.arity());
@@ -237,13 +237,13 @@ public class ByteTuple2510Test extends TestBase {
 
     @Test
     public void testTuple0_contains() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertFalse(tuple.contains((byte) 10));
     }
 
     @Test
     public void testTuple0_toString() {
-        ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
+        ByteTuple<?> tuple = ByteTuple.fromArray(new byte[0]);
         assertEquals("()", tuple.toString());
     }
 

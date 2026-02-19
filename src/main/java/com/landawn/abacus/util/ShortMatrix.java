@@ -282,7 +282,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.diagonalLU2RD(new short[] {1, 2, 3});
+     * ShortMatrix matrix = ShortMatrix.mainDiagonal(new short[] {1, 2, 3});
      * // Creates a 3x3 matrix:
      * // [[1, 0, 0],
      * //  [0, 2, 0],
@@ -292,8 +292,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param leftUp2RightDownDiagonal the array of diagonal elements
      * @return a square matrix with the specified main diagonal
      */
-    public static ShortMatrix diagonalLU2RD(final short[] leftUp2RightDownDiagonal) {
-        return diagonal(leftUp2RightDownDiagonal, null);
+    public static ShortMatrix mainDiagonal(final short[] leftUp2RightDownDiagonal) {
+        return fromDiagonals(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -302,7 +302,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.diagonalRU2LD(new short[] {1, 2, 3});
+     * ShortMatrix matrix = ShortMatrix.antiDiagonal(new short[] {1, 2, 3});
      * // Creates a 3x3 matrix:
      * // [[0, 0, 1],
      * //  [0, 2, 0],
@@ -312,8 +312,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal
      */
-    public static ShortMatrix diagonalRU2LD(final short[] rightUp2LeftDownDiagonal) {
-        return diagonal(null, rightUp2LeftDownDiagonal);
+    public static ShortMatrix antiDiagonal(final short[] rightUp2LeftDownDiagonal) {
+        return fromDiagonals(null, rightUp2LeftDownDiagonal);
     }
 
     /**
@@ -324,7 +324,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.diagonal(new short[] { 1, 2, 3 }, new short[] { 4, 5, 6 });
+     * ShortMatrix matrix = ShortMatrix.fromDiagonals(new short[] { 1, 2, 3 }, new short[] { 4, 5, 6 });
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1, 0, 4},
@@ -338,7 +338,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static ShortMatrix diagonal(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static ShortMatrix fromDiagonals(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -738,13 +738,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * short[] diagonal = matrix.getLU2RD();   // Returns [1, 5, 9]
+     * short[] diagonal = matrix.getMainDiagonal();   // Returns [1, 5, 9]
      * }</pre>
      *
      * @return a new short array containing the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public short[] getLU2RD() throws IllegalStateException {
+    public short[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final short[] result = new short[rowCount];
@@ -767,7 +767,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * matrix.setLU2RD(new short[] {9, 8});
+     * matrix.setMainDiagonal(new short[] {9, 8});
      * // Diagonal is now [9, 8]
      * }</pre>
      *
@@ -775,7 +775,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
-    public void setLU2RD(final short[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setMainDiagonal(final short[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -792,7 +792,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.updateLU2RD(x -> (short)(x * 2));   // Diagonal [1, 5, 9] becomes [2, 10, 18]
+     * matrix.updateMainDiagonal(x -> (short)(x * 2));   // Diagonal [1, 5, 9] becomes [2, 10, 18]
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -800,7 +800,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.ShortUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateMainDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -818,13 +818,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * short[] diagonal = matrix.getRU2LD();   // Returns [3, 5, 7]
+     * short[] diagonal = matrix.getAntiDiagonal();   // Returns [3, 5, 7]
      * }</pre>
      *
      * @return a new short array containing the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public short[] getRU2LD() throws IllegalStateException {
+    public short[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final short[] result = new short[rowCount];
@@ -847,7 +847,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * matrix.setRU2LD(new short[] {9, 8});
+     * matrix.setAntiDiagonal(new short[] {9, 8});
      * // Anti-diagonal is now [9, 8]
      * }</pre>
      *
@@ -855,7 +855,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length != rows
      */
-    public void setRU2LD(final short[] diagonal) throws IllegalStateException, IllegalArgumentException {
+    public void setAntiDiagonal(final short[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
@@ -872,7 +872,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.updateRU2LD(x -> (short)(x + 1));   // Anti-diagonal [3, 5, 7] becomes [4, 6, 8]
+     * matrix.updateAntiDiagonal(x -> (short)(x + 1));   // Anti-diagonal [3, 5, 7] becomes [4, 6, 8]
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -880,7 +880,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.ShortUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -2263,7 +2263,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3},
      *                                                   {4, 5, 6},
      *                                                   {7, 8, 9}});
-     * ShortStream diagonal = matrix.streamLU2RD();
+     * ShortStream diagonal = matrix.streamMainDiagonal();
      * // Stream contains: 1, 5, 9
      * }</pre>
      *
@@ -2271,7 +2271,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     @Override
-    public ShortStream streamLU2RD() {
+    public ShortStream streamMainDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {
@@ -2324,7 +2324,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3},
      *                                                   {4, 5, 6},
      *                                                   {7, 8, 9}});
-     * ShortStream diagonal = matrix.streamRU2LD();
+     * ShortStream diagonal = matrix.streamAntiDiagonal();
      * // Stream contains: 3, 5, 7
      * }</pre>
      *
@@ -2332,7 +2332,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     @Override
-    public ShortStream streamRU2LD() {
+    public ShortStream streamAntiDiagonal() {
         checkIfRowAndColumnSizeAreSame();
 
         if (isEmpty()) {

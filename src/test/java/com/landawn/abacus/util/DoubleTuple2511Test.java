@@ -120,25 +120,25 @@ public class DoubleTuple2511Test extends TestBase {
         assertEquals(9, tuple.arity());
     }
 
-    // ============ Factory Method Tests - DoubleTuple.create() ============
+    // ============ Factory Method Tests - DoubleTuple.fromArray() ============
 
     @Test
     public void testCreate_nullArray() {
-        DoubleTuple<?> tuple = DoubleTuple.create(null);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_emptyArray() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_array1() {
-        DoubleTuple1 tuple = DoubleTuple.create(new double[] { 5.5 });
+        DoubleTuple1 tuple = DoubleTuple.fromArray(new double[] { 5.5 });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals(5.5, tuple._1);
@@ -146,7 +146,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testCreate_array2() {
-        DoubleTuple2 tuple = DoubleTuple.create(new double[] { 1.1, 2.2 });
+        DoubleTuple2 tuple = DoubleTuple.fromArray(new double[] { 1.1, 2.2 });
         assertNotNull(tuple);
         assertEquals(2, tuple.arity());
         assertEquals(1.1, tuple._1);
@@ -155,7 +155,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testCreate_array3() {
-        DoubleTuple3 tuple = DoubleTuple.create(new double[] { 1.0, 2.0, 3.0 });
+        DoubleTuple3 tuple = DoubleTuple.fromArray(new double[] { 1.0, 2.0, 3.0 });
         assertNotNull(tuple);
         assertEquals(3, tuple.arity());
         assertEquals(1.0, tuple._1);
@@ -164,14 +164,14 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testCreate_array9() {
-        DoubleTuple9 tuple = DoubleTuple.create(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 });
+        DoubleTuple9 tuple = DoubleTuple.fromArray(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 });
         assertNotNull(tuple);
         assertEquals(9, tuple.arity());
     }
 
     @Test
     public void testCreate_tooManyElements() {
-        assertThrows(IllegalArgumentException.class, () -> DoubleTuple.create(new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
+        assertThrows(IllegalArgumentException.class, () -> DoubleTuple.fromArray(new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
     }
 
     // ============ Min/Max/Median Tests ============
@@ -196,7 +196,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testMin_emptyTuple() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         assertThrows(NoSuchElementException.class, tuple::min);
     }
 
@@ -220,7 +220,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testMax_emptyTuple() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         assertThrows(NoSuchElementException.class, tuple::max);
     }
 
@@ -244,7 +244,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testMedian_emptyTuple() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         assertThrows(NoSuchElementException.class, tuple::median);
     }
 
@@ -252,7 +252,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testSum_tuple0() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         assertEquals(0.0, tuple.sum());
     }
 
@@ -294,7 +294,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testAverage_emptyTuple() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         assertThrows(NoSuchElementException.class, tuple::average);
     }
 
@@ -326,7 +326,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testReverse_tuple0() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         DoubleTuple<?> reversed = tuple.reverse();
         assertEquals(0, reversed.arity());
     }
@@ -356,7 +356,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testContains_emptyTuple() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         assertFalse(tuple.contains(1.0));
     }
 
@@ -585,7 +585,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testToString_emptyTuple() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         String str = tuple.toString();
         assertEquals("()", str);
     }
@@ -630,7 +630,7 @@ public class DoubleTuple2511Test extends TestBase {
 
     @Test
     public void testArity_tuple0() {
-        DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
+        DoubleTuple<?> tuple = DoubleTuple.fromArray(new double[0]);
         assertEquals(0, tuple.arity());
     }
 

@@ -258,7 +258,7 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD() {
-        LongMatrix m = LongMatrix.diagonalLU2RD(new long[] { 1L, 2L, 3L });
+        LongMatrix m = LongMatrix.mainDiagonal(new long[] { 1L, 2L, 3L });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1L, m.get(0, 0));
@@ -270,7 +270,7 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonalRU2LD() {
-        LongMatrix m = LongMatrix.diagonalRU2LD(new long[] { 1L, 2L, 3L });
+        LongMatrix m = LongMatrix.antiDiagonal(new long[] { 1L, 2L, 3L });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1L, m.get(0, 2));
@@ -282,7 +282,7 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        LongMatrix m = LongMatrix.diagonal(new long[] { 1L, 2L, 3L }, new long[] { 4L, 5L, 6L });
+        LongMatrix m = LongMatrix.fromDiagonals(new long[] { 1L, 2L, 3L }, new long[] { 4L, 5L, 6L });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1L, m.get(0, 0));
@@ -294,7 +294,7 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        LongMatrix m = LongMatrix.diagonal(new long[] { 1L, 2L, 3L }, null);
+        LongMatrix m = LongMatrix.fromDiagonals(new long[] { 1L, 2L, 3L }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1L, m.get(0, 0));
@@ -304,7 +304,7 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        LongMatrix m = LongMatrix.diagonal(null, new long[] { 4L, 5L, 6L });
+        LongMatrix m = LongMatrix.fromDiagonals(null, new long[] { 4L, 5L, 6L });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(4L, m.get(0, 2));
@@ -314,13 +314,13 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        LongMatrix m = LongMatrix.diagonal(null, null);
+        LongMatrix m = LongMatrix.fromDiagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> LongMatrix.diagonal(new long[] { 1L, 2L }, new long[] { 3L, 4L, 5L }));
+        assertThrows(IllegalArgumentException.class, () -> LongMatrix.fromDiagonals(new long[] { 1L, 2L }, new long[] { 3L, 4L, 5L }));
     }
 
     @Test
@@ -549,19 +549,19 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testGetLU2RD() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        assertArrayEquals(new long[] { 1L, 5L, 9L }, m.getLU2RD());
+        assertArrayEquals(new long[] { 1L, 5L, 9L }, m.getMainDiagonal());
     }
 
     @Test
     public void testGetLU2RD_nonSquare() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
     public void testSetLU2RD() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        m.setLU2RD(new long[] { 10L, 20L, 30L });
+        m.setMainDiagonal(new long[] { 10L, 20L, 30L });
         assertEquals(10L, m.get(0, 0));
         assertEquals(20L, m.get(1, 1));
         assertEquals(30L, m.get(2, 2));
@@ -570,19 +570,19 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testSetLU2RD_nonSquare() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalStateException.class, () -> m.setLU2RD(new long[] { 1L }));
+        assertThrows(IllegalStateException.class, () -> m.setMainDiagonal(new long[] { 1L }));
     }
 
     @Test
     public void testSetLU2RD_arrayTooShort() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new long[] { 1L, 2L }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new long[] { 1L, 2L }));
     }
 
     @Test
     public void testUpdateLU2RD() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        m.updateLU2RD(x -> x * 10L);
+        m.updateMainDiagonal(x -> x * 10L);
         assertEquals(10L, m.get(0, 0));
         assertEquals(50L, m.get(1, 1));
         assertEquals(90L, m.get(2, 2));
@@ -592,25 +592,25 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testUpdateLU2RD_nonSquare() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalStateException.class, () -> m.updateLU2RD(x -> x * 2L));
+        assertThrows(IllegalStateException.class, () -> m.updateMainDiagonal(x -> x * 2L));
     }
 
     @Test
     public void testGetRU2LD() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        assertArrayEquals(new long[] { 3L, 5L, 7L }, m.getRU2LD());
+        assertArrayEquals(new long[] { 3L, 5L, 7L }, m.getAntiDiagonal());
     }
 
     @Test
     public void testGetRU2LD_nonSquare() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalStateException.class, () -> m.getRU2LD());
+        assertThrows(IllegalStateException.class, () -> m.getAntiDiagonal());
     }
 
     @Test
     public void testSetRU2LD() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        m.setRU2LD(new long[] { 10L, 20L, 30L });
+        m.setAntiDiagonal(new long[] { 10L, 20L, 30L });
         assertEquals(10L, m.get(0, 2));
         assertEquals(20L, m.get(1, 1));
         assertEquals(30L, m.get(2, 0));
@@ -619,19 +619,19 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testSetRU2LD_nonSquare() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalStateException.class, () -> m.setRU2LD(new long[] { 1L }));
+        assertThrows(IllegalStateException.class, () -> m.setAntiDiagonal(new long[] { 1L }));
     }
 
     @Test
     public void testSetRU2LD_arrayTooShort() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        assertThrows(IllegalArgumentException.class, () -> m.setRU2LD(new long[] { 1L, 2L }));
+        assertThrows(IllegalArgumentException.class, () -> m.setAntiDiagonal(new long[] { 1L, 2L }));
     }
 
     @Test
     public void testUpdateRU2LD() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        m.updateRU2LD(x -> x * 10L);
+        m.updateAntiDiagonal(x -> x * 10L);
         assertEquals(30L, m.get(0, 2));
         assertEquals(50L, m.get(1, 1));
         assertEquals(70L, m.get(2, 0));
@@ -641,7 +641,7 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testUpdateRU2LD_nonSquare() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalStateException.class, () -> m.updateRU2LD(x -> x * 2L));
+        assertThrows(IllegalStateException.class, () -> m.updateAntiDiagonal(x -> x * 2L));
     }
 
     // ============ Transformation Tests ============
@@ -1457,39 +1457,39 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testStreamLU2RD() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        long[] diagonal = m.streamLU2RD().toArray();
+        long[] diagonal = m.streamMainDiagonal().toArray();
         assertArrayEquals(new long[] { 1L, 5L, 9L }, diagonal);
     }
 
     @Test
     public void testStreamLU2RD_empty() {
         LongMatrix empty = LongMatrix.empty();
-        assertEquals(0, empty.streamLU2RD().toArray().length);
+        assertEquals(0, empty.streamMainDiagonal().toArray().length);
     }
 
     @Test
     public void testStreamLU2RD_nonSquare() {
         LongMatrix nonSquare = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.streamLU2RD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.streamMainDiagonal());
     }
 
     @Test
     public void testStreamRU2LD() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        long[] antiDiagonal = m.streamRU2LD().toArray();
+        long[] antiDiagonal = m.streamAntiDiagonal().toArray();
         assertArrayEquals(new long[] { 3L, 5L, 7L }, antiDiagonal);
     }
 
     @Test
     public void testStreamRU2LD_empty() {
         LongMatrix empty = LongMatrix.empty();
-        assertEquals(0, empty.streamRU2LD().toArray().length);
+        assertEquals(0, empty.streamAntiDiagonal().toArray().length);
     }
 
     @Test
     public void testStreamRU2LD_nonSquare() {
         LongMatrix nonSquare = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.streamRU2LD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.streamAntiDiagonal());
     }
 
     @Test
@@ -1751,10 +1751,10 @@ public class LongMatrix2025Test extends TestBase {
         assertEquals(5.0, avg, 0.0001);
 
         // Test diagonal operations
-        long diagonalSum = m.streamLU2RD().sum();
+        long diagonalSum = m.streamMainDiagonal().sum();
         assertEquals(15L, diagonalSum); // 1+5+9 = 15
 
-        long antiDiagonalSum = m.streamRU2LD().sum();
+        long antiDiagonalSum = m.streamAntiDiagonal().sum();
         assertEquals(15L, antiDiagonalSum); // 3+5+7 = 15
     }
 

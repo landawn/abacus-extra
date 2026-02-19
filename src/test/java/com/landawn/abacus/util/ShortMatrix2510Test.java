@@ -155,7 +155,7 @@ public class ShortMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD() {
-        ShortMatrix m = ShortMatrix.diagonalLU2RD(new short[] { 1, 2, 3 });
+        ShortMatrix m = ShortMatrix.mainDiagonal(new short[] { 1, 2, 3 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -167,7 +167,7 @@ public class ShortMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonalRU2LD() {
-        ShortMatrix m = ShortMatrix.diagonalRU2LD(new short[] { 1, 2, 3 });
+        ShortMatrix m = ShortMatrix.antiDiagonal(new short[] { 1, 2, 3 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 2));
@@ -179,7 +179,7 @@ public class ShortMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        ShortMatrix m = ShortMatrix.diagonal(new short[] { 1, 2, 3 }, new short[] { 4, 5, 6 });
+        ShortMatrix m = ShortMatrix.fromDiagonals(new short[] { 1, 2, 3 }, new short[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -191,7 +191,7 @@ public class ShortMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        ShortMatrix m = ShortMatrix.diagonal(new short[] { 1, 2, 3 }, null);
+        ShortMatrix m = ShortMatrix.fromDiagonals(new short[] { 1, 2, 3 }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -201,7 +201,7 @@ public class ShortMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        ShortMatrix m = ShortMatrix.diagonal(null, new short[] { 4, 5, 6 });
+        ShortMatrix m = ShortMatrix.fromDiagonals(null, new short[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(4, m.get(0, 2));
@@ -211,13 +211,13 @@ public class ShortMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        ShortMatrix m = ShortMatrix.diagonal(null, null);
+        ShortMatrix m = ShortMatrix.fromDiagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> ShortMatrix.diagonal(new short[] { 1, 2 }, new short[] { 3, 4, 5 }));
+        assertThrows(IllegalArgumentException.class, () -> ShortMatrix.fromDiagonals(new short[] { 1, 2 }, new short[] { 3, 4, 5 }));
     }
 
     @Test
@@ -437,19 +437,19 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testGetLU2RD() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        assertArrayEquals(new short[] { 1, 5, 9 }, m.getLU2RD());
+        assertArrayEquals(new short[] { 1, 5, 9 }, m.getMainDiagonal());
     }
 
     @Test
     public void testGetLU2RD_nonSquare() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
     public void testSetLU2RD() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.setLU2RD(new short[] { 10, 20, 30 });
+        m.setMainDiagonal(new short[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 0));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 2));
@@ -458,19 +458,19 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testSetLU2RD_nonSquare() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.setLU2RD(new short[] { 1 }));
+        assertThrows(IllegalStateException.class, () -> m.setMainDiagonal(new short[] { 1 }));
     }
 
     @Test
     public void testSetLU2RD_arrayTooShort() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new short[] { 1, 2 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new short[] { 1, 2 }));
     }
 
     @Test
     public void testUpdateLU2RD() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.updateLU2RD(x -> (short) (x * 10));
+        m.updateMainDiagonal(x -> (short) (x * 10));
         assertEquals(10, m.get(0, 0));
         assertEquals(50, m.get(1, 1));
         assertEquals(90, m.get(2, 2));
@@ -480,25 +480,25 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testUpdateLU2RD_nonSquare() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.updateLU2RD(x -> (short) (x * 2)));
+        assertThrows(IllegalStateException.class, () -> m.updateMainDiagonal(x -> (short) (x * 2)));
     }
 
     @Test
     public void testGetRU2LD() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        assertArrayEquals(new short[] { 3, 5, 7 }, m.getRU2LD());
+        assertArrayEquals(new short[] { 3, 5, 7 }, m.getAntiDiagonal());
     }
 
     @Test
     public void testGetRU2LD_nonSquare() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.getRU2LD());
+        assertThrows(IllegalStateException.class, () -> m.getAntiDiagonal());
     }
 
     @Test
     public void testSetRU2LD() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.setRU2LD(new short[] { 10, 20, 30 });
+        m.setAntiDiagonal(new short[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 2));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 0));
@@ -507,19 +507,19 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testSetRU2LD_nonSquare() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.setRU2LD(new short[] { 1 }));
+        assertThrows(IllegalStateException.class, () -> m.setAntiDiagonal(new short[] { 1 }));
     }
 
     @Test
     public void testSetRU2LD_arrayTooShort() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        assertThrows(IllegalArgumentException.class, () -> m.setRU2LD(new short[] { 1, 2 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setAntiDiagonal(new short[] { 1, 2 }));
     }
 
     @Test
     public void testUpdateRU2LD() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.updateRU2LD(x -> (short) (x * 10));
+        m.updateAntiDiagonal(x -> (short) (x * 10));
         assertEquals(30, m.get(0, 2));
         assertEquals(50, m.get(1, 1));
         assertEquals(70, m.get(2, 0));
@@ -529,7 +529,7 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testUpdateRU2LD_nonSquare() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.updateRU2LD(x -> (short) (x * 2)));
+        assertThrows(IllegalStateException.class, () -> m.updateAntiDiagonal(x -> (short) (x * 2)));
     }
 
     // ============ Transformation Tests ============
@@ -1170,27 +1170,27 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testStreamLU2RD() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        short[] diagonal = m.streamLU2RD().toArray();
+        short[] diagonal = m.streamMainDiagonal().toArray();
         assertArrayEquals(new short[] { 1, 5, 9 }, diagonal);
     }
 
     @Test
     public void testStreamLU2RD_nonSquare() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.streamLU2RD().toArray());
+        assertThrows(IllegalStateException.class, () -> m.streamMainDiagonal().toArray());
     }
 
     @Test
     public void testStreamRU2LD() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        short[] diagonal = m.streamRU2LD().toArray();
+        short[] diagonal = m.streamAntiDiagonal().toArray();
         assertArrayEquals(new short[] { 3, 5, 7 }, diagonal);
     }
 
     @Test
     public void testStreamRU2LD_nonSquare() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalStateException.class, () -> m.streamRU2LD().toArray());
+        assertThrows(IllegalStateException.class, () -> m.streamAntiDiagonal().toArray());
     }
 
     @Test

@@ -242,7 +242,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonalLU2RD() {
-        DoubleMatrix m = DoubleMatrix.diagonalLU2RD(new double[] { 1.5, 2.5, 3.5 });
+        DoubleMatrix m = DoubleMatrix.mainDiagonal(new double[] { 1.5, 2.5, 3.5 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.5, m.get(0, 0), DELTA);
@@ -254,7 +254,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonalRU2LD() {
-        DoubleMatrix m = DoubleMatrix.diagonalRU2LD(new double[] { 1.5, 2.5, 3.5 });
+        DoubleMatrix m = DoubleMatrix.antiDiagonal(new double[] { 1.5, 2.5, 3.5 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.5, m.get(0, 2), DELTA);
@@ -266,7 +266,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        DoubleMatrix m = DoubleMatrix.diagonal(new double[] { 1.0, 2.0, 3.0 }, new double[] { 4.0, 5.0, 6.0 });
+        DoubleMatrix m = DoubleMatrix.fromDiagonals(new double[] { 1.0, 2.0, 3.0 }, new double[] { 4.0, 5.0, 6.0 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0, m.get(0, 0), DELTA);
@@ -278,7 +278,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        DoubleMatrix m = DoubleMatrix.diagonal(new double[] { 1.5, 2.5, 3.5 }, null);
+        DoubleMatrix m = DoubleMatrix.fromDiagonals(new double[] { 1.5, 2.5, 3.5 }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.5, m.get(0, 0), DELTA);
@@ -288,7 +288,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        DoubleMatrix m = DoubleMatrix.diagonal(null, new double[] { 4.5, 5.5, 6.5 });
+        DoubleMatrix m = DoubleMatrix.fromDiagonals(null, new double[] { 4.5, 5.5, 6.5 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(4.5, m.get(0, 2), DELTA);
@@ -298,13 +298,13 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        DoubleMatrix m = DoubleMatrix.diagonal(null, null);
+        DoubleMatrix m = DoubleMatrix.fromDiagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.diagonal(new double[] { 1.0, 2.0 }, new double[] { 3.0, 4.0, 5.0 }));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.fromDiagonals(new double[] { 1.0, 2.0 }, new double[] { 3.0, 4.0, 5.0 }));
     }
 
     @Test
@@ -524,19 +524,19 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testGetLU2RD() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        assertArrayEquals(new double[] { 1.0, 5.0, 9.0 }, m.getLU2RD(), DELTA);
+        assertArrayEquals(new double[] { 1.0, 5.0, 9.0 }, m.getMainDiagonal(), DELTA);
     }
 
     @Test
     public void testGetLU2RD_nonSquare() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
     public void testSetLU2RD() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        m.setLU2RD(new double[] { 10.5, 20.5, 30.5 });
+        m.setMainDiagonal(new double[] { 10.5, 20.5, 30.5 });
         assertEquals(10.5, m.get(0, 0), DELTA);
         assertEquals(20.5, m.get(1, 1), DELTA);
         assertEquals(30.5, m.get(2, 2), DELTA);
@@ -545,19 +545,19 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testSetLU2RD_nonSquare() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalStateException.class, () -> m.setLU2RD(new double[] { 1.0 }));
+        assertThrows(IllegalStateException.class, () -> m.setMainDiagonal(new double[] { 1.0 }));
     }
 
     @Test
     public void testSetLU2RD_arrayTooShort() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new double[] { 1.0, 2.0 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new double[] { 1.0, 2.0 }));
     }
 
     @Test
     public void testUpdateLU2RD() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        m.updateLU2RD(x -> x * 10.0);
+        m.updateMainDiagonal(x -> x * 10.0);
         assertEquals(10.0, m.get(0, 0), DELTA);
         assertEquals(50.0, m.get(1, 1), DELTA);
         assertEquals(90.0, m.get(2, 2), DELTA);
@@ -567,25 +567,25 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testUpdateLU2RD_nonSquare() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalStateException.class, () -> m.updateLU2RD(x -> x * 2.0));
+        assertThrows(IllegalStateException.class, () -> m.updateMainDiagonal(x -> x * 2.0));
     }
 
     @Test
     public void testGetRU2LD() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        assertArrayEquals(new double[] { 3.0, 5.0, 7.0 }, m.getRU2LD(), DELTA);
+        assertArrayEquals(new double[] { 3.0, 5.0, 7.0 }, m.getAntiDiagonal(), DELTA);
     }
 
     @Test
     public void testGetRU2LD_nonSquare() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalStateException.class, () -> m.getRU2LD());
+        assertThrows(IllegalStateException.class, () -> m.getAntiDiagonal());
     }
 
     @Test
     public void testSetRU2LD() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        m.setRU2LD(new double[] { 10.5, 20.5, 30.5 });
+        m.setAntiDiagonal(new double[] { 10.5, 20.5, 30.5 });
         assertEquals(10.5, m.get(0, 2), DELTA);
         assertEquals(20.5, m.get(1, 1), DELTA);
         assertEquals(30.5, m.get(2, 0), DELTA);
@@ -594,19 +594,19 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testSetRU2LD_nonSquare() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalStateException.class, () -> m.setRU2LD(new double[] { 1.0 }));
+        assertThrows(IllegalStateException.class, () -> m.setAntiDiagonal(new double[] { 1.0 }));
     }
 
     @Test
     public void testSetRU2LD_arrayTooShort() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        assertThrows(IllegalArgumentException.class, () -> m.setRU2LD(new double[] { 1.0, 2.0 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setAntiDiagonal(new double[] { 1.0, 2.0 }));
     }
 
     @Test
     public void testUpdateRU2LD() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        m.updateRU2LD(x -> x * 10.0);
+        m.updateAntiDiagonal(x -> x * 10.0);
         assertEquals(30.0, m.get(0, 2), DELTA);
         assertEquals(50.0, m.get(1, 1), DELTA);
         assertEquals(70.0, m.get(2, 0), DELTA);
@@ -616,7 +616,7 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testUpdateRU2LD_nonSquare() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalStateException.class, () -> m.updateRU2LD(x -> x * 2.0));
+        assertThrows(IllegalStateException.class, () -> m.updateAntiDiagonal(x -> x * 2.0));
     }
 
     // ============ Transformation Tests ============
@@ -1273,39 +1273,39 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testStreamLU2RD() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        double[] diagonal = m.streamLU2RD().toArray();
+        double[] diagonal = m.streamMainDiagonal().toArray();
         assertArrayEquals(new double[] { 1.0, 5.0, 9.0 }, diagonal, DELTA);
     }
 
     @Test
     public void testStreamLU2RD_empty() {
         DoubleMatrix empty = DoubleMatrix.empty();
-        assertEquals(0, empty.streamLU2RD().toArray().length);
+        assertEquals(0, empty.streamMainDiagonal().toArray().length);
     }
 
     @Test
     public void testStreamLU2RD_nonSquare() {
         DoubleMatrix nonSquare = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.streamLU2RD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.streamMainDiagonal());
     }
 
     @Test
     public void testStreamRU2LD() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        double[] antiDiagonal = m.streamRU2LD().toArray();
+        double[] antiDiagonal = m.streamAntiDiagonal().toArray();
         assertArrayEquals(new double[] { 3.0, 5.0, 7.0 }, antiDiagonal, DELTA);
     }
 
     @Test
     public void testStreamRU2LD_empty() {
         DoubleMatrix empty = DoubleMatrix.empty();
-        assertEquals(0, empty.streamRU2LD().toArray().length);
+        assertEquals(0, empty.streamAntiDiagonal().toArray().length);
     }
 
     @Test
     public void testStreamRU2LD_nonSquare() {
         DoubleMatrix nonSquare = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalStateException.class, () -> nonSquare.streamRU2LD());
+        assertThrows(IllegalStateException.class, () -> nonSquare.streamAntiDiagonal());
     }
 
     @Test
@@ -1567,10 +1567,10 @@ public class DoubleMatrix2025Test extends TestBase {
         assertEquals(5.0, avg, DELTA);
 
         // Test diagonal operations
-        double diagonalSum = m.streamLU2RD().sum();
+        double diagonalSum = m.streamMainDiagonal().sum();
         assertEquals(15.0, diagonalSum, DELTA); // 1+5+9 = 15
 
-        double antiDiagonalSum = m.streamRU2LD().sum();
+        double antiDiagonalSum = m.streamAntiDiagonal().sum();
         assertEquals(15.0, antiDiagonalSum, DELTA); // 3+5+7 = 15
     }
 

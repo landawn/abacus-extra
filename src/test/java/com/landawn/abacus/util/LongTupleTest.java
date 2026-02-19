@@ -117,29 +117,29 @@ public class LongTupleTest extends TestBase {
     @Test
     public void testCreate() {
         // Test empty array
-        LongTuple<?> empty = LongTuple.create(null);
+        LongTuple<?> empty = LongTuple.fromArray(null);
         assertEquals(0, empty.arity());
 
-        empty = LongTuple.create(new long[0]);
+        empty = LongTuple.fromArray(new long[0]);
         assertEquals(0, empty.arity());
 
         // Test array with 1 element
-        LongTuple.LongTuple1 tuple1 = LongTuple.create(new long[] { 100L });
+        LongTuple.LongTuple1 tuple1 = LongTuple.fromArray(new long[] { 100L });
         assertEquals(1, tuple1.arity());
         assertEquals(100L, tuple1._1);
 
         // Test array with 5 elements
-        LongTuple.LongTuple5 tuple5 = LongTuple.create(new long[] { 100L, 200L, 300L, 400L, 500L });
+        LongTuple.LongTuple5 tuple5 = LongTuple.fromArray(new long[] { 100L, 200L, 300L, 400L, 500L });
         assertEquals(5, tuple5.arity());
         assertEquals(500L, tuple5._5);
 
         // Test array with 9 elements
-        LongTuple.LongTuple9 tuple9 = LongTuple.create(new long[] { 100L, 200L, 300L, 400L, 500L, 600L, 700L, 800L, 900L });
+        LongTuple.LongTuple9 tuple9 = LongTuple.fromArray(new long[] { 100L, 200L, 300L, 400L, 500L, 600L, 700L, 800L, 900L });
         assertEquals(9, tuple9.arity());
         assertEquals(900L, tuple9._9);
 
         // Test too many elements
-        assertThrows(IllegalArgumentException.class, () -> LongTuple.create(new long[10]));
+        assertThrows(IllegalArgumentException.class, () -> LongTuple.fromArray(new long[10]));
     }
 
     @Test
@@ -147,7 +147,7 @@ public class LongTupleTest extends TestBase {
         LongTuple.LongTuple3 tuple = LongTuple.of(300L, 100L, 200L);
         assertEquals(100L, tuple.min());
 
-        LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
+        LongTuple.LongTuple0 empty = LongTuple.fromArray(new long[0]);
         assertThrows(NoSuchElementException.class, () -> empty.min());
     }
 
@@ -156,7 +156,7 @@ public class LongTupleTest extends TestBase {
         LongTuple.LongTuple3 tuple = LongTuple.of(300L, 100L, 200L);
         assertEquals(300L, tuple.max());
 
-        LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
+        LongTuple.LongTuple0 empty = LongTuple.fromArray(new long[0]);
         assertThrows(NoSuchElementException.class, () -> empty.max());
     }
 
@@ -168,7 +168,7 @@ public class LongTupleTest extends TestBase {
         LongTuple.LongTuple4 evenTuple = LongTuple.of(100L, 200L, 300L, 400L);
         assertEquals(200L, evenTuple.median()); // Should be (200L + 300L) / 2 = 250L
 
-        LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
+        LongTuple.LongTuple0 empty = LongTuple.fromArray(new long[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());
     }
 
@@ -177,7 +177,7 @@ public class LongTupleTest extends TestBase {
         LongTuple.LongTuple3 tuple = LongTuple.of(100L, 200L, 300L);
         assertEquals(600L, tuple.sum());
 
-        LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
+        LongTuple.LongTuple0 empty = LongTuple.fromArray(new long[0]);
         assertEquals(0L, empty.sum());
     }
 
@@ -186,14 +186,14 @@ public class LongTupleTest extends TestBase {
         LongTuple.LongTuple3 tuple = LongTuple.of(100L, 200L, 300L);
         assertEquals(200.0, tuple.average());
 
-        LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
+        LongTuple.LongTuple0 empty = LongTuple.fromArray(new long[0]);
         assertThrows(NoSuchElementException.class, () -> empty.average());
     }
 
     @Test
     public void testReverse() {
         // Test Tuple0
-        LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
+        LongTuple.LongTuple0 empty = LongTuple.fromArray(new long[0]);
         LongTuple.LongTuple0 reversedEmpty = empty.reverse();
         assertEquals(0, reversedEmpty.arity());
 
@@ -228,7 +228,7 @@ public class LongTupleTest extends TestBase {
     @Test
     public void testContains() {
         // Test Tuple0
-        LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
+        LongTuple.LongTuple0 empty = LongTuple.fromArray(new long[0]);
         assertFalse(empty.contains(100L));
 
         // Test Tuple1
@@ -348,7 +348,7 @@ public class LongTupleTest extends TestBase {
 
     @Test
     public void testToString() {
-        LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
+        LongTuple.LongTuple0 empty = LongTuple.fromArray(new long[0]);
         assertEquals("()", empty.toString());
 
         LongTuple.LongTuple1 single = LongTuple.of(100L);

@@ -275,13 +275,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * // Create from array
      * byte[] values = {10, 20, 30};
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.create(values);
+     * ByteTuple.ByteTuple3 tuple = ByteTuple.fromArray(values);
      *
      * // Empty array returns ByteTuple<?>
-     * ByteTuple<?> empty = ByteTuple.create(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.fromArray(new byte[0]);
      *
      * // Single element
-     * ByteTuple.ByteTuple1 single = ByteTuple.create(new byte[]{(byte) 42});
+     * ByteTuple.ByteTuple1 single = ByteTuple.fromArray(new byte[]{(byte) 42});
      * }</pre>
      *
      * @param <TP> the specific ByteTuple subtype to return
@@ -290,7 +290,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends ByteTuple<TP>> TP create(final byte[] values) {
+    public static <TP extends ByteTuple<TP>> TP fromArray(final byte[] values) {
         if (values == null || values.length == 0) {
             return (TP) ByteTuple0.EMPTY;
         }
@@ -679,13 +679,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p>
      * This class represents a tuple with arity 0, serving as a singleton instance
      * for cases where an empty byte tuple is needed. It is typically returned
-     * by the {@link #create(byte[])} method when a null or empty array is provided.
+     * by the {@link #fromArray(byte[])} method when a null or empty array is provided.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple<?> empty = ByteTuple.create(null);
-     * ByteTuple<?> empty2 = ByteTuple.create(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.fromArray(null);
+     * ByteTuple<?> empty2 = ByteTuple.fromArray(new byte[0]);
      * int size = empty.arity();   // 0
      * }</pre>
      */

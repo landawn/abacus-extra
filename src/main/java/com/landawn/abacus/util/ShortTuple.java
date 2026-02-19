@@ -245,13 +245,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] values = {1, 2, 3};
-     * ShortTuple.ShortTuple3 tuple = ShortTuple.create(values);
+     * ShortTuple.ShortTuple3 tuple = ShortTuple.fromArray(values);
      * // tuple._1 == 1, tuple._2 == 2, tuple._3 == 3
      *
      * short[] empty = {};
-     * ShortTuple<?> emptyTuple = ShortTuple.create(empty);  // returns ShortTuple<?>.EMPTY
+     * ShortTuple<?> emptyTuple = ShortTuple.fromArray(empty);  // returns ShortTuple<?>.EMPTY
      *
-     * ShortTuple<?> nullTuple = ShortTuple.create(null);    // returns ShortTuple<?>.EMPTY
+     * ShortTuple<?> nullTuple = ShortTuple.fromArray(null);    // returns ShortTuple<?>.EMPTY
      * }</pre>
      *
      * @param <TP> the specific ShortTuple type to return
@@ -260,7 +260,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends ShortTuple<TP>> TP create(final short[] values) {
+    public static <TP extends ShortTuple<TP>> TP fromArray(final short[] values) {
         if (values == null || values.length == 0) {
             return (TP) ShortTuple0.EMPTY;
         }
@@ -542,7 +542,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * An empty tuple containing no elements.
      * This class is used to represent a tuple with zero elements
-     * and is returned by {@link #create(short[])} when passed a null or empty array.
+     * and is returned by {@link #fromArray(short[])} when passed a null or empty array.
      */
     static final class ShortTuple0 extends ShortTuple<ShortTuple0> {
 

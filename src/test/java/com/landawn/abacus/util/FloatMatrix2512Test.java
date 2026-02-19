@@ -168,9 +168,9 @@ public class FloatMatrix2512Test extends TestBase {
     // ============ Diagonal Tests ============
 
     @Test
-    public void test_diagonalLU2RD() {
+    public void test_mainDiagonal() {
         float[] diag = { 1.0f, 2.0f, 3.0f };
-        FloatMatrix m = FloatMatrix.diagonalLU2RD(diag);
+        FloatMatrix m = FloatMatrix.mainDiagonal(diag);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0), 0.0f);
@@ -181,15 +181,15 @@ public class FloatMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_diagonalLU2RD_null() {
-        FloatMatrix m = FloatMatrix.diagonalLU2RD(null);
+    public void test_mainDiagonal_null() {
+        FloatMatrix m = FloatMatrix.mainDiagonal(null);
         assertTrue(m.isEmpty());
     }
 
     @Test
-    public void test_diagonalRU2LD() {
+    public void test_antiDiagonal() {
         float[] diag = { 1.0f, 2.0f, 3.0f };
-        FloatMatrix m = FloatMatrix.diagonalRU2LD(diag);
+        FloatMatrix m = FloatMatrix.antiDiagonal(diag);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 2), 0.0f);
@@ -199,8 +199,8 @@ public class FloatMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_diagonalRU2LD_null() {
-        FloatMatrix m = FloatMatrix.diagonalRU2LD(null);
+    public void test_antiDiagonal_null() {
+        FloatMatrix m = FloatMatrix.antiDiagonal(null);
         assertTrue(m.isEmpty());
     }
 
@@ -208,7 +208,7 @@ public class FloatMatrix2512Test extends TestBase {
     public void test_diagonal_both() {
         float[] lu2rd = { 1.0f, 2.0f, 3.0f };
         float[] ru2ld = { 4.0f, 5.0f, 6.0f };
-        FloatMatrix m = FloatMatrix.diagonal(lu2rd, ru2ld);
+        FloatMatrix m = FloatMatrix.fromDiagonals(lu2rd, ru2ld);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0), 0.0f);
@@ -222,12 +222,12 @@ public class FloatMatrix2512Test extends TestBase {
     public void test_diagonal_differentLengths() {
         float[] lu2rd = { 1.0f, 2.0f };
         float[] ru2ld = { 4.0f, 5.0f, 6.0f };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.diagonal(lu2rd, ru2ld));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.fromDiagonals(lu2rd, ru2ld));
     }
 
     @Test
     public void test_diagonal_bothNull() {
-        FloatMatrix m = FloatMatrix.diagonal(null, null);
+        FloatMatrix m = FloatMatrix.fromDiagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
@@ -445,63 +445,63 @@ public class FloatMatrix2512Test extends TestBase {
     // ============ Diagonal Get/Set Tests ============
 
     @Test
-    public void test_getLU2RD() {
+    public void test_getMainDiagonal() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
-        float[] diag = m.getLU2RD();
+        float[] diag = m.getMainDiagonal();
         assertArrayEquals(new float[] { 1.0f, 5.0f, 9.0f }, diag, 0.0f);
     }
 
     @Test
-    public void test_getLU2RD_nonSquare() {
+    public void test_getMainDiagonal_nonSquare() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f }, { 5.0f, 6.0f } });
-        assertThrows(IllegalStateException.class, () -> m.getLU2RD());
+        assertThrows(IllegalStateException.class, () -> m.getMainDiagonal());
     }
 
     @Test
-    public void test_setLU2RD() {
+    public void test_setMainDiagonal() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        m.setLU2RD(new float[] { 9.0f, 8.0f });
-        assertArrayEquals(new float[] { 9.0f, 8.0f }, m.getLU2RD(), 0.0f);
+        m.setMainDiagonal(new float[] { 9.0f, 8.0f });
+        assertArrayEquals(new float[] { 9.0f, 8.0f }, m.getMainDiagonal(), 0.0f);
     }
 
     @Test
-    public void test_setLU2RD_nonSquare() {
+    public void test_setMainDiagonal_nonSquare() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalStateException.class, () -> m.setLU2RD(new float[] { 9.0f }));
+        assertThrows(IllegalStateException.class, () -> m.setMainDiagonal(new float[] { 9.0f }));
     }
 
     @Test
-    public void test_setLU2RD_invalidLength() {
+    public void test_setMainDiagonal_invalidLength() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.setLU2RD(new float[] { 9.0f }));
+        assertThrows(IllegalArgumentException.class, () -> m.setMainDiagonal(new float[] { 9.0f }));
     }
 
     @Test
-    public void test_updateLU2RD() {
+    public void test_updateMainDiagonal() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        m.updateLU2RD(x -> x * 2);
-        assertArrayEquals(new float[] { 2.0f, 8.0f }, m.getLU2RD(), 0.0f);
+        m.updateMainDiagonal(x -> x * 2);
+        assertArrayEquals(new float[] { 2.0f, 8.0f }, m.getMainDiagonal(), 0.0f);
     }
 
     @Test
-    public void test_getRU2LD() {
+    public void test_getAntiDiagonal() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
-        float[] diag = m.getRU2LD();
+        float[] diag = m.getAntiDiagonal();
         assertArrayEquals(new float[] { 3.0f, 5.0f, 7.0f }, diag, 0.0f);
     }
 
     @Test
-    public void test_setRU2LD() {
+    public void test_setAntiDiagonal() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        m.setRU2LD(new float[] { 9.0f, 8.0f });
-        assertArrayEquals(new float[] { 9.0f, 8.0f }, m.getRU2LD(), 0.0f);
+        m.setAntiDiagonal(new float[] { 9.0f, 8.0f });
+        assertArrayEquals(new float[] { 9.0f, 8.0f }, m.getAntiDiagonal(), 0.0f);
     }
 
     @Test
-    public void test_updateRU2LD() {
+    public void test_updateAntiDiagonal() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        m.updateRU2LD(x -> x * 2);
-        float[] diag = m.getRU2LD();
+        m.updateAntiDiagonal(x -> x * 2);
+        float[] diag = m.getAntiDiagonal();
         assertEquals(4.0f, diag[0], 0.0f);
         assertEquals(6.0f, diag[1], 0.0f);
     }
@@ -1090,16 +1090,16 @@ public class FloatMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_streamLU2RD() {
+    public void test_streamMainDiagonal() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        double sum = m.streamLU2RD().sum();
+        double sum = m.streamMainDiagonal().sum();
         assertEquals(5.0, sum, 0.0);
     }
 
     @Test
-    public void test_streamRU2LD() {
+    public void test_streamAntiDiagonal() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        double sum = m.streamRU2LD().sum();
+        double sum = m.streamAntiDiagonal().sum();
         assertEquals(5.0, sum, 0.0);
     }
 
