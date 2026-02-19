@@ -761,7 +761,7 @@ public class ShortMatrixTest extends TestBase {
     @Test
     public void testRepelem() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        ShortMatrix repeated = m.repelem(2, 3);
+        ShortMatrix repeated = m.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -775,14 +775,14 @@ public class ShortMatrixTest extends TestBase {
         assertEquals((short) 1, repeated.get(1, 0)); // second row same as first
 
         // Test invalid arguments
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        ShortMatrix repeated = m.repmat(2, 3);
+        ShortMatrix repeated = m.repeatMatrix(2, 3);
         assertEquals(4, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -802,8 +802,8 @@ public class ShortMatrixTest extends TestBase {
         assertEquals((short) 2, repeated.get(2, 1));
 
         // Test invalid arguments
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     @Test

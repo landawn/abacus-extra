@@ -1686,7 +1686,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * ShortMatrix repeated = matrix.repelem(2, 3);
+     * ShortMatrix repeated = matrix.repeatElements(2, 3);
      * // Result: [[1, 1, 1, 2, 2, 2],
      * //          [1, 1, 1, 2, 2, 2],
      * //          [3, 3, 3, 4, 4, 4],
@@ -1697,10 +1697,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param colRepeats the number of times to repeat each element in the column direction (must be positive)
      * @return a new ShortMatrix with dimensions (rows * rowRepeats) × (columnCount * colRepeats)
      * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
-     * @see IntMatrix#repelem(int, int)
+     * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public ShortMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public ShortMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
@@ -1734,13 +1734,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p>The whole matrix is repeated {@code rowRepeats} times in the row direction and {@code colRepeats}
      * times in the column direction, creating a tiled pattern. The resulting matrix has dimensions
-     * (rows * rowRepeats) × (columnCount * colRepeats). This is different from {@link #repelem(int, int)} which
+     * (rows * rowRepeats) × (columnCount * colRepeats). This is different from {@link #repeatElements(int, int)} which
      * repeats individual elements. The original matrix is not modified.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * ShortMatrix tiled = matrix.repmat(2, 3);
+     * ShortMatrix tiled = matrix.repeatMatrix(2, 3);
      * // Result: [[1, 2, 1, 2, 1, 2],
      * //          [3, 4, 3, 4, 3, 4],
      * //          [1, 2, 1, 2, 1, 2],
@@ -1751,11 +1751,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param colRepeats the number of times to repeat the matrix in the column direction (must be positive)
      * @return a new ShortMatrix with dimensions (rows * rowRepeats) × (columnCount * colRepeats) containing the tiled pattern
      * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
-     * @see IntMatrix#repmat(int, int)
-     * @see #repelem(int, int)
+     * @see IntMatrix#repeatMatrix(int, int)
+     * @see #repeatElements(int, int)
      */
     @Override
-    public ShortMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public ShortMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation

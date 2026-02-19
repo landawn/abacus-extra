@@ -804,7 +804,7 @@ public class MatrixTest extends TestBase {
     public void testRepelem() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
 
-        Matrix<Integer> repeated = matrix.repelem(2, 3);
+        Matrix<Integer> repeated = matrix.repeatElements(2, 3);
         Assertions.assertEquals(4, repeated.rowCount());
         Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals(1, repeated.get(0, 0));
@@ -819,7 +819,7 @@ public class MatrixTest extends TestBase {
     public void testRepmat() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
 
-        Matrix<Integer> tiled = matrix.repmat(2, 3);
+        Matrix<Integer> tiled = matrix.repeatMatrix(2, 3);
         Assertions.assertEquals(4, tiled.rowCount());
         Assertions.assertEquals(6, tiled.columnCount());
         Assertions.assertEquals(1, tiled.get(0, 0));

@@ -912,7 +912,7 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testRepelem() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        BooleanMatrix repeated = m.repelem(2, 3);
+        BooleanMatrix repeated = m.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -929,14 +929,14 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testRepelem_invalidArguments() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix repeated = m.repmat(2, 3);
+        BooleanMatrix repeated = m.repeatMatrix(2, 3);
         assertEquals(4, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -957,8 +957,8 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testRepmat_invalidArguments() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     // ============ Flatten Tests ============
@@ -1376,7 +1376,7 @@ public class BooleanMatrix2025Test extends TestBase {
     public void testAllTrueMatrix() {
         BooleanMatrix m = BooleanMatrix.repeat(1, 3, true);
         m = m.reshape(3, 1);
-        m = m.repmat(1, 3);
+        m = m.repeatMatrix(1, 3);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -1686,7 +1686,7 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testRepelem_edge1x1() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true } });
-        BooleanMatrix repeated = m.repelem(3, 3);
+        BooleanMatrix repeated = m.repeatElements(3, 3);
         assertEquals(3, repeated.rowCount());
         assertEquals(3, repeated.columnCount());
         for (int i = 0; i < 3; i++) {
@@ -1699,7 +1699,7 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testRepmat_edge1x1() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true } });
-        BooleanMatrix repeated = m.repmat(3, 3);
+        BooleanMatrix repeated = m.repeatMatrix(3, 3);
         assertEquals(3, repeated.rowCount());
         assertEquals(3, repeated.columnCount());
         for (int i = 0; i < 3; i++) {
@@ -1756,12 +1756,12 @@ public class BooleanMatrix2025Test extends TestBase {
         BooleanMatrix m = BooleanMatrix.of(new boolean[largeSize][2]);
 
         // Test row overflow
-        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repelem(50000, 1));
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repeatElements(50000, 1));
         assertTrue(ex1.getMessage().contains("row count overflow"));
 
         // Test column overflow
         BooleanMatrix m2 = BooleanMatrix.of(new boolean[2][largeSize]);
-        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repelem(1, 50000));
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repeatElements(1, 50000));
         assertTrue(ex2.getMessage().contains("column count overflow"));
     }
 
@@ -1772,12 +1772,12 @@ public class BooleanMatrix2025Test extends TestBase {
         BooleanMatrix m = BooleanMatrix.of(new boolean[largeSize][2]);
 
         // Test row overflow
-        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repmat(50000, 1));
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(50000, 1));
         assertTrue(ex1.getMessage().contains("row count overflow"));
 
         // Test column overflow
         BooleanMatrix m2 = BooleanMatrix.of(new boolean[2][largeSize]);
-        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repmat(1, 50000));
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repeatMatrix(1, 50000));
         assertTrue(ex2.getMessage().contains("column count overflow"));
     }
 }

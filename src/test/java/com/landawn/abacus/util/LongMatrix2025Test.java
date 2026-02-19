@@ -1086,7 +1086,7 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testRepelem() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        LongMatrix repeated = m.repelem(2, 3);
+        LongMatrix repeated = m.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -1103,14 +1103,14 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testRepelem_invalidArguments() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        LongMatrix repeated = m.repmat(2, 3);
+        LongMatrix repeated = m.repeatMatrix(2, 3);
         assertEquals(4, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -1131,8 +1131,8 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testRepmat_invalidArguments() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     // ============ Flatten Tests ============

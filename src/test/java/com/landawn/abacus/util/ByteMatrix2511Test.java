@@ -1224,7 +1224,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testRepelem() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix repeated = m.repelem(2, 2);
+        ByteMatrix repeated = m.repeatElements(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
@@ -1237,7 +1237,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testRepelem_singleRepeat() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        ByteMatrix repeated = m.repelem(1, 1);
+        ByteMatrix repeated = m.repeatElements(1, 1);
         assertEquals(1, repeated.rowCount());
         assertEquals(2, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
@@ -1247,7 +1247,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testRepmat() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix repeated = m.repmat(2, 2);
+        ByteMatrix repeated = m.repeatMatrix(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
@@ -1258,7 +1258,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testRepmat_singleRepeat() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        ByteMatrix repeated = m.repmat(1, 1);
+        ByteMatrix repeated = m.repeatMatrix(1, 1);
         assertEquals(1, repeated.rowCount());
         assertEquals(2, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));

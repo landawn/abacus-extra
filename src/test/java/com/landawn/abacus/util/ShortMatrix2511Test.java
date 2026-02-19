@@ -784,7 +784,7 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testRepelem() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        ShortMatrix result = m.repelem(2, 2);
+        ShortMatrix result = m.repeatElements(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals((short) 1, result.get(0, 0));
@@ -796,7 +796,7 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testRepmat() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        ShortMatrix result = m.repmat(2, 2);
+        ShortMatrix result = m.repeatMatrix(2, 2);
         assertEquals(2, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals((short) 1, result.get(0, 0));

@@ -222,7 +222,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testRepelem() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix repeated = matrix.repelem(2, 3);
+        IntMatrix repeated = matrix.repeatElements(2, 3);
 
         Assertions.assertEquals(4, repeated.rowCount());
         Assertions.assertEquals(6, repeated.columnCount());
@@ -237,18 +237,18 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix();
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.repelem(0, 1);
+            matrix.repeatElements(0, 1);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.repelem(1, 0);
+            matrix.repeatElements(1, 0);
         });
     }
 
     @Test
     public void testRepmat() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix tiled = matrix.repmat(2, 3);
+        IntMatrix tiled = matrix.repeatMatrix(2, 3);
 
         tiled.println();
 
@@ -265,11 +265,11 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix();
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.repmat(0, 1);
+            matrix.repeatMatrix(0, 1);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.repmat(1, -1);
+            matrix.repeatMatrix(1, -1);
         });
     }
 

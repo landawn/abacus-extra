@@ -1703,7 +1703,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}});
-     * CharMatrix repeated = matrix.repelem(2, 3);
+     * CharMatrix repeated = matrix.repeatElements(2, 3);
      * // Result: [['a', 'a', 'a', 'b', 'b', 'b'],
      * //          ['a', 'a', 'a', 'b', 'b', 'b']]
      * }</pre>
@@ -1712,10 +1712,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param colRepeats number of times to repeat each column
      * @return a new CharMatrix with repeated elements
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repelem(int, int)
+     * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public CharMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public CharMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
@@ -1751,7 +1751,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * CharMatrix repeated = matrix.repmat(2, 3);
+     * CharMatrix repeated = matrix.repeatMatrix(2, 3);
      * // Result: [['a', 'b', 'a', 'b', 'a', 'b'],
      * //          ['c', 'd', 'c', 'd', 'c', 'd'],
      * //          ['a', 'b', 'a', 'b', 'a', 'b'],
@@ -1762,10 +1762,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param colRepeats number of times to repeat the matrix horizontally
      * @return a new CharMatrix with the repeated pattern
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repmat(int, int)
+     * @see IntMatrix#repeatMatrix(int, int)
      */
     @Override
-    public CharMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public CharMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation

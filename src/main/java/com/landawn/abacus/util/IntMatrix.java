@@ -1911,7 +1911,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1,2}});
-     * IntMatrix repeated = matrix.repelem(2, 3);
+     * IntMatrix repeated = matrix.repeatElements(2, 3);
      * // Result: [[1,1,1,2,2,2],
      * //          [1,1,1,2,2,2]]
      * }</pre>
@@ -1920,10 +1920,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param colRepeats number of times to repeat each element in column direction
      * @return a new IntMatrix with repeated elements
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">MATLAB repelem function</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatElements.html">MATLAB repeatElements function</a>
      */
     @Override
-    public IntMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public IntMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
@@ -1959,7 +1959,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1,2},{3,4}});
-     * IntMatrix repeated = matrix.repmat(2, 3);
+     * IntMatrix repeated = matrix.repeatMatrix(2, 3);
      * // Result: [[1,2,1,2,1,2],
      * //          [3,4,3,4,3,4],
      * //          [1,2,1,2,1,2],
@@ -1970,10 +1970,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param colRepeats number of times to repeat the matrix horizontally
      * @return a new IntMatrix with the tiled pattern
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">MATLAB repmat function</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatMatrix.html">MATLAB repeatMatrix function</a>
      */
     @Override
-    public IntMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public IntMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation

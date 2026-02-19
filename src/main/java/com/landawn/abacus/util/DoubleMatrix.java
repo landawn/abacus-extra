@@ -1830,7 +1830,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleMatrix repeated = matrix.repelem(2, 3);
+     * DoubleMatrix repeated = matrix.repeatElements(2, 3);
      * // Result: [[1.0, 1.0, 1.0, 2.0, 2.0, 2.0],
      * //          [1.0, 1.0, 1.0, 2.0, 2.0, 2.0],
      * //          [3.0, 3.0, 3.0, 4.0, 4.0, 4.0],
@@ -1841,10 +1841,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param colRepeats the number of times to repeat each element in the column direction
      * @return a new matrix with repeated elements
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repelem(int, int)
+     * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public DoubleMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public DoubleMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
@@ -1880,7 +1880,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleMatrix tiled = matrix.repmat(2, 3);
+     * DoubleMatrix tiled = matrix.repeatMatrix(2, 3);
      * // Result: [[1.0, 2.0, 1.0, 2.0, 1.0, 2.0],
      * //          [3.0, 4.0, 3.0, 4.0, 3.0, 4.0],
      * //          [1.0, 2.0, 1.0, 2.0, 1.0, 2.0],
@@ -1891,10 +1891,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param colRepeats the number of times to repeat the matrix in the column direction
      * @return a new matrix with the tiled pattern
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repmat(int, int)
+     * @see IntMatrix#repeatMatrix(int, int)
      */
     @Override
-    public DoubleMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public DoubleMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation

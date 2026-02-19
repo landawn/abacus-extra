@@ -788,10 +788,10 @@ public class Matrix2512Test extends TestBase {
     // ============ Repelem Test ============
 
     @Test
-    public void test_repelem_repeatsElements() {
+    public void test_repeatElements_repeatsElements() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> repeated = m.repelem(2, 2);
+        Matrix<String> repeated = m.repeatElements(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals("a", repeated.get(0, 0));
@@ -802,10 +802,10 @@ public class Matrix2512Test extends TestBase {
     // ============ Repmat Test ============
 
     @Test
-    public void test_repmat_repeatsMatrix() {
+    public void test_repeatMatrix_repeatsMatrix() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> repeated = m.repmat(2, 2);
+        Matrix<String> repeated = m.repeatMatrix(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals("a", repeated.get(0, 0));

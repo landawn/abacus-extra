@@ -1884,7 +1884,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Matrix<Integer> repeated = matrix.repelem(2, 3);
+     * Matrix<Integer> repeated = matrix.repeatElements(2, 3);
      * // Result: {{1,1,1,2,2,2}, {1,1,1,2,2,2}, {3,3,3,4,4,4}, {3,3,3,4,4,4}}
      * }</pre>
      *
@@ -1892,10 +1892,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param colRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
      * @return a new matrix with repeated elements, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">MATLAB repelem</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatElements.html">MATLAB repeatElements</a>
      */
     @Override
-    public Matrix<T> repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public Matrix<T> repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
@@ -1936,7 +1936,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Matrix<Integer> tiled = matrix.repmat(2, 3);
+     * Matrix<Integer> tiled = matrix.repeatMatrix(2, 3);
      * // Result: {{1,2,1,2,1,2}, {3,4,3,4,3,4}, {1,2,1,2,1,2}, {3,4,3,4,3,4}}
      * }</pre>
      *
@@ -1944,10 +1944,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param colRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
      * @return a new matrix with the original matrix repeated, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">MATLAB repmat</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatMatrix.html">MATLAB repeatMatrix</a>
      */
     @Override
-    public Matrix<T> repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public Matrix<T> repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {

@@ -630,7 +630,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testRepelem() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix repeated = m.repelem(2, 2);
+        IntMatrix repeated = m.repeatElements(2, 2);
 
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
@@ -645,7 +645,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testRepelem_asymmetric() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        IntMatrix repeated = m.repelem(3, 2);
+        IntMatrix repeated = m.repeatElements(3, 2);
 
         assertEquals(3, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
@@ -659,15 +659,15 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testRepelem_invalidArgs() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(-1, 1));
     }
 
     @Test
     public void testRepmat() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix repeated = m.repmat(2, 2);
+        IntMatrix repeated = m.repeatMatrix(2, 2);
 
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
@@ -681,7 +681,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testRepmat_asymmetric() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        IntMatrix repeated = m.repmat(3, 2);
+        IntMatrix repeated = m.repeatMatrix(3, 2);
 
         assertEquals(3, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
@@ -694,9 +694,9 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testRepmat_invalidArgs() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(-1, 1));
     }
 
     // ============ Flatten Tests ============

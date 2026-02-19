@@ -1711,11 +1711,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // [[true, false]] with repelem(2, 3) becomes:
+     * // [[true, false]] with repeatElements(2, 3) becomes:
      * // [[true, true, true, false, false, false],
      * //  [true, true, true, false, false, false]]
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}});
-     * BooleanMatrix repeated = matrix.repelem(2, 3);
+     * BooleanMatrix repeated = matrix.repeatElements(2, 3);
      * }</pre>
      *
      * @param rowRepeats number of times to repeat each element vertically
@@ -1724,7 +1724,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
      */
     @Override
-    public BooleanMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public BooleanMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
@@ -1759,11 +1759,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // [[true, false]] with repmat(2, 3) becomes:
+     * // [[true, false]] with repeatMatrix(2, 3) becomes:
      * // [[true, false, true, false, true, false],
      * //  [true, false, true, false, true, false]]
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}});
-     * BooleanMatrix tiled = matrix.repmat(2, 3);
+     * BooleanMatrix tiled = matrix.repeatMatrix(2, 3);
      * }</pre>
      *
      * @param rowRepeats number of times to repeat the matrix vertically
@@ -1772,7 +1772,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
      */
     @Override
-    public BooleanMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public BooleanMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation

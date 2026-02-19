@@ -1219,7 +1219,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testRepelem() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        CharMatrix repeated = m.repelem(2, 2);
+        CharMatrix repeated = m.repeatElements(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals('a', repeated.get(0, 0));
@@ -1232,7 +1232,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testRepelem_singleRepeat() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        CharMatrix repeated = m.repelem(1, 1);
+        CharMatrix repeated = m.repeatElements(1, 1);
         assertEquals(1, repeated.rowCount());
         assertEquals(2, repeated.columnCount());
         assertEquals('a', repeated.get(0, 0));
@@ -1242,7 +1242,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testRepmat() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        CharMatrix repeated = m.repmat(2, 2);
+        CharMatrix repeated = m.repeatMatrix(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals('a', repeated.get(0, 0));
@@ -1253,7 +1253,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testRepmat_singleRepeat() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        CharMatrix repeated = m.repmat(1, 1);
+        CharMatrix repeated = m.repeatMatrix(1, 1);
         assertEquals(1, repeated.rowCount());
         assertEquals(2, repeated.columnCount());
         assertEquals('a', repeated.get(0, 0));

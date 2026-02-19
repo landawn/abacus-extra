@@ -1660,7 +1660,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}});
-     * FloatMatrix repeated = matrix.repelem(2, 3);
+     * FloatMatrix repeated = matrix.repeatElements(2, 3);
      * // Result: [[1.0, 1.0, 1.0, 2.0, 2.0, 2.0],
      * //          [1.0, 1.0, 1.0, 2.0, 2.0, 2.0]]
      * }</pre>
@@ -1669,10 +1669,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param colRepeats number of times to repeat each element in column direction
      * @return a new FloatMatrix with repeated elements
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repelem(int, int)
+     * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public FloatMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public FloatMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
@@ -1708,7 +1708,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * FloatMatrix repeated = matrix.repmat(2, 3);
+     * FloatMatrix repeated = matrix.repeatMatrix(2, 3);
      * // Result: [[1.0, 2.0, 1.0, 2.0, 1.0, 2.0],
      * //          [3.0, 4.0, 3.0, 4.0, 3.0, 4.0],
      * //          [1.0, 2.0, 1.0, 2.0, 1.0, 2.0],
@@ -1719,10 +1719,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param colRepeats number of times to repeat the matrix horizontally
      * @return a new FloatMatrix with the tiled pattern
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repmat(int, int)
+     * @see IntMatrix#repeatMatrix(int, int)
      */
     @Override
-    public FloatMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public FloatMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation

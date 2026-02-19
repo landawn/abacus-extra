@@ -903,7 +903,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testRepelem() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix result = m.repelem(2, 2);
+        ByteMatrix result = m.repeatElements(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1, result.get(0, 0));
@@ -916,14 +916,14 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testRepelem_invalidRepeats() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix result = m.repmat(2, 2);
+        ByteMatrix result = m.repeatMatrix(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1, result.get(0, 0));
@@ -935,8 +935,8 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testRepmat_invalidRepeats() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     // ============ Flatten Tests ============

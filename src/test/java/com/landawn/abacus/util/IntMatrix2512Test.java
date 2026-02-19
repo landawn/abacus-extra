@@ -970,9 +970,9 @@ public class IntMatrix2512Test extends TestBase {
     // ============ Repelem Test ============
 
     @Test
-    public void test_repelem() {
+    public void test_repeatElements() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix result = m.repelem(2, 2);
+        IntMatrix result = m.repeatElements(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1, result.get(0, 0));
@@ -983,17 +983,17 @@ public class IntMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_repelem_invalidRepeats() {
+    public void test_repeatElements_invalidRepeats() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
     }
 
     // ============ Repmat Test ============
 
     @Test
-    public void test_repmat() {
+    public void test_repeatMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        IntMatrix result = m.repmat(2, 2);
+        IntMatrix result = m.repeatMatrix(2, 2);
         assertEquals(2, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1, result.get(0, 0));
@@ -1003,9 +1003,9 @@ public class IntMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_repmat_invalidRepeats() {
+    public void test_repeatMatrix_invalidRepeats() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
     }
 
     // ============ Flatten Test ============

@@ -890,7 +890,7 @@ public class DoubleMatrix2511Test extends TestBase {
     @Test
     public void testRepelem() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        DoubleMatrix result = m.repelem(2, 2);
+        DoubleMatrix result = m.repeatElements(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1.0, result.get(0, 0));
@@ -906,7 +906,7 @@ public class DoubleMatrix2511Test extends TestBase {
     @Test
     public void testRepmat() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        DoubleMatrix result = m.repmat(2, 2);
+        DoubleMatrix result = m.repeatMatrix(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1.0, result.get(0, 0));

@@ -843,9 +843,9 @@ public class FloatMatrix2512Test extends TestBase {
     // ============ Repelem Test ============
 
     @Test
-    public void test_repelem() {
+    public void test_repeatElements() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix result = m.repelem(2, 2);
+        FloatMatrix result = m.repeatElements(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1.0f, result.get(0, 0), 0.0f);
@@ -856,17 +856,17 @@ public class FloatMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_repelem_invalidRepeats() {
+    public void test_repeatElements_invalidRepeats() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
     }
 
     // ============ Repmat Test ============
 
     @Test
-    public void test_repmat() {
+    public void test_repeatMatrix() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        FloatMatrix result = m.repmat(2, 2);
+        FloatMatrix result = m.repeatMatrix(2, 2);
         assertEquals(2, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1.0f, result.get(0, 0), 0.0f);
@@ -876,9 +876,9 @@ public class FloatMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_repmat_invalidRepeats() {
+    public void test_repeatMatrix_invalidRepeats() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
     }
 
     // ============ Flatten Test ============

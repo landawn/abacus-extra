@@ -769,10 +769,10 @@ public class ShortMatrix2512Test extends TestBase {
     // ============ Repelem Test ============
 
     @Test
-    public void test_repelem_repeatsElements() {
+    public void test_repeatElements_repeatsElements() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        ShortMatrix repeated = m.repelem(2, 2);
+        ShortMatrix repeated = m.repeatElements(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
@@ -783,10 +783,10 @@ public class ShortMatrix2512Test extends TestBase {
     // ============ Repmat Test ============
 
     @Test
-    public void test_repmat_repeatsMatrix() {
+    public void test_repeatMatrix_repeatsMatrix() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        ShortMatrix repeated = m.repmat(2, 2);
+        ShortMatrix repeated = m.repeatMatrix(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));

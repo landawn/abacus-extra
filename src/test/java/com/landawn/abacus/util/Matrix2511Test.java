@@ -1494,7 +1494,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testRepelem_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Matrix<String> repeated = m.repelem(2, 2);
+        Matrix<String> repeated = m.repeatElements(2, 2);
 
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
@@ -1509,7 +1509,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testRepelem_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        Matrix<Integer> repeated = m.repelem(2, 3);
+        Matrix<Integer> repeated = m.repeatElements(2, 3);
 
         assertEquals(4, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
@@ -1522,14 +1522,14 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testRepelem_invalidArgs() {
         Matrix<String> m = Matrix.of(new String[][] { { "A" } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Matrix<String> repeated = m.repmat(2, 2);
+        Matrix<String> repeated = m.repeatMatrix(2, 2);
 
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
@@ -1543,7 +1543,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testRepmat_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        Matrix<Integer> repeated = m.repmat(3, 2);
+        Matrix<Integer> repeated = m.repeatMatrix(3, 2);
 
         assertEquals(6, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
@@ -1557,8 +1557,8 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testRepmat_invalidArgs() {
         Matrix<String> m = Matrix.of(new String[][] { { "A" } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     // ============ Flatten and Stream Methods ============

@@ -1112,7 +1112,7 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testRepelem() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        FloatMatrix repeated = m.repelem(2, 3);
+        FloatMatrix repeated = m.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -1129,14 +1129,14 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testRepelem_invalidArguments() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix repeated = m.repmat(2, 3);
+        FloatMatrix repeated = m.repeatMatrix(2, 3);
         assertEquals(4, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -1157,8 +1157,8 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testRepmat_invalidArguments() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     // ============ Flatten Tests ============

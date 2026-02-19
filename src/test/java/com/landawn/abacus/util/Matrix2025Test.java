@@ -960,7 +960,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testRepelem() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" } });
-        Matrix<String> repeated = m.repelem(2, 3);
+        Matrix<String> repeated = m.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -977,14 +977,14 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testRepelem_invalidArguments() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Matrix<String> repeated = m.repmat(2, 3);
+        Matrix<String> repeated = m.repeatMatrix(2, 3);
         assertEquals(4, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -1005,8 +1005,8 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testRepmat_invalidArguments() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     // ============ Flatten Tests ============

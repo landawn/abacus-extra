@@ -1139,7 +1139,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRepelem() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix repeated = m.repelem(2, 2);
+        BooleanMatrix repeated = m.repeatElements(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertTrue(repeated.get(0, 0));
@@ -1152,7 +1152,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRepelem_singleRepeat() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        BooleanMatrix repeated = m.repelem(1, 1);
+        BooleanMatrix repeated = m.repeatElements(1, 1);
         assertEquals(1, repeated.rowCount());
         assertEquals(2, repeated.columnCount());
         assertTrue(repeated.get(0, 0));
@@ -1162,7 +1162,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRepmat() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix repeated = m.repmat(2, 2);
+        BooleanMatrix repeated = m.repeatMatrix(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertTrue(repeated.get(0, 0));
@@ -1173,7 +1173,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRepmat_singleRepeat() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        BooleanMatrix repeated = m.repmat(1, 1);
+        BooleanMatrix repeated = m.repeatMatrix(1, 1);
         assertEquals(1, repeated.rowCount());
         assertEquals(2, repeated.columnCount());
         assertTrue(repeated.get(0, 0));

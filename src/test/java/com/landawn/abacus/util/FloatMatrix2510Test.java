@@ -791,7 +791,7 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testRepelem() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix result = m.repelem(2, 2);
+        FloatMatrix result = m.repeatElements(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1.0f, result.get(0, 0));
@@ -807,7 +807,7 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testRepmat() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix result = m.repmat(2, 2);
+        FloatMatrix result = m.repeatMatrix(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1.0f, result.get(0, 0));

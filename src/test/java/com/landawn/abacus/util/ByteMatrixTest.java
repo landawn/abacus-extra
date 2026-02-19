@@ -753,7 +753,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        ByteMatrix repeated = matrix.repelem(2, 3);
+        ByteMatrix repeated = matrix.repeatElements(2, 3);
         Assertions.assertEquals(4, repeated.rowCount());
         Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals(1, repeated.get(0, 0));
@@ -762,8 +762,8 @@ public class ByteMatrixTest extends TestBase {
         Assertions.assertEquals(2, repeated.get(0, 3));
         Assertions.assertEquals(4, repeated.get(3, 5));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repelem(0, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repelem(1, 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatElements(0, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatElements(1, 0));
     }
 
     @Test
@@ -771,7 +771,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        ByteMatrix repeated = matrix.repmat(2, 3);
+        ByteMatrix repeated = matrix.repeatMatrix(2, 3);
         Assertions.assertEquals(4, repeated.rowCount());
         Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals(1, repeated.get(0, 0));
@@ -780,8 +780,8 @@ public class ByteMatrixTest extends TestBase {
         Assertions.assertEquals(1, repeated.get(2, 0));
         Assertions.assertEquals(4, repeated.get(3, 5));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repmat(0, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repmat(1, 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatMatrix(0, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatMatrix(1, 0));
     }
 
     @Test

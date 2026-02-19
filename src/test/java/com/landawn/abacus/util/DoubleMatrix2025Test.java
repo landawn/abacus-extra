@@ -1019,7 +1019,7 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testRepelem() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 } });
-        DoubleMatrix repeated = m.repelem(2, 3);
+        DoubleMatrix repeated = m.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -1036,14 +1036,14 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testRepelem_invalidArguments() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
-        DoubleMatrix repeated = m.repmat(2, 3);
+        DoubleMatrix repeated = m.repeatMatrix(2, 3);
         assertEquals(4, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -1064,8 +1064,8 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testRepmat_invalidArguments() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     // ============ Flatten Tests ============

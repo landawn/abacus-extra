@@ -1716,7 +1716,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * ByteMatrix repeated = matrix.repelem(2, 3);
+     * ByteMatrix repeated = matrix.repeatElements(2, 3);
      * // repeated is: [[1, 1, 1, 2, 2, 2],
      * //               [1, 1, 1, 2, 2, 2],
      * //               [3, 3, 3, 4, 4, 4],
@@ -1727,10 +1727,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param colRepeats number of times to repeat each element horizontally
      * @return a new matrix with repeated elements
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repelem(int, int)
+     * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public ByteMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public ByteMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
@@ -1766,7 +1766,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * ByteMatrix repeated = matrix.repmat(2, 3);
+     * ByteMatrix repeated = matrix.repeatMatrix(2, 3);
      * // repeated is: [[1, 2, 1, 2, 1, 2],
      * //               [3, 4, 3, 4, 3, 4],
      * //               [1, 2, 1, 2, 1, 2],
@@ -1777,10 +1777,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param colRepeats number of times to repeat the matrix horizontally
      * @return a new matrix with the original matrix repeated
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repmat(int, int)
+     * @see IntMatrix#repeatMatrix(int, int)
      */
     @Override
-    public ByteMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public ByteMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation

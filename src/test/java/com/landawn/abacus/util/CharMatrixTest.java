@@ -747,7 +747,7 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        CharMatrix repeated = matrix.repelem(2, 3);
+        CharMatrix repeated = matrix.repeatElements(2, 3);
         Assertions.assertEquals(4, repeated.rowCount());
         Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals('a', repeated.get(0, 0));
@@ -756,8 +756,8 @@ public class CharMatrixTest extends TestBase {
         Assertions.assertEquals('b', repeated.get(0, 3));
         Assertions.assertEquals('d', repeated.get(3, 5));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repelem(0, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repelem(1, 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatElements(0, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatElements(1, 0));
     }
 
     @Test
@@ -765,7 +765,7 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        CharMatrix repeated = matrix.repmat(2, 3);
+        CharMatrix repeated = matrix.repeatMatrix(2, 3);
         Assertions.assertEquals(4, repeated.rowCount());
         Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals('a', repeated.get(0, 0));
@@ -774,8 +774,8 @@ public class CharMatrixTest extends TestBase {
         Assertions.assertEquals('a', repeated.get(2, 0));
         Assertions.assertEquals('d', repeated.get(3, 5));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repmat(0, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repmat(1, 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatMatrix(0, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatMatrix(1, 0));
     }
 
     @Test

@@ -875,7 +875,7 @@ public class IntMatrix2511Test extends TestBase {
     @Test
     public void testRepelem() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix result = m.repelem(2, 2);
+        IntMatrix result = m.repeatElements(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1, result.get(0, 0));
@@ -887,7 +887,7 @@ public class IntMatrix2511Test extends TestBase {
     @Test
     public void testRepmat() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        IntMatrix result = m.repmat(2, 2);
+        IntMatrix result = m.repeatMatrix(2, 2);
         assertEquals(2, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1, result.get(0, 0));

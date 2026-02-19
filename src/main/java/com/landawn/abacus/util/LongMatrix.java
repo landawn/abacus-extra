@@ -1818,7 +1818,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix repeated = matrix.repelem(2, 3);
+     * LongMatrix repeated = matrix.repeatElements(2, 3);
      * // Result: [[1, 1, 1, 2, 2, 2],
      * //          [1, 1, 1, 2, 2, 2],
      * //          [3, 3, 3, 4, 4, 4],
@@ -1829,10 +1829,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param colRepeats the number of times to repeat each element in the column direction
      * @return a new matrix with repeated elements
      * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
-     * @see IntMatrix#repelem(int, int)
+     * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public LongMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public LongMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
@@ -1869,7 +1869,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix tiled = matrix.repmat(2, 3);
+     * LongMatrix tiled = matrix.repeatMatrix(2, 3);
      * // Result: [[1, 2, 1, 2, 1, 2],
      * //          [3, 4, 3, 4, 3, 4],
      * //          [1, 2, 1, 2, 1, 2],
@@ -1880,10 +1880,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param colRepeats the number of times to repeat the matrix in the column direction
      * @return a new matrix with the original matrix repeated as tiles
      * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
-     * @see IntMatrix#repmat(int, int)
+     * @see IntMatrix#repeatMatrix(int, int)
      */
     @Override
-    public LongMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
+    public LongMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation

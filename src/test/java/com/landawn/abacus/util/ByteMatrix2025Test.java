@@ -939,7 +939,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testRepelem() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        ByteMatrix repeated = m.repelem(2, 3);
+        ByteMatrix repeated = m.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -956,14 +956,14 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testRepelem_invalidArguments() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix repeated = m.repmat(2, 3);
+        ByteMatrix repeated = m.repeatMatrix(2, 3);
         assertEquals(4, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -984,8 +984,8 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testRepmat_invalidArguments() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     // ============ Flatten Tests ============
@@ -1557,11 +1557,11 @@ public class ByteMatrix2025Test extends TestBase {
         int largeSize = 50000;
         ByteMatrix m = ByteMatrix.of(new byte[largeSize][2]);
 
-        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repelem(50000, 1));
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repeatElements(50000, 1));
         assertTrue(ex1.getMessage().contains("row count overflow"));
 
         ByteMatrix m2 = ByteMatrix.of(new byte[2][largeSize]);
-        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repelem(1, 50000));
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repeatElements(1, 50000));
         assertTrue(ex2.getMessage().contains("column count overflow"));
     }
 
@@ -1570,11 +1570,11 @@ public class ByteMatrix2025Test extends TestBase {
         int largeSize = 50000;
         ByteMatrix m = ByteMatrix.of(new byte[largeSize][2]);
 
-        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repmat(50000, 1));
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(50000, 1));
         assertTrue(ex1.getMessage().contains("row count overflow"));
 
         ByteMatrix m2 = ByteMatrix.of(new byte[2][largeSize]);
-        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repmat(1, 50000));
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repeatMatrix(1, 50000));
         assertTrue(ex2.getMessage().contains("column count overflow"));
     }
 }

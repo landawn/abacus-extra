@@ -659,9 +659,9 @@ public class ByteMatrix2512Test extends TestBase {
     // ============ Repeat Tests ============
 
     @Test
-    public void test_repelem() {
+    public void test_repeatElements() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix repeated = m.repelem(2, 2);
+        ByteMatrix repeated = m.repeatElements(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
@@ -671,9 +671,9 @@ public class ByteMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_repmat() {
+    public void test_repeatMatrix() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix tiled = m.repmat(2, 2);
+        ByteMatrix tiled = m.repeatMatrix(2, 2);
         assertEquals(4, tiled.rowCount());
         assertEquals(4, tiled.columnCount());
         assertEquals(1, tiled.get(0, 0));

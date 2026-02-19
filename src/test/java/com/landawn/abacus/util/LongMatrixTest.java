@@ -782,7 +782,7 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        LongMatrix repeated = matrix.repelem(2, 3);
+        LongMatrix repeated = matrix.repeatElements(2, 3);
         Assertions.assertEquals(4, repeated.rowCount());
         Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals(1L, repeated.get(0, 0));
@@ -791,8 +791,8 @@ public class LongMatrixTest extends TestBase {
         Assertions.assertEquals(2L, repeated.get(0, 3));
         Assertions.assertEquals(4L, repeated.get(3, 5));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repelem(0, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repelem(1, 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatElements(0, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatElements(1, 0));
     }
 
     @Test
@@ -800,7 +800,7 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        LongMatrix repeated = matrix.repmat(2, 3);
+        LongMatrix repeated = matrix.repeatMatrix(2, 3);
         Assertions.assertEquals(4, repeated.rowCount());
         Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals(1L, repeated.get(0, 0));
@@ -809,8 +809,8 @@ public class LongMatrixTest extends TestBase {
         Assertions.assertEquals(1L, repeated.get(2, 0));
         Assertions.assertEquals(4L, repeated.get(3, 5));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repmat(0, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repmat(1, 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatMatrix(0, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.repeatMatrix(1, 0));
     }
 
     @Test

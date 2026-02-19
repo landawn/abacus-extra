@@ -799,7 +799,7 @@ public class LongMatrix2511Test extends TestBase {
     @Test
     public void testRepelem() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        LongMatrix result = m.repelem(2, 2);
+        LongMatrix result = m.repeatElements(2, 2);
         assertEquals(4, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1L, result.get(0, 0));
@@ -811,7 +811,7 @@ public class LongMatrix2511Test extends TestBase {
     @Test
     public void testRepmat() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        LongMatrix result = m.repmat(2, 2);
+        LongMatrix result = m.repeatMatrix(2, 2);
         assertEquals(2, result.rowCount());
         assertEquals(4, result.columnCount());
         assertEquals(1L, result.get(0, 0));

@@ -652,7 +652,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        BooleanMatrix repeated = matrix.repelem(2, 3);
+        BooleanMatrix repeated = matrix.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
         assertTrue(repeated.get(0, 0));
@@ -660,7 +660,7 @@ public class BooleanMatrixTest extends TestBase {
         assertTrue(repeated.get(0, 2));
         assertFalse(repeated.get(0, 3));
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.repelem(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.repeatElements(0, 1));
     }
 
     @Test
@@ -668,14 +668,14 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        BooleanMatrix tiled = matrix.repmat(2, 3);
+        BooleanMatrix tiled = matrix.repeatMatrix(2, 3);
         assertEquals(2, tiled.rowCount());
         assertEquals(6, tiled.columnCount());
         assertTrue(tiled.get(0, 0));
         assertFalse(tiled.get(0, 1));
         assertTrue(tiled.get(0, 2));
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.repmat(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.repeatMatrix(0, 1));
     }
 
     @Test

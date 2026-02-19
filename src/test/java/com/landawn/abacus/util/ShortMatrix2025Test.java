@@ -939,7 +939,7 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testRepelem() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        ShortMatrix repeated = m.repelem(2, 3);
+        ShortMatrix repeated = m.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -956,14 +956,14 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testRepelem_invalidArguments() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repelem(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
     }
 
     @Test
     public void testRepmat() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        ShortMatrix repeated = m.repmat(2, 3);
+        ShortMatrix repeated = m.repeatMatrix(2, 3);
         assertEquals(4, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
 
@@ -984,8 +984,8 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testRepmat_invalidArguments() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> m.repmat(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.repeatMatrix(1, 0));
     }
 
     // ============ Flatten Tests ============
@@ -1608,7 +1608,7 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testRepelem_oneDimension() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        ShortMatrix repeated = m.repelem(1, 2);
+        ShortMatrix repeated = m.repeatElements(1, 2);
         assertEquals(1, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
@@ -1620,7 +1620,7 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testRepmat_oneDimension() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        ShortMatrix repeated = m.repmat(1, 2);
+        ShortMatrix repeated = m.repeatMatrix(1, 2);
         assertEquals(1, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));

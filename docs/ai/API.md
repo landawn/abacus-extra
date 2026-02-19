@@ -138,22 +138,22 @@ A comprehensive abstract base class providing the foundational architecture for 
 - **Parameters:**
   - `x` (`X`) — the matrix to compare with
 - **Returns:** {@code true} if both matrices have the same dimensions, {@code false} otherwise
-##### repelem(...) -> X
-- **Signature:** `public abstract X repelem(int rowRepeats, int colRepeats)`
+##### repeatElements(...) -> X
+- **Signature:** `public abstract X repeatElements(int rowRepeats, int colRepeats)`
 - **Summary:** Returns a new matrix with each element repeated the specified number of times in both dimensions.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat each element in the row direction (must be &gt; = 1)
   - `colRepeats` (`int`) — number of times to repeat each element in the column direction (must be &gt; = 1)
 - **Returns:** a new matrix with repeated elements, with dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
-- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">,MATLAB repelem,</a>
-##### repmat(...) -> X
-- **Signature:** `public abstract X repmat(int rowRepeats, int colRepeats)`
+- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repeatElements.html">,MATLAB repeatElements,</a>
+##### repeatMatrix(...) -> X
+- **Signature:** `public abstract X repeatMatrix(int rowRepeats, int colRepeats)`
 - **Summary:** Returns a new matrix formed by tiling this matrix the specified number of times in both dimensions.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat the matrix in the row direction (must be &gt; = 1)
   - `colRepeats` (`int`) — number of times to repeat the matrix in the column direction (must be &gt; = 1)
 - **Returns:** a new matrix with this matrix tiled, with dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
-- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">,MATLAB repmat,</a>
+- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repeatMatrix.html">,MATLAB repeatMatrix,</a>
 ##### flatten(...) -> PL
 - **Signature:** `public abstract PL flatten()`
 - **Summary:** Flattens this matrix into a one-dimensional list.
@@ -172,7 +172,7 @@ A comprehensive abstract base class providing the foundational architecture for 
 - **Summary:** Performs the specified action for each element position in the matrix.
 - **Contract:**
   - <p> This method is useful when you need to access matrix positions without caring about the actual element values, or when the element access logic is handled inside the action.
-  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code matrix.forEach((i, j) -> { System.out.println("Position: (" + i + "," + j + ")"); }); // Count elements on the main diagonal AtomicInteger diagonalCount = new AtomicInteger(0); matrix.forEach((i, j) -> { if (i == j) diagonalCount.incrementAndGet(); }); } </pre>
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code IntMatrix matrix = IntMatrix.of(new int\[\]\[\] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}); matrix.forEach((i, j) -> { System.out.println("Position: (" + i + "," + j + ")"); }); // Count elements on the main diagonal AtomicInteger diagonalCount = new AtomicInteger(0); matrix.forEach((i, j) -> { if (i == j) diagonalCount.incrementAndGet(); }); } </pre>
 - **Parameters:**
   - `action` (`Throwables.IntBiConsumer<E>`) — the action to perform for each position, receives (rowIndex, columnIndex)
 - **Throws:**
@@ -381,7 +381,7 @@ A comprehensive abstract base class providing the foundational architecture for 
 - **Signature:** `public <E extends Exception> void accept(final Throwables.Consumer<? super X, E> action) throws E`
 - **Summary:** Executes the specified action with this matrix as the parameter.
 - **Contract:**
-  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code // Log matrix details matrix.accept(m -> { System.out.println("Matrix dimensions: " + m.rowCount + "x" + m.columnCount); m.println(); }); // Validate matrix before processing matrix.accept(m -> { if (m.isEmpty()) { throw new IllegalStateException("Matrix cannot be empty"); } }); // Modify matrix elements in place matrix.accept(m -> { for (int i = 0; i < m.rowCount; i++) { m.set(i, 0, 0); // Set first column to 0 } }); } </pre>
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code IntMatrix matrix = IntMatrix.of(new int\[\]\[\] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}}); // Log matrix details matrix.accept(m -> { System.out.println("Matrix dimensions: " + m.rowCount() + "x" + m.columnCount()); m.println(); }); // Validate matrix before processing matrix.accept(m -> { if (m.isEmpty()) { throw new IllegalStateException("Matrix cannot be empty"); } }); // Modify matrix elements in place matrix.accept(m -> { for (int i = 0; i < m.rowCount(); i++) { m.set(i, 0, 0); // Set first column to 0 } }); } </pre>
 - **Parameters:**
   - `action` (`Throwables.Consumer<? super X, E>`) — the consumer action to perform on this matrix
 - **Throws:**
@@ -4556,8 +4556,8 @@ A matrix implementation for boolean primitive values, providing efficient storag
   - `newRowCount` (`int`) — the number of rows in the reshaped matrix; must be non-negative
   - `newColumnCount` (`int`) — the number of columns in the reshaped matrix; must be non-negative
 - **Returns:** a new BooleanMatrix with the specified shape
-##### repelem(...) -> BooleanMatrix
-- **Signature:** `@Override public BooleanMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatElements(...) -> BooleanMatrix
+- **Signature:** `@Override public BooleanMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats each element in the matrix the specified number of times in both dimensions.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat each element vertically
@@ -4565,8 +4565,8 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Returns:** a new BooleanMatrix with dimensions (rows*rowRepeats x columnCount*colRepeats)
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-##### repmat(...) -> BooleanMatrix
-- **Signature:** `@Override public BooleanMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatMatrix(...) -> BooleanMatrix
+- **Signature:** `@Override public BooleanMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats the entire matrix the specified number of times in both dimensions.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat the matrix vertically
@@ -6025,8 +6025,8 @@ A matrix implementation for byte primitive values, providing efficient storage a
   - `newColumnCount` (`int`) — the number of columns in the reshaped matrix (must be non-negative)
 - **Returns:** a new ByteMatrix with the specified shape containing this matrix's elements
 - **See also:** #extend(int, int)
-##### repelem(...) -> ByteMatrix
-- **Signature:** `@Override public ByteMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatElements(...) -> ByteMatrix
+- **Signature:** `@Override public ByteMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by repeating each element multiple times.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat each element vertically
@@ -6034,9 +6034,9 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Returns:** a new matrix with repeated elements
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** IntMatrix#repelem(int, int)
-##### repmat(...) -> ByteMatrix
-- **Signature:** `@Override public ByteMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+- **See also:** IntMatrix#repeatElements(int, int)
+##### repeatMatrix(...) -> ByteMatrix
+- **Signature:** `@Override public ByteMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by repeating the entire matrix multiple times.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat the matrix vertically
@@ -6044,7 +6044,7 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Returns:** a new matrix with the original matrix repeated
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** IntMatrix#repmat(int, int)
+- **See also:** IntMatrix#repeatMatrix(int, int)
 ##### flatten(...) -> ByteList
 - **Signature:** `@Override public ByteList flatten()`
 - **Summary:** Returns a list containing all matrix elements in row-major order.
@@ -7873,8 +7873,8 @@ A matrix implementation for char primitive values, providing efficient storage a
   - `newRowCount` (`int`) — the number of rows in the reshaped matrix (must be &gt; = 0)
   - `newColumnCount` (`int`) — the number of columns in the reshaped matrix (must be &gt; = 0)
 - **Returns:** a new CharMatrix with the specified dimensions
-##### repelem(...) -> CharMatrix
-- **Signature:** `@Override public CharMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatElements(...) -> CharMatrix
+- **Signature:** `@Override public CharMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats each element in both row and column directions.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat each row
@@ -7882,9 +7882,9 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Returns:** a new CharMatrix with repeated elements
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** IntMatrix#repelem(int, int)
-##### repmat(...) -> CharMatrix
-- **Signature:** `@Override public CharMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+- **See also:** IntMatrix#repeatElements(int, int)
+##### repeatMatrix(...) -> CharMatrix
+- **Signature:** `@Override public CharMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats the entire matrix in both row and column directions.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat the matrix vertically
@@ -7892,7 +7892,7 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Returns:** a new CharMatrix with the repeated pattern
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** IntMatrix#repmat(int, int)
+- **See also:** IntMatrix#repeatMatrix(int, int)
 ##### flatten(...) -> CharList
 - **Signature:** `@Override public CharList flatten()`
 - **Summary:** Returns a CharList containing all matrix elements in row-major order.
@@ -9596,8 +9596,8 @@ A matrix implementation for double primitive values, providing efficient storage
   - `newRowCount` (`int`) — the number of rows in the reshaped matrix
   - `newColumnCount` (`int`) — the number of columns in the reshaped matrix
 - **Returns:** a new DoubleMatrix with the specified shape containing this matrix's elements
-##### repelem(...) -> DoubleMatrix
-- **Signature:** `@Override public DoubleMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatElements(...) -> DoubleMatrix
+- **Signature:** `@Override public DoubleMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats elements of the matrix in both row and column directions.
 - **Parameters:**
   - `rowRepeats` (`int`) — the number of times to repeat each element in the row direction
@@ -9605,9 +9605,9 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Returns:** a new matrix with repeated elements
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** IntMatrix#repelem(int, int)
-##### repmat(...) -> DoubleMatrix
-- **Signature:** `@Override public DoubleMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+- **See also:** IntMatrix#repeatElements(int, int)
+##### repeatMatrix(...) -> DoubleMatrix
+- **Signature:** `@Override public DoubleMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats the entire matrix in both row and column directions.
 - **Parameters:**
   - `rowRepeats` (`int`) — the number of times to repeat the matrix in the row direction
@@ -9615,7 +9615,7 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Returns:** a new matrix with the tiled pattern
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** IntMatrix#repmat(int, int)
+- **See also:** IntMatrix#repeatMatrix(int, int)
 ##### flatten(...) -> DoubleList
 - **Signature:** `@Override public DoubleList flatten()`
 - **Summary:** Returns a DoubleList containing all matrix elements in row-major order (left-to-right, top-to-bottom).
@@ -11369,8 +11369,8 @@ A matrix implementation for float primitive values, providing efficient storage 
   - `newRowCount` (`int`) — the number of rows in the reshaped matrix
   - `newColumnCount` (`int`) — the number of columns in the reshaped matrix
 - **Returns:** a new FloatMatrix with the specified shape containing this matrix's elements
-##### repelem(...) -> FloatMatrix
-- **Signature:** `@Override public FloatMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatElements(...) -> FloatMatrix
+- **Signature:** `@Override public FloatMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats elements in both row and column directions.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat each element in row direction
@@ -11378,9 +11378,9 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Returns:** a new FloatMatrix with repeated elements
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** IntMatrix#repelem(int, int)
-##### repmat(...) -> FloatMatrix
-- **Signature:** `@Override public FloatMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+- **See also:** IntMatrix#repeatElements(int, int)
+##### repeatMatrix(...) -> FloatMatrix
+- **Signature:** `@Override public FloatMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats the entire matrix in a tiled pattern.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat the matrix vertically
@@ -11388,7 +11388,7 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Returns:** a new FloatMatrix with the tiled pattern
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** IntMatrix#repmat(int, int)
+- **See also:** IntMatrix#repeatMatrix(int, int)
 ##### flatten(...) -> FloatList
 - **Signature:** `@Override public FloatList flatten()`
 - **Summary:** Returns a list containing all matrix elements in row-major order.
@@ -12705,13 +12705,27 @@ An immutable wrapper for primitive int arrays that provides a read-only view of 
 - **See also:** #of(int\[\])
 
 #### Public Instance Methods
+##### isEmpty(...) -> boolean
+- **Signature:** `public boolean isEmpty()`
+- **Summary:** Returns {@code true} if this ImmutableIntArray contains no elements.
+- **Contract:**
+  - Returns {@code true} if this ImmutableIntArray contains no elements.
+- **Parameters:**
+  - (none)
+- **Returns:** {@code true} if {@code length == 0}
+##### contains(...) -> boolean
+- **Signature:** `public boolean contains(final int value)`
+- **Summary:** Returns {@code true} if this ImmutableIntArray contains the specified value.
+- **Contract:**
+  - Returns {@code true} if this ImmutableIntArray contains the specified value.
+- **Parameters:**
+  - `value` (`int`) — the value to search for
+- **Returns:** {@code true} if the value is found in this array
 ##### get(...) -> int
 - **Signature:** `public int get(final int index)`
-- **Summary:** Returns the int element at the specified index in this ImmutableIntArray.
 - **Parameters:**
-  - `index` (`int`) — the zero-based index of the element to retrieve (must be {@code >= 0 and < length} )
-- **Returns:** the int element at the specified index
-- **Performance:** <p> This method provides constant-time O(1) access to elements by index.
+  - `index` (`int`)
+- **Returns:** unspecified
 ##### forEach(...) -> void
 - **Signature:** `public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E`
 - **Summary:** Performs the given action for each element in this ImmutableIntArray.
@@ -13318,8 +13332,8 @@ A matrix implementation for int primitive values, providing efficient storage an
   - `newRowCount` (`int`) — the number of rows in the reshaped matrix (must be non-negative)
   - `newColumnCount` (`int`) — the number of columns in the reshaped matrix (must be non-negative)
 - **Returns:** a new IntMatrix with the specified dimensions
-##### repelem(...) -> IntMatrix
-- **Signature:** `@Override public IntMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatElements(...) -> IntMatrix
+- **Signature:** `@Override public IntMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats elements in both row and column directions.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat each element in row direction
@@ -13327,9 +13341,9 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Returns:** a new IntMatrix with repeated elements
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">,MATLAB repelem function,</a>
-##### repmat(...) -> IntMatrix
-- **Signature:** `@Override public IntMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repeatElements.html">,MATLAB repeatElements function,</a>
+##### repeatMatrix(...) -> IntMatrix
+- **Signature:** `@Override public IntMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats the entire matrix in a tiled pattern.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat the matrix vertically
@@ -13337,7 +13351,7 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Returns:** a new IntMatrix with the tiled pattern
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats or colRepeats is not positive
-- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">,MATLAB repmat function,</a>
+- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repeatMatrix.html">,MATLAB repeatMatrix function,</a>
 ##### flatten(...) -> IntList
 - **Signature:** `@Override public IntList flatten()`
 - **Summary:** Returns a list containing all matrix elements in row-major order.
@@ -15171,8 +15185,8 @@ A matrix implementation for long primitive values, providing efficient storage a
   - `newRowCount` (`int`) — the number of rows in the reshaped matrix
   - `newColumnCount` (`int`) — the number of columns in the reshaped matrix
 - **Returns:** a new LongMatrix with the specified shape containing this matrix's elements
-##### repelem(...) -> LongMatrix
-- **Signature:** `@Override public LongMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatElements(...) -> LongMatrix
+- **Signature:** `@Override public LongMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats elements in the matrix by the specified factors in both row and column directions.
 - **Parameters:**
   - `rowRepeats` (`int`) — the number of times to repeat each element in the row direction
@@ -15180,9 +15194,9 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Returns:** a new matrix with repeated elements
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
-- **See also:** IntMatrix#repelem(int, int)
-##### repmat(...) -> LongMatrix
-- **Signature:** `@Override public LongMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+- **See also:** IntMatrix#repeatElements(int, int)
+##### repeatMatrix(...) -> LongMatrix
+- **Signature:** `@Override public LongMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats the entire matrix as a tile pattern by the specified factors in both row and column directions.
 - **Parameters:**
   - `rowRepeats` (`int`) — the number of times to repeat the matrix in the row direction
@@ -15190,7 +15204,7 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Returns:** a new matrix with the original matrix repeated as tiles
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
-- **See also:** IntMatrix#repmat(int, int)
+- **See also:** IntMatrix#repeatMatrix(int, int)
 ##### flatten(...) -> LongList
 - **Signature:** `@Override public LongList flatten()`
 - **Summary:** Returns a list containing all matrix elements in row-major order (row by row, left to right).
@@ -16513,12 +16527,12 @@ Utility class providing static methods for matrix operations, parallel processin
 - **Returns:** the current {@link ParallelMode} setting for this thread, never {@code null}
 - **See also:** #setParallelMode(ParallelMode), ParallelMode
 ##### setParallelMode(...) -> void
-- **Signature:** `public static void setParallelMode(final ParallelMode flag) throws IllegalArgumentException`
+- **Signature:** `public static void setParallelMode(final ParallelMode parallelMode) throws IllegalArgumentException`
 - **Summary:** Sets the parallel processing behavior for matrix operations in the current thread.
 - **Contract:**
   - Use this when you know operations will benefit from parallelization.
 - **Parameters:**
-  - `flag` (`ParallelMode`) — the {@link ParallelMode} setting to apply to the current thread, must not be {@code null}
+  - `parallelMode` (`ParallelMode`) — the {@link ParallelMode} setting to apply to the current thread, must not be {@code null}
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code flag} is {@code null}
 - **See also:** #getParallelMode(), ParallelMode
@@ -16584,14 +16598,14 @@ Utility class providing static methods for matrix operations, parallel processin
 - **Returns:** a new two-dimensional array of type {@code T\[\]\[\]} with the specified dimensions, never {@code null}
 - **Performance:** <p> This utility method constructs a properly typed two-dimensional array at runtime, handling the complexity of creating generic arrays in Java.
 ##### runWithParallelMode(...) -> void
-- **Signature:** `public static <E extends Exception> void runWithParallelMode(final Throwables.Runnable<E> cmd, final ParallelMode parallelMode) throws E`
+- **Signature:** `public static <E extends Exception> void runWithParallelMode(final ParallelMode parallelMode, final Throwables.Runnable<E> cmd) throws E`
 - **Summary:** Executes the specified command with a temporary parallel processing setting, then restores the original setting.
 - **Contract:**
   - The original {@link ParallelMode} setting is always restored, even if the command throws an exception.
   - </p> <p> This is particularly useful when you need to force parallel or sequential execution for a specific block of code without manually managing the setting changes.
 - **Parameters:**
-  - `cmd` (`Throwables.Runnable<E>`) — the command to execute, must not be {@code null}
   - `parallelMode` (`ParallelMode`) — the temporary {@link ParallelMode} setting to use during command execution
+  - `cmd` (`Throwables.Runnable<E>`) — the command to execute, must not be {@code null}
 - **Throws:**
   - `E` — if the command throws an exception during execution
 - **See also:** #setParallelMode(ParallelMode), #getParallelMode()
@@ -17310,12 +17324,12 @@ A generic matrix implementation that stores elements in a two-dimensional array.
   - `point` (`Point`) — the point containing row and column indices
 - **Returns:** the element at the specified point
 ##### set(...) -> void
-- **Signature:** `public void set(final int rowIndex, final int columnIndex, final T val)`
+- **Signature:** `public void set(final int rowIndex, final int columnIndex, final T value)`
 - **Summary:** Sets the element at the specified row and column.
 - **Parameters:**
   - `rowIndex` (`int`) — the row index (0-based)
   - `columnIndex` (`int`) — the column index (0-based)
-  - `val` (`T`) — the new value to set
+  - `value` (`T`) — the new value to set
 - **Signature:** `public void set(final Point point, final T val)`
 - **Summary:** Sets the element at the specified point.
 - **Parameters:**
@@ -17735,8 +17749,8 @@ A generic matrix implementation that stores elements in a two-dimensional array.
   - `newRowCount` (`int`) — the number of rows in the reshaped matrix (must be non-negative)
   - `newColumnCount` (`int`) — the number of columns in the reshaped matrix (must be non-negative)
 - **Returns:** a new Matrix with the specified dimensions
-##### repelem(...) -> Matrix<T>
-- **Signature:** `@Override public Matrix<T> repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatElements(...) -> Matrix<T>
+- **Signature:** `@Override public Matrix<T> repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats each element in the matrix by the specified number of times in both directions.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat each element in the row direction (must be &gt; = 1)
@@ -17744,9 +17758,9 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Returns:** a new matrix with repeated elements, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats &lt; 1 or colRepeats &lt; 1
-- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">,MATLAB repelem,</a>
-##### repmat(...) -> Matrix<T>
-- **Signature:** `@Override public Matrix<T> repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repeatElements.html">,MATLAB repeatElements,</a>
+##### repeatMatrix(...) -> Matrix<T>
+- **Signature:** `@Override public Matrix<T> repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats the entire matrix as a tile pattern by the specified number of times.
 - **Parameters:**
   - `rowRepeats` (`int`) — number of times to repeat the matrix in the row direction (must be &gt; = 1)
@@ -17754,7 +17768,7 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Returns:** a new matrix with the original matrix repeated, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowRepeats &lt; 1 or colRepeats &lt; 1
-- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">,MATLAB repmat,</a>
+- **See also:** <a href="https://www.mathworks.com/help/matlab/ref/repeatMatrix.html">,MATLAB repeatMatrix,</a>
 ##### flatten(...) -> List<T>
 - **Signature:** `@Override public List<T> flatten()`
 - **Summary:** Returns a list containing all matrix elements in row-major order.
@@ -19722,8 +19736,8 @@ A matrix implementation for short primitive values, providing efficient storage 
   - `newRowCount` (`int`) — the number of rows in the reshaped matrix (must be non-negative)
   - `newColumnCount` (`int`) — the number of columns in the reshaped matrix (must be non-negative)
 - **Returns:** a new ShortMatrix with the specified shape containing this matrix's elements in row-major order
-##### repelem(...) -> ShortMatrix
-- **Signature:** `@Override public ShortMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+##### repeatElements(...) -> ShortMatrix
+- **Signature:** `@Override public ShortMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats each element in the matrix by the specified factors.
 - **Parameters:**
   - `rowRepeats` (`int`) — the number of times to repeat each element in the row direction (must be positive)
@@ -19731,9 +19745,9 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Returns:** a new ShortMatrix with dimensions (rows * rowRepeats) × (columnCount * colRepeats)
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
-- **See also:** IntMatrix#repelem(int, int)
-##### repmat(...) -> ShortMatrix
-- **Signature:** `@Override public ShortMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
+- **See also:** IntMatrix#repeatElements(int, int)
+##### repeatMatrix(...) -> ShortMatrix
+- **Signature:** `@Override public ShortMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException`
 - **Summary:** Repeats the entire matrix as a tile pattern.
 - **Parameters:**
   - `rowRepeats` (`int`) — the number of times to repeat the matrix in the row direction (must be positive)
@@ -19741,7 +19755,7 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Returns:** a new ShortMatrix with dimensions (rows * rowRepeats) × (columnCount * colRepeats) containing the tiled pattern
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
-- **See also:** IntMatrix#repmat(int, int), #repelem(int, int)
+- **See also:** IntMatrix#repeatMatrix(int, int), #repeatElements(int, int)
 ##### flatten(...) -> ShortList
 - **Signature:** `@Override public ShortList flatten()`
 - **Summary:** Flattens the matrix into a one-dimensional list in row-major order.

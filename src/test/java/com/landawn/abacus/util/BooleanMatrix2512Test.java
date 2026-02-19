@@ -634,9 +634,9 @@ public class BooleanMatrix2512Test extends TestBase {
     // ============ Repeat Tests ============
 
     @Test
-    public void test_repelem() {
+    public void test_repeatElements() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix repeated = m.repelem(2, 2);
+        BooleanMatrix repeated = m.repeatElements(2, 2);
         assertEquals(4, repeated.rowCount());
         assertEquals(4, repeated.columnCount());
         assertTrue(repeated.get(0, 0));
@@ -646,9 +646,9 @@ public class BooleanMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_repmat() {
+    public void test_repeatMatrix() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix tiled = m.repmat(2, 2);
+        BooleanMatrix tiled = m.repeatMatrix(2, 2);
         assertEquals(4, tiled.rowCount());
         assertEquals(4, tiled.columnCount());
         assertTrue(tiled.get(0, 0));

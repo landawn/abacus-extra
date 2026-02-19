@@ -868,29 +868,29 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * The resulting matrix has dimensions (rowCount x rowRepeats) x (columnCount x colRepeats).
      * The original matrix is not modified.
      *
-     * <p>This operation is similar to MATLAB's repelem function. Each element becomes a block,
+     * <p>This operation is similar to MATLAB's repeatElements function. Each element becomes a block,
      * effectively creating a "zoomed in" version of the matrix where each original element
      * occupies multiple positions.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Original:    repelem(2, 2):
+     * // Original:    repeatElements(2, 2):
      * // 1 2          1 1 2 2
      * // 3 4     =>   1 1 2 2
      * //              3 3 4 4
      * //              3 3 4 4
      *
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntMatrix repeated = matrix.repelem(2, 2);   // 2×2 becomes 4×4
+     * IntMatrix repeated = matrix.repeatElements(2, 2);   // 2×2 becomes 4×4
      * }</pre>
      *
      * @param rowRepeats number of times to repeat each element in the row direction (must be &gt;= 1)
      * @param colRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
      * @return a new matrix with repeated elements, with dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">MATLAB repelem</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatElements.html">MATLAB repeatElements</a>
      */
-    public abstract X repelem(int rowRepeats, int colRepeats);
+    public abstract X repeatElements(int rowRepeats, int colRepeats);
 
     /**
      * Returns a new matrix formed by tiling this matrix the specified number of times in both dimensions.
@@ -898,28 +898,28 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * The resulting matrix has dimensions (rowCount x rowRepeats) x (columnCount x colRepeats).
      * The original matrix is not modified.
      *
-     * <p>This operation is similar to MATLAB's repmat function. The entire matrix pattern
+     * <p>This operation is similar to MATLAB's repeatMatrix function. The entire matrix pattern
      * is replicated, creating a tiled arrangement.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Original:    repmat(2, 2):
+     * // Original:    repeatMatrix(2, 2):
      * // 1 2          1 2 1 2
      * // 3 4     =>   3 4 3 4
      * //              1 2 1 2
      * //              3 4 3 4
      *
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntMatrix tiled = matrix.repmat(2, 2);   // 2×2 becomes 4×4
+     * IntMatrix tiled = matrix.repeatMatrix(2, 2);   // 2×2 becomes 4×4
      * }</pre>
      *
      * @param rowRepeats number of times to repeat the matrix in the row direction (must be &gt;= 1)
      * @param colRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
      * @return a new matrix with this matrix tiled, with dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">MATLAB repmat</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatMatrix.html">MATLAB repeatMatrix</a>
      */
-    public abstract X repmat(int rowRepeats, int colRepeats);
+    public abstract X repeatMatrix(int rowRepeats, int colRepeats);
 
     /**
      * Flattens this matrix into a one-dimensional list.

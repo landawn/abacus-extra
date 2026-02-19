@@ -718,7 +718,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix repeated = matrix.repelem(2, 3);
+        DoubleMatrix repeated = matrix.repeatElements(2, 3);
         assertEquals(2, repeated.rowCount());
         assertEquals(6, repeated.columnCount());
         assertEquals(1.0, repeated.get(0, 0));
@@ -726,7 +726,7 @@ public class DoubleMatrixTest extends TestBase {
         assertEquals(1.0, repeated.get(0, 2));
         assertEquals(2.0, repeated.get(0, 3));
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.repelem(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.repeatElements(0, 1));
     }
 
     @Test
@@ -734,14 +734,14 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix tiled = matrix.repmat(2, 3);
+        DoubleMatrix tiled = matrix.repeatMatrix(2, 3);
         assertEquals(2, tiled.rowCount());
         assertEquals(6, tiled.columnCount());
         assertEquals(1.0, tiled.get(0, 0));
         assertEquals(2.0, tiled.get(0, 1));
         assertEquals(1.0, tiled.get(0, 2));
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.repmat(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.repeatMatrix(0, 1));
     }
 
     @Test
