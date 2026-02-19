@@ -2937,13 +2937,12 @@ public final class Matrixes {
 
         if (c.size() == 1) {
             return matrixes[0].copy();
-        } else if (c.size() == 2) {
-            return matrixes[0].zipWith(matrixes[1], zipFunction);
         }
 
         final int rowCount = matrixes[0].rowCount;
         final int columnCount = matrixes[0].columnCount;
-        final T[][] result = newArray(rowCount, columnCount, matrixes[0].elementType);
+        final Class<T> elementType = resolveCommonElementType(matrixes);
+        final T[][] result = newArray(rowCount, columnCount, elementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final T[] ret = result[i];
@@ -3064,7 +3063,8 @@ public final class Matrixes {
         final int columnCount = matrixes[0].columnCount;
         final boolean zipInParallel = Matrixes.isParallelizable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
-        final T[] intermediateArray = N.newArray(matrixes[0].elementType, size);
+        final Class<T> elementType = resolveCommonElementType(matrixes);
+        final T[] intermediateArray = N.newArray(elementType, size);
         final R[][] result = newArray(rowCount, columnCount, targetElementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
@@ -3080,6 +3080,35 @@ public final class Matrixes {
         run(rowCount, columnCount, cmd, zipInParallel);
 
         return new Matrix<>(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> Class<T> resolveCommonElementType(final Matrix<T>[] matrixes) {
+        Class<?> commonType = matrixes[0].elementType;
+
+        for (int i = 1, len = matrixes.length; i < len; i++) {
+            commonType = resolveCommonSuperType(commonType, matrixes[i].elementType);
+        }
+
+        return (Class<T>) commonType;
+    }
+
+    private static Class<?> resolveCommonSuperType(final Class<?> left, final Class<?> right) {
+        if (left.isAssignableFrom(right)) {
+            return left;
+        }
+
+        if (right.isAssignableFrom(left)) {
+            return right;
+        }
+
+        Class<?> candidate = left.getSuperclass();
+
+        while (candidate != null && !candidate.isAssignableFrom(right)) {
+            candidate = candidate.getSuperclass();
+        }
+
+        return candidate == null ? Object.class : candidate;
     }
 
     private static void checkShapeForZip(final AbstractMatrix<?, ?, ?, ?, ?> a, final AbstractMatrix<?, ?, ?, ?, ?> b) {

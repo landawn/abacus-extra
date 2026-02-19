@@ -669,6 +669,28 @@ class MatrixesTest extends TestBase {
     }
 
     @Test
+    public void testZipGenericMatrixCollectionWithMixedRuntimeTypes() throws Exception {
+        Number[][] intData = new Integer[][] { { 1, 2 }, { 3, 4 } };
+        Number[][] doubleData = new Double[][] { { 0.5, 1.5 }, { 2.5, 3.5 } };
+        List<Matrix<Number>> matrices = CommonUtil.asList(Matrix.of(intData), Matrix.of(doubleData));
+
+        Matrix<Number> result = Matrixes.zip(matrices, (a, b) -> a.doubleValue() + b.doubleValue());
+        assertEquals(1.5d, result.get(0, 0).doubleValue());
+        assertEquals(7.5d, result.get(1, 1).doubleValue());
+    }
+
+    @Test
+    public void testZipGenericMatrixCollectionWithFunctionAndMixedRuntimeTypes() throws Exception {
+        Number[][] intData = new Integer[][] { { 1, 2 }, { 3, 4 } };
+        Number[][] doubleData = new Double[][] { { 0.5, 1.5 }, { 2.5, 3.5 } };
+        List<Matrix<Number>> matrices = CommonUtil.asList(Matrix.of(intData), Matrix.of(doubleData));
+
+        Matrix<Double> result = Matrixes.zip(matrices, arr -> arr[0].doubleValue() + arr[1].doubleValue(), true, Double.class);
+        assertEquals(1.5d, result.get(0, 0));
+        assertEquals(7.5d, result.get(1, 1));
+    }
+
+    @Test
     public void testZipNullArguments() {
         assertThrows(IllegalArgumentException.class,
                 () -> Matrixes.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteBinaryOperator<RuntimeException>) null));

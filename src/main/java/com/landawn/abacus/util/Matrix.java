@@ -282,9 +282,27 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
-        final Class<?> arrayClass = leftUp2RightDownDiagonal != null ? leftUp2RightDownDiagonal.getClass() : rightUp2LeftDownDiagonal.getClass();
-        final Class<?> componentClass = arrayClass.getComponentType();
+        final Class<?> leftComponentClass = leftUp2RightDownDiagonal == null ? null : leftUp2RightDownDiagonal.getClass().getComponentType();
+        final Class<?> rightComponentClass = rightUp2LeftDownDiagonal == null ? null : rightUp2LeftDownDiagonal.getClass().getComponentType();
+        final Class<?> componentClass;
 
+        if (N.notEmpty(leftUp2RightDownDiagonal) && N.notEmpty(rightUp2LeftDownDiagonal)) {
+            if (leftComponentClass.isAssignableFrom(rightComponentClass)) {
+                componentClass = leftComponentClass;
+            } else if (rightComponentClass.isAssignableFrom(leftComponentClass)) {
+                componentClass = rightComponentClass;
+            } else {
+                throw new IllegalArgumentException("Incompatible component types: " + leftComponentClass.getName() + " and " + rightComponentClass.getName());
+            }
+        } else if (N.notEmpty(leftUp2RightDownDiagonal)) {
+            componentClass = leftComponentClass;
+        } else if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+            componentClass = rightComponentClass;
+        } else {
+            componentClass = leftComponentClass != null ? leftComponentClass : rightComponentClass;
+        }
+
+        final Class<?> arrayClass = java.lang.reflect.Array.newInstance(componentClass, 0).getClass();
         final T[][] c = N.newArray(arrayClass, len);
 
         for (int i = 0; i < len; i++) {

@@ -104,6 +104,27 @@ public class MatrixTest extends TestBase {
     }
 
     @Test
+    public void testDiagonalWithEmptyMainDiagonalAndDifferentRuntimeType() {
+        Number[] mainDiag = new Integer[0];
+        Number[] antiDiag = new Double[] { 1.5, 2.5 };
+
+        Matrix<Number> matrix = Matrix.diagonal(mainDiag, antiDiag);
+
+        Assertions.assertEquals(2, matrix.rowCount());
+        Assertions.assertEquals(2, matrix.columnCount());
+        Assertions.assertEquals(1.5d, matrix.get(0, 1).doubleValue());
+        Assertions.assertEquals(2.5d, matrix.get(1, 0).doubleValue());
+    }
+
+    @Test
+    public void testDiagonalWithIncompatibleRuntimeTypes() {
+        Number[] mainDiag = new Integer[] { 1, 2 };
+        Number[] antiDiag = new Double[] { 3.0, 4.0 };
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Matrix.diagonal(mainDiag, antiDiag));
+    }
+
+    @Test
     public void testDiagonalWithDifferentLengths() {
         Integer[] mainDiag = { 1, 2, 3 };
         Integer[] antiDiag = { 7, 8 };
