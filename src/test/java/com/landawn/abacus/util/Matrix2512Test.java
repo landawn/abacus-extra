@@ -111,7 +111,7 @@ public class Matrix2512Test extends TestBase {
     public void test_diagonal_withBothDiagonals() {
         Integer[] lu = { 1, 2, 3 };
         Integer[] ru = { 7, 8, 9 };
-        Matrix<Integer> m = Matrix.fromDiagonals(lu, ru);
+        Matrix<Integer> m = Matrix.diagonals(lu, ru);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -125,12 +125,12 @@ public class Matrix2512Test extends TestBase {
     public void test_diagonal_withDifferentLengths_throwsException() {
         Integer[] lu = { 1, 2 };
         Integer[] ru = { 3, 4, 5 };
-        assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(lu, ru));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonals(lu, ru));
     }
 
     @Test
     public void test_diagonal_withBothNull_throwsException() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(null, null));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonals(null, null));
     }
 
     // ============ Component Type Test ============

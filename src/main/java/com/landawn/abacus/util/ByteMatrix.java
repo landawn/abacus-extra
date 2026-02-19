@@ -293,7 +293,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return a square n×n matrix with the specified main diagonal, where n is the array length
      */
     public static ByteMatrix mainDiagonal(final byte[] mainDiagonal) {
-        return fromDiagonals(mainDiagonal, null);
+        return diagonals(mainDiagonal, null);
     }
 
     /**
@@ -315,7 +315,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
     public static ByteMatrix antiDiagonal(final byte[] antiDiagonal) {
-        return fromDiagonals(null, antiDiagonal);
+        return diagonals(null, antiDiagonal);
     }
 
     /**
@@ -326,7 +326,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.fromDiagonals(new byte[] {1, 2, 3}, new byte[] {4, 5, 6});
+     * ByteMatrix matrix = ByteMatrix.diagonals(new byte[] {1, 2, 3}, new byte[] {4, 5, 6});
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1, 0, 4},
@@ -340,7 +340,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static ByteMatrix fromDiagonals(final byte[] mainDiagonal, final byte[] antiDiagonal) throws IllegalArgumentException {
+    public static ByteMatrix diagonals(final byte[] mainDiagonal, final byte[] antiDiagonal) throws IllegalArgumentException {
         N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
                 "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 

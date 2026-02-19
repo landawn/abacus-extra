@@ -297,7 +297,7 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
+        CharMatrix m = CharMatrix.diagonals(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 0));
@@ -309,7 +309,7 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'a', 'b', 'c' }, null);
+        CharMatrix m = CharMatrix.diagonals(new char[] { 'a', 'b', 'c' }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 0));
@@ -319,7 +319,7 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        CharMatrix m = CharMatrix.fromDiagonals(null, new char[] { 'x', 'y', 'z' });
+        CharMatrix m = CharMatrix.diagonals(null, new char[] { 'x', 'y', 'z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('x', m.get(0, 2));
@@ -329,18 +329,18 @@ public class CharMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        CharMatrix m = CharMatrix.fromDiagonals(null, null);
+        CharMatrix m = CharMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> CharMatrix.fromDiagonals(new char[] { 'a', 'b' }, new char[] { 'x', 'y', 'z' }));
+        assertThrows(IllegalArgumentException.class, () -> CharMatrix.diagonals(new char[] { 'a', 'b' }, new char[] { 'x', 'y', 'z' }));
     }
 
     @Test
     public void testDiagonal_withBothDiagonalsOverlapping() {
-        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
+        CharMatrix m = CharMatrix.diagonals(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         // Center element should be from main diagonal (set second)

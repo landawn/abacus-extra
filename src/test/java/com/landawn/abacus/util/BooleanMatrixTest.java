@@ -94,12 +94,12 @@ public class BooleanMatrixTest extends TestBase {
     public void testDiagonal() {
         boolean[] mainDiag = { true, true, false };
         boolean[] antiDiag = { false, true, false };
-        BooleanMatrix matrix = BooleanMatrix.fromDiagonals(mainDiag, antiDiag);
+        BooleanMatrix matrix = BooleanMatrix.diagonals(mainDiag, antiDiag);
         assertEquals(3, matrix.rowCount());
         assertEquals(3, matrix.columnCount());
 
         // Test with different lengths
-        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.fromDiagonals(new boolean[] { true }, new boolean[] { true, false }));
+        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.diagonals(new boolean[] { true }, new boolean[] { true, false }));
     }
 
     @Test

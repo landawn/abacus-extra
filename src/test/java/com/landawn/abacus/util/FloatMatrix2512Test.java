@@ -208,7 +208,7 @@ public class FloatMatrix2512Test extends TestBase {
     public void test_diagonal_both() {
         float[] lu2rd = { 1.0f, 2.0f, 3.0f };
         float[] ru2ld = { 4.0f, 5.0f, 6.0f };
-        FloatMatrix m = FloatMatrix.fromDiagonals(lu2rd, ru2ld);
+        FloatMatrix m = FloatMatrix.diagonals(lu2rd, ru2ld);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0), 0.0f);
@@ -222,12 +222,12 @@ public class FloatMatrix2512Test extends TestBase {
     public void test_diagonal_differentLengths() {
         float[] lu2rd = { 1.0f, 2.0f };
         float[] ru2ld = { 4.0f, 5.0f, 6.0f };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.fromDiagonals(lu2rd, ru2ld));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.diagonals(lu2rd, ru2ld));
     }
 
     @Test
     public void test_diagonal_bothNull() {
-        FloatMatrix m = FloatMatrix.fromDiagonals(null, null);
+        FloatMatrix m = FloatMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 

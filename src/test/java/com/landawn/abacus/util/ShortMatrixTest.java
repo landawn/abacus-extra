@@ -165,7 +165,7 @@ public class ShortMatrixTest extends TestBase {
     @Test
     public void testDiagonal() {
         // Test with both diagonals
-        ShortMatrix m = ShortMatrix.fromDiagonals(new short[] { 1, 2, 3 }, new short[] { 4, 5, 6 });
+        ShortMatrix m = ShortMatrix.diagonals(new short[] { 1, 2, 3 }, new short[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals((short) 1, m.get(0, 0));
@@ -176,23 +176,23 @@ public class ShortMatrixTest extends TestBase {
         assertEquals((short) 6, m.get(2, 0));
 
         // Test with only main diagonal
-        ShortMatrix m2 = ShortMatrix.fromDiagonals(new short[] { 1, 2, 3 }, null);
+        ShortMatrix m2 = ShortMatrix.diagonals(new short[] { 1, 2, 3 }, null);
         assertEquals((short) 1, m2.get(0, 0));
         assertEquals((short) 2, m2.get(1, 1));
         assertEquals((short) 3, m2.get(2, 2));
 
         // Test with only anti-diagonal
-        ShortMatrix m3 = ShortMatrix.fromDiagonals(null, new short[] { 4, 5, 6 });
+        ShortMatrix m3 = ShortMatrix.diagonals(null, new short[] { 4, 5, 6 });
         assertEquals((short) 4, m3.get(0, 2));
         assertEquals((short) 5, m3.get(1, 1));
         assertEquals((short) 6, m3.get(2, 0));
 
         // Test with empty arrays
-        ShortMatrix empty = ShortMatrix.fromDiagonals(null, null);
+        ShortMatrix empty = ShortMatrix.diagonals(null, null);
         assertTrue(empty.isEmpty());
 
         // Test illegal argument
-        assertThrows(IllegalArgumentException.class, () -> ShortMatrix.fromDiagonals(new short[] { 1, 2 }, new short[] { 3, 4, 5 }));
+        assertThrows(IllegalArgumentException.class, () -> ShortMatrix.diagonals(new short[] { 1, 2 }, new short[] { 3, 4, 5 }));
     }
 
     @Test

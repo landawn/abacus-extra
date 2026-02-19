@@ -199,7 +199,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
     public static BooleanMatrix mainDiagonal(final boolean[] mainDiagonal) {
-        return fromDiagonals(mainDiagonal, null);
+        return diagonals(mainDiagonal, null);
     }
 
     /**
@@ -220,7 +220,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
     public static BooleanMatrix antiDiagonal(final boolean[] antiDiagonal) {
-        return fromDiagonals(null, antiDiagonal);
+        return diagonals(null, antiDiagonal);
     }
 
     /**
@@ -231,7 +231,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.fromDiagonals(new boolean[] {true, true, true}, new boolean[] {false, false, false});
+     * BooleanMatrix matrix = BooleanMatrix.diagonals(new boolean[] {true, true, true}, new boolean[] {false, false, false});
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {true, false, false},
@@ -245,7 +245,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static BooleanMatrix fromDiagonals(final boolean[] mainDiagonal, final boolean[] antiDiagonal) throws IllegalArgumentException {
+    public static BooleanMatrix diagonals(final boolean[] mainDiagonal, final boolean[] antiDiagonal) throws IllegalArgumentException {
         N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
                 "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 

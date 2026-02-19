@@ -157,7 +157,7 @@ public class BooleanMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_both() {
-        BooleanMatrix m = BooleanMatrix.fromDiagonals(new boolean[] { true, true, true }, new boolean[] { false, false, false });
+        BooleanMatrix m = BooleanMatrix.diagonals(new boolean[] { true, true, true }, new boolean[] { false, false, false });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
@@ -167,7 +167,7 @@ public class BooleanMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_differentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.fromDiagonals(new boolean[] { true, true }, new boolean[] { false, false, false }));
+        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.diagonals(new boolean[] { true, true }, new boolean[] { false, false, false }));
     }
 
     @Test

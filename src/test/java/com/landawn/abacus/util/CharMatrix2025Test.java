@@ -204,7 +204,7 @@ public class CharMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'A', 'B', 'C' }, new char[] { 'X', 'Y', 'Z' });
+        CharMatrix m = CharMatrix.diagonals(new char[] { 'A', 'B', 'C' }, new char[] { 'X', 'Y', 'Z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('A', m.get(0, 0));
@@ -216,7 +216,7 @@ public class CharMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'P', 'Q', 'R' }, null);
+        CharMatrix m = CharMatrix.diagonals(new char[] { 'P', 'Q', 'R' }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('P', m.get(0, 0));
@@ -226,7 +226,7 @@ public class CharMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        CharMatrix m = CharMatrix.fromDiagonals(null, new char[] { 'X', 'Y', 'Z' });
+        CharMatrix m = CharMatrix.diagonals(null, new char[] { 'X', 'Y', 'Z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('X', m.get(0, 2));
@@ -236,13 +236,13 @@ public class CharMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        CharMatrix m = CharMatrix.fromDiagonals(null, null);
+        CharMatrix m = CharMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> CharMatrix.fromDiagonals(new char[] { 'A', 'B' }, new char[] { 'X', 'Y', 'Z' }));
+        assertThrows(IllegalArgumentException.class, () -> CharMatrix.diagonals(new char[] { 'A', 'B' }, new char[] { 'X', 'Y', 'Z' }));
     }
 
     @Test

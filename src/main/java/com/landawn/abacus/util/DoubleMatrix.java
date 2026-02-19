@@ -349,7 +349,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return a square matrix with the specified main diagonal, or an empty matrix if input is null or empty
      */
     public static DoubleMatrix mainDiagonal(final double[] mainDiagonal) {
-        return fromDiagonals(mainDiagonal, null);
+        return diagonals(mainDiagonal, null);
     }
 
     /**
@@ -370,7 +370,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return a square matrix with the specified anti-diagonal, or an empty matrix if input is null or empty
      */
     public static DoubleMatrix antiDiagonal(final double[] antiDiagonal) {
-        return fromDiagonals(null, antiDiagonal);
+        return diagonals(null, antiDiagonal);
     }
 
     /**
@@ -381,7 +381,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.fromDiagonals(new double[] { 1.0, 2.0, 3.0 }, new double[] { 4.0, 5.0, 6.0 });
+     * DoubleMatrix matrix = DoubleMatrix.diagonals(new double[] { 1.0, 2.0, 3.0 }, new double[] { 4.0, 5.0, 6.0 });
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix: 
      * //   {1.0, 0, 4.0},
@@ -395,7 +395,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static DoubleMatrix fromDiagonals(final double[] mainDiagonal, final double[] antiDiagonal) throws IllegalArgumentException {
+    public static DoubleMatrix diagonals(final double[] mainDiagonal, final double[] antiDiagonal) throws IllegalArgumentException {
         N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
                 "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 

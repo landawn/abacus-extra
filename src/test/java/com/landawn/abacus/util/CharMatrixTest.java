@@ -132,7 +132,7 @@ public class CharMatrixTest extends TestBase {
     public void testDiagonal() {
         char[] main = { 'a', 'b', 'c' };
         char[] anti = { 'x', 'y', 'z' };
-        CharMatrix matrix = CharMatrix.fromDiagonals(main, anti);
+        CharMatrix matrix = CharMatrix.diagonals(main, anti);
         Assertions.assertEquals(3, matrix.rowCount());
         Assertions.assertEquals(3, matrix.columnCount());
         Assertions.assertEquals('a', matrix.get(0, 0));
@@ -142,10 +142,10 @@ public class CharMatrixTest extends TestBase {
         Assertions.assertEquals('b', matrix.get(1, 1));
         Assertions.assertEquals('z', matrix.get(2, 0));
 
-        CharMatrix emptyMatrix = CharMatrix.fromDiagonals(null, null);
+        CharMatrix emptyMatrix = CharMatrix.diagonals(null, null);
         Assertions.assertTrue(emptyMatrix.isEmpty());
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> CharMatrix.fromDiagonals(new char[] { 'a' }, new char[] { 'x', 'y' }));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> CharMatrix.diagonals(new char[] { 'a' }, new char[] { 'x', 'y' }));
     }
 
     @Test

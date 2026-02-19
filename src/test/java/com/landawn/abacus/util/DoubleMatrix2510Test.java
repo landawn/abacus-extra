@@ -256,7 +256,7 @@ public class DoubleMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(new double[] { 1.0, 4.0 }, new double[] { 2.0, 3.0 });
+        DoubleMatrix m = DoubleMatrix.diagonals(new double[] { 1.0, 4.0 }, new double[] { 2.0, 3.0 });
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
@@ -267,7 +267,7 @@ public class DoubleMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(new double[] { 1.0, 2.0, 3.0 }, null);
+        DoubleMatrix m = DoubleMatrix.diagonals(new double[] { 1.0, 2.0, 3.0 }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
@@ -277,7 +277,7 @@ public class DoubleMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(null, new double[] { 1.0, 2.0, 3.0 });
+        DoubleMatrix m = DoubleMatrix.diagonals(null, new double[] { 1.0, 2.0, 3.0 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0, m.get(0, 2));
@@ -287,13 +287,13 @@ public class DoubleMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothEmpty() {
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(null, null);
+        DoubleMatrix m = DoubleMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.fromDiagonals(new double[] { 1.0, 2.0 }, new double[] { 1.0, 2.0, 3.0 }));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.diagonals(new double[] { 1.0, 2.0 }, new double[] { 1.0, 2.0, 3.0 }));
     }
 
     @Test

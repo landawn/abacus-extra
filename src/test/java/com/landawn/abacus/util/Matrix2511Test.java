@@ -171,7 +171,7 @@ public class Matrix2511Test extends TestBase {
     public void testDiagonal_bothDiagonals_integers() {
         Integer[] lu2rd = { 1, 2, 3 };
         Integer[] ru2ld = { 7, 8, 9 };
-        Matrix<Integer> m = Matrix.fromDiagonals(lu2rd, ru2ld);
+        Matrix<Integer> m = Matrix.diagonals(lu2rd, ru2ld);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -185,7 +185,7 @@ public class Matrix2511Test extends TestBase {
     public void testDiagonal_bothDiagonals_strings() {
         String[] lu2rd = { "A", "B" };
         String[] ru2ld = { "X", "Y" };
-        Matrix<String> m = Matrix.fromDiagonals(lu2rd, ru2ld);
+        Matrix<String> m = Matrix.diagonals(lu2rd, ru2ld);
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
         assertEquals("A", m.get(0, 0));
@@ -197,7 +197,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testDiagonal_onlyLU2RD() {
         Integer[] lu2rd = { 1, 2 };
-        Matrix<Integer> m = Matrix.fromDiagonals(lu2rd, null);
+        Matrix<Integer> m = Matrix.diagonals(lu2rd, null);
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -207,7 +207,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testDiagonal_onlyRU2LD() {
         Integer[] ru2ld = { 1, 2 };
-        Matrix<Integer> m = Matrix.fromDiagonals(null, ru2ld);
+        Matrix<Integer> m = Matrix.diagonals(null, ru2ld);
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
         assertEquals(1, m.get(0, 1));
@@ -216,14 +216,14 @@ public class Matrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_bothNull() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(null, null));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonals(null, null));
     }
 
     @Test
     public void testDiagonal_differentLengths() {
         Integer[] lu2rd = { 1, 2, 3 };
         Integer[] ru2ld = { 7, 8 };
-        assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(lu2rd, ru2ld));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonals(lu2rd, ru2ld));
     }
 
     // ============ Basic Access Methods ============

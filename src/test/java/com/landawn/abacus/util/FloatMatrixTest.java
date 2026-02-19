@@ -135,7 +135,7 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testDiagonal() {
         // Test with both diagonals
-        FloatMatrix m = FloatMatrix.fromDiagonals(new float[] { 1.0f, 2.0f, 3.0f }, new float[] { 4.0f, 5.0f, 6.0f });
+        FloatMatrix m = FloatMatrix.diagonals(new float[] { 1.0f, 2.0f, 3.0f }, new float[] { 4.0f, 5.0f, 6.0f });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0), DELTA);
@@ -146,23 +146,23 @@ public class FloatMatrixTest extends TestBase {
         assertEquals(6.0f, m.get(2, 0), DELTA);
 
         // Test with only main diagonal
-        FloatMatrix m2 = FloatMatrix.fromDiagonals(new float[] { 1.0f, 2.0f, 3.0f }, null);
+        FloatMatrix m2 = FloatMatrix.diagonals(new float[] { 1.0f, 2.0f, 3.0f }, null);
         assertEquals(1.0f, m2.get(0, 0), DELTA);
         assertEquals(2.0f, m2.get(1, 1), DELTA);
         assertEquals(3.0f, m2.get(2, 2), DELTA);
 
         // Test with only anti-diagonal
-        FloatMatrix m3 = FloatMatrix.fromDiagonals(null, new float[] { 4.0f, 5.0f, 6.0f });
+        FloatMatrix m3 = FloatMatrix.diagonals(null, new float[] { 4.0f, 5.0f, 6.0f });
         assertEquals(4.0f, m3.get(0, 2), DELTA);
         assertEquals(5.0f, m3.get(1, 1), DELTA);
         assertEquals(6.0f, m3.get(2, 0), DELTA);
 
         // Test with empty arrays
-        FloatMatrix empty = FloatMatrix.fromDiagonals(null, null);
+        FloatMatrix empty = FloatMatrix.diagonals(null, null);
         assertTrue(empty.isEmpty());
 
         // Test illegal argument
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.fromDiagonals(new float[] { 1.0f, 2.0f }, new float[] { 3.0f, 4.0f, 5.0f }));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.diagonals(new float[] { 1.0f, 2.0f }, new float[] { 3.0f, 4.0f, 5.0f }));
     }
 
     @Test

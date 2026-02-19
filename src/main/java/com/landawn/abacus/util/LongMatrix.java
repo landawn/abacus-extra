@@ -334,7 +334,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a square n×n matrix with the specified main diagonal, where n is the array length
      */
     public static LongMatrix mainDiagonal(final long[] mainDiagonal) {
-        return fromDiagonals(mainDiagonal, null);
+        return diagonals(mainDiagonal, null);
     }
 
     /**
@@ -355,7 +355,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a square n×n matrix with the specified anti-diagonal, where n is the array length
      */
     public static LongMatrix antiDiagonal(final long[] antiDiagonal) {
-        return fromDiagonals(null, antiDiagonal);
+        return diagonals(null, antiDiagonal);
     }
 
     /**
@@ -366,7 +366,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.fromDiagonals(new long[] { 1, 2, 3 }, new long[] { 4, 5, 6 });
+     * LongMatrix matrix = LongMatrix.diagonals(new long[] { 1, 2, 3 }, new long[] { 4, 5, 6 });
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1, 0, 4},
@@ -380,7 +380,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static LongMatrix fromDiagonals(final long[] mainDiagonal, final long[] antiDiagonal) throws IllegalArgumentException {
+    public static LongMatrix diagonals(final long[] mainDiagonal, final long[] antiDiagonal) throws IllegalArgumentException {
         N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
                 "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 

@@ -264,7 +264,7 @@ public class DoubleMatrix2512Test extends TestBase {
     public void test_diagonal_both() {
         double[] lu2rd = { 1.0, 2.0, 3.0 };
         double[] ru2ld = { 4.0, 5.0, 6.0 };
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(lu2rd, ru2ld);
+        DoubleMatrix m = DoubleMatrix.diagonals(lu2rd, ru2ld);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0, m.get(0, 0), 0.0);
@@ -278,12 +278,12 @@ public class DoubleMatrix2512Test extends TestBase {
     public void test_diagonal_differentLengths() {
         double[] lu2rd = { 1.0, 2.0 };
         double[] ru2ld = { 4.0, 5.0, 6.0 };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.fromDiagonals(lu2rd, ru2ld));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.diagonals(lu2rd, ru2ld));
     }
 
     @Test
     public void test_diagonal_bothNull() {
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(null, null);
+        DoubleMatrix m = DoubleMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 

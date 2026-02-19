@@ -92,7 +92,7 @@ public class MatrixTest extends TestBase {
     public void testDiagonalBoth() {
         Integer[] mainDiag = { 1, 2, 3 };
         Integer[] antiDiag = { 7, 8, 9 };
-        Matrix<Integer> matrix = Matrix.fromDiagonals(mainDiag, antiDiag);
+        Matrix<Integer> matrix = Matrix.diagonals(mainDiag, antiDiag);
 
         Assertions.assertEquals(3, matrix.rowCount());
         Assertions.assertEquals(3, matrix.columnCount());
@@ -108,7 +108,7 @@ public class MatrixTest extends TestBase {
         Number[] mainDiag = new Integer[0];
         Number[] antiDiag = new Double[] { 1.5, 2.5 };
 
-        Matrix<Number> matrix = Matrix.fromDiagonals(mainDiag, antiDiag);
+        Matrix<Number> matrix = Matrix.diagonals(mainDiag, antiDiag);
 
         Assertions.assertEquals(2, matrix.rowCount());
         Assertions.assertEquals(2, matrix.columnCount());
@@ -121,7 +121,7 @@ public class MatrixTest extends TestBase {
         Number[] mainDiag = new Integer[] { 1, 2 };
         Number[] antiDiag = new Double[] { 3.0, 4.0 };
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(mainDiag, antiDiag));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Matrix.diagonals(mainDiag, antiDiag));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class MatrixTest extends TestBase {
         Integer[] antiDiag = { 7, 8 };
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Matrix.fromDiagonals(mainDiag, antiDiag);
+            Matrix.diagonals(mainDiag, antiDiag);
         });
     }
 

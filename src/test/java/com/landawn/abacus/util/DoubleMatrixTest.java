@@ -127,14 +127,14 @@ public class DoubleMatrixTest extends TestBase {
     public void testDiagonal() {
         double[] mainDiag = { 1.0, 2.0, 3.0 };
         double[] antiDiag = { 7.0, 8.0, 9.0 };
-        DoubleMatrix matrix = DoubleMatrix.fromDiagonals(mainDiag, antiDiag);
+        DoubleMatrix matrix = DoubleMatrix.diagonals(mainDiag, antiDiag);
         assertEquals(3, matrix.rowCount());
         assertEquals(3, matrix.columnCount());
         assertEquals(1.0, matrix.get(0, 0));
         assertEquals(7.0, matrix.get(0, 2));
 
         // Test with different lengths
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.fromDiagonals(new double[] { 1.0 }, new double[] { 2.0, 3.0 }));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.diagonals(new double[] { 1.0 }, new double[] { 2.0, 3.0 }));
     }
 
     @Test

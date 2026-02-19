@@ -246,7 +246,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
     public static FloatMatrix mainDiagonal(final float[] mainDiagonal) {
-        return fromDiagonals(mainDiagonal, null);
+        return diagonals(mainDiagonal, null);
     }
 
     /**
@@ -267,7 +267,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
     public static FloatMatrix antiDiagonal(final float[] antiDiagonal) {
-        return fromDiagonals(null, antiDiagonal);
+        return diagonals(null, antiDiagonal);
     }
 
     /**
@@ -278,7 +278,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.fromDiagonals(new float[] {1.0f, 2.0f, 3.0f}, new float[] {4.0f, 5.0f, 6.0f});
+     * FloatMatrix matrix = FloatMatrix.diagonals(new float[] {1.0f, 2.0f, 3.0f}, new float[] {4.0f, 5.0f, 6.0f});
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1.0, 0.0, 4.0},
@@ -292,7 +292,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static FloatMatrix fromDiagonals(final float[] mainDiagonal, final float[] antiDiagonal) throws IllegalArgumentException {
+    public static FloatMatrix diagonals(final float[] mainDiagonal, final float[] antiDiagonal) throws IllegalArgumentException {
         N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
                 "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 

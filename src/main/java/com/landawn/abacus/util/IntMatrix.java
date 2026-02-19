@@ -430,7 +430,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a square matrix with the specified main diagonal
      */
     public static IntMatrix mainDiagonal(final int[] mainDiagonal) {
-        return fromDiagonals(mainDiagonal, null);
+        return diagonals(mainDiagonal, null);
     }
 
     /**
@@ -450,7 +450,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a square matrix with the specified anti-diagonal
      */
     public static IntMatrix antiDiagonal(final int[] antiDiagonal) {
-        return fromDiagonals(null, antiDiagonal);
+        return diagonals(null, antiDiagonal);
     }
 
     /**
@@ -461,7 +461,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.fromDiagonals(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
+     * IntMatrix matrix = IntMatrix.diagonals(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1, 0, 4},
@@ -475,7 +475,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static IntMatrix fromDiagonals(final int[] mainDiagonal, final int[] antiDiagonal) throws IllegalArgumentException {
+    public static IntMatrix diagonals(final int[] mainDiagonal, final int[] antiDiagonal) throws IllegalArgumentException {
         N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
                 "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 

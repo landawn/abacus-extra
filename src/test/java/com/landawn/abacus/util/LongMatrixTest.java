@@ -147,7 +147,7 @@ public class LongMatrixTest extends TestBase {
     public void testDiagonal() {
         long[] main = { 1L, 2L, 3L };
         long[] anti = { 4L, 5L, 6L };
-        LongMatrix matrix = LongMatrix.fromDiagonals(main, anti);
+        LongMatrix matrix = LongMatrix.diagonals(main, anti);
         Assertions.assertEquals(3, matrix.rowCount());
         Assertions.assertEquals(3, matrix.columnCount());
         Assertions.assertEquals(1L, matrix.get(0, 0));
@@ -157,10 +157,10 @@ public class LongMatrixTest extends TestBase {
         Assertions.assertEquals(2L, matrix.get(1, 1));
         Assertions.assertEquals(6L, matrix.get(2, 0));
 
-        LongMatrix emptyMatrix = LongMatrix.fromDiagonals(null, null);
+        LongMatrix emptyMatrix = LongMatrix.diagonals(null, null);
         Assertions.assertTrue(emptyMatrix.isEmpty());
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> LongMatrix.fromDiagonals(new long[] { 1L }, new long[] { 4L, 5L }));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> LongMatrix.diagonals(new long[] { 1L }, new long[] { 4L, 5L }));
     }
 
     @Test

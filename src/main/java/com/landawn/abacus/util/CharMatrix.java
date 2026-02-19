@@ -282,7 +282,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
     public static CharMatrix mainDiagonal(final char[] mainDiagonal) {
-        return fromDiagonals(mainDiagonal, null);
+        return diagonals(mainDiagonal, null);
     }
 
     /**
@@ -304,7 +304,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
     public static CharMatrix antiDiagonal(final char[] antiDiagonal) {
-        return fromDiagonals(null, antiDiagonal);
+        return diagonals(null, antiDiagonal);
     }
 
     /**
@@ -315,7 +315,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.fromDiagonals(new char[] {'a', 'b', 'c'}, new char[] {'x', 'y', 'z'});
+     * CharMatrix matrix = CharMatrix.diagonals(new char[] {'a', 'b', 'c'}, new char[] {'x', 'y', 'z'});
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {'a', '\u0000', 'x'},
@@ -329,7 +329,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static CharMatrix fromDiagonals(final char[] mainDiagonal, final char[] antiDiagonal) throws IllegalArgumentException {
+    public static CharMatrix diagonals(final char[] mainDiagonal, final char[] antiDiagonal) throws IllegalArgumentException {
         N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
                 "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 

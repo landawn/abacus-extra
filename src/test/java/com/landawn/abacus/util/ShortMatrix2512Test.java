@@ -169,7 +169,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_diagonal_withBothDiagonals() {
         short[] lu = { 1, 2, 3 };
         short[] ru = { 4, 5, 6 };
-        ShortMatrix m = ShortMatrix.fromDiagonals(lu, ru);
+        ShortMatrix m = ShortMatrix.diagonals(lu, ru);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -183,12 +183,12 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_diagonal_withDifferentLengths_throwsException() {
         short[] lu = { 1, 2 };
         short[] ru = { 3, 4, 5 };
-        assertThrows(IllegalArgumentException.class, () -> ShortMatrix.fromDiagonals(lu, ru));
+        assertThrows(IllegalArgumentException.class, () -> ShortMatrix.diagonals(lu, ru));
     }
 
     @Test
     public void test_diagonal_withBothNull_returnsEmpty() {
-        ShortMatrix m = ShortMatrix.fromDiagonals(null, null);
+        ShortMatrix m = ShortMatrix.diagonals(null, null);
         assertSame(ShortMatrix.empty(), m);
     }
 

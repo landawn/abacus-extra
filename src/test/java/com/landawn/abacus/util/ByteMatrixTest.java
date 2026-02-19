@@ -138,7 +138,7 @@ public class ByteMatrixTest extends TestBase {
     public void testDiagonal() {
         byte[] main = { 1, 2, 3 };
         byte[] anti = { 4, 5, 6 };
-        ByteMatrix matrix = ByteMatrix.fromDiagonals(main, anti);
+        ByteMatrix matrix = ByteMatrix.diagonals(main, anti);
         Assertions.assertEquals(3, matrix.rowCount());
         Assertions.assertEquals(3, matrix.columnCount());
         Assertions.assertEquals(1, matrix.get(0, 0));
@@ -148,10 +148,10 @@ public class ByteMatrixTest extends TestBase {
         Assertions.assertEquals(2, matrix.get(1, 1));
         Assertions.assertEquals(6, matrix.get(2, 0));
 
-        ByteMatrix emptyMatrix = ByteMatrix.fromDiagonals(null, null);
+        ByteMatrix emptyMatrix = ByteMatrix.diagonals(null, null);
         Assertions.assertTrue(emptyMatrix.isEmpty());
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> ByteMatrix.fromDiagonals(new byte[] { 1 }, new byte[] { 2, 3 }));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ByteMatrix.diagonals(new byte[] { 1 }, new byte[] { 2, 3 }));
     }
 
     @Test

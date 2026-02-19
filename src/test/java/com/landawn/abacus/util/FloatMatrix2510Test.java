@@ -200,7 +200,7 @@ public class FloatMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        FloatMatrix m = FloatMatrix.fromDiagonals(new float[] { 1.0f, 4.0f }, new float[] { 2.0f, 3.0f });
+        FloatMatrix m = FloatMatrix.diagonals(new float[] { 1.0f, 4.0f }, new float[] { 2.0f, 3.0f });
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
@@ -211,7 +211,7 @@ public class FloatMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        FloatMatrix m = FloatMatrix.fromDiagonals(new float[] { 1.0f, 2.0f, 3.0f }, null);
+        FloatMatrix m = FloatMatrix.diagonals(new float[] { 1.0f, 2.0f, 3.0f }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
@@ -221,7 +221,7 @@ public class FloatMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        FloatMatrix m = FloatMatrix.fromDiagonals(null, new float[] { 1.0f, 2.0f, 3.0f });
+        FloatMatrix m = FloatMatrix.diagonals(null, new float[] { 1.0f, 2.0f, 3.0f });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 2));
@@ -231,13 +231,13 @@ public class FloatMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothEmpty() {
-        FloatMatrix m = FloatMatrix.fromDiagonals(null, null);
+        FloatMatrix m = FloatMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.fromDiagonals(new float[] { 1.0f, 2.0f }, new float[] { 1.0f, 2.0f, 3.0f }));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.diagonals(new float[] { 1.0f, 2.0f }, new float[] { 1.0f, 2.0f, 3.0f }));
     }
 
     @Test

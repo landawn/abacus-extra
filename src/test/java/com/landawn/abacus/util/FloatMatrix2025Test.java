@@ -252,7 +252,7 @@ public class FloatMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        FloatMatrix m = FloatMatrix.fromDiagonals(new float[] { 1.0f, 2.0f, 3.0f }, new float[] { 4.0f, 5.0f, 6.0f });
+        FloatMatrix m = FloatMatrix.diagonals(new float[] { 1.0f, 2.0f, 3.0f }, new float[] { 4.0f, 5.0f, 6.0f });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0), DELTA);
@@ -264,7 +264,7 @@ public class FloatMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        FloatMatrix m = FloatMatrix.fromDiagonals(new float[] { 1.0f, 2.0f, 3.0f }, null);
+        FloatMatrix m = FloatMatrix.diagonals(new float[] { 1.0f, 2.0f, 3.0f }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0), DELTA);
@@ -274,7 +274,7 @@ public class FloatMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        FloatMatrix m = FloatMatrix.fromDiagonals(null, new float[] { 4.0f, 5.0f, 6.0f });
+        FloatMatrix m = FloatMatrix.diagonals(null, new float[] { 4.0f, 5.0f, 6.0f });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(4.0f, m.get(0, 2), DELTA);
@@ -284,13 +284,13 @@ public class FloatMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        FloatMatrix m = FloatMatrix.fromDiagonals(null, null);
+        FloatMatrix m = FloatMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.fromDiagonals(new float[] { 1.0f, 2.0f }, new float[] { 3.0f, 4.0f, 5.0f }));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.diagonals(new float[] { 1.0f, 2.0f }, new float[] { 3.0f, 4.0f, 5.0f }));
     }
 
     @Test

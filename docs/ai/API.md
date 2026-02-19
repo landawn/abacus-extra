@@ -4150,8 +4150,8 @@ A matrix implementation for boolean primitive values, providing efficient storag
 - **Parameters:**
   - `antiDiagonal` (`boolean[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
-##### fromDiagonals(...) -> BooleanMatrix
-- **Signature:** `public static BooleanMatrix fromDiagonals(final boolean[] mainDiagonal, final boolean[] antiDiagonal) throws IllegalArgumentException`
+##### diagonals(...) -> BooleanMatrix
+- **Signature:** `public static BooleanMatrix diagonals(final boolean[] mainDiagonal, final boolean[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -5617,8 +5617,8 @@ A matrix implementation for byte primitive values, providing efficient storage a
 - **Parameters:**
   - `antiDiagonal` (`byte[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
-##### fromDiagonals(...) -> ByteMatrix
-- **Signature:** `public static ByteMatrix fromDiagonals(final byte[] mainDiagonal, final byte[] antiDiagonal) throws IllegalArgumentException`
+##### diagonals(...) -> ByteMatrix
+- **Signature:** `public static ByteMatrix diagonals(final byte[] mainDiagonal, final byte[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -7462,8 +7462,8 @@ A matrix implementation for char primitive values, providing efficient storage a
 - **Parameters:**
   - `antiDiagonal` (`char[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
-##### fromDiagonals(...) -> CharMatrix
-- **Signature:** `public static CharMatrix fromDiagonals(final char[] mainDiagonal, final char[] antiDiagonal) throws IllegalArgumentException`
+##### diagonals(...) -> CharMatrix
+- **Signature:** `public static CharMatrix diagonals(final char[] mainDiagonal, final char[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -9172,8 +9172,8 @@ A matrix implementation for double primitive values, providing efficient storage
 - **Parameters:**
   - `antiDiagonal` (`double[]`) — the array of anti-diagonal elements, or null/empty for an empty matrix
 - **Returns:** a square matrix with the specified anti-diagonal, or an empty matrix if input is null or empty
-##### fromDiagonals(...) -> DoubleMatrix
-- **Signature:** `public static DoubleMatrix fromDiagonals(final double[] mainDiagonal, final double[] antiDiagonal) throws IllegalArgumentException`
+##### diagonals(...) -> DoubleMatrix
+- **Signature:** `public static DoubleMatrix diagonals(final double[] mainDiagonal, final double[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -10959,8 +10959,8 @@ A matrix implementation for float primitive values, providing efficient storage 
 - **Parameters:**
   - `antiDiagonal` (`float[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
-##### fromDiagonals(...) -> FloatMatrix
-- **Signature:** `public static FloatMatrix fromDiagonals(final float[] mainDiagonal, final float[] antiDiagonal) throws IllegalArgumentException`
+##### diagonals(...) -> FloatMatrix
+- **Signature:** `public static FloatMatrix diagonals(final float[] mainDiagonal, final float[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -12908,8 +12908,8 @@ A matrix implementation for int primitive values, providing efficient storage an
 - **Parameters:**
   - `antiDiagonal` (`int[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal
-##### fromDiagonals(...) -> IntMatrix
-- **Signature:** `public static IntMatrix fromDiagonals(final int[] mainDiagonal, final int[] antiDiagonal) throws IllegalArgumentException`
+##### diagonals(...) -> IntMatrix
+- **Signature:** `public static IntMatrix diagonals(final int[] mainDiagonal, final int[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -14761,8 +14761,8 @@ A matrix implementation for long primitive values, providing efficient storage a
 - **Parameters:**
   - `antiDiagonal` (`long[]`) — the array of anti-diagonal elements (from top-right to bottom-left)
 - **Returns:** a square n×n matrix with the specified anti-diagonal, where n is the array length
-##### fromDiagonals(...) -> LongMatrix
-- **Signature:** `public static LongMatrix fromDiagonals(final long[] mainDiagonal, final long[] antiDiagonal) throws IllegalArgumentException`
+##### diagonals(...) -> LongMatrix
+- **Signature:** `public static LongMatrix diagonals(final long[] mainDiagonal, final long[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.
@@ -17274,16 +17274,16 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Parameters:**
   - `mainDiagonal` (`T[]`) — the diagonal values (must not be null)
 - **Returns:** a square matrix with the given diagonal values on the main diagonal
-- **See also:** #fromDiagonals(Object\[\], Object\[\]), #antiDiagonal(Object\[\])
+- **See also:** #diagonals(Object\[\], Object\[\]), #antiDiagonal(Object\[\])
 ##### antiDiagonal(...) -> Matrix<T>
 - **Signature:** `public static <T> Matrix<T> antiDiagonal(final T[] antiDiagonal)`
 - **Summary:** Creates a square diagonal matrix with the given values on the anti-diagonal (right-up to left-down).
 - **Parameters:**
   - `antiDiagonal` (`T[]`) — the anti-diagonal values (must not be null)
 - **Returns:** a square matrix with the given anti-diagonal values
-- **See also:** #fromDiagonals(Object\[\], Object\[\]), #mainDiagonal(Object\[\])
-##### fromDiagonals(...) -> Matrix<T>
-- **Signature:** `@SuppressWarnings("null") public static <T> Matrix<T> fromDiagonals(final T[] mainDiagonal, final T[] antiDiagonal) throws IllegalArgumentException`
+- **See also:** #diagonals(Object\[\], Object\[\]), #mainDiagonal(Object\[\])
+##### diagonals(...) -> Matrix<T>
+- **Signature:** `@SuppressWarnings("null") public static <T> Matrix<T> diagonals(final T[] mainDiagonal, final T[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix with values on both diagonals.
 - **Contract:**
   - If diagonals intersect (odd dimension), the main diagonal value takes precedence.
@@ -19330,8 +19330,8 @@ A matrix implementation for short primitive values, providing efficient storage 
 - **Parameters:**
   - `antiDiagonal` (`short[]`) — the array of anti-diagonal elements
 - **Returns:** a square matrix with the specified anti-diagonal
-##### fromDiagonals(...) -> ShortMatrix
-- **Signature:** `public static ShortMatrix fromDiagonals(final short[] mainDiagonal, final short[] antiDiagonal) throws IllegalArgumentException`
+##### diagonals(...) -> ShortMatrix
+- **Signature:** `public static ShortMatrix diagonals(final short[] mainDiagonal, final short[] antiDiagonal) throws IllegalArgumentException`
 - **Summary:** Creates a square matrix from the specified main diagonal and anti-diagonal elements.
 - **Contract:**
   - If both arrays are provided, they must have the same length.

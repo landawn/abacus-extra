@@ -319,7 +319,7 @@ public class IntMatrix2512Test extends TestBase {
     public void test_diagonal_both() {
         int[] lu2rd = { 1, 2, 3 };
         int[] ru2ld = { 4, 5, 6 };
-        IntMatrix m = IntMatrix.fromDiagonals(lu2rd, ru2ld);
+        IntMatrix m = IntMatrix.diagonals(lu2rd, ru2ld);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -333,12 +333,12 @@ public class IntMatrix2512Test extends TestBase {
     public void test_diagonal_differentLengths() {
         int[] lu2rd = { 1, 2 };
         int[] ru2ld = { 4, 5, 6 };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.fromDiagonals(lu2rd, ru2ld));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.diagonals(lu2rd, ru2ld));
     }
 
     @Test
     public void test_diagonal_bothNull() {
-        IntMatrix m = IntMatrix.fromDiagonals(null, null);
+        IntMatrix m = IntMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 

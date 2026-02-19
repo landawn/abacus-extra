@@ -199,11 +199,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param mainDiagonal the diagonal values (must not be null)
      * @return a square matrix with the given diagonal values on the main diagonal
      * @throws IllegalArgumentException if the diagonal array is null
-     * @see #fromDiagonals(Object[], Object[])
+     * @see #diagonals(Object[], Object[])
      * @see #antiDiagonal(Object[])
      */
     public static <T> Matrix<T> mainDiagonal(final T[] mainDiagonal) {
-        return fromDiagonals(mainDiagonal, null);
+        return diagonals(mainDiagonal, null);
     }
 
     /**
@@ -232,11 +232,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param antiDiagonal the anti-diagonal values (must not be null)
      * @return a square matrix with the given anti-diagonal values
      * @throws IllegalArgumentException if the diagonal array is null
-     * @see #fromDiagonals(Object[], Object[])
+     * @see #diagonals(Object[], Object[])
      * @see #mainDiagonal(Object[])
      */
     public static <T> Matrix<T> antiDiagonal(final T[] antiDiagonal) {
-        return fromDiagonals(null, antiDiagonal);
+        return diagonals(null, antiDiagonal);
     }
 
     /**
@@ -247,7 +247,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> diag = Matrix.fromDiagonals(
+     * Matrix<String> diag = Matrix.diagonals(
      *     new String[] {"A", "B", "C"},
      *     new String[] {"X", "Y", "Z"}
      * );
@@ -256,7 +256,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * //           ["Z", null, "C"]]
      * 
      * // With intersection (odd dimension)
-     * Matrix<Integer> numbers = Matrix.fromDiagonals(
+     * Matrix<Integer> numbers = Matrix.diagonals(
      *     new Integer[] {1, 2, 3},
      *     new Integer[] {7, 8, 9}
      * );
@@ -272,7 +272,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if both arrays are null, or if both diagonals are non-empty and have different lengths
      */
     @SuppressWarnings("null")
-    public static <T> Matrix<T> fromDiagonals(final T[] mainDiagonal, final T[] antiDiagonal) throws IllegalArgumentException {
+    public static <T> Matrix<T> diagonals(final T[] mainDiagonal, final T[] antiDiagonal) throws IllegalArgumentException {
         N.checkArgument(mainDiagonal != null || antiDiagonal != null, "Both 'mainDiagonal' and 'antiDiagonal' can't be null");
 
         N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,

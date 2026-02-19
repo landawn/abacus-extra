@@ -302,7 +302,7 @@ public class ByteMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        ByteMatrix m = ByteMatrix.fromDiagonals(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
+        ByteMatrix m = ByteMatrix.diagonals(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -314,7 +314,7 @@ public class ByteMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        ByteMatrix m = ByteMatrix.fromDiagonals(new byte[] { 1, 2, 3 }, null);
+        ByteMatrix m = ByteMatrix.diagonals(new byte[] { 1, 2, 3 }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -324,7 +324,7 @@ public class ByteMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        ByteMatrix m = ByteMatrix.fromDiagonals(null, new byte[] { 4, 5, 6 });
+        ByteMatrix m = ByteMatrix.diagonals(null, new byte[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(4, m.get(0, 2));
@@ -334,18 +334,18 @@ public class ByteMatrix2511Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        ByteMatrix m = ByteMatrix.fromDiagonals(null, null);
+        ByteMatrix m = ByteMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.fromDiagonals(new byte[] { 1, 2 }, new byte[] { 1, 2, 3 }));
+        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.diagonals(new byte[] { 1, 2 }, new byte[] { 1, 2, 3 }));
     }
 
     @Test
     public void testDiagonal_withBothDiagonalsOverlapping() {
-        ByteMatrix m = ByteMatrix.fromDiagonals(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
+        ByteMatrix m = ByteMatrix.diagonals(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         // Center element should be from main diagonal (set second)

@@ -302,7 +302,7 @@ public class IntMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        IntMatrix m = IntMatrix.fromDiagonals(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
+        IntMatrix m = IntMatrix.diagonals(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -314,7 +314,7 @@ public class IntMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        IntMatrix m = IntMatrix.fromDiagonals(new int[] { 1, 2, 3 }, null);
+        IntMatrix m = IntMatrix.diagonals(new int[] { 1, 2, 3 }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -324,7 +324,7 @@ public class IntMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        IntMatrix m = IntMatrix.fromDiagonals(null, new int[] { 4, 5, 6 });
+        IntMatrix m = IntMatrix.diagonals(null, new int[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(4, m.get(0, 2));
@@ -334,13 +334,13 @@ public class IntMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        IntMatrix m = IntMatrix.fromDiagonals(null, null);
+        IntMatrix m = IntMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.fromDiagonals(new int[] { 1, 2 }, new int[] { 3, 4, 5 }));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.diagonals(new int[] { 1, 2 }, new int[] { 3, 4, 5 }));
     }
 
     @Test

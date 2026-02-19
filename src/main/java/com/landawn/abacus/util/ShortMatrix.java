@@ -293,7 +293,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return a square matrix with the specified main diagonal
      */
     public static ShortMatrix mainDiagonal(final short[] mainDiagonal) {
-        return fromDiagonals(mainDiagonal, null);
+        return diagonals(mainDiagonal, null);
     }
 
     /**
@@ -313,7 +313,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return a square matrix with the specified anti-diagonal
      */
     public static ShortMatrix antiDiagonal(final short[] antiDiagonal) {
-        return fromDiagonals(null, antiDiagonal);
+        return diagonals(null, antiDiagonal);
     }
 
     /**
@@ -324,7 +324,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.fromDiagonals(new short[] { 1, 2, 3 }, new short[] { 4, 5, 6 });
+     * ShortMatrix matrix = ShortMatrix.diagonals(new short[] { 1, 2, 3 }, new short[] { 4, 5, 6 });
      * // Creates 3x3 matrix with both diagonals set
      * // Resulting matrix:
      * //   {1, 0, 4},
@@ -338,7 +338,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
-    public static ShortMatrix fromDiagonals(final short[] mainDiagonal, final short[] antiDiagonal) throws IllegalArgumentException {
+    public static ShortMatrix diagonals(final short[] mainDiagonal, final short[] antiDiagonal) throws IllegalArgumentException {
         N.checkArgument(N.isEmpty(mainDiagonal) || N.isEmpty(antiDiagonal) || mainDiagonal.length == antiDiagonal.length,
                 "The length of 'mainDiagonal' and 'antiDiagonal' must be same");
 

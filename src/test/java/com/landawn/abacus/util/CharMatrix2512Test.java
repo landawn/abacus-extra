@@ -183,7 +183,7 @@ public class CharMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_both() {
-        CharMatrix m = CharMatrix.fromDiagonals(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
+        CharMatrix m = CharMatrix.diagonals(new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'y', 'z' });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals('a', m.get(0, 0));
@@ -192,7 +192,7 @@ public class CharMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_differentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> CharMatrix.fromDiagonals(new char[] { 'a', 'b' }, new char[] { 'x', 'y', 'z' }));
+        assertThrows(IllegalArgumentException.class, () -> CharMatrix.diagonals(new char[] { 'a', 'b' }, new char[] { 'x', 'y', 'z' }));
     }
 
     @Test

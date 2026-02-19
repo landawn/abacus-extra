@@ -171,7 +171,7 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        BooleanMatrix m = BooleanMatrix.fromDiagonals(new boolean[] { true, true, true }, new boolean[] { false, false, false });
+        BooleanMatrix m = BooleanMatrix.diagonals(new boolean[] { true, true, true }, new boolean[] { false, false, false });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
@@ -183,7 +183,7 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        BooleanMatrix m = BooleanMatrix.fromDiagonals(new boolean[] { true, false, true }, null);
+        BooleanMatrix m = BooleanMatrix.diagonals(new boolean[] { true, false, true }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
@@ -193,7 +193,7 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        BooleanMatrix m = BooleanMatrix.fromDiagonals(null, new boolean[] { false, true, false });
+        BooleanMatrix m = BooleanMatrix.diagonals(null, new boolean[] { false, true, false });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertFalse(m.get(0, 2));
@@ -203,13 +203,13 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        BooleanMatrix m = BooleanMatrix.fromDiagonals(null, null);
+        BooleanMatrix m = BooleanMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.fromDiagonals(new boolean[] { true, false }, new boolean[] { true, false, true }));
+        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.diagonals(new boolean[] { true, false }, new boolean[] { true, false, true }));
     }
 
     @Test

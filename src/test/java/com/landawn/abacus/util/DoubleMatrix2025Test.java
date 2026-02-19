@@ -266,7 +266,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(new double[] { 1.0, 2.0, 3.0 }, new double[] { 4.0, 5.0, 6.0 });
+        DoubleMatrix m = DoubleMatrix.diagonals(new double[] { 1.0, 2.0, 3.0 }, new double[] { 4.0, 5.0, 6.0 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.0, m.get(0, 0), DELTA);
@@ -278,7 +278,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(new double[] { 1.5, 2.5, 3.5 }, null);
+        DoubleMatrix m = DoubleMatrix.diagonals(new double[] { 1.5, 2.5, 3.5 }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1.5, m.get(0, 0), DELTA);
@@ -288,7 +288,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(null, new double[] { 4.5, 5.5, 6.5 });
+        DoubleMatrix m = DoubleMatrix.diagonals(null, new double[] { 4.5, 5.5, 6.5 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(4.5, m.get(0, 2), DELTA);
@@ -298,13 +298,13 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        DoubleMatrix m = DoubleMatrix.fromDiagonals(null, null);
+        DoubleMatrix m = DoubleMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.fromDiagonals(new double[] { 1.0, 2.0 }, new double[] { 3.0, 4.0, 5.0 }));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.diagonals(new double[] { 1.0, 2.0 }, new double[] { 3.0, 4.0, 5.0 }));
     }
 
     @Test

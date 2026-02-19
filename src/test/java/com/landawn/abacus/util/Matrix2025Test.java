@@ -145,7 +145,7 @@ public class Matrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        Matrix<String> m = Matrix.fromDiagonals(new String[] { "A", "B", "C" }, new String[] { "X", "Y", "Z" });
+        Matrix<String> m = Matrix.diagonals(new String[] { "A", "B", "C" }, new String[] { "X", "Y", "Z" });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals("A", m.get(0, 0));
@@ -157,7 +157,7 @@ public class Matrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
-        Matrix<String> m = Matrix.fromDiagonals(new String[] { "A", "B", "C" }, null);
+        Matrix<String> m = Matrix.diagonals(new String[] { "A", "B", "C" }, null);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals("A", m.get(0, 0));
@@ -167,7 +167,7 @@ public class Matrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
-        Matrix<String> m = Matrix.fromDiagonals(null, new String[] { "X", "Y", "Z" });
+        Matrix<String> m = Matrix.diagonals(null, new String[] { "X", "Y", "Z" });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals("X", m.get(0, 2));
@@ -177,16 +177,16 @@ public class Matrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        assertTrue(Matrix.fromDiagonals(new String[] {}, new String[] {}).isEmpty());
-        assertTrue(Matrix.fromDiagonals(new String[] {}, null).isEmpty());
-        assertTrue(Matrix.fromDiagonals(null, new String[] {}).isEmpty());
+        assertTrue(Matrix.diagonals(new String[] {}, new String[] {}).isEmpty());
+        assertTrue(Matrix.diagonals(new String[] {}, null).isEmpty());
+        assertTrue(Matrix.diagonals(null, new String[] {}).isEmpty());
 
-        assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(null, null));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonals(null, null));
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.fromDiagonals(new String[] { "A", "B" }, new String[] { "X", "Y", "Z" }));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonals(new String[] { "A", "B" }, new String[] { "X", "Y", "Z" }));
     }
 
     // ============ Component Type Tests ============

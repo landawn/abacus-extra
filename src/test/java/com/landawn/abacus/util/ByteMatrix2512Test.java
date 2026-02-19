@@ -183,7 +183,7 @@ public class ByteMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_both() {
-        ByteMatrix m = ByteMatrix.fromDiagonals(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
+        ByteMatrix m = ByteMatrix.diagonals(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -192,7 +192,7 @@ public class ByteMatrix2512Test extends TestBase {
 
     @Test
     public void test_diagonal_differentLengths() {
-        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.fromDiagonals(new byte[] { 1, 2 }, new byte[] { 3, 4, 5 }));
+        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.diagonals(new byte[] { 1, 2 }, new byte[] { 3, 4, 5 }));
     }
 
     @Test

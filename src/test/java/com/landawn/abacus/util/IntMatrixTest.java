@@ -207,7 +207,7 @@ public class IntMatrixTest extends TestBase {
     @Test
     public void testDiagonal() {
         // Test with both diagonals
-        IntMatrix m = IntMatrix.fromDiagonals(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
+        IntMatrix m = IntMatrix.diagonals(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
@@ -218,23 +218,23 @@ public class IntMatrixTest extends TestBase {
         assertEquals(6, m.get(2, 0));
 
         // Test with only main diagonal
-        IntMatrix m2 = IntMatrix.fromDiagonals(new int[] { 1, 2, 3 }, null);
+        IntMatrix m2 = IntMatrix.diagonals(new int[] { 1, 2, 3 }, null);
         assertEquals(1, m2.get(0, 0));
         assertEquals(2, m2.get(1, 1));
         assertEquals(3, m2.get(2, 2));
 
         // Test with only anti-diagonal
-        IntMatrix m3 = IntMatrix.fromDiagonals(null, new int[] { 4, 5, 6 });
+        IntMatrix m3 = IntMatrix.diagonals(null, new int[] { 4, 5, 6 });
         assertEquals(4, m3.get(0, 2));
         assertEquals(5, m3.get(1, 1));
         assertEquals(6, m3.get(2, 0));
 
         // Test with empty arrays
-        IntMatrix empty = IntMatrix.fromDiagonals(null, null);
+        IntMatrix empty = IntMatrix.diagonals(null, null);
         assertTrue(empty.isEmpty());
 
         // Test illegal argument
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.fromDiagonals(new int[] { 1, 2 }, new int[] { 3, 4, 5 }));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.diagonals(new int[] { 1, 2 }, new int[] { 3, 4, 5 }));
     }
 
     @Test

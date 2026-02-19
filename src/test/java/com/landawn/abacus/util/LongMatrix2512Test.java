@@ -257,7 +257,7 @@ public class LongMatrix2512Test extends TestBase {
     public void test_diagonal_both() {
         long[] lu2rd = { 1L, 2L, 3L };
         long[] ru2ld = { 4L, 5L, 6L };
-        LongMatrix m = LongMatrix.fromDiagonals(lu2rd, ru2ld);
+        LongMatrix m = LongMatrix.diagonals(lu2rd, ru2ld);
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1L, m.get(0, 0));
@@ -271,12 +271,12 @@ public class LongMatrix2512Test extends TestBase {
     public void test_diagonal_differentLengths() {
         long[] lu2rd = { 1L, 2L };
         long[] ru2ld = { 4L, 5L, 6L };
-        assertThrows(IllegalArgumentException.class, () -> LongMatrix.fromDiagonals(lu2rd, ru2ld));
+        assertThrows(IllegalArgumentException.class, () -> LongMatrix.diagonals(lu2rd, ru2ld));
     }
 
     @Test
     public void test_diagonal_bothNull() {
-        LongMatrix m = LongMatrix.fromDiagonals(null, null);
+        LongMatrix m = LongMatrix.diagonals(null, null);
         assertTrue(m.isEmpty());
     }
 
