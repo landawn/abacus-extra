@@ -1140,7 +1140,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a deep copy of this matrix.
+     * Returns a copy of this matrix.
      * Modifications to the returned matrix will not affect this matrix, and vice versa.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1150,7 +1150,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // copy is independent from original
      * }</pre>
      *
-     * @return a deep copy of this matrix
+     * @return a copy of this matrix
      */
     @Override
     public CharMatrix copy() {

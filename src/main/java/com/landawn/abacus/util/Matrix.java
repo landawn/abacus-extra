@@ -1343,7 +1343,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // copy:     {{"X", "B"}, {"C", "D"}}
      * }</pre>
      *
-     * @return a new matrix that is a deep copy of this matrix with full independence guarantee
+     * @return a new matrix that is a copy of this matrix with full independence guarantee
      */
     @Override
     public Matrix<T> copy() {

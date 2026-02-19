@@ -1117,7 +1117,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a deep copy of this matrix.
+     * Returns a copy of this matrix.
      * The returned matrix is a completely independent copy; modifications to one
      * do not affect the other.
      *
@@ -1128,7 +1128,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * copy.set(0, 0, (byte) 10);   // Original matrix remains unchanged
      * }</pre>
      *
-     * @return a deep copy of this matrix
+     * @return a copy of this matrix
      */
     @Override
     public ByteMatrix copy() {

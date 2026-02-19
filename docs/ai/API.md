@@ -70,18 +70,18 @@ A comprehensive abstract base class providing the foundational architecture for 
 - **Returns:** the formatted string representation of the matrix that was printed to standard output
 ##### copy(...) -> X
 - **Signature:** `public abstract X copy()`
-- **Summary:** Returns a deep copy of this matrix.
+- **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a new matrix that is a deep copy of this matrix with the same dimensions and values
+- **Returns:** a new matrix that is a copy of this matrix with the same dimensions and values
 - **Signature:** `public abstract X copy(int fromRowIndex, int toRowIndex)`
-- **Summary:** Returns a deep copy of a row range from this matrix.
+- **Summary:** Returns a copy of a row range from this matrix.
 - **Parameters:**
   - `fromRowIndex` (`int`) — the starting row index (inclusive, 0-based)
   - `toRowIndex` (`int`) — the ending row index (exclusive)
 - **Returns:** a new matrix containing the specified rows with dimensions (toRowIndex - fromRowIndex) × columnCount
 - **Signature:** `public abstract X copy(int fromRowIndex, int toRowIndex, int fromColumnIndex, int toColumnIndex)`
-- **Summary:** Returns a deep copy of a rectangular region from this matrix.
+- **Summary:** Returns a copy of a rectangular region from this matrix.
 - **Parameters:**
   - `fromRowIndex` (`int`) — the starting row index (inclusive, 0-based)
   - `toRowIndex` (`int`) — the ending row index (exclusive)
@@ -4433,10 +4433,10 @@ A matrix implementation for boolean primitive values, providing efficient storag
   - `java.lang.IllegalArgumentException` — if the starting indices are negative or exceed matrix dimensions
 ##### copy(...) -> BooleanMatrix
 - **Signature:** `@Override public BooleanMatrix copy()`
-- **Summary:** Returns a deep copy of this matrix.
+- **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a new matrix that is a deep copy of this matrix with full independence guarantee
+- **Returns:** a new matrix that is a copy of this matrix with full independence guarantee
 - **Signature:** `@Override public BooleanMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Creates a copy of a row range from this matrix.
 - **Parameters:**
@@ -5899,10 +5899,10 @@ A matrix implementation for byte primitive values, providing efficient storage a
   - `java.lang.IllegalArgumentException` — if the starting indices are negative or exceed matrix dimensions
 ##### copy(...) -> ByteMatrix
 - **Signature:** `@Override public ByteMatrix copy()`
-- **Summary:** Returns a deep copy of this matrix.
+- **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a deep copy of this matrix
+- **Returns:** a copy of this matrix
 - **Signature:** `@Override public ByteMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Creates a copy of a row range from this matrix.
 - **Parameters:**
@@ -7750,10 +7750,10 @@ A matrix implementation for char primitive values, providing efficient storage a
   - `java.lang.IllegalArgumentException` — if the starting indices are negative or exceed matrix dimensions
 ##### copy(...) -> CharMatrix
 - **Signature:** `@Override public CharMatrix copy()`
-- **Summary:** Returns a deep copy of this matrix.
+- **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a deep copy of this matrix
+- **Returns:** a copy of this matrix
 - **Signature:** `@Override public CharMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Creates a copy of a row range from this matrix.
 - **Parameters:**
@@ -9473,10 +9473,10 @@ A matrix implementation for double primitive values, providing efficient storage
   - `java.lang.IllegalArgumentException` — if the starting indices are negative or exceed matrix dimensions
 ##### copy(...) -> DoubleMatrix
 - **Signature:** `@Override public DoubleMatrix copy()`
-- **Summary:** Returns a deep copy of this matrix.
+- **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a new matrix that is a deep copy of this matrix with full independence guarantee
+- **Returns:** a new matrix that is a copy of this matrix with full independence guarantee
 - **Signature:** `@Override public DoubleMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Returns a copy of a row range from this matrix.
 - **Parameters:**
@@ -11246,10 +11246,10 @@ A matrix implementation for float primitive values, providing efficient storage 
   - `java.lang.IllegalArgumentException` — if the starting indices are negative or exceed matrix dimensions
 ##### copy(...) -> FloatMatrix
 - **Signature:** `@Override public FloatMatrix copy()`
-- **Summary:** Returns a deep copy of this matrix.
+- **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a new matrix that is a deep copy of this matrix with full independence guarantee
+- **Returns:** a new matrix that is a copy of this matrix with full independence guarantee
 - **Signature:** `@Override public FloatMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Returns a copy of a row range from this matrix.
 - **Parameters:**
@@ -13209,10 +13209,10 @@ A matrix implementation for int primitive values, providing efficient storage an
   - `java.lang.IllegalArgumentException` — if fromRowIndex &lt; 0 or &gt; rowCount, or if fromColumnIndex &lt; 0 or &gt; columnCount
 ##### copy(...) -> IntMatrix
 - **Signature:** `@Override public IntMatrix copy()`
-- **Summary:** Returns a deep copy of this matrix.
+- **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a new matrix that is a deep copy of this matrix with full independence guarantee
+- **Returns:** a new matrix that is a copy of this matrix with full independence guarantee
 - **Signature:** `@Override public IntMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Creates a copy of a row range from this matrix.
 - **Parameters:**
@@ -15062,10 +15062,10 @@ A matrix implementation for long primitive values, providing efficient storage a
   - `java.lang.IllegalArgumentException` — if fromRowIndex &lt; 0 or &gt; rowCount, or if fromColumnIndex &lt; 0 or &gt; columnCount
 ##### copy(...) -> LongMatrix
 - **Signature:** `@Override public LongMatrix copy()`
-- **Summary:** Returns a deep copy of this matrix.
+- **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a new matrix that is a deep copy of this matrix
+- **Returns:** a new matrix that is a copy of this matrix
 - **Signature:** `@Override public LongMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Creates a copy of a row range from this matrix.
 - **Parameters:**
@@ -17629,7 +17629,7 @@ A generic matrix implementation that stores elements in a two-dimensional array.
 - **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a new matrix that is a deep copy of this matrix with full independence guarantee
+- **Returns:** a new matrix that is a copy of this matrix with full independence guarantee
 - **Signature:** `@Override public Matrix<T> copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Creates a copy of a row range from this matrix.
 - **Parameters:**
@@ -19613,10 +19613,10 @@ A matrix implementation for short primitive values, providing efficient storage 
   - `java.lang.IllegalArgumentException` — if fromRowIndex &lt; 0 or &gt; rows, or if fromColumnIndex &lt; 0 or &gt; columnCount
 ##### copy(...) -> ShortMatrix
 - **Signature:** `@Override public ShortMatrix copy()`
-- **Summary:** Returns a deep copy of this matrix.
+- **Summary:** Returns a copy of this matrix.
 - **Parameters:**
   - (none)
-- **Returns:** a new ShortMatrix that is an independent deep copy of this matrix
+- **Returns:** a new ShortMatrix that is an independent copy of this matrix
 - **Signature:** `@Override public ShortMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Creates a copy of a subset of rows from this matrix.
 - **Parameters:**

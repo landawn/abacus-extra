@@ -1103,7 +1103,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns a deep copy of this matrix.
+     * Returns a copy of this matrix.
      * The returned matrix is a completely independent copy; modifications to one
      * do not affect the other.
      *
@@ -1118,7 +1118,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * assert copy.get(0, 0)     == false;  // Copy modified
      * }</pre>
      *
-     * @return a new matrix that is a deep copy of this matrix with full independence guarantee
+     * @return a new matrix that is a copy of this matrix with full independence guarantee
      */
     @Override
     public BooleanMatrix copy() {

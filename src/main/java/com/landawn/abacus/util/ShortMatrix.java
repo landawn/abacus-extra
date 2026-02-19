@@ -1096,10 +1096,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns a deep copy of this matrix.
+     * Returns a copy of this matrix.
      *
      * <p>All elements are copied into a new matrix, so modifications to the copy
-     * will not affect the original matrix and vice versa. This method performs a deep copy,
+     * will not affect the original matrix and vice versa. This method performs a copy,
      * meaning both the outer array and all inner row arrays are cloned.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1109,7 +1109,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * copy.set(0, 0, (short)99);   // original is unchanged
      * }</pre>
      *
-     * @return a new ShortMatrix that is an independent deep copy of this matrix
+     * @return a new ShortMatrix that is an independent copy of this matrix
      */
     @Override
     public ShortMatrix copy() {

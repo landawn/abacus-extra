@@ -73,7 +73,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Important:</b> Since the array is not copied, any external modifications
      * to the array will affect this matrix. To avoid this issue, use {@link #copy()} method
-     * on the created matrix to obtain a deep copy, or manually copy the array before passing it.
+     * on the created matrix to obtain a copy, or manually copy the array before passing it.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1261,7 +1261,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns a deep copy of this matrix.
+     * Returns a copy of this matrix.
      *
      * <p>The returned matrix is completely independent from the original. All elements
      * are copied into a new two-dimensional array, ensuring that modifications to either
@@ -1278,7 +1278,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * assert copy.get(0, 0)       == 99.0;  // Copy modified
      * }</pre>
      *
-     * @return a new matrix that is a deep copy of this matrix with full independence guarantee
+     * @return a new matrix that is a copy of this matrix with full independence guarantee
      */
     @Override
     public DoubleMatrix copy() {

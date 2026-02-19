@@ -1324,7 +1324,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a deep copy of this matrix.
+     * Returns a copy of this matrix.
      * The returned matrix is a completely independent copy; modifications to one
      * do not affect the other.
      *
@@ -1339,7 +1339,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * assert copy.get(0, 0)       == 99;  // Copy modified
      * }</pre>
      *
-     * @return a new matrix that is a deep copy of this matrix with full independence guarantee
+     * @return a new matrix that is a copy of this matrix with full independence guarantee
      */
     @Override
     public IntMatrix copy() {

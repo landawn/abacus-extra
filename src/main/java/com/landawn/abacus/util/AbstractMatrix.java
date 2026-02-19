@@ -601,7 +601,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract String println();
 
     /**
-     * Returns a deep copy of this matrix.
+     * Returns a copy of this matrix.
      * The returned matrix is a completely independent copy with its own underlying array;
      * modifications to one matrix do not affect the other.
      *
@@ -617,12 +617,12 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // copy:     {{10, 2}, {3, 4}}
      * }</pre>
      *
-     * @return a new matrix that is a deep copy of this matrix with the same dimensions and values
+     * @return a new matrix that is a copy of this matrix with the same dimensions and values
      */
     public abstract X copy();
 
     /**
-     * Returns a deep copy of a row range from this matrix.
+     * Returns a copy of a row range from this matrix.
      * The returned matrix contains only the specified rows (with all columns) and is completely
      * independent from the original matrix.
      *
@@ -646,7 +646,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract X copy(int fromRowIndex, int toRowIndex);
 
     /**
-     * Returns a deep copy of a rectangular region from this matrix.
+     * Returns a copy of a rectangular region from this matrix.
      * The returned matrix contains only the specified rows and columns and is completely
      * independent from the original matrix.
      *

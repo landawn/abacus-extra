@@ -1239,7 +1239,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns a deep copy of this matrix.
+     * Returns a copy of this matrix.
      *
      * <p>The returned matrix is completely independent from the original. All elements
      * are copied into a new two-dimensional array, ensuring that modifications to either
@@ -1256,7 +1256,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * assert copy.get(0, 0)       == 99L;  // Copy modified
      * }</pre>
      *
-     * @return a new matrix that is a deep copy of this matrix
+     * @return a new matrix that is a copy of this matrix
      */
     @Override
     public LongMatrix copy() {
