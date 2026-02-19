@@ -916,7 +916,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     public <E extends Exception> void updateAll(final Throwables.ByteUnaryOperator<E> operator) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.applyAsByte(a[i][j]);
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
 
     /**
@@ -938,7 +938,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Byte, E> operator) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.apply(i, j);
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
 
     /**
@@ -961,7 +961,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     public <E extends Exception> void replaceIf(final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
 
     /**
@@ -984,7 +984,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final byte newValue) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
 
     /**
@@ -1009,7 +1009,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         final byte[][] result = new byte[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.applyAsByte(a[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return ByteMatrix.of(result);
     }
@@ -1042,7 +1042,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -1968,7 +1968,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         final byte[][] result = new byte[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (byte) (a[i][j] + otherArray[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return ByteMatrix.of(result);
     }
@@ -2001,7 +2001,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         final byte[][] result = new byte[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (byte) (a[i][j] - otherArray[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return ByteMatrix.of(result);
     }
@@ -2258,7 +2258,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsByte(a[i][j], b[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return ByteMatrix.of(result);
     }
@@ -2297,7 +2297,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsByte(a[i][j], b[i][j], c[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return ByteMatrix.of(result);
     }
@@ -2954,7 +2954,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
         if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);
-            Matrices.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+            Matrices.forEachIndex(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 final byte[] aa = a[i];

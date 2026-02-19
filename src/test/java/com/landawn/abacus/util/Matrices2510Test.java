@@ -27,40 +27,40 @@ public class Matrices2510Test extends TestBase {
     @AfterEach
     public void cleanup() {
         // Reset parallel setting after each test to avoid side effects
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelMode(ParallelMode.AUTO);
     }
 
-    // ============ ParallelEnabled Configuration Tests ============
+    // ============ ParallelMode Configuration Tests ============
 
     @Test
-    public void testGetParallelEnabled_default() {
-        ParallelEnabled result = Matrices.getParallelEnabled();
+    public void testGetParallelMode_default() {
+        ParallelMode result = Matrices.getParallelMode();
         assertNotNull(result);
-        assertEquals(ParallelEnabled.DEFAULT, result);
+        assertEquals(ParallelMode.AUTO, result);
     }
 
     @Test
-    public void testSetParallelEnabled_yes() {
-        Matrices.setParallelEnabled(ParallelEnabled.YES);
-        assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
+    public void testSetParallelMode_yes() {
+        Matrices.setParallelMode(ParallelMode.FORCE_ON);
+        assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
     }
 
     @Test
-    public void testSetParallelEnabled_no() {
-        Matrices.setParallelEnabled(ParallelEnabled.NO);
-        assertEquals(ParallelEnabled.NO, Matrices.getParallelEnabled());
+    public void testSetParallelMode_no() {
+        Matrices.setParallelMode(ParallelMode.FORCE_OFF);
+        assertEquals(ParallelMode.FORCE_OFF, Matrices.getParallelMode());
     }
 
     @Test
-    public void testSetParallelEnabled_default() {
-        Matrices.setParallelEnabled(ParallelEnabled.YES);
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
-        assertEquals(ParallelEnabled.DEFAULT, Matrices.getParallelEnabled());
+    public void testSetParallelMode_default() {
+        Matrices.setParallelMode(ParallelMode.FORCE_ON);
+        Matrices.setParallelMode(ParallelMode.AUTO);
+        assertEquals(ParallelMode.AUTO, Matrices.getParallelMode());
     }
 
     @Test
-    public void testSetParallelEnabled_nullThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> Matrices.setParallelEnabled(null));
+    public void testSetParallelMode_nullThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.setParallelMode(null));
     }
 
     // ============ isParallelizable Tests ============
@@ -68,7 +68,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testIsParallelable_singleArg_smallMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelMode(ParallelMode.AUTO);
         // Small matrix (count = 4) should not be parallelable by default
         boolean result = Matrices.isParallelizable(m);
         assertFalse(result);
@@ -77,7 +77,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testIsParallelable_singleArg_largeMatrix() {
         IntMatrix m = IntMatrix.of(new int[100][100]); // count = 10000
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelMode(ParallelMode.AUTO);
         // Large matrix should be parallelable by default if parallel streams supported
         boolean result = Matrices.isParallelizable(m);
         // Result depends on IS_PARALLEL_STREAM_SUPPORTED
@@ -87,8 +87,8 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testIsParallelable_singleArg_forcedYes() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        Matrices.setParallelEnabled(ParallelEnabled.YES);
-        // Should be parallelable when forced YES (if parallel streams supported)
+        Matrices.setParallelMode(ParallelMode.FORCE_ON);
+        // Should be parallelable when forced FORCE_ON (if parallel streams supported)
         boolean result = Matrices.isParallelizable(m);
         assertNotNull(result);
     }
@@ -96,8 +96,8 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testIsParallelable_singleArg_forcedNo() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
-        Matrices.setParallelEnabled(ParallelEnabled.NO);
-        // Should not be parallelable when forced NO
+        Matrices.setParallelMode(ParallelMode.FORCE_OFF);
+        // Should not be parallelable when forced FORCE_OFF
         boolean result = Matrices.isParallelizable(m);
         assertFalse(result);
     }
@@ -105,7 +105,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testIsParallelable_twoArgs_smallCount() {
         IntMatrix m = IntMatrix.of(new int[10][10]);
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelMode(ParallelMode.AUTO);
         boolean result = Matrices.isParallelizable(m, 100);
         assertFalse(result);
     }
@@ -113,7 +113,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testIsParallelable_twoArgs_largeCount() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelMode(ParallelMode.AUTO);
         boolean result = Matrices.isParallelizable(m, 10000);
         // Result depends on IS_PARALLEL_STREAM_SUPPORTED
         assertNotNull(result);
@@ -122,7 +122,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testIsParallelable_twoArgs_exactThreshold() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelMode(ParallelMode.AUTO);
         boolean result = Matrices.isParallelizable(m, 8192);
         // At exact threshold should be parallelable
         assertNotNull(result);
@@ -131,7 +131,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testIsParallelable_twoArgs_belowThreshold() {
         IntMatrix m = IntMatrix.of(new int[100][100]);
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelMode(ParallelMode.AUTO);
         boolean result = Matrices.isParallelizable(m, 8191);
         assertFalse(result);
     }
@@ -301,35 +301,35 @@ public class Matrices2510Test extends TestBase {
         assertEquals(2, arr[0].length);
     }
 
-    // ============ run Tests (with ParallelEnabled) ============
+    // ============ run Tests (with ParallelMode) ============
 
     @Test
-    public void testRun_withParallelEnabled_executesCommand() {
+    public void testRun_withParallelMode_executesCommand() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrices.run(() -> counter.incrementAndGet(), ParallelEnabled.NO);
+        Matrices.runWithParallelMode(() -> counter.incrementAndGet(), ParallelMode.FORCE_OFF);
         assertEquals(1, counter.get());
     }
 
     @Test
-    public void testRun_withParallelEnabled_restoresOriginalSetting() {
-        Matrices.setParallelEnabled(ParallelEnabled.YES);
-        Matrices.run(() -> {
-            assertEquals(ParallelEnabled.NO, Matrices.getParallelEnabled());
-        }, ParallelEnabled.NO);
-        assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
+    public void testRun_withParallelMode_restoresOriginalSetting() {
+        Matrices.setParallelMode(ParallelMode.FORCE_ON);
+        Matrices.runWithParallelMode(() -> {
+            assertEquals(ParallelMode.FORCE_OFF, Matrices.getParallelMode());
+        }, ParallelMode.FORCE_OFF);
+        assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
     }
 
     @Test
-    public void testRun_withParallelEnabled_restoresOnException() {
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+    public void testRun_withParallelMode_restoresOnException() {
+        Matrices.setParallelMode(ParallelMode.AUTO);
         try {
-            Matrices.run(() -> {
+            Matrices.runWithParallelMode(() -> {
                 throw new RuntimeException("Test exception");
-            }, ParallelEnabled.YES);
+            }, ParallelMode.FORCE_ON);
         } catch (RuntimeException e) {
             // Expected
         }
-        assertEquals(ParallelEnabled.DEFAULT, Matrices.getParallelEnabled());
+        assertEquals(ParallelMode.AUTO, Matrices.getParallelMode());
     }
 
     // ============ run Tests (IntBiConsumer variants) ============
@@ -337,7 +337,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_basic() {
         List<String> positions = new ArrayList<>();
-        Matrices.run(2, 3, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndex(2, 3, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(6, positions.size());
         assertTrue(positions.contains("0,0"));
         assertTrue(positions.contains("1,2"));
@@ -346,21 +346,21 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_zeroRows() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrices.run(0, 3, (i, j) -> counter.incrementAndGet(), false);
+        Matrices.forEachIndex(0, 3, (i, j) -> counter.incrementAndGet(), false);
         assertEquals(0, counter.get());
     }
 
     @Test
     public void testRun_intBiConsumer_zeroCols() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrices.run(3, 0, (i, j) -> counter.incrementAndGet(), false);
+        Matrices.forEachIndex(3, 0, (i, j) -> counter.incrementAndGet(), false);
         assertEquals(0, counter.get());
     }
 
     @Test
     public void testRun_intBiConsumer_singleElement() {
         List<String> positions = new ArrayList<>();
-        Matrices.run(1, 1, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndex(1, 1, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(1, positions.size());
         assertEquals("0,0", positions.get(0));
     }
@@ -368,7 +368,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange() {
         List<String> positions = new ArrayList<>();
-        Matrices.run(1, 3, 2, 5, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndex(1, 3, 2, 5, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(6, positions.size()); // 2 rows * 3 columnCount
         assertTrue(positions.contains("1,2"));
         assertTrue(positions.contains("2,4"));
@@ -379,14 +379,14 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_emptyRange() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrices.run(2, 2, 3, 3, (i, j) -> counter.incrementAndGet(), false);
+        Matrices.forEachIndex(2, 2, 3, 3, (i, j) -> counter.incrementAndGet(), false);
         assertEquals(0, counter.get());
     }
 
     @Test
     public void testRun_intBiConsumer_withRange_invalidRowRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrices.run(5, 3, 0, 2, (i, j) -> {
+            Matrices.forEachIndex(5, 3, 0, 2, (i, j) -> {
             }, false);
         });
     }
@@ -394,7 +394,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_invalidColRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrices.run(0, 2, 5, 3, (i, j) -> {
+            Matrices.forEachIndex(0, 2, 5, 3, (i, j) -> {
             }, false);
         });
     }
@@ -402,7 +402,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_negativeIndex() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrices.run(-1, 2, 0, 2, (i, j) -> {
+            Matrices.forEachIndex(-1, 2, 0, 2, (i, j) -> {
             }, false);
         });
     }
@@ -411,7 +411,7 @@ public class Matrices2510Test extends TestBase {
 
     @Test
     public void testCall_basic() {
-        Stream<String> result = Matrices.call(2, 3, (i, j) -> i + "," + j, false);
+        Stream<String> result = Matrices.mapIndices(2, 3, (i, j) -> i + "," + j, false);
         List<String> positions = result.toList();
         assertEquals(6, positions.size());
         assertTrue(positions.contains("0,0"));
@@ -420,14 +420,14 @@ public class Matrices2510Test extends TestBase {
 
     @Test
     public void testCall_zeroSize() {
-        Stream<String> result = Matrices.call(0, 0, (i, j) -> i + "," + j, false);
+        Stream<String> result = Matrices.mapIndices(0, 0, (i, j) -> i + "," + j, false);
         List<String> positions = result.toList();
         assertEquals(0, positions.size());
     }
 
     @Test
     public void testCall_singleElement() {
-        Stream<Integer> result = Matrices.call(1, 1, (i, j) -> i * 10 + j, false);
+        Stream<Integer> result = Matrices.mapIndices(1, 1, (i, j) -> i * 10 + j, false);
         List<Integer> values = result.toList();
         assertEquals(1, values.size());
         assertEquals(0, values.get(0));
@@ -435,7 +435,7 @@ public class Matrices2510Test extends TestBase {
 
     @Test
     public void testCall_withRange() {
-        Stream<Integer> result = Matrices.call(1, 4, 2, 5, (i, j) -> i * 10 + j, false);
+        Stream<Integer> result = Matrices.mapIndices(1, 4, 2, 5, (i, j) -> i * 10 + j, false);
         List<Integer> values = result.toList();
         assertEquals(9, values.size()); // 3 rows * 3 columnCount
         assertTrue(values.contains(12)); // row 1, col 2
@@ -445,7 +445,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testCall_withRange_invalidRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrices.call(5, 3, 0, 2, (i, j) -> "test", false);
+            Matrices.mapIndices(5, 3, 0, 2, (i, j) -> "test", false);
         });
     }
 
@@ -453,7 +453,7 @@ public class Matrices2510Test extends TestBase {
 
     @Test
     public void testCallToInt_basic() {
-        IntStream result = Matrices.callToInt(2, 3, (i, j) -> i + j, false);
+        IntStream result = Matrices.mapIndicesToInt(2, 3, (i, j) -> i + j, false);
         int[] values = result.toArray();
         assertEquals(6, values.length);
         assertEquals(0, values[0]); // 0+0
@@ -462,14 +462,14 @@ public class Matrices2510Test extends TestBase {
 
     @Test
     public void testCallToInt_zeroSize() {
-        IntStream result = Matrices.callToInt(0, 0, (i, j) -> i + j, false);
+        IntStream result = Matrices.mapIndicesToInt(0, 0, (i, j) -> i + j, false);
         int[] values = result.toArray();
         assertEquals(0, values.length);
     }
 
     @Test
     public void testCallToInt_multiplication() {
-        IntStream result = Matrices.callToInt(2, 2, (i, j) -> i * j, false);
+        IntStream result = Matrices.mapIndicesToInt(2, 2, (i, j) -> i * j, false);
         int[] values = result.toArray();
         assertEquals(4, values.length);
         assertTrue(IntStream.of(values).anyMatch(v -> v == 0));
@@ -478,7 +478,7 @@ public class Matrices2510Test extends TestBase {
 
     @Test
     public void testCallToInt_withRange() {
-        IntStream result = Matrices.callToInt(0, 3, 0, 3, (i, j) -> i * 10 + j, false);
+        IntStream result = Matrices.mapIndicesToInt(0, 3, 0, 3, (i, j) -> i * 10 + j, false);
         int[] values = result.toArray();
         assertEquals(9, values.length);
         assertTrue(IntStream.of(values).anyMatch(v -> v == 0));
@@ -488,7 +488,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testCallToInt_withRange_invalidRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrices.callToInt(3, 1, 0, 2, (i, j) -> i + j, false);
+            Matrices.mapIndicesToInt(3, 1, 0, 2, (i, j) -> i + j, false);
         });
     }
 
@@ -1074,7 +1074,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testCall_largeMatrix() {
         // Test with larger dimensions to verify iteration logic
-        Stream<Integer> result = Matrices.call(10, 20, (i, j) -> i * 100 + j, false);
+        Stream<Integer> result = Matrices.mapIndices(10, 20, (i, j) -> i * 100 + j, false);
         List<Integer> values = result.toList();
         assertEquals(200, values.size());
         assertTrue(values.contains(0)); // 0*100 + 0
@@ -1083,7 +1083,7 @@ public class Matrices2510Test extends TestBase {
 
     @Test
     public void testCallToInt_largeMatrix() {
-        IntStream result = Matrices.callToInt(10, 20, (i, j) -> i * 100 + j, false);
+        IntStream result = Matrices.mapIndicesToInt(10, 20, (i, j) -> i * 100 + j, false);
         int[] values = result.toArray();
         assertEquals(200, values.length);
         assertEquals(0, values[0]);

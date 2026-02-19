@@ -39,7 +39,7 @@ import com.landawn.abacus.util.stream.Stream;
  * boolean same = Matrices.isSameShape(matrixA, matrixB);
  * 
  * // Enable parallel processing
- * Matrices.setParallelEnabled(ParallelEnabled.YES);
+ * Matrices.setParallelMode(ParallelMode.FORCE_ON);
  * 
  * // Zip two matrices with a custom function
  * IntMatrix result = Matrices.zip(matrix1, matrix2, (a, b) -> a + b);
@@ -47,7 +47,7 @@ import com.landawn.abacus.util.stream.Stream;
  * 
  * @see AbstractMatrix
  * @see Matrix
- * @see ParallelEnabled
+ * @see ParallelMode
  */
 public final class Matrices {
 
@@ -56,7 +56,7 @@ public final class Matrices {
     static final int MIN_COUNT_FOR_PARALLEL = 8192;
 
     static final boolean IS_PARALLEL_STREAM_SUPPORTED;
-    static final ThreadLocal<ParallelEnabled> isParallelEnabled_TL = ThreadLocal.withInitial(() -> ParallelEnabled.DEFAULT);
+    static final ThreadLocal<ParallelMode> PARALLEL_MODE_TL = ThreadLocal.withInitial(() -> ParallelMode.AUTO);
 
     static {
         boolean tmp = false;
@@ -87,26 +87,26 @@ public final class Matrices {
      * <p>The returned value indicates how matrix operations should decide whether to use
      * parallel processing:</p>
      * <ul>
-     * <li>{@link ParallelEnabled#YES} - Forces parallel execution regardless of matrix size</li>
-     * <li>{@link ParallelEnabled#NO} - Forces sequential execution regardless of matrix size</li>
-     * <li>{@link ParallelEnabled#DEFAULT} - Automatically decides based on matrix size (threshold: 8192 elements)</li>
+     * <li>{@link ParallelMode#FORCE_ON} - Forces parallel execution regardless of matrix size</li>
+     * <li>{@link ParallelMode#FORCE_OFF} - Forces sequential execution regardless of matrix size</li>
+     * <li>{@link ParallelMode#AUTO} - Automatically decides based on matrix size (threshold: 8192 elements)</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ParallelEnabled current = Matrices.getParallelEnabled();
+     * ParallelMode current = Matrices.getParallelMode();
      * // Check current setting before changing it
-     * if (current == ParallelEnabled.DEFAULT) {
-     *     Matrices.setParallelEnabled(ParallelEnabled.YES);
+     * if (current == ParallelMode.AUTO) {
+     *     Matrices.setParallelMode(ParallelMode.FORCE_ON);
      * }
      * }</pre>
      *
-     * @return the current {@link ParallelEnabled} setting for this thread, never {@code null}
-     * @see #setParallelEnabled(ParallelEnabled)
-     * @see ParallelEnabled
+     * @return the current {@link ParallelMode} setting for this thread, never {@code null}
+     * @see #setParallelMode(ParallelMode)
+     * @see ParallelMode
      */
-    public static ParallelEnabled getParallelEnabled() {
-        return isParallelEnabled_TL.get();
+    public static ParallelMode getParallelMode() {
+        return PARALLEL_MODE_TL.get();
     }
 
     /**
@@ -118,37 +118,37 @@ public final class Matrices {
      *
      * <p>Available settings:</p>
      * <ul>
-     * <li>{@link ParallelEnabled#YES} - Forces all matrix operations to use parallel processing,
+     * <li>{@link ParallelMode#FORCE_ON} - Forces all matrix operations to use parallel processing,
      *     regardless of matrix size. Use this when you know operations will benefit from parallelization.</li>
-     * <li>{@link ParallelEnabled#NO} - Forces all matrix operations to use sequential processing,
+     * <li>{@link ParallelMode#FORCE_OFF} - Forces all matrix operations to use sequential processing,
      *     regardless of matrix size. Use this to avoid parallelization overhead for small matrices.</li>
-     * <li>{@link ParallelEnabled#DEFAULT} - Automatically decides based on matrix size. Operations
+     * <li>{@link ParallelMode#AUTO} - Automatically decides based on matrix size. Operations
      *     on matrices with 8192 or more elements use parallel processing; smaller matrices use sequential processing.</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Force parallel execution for large matrix operations
-     * Matrices.setParallelEnabled(ParallelEnabled.YES);
+     * Matrices.setParallelMode(ParallelMode.FORCE_ON);
      * try {
      *     // All matrix operations here will use parallel processing
      *     matrix1.multiply(matrix2);
      *     matrix3.add(matrix4);
      * } finally {
      *     // Always reset to default to avoid affecting other code
-     *     Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+     *     Matrices.setParallelMode(ParallelMode.AUTO);
      * }
      * }</pre>
      *
-     * @param flag the {@link ParallelEnabled} setting to apply to the current thread, must not be {@code null}
+     * @param flag the {@link ParallelMode} setting to apply to the current thread, must not be {@code null}
      * @throws IllegalArgumentException if {@code flag} is {@code null}
-     * @see #getParallelEnabled()
-     * @see ParallelEnabled
+     * @see #getParallelMode()
+     * @see ParallelMode
      */
-    public static void setParallelEnabled(final ParallelEnabled flag) throws IllegalArgumentException {
+    public static void setParallelMode(final ParallelMode flag) throws IllegalArgumentException {
         N.checkArgNotNull(flag);
 
-        isParallelEnabled_TL.set(flag);
+        PARALLEL_MODE_TL.set(flag);
     }
 
     /**
@@ -157,7 +157,7 @@ public final class Matrices {
      * <p>This method evaluates whether parallel processing should be used for operations on the
      * specified matrix based on its total element count. The decision considers:</p>
      * <ul>
-     * <li>The current thread's {@link ParallelEnabled} setting</li>
+     * <li>The current thread's {@link ParallelMode} setting</li>
      * <li>Whether parallel stream support is available in the runtime environment</li>
      * <li>The total number of elements in the matrix (rows × columns)</li>
      * </ul>
@@ -177,7 +177,7 @@ public final class Matrices {
      * @return {@code true} if parallel processing should be used for this matrix; {@code false} for sequential processing
      * @throws IllegalArgumentException if {@code x} is {@code null}
      * @see #isParallelizable(AbstractMatrix, long)
-     * @see #setParallelEnabled(ParallelEnabled)
+     * @see #setParallelMode(ParallelMode)
      */
     public static boolean isParallelizable(final AbstractMatrix<?, ?, ?, ?, ?> x) {
         N.checkArgNotNull(x, "x");
@@ -192,14 +192,14 @@ public final class Matrices {
      * <ol>
      * <li><b>Runtime Support:</b> Parallel streams must be available in the runtime environment.
      *     If not supported, always returns {@code false}.</li>
-     * <li><b>Thread Setting:</b> Checks the current thread's {@link ParallelEnabled} setting:
+     * <li><b>Thread Setting:</b> Checks the current thread's {@link ParallelMode} setting:
      *     <ul>
-     *     <li>{@link ParallelEnabled#YES} - Always returns {@code true} (if runtime supports it)</li>
-     *     <li>{@link ParallelEnabled#NO} - Always returns {@code false}</li>
-     *     <li>{@link ParallelEnabled#DEFAULT} - Decides based on element count</li>
+     *     <li>{@link ParallelMode#FORCE_ON} - Always returns {@code true} (if runtime supports it)</li>
+     *     <li>{@link ParallelMode#FORCE_OFF} - Always returns {@code false}</li>
+     *     <li>{@link ParallelMode#AUTO} - Decides based on element count</li>
      *     </ul>
      * </li>
-     * <li><b>Element Count:</b> When using {@code DEFAULT} setting, returns {@code true} only if
+     * <li><b>Element Count:</b> When using {@code AUTO} setting, returns {@code true} only if
      *     {@code count >= 8192}. This threshold balances the overhead of parallel execution
      *     against the performance benefits for larger datasets.</li>
      * </ol>
@@ -215,13 +215,13 @@ public final class Matrices {
      * @param count the number of elements to process; typically the total element count or a subset being operated on
      * @return {@code true} if parallel processing should be used; {@code false} for sequential processing
      * @throws IllegalArgumentException if {@code x} is {@code null}
-     * @see #setParallelEnabled(ParallelEnabled)
-     * @see ParallelEnabled
+     * @see #setParallelMode(ParallelMode)
+     * @see ParallelMode
      */
     public static boolean isParallelizable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
         N.checkArgNotNull(x, "x");
-        return IS_PARALLEL_STREAM_SUPPORTED && (Matrices.isParallelEnabled_TL.get() == ParallelEnabled.YES
-                || (Matrices.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
+        return IS_PARALLEL_STREAM_SUPPORTED && (Matrices.PARALLEL_MODE_TL.get() == ParallelMode.FORCE_ON
+                || (Matrices.PARALLEL_MODE_TL.get() == ParallelMode.AUTO && count >= MIN_COUNT_FOR_PARALLEL));
     }
 
     /**
@@ -390,7 +390,7 @@ public final class Matrices {
      *
      * <p>This method provides a safe way to temporarily change the parallel processing behavior
      * for a specific operation without affecting the thread-local setting for subsequent operations.
-     * The original {@link ParallelEnabled} setting is always restored, even if the command throws
+     * The original {@link ParallelMode} setting is always restored, even if the command throws
      * an exception.</p>
      *
      * <p>This is particularly useful when you need to force parallel or sequential execution for
@@ -399,37 +399,37 @@ public final class Matrices {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Force parallel execution for specific operations
-     * Matrices.run(() -> {
+     * Matrices.runWithParallelMode(() -> {
      *     // This operation will use parallel processing
      *     matrix1.multiply(matrix2);
      *     matrix3.add(matrix4);
-     * }, ParallelEnabled.YES);
+     * }, ParallelMode.FORCE_ON);
      *
      * // After execution, the original setting is restored
      *
      * // Force sequential execution for small operations
-     * Matrices.run(() -> {
+     * Matrices.runWithParallelMode(() -> {
      *     smallMatrix.transpose();
-     * }, ParallelEnabled.NO);
+     * }, ParallelMode.FORCE_OFF);
      * }</pre>
      *
      * @param <E> the type of exception that the command might throw
      * @param cmd the command to execute, must not be {@code null}
-     * @param parallelEnabled the temporary {@link ParallelEnabled} setting to use during command execution
+     * @param parallelMode the temporary {@link ParallelMode} setting to use during command execution
      * @throws E if the command throws an exception during execution
-     * @see #setParallelEnabled(ParallelEnabled)
-     * @see #getParallelEnabled()
+     * @see #setParallelMode(ParallelMode)
+     * @see #getParallelMode()
      */
-    public static <E extends Exception> void run(final Throwables.Runnable<E> cmd, final ParallelEnabled parallelEnabled) throws E {
+    public static <E extends Exception> void runWithParallelMode(final Throwables.Runnable<E> cmd, final ParallelMode parallelMode) throws E {
         N.checkArgNotNull(cmd, "cmd");
 
-        final ParallelEnabled original = Matrices.getParallelEnabled();
-        Matrices.setParallelEnabled(parallelEnabled);
+        final ParallelMode original = Matrices.getParallelMode();
+        Matrices.setParallelMode(parallelMode);
 
         try {
             cmd.run();
         } finally {
-            Matrices.setParallelEnabled(original);
+            Matrices.setParallelMode(original);
         }
     }
 
@@ -442,18 +442,18 @@ public final class Matrices {
      * improve cache locality.</p>
      *
      * <p>This is a convenience method that delegates to
-     * {@link #run(int, int, int, int, Throwables.IntBiConsumer, boolean)} with the full
+     * {@link #forEachIndex(int, int, int, int, Throwables.IntBiConsumer, boolean)} with the full
      * range of rows and columns (starting from 0).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Print all positions in a 3×4 matrix
-     * Matrices.run(3, 4, (i, j) ->
+     * Matrices.forEachIndex(3, 4, (i, j) ->
      *     System.out.println("(" + i + "," + j + ")"), false);
      *
      * // Initialize a result array in parallel
      * int[][] result = new int[100][100];
-     * Matrices.run(100, 100, (i, j) ->
+     * Matrices.forEachIndex(100, 100, (i, j) ->
      *     result[i][j] = i * j, true);
      * }</pre>
      *
@@ -464,13 +464,13 @@ public final class Matrices {
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @throws IllegalArgumentException if {@code rowCount} or {@code columnCount} is negative, or if {@code cmd} is {@code null}
      * @throws E if the command throws an exception during execution
-     * @see #run(int, int, int, int, Throwables.IntBiConsumer, boolean)
+     * @see #forEachIndex(int, int, int, int, Throwables.IntBiConsumer, boolean)
      */
-    public static <E extends Exception> void run(final int rowCount, final int columnCount, final Throwables.IntBiConsumer<E> cmd, final boolean inParallel)
-            throws E {
+    public static <E extends Exception> void forEachIndex(final int rowCount, final int columnCount, final Throwables.IntBiConsumer<E> cmd,
+            final boolean inParallel) throws E {
         N.checkArgNotNull(cmd, "cmd");
 
-        run(0, rowCount, 0, columnCount, cmd, inParallel);
+        forEachIndex(0, rowCount, 0, columnCount, cmd, inParallel);
     }
 
     /**
@@ -493,7 +493,7 @@ public final class Matrices {
      * <pre>{@code
      * // Process a subregion of a matrix
      * int[][] result = new int[10][10];
-     * Matrices.run(2, 5, 3, 8, (i, j) -> result[i][j] = i + j, false);
+     * Matrices.forEachIndex(2, 5, 3, 8, (i, j) -> result[i][j] = i + j, false);
      * }</pre>
      *
      * @param <E> the type of exception that the command might throw
@@ -507,7 +507,7 @@ public final class Matrices {
      * @throws IllegalArgumentException if {@code cmd} is {@code null}
      * @throws E if the command throws an exception during execution
      */
-    public static <E extends Exception> void run(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+    public static <E extends Exception> void forEachIndex(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E {
         N.checkArgNotNull(cmd, "cmd");
 
@@ -558,17 +558,17 @@ public final class Matrices {
      * is optimized based on the relative sizes of rows and columns.</p>
      *
      * <p>This is a convenience method that delegates to
-     * {@link #call(int, int, int, int, Throwables.IntBiFunction, boolean)} with the full
+     * {@link #mapIndices(int, int, int, int, Throwables.IntBiFunction, boolean)} with the full
      * range of rows and columns (starting from 0).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Generate coordinates as strings
-     * Stream<String> coords = Matrices.call(2, 3, (i, j) -> i + "," + j, false);
+     * Stream<String> coords = Matrices.mapIndices(2, 3, (i, j) -> i + "," + j, false);
      * // Results: "0,0", "0,1", "0,2", "1,0", "1,1", "1,2"
      *
      * // Create Point objects for each position
-     * Stream<Point> points = Matrices.call(10, 10, (i, j) -> new Point(i, j), true);
+     * Stream<Point> points = Matrices.mapIndices(10, 10, (i, j) -> new Point(i, j), true);
      * }</pre>
      *
      * @param <T> the type of elements in the result stream
@@ -579,13 +579,13 @@ public final class Matrices {
      * @return a {@link Stream} of results from applying the function at each position, never {@code null}
      * @throws IllegalArgumentException if {@code cmd} is {@code null}
      * @throws IndexOutOfBoundsException if {@code rowCount} or {@code columnCount} is negative
-     * @see #call(int, int, int, int, Throwables.IntBiFunction, boolean)
+     * @see #mapIndices(int, int, int, int, Throwables.IntBiFunction, boolean)
      */
-    public static <T> Stream<T> call(final int rowCount, final int columnCount, final Throwables.IntBiFunction<? extends T, ? extends Exception> cmd,
+    public static <T> Stream<T> mapIndices(final int rowCount, final int columnCount, final Throwables.IntBiFunction<? extends T, ? extends Exception> cmd,
             final boolean inParallel) {
         N.checkArgNotNull(cmd, "cmd");
 
-        return call(0, rowCount, 0, columnCount, cmd, inParallel);
+        return mapIndices(0, rowCount, 0, columnCount, cmd, inParallel);
     }
 
     /**
@@ -605,7 +605,7 @@ public final class Matrices {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Stream<String> coords = Matrices.call(1, 4, 2, 5,
+     * Stream<String> coords = Matrices.mapIndices(1, 4, 2, 5,
      *     (i, j) -> i + "," + j, false);
      * // Generates coordinates for subregion
      * }</pre>
@@ -622,7 +622,7 @@ public final class Matrices {
      * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex is less than fromRowIndex or toColumnIndex is less than fromColumnIndex
      */
     @SuppressWarnings("resource")
-    public static <T> Stream<T> call(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+    public static <T> Stream<T> mapIndices(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntBiFunction<? extends T, ? extends Exception> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
@@ -671,12 +671,12 @@ public final class Matrices {
      * This is optimized for primitive {@code int} operations, avoiding boxing overhead.</p>
      *
      * <p>This is a convenience method that delegates to
-     * {@link #callToInt(int, int, int, int, Throwables.IntBinaryOperator, boolean)} with the
+     * {@link #mapIndicesToInt(int, int, int, int, Throwables.IntBinaryOperator, boolean)} with the
      * full range of rows and columns (starting from 0).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntStream sums = Matrices.callToInt(3, 4, (i, j) -> i + j, false);
+     * IntStream sums = Matrices.mapIndicesToInt(3, 4, (i, j) -> i + j, false);
      * // Generates sum of indices for each position
      * }</pre>
      *
@@ -687,13 +687,13 @@ public final class Matrices {
      * @return an {@link IntStream} of results from applying the function at each position, never {@code null}
      * @throws IllegalArgumentException if {@code cmd} is {@code null}
      * @throws IndexOutOfBoundsException if {@code rowCount} or {@code columnCount} is negative
-     * @see #callToInt(int, int, int, int, Throwables.IntBinaryOperator, boolean)
+     * @see #mapIndicesToInt(int, int, int, int, Throwables.IntBinaryOperator, boolean)
      */
-    public static IntStream callToInt(final int rowCount, final int columnCount, final Throwables.IntBinaryOperator<? extends Exception> cmd,
+    public static IntStream mapIndicesToInt(final int rowCount, final int columnCount, final Throwables.IntBinaryOperator<? extends Exception> cmd,
             final boolean inParallel) {
         N.checkArgNotNull(cmd, "cmd");
 
-        return callToInt(0, rowCount, 0, columnCount, cmd, inParallel);
+        return mapIndicesToInt(0, rowCount, 0, columnCount, cmd, inParallel);
     }
 
     /**
@@ -710,7 +710,7 @@ public final class Matrices {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntStream products = Matrices.callToInt(1, 4, 2, 5,
+     * IntStream products = Matrices.mapIndicesToInt(1, 4, 2, 5,
      *     (i, j) -> i * j, false);
      * }</pre>
      *
@@ -725,7 +725,7 @@ public final class Matrices {
      * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex is less than fromRowIndex or toColumnIndex is less than fromColumnIndex
      */
     @SuppressWarnings("resource")
-    public static IntStream callToInt(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+    public static IntStream mapIndicesToInt(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntBinaryOperator<? extends Exception> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
@@ -1107,7 +1107,7 @@ public final class Matrices {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new ByteMatrix(result);
     }
@@ -1213,7 +1213,7 @@ public final class Matrices {
             result[i][j] = zipFunction.apply(tmp);
         };
 
-        run(rowCount, columnCount, cmd, zipInParallel);
+        forEachIndex(rowCount, columnCount, cmd, zipInParallel);
 
         return new Matrix<>(result);
     }
@@ -1261,7 +1261,7 @@ public final class Matrices {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new IntMatrix(result);
     }
@@ -1317,7 +1317,7 @@ public final class Matrices {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new IntMatrix(result);
     }
@@ -1428,7 +1428,7 @@ public final class Matrices {
             result[i][j] = zipFunction.apply(tmp);
         };
 
-        run(rowCount, columnCount, cmd, zipInParallel);
+        forEachIndex(rowCount, columnCount, cmd, zipInParallel);
 
         return new IntMatrix(result);
     }
@@ -1574,7 +1574,7 @@ public final class Matrices {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new IntMatrix(result);
     }
@@ -1686,7 +1686,7 @@ public final class Matrices {
             result[i][j] = zipFunction.apply(tmp);
         };
 
-        run(rowCount, columnCount, cmd, zipInParallel);
+        forEachIndex(rowCount, columnCount, cmd, zipInParallel);
 
         return new Matrix<>(result);
     }
@@ -1731,7 +1731,7 @@ public final class Matrices {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new LongMatrix(result);
     }
@@ -1781,7 +1781,7 @@ public final class Matrices {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new LongMatrix(result);
     }
@@ -1878,7 +1878,7 @@ public final class Matrices {
             result[i][j] = zipFunction.apply(tmp);
         };
 
-        run(rowCount, columnCount, cmd, zipInParallel);
+        forEachIndex(rowCount, columnCount, cmd, zipInParallel);
 
         return new LongMatrix(result);
     }
@@ -1921,7 +1921,7 @@ public final class Matrices {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -1968,7 +1968,7 @@ public final class Matrices {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -2059,7 +2059,7 @@ public final class Matrices {
             result[i][j] = zipFunction.apply(tmp);
         };
 
-        run(rowCount, columnCount, cmd, zipInParallel);
+        forEachIndex(rowCount, columnCount, cmd, zipInParallel);
 
         return new DoubleMatrix(result);
     }
@@ -2192,7 +2192,7 @@ public final class Matrices {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new LongMatrix(result);
     }
@@ -2292,7 +2292,7 @@ public final class Matrices {
             result[i][j] = zipFunction.apply(tmp);
         };
 
-        run(rowCount, columnCount, cmd, zipInParallel);
+        forEachIndex(rowCount, columnCount, cmd, zipInParallel);
 
         return new Matrix<>(result);
     }
@@ -2337,7 +2337,7 @@ public final class Matrices {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -2386,7 +2386,7 @@ public final class Matrices {
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(aa[i][j], ba[i][j], ca[i][j]);
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(a));
 
         return new DoubleMatrix(result);
     }
@@ -2477,7 +2477,7 @@ public final class Matrices {
             result[i][j] = zipFunction.apply(tmp);
         };
 
-        run(rowCount, columnCount, cmd, zipInParallel);
+        forEachIndex(rowCount, columnCount, cmd, zipInParallel);
 
         return new DoubleMatrix(result);
     }
@@ -2611,7 +2611,7 @@ public final class Matrices {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new DoubleMatrix(result);
     }
@@ -2712,7 +2712,7 @@ public final class Matrices {
             result[i][j] = zipFunction.apply(tmp);
         };
 
-        run(rowCount, columnCount, cmd, zipInParallel);
+        forEachIndex(rowCount, columnCount, cmd, zipInParallel);
 
         return new Matrix<>(result);
     }
@@ -2953,7 +2953,7 @@ public final class Matrices {
             }
         };
 
-        run(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
+        forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(matrices[0]));
 
         return new Matrix<>(result);
     }
@@ -3077,7 +3077,7 @@ public final class Matrices {
             result[i][j] = zipFunction.apply(tmp);
         };
 
-        run(rowCount, columnCount, cmd, zipInParallel);
+        forEachIndex(rowCount, columnCount, cmd, zipInParallel);
 
         return new Matrix<>(result);
     }

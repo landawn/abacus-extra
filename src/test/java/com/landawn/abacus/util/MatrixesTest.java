@@ -77,36 +77,36 @@ class MatricesTest extends TestBase {
     @AfterEach
     public void tearDown() {
         // Reset parallel enabled to default
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
+        Matrices.setParallelMode(ParallelMode.AUTO);
     }
 
     @Test
-    public void testGetParallelEnabled() {
+    public void testGetParallelMode() {
         // Test default value
-        assertEquals(ParallelEnabled.DEFAULT, Matrices.getParallelEnabled());
+        assertEquals(ParallelMode.AUTO, Matrices.getParallelMode());
 
         // Test after setting
-        Matrices.setParallelEnabled(ParallelEnabled.YES);
-        assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
+        Matrices.setParallelMode(ParallelMode.FORCE_ON);
+        assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
 
-        Matrices.setParallelEnabled(ParallelEnabled.NO);
-        assertEquals(ParallelEnabled.NO, Matrices.getParallelEnabled());
+        Matrices.setParallelMode(ParallelMode.FORCE_OFF);
+        assertEquals(ParallelMode.FORCE_OFF, Matrices.getParallelMode());
     }
 
     @Test
-    public void testSetParallelEnabled() {
+    public void testSetParallelMode() {
         // Test setting different values
-        Matrices.setParallelEnabled(ParallelEnabled.YES);
-        assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
+        Matrices.setParallelMode(ParallelMode.FORCE_ON);
+        assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
 
-        Matrices.setParallelEnabled(ParallelEnabled.NO);
-        assertEquals(ParallelEnabled.NO, Matrices.getParallelEnabled());
+        Matrices.setParallelMode(ParallelMode.FORCE_OFF);
+        assertEquals(ParallelMode.FORCE_OFF, Matrices.getParallelMode());
 
-        Matrices.setParallelEnabled(ParallelEnabled.DEFAULT);
-        assertEquals(ParallelEnabled.DEFAULT, Matrices.getParallelEnabled());
+        Matrices.setParallelMode(ParallelMode.AUTO);
+        assertEquals(ParallelMode.AUTO, Matrices.getParallelMode());
 
         // Test null argument
-        assertThrows(IllegalArgumentException.class, () -> Matrices.setParallelEnabled(null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.setParallelMode(null));
     }
 
     @Test
@@ -116,11 +116,11 @@ class MatricesTest extends TestBase {
         assertFalse(Matrices.isParallelizable(smallMatrix));
 
         // Test with forced parallel enabled
-        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        Matrices.setParallelMode(ParallelMode.FORCE_ON);
         assertTrue(Matrices.isParallelizable(smallMatrix));
 
         // Test with forced parallel disabled
-        Matrices.setParallelEnabled(ParallelEnabled.NO);
+        Matrices.setParallelMode(ParallelMode.FORCE_OFF);
         assertFalse(Matrices.isParallelizable(smallMatrix));
     }
 
@@ -136,10 +136,10 @@ class MatricesTest extends TestBase {
         assertTrue(result || !result); // Depends on IS_PARALLEL_STREAM_SUPPORTED
 
         // Test with forced settings
-        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        Matrices.setParallelMode(ParallelMode.FORCE_ON);
         assertTrue(Matrices.isParallelizable(matrix, 1));
 
-        Matrices.setParallelEnabled(ParallelEnabled.NO);
+        Matrices.setParallelMode(ParallelMode.FORCE_OFF);
         assertFalse(Matrices.isParallelizable(matrix, 100000));
     }
 
@@ -205,49 +205,49 @@ class MatricesTest extends TestBase {
     }
 
     @Test
-    public void testRunWithParallelEnabled() throws Exception {
+    public void testRunWithParallelMode() throws Exception {
         // Test that parallel setting is restored after execution
-        ParallelEnabled original = Matrices.getParallelEnabled();
+        ParallelMode original = Matrices.getParallelMode();
 
-        Matrices.run(() -> {
-            assertEquals(ParallelEnabled.YES, Matrices.getParallelEnabled());
-        }, ParallelEnabled.YES);
+        Matrices.runWithParallelMode(() -> {
+            assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
+        }, ParallelMode.FORCE_ON);
 
-        assertEquals(original, Matrices.getParallelEnabled());
+        assertEquals(original, Matrices.getParallelMode());
 
         // Test with exception
         assertThrows(RuntimeException.class, () -> {
-            Matrices.run(() -> {
+            Matrices.runWithParallelMode(() -> {
                 throw new RuntimeException("Test exception");
-            }, ParallelEnabled.NO);
+            }, ParallelMode.FORCE_OFF);
         });
 
         // Verify setting is still restored after exception
-        assertEquals(original, Matrices.getParallelEnabled());
+        assertEquals(original, Matrices.getParallelMode());
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testRunWithNullCommand() {
-        assertThrows(IllegalArgumentException.class, () -> Matrices.run((Throwables.Runnable<RuntimeException>) null, ParallelEnabled.NO));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.run(2, 3, (Throwables.IntBiConsumer<RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.run(0, 2, 0, 2, (Throwables.IntBiConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.runWithParallelMode((Throwables.Runnable<RuntimeException>) null, ParallelMode.FORCE_OFF));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachIndex(2, 3, (Throwables.IntBiConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachIndex(0, 2, 0, 2, (Throwables.IntBiConsumer<RuntimeException>) null, false));
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void testCallWithNullCommand() {
-        assertThrows(IllegalArgumentException.class, () -> Matrices.call(2, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.call(0, 2, 0, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.callToInt(2, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.callToInt(0, 2, 0, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.mapIndices(2, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.mapIndices(0, 2, 0, 3, (Throwables.IntBiFunction<String, RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.mapIndicesToInt(2, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.mapIndicesToInt(0, 2, 0, 3, (Throwables.IntBinaryOperator<RuntimeException>) null, false));
     }
 
     @Test
     public void testRunWithRowsColsAndCommand() throws Exception {
         // Test sequential execution
         int[][] result = new int[2][3];
-        Matrices.run(2, 3, (i, j) -> result[i][j] = i * 10 + j, false);
+        Matrices.forEachIndex(2, 3, (i, j) -> result[i][j] = i * 10 + j, false);
 
         assertEquals(0, result[0][0]);
         assertEquals(1, result[0][1]);
@@ -258,7 +258,7 @@ class MatricesTest extends TestBase {
 
         // Test parallel execution
         int[][] parallelResult = new int[2][3];
-        Matrices.run(2, 3, (i, j) -> parallelResult[i][j] = i * 10 + j, true);
+        Matrices.forEachIndex(2, 3, (i, j) -> parallelResult[i][j] = i * 10 + j, true);
 
         assertEquals(0, parallelResult[0][0]);
         assertEquals(1, parallelResult[0][1]);
@@ -272,7 +272,7 @@ class MatricesTest extends TestBase {
     public void testRunWithIndicesAndCommand() throws Exception {
         // Test with subregion
         int[][] result = new int[4][4];
-        Matrices.run(1, 3, 1, 3, (i, j) -> result[i][j] = i * 10 + j, false);
+        Matrices.forEachIndex(1, 3, 1, 3, (i, j) -> result[i][j] = i * 10 + j, false);
 
         assertEquals(0, result[0][0]); // Not touched
         assertEquals(11, result[1][1]);
@@ -282,14 +282,14 @@ class MatricesTest extends TestBase {
         assertEquals(0, result[3][3]); // Not touched
 
         // Test with invalid indices
-        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.run(2, 1, 0, 2, (i, j) -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.forEachIndex(2, 1, 0, 2, (i, j) -> {
         }, false));
     }
 
     @Test
     public void testCall() {
         // Test sequential call
-        List<String> results = Matrices.call(2, 3, (i, j) -> i + "," + j, false).toList();
+        List<String> results = Matrices.mapIndices(2, 3, (i, j) -> i + "," + j, false).toList();
 
         assertEquals(6, results.size());
         assertTrue(results.contains("0,0"));
@@ -300,7 +300,7 @@ class MatricesTest extends TestBase {
         assertTrue(results.contains("1,2"));
 
         // Test parallel call
-        List<Integer> parallelResults = Matrices.call(3, 2, (i, j) -> i * 10 + j, true).toList();
+        List<Integer> parallelResults = Matrices.mapIndices(3, 2, (i, j) -> i * 10 + j, true).toList();
 
         assertEquals(6, parallelResults.size());
         assertTrue(parallelResults.contains(0));
@@ -314,7 +314,7 @@ class MatricesTest extends TestBase {
     @Test
     public void testCallWithIndices() {
         // Test with subregion
-        List<String> results = Matrices.call(1, 3, 1, 3, (i, j) -> i + "," + j, false).toList();
+        List<String> results = Matrices.mapIndices(1, 3, 1, 3, (i, j) -> i + "," + j, false).toList();
 
         assertEquals(4, results.size());
         assertTrue(results.contains("1,1"));
@@ -323,13 +323,13 @@ class MatricesTest extends TestBase {
         assertTrue(results.contains("2,2"));
 
         // Test with invalid indices
-        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.call(2, 1, 0, 2, (i, j) -> "", false));
+        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.mapIndices(2, 1, 0, 2, (i, j) -> "", false));
     }
 
     @Test
     public void testCallToInt() {
         // Test sequential
-        int[] results = Matrices.callToInt(2, 3, (i, j) -> i * 10 + j, false).toArray();
+        int[] results = Matrices.mapIndicesToInt(2, 3, (i, j) -> i * 10 + j, false).toArray();
 
         assertEquals(6, results.length);
         assertTrue(IntStream.of(results).anyMatch(x -> x == 0));
@@ -340,7 +340,7 @@ class MatricesTest extends TestBase {
         assertTrue(IntStream.of(results).anyMatch(x -> x == 12));
 
         // Test parallel
-        int[] parallelResults = Matrices.callToInt(3, 2, (i, j) -> i + j, true).toArray();
+        int[] parallelResults = Matrices.mapIndicesToInt(3, 2, (i, j) -> i + j, true).toArray();
 
         assertEquals(6, parallelResults.length);
     }
@@ -348,7 +348,7 @@ class MatricesTest extends TestBase {
     @Test
     public void testCallToIntWithIndices() {
         // Test with subregion
-        int[] results = Matrices.callToInt(1, 3, 1, 3, (i, j) -> i * 10 + j, false).toArray();
+        int[] results = Matrices.mapIndicesToInt(1, 3, 1, 3, (i, j) -> i * 10 + j, false).toArray();
 
         assertEquals(4, results.length);
         assertTrue(IntStream.of(results).anyMatch(x -> x == 11));
@@ -694,8 +694,8 @@ class MatricesTest extends TestBase {
     public void testZipNullArguments() {
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteBinaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteNFunction<Integer, RuntimeException>) null, false, Integer.class));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2),
+                (Throwables.ByteNFunction<Integer, RuntimeException>) null, false, Integer.class));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), arr -> (int) arr[0], false, (Class<Integer>) null));
         assertThrows(IllegalArgumentException.class,
@@ -711,8 +711,7 @@ class MatricesTest extends TestBase {
                 () -> Matrices.zip(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Integer, RuntimeException>) null, false, Integer.class));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zip(CommonUtil.asList(intMatrix1, intMatrix2), arr -> arr[0], false, (Class<Integer>) null));
-        assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zipToLong(intMatrix1, intMatrix2, (Throwables.IntBiFunction<Long, RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zipToLong(intMatrix1, intMatrix2, (Throwables.IntBiFunction<Long, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zipToLong(intMatrix1, intMatrix2, intMatrix3, (Throwables.IntTriFunction<Long, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
@@ -728,8 +727,7 @@ class MatricesTest extends TestBase {
                 () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongBinaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongNFunction<Long, RuntimeException>) null, false, Long.class));
-        assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), arr -> arr[0], false, (Class<Long>) null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), arr -> arr[0], false, (Class<Long>) null));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zipToDouble(longMatrix1, longMatrix2, (Throwables.LongBiFunction<Double, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
@@ -739,17 +737,15 @@ class MatricesTest extends TestBase {
 
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), (Throwables.DoubleBinaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), (Throwables.DoubleNFunction<Double, RuntimeException>) null, false,
-                        Double.class));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2),
+                (Throwables.DoubleNFunction<Double, RuntimeException>) null, false, Double.class));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), arr -> arr[0], false, (Class<Double>) null));
 
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), (Throwables.BinaryOperator<String, RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), (Throwables.Function<String[], String, RuntimeException>) null, false,
-                        String.class));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2),
+                (Throwables.Function<String[], String, RuntimeException>) null, false, String.class));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), arr -> arr[0], false, (Class<String>) null));
     }
@@ -783,7 +779,7 @@ class MatricesTest extends TestBase {
         IntMatrix large2 = IntMatrix.of(largeData2);
 
         // Force parallel processing
-        Matrices.setParallelEnabled(ParallelEnabled.YES);
+        Matrices.setParallelMode(ParallelMode.FORCE_ON);
 
         IntMatrix result = Matrices.zip(large1, large2, (a, b) -> a + b);
 
@@ -934,12 +930,12 @@ class MatricesTest extends TestBase {
         // mxc.println();
 
         Profiler.run(1, 1, 1, "seq-multiply(" + rows + ", " + columnCount + ")", () -> {
-            Matrices.setParallelEnabled(ParallelEnabled.NO);
+            Matrices.setParallelMode(ParallelMode.FORCE_OFF);
             mxa.multiply(mxb);
         }).printResult();
 
         Profiler.run(1, 1, 1, "parallel-multiply(" + rows + ", " + columnCount + ")", () -> {
-            Matrices.setParallelEnabled(ParallelEnabled.YES);
+            Matrices.setParallelMode(ParallelMode.FORCE_ON);
             mxa.multiply(mxb);
         }).printResult();
 

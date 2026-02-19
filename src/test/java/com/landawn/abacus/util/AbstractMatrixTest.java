@@ -355,10 +355,11 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix();
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.IntBiConsumer<RuntimeException>) null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.IntBiConsumer<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.IntBiConsumer<RuntimeException>) null));
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.BiIntObjConsumer<IntMatrix, RuntimeException>) null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(),
-                (Throwables.BiIntObjConsumer<IntMatrix, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.BiIntObjConsumer<IntMatrix, RuntimeException>) null));
     }
 
     @Test

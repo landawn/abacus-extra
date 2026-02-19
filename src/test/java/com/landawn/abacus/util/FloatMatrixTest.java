@@ -1099,7 +1099,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testForEachNullAction() {
         assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.FloatConsumer<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.FloatConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class,
+                () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.FloatConsumer<RuntimeException>) null));
     }
 
     @Test

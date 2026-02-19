@@ -921,7 +921,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public <E extends Exception> void updateAll(final Throwables.CharUnaryOperator<E> operator) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.applyAsChar(a[i][j]);
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
 
     /**
@@ -947,7 +947,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Character, E> operator) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.apply(i, j);
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
 
     /**
@@ -971,7 +971,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public <E extends Exception> void replaceIf(final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
 
     /**
@@ -998,7 +998,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final char newValue) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
 
     /**
@@ -1030,7 +1030,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         final char[][] result = new char[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.applyAsChar(a[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return CharMatrix.of(result);
     }
@@ -1064,7 +1064,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -1935,7 +1935,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         final char[][] result = new char[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (char) (a[i][j] + otherArray[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return CharMatrix.of(result);
     }
@@ -1964,7 +1964,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         final char[][] result = new char[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (char) (a[i][j] - otherArray[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return CharMatrix.of(result);
     }
@@ -2192,7 +2192,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsChar(a[i][j], b[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return CharMatrix.of(result);
     }
@@ -2231,7 +2231,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsChar(a[i][j], b[i][j], c[i][j]);
 
-        Matrices.run(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
         return CharMatrix.of(result);
     }
@@ -2876,7 +2876,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
         if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);
-            Matrices.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+            Matrices.forEachIndex(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 final char[] aa = a[i];

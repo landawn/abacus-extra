@@ -875,7 +875,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> void updateAll(final Throwables.FloatUnaryOperator<E> operator) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.applyAsFloat(a[i][j]);
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
     /**
@@ -903,7 +903,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Float, E> operator) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(i, j);
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
     /**
@@ -931,7 +931,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> void replaceIf(final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
     /**
@@ -960,7 +960,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final float newValue) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
     /**
@@ -986,7 +986,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         final float[][] result = new float[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsFloat(a[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return FloatMatrix.of(result);
     }
@@ -1018,7 +1018,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -1893,7 +1893,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         final float[][] result = new float[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (a[i][j] + otherMatrix[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return FloatMatrix.of(result);
     }
@@ -1924,7 +1924,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         final float[][] result = new float[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (a[i][j] - otherMatrix[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return FloatMatrix.of(result);
     }
@@ -2046,7 +2046,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.applyAsFloat(a[i][j], secondMatrix[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return FloatMatrix.of(result);
     }
@@ -2084,7 +2084,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.applyAsFloat(a[i][j], secondMatrix[i][j], thirdMatrix[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return FloatMatrix.of(result);
     }
@@ -2709,7 +2709,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
         if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> operation = (i, j) -> action.accept(a[i][j]);
-            Matrices.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, operation, true);
+            Matrices.forEachIndex(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, operation, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 final float[] row = a[i];

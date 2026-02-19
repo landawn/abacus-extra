@@ -940,15 +940,13 @@ public class MatrixTest extends TestBase {
                 () -> m1.zipWith(m2, (Throwables.BiFunction<Integer, Integer, Integer, RuntimeException>) null));
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> m1.zipWith(m2, (Throwables.BiFunction<Integer, Integer, String, RuntimeException>) null, String.class));
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> m1.zipWith(m2, (a, b) -> a + b, (Class<Integer>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> m1.zipWith(m2, (a, b) -> a + b, (Class<Integer>) null));
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> m1.zipWith(m2, m3, (Throwables.TriFunction<Integer, Integer, Integer, Integer, RuntimeException>) null));
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> m1.zipWith(m2, m3, (Throwables.TriFunction<Integer, Integer, Integer, String, RuntimeException>) null, String.class));
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> m1.zipWith(m2, m3, (a, b, c) -> a + b + c, (Class<Integer>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> m1.zipWith(m2, m3, (a, b, c) -> a + b + c, (Class<Integer>) null));
     }
 
     @Test

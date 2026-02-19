@@ -1001,7 +1001,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         if (Matrices.isParallelizable(this)) {
             //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> elementAction = action::accept;
-            Matrices.run(rowCount, columnCount, elementAction, true);
+            Matrices.forEachIndex(rowCount, columnCount, elementAction, true);
         } else {
             for (int i = 0; i < rowCount; i++) {
                 for (int j = 0; j < columnCount; j++) {
@@ -1050,7 +1050,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> elementAction = action::accept;
-            Matrices.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
+            Matrices.forEachIndex(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {
@@ -1091,7 +1091,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
         if (Matrices.isParallelizable(this)) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
-            Matrices.run(rowCount, columnCount, elementAction, true);
+            Matrices.forEachIndex(rowCount, columnCount, elementAction, true);
         } else {
             for (int i = 0; i < rowCount; i++) {
                 for (int j = 0; j < columnCount; j++) {
@@ -1144,7 +1144,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
         if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
-            Matrices.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
+            Matrices.forEachIndex(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {

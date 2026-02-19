@@ -905,7 +905,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     public <E extends Exception> void updateAll(final Throwables.ShortUnaryOperator<E> operator) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.applyAsShort(a[i][j]);
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
     /**
@@ -926,7 +926,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Short, E> operator) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(i, j);
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
     /**
@@ -948,7 +948,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     public <E extends Exception> void replaceIf(final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
     /**
@@ -970,7 +970,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final short newValue) throws E {
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
     /**
@@ -994,7 +994,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         final short[][] result = new short[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsShort(a[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return ShortMatrix.of(result);
     }
@@ -1024,7 +1024,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -1934,7 +1934,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         final short[][] result = new short[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (short) (a[i][j] + otherArray[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return ShortMatrix.of(result);
     }
@@ -1965,7 +1965,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         final short[][] result = new short[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (short) (a[i][j] - otherArray[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return ShortMatrix.of(result);
     }
@@ -2206,7 +2206,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.applyAsShort(a[i][j], arrayB[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return ShortMatrix.of(result);
     }
@@ -2246,7 +2246,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.applyAsShort(a[i][j], arrayB[i][j], arrayC[i][j]);
 
-        Matrices.run(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return ShortMatrix.of(result);
     }
@@ -2908,7 +2908,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> operation = (i, j) -> action.accept(a[i][j]);
-            Matrices.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, operation, true);
+            Matrices.forEachIndex(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, operation, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 final short[] aa = a[i];

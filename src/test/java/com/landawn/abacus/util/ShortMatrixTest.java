@@ -1156,7 +1156,8 @@ public class ShortMatrixTest extends TestBase {
     @Test
     public void testForEachNullAction() {
         assertThrows(IllegalArgumentException.class, () -> matrix.forEach((Throwables.ShortConsumer<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.ShortConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class,
+                () -> matrix.forEach(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.ShortConsumer<RuntimeException>) null));
     }
 
     @Test
