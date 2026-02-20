@@ -745,9 +745,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param operator the operator to apply to each element in the row; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.LongUnaryOperator<E> operator) throws E {
+        if (rowIndex < 0 || rowIndex >= rowCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
         for (int i = 0; i < columnCount; i++) {
             a[rowIndex][i] = operator.applyAsLong(a[rowIndex][i]);
         }
@@ -772,9 +779,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param operator the operator to apply to each element in the column; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.LongUnaryOperator<E> operator) throws E {
+        if (columnIndex < 0 || columnIndex >= columnCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
         for (int i = 0; i < rowCount; i++) {
             a[i][columnIndex] = operator.applyAsLong(a[i][columnIndex]);
         }

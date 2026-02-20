@@ -327,6 +327,24 @@ public class CharMatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateRowAndUpdateColumnInvalidIndex() {
+        char[][] a = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
+        CharMatrix matrix = CharMatrix.of(a);
+
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateRow(-1, c -> Character.toUpperCase(c)));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateColumn(3, c -> Character.toUpperCase(c)));
+    }
+
+    @Test
+    public void testUpdateRowAndUpdateColumnNullOperator() {
+        char[][] a = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
+        CharMatrix matrix = CharMatrix.of(a);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateRow(0, (Throwables.CharUnaryOperator<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateColumn(0, (Throwables.CharUnaryOperator<RuntimeException>) null));
+    }
+
+    @Test
     public void testGetLU2RD() {
         char[][] a = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } };
         CharMatrix matrix = CharMatrix.of(a);

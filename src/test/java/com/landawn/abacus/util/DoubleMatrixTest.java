@@ -301,6 +301,24 @@ public class DoubleMatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateRowAndUpdateColumnInvalidIndex() {
+        double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
+        DoubleMatrix matrix = DoubleMatrix.of(arr);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateRow(-1, d -> d * 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateColumn(2, d -> d * 2));
+    }
+
+    @Test
+    public void testUpdateRowAndUpdateColumnNullOperator() {
+        double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
+        DoubleMatrix matrix = DoubleMatrix.of(arr);
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.updateRow(0, (Throwables.DoubleUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.updateColumn(0, (Throwables.DoubleUnaryOperator<RuntimeException>) null));
+    }
+
+    @Test
     public void testGetLU2RD() {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);

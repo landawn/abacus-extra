@@ -322,12 +322,42 @@ public class MatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateRowInvalidIndex() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateRow(-1, x -> x * 2));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateRow(2, x -> x * 2));
+    }
+
+    @Test
+    public void testUpdateRowNullOperator() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateRow(0, (Throwables.UnaryOperator<Integer, RuntimeException>) null));
+    }
+
+    @Test
     public void testUpdateColumn() throws Exception {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
 
         matrix.updateColumn(1, x -> x + 10);
         Assertions.assertArrayEquals(new Integer[] { 12, 14, 16 }, matrix.column(1));
         Assertions.assertArrayEquals(new Integer[] { 1, 3, 5 }, matrix.column(0));
+    }
+
+    @Test
+    public void testUpdateColumnInvalidIndex() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateColumn(-1, x -> x + 10));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateColumn(2, x -> x + 10));
+    }
+
+    @Test
+    public void testUpdateColumnNullOperator() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateColumn(0, (Throwables.UnaryOperator<Integer, RuntimeException>) null));
     }
 
     @Test

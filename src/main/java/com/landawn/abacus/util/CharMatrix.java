@@ -107,6 +107,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Creates a CharMatrix from a two-dimensional char array.
      *
+     * <p><b>Important:</b> The provided array is used directly without defensive copying.
+     * Changes to the input array are reflected in the returned matrix, and vice versa.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
@@ -429,6 +432,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param point the point containing row and column indices (must not be null)
      * @return the char element at the specified point
+     * @throws IllegalArgumentException if {@code point} is {@code null}
      * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #get(int, int)
      */
@@ -470,6 +474,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param point the point containing row and column indices (must not be null)
      * @param val the new char value to set at the specified point
+     * @throws IllegalArgumentException if {@code point} is {@code null}
      * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #set(int, int, char)
      */
@@ -644,6 +649,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param rowIndex the index of the row to set (0-based)
      * @param row the array of values to copy into the row; must have length equal to the number of columns
+     * @throws NullPointerException if {@code row} is {@code null}
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final char[] row) throws IllegalArgumentException {
@@ -669,6 +675,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to copy into the column; must have length equal to the number of rows
+     * @throws NullPointerException if {@code column} is {@code null}
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final char[] column) throws IllegalArgumentException {
@@ -700,9 +707,16 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param operator the operator to apply to each element in the row; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.CharUnaryOperator<E> operator) throws E {
+        if (rowIndex < 0 || rowIndex >= rowCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
         for (int i = 0; i < columnCount; i++) {
             a[rowIndex][i] = operator.applyAsChar(a[rowIndex][i]);
         }
@@ -727,9 +741,16 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param operator the operator to apply to each element in the column; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.CharUnaryOperator<E> operator) throws E {
+        if (columnIndex < 0 || columnIndex >= columnCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
         for (int i = 0; i < rowCount; i++) {
             a[i][columnIndex] = operator.applyAsChar(a[i][columnIndex]);
         }
@@ -779,6 +800,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @param mainDiagonal the new values for the main diagonal; must have length equal to rowCount
+     * @throws NullPointerException if {@code mainDiagonal} is {@code null}
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
@@ -864,6 +886,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @throws NullPointerException if {@code antiDiagonal} is {@code null}
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
@@ -2830,6 +2853,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param <E> the type of exception that the action may throw
      * @param action the action to be performed on each element
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
@@ -2865,6 +2889,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @param action the action to be performed on each element in the sub-region
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws IndexOutOfBoundsException if any index is out of bounds or fromIndex &gt; toIndex
      * @throws E if the action throws an exception
      */
@@ -2889,10 +2914,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Prints the matrix to standard output in a formatted, human-readable manner.
+     * Prints this matrix and returns the printed text.
      *
-     * <p>Each row is printed on a separate line with elements separated by commas and enclosed
-     * in square brackets, providing a clear visual representation of the matrix structure.
+     * <p>Each row is formatted as {@code [e1, e2, ...]} and rows are separated by
+     * {@link #ARRAY_PRINT_SEPARATOR}. If the matrix is empty, {@code []} is printed.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

@@ -333,6 +333,24 @@ public class ByteMatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateRowAndUpdateColumnInvalidIndex() {
+        byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
+        ByteMatrix matrix = ByteMatrix.of(a);
+
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateRow(-1, b -> (byte) (b * 2)));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateColumn(3, b -> (byte) (b + 10)));
+    }
+
+    @Test
+    public void testUpdateRowAndUpdateColumnNullOperator() {
+        byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
+        ByteMatrix matrix = ByteMatrix.of(a);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateRow(0, (Throwables.ByteUnaryOperator<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateColumn(0, (Throwables.ByteUnaryOperator<RuntimeException>) null));
+    }
+
+    @Test
     public void testGetLU2RD() {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
         ByteMatrix matrix = ByteMatrix.of(a);

@@ -731,6 +731,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to copy into the column; must have length equal to the number of rows
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
+     * @throws ArrayIndexOutOfBoundsException if the underlying wrapped array has been externally modified into a non-rectangular shape
      */
     public void setColumn(final int columnIndex, final double[] column) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
@@ -761,9 +762,16 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param operator the operator to apply to each element in the row; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.DoubleUnaryOperator<E> operator) throws E {
+        if (rowIndex < 0 || rowIndex >= rowCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
         for (int i = 0; i < columnCount; i++) {
             a[rowIndex][i] = operator.applyAsDouble(a[rowIndex][i]);
         }
@@ -788,9 +796,16 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param operator the operator to apply to each element in the column; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.DoubleUnaryOperator<E> operator) throws E {
+        if (columnIndex < 0 || columnIndex >= columnCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
         for (int i = 0; i < rowCount; i++) {
             a[i][columnIndex] = operator.applyAsDouble(a[i][columnIndex]);
         }

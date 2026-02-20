@@ -122,25 +122,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * Returns the int element at the specified index in this ImmutableIntArray.
-     *
-     * <p>This method provides constant-time O(1) access to elements by index.
-     * The index is zero-based, meaning the first element is at index 0 and the
-     * last element is at index {@code length - 1}.</p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {5, 10, 15, 20});
-     * int value = array.get(1);                 // returns 10
-     * int first = array.get(0);                 // returns 5
-     * int last = array.get(array.length - 1);   // returns 20
-     * }</pre>
-     *
-     * @param index the zero-based index of the element to retrieve (must be {@code >= 0 and < length})
-     * @return the int element at the specified index
-     * @throws ArrayIndexOutOfBoundsException if the index is negative or greater than or equal to {@code length}
-     */
-    /**
      * Returns {@code true} if this ImmutableIntArray contains no elements.
      *
      * @return {@code true} if {@code length == 0}
@@ -165,6 +146,25 @@ public final class ImmutableIntArray implements Immutable {
         return false;
     }
 
+    /**
+     * Returns the int element at the specified index in this ImmutableIntArray.
+     *
+     * <p>This method provides constant-time O(1) access to elements by index.
+     * The index is zero-based, meaning the first element is at index 0 and the
+     * last element is at index {@code length - 1}.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {5, 10, 15, 20});
+     * int value = array.get(1);                 // returns 10
+     * int first = array.get(0);                 // returns 5
+     * int last = array.get(array.length - 1);   // returns 20
+     * }</pre>
+     *
+     * @param index the zero-based index of the element to retrieve (must be {@code >= 0 and < length})
+     * @return the int element at the specified index
+     * @throws ArrayIndexOutOfBoundsException if the index is negative or greater than or equal to {@code length}
+     */
     public int get(final int index) {
         return elements[index];
     }

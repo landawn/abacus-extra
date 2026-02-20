@@ -103,6 +103,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Creates a BooleanMatrix from a two-dimensional boolean array.
      *
+     * <p><b>Important:</b> The provided array is used directly without defensive copying.
+     * Changes to the input array are reflected in the returned matrix, and vice versa.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
@@ -345,6 +348,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param point the point containing row and column indices (must not be null)
      * @return the boolean element at the specified point
+     * @throws IllegalArgumentException if {@code point} is {@code null}
      * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #get(int, int)
      */
@@ -386,6 +390,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param point the point containing row and column indices (must not be null)
      * @param val the new boolean value to set at the specified point
+     * @throws IllegalArgumentException if {@code point} is {@code null}
      * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #set(int, int, boolean)
      */
@@ -560,6 +565,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param rowIndex the index of the row to set (0-based)
      * @param row the array of values to copy into the row; must have length equal to the number of columns
+     * @throws NullPointerException if {@code row} is {@code null}
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final boolean[] row) throws IllegalArgumentException {
@@ -584,6 +590,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to copy into the column; must have length equal to the number of rows
+     * @throws NullPointerException if {@code column} is {@code null}
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final boolean[] column) throws IllegalArgumentException {
@@ -618,9 +625,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param operator the operator to apply to each element in the row; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.BooleanUnaryOperator<E> operator) throws E {
+        if (rowIndex < 0 || rowIndex >= rowCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
         for (int i = 0; i < columnCount; i++) {
             a[rowIndex][i] = operator.applyAsBoolean(a[rowIndex][i]);
         }
@@ -649,9 +663,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param operator the operator to apply to each element in the column; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.BooleanUnaryOperator<E> operator) throws E {
+        if (columnIndex < 0 || columnIndex >= columnCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
         for (int i = 0; i < rowCount; i++) {
             a[i][columnIndex] = operator.applyAsBoolean(a[i][columnIndex]);
         }
@@ -708,6 +729,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param mainDiagonal the new values for the main diagonal; must have length equal to rowCount
+     * @throws NullPointerException if {@code mainDiagonal} is {@code null}
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
@@ -802,6 +824,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @throws NullPointerException if {@code antiDiagonal} is {@code null}
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
@@ -827,7 +850,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {true, false, false}
      * });
      * matrix.updateAntiDiagonal(val -> !val);   // Invert anti-diagonal
-     * // Anti-diagonal is now [false, false, true]
+     * // Anti-diagonal is now [false, false, false]
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
@@ -2825,6 +2848,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * @param <E> the type of exception that the action may throw
      * @param action the action to be performed for each element; receives each element value
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      * @see #forEach(int, int, int, int, Throwables.BooleanConsumer)
      */
@@ -2848,7 +2872,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {true, true, true}
      * });
      * 
-     * // Process only the center 2x2 sub-matrix
+     * // Process only the top-left 2x2 sub-matrix
      * List<Boolean> center = new ArrayList<>();
      * matrix.forEach(0, 2, 0, 2, value -> center.add(value));
      * // center contains [true, false, false, true]
@@ -2867,7 +2891,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @param action the action to be performed for each element in the sub-matrix
-     * @throws IndexOutOfBoundsException if any index is out of bounds
+     * @throws IllegalArgumentException if {@code action} is {@code null}
+     * @throws IndexOutOfBoundsException if any index is out of bounds or fromIndex &gt; toIndex
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -2891,9 +2916,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Prints the matrix to standard output in a formatted manner.
-     * Each row is printed on a separate line with elements separated by commas
-     * and enclosed in square brackets. The entire matrix is also enclosed in brackets.
+     * Prints this matrix and returns the printed text.
+     *
+     * <p>Each row is formatted as {@code [e1, e2, ...]} and rows are separated by
+     * {@link #ARRAY_PRINT_SEPARATOR}. If the matrix is empty, {@code []} is printed.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

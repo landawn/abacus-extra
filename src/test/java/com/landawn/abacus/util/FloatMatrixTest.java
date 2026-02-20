@@ -333,6 +333,22 @@ public class FloatMatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateRowAndUpdateColumnInvalidIndex() {
+        FloatMatrix m = matrix.copy();
+
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateRow(-1, x -> x * 2.0f));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateColumn(3, x -> x + 10.0f));
+    }
+
+    @Test
+    public void testUpdateRowAndUpdateColumnNullOperator() {
+        FloatMatrix m = matrix.copy();
+
+        assertThrows(IllegalArgumentException.class, () -> m.updateRow(0, (Throwables.FloatUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> m.updateColumn(0, (Throwables.FloatUnaryOperator<RuntimeException>) null));
+    }
+
+    @Test
     public void testGetLU2RD() {
         float[] diagonal = matrix.getMainDiagonal();
         assertArrayEquals(new float[] { 1.0f, 5.0f, 9.0f }, diagonal, DELTA);

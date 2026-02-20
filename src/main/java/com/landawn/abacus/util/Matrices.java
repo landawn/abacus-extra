@@ -141,7 +141,7 @@ public final class Matrices {
      * }</pre>
      *
      * @param parallelMode the {@link ParallelMode} setting to apply to the current thread, must not be {@code null}
-     * @throws IllegalArgumentException if {@code flag} is {@code null}
+     * @throws IllegalArgumentException if {@code parallelMode} is {@code null}
      * @see #getParallelMode()
      * @see ParallelMode
      */
@@ -399,23 +399,24 @@ public final class Matrices {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Force parallel execution for specific operations
-     * Matrices.runWithParallelMode(() -> {
+     * Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> {
      *     // This operation will use parallel processing
      *     matrix1.multiply(matrix2);
      *     matrix3.add(matrix4);
-     * }, ParallelMode.FORCE_ON);
+     * });
      *
      * // After execution, the original setting is restored
      *
      * // Force sequential execution for small operations
-     * Matrices.runWithParallelMode(() -> {
+     * Matrices.runWithParallelMode(ParallelMode.FORCE_OFF, () -> {
      *     smallMatrix.transpose();
-     * }, ParallelMode.FORCE_OFF);
+     * });
      * }</pre>
-     * @param parallelMode the temporary {@link ParallelMode} setting to use during command execution
+     * @param parallelMode the temporary {@link ParallelMode} setting to use during command execution, must not be {@code null}
      * @param cmd the command to execute, must not be {@code null}
      *
      * @param <E> the type of exception that the command might throw
+     * @throws IllegalArgumentException if {@code parallelMode} or {@code cmd} is {@code null}
      * @throws E if the command throws an exception during execution
      * @see #setParallelMode(ParallelMode)
      * @see #getParallelMode()

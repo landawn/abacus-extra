@@ -405,6 +405,22 @@ public class IntMatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateRowAndUpdateColumnInvalidIndex() {
+        IntMatrix m = matrix.copy();
+
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateRow(-1, x -> x * 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateColumn(3, x -> x + 10));
+    }
+
+    @Test
+    public void testUpdateRowAndUpdateColumnNullOperator() {
+        IntMatrix m = matrix.copy();
+
+        assertThrows(IllegalArgumentException.class, () -> m.updateRow(0, (Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> m.updateColumn(0, (Throwables.IntUnaryOperator<RuntimeException>) null));
+    }
+
+    @Test
     public void testGetLU2RD() {
         int[] diagonal = matrix.getMainDiagonal();
         assertArrayEquals(new int[] { 1, 5, 9 }, diagonal);

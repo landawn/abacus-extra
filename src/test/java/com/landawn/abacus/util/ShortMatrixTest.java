@@ -363,6 +363,22 @@ public class ShortMatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateRowAndUpdateColumnInvalidIndex() {
+        ShortMatrix m = matrix.copy();
+
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateRow(-1, x -> (short) (x * 2)));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateColumn(3, x -> (short) (x + 10)));
+    }
+
+    @Test
+    public void testUpdateRowAndUpdateColumnNullOperator() {
+        ShortMatrix m = matrix.copy();
+
+        assertThrows(IllegalArgumentException.class, () -> m.updateRow(0, (Throwables.ShortUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> m.updateColumn(0, (Throwables.ShortUnaryOperator<RuntimeException>) null));
+    }
+
+    @Test
     public void testGetLU2RD() {
         short[] diagonal = matrix.getMainDiagonal();
         assertArrayEquals(new short[] { 1, 5, 9 }, diagonal);

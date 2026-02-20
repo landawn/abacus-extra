@@ -648,10 +648,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param operator the operator to apply to each element (must not be null)
      * @throws E if the operator throws an exception
      * @throws IndexOutOfBoundsException if rowIndex is negative or greater than or equal to the number of rows
+     * @throws IllegalArgumentException if operator is null
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.UnaryOperator<T, E> operator) throws E {
+        if (rowIndex < 0 || rowIndex >= rowCount) {
+            throw new IndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
+        final T[] row = a[rowIndex];
+
         for (int i = 0; i < columnCount; i++) {
-            a[rowIndex][i] = operator.apply(a[rowIndex][i]);
+            row[i] = operator.apply(row[i]);
         }
     }
 
@@ -674,8 +683,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param operator the operator to apply to each element (must not be null)
      * @throws E if the operator throws an exception
      * @throws IndexOutOfBoundsException if columnIndex is negative or greater than or equal to the number of columns
+     * @throws IllegalArgumentException if operator is null
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.UnaryOperator<T, E> operator) throws E {
+        if (columnIndex < 0 || columnIndex >= columnCount) {
+            throw new IndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+        }
+
+        N.checkArgNotNull(operator, "operator");
+
         for (int i = 0; i < rowCount; i++) {
             a[i][columnIndex] = operator.apply(a[i][columnIndex]);
         }
@@ -725,6 +741,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param mainDiagonal the new diagonal values (must not be null and must have exactly {@code rows} elements)
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
+     * @throws NullPointerException if {@code mainDiagonal} is {@code null}
      * @throws IllegalArgumentException if mainDiagonal array length does not equal rows
      */
     public void setMainDiagonal(final T[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
@@ -978,6 +995,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown
      * @param mapper the transformation function
      * @return a new matrix with transformed elements
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> Matrix<T> map(final Throwables.UnaryOperator<T, E> mapper) throws E {
@@ -1007,6 +1025,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param mapper the transformation function
      * @param targetElementType the class of the result element type
      * @return a new matrix with transformed elements
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}
      * @throws E if the function throws an exception
      */
     public <R, E extends Exception> Matrix<R> map(final Throwables.Function<? super T, R, E> mapper, final Class<R> targetElementType) throws E {
@@ -1038,6 +1057,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a boolean for each element
      * @return a new BooleanMatrix
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> BooleanMatrix mapToBoolean(final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
@@ -1066,6 +1086,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a byte for each element
      * @return a new ByteMatrix
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> ByteMatrix mapToByte(final Throwables.ToByteFunction<? super T, E> mapper) throws E {
@@ -1096,6 +1117,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a char for each element
      * @return a new CharMatrix
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> CharMatrix mapToChar(final Throwables.ToCharFunction<? super T, E> mapper) throws E {
@@ -1124,6 +1146,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a short for each element
      * @return a new ShortMatrix
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> ShortMatrix mapToShort(final Throwables.ToShortFunction<? super T, E> mapper) throws E {
@@ -1155,6 +1178,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns an int for each element
      * @return a new IntMatrix
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> IntMatrix mapToInt(final Throwables.ToIntFunction<? super T, E> mapper) throws E {
@@ -1186,6 +1210,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a long for each element
      * @return a new LongMatrix
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> LongMatrix mapToLong(final Throwables.ToLongFunction<? super T, E> mapper) throws E {
@@ -1214,6 +1239,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a float for each element
      * @return a new FloatMatrix
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> FloatMatrix mapToFloat(final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
@@ -1245,6 +1271,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a double for each element
      * @return a new DoubleMatrix
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> DoubleMatrix mapToDouble(final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
@@ -2848,6 +2875,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <E> the type of exception that the action may throw
      * @param action the action to be performed for each element; receives each element value
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      * @see #forEach(int, int, int, int, Throwables.Consumer)
      */
@@ -2883,6 +2911,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param toColumnIndex the ending column index (exclusive)
      * @param action the action to be performed for each element; receives each element value
      * @throws IndexOutOfBoundsException if indices are out of bounds
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,

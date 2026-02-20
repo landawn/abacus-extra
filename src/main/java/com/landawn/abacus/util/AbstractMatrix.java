@@ -856,6 +856,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param x the matrix to compare with
      * @return {@code true} if both matrices have the same dimensions, {@code false} otherwise
+     * @throws IllegalArgumentException if {@code x} is {@code null}
      */
     public boolean isSameShape(final X x) {
         N.checkArgNotNull(x, "x");
@@ -994,6 +995,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param <E> the type of exception that the action might throw
      * @param action the action to perform for each position, receives (rowIndex, columnIndex)
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.IntBiConsumer<E> action) throws E {
@@ -1042,6 +1044,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param toColumnIndex the ending column index (exclusive)
      * @param action the action to perform for each position, receives (rowIndex, columnIndex)
      * @throws IndexOutOfBoundsException if any index is out of bounds
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -1086,6 +1089,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param <E> the type of exception that the action might throw
      * @param action the action to perform, receiving (rowIndex, columnIndex, matrix)
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.BiIntObjConsumer<X, E> action) throws E {
@@ -1137,6 +1141,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param toColumnIndex the ending column index (exclusive)
      * @param action the action to perform, receiving (rowIndex, columnIndex, matrix)
      * @throws IndexOutOfBoundsException if any index is out of bounds
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -1829,6 +1834,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param <E> the type of exception that the action might throw
      * @param action the consumer action to perform on this matrix
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super X, E> action) throws E {
@@ -1858,6 +1864,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param <E> the type of exception that the function might throw
      * @param action the function to apply to this matrix
      * @return the result of applying the function to this matrix
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the function throws an exception
      */
     public <R, E extends Exception> R apply(final Throwables.Function<? super X, R, E> action) throws E {

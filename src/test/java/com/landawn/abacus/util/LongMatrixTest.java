@@ -342,6 +342,24 @@ public class LongMatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateRowAndUpdateColumnInvalidIndex() {
+        long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L } };
+        LongMatrix matrix = LongMatrix.of(a);
+
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateRow(-1, x -> x * 2));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateColumn(3, x -> x + 10));
+    }
+
+    @Test
+    public void testUpdateRowAndUpdateColumnNullOperator() {
+        long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L } };
+        LongMatrix matrix = LongMatrix.of(a);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateRow(0, (Throwables.LongUnaryOperator<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateColumn(0, (Throwables.LongUnaryOperator<RuntimeException>) null));
+    }
+
+    @Test
     public void testGetLU2RD() {
         long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } };
         LongMatrix matrix = LongMatrix.of(a);

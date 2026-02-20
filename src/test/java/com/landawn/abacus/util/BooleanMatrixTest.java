@@ -266,6 +266,24 @@ public class BooleanMatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateRowAndUpdateColumnInvalidIndex() {
+        boolean[][] arr = { { true, false }, { false, true } };
+        BooleanMatrix matrix = BooleanMatrix.of(arr);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateRow(-1, val -> !val));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.updateColumn(2, val -> !val));
+    }
+
+    @Test
+    public void testUpdateRowAndUpdateColumnNullOperator() {
+        boolean[][] arr = { { true, false }, { false, true } };
+        BooleanMatrix matrix = BooleanMatrix.of(arr);
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.updateRow(0, (Throwables.BooleanUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.updateColumn(0, (Throwables.BooleanUnaryOperator<RuntimeException>) null));
+    }
+
+    @Test
     public void testGetLU2RD() {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
