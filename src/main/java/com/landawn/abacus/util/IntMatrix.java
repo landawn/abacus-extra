@@ -434,7 +434,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
+     * Creates a square matrix from the specified anti-diagonal elements (upper-right to lower-left).
      * All other elements are set to zero.
      *
      * <p><b>Usage Examples:</b></p>
@@ -807,7 +807,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to copy into the column; must have length equal to the number of rows
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
-     * @throws ArrayIndexOutOfBoundsException if the underlying wrapped array has been externally modified into a non-rectangular shape
      */
     public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
@@ -955,8 +954,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each diagonal element; receives current element value and returns new value
-     * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateMainDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
@@ -967,11 +966,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a copy of the anti-diagonal elements (right-up to left-down) as an array.
+     * Returns a copy of the anti-diagonal elements (upper-right to lower-left) as an array.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
-     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      * The returned array is a copy; modifications to it will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
@@ -996,12 +995,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * Sets the elements on the anti-diagonal from upper-right to lower-left.
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
-     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.</p>
+     * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1025,7 +1024,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
+     * Updates the values on the anti-diagonal (upper-right to lower-left) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1037,8 +1036,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each anti-diagonal element; receives current element value and returns new value
-     * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
@@ -2473,7 +2472,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a stream of elements on the anti-diagonal (right-up to left-down).
+     * Returns a stream of elements on the anti-diagonal (upper-right to lower-left).
      * The matrix must be square.
      * 
      * <p><b>Usage Examples:</b></p>

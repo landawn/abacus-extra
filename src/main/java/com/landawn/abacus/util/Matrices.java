@@ -412,10 +412,10 @@ public final class Matrices {
      *     smallMatrix.transpose();
      * });
      * }</pre>
-     * @param parallelMode the temporary {@link ParallelMode} setting to use during command execution, must not be {@code null}
-     * @param cmd the command to execute, must not be {@code null}
      *
      * @param <E> the type of exception that the command might throw
+     * @param parallelMode the temporary {@link ParallelMode} setting to use during command execution, must not be {@code null}
+     * @param cmd the command to execute, must not be {@code null}
      * @throws IllegalArgumentException if {@code parallelMode} or {@code cmd} is {@code null}
      * @throws E if the command throws an exception during execution
      * @see #setParallelMode(ParallelMode)

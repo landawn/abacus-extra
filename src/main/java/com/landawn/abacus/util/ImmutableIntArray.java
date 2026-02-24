@@ -124,6 +124,18 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns {@code true} if this ImmutableIntArray contains no elements.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray empty = ImmutableIntArray.of(new int[0]);
+     * boolean result1 = empty.isEmpty();   // returns true
+     *
+     * ImmutableIntArray nonEmpty = ImmutableIntArray.of(new int[] {1, 2, 3});
+     * boolean result2 = nonEmpty.isEmpty();   // returns false
+     *
+     * ImmutableIntArray fromNull = ImmutableIntArray.of(null);
+     * boolean result3 = fromNull.isEmpty();   // returns true (null becomes empty array)
+     * }</pre>
+     *
      * @return {@code true} if {@code length == 0}
      */
     public boolean isEmpty() {
@@ -132,6 +144,20 @@ public final class ImmutableIntArray implements Immutable {
 
     /**
      * Returns {@code true} if this ImmutableIntArray contains the specified value.
+     *
+     * <p>This method performs a linear search through the array, checking each element
+     * for equality with the specified value. The time complexity is O(n) where n is the
+     * length of the array.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {10, 20, 30, 40, 50});
+     * boolean found1 = array.contains(30);   // returns true
+     * boolean found2 = array.contains(99);   // returns false
+     *
+     * ImmutableIntArray empty = ImmutableIntArray.of(new int[0]);
+     * boolean found3 = empty.contains(1);   // returns false
+     * }</pre>
      *
      * @param value the value to search for
      * @return {@code true} if the value is found in this array

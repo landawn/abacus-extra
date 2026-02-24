@@ -300,7 +300,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
+     * Creates a square matrix from the specified anti-diagonal elements (upper-right to lower-left).
      * All other elements (off-diagonal) are set to zero. The matrix size is n×n where n is the length
      * of the diagonal array. The anti-diagonal runs from top-right to bottom-left.
      *
@@ -839,7 +839,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * Returns the elements on the anti-diagonal from upper-right to lower-left.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
@@ -867,7 +867,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -897,7 +897,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all elements on the anti-diagonal (right-up to left-down) by applying the given operator.
+     * Updates all elements on the anti-diagonal (upper-right to lower-left) by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -2383,7 +2383,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a stream of elements on the anti-diagonal (right-up to left-down).
+     * Returns a stream of elements on the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p><b>Usage Examples:</b></p>

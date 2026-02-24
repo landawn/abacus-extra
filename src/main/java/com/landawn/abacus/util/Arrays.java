@@ -1877,9 +1877,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a boolean array using the provided unary operator.
-     * Each element is replaced with the result of applying the operator.
-     * This method modifies the array in-place.
+     * Updates all elements in the one-dimensional boolean array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1906,9 +1904,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a two-dimensional boolean array using the provided unary operator.
-     * Each element in every sub-array is replaced with the result of applying the operator.
-     * This method modifies the array in-place, preserving the two-dimensional structure.
+     * Updates all elements in the two-dimensional boolean array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1935,9 +1931,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a three-dimensional boolean array using the provided unary operator.
-     * Each element in every nested sub-array is replaced with the result of applying the operator.
-     * This method modifies the array in-place, preserving the three-dimensional structure.
+     * Updates all elements in the three-dimensional boolean array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2066,7 +2060,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: [[true, false], [true, false], [true]]
      * }</pre>
      *
-     * @param a the one-dimensional boolean array to reshape.
+     * @param a the one-dimensional boolean array to reshape (can be {@code null}).
      * @param columnCount the number of columns for the reshaped array.
      * @return a two-dimensional boolean array with the specified number of columns.
      * @throws IllegalArgumentException if the number of columns is less than or equal to zero.
@@ -2100,7 +2094,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: {{{true, false}, {true, false}}, {{true, false}}}
      * }</pre>
      *
-     * @param a the one-dimensional boolean array to reshape.
+     * @param a the one-dimensional boolean array to reshape (can be {@code null}).
      * @param rowCount the number of rows for the reshaped subarray.
      * @param columnCount the number of columns for the reshaped subarray.
      * @return a three-dimensional boolean array with the specified number of rows and columns.
@@ -2140,7 +2134,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: {true, false, true, false, true}
      * }</pre>
      *
-     * @param a the two-dimensional boolean array to flatten.
+     * @param a the two-dimensional boolean array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      * @see #flatten(boolean[][][]) for flattening three-dimensional arrays
      * @see #flatOp(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
@@ -2224,7 +2218,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the two-dimensional boolean array to operate on.
+     * @param a the two-dimensional boolean array to operate on (can be {@code null}).
      * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #flatten(boolean[][]) for just flattening without applying operations
@@ -2841,7 +2835,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: 6
      * }</pre>
      *
-     * @param a the two-dimensional boolean array.
+     * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
      */
     public static long totalCountOfElements(final boolean[][] a) {
@@ -2869,7 +2863,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: 6
      * }</pre>
      *
-     * @param a the three-dimensional boolean array.
+     * @param a the three-dimensional boolean array (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
      */
     public static long totalCountOfElements(final boolean[][][] a) {
@@ -2907,7 +2901,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: 1
      * }</pre>
      *
-     * @param a the two-dimensional boolean array.
+     * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the minimum length of sub-arrays, or 0 if array is empty.
      */
     public static int minSubArrayLen(final boolean[][] a) {
@@ -2935,7 +2929,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: 3
      * }</pre>
      *
-     * @param a the two-dimensional boolean array.
+     * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the maximum length of sub-arrays, or 0 if array is empty.
      */
     public static int maxSubArrayLen(final boolean[][] a) {
@@ -3209,8 +3203,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates every element in the specified character array by applying a given operator.
-     * This method modifies the array in-place.
+     * Updates all elements in the one-dimensional char array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3219,9 +3212,9 @@ public sealed class Arrays permits Arrays.f {
      * // array becomes {'b', 'c', 'd'}
      * }</pre>
      *
-     * @param <E> The type of exception that the operator may throw.
-     * @param a The char array to update (can be {@code null}).
-     * @param operator The unary operator to apply to each element (must not be {@code null}).
+     * @param <E> the type of exception that the operator may throw.
+     * @param a the char array to update (can be {@code null}).
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(char[][], Throwables.CharUnaryOperator) for two-dimensional arrays
      * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
@@ -3237,9 +3230,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Recursively updates every element in the two-dimensional character array by applying a given operator.
-     * The method iterates through each sub-array and applies the operator to every character.
-     * The operation is performed in-place.
+     * Updates all elements in the two-dimensional char array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3248,9 +3239,9 @@ public sealed class Arrays permits Arrays.f {
      * // array becomes {{'A', 'B'}, {'C'}}
      * }</pre>
      *
-     * @param <E> The type of exception that the operator may throw.
-     * @param a The two-dimensional char array to update (can be {@code null}).
-     * @param operator The unary operator to apply to each element (must not be {@code null}).
+     * @param <E> the type of exception that the operator may throw.
+     * @param a the two-dimensional char array to update (can be {@code null}).
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(char[], Throwables.CharUnaryOperator) for one-dimensional arrays
      * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
@@ -3266,9 +3257,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Recursively updates every element in the three-dimensional character array by applying a given operator.
-     * It traverses the nested structure and applies the operator to each character.
-     * The operation is performed in-place.
+     * Updates all elements in the three-dimensional char array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3277,9 +3266,9 @@ public sealed class Arrays permits Arrays.f {
      * // array becomes {{{'*'}}, {{'*', '*'}}}
      * }</pre>
      *
-     * @param <E> The type of exception that the operator may throw.
-     * @param a The three-dimensional char array to update (can be {@code null}).
-     * @param operator The unary operator to apply to each element (must not be {@code null}).
+     * @param <E> the type of exception that the operator may throw.
+     * @param a the three-dimensional char array to update (can be {@code null}).
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(char[], Throwables.CharUnaryOperator) for one-dimensional arrays
      * @see #updateAll(char[][], Throwables.CharUnaryOperator) for two-dimensional arrays
@@ -3306,10 +3295,10 @@ public sealed class Arrays permits Arrays.f {
      * // array becomes {'x', 'b', 'c', 'x'}
      * }</pre>
      *
-     * @param <E> The type of exception that the predicate may throw.
-     * @param a The char array to modify (can be {@code null}).
-     * @param predicate The condition to test for each element (must not be {@code null}).
-     * @param newValue The value to be placed in the array if the predicate is true.
+     * @param <E> the type of exception that the predicate may throw.
+     * @param a the char array to modify (can be {@code null}).
+     * @param predicate the condition to test for each element (must not be {@code null}).
+     * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(char[][], Throwables.CharPredicate, char) for two-dimensional arrays
      * @see #replaceIf(char[][][], Throwables.CharPredicate, char) for three-dimensional arrays
@@ -3337,10 +3326,10 @@ public sealed class Arrays permits Arrays.f {
      * // array becomes {{'a', 'b'}, {'c', 'U'}}
      * }</pre>
      *
-     * @param <E> The type of exception that the predicate may throw.
-     * @param a The two-dimensional char array to modify (can be {@code null}).
-     * @param predicate The condition to test for each element (must not be {@code null}).
-     * @param newValue The value to be placed in the array if the predicate is true.
+     * @param <E> the type of exception that the predicate may throw.
+     * @param a the two-dimensional char array to modify (can be {@code null}).
+     * @param predicate the condition to test for each element (must not be {@code null}).
+     * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(char[], Throwables.CharPredicate, char) for one-dimensional arrays
      * @see #replaceIf(char[][][], Throwables.CharPredicate, char) for three-dimensional arrays
@@ -3366,10 +3355,10 @@ public sealed class Arrays permits Arrays.f {
      * // array becomes {{{'a'}}, {{'X', 'c'}}}
      * }</pre>
      *
-     * @param <E> The type of exception that the predicate may throw.
-     * @param a The three-dimensional char array to modify (can be {@code null}).
-     * @param predicate The condition to test for each element (must not be {@code null}).
-     * @param newValue The value to be placed in the array if the predicate is true.
+     * @param <E> the type of exception that the predicate may throw.
+     * @param a the three-dimensional char array to modify (can be {@code null}).
+     * @param predicate the condition to test for each element (must not be {@code null}).
+     * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(char[], Throwables.CharPredicate, char) for one-dimensional arrays
      * @see #replaceIf(char[][], Throwables.CharPredicate, char) for two-dimensional arrays
@@ -3396,9 +3385,9 @@ public sealed class Arrays permits Arrays.f {
      * // reshaped is {{'a', 'b'}, {'c', 'd'}, {'e'}}
      * }</pre>
      *
-     * @param a The one-dimensional character array to reshape.
-     * @param columnCount The number of columns in the new two-dimensional array.
-     * @return A new two-dimensional character array.
+     * @param a the one-dimensional character array to reshape (can be {@code null}).
+     * @param columnCount the number of columns in the new two-dimensional array.
+     * @return a new two-dimensional character array.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
      */
     public static char[][] reshape(final char[] a, final int columnCount) throws IllegalArgumentException {
@@ -3431,10 +3420,10 @@ public sealed class Arrays permits Arrays.f {
      * // reshaped is {{{'a', 'b'}, {'c', 'd'}}, {{'e', 'f'}, {'g'}}}
      * }</pre>
      *
-     * @param a The one-dimensional character array to reshape.
-     * @param rowCount The number of rows in each two-dimensional sub-array.
-     * @param columnCount The number of columns in each two-dimensional sub-array.
-     * @return A new three-dimensional character array.
+     * @param a the one-dimensional character array to reshape (can be {@code null}).
+     * @param rowCount the number of rows in each two-dimensional sub-array.
+     * @param columnCount the number of columns in each two-dimensional sub-array.
+     * @return a new three-dimensional character array.
      * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
      *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
      */
@@ -3471,8 +3460,10 @@ public sealed class Arrays permits Arrays.f {
      * // flattened is {'a', 'b', 'c'}
      * }</pre>
      *
-     * @param a The two-dimensional character array to flatten.
+     * @param a the two-dimensional character array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(char[][][]) for three-dimensional arrays
+     * @see #flatOp(char[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static char[] flatten(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -3508,8 +3499,10 @@ public sealed class Arrays permits Arrays.f {
      * // flattened is {'a', 'b', 'c', 'd'}
      * }</pre>
      *
-     * @param a The three-dimensional character array to flatten.
+     * @param a the three-dimensional character array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(char[][]) for two-dimensional arrays
+     * @see #flatOp(char[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static char[] flatten(final char[][][] a) {
         if (N.isEmpty(a)) {
@@ -3553,10 +3546,12 @@ public sealed class Arrays permits Arrays.f {
      * // array becomes {{'a', 'b'}, {'c'}}
      * }</pre>
      *
-     * @param <E> The type of exception that the operation may throw.
-     * @param a The two-dimensional character array to operate on.
-     * @param op The consumer operation to apply to the flattened array (must not be {@code null}).
+     * @param <E> the type of exception that the operation may throw.
+     * @param a the two-dimensional character array to operate on (can be {@code null}).
+     * @param op the consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(char[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #flatten(char[][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final char[][] a, final Throwables.Consumer<? super char[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -3589,10 +3584,12 @@ public sealed class Arrays permits Arrays.f {
      * // array becomes {{{'a', 'b'}}, {{'c'}, {'d'}}}
      * }</pre>
      *
-     * @param <E> The type of exception that the operation may throw.
-     * @param a The three-dimensional character array to operate on.
-     * @param op The consumer operation to apply to the flattened array (must not be {@code null}).
+     * @param <E> the type of exception that the operation may throw.
+     * @param a the three-dimensional character array to operate on (can be {@code null}).
+     * @param op the consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(char[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #flatten(char[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final char[][][] a, final Throwables.Consumer<? super char[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -4177,8 +4174,8 @@ public sealed class Arrays permits Arrays.f {
      * // count is 3
      * }</pre>
      *
-     * @param a The two-dimensional character array to count.
-     * @return The total number of character elements in the array.
+     * @param a the two-dimensional character array to count (can be {@code null}).
+     * @return the total number of character elements in the array.
      */
     public static long totalCountOfElements(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -4205,8 +4202,8 @@ public sealed class Arrays permits Arrays.f {
      * // count is 4
      * }</pre>
      *
-     * @param a The three-dimensional character array to count.
-     * @return The total number of character elements in the array.
+     * @param a the three-dimensional character array to count (can be {@code null}).
+     * @return the total number of character elements in the array.
      */
     public static long totalCountOfElements(final char[][][] a) {
         if (N.isEmpty(a)) {
@@ -4243,8 +4240,8 @@ public sealed class Arrays permits Arrays.f {
      * // minLen is 0
      * }</pre>
      *
-     * @param a The two-dimensional character array to inspect.
-     * @return The minimum length of any sub-array. Returns 0 if the input array is empty or null.
+     * @param a the two-dimensional character array to inspect (can be {@code null}).
+     * @return the minimum length of any sub-array. Returns 0 if the input array is empty or null.
      */
     public static int minSubArrayLen(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -4271,8 +4268,8 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen is 3
      * }</pre>
      *
-     * @param a The two-dimensional character array to inspect.
-     * @return The maximum length of any sub-array. Returns 0 if the input array is empty or null.
+     * @param a the two-dimensional character array to inspect (can be {@code null}).
+     * @return the maximum length of any sub-array. Returns 0 if the input array is empty or null.
      */
     public static int maxSubArrayLen(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -4545,9 +4542,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a byte array using the provided unary operator.
-     * Each element is replaced with the result of applying the operator.
-     * This method modifies the array in-place.
+     * Updates all elements in the one-dimensional byte array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4574,9 +4569,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a two-dimensional byte array using the provided unary operator.
-     * Each element in every sub-array is replaced with the result of applying the operator.
-     * This method modifies the array in-place, preserving the two-dimensional structure.
+     * Updates all elements in the two-dimensional byte array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4603,9 +4596,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a three-dimensional byte array using the provided unary operator.
-     * Each element at all levels is replaced with the result of applying the operator.
-     * This method modifies the array in-place, preserving the three-dimensional structure.
+     * Updates all elements in the three-dimensional byte array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4734,8 +4725,10 @@ public sealed class Arrays permits Arrays.f {
      * // Result: {1, 2, 3, 4, 5}
      * }</pre>
      *
-     * @param a the two-dimensional byte array to flatten.
+     * @param a the two-dimensional byte array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(byte[][][]) for three-dimensional arrays
+     * @see #flatOp(byte[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static byte[] flatten(final byte[][] a) {
         if (N.isEmpty(a)) {
@@ -4773,6 +4766,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional byte array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(byte[][]) for two-dimensional arrays
+     * @see #flatOp(byte[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static byte[] flatten(final byte[][][] a) {
         if (N.isEmpty(a)) {
@@ -4815,9 +4810,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the two-dimensional byte array to operate on.
+     * @param a the two-dimensional byte array to operate on (can be {@code null}).
      * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(byte[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #flatten(byte[][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final byte[][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -4854,6 +4851,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional byte array to operate on (can be {@code null} or empty).
      * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(byte[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #flatten(byte[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final byte[][][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -4889,7 +4888,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: {{1, 2}, {3, 4}, {5}}
      * }</pre>
      *
-     * @param a the one-dimensional byte array to reshape.
+     * @param a the one-dimensional byte array to reshape (can be {@code null}).
      * @param columnCount the number of columns for the reshaped array.
      * @return a two-dimensional byte array with the specified number of columns.
      * @throws IllegalArgumentException if the number of columns is less than or equal to zero.
@@ -4923,7 +4922,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: {{{1, 2}, {3, 4}}, {{5, 6}}}
      * }</pre>
      *
-     * @param a the one-dimensional byte array to reshape.
+     * @param a the one-dimensional byte array to reshape (can be {@code null}).
      * @param rowCount the number of rows for the reshaped subarray.
      * @param columnCount the number of columns for the reshaped subarray.
      * @return a three-dimensional byte array with the specified number of rows and columns.
@@ -5453,7 +5452,7 @@ public sealed class Arrays permits Arrays.f {
      * long count = totalCountOfElements(array);   // returns 5
      * }</pre>
      *
-     * @param a the two-dimensional byte array.
+     * @param a the two-dimensional byte array (can be {@code null}).
      * @return the total count of all elements across all sub-arrays.
      */
     public static long totalCountOfElements(final byte[][] a) {
@@ -5480,7 +5479,7 @@ public sealed class Arrays permits Arrays.f {
      * long count = totalCountOfElements(array);   // returns 6
      * }</pre>
      *
-     * @param a the three-dimensional byte array.
+     * @param a the three-dimensional byte array (can be {@code null}).
      * @return the total count of all elements across all sub-arrays.
      */
     public static long totalCountOfElements(final byte[][][] a) {
@@ -5518,7 +5517,7 @@ public sealed class Arrays permits Arrays.f {
      * int minLen = minSubArrayLen(array);   // returns 2
      * }</pre>
      *
-     * @param a the two-dimensional byte array to analyze.
+     * @param a the two-dimensional byte array to analyze (can be {@code null}).
      * @return the minimum sub-array length, or 0 if the array is empty.
      */
     public static int minSubArrayLen(final byte[][] a) {
@@ -5546,7 +5545,7 @@ public sealed class Arrays permits Arrays.f {
      * int maxLen = maxSubArrayLen(array);   // returns 4
      * }</pre>
      *
-     * @param a the two-dimensional byte array to analyze.
+     * @param a the two-dimensional byte array to analyze (can be {@code null}).
      * @return the maximum sub-array length, or 0 if the array is empty.
      */
     public static int maxSubArrayLen(final byte[][] a) {
@@ -5820,9 +5819,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a short array using the provided unary operator.
-     * The operator is applied to each element and the result replaces the original value.
-     * This method modifies the array in-place.
+     * Updates all elements in the one-dimensional short array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5834,6 +5831,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(short[][], Throwables.ShortUnaryOperator) for two-dimensional arrays
+     * @see #updateAll(short[][][], Throwables.ShortUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final short[] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -5846,8 +5845,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a two-dimensional short array using the provided unary operator.
-     * The operator is applied to each element in all sub-arrays.
+     * Updates all elements in the two-dimensional short array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5859,6 +5857,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(short[], Throwables.ShortUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(short[][][], Throwables.ShortUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final short[][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -5871,8 +5871,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a three-dimensional short array using the provided unary operator.
-     * The operator is applied recursively to all elements in all sub-arrays.
+     * Updates all elements in the three-dimensional short array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5884,6 +5883,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(short[], Throwables.ShortUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(short[][], Throwables.ShortUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final short[][][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -5911,6 +5912,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(short[][], Throwables.ShortPredicate, short) for two-dimensional arrays
+     * @see #replaceIf(short[][][], Throwables.ShortPredicate, short) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final short[] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (N.isEmpty(a)) {
@@ -5939,6 +5942,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(short[], Throwables.ShortPredicate, short) for one-dimensional arrays
+     * @see #replaceIf(short[][][], Throwables.ShortPredicate, short) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final short[][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (N.isEmpty(a)) {
@@ -5965,6 +5970,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(short[], Throwables.ShortPredicate, short) for one-dimensional arrays
+     * @see #replaceIf(short[][], Throwables.ShortPredicate, short) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final short[][][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (N.isEmpty(a)) {
@@ -5986,7 +5993,7 @@ public sealed class Arrays permits Arrays.f {
      * short[][] reshaped = Arrays.reshape(array, 2);   // returns {{1, 2}, {3, 4}, {5}}
      * }</pre>
      *
-     * @param a the array to reshape.
+     * @param a the array to reshape (can be {@code null}).
      * @param columnCount the number of columns in each row.
      * @return a two-dimensional array with the specified column count.
      * @throws IllegalArgumentException if columnCount is less than 1.
@@ -6019,7 +6026,7 @@ public sealed class Arrays permits Arrays.f {
      * short[][][] reshaped = Arrays.reshape(array, 2, 2);   // returns {{{1,2},{3,4}}, {{5,6},{7,8}}}
      * }</pre>
      *
-     * @param a the array to reshape.
+     * @param a the array to reshape (can be {@code null}).
      * @param rowCount the number of rows in each two-dimensional block.
      * @param columnCount the number of columns in each row.
      * @return a three-dimensional array with the specified dimensions.
@@ -6059,8 +6066,10 @@ public sealed class Arrays permits Arrays.f {
      * short[] flat = Arrays.flatten(array);   // returns {1, 2, 3, 4, 5}
      * }</pre>
      *
-     * @param a the two-dimensional array to flatten.
+     * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(short[][][]) for three-dimensional arrays
+     * @see #flatOp(short[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static short[] flatten(final short[][] a) {
         if (N.isEmpty(a)) {
@@ -6096,8 +6105,10 @@ public sealed class Arrays permits Arrays.f {
      * short[] flat = Arrays.flatten(array);   // returns {1, 2, 3, 4, 5}
      * }</pre>
      *
-     * @param a the three-dimensional array to flatten.
+     * @param a the three-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(short[][]) for two-dimensional arrays
+     * @see #flatOp(short[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static short[] flatten(final short[][][] a) {
         if (N.isEmpty(a)) {
@@ -6139,9 +6150,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
-     * @param a the two-dimensional array to operate on.
+     * @param a the two-dimensional array to operate on (can be {@code null}).
      * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(short[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #flatten(short[][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final short[][] a, final Throwables.Consumer<? super short[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -6172,9 +6185,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
-     * @param a the three-dimensional array to operate on.
+     * @param a the three-dimensional array to operate on (can be {@code null}).
      * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(short[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #flatten(short[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final short[][][] a, final Throwables.Consumer<? super short[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -6702,7 +6717,7 @@ public sealed class Arrays permits Arrays.f {
      * // count will be 9 (3 + 2 + 0 + 4)
      * }</pre>
      *
-     * @param a the two-dimensional array to count elements in.
+     * @param a the two-dimensional array to count elements in (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
      */
     public static long totalCountOfElements(final short[][] a) {
@@ -6768,7 +6783,7 @@ public sealed class Arrays permits Arrays.f {
      * // minLen will be 2
      * }</pre>
      *
-     * @param a the two-dimensional array to examine.
+     * @param a the two-dimensional array to examine (can be {@code null}).
      * @return the minimum length of any sub-array, or 0 if array is {@code null}.
      */
     public static int minSubArrayLen(final short[][] a) {
@@ -6796,7 +6811,7 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen will be 4
      * }</pre>
      *
-     * @param a the two-dimensional array to examine.
+     * @param a the two-dimensional array to examine (can be {@code null}).
      * @return the maximum length of any sub-array, or 0 if array is {@code null} or empty.
      */
     public static int maxSubArrayLen(final short[][] a) {
@@ -7070,7 +7085,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements of the given array by applying the specified unary operator.
+     * Updates all elements in the one-dimensional int array by applying the provided unary operator.
      * Each element is replaced with the result of applying the operator.
      * This method modifies the array in-place.
      *
@@ -7085,6 +7100,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array to be modified (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(int[][], Throwables.IntUnaryOperator) for two-dimensional arrays
+     * @see #updateAll(int[][][], Throwables.IntUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final int[] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -7097,11 +7114,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements of the given two-dimensional array by applying the specified unary operator.
-     *
-     * <p>This method modifies the original two-dimensional array by applying the operator function to each element
-     * in all sub-arrays. The operator can throw a checked exception of type E.
-     * If the array is null or empty, the method returns without performing any operation.</p>
+     * Updates all elements in the two-dimensional int array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7111,9 +7126,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
-     * @param a the two-dimensional array to be modified.
+     * @param a the two-dimensional array to be modified (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(int[], Throwables.IntUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(int[][][], Throwables.IntUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final int[][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -7126,11 +7143,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements of the given three-dimensional array by applying the specified unary operator.
-     *
-     * <p>This method modifies the original three-dimensional array by applying the operator function to each element
-     * in all nested arrays. The operator can throw a checked exception of type E.
-     * If the array is null or empty, the method returns without performing any operation.</p>
+     * Updates all elements in the three-dimensional int array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7140,9 +7155,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
-     * @param a the three-dimensional array to be modified.
+     * @param a the three-dimensional array to be modified (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(int[], Throwables.IntUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(int[][], Throwables.IntUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final int[][][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -7171,6 +7188,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(int[][], Throwables.IntPredicate, int) for two-dimensional arrays
+     * @see #replaceIf(int[][][], Throwables.IntPredicate, int) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final int[] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         if (N.isEmpty(a)) {
@@ -7203,6 +7222,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(int[], Throwables.IntPredicate, int) for one-dimensional arrays
+     * @see #replaceIf(int[][][], Throwables.IntPredicate, int) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final int[][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         if (N.isEmpty(a)) {
@@ -7233,6 +7254,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(int[], Throwables.IntPredicate, int) for one-dimensional arrays
+     * @see #replaceIf(int[][], Throwables.IntPredicate, int) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final int[][][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         if (N.isEmpty(a)) {
@@ -7338,8 +7361,10 @@ public sealed class Arrays permits Arrays.f {
      * // result is {1, 2, 3, 4, 5, 6, 7, 8}
      * }</pre>
      *
-     * @param a the two-dimensional array to flatten.
+     * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(int[][][]) for three-dimensional arrays
+     * @see #flatOp(int[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static int[] flatten(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -7378,8 +7403,10 @@ public sealed class Arrays permits Arrays.f {
      * // result is {1, 2, 3, 4, 5, 6}
      * }</pre>
      *
-     * @param a the three-dimensional array to flatten.
+     * @param a the three-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(int[][]) for two-dimensional arrays
+     * @see #flatOp(int[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static int[] flatten(final int[][][] a) {
         if (N.isEmpty(a)) {
@@ -7425,9 +7452,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
-     * @param a the two-dimensional array to process.
+     * @param a the two-dimensional array to process (can be {@code null}).
      * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(int[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #flatten(int[][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final int[][] a, final Throwables.Consumer<? super int[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -7466,6 +7495,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to process.
      * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(int[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #flatten(int[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final int[][][] a, final Throwables.Consumer<? super int[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -7991,8 +8022,8 @@ public sealed class Arrays permits Arrays.f {
      * // count will be 5
      * }</pre>
      *
-     * @param a The two-dimensional integer array.
-     * @return The total count of integer elements.
+     * @param a the two-dimensional integer array (can be {@code null}).
+     * @return the total count of integer elements.
      */
     public static long totalCountOfElements(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -8019,8 +8050,8 @@ public sealed class Arrays permits Arrays.f {
      * // count will be 6
      * }</pre>
      *
-     * @param a The three-dimensional integer array.
-     * @return The total count of integer elements.
+     * @param a the three-dimensional integer array (can be {@code null}).
+     * @return the total count of integer elements.
      */
     public static long totalCountOfElements(final int[][][] a) {
         if (N.isEmpty(a)) {
@@ -8057,8 +8088,8 @@ public sealed class Arrays permits Arrays.f {
      * // minLen will be 0
      * }</pre>
      *
-     * @param a The two-dimensional integer array.
-     * @return The minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
+     * @param a the two-dimensional integer array (can be {@code null}).
+     * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
     public static int minSubArrayLen(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -8085,8 +8116,8 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen will be 3
      * }</pre>
      *
-     * @param a The two-dimensional integer array.
-     * @return The maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
+     * @param a the two-dimensional integer array (can be {@code null}).
+     * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
     public static int maxSubArrayLen(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -8370,10 +8401,12 @@ public sealed class Arrays permits Arrays.f {
      * // array is now [1L, 4L, 9L]
      * }</pre>
      *
-     * @param <E> The type of exception that the operator may throw.
-     * @param a The array to be modified (can be {@code null}).
-     * @param operator The unary operator to apply to each element (must not be {@code null}).
-     * @throws E If the {@code operator} throws an exception.
+     * @param <E> the type of exception that the operator may throw.
+     * @param a the array to be modified (can be {@code null}).
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(long[][], Throwables.LongUnaryOperator) for two-dimensional arrays
+     * @see #updateAll(long[][][], Throwables.LongUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final long[] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -8386,7 +8419,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified two-dimensional long array in-place by applying a unary operator.
+     * Updates all elements in the two-dimensional long array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8395,10 +8430,12 @@ public sealed class Arrays permits Arrays.f {
      * // array is now {{-1L, -2L}, {-3L, -4L}}
      * }</pre>
      *
-     * @param <E> The type of exception that the operator may throw.
-     * @param a The two-dimensional array to be modified. The modification happens in-place.
-     * @param operator The unary operator to apply to each element (must not be {@code null}).
-     * @throws E If the {@code operator} throws an exception.
+     * @param <E> the type of exception that the operator may throw.
+     * @param a the two-dimensional array to be modified (can be {@code null}).
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(long[], Throwables.LongUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(long[][][], Throwables.LongUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final long[][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -8411,7 +8448,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified three-dimensional long array in-place by applying a unary operator.
+     * Updates all elements in the three-dimensional long array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8420,10 +8459,12 @@ public sealed class Arrays permits Arrays.f {
      * // array is now {{{2L}, {3L}}, {{4L}, {5L}}}
      * }</pre>
      *
-     * @param <E> The type of exception that the operator may throw.
-     * @param a The three-dimensional array to be modified. The modification happens in-place.
-     * @param operator The unary operator to apply to each element (must not be {@code null}).
-     * @throws E If the {@code operator} throws an exception.
+     * @param <E> the type of exception that the operator may throw.
+     * @param a the three-dimensional array to be modified (can be {@code null}).
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(long[], Throwables.LongUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(long[][], Throwables.LongUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final long[][][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -8447,11 +8488,13 @@ public sealed class Arrays permits Arrays.f {
      * // array is now [1L, 0L, 3L, 0L, 5L]
      * }</pre>
      *
-     * @param <E> The type of exception that the predicate may throw.
-     * @param a The array to be modified (can be {@code null}).
-     * @param predicate The condition to test for each element (must not be {@code null}).
-     * @param newValue The value to replace with if the predicate is true.
-     * @throws E If the {@code predicate} throws an exception.
+     * @param <E> the type of exception that the predicate may throw.
+     * @param a the array to be modified (can be {@code null}).
+     * @param predicate the condition to test for each element (must not be {@code null}).
+     * @param newValue the value to replace with if the predicate is true.
+     * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(long[][], Throwables.LongPredicate, long) for two-dimensional arrays
+     * @see #replaceIf(long[][][], Throwables.LongPredicate, long) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final long[] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         if (N.isEmpty(a)) {
@@ -8475,11 +8518,13 @@ public sealed class Arrays permits Arrays.f {
      * // array is now {{1L, 0L}, {3L, 0L}}
      * }</pre>
      *
-     * @param <E> The type of exception that the predicate may throw.
-     * @param a The two-dimensional array to be modified.
-     * @param predicate The condition to test for each element (must not be {@code null}).
-     * @param newValue The value to replace with if the predicate is true.
-     * @throws E If the {@code predicate} throws an exception.
+     * @param <E> the type of exception that the predicate may throw.
+     * @param a the two-dimensional array to be modified.
+     * @param predicate the condition to test for each element (must not be {@code null}).
+     * @param newValue the value to replace with if the predicate is true.
+     * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(long[], Throwables.LongPredicate, long) for one-dimensional arrays
+     * @see #replaceIf(long[][][], Throwables.LongPredicate, long) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final long[][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         if (N.isEmpty(a)) {
@@ -8501,11 +8546,13 @@ public sealed class Arrays permits Arrays.f {
      * // array is now {{{1L, 2L}}, {{99L, 4L}}}
      * }</pre>
      *
-     * @param <E> The type of exception that the predicate may throw.
-     * @param a The three-dimensional array to be modified.
-     * @param predicate The condition to test for each element (must not be {@code null}).
-     * @param newValue The value to replace with if the predicate is true.
-     * @throws E If the {@code predicate} throws an exception.
+     * @param <E> the type of exception that the predicate may throw.
+     * @param a the three-dimensional array to be modified.
+     * @param predicate the condition to test for each element (must not be {@code null}).
+     * @param newValue the value to replace with if the predicate is true.
+     * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(long[], Throwables.LongPredicate, long) for one-dimensional arrays
+     * @see #replaceIf(long[][], Throwables.LongPredicate, long) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final long[][][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         if (N.isEmpty(a)) {
@@ -8528,9 +8575,9 @@ public sealed class Arrays permits Arrays.f {
      * // reshaped is {{1, 2, 3}, {4, 5, 6}, {7}}
      * }</pre>
      *
-     * @param a The one-dimensional array to reshape.
-     * @param columnCount The number of columns in the resulting two-dimensional array.
-     * @return A new two-dimensional long array.
+     * @param a the one-dimensional array to reshape.
+     * @param columnCount the number of columns in the resulting two-dimensional array.
+     * @return a new two-dimensional long array.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
      */
     public static long[][] reshape(final long[] a, final int columnCount) throws IllegalArgumentException {
@@ -8562,10 +8609,10 @@ public sealed class Arrays permits Arrays.f {
      * // reshaped is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9}}}
      * }</pre>
      *
-     * @param a The one-dimensional array to reshape.
-     * @param rowCount The number of rows in each two-dimensional sub-array.
-     * @param columnCount The number of columns in each two-dimensional sub-array.
-     * @return A new three-dimensional long array.
+     * @param a the one-dimensional array to reshape.
+     * @param rowCount the number of rows in each two-dimensional sub-array.
+     * @param columnCount the number of columns in each two-dimensional sub-array.
+     * @return a new three-dimensional long array.
      * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
      *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
      */
@@ -8601,8 +8648,10 @@ public sealed class Arrays permits Arrays.f {
      * // flattened is {1L, 2L, 3L, 4L, 5L}
      * }</pre>
      *
-     * @param a The two-dimensional array to flatten.
+     * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(long[][][]) for three-dimensional arrays
+     * @see #flatOp(long[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static long[] flatten(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -8637,8 +8686,10 @@ public sealed class Arrays permits Arrays.f {
      * // flattened is {1L, 2L, 3L, 4L, 5L}
      * }</pre>
      *
-     * @param a The three-dimensional array to flatten.
+     * @param a the three-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(long[][]) for two-dimensional arrays
+     * @see #flatOp(long[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static long[] flatten(final long[][][] a) {
         if (N.isEmpty(a)) {
@@ -8679,10 +8730,12 @@ public sealed class Arrays permits Arrays.f {
      * // array is now {{1L, 2L}, {3L, 4L}}
      * }</pre>
      *
-     * @param <E> The type of exception that the operation may throw.
-     * @param a The two-dimensional array to operate on.
-     * @param op The consumer to accept the flattened one-dimensional array for modification (must not be {@code null}).
-     * @throws E If the operation throws an exception.
+     * @param <E> the type of exception that the operation may throw.
+     * @param a the two-dimensional array to operate on (can be {@code null}).
+     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @throws E if the operation throws an exception.
+     * @see #flatOp(long[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #flatten(long[][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final long[][] a, final Throwables.Consumer<? super long[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -8713,10 +8766,12 @@ public sealed class Arrays permits Arrays.f {
      * // array is now {{{1L}, {2L}}, {{3L, 4L}}}
      * }</pre>
      *
-     * @param <E> The type of exception that the operation may throw.
-     * @param a The three-dimensional array to operate on.
-     * @param op The consumer to accept the flattened one-dimensional array for modification (must not be {@code null}).
-     * @throws E If the operation throws an exception.
+     * @param <E> the type of exception that the operation may throw.
+     * @param a the three-dimensional array to operate on (can be {@code null}).
+     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @throws E if the operation throws an exception.
+     * @see #flatOp(long[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #flatten(long[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final long[][][] a, final Throwables.Consumer<? super long[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -9242,8 +9297,8 @@ public sealed class Arrays permits Arrays.f {
      * // count is 5
      * }</pre>
      *
-     * @param a The two-dimensional array to inspect.
-     * @return The total count of long elements.
+     * @param a the two-dimensional array to inspect (can be {@code null}).
+     * @return the total count of long elements.
      */
     public static long totalCountOfElements(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -9269,8 +9324,8 @@ public sealed class Arrays permits Arrays.f {
      * // count is 6
      * }</pre>
      *
-     * @param a The three-dimensional array to inspect.
-     * @return The total count of long elements.
+     * @param a the three-dimensional array to inspect (can be {@code null}).
+     * @return the total count of long elements.
      */
     public static long totalCountOfElements(final long[][][] a) {
         if (N.isEmpty(a)) {
@@ -9307,8 +9362,8 @@ public sealed class Arrays permits Arrays.f {
      * // minLen will be 0
      * }</pre>
      *
-     * @param a The two-dimensional long array.
-     * @return The minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
+     * @param a the two-dimensional long array (can be {@code null}).
+     * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
     public static int minSubArrayLen(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -9335,8 +9390,8 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen will be 3
      * }</pre>
      *
-     * @param a The two-dimensional long array.
-     * @return The maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
+     * @param a the two-dimensional long array (can be {@code null}).
+     * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
     public static int maxSubArrayLen(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -9609,7 +9664,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified float array by applying a given unary operator.
+     * Updates all elements in the one-dimensional float array by applying the provided unary operator.
      * Each element is replaced with the result of applying the operator.
      * This method modifies the array in-place.
      *
@@ -9623,6 +9678,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(float[][], Throwables.FloatUnaryOperator) for two-dimensional arrays
+     * @see #updateAll(float[][][], Throwables.FloatUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final float[] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -9635,7 +9692,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified two-dimensional float array in-place by applying a given unary operator.
+     * Updates all elements in the two-dimensional float array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9647,6 +9706,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(float[], Throwables.FloatUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(float[][][], Throwables.FloatUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final float[][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -9659,7 +9720,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified three-dimensional float array in-place by applying a given unary operator.
+     * Updates all elements in the three-dimensional float array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9671,6 +9734,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(float[], Throwables.FloatUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(float[][], Throwables.FloatUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final float[][][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -9698,6 +9763,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(float[][], Throwables.FloatPredicate, float) for two-dimensional arrays
+     * @see #replaceIf(float[][][], Throwables.FloatPredicate, float) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final float[] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         if (N.isEmpty(a)) {
@@ -9726,6 +9793,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(float[], Throwables.FloatPredicate, float) for one-dimensional arrays
+     * @see #replaceIf(float[][][], Throwables.FloatPredicate, float) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final float[][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         if (N.isEmpty(a)) {
@@ -9752,6 +9821,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(float[], Throwables.FloatPredicate, float) for one-dimensional arrays
+     * @see #replaceIf(float[][], Throwables.FloatPredicate, float) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final float[][][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         if (N.isEmpty(a)) {
@@ -9850,6 +9921,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(float[][][]) for flattening three-dimensional arrays
+     * @see #flatOp(float[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static float[] flatten(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -9887,6 +9960,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(float[][]) for flattening two-dimensional arrays
+     * @see #flatOp(float[][][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static float[] flatten(final float[][][] a) {
         if (N.isEmpty(a)) {
@@ -9932,6 +10007,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to operate on.
      * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(float[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #flatten(float[][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final float[][] a, final Throwables.Consumer<? super float[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -9967,6 +10044,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to operate on.
      * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(float[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #flatten(float[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final float[][][] a, final Throwables.Consumer<? super float[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -10858,7 +10937,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified double array by applying a unary operator.
+     * Updates all elements in the one-dimensional double array by applying the provided unary operator.
      * Each element is replaced with the result of applying the operator.
      * This method modifies the array in-place.
      *
@@ -10873,6 +10952,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(double[][], Throwables.DoubleUnaryOperator) for two-dimensional arrays
+     * @see #updateAll(double[][][], Throwables.DoubleUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final double[] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -10885,7 +10966,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified two-dimensional array in-place by applying a unary operator.
+     * Updates all elements in the two-dimensional double array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10898,6 +10981,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to be updated.
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(double[], Throwables.DoubleUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(double[][][], Throwables.DoubleUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final double[][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -10910,7 +10995,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified three-dimensional array in-place by applying a unary operator.
+     * Updates all elements in the three-dimensional double array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10923,6 +11010,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to be updated.
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(double[], Throwables.DoubleUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(double[][], Throwables.DoubleUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final double[][][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -10951,6 +11040,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
      * @param newValue the value to be placed into the array.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(double[][], Throwables.DoublePredicate, double) for two-dimensional arrays
+     * @see #replaceIf(double[][][], Throwables.DoublePredicate, double) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final double[] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (N.isEmpty(a)) {
@@ -10979,6 +11070,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
      * @param newValue the value to be placed into the array.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(double[], Throwables.DoublePredicate, double) for one-dimensional arrays
+     * @see #replaceIf(double[][][], Throwables.DoublePredicate, double) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final double[][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (N.isEmpty(a)) {
@@ -11005,6 +11098,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
      * @param newValue the value to be placed into the array.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(double[], Throwables.DoublePredicate, double) for one-dimensional arrays
+     * @see #replaceIf(double[][], Throwables.DoublePredicate, double) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final double[][][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (N.isEmpty(a)) {
@@ -11105,6 +11200,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(double[][][]) for flattening three-dimensional arrays
+     * @see #flatOp(double[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static double[] flatten(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -11142,6 +11239,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @see #flatten(double[][]) for flattening two-dimensional arrays
+     * @see #flatOp(double[][][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static double[] flatten(final double[][][] a) {
         if (N.isEmpty(a)) {
@@ -11188,6 +11287,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to operate on.
      * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(double[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #flatten(double[][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final double[][] a, final Throwables.Consumer<? super double[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -11224,6 +11325,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to operate on.
      * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
+     * @see #flatOp(double[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #flatten(double[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void flatOp(final double[][][] a, final Throwables.Consumer<? super double[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -14528,7 +14631,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
-         * @param a the input array to map.
+         * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to an int (must not be {@code null}).
          * @return an int array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
@@ -14562,7 +14665,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
-         * @param a the input array to map.
+         * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a long (must not be {@code null}).
          * @return a long array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
@@ -14596,7 +14699,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
-         * @param a the input array to map.
+         * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a float (must not be {@code null}).
          * @return a float array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
@@ -14630,7 +14733,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
-         * @param a the input array to map.
+         * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a double (must not be {@code null}).
          * @return a double array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.

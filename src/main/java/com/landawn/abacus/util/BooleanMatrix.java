@@ -772,7 +772,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
+     * Returns a copy of the elements on the anti-diagonal from upper-right to lower-left.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
@@ -805,7 +805,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -839,7 +839,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
+     * Updates the values on the anti-diagonal (upper-right to lower-left) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1638,7 +1638,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Creates the transpose of this matrix by swapping rows and columns.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
+     * matrix has dimensions swapped (rowCount x columnCount becomes columnCount x rowCount).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1652,7 +1652,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * BooleanMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rows
+     * @return a new matrix that is the transpose of this matrix with dimensions columnCount x rowCount
      */
     @Override
     public BooleanMatrix transpose() {
@@ -1745,7 +1745,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param rowRepeats number of times to repeat each element vertically
      * @param colRepeats number of times to repeat each element horizontally
-     * @return a new BooleanMatrix with dimensions (rows*rowRepeats x columnCount*colRepeats)
+     * @return a new BooleanMatrix with dimensions (rowCount*rowRepeats x columnCount*colRepeats)
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
      */
     @Override
@@ -1793,7 +1793,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param rowRepeats number of times to repeat the matrix vertically
      * @param colRepeats number of times to repeat the matrix horizontally
-     * @return a new BooleanMatrix with dimensions (rows*rowRepeats x columnCount*colRepeats)
+     * @return a new BooleanMatrix with dimensions (rowCount*rowRepeats x columnCount*colRepeats)
      * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
      */
     @Override
@@ -2174,7 +2174,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns a stream of Boolean values from the anti-diagonal (right-up to left-down).
+     * Returns a stream of Boolean values from the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (same number of rows and columns).
      * 
      * <p>This method streams the anti-diagonal elements starting from position (0,n-1)

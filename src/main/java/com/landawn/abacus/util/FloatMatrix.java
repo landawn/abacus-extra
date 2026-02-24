@@ -229,7 +229,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
+     * Creates a square matrix from the specified main diagonal elements (upper-left to lower-right).
      * All other elements are set to zero. The matrix size is n×n where n is the length
      * of the diagonal array.
      *
@@ -250,7 +250,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
+     * Creates a square matrix from the specified anti-diagonal elements (upper-right to lower-left).
      * All other elements are set to zero. The matrix size is n×n where n is the length
      * of the diagonal array.
      *
@@ -709,7 +709,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns a copy of the main diagonal elements (left-up to right-down).
+     * Returns a copy of the main diagonal elements (upper-left to lower-right).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -736,7 +736,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      * The diagonal array length must exactly match the number of rows.
@@ -765,7 +765,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
+     * Updates the values on the main diagonal (upper-left to lower-right) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -789,11 +789,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns a copy of the anti-diagonal elements (right-up to left-down).
+     * Returns a copy of the anti-diagonal elements (upper-right to lower-left).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
-     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -817,12 +817,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
      * The matrix must be square (rows == columns), and the diagonal array length must be
      * equal to the number of rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
-     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -846,7 +846,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
+     * Updates the values on the anti-diagonal (upper-right to lower-left) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2106,7 +2106,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns a stream of elements on the diagonal from left-up to right-down.
+     * Returns a stream of elements on the diagonal from upper-left to lower-right.
      * The matrix must be square (same number of rows and columns).
      *
      * <p><b>Usage Examples:</b></p>
@@ -2117,7 +2117,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatStream diagonal = matrix.streamMainDiagonal();   // Stream of: 1.0f, 5.0f, 9.0f
      * }</pre>
      *
-     * @return a FloatStream containing the diagonal elements from top-left to bottom-right
+     * @return a FloatStream containing the diagonal elements from upper-left to lower-right
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
@@ -2163,7 +2163,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns a stream of elements on the anti-diagonal from right-up to left-down.
+     * Returns a stream of elements on the anti-diagonal from upper-right to lower-left.
      * The matrix must be square (same number of rows and columns).
      *
      * <p><b>Usage Examples:</b></p>
@@ -2174,7 +2174,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatStream antiDiagonal = matrix.streamAntiDiagonal();   // Stream of: 3.0f, 5.0f, 7.0f
      * }</pre>
      *
-     * @return a FloatStream containing the anti-diagonal elements from top-right to bottom-left
+     * @return a FloatStream containing the anti-diagonal elements from upper-right to lower-left
      * @throws IllegalStateException if the matrix is not square
      */
     @Override

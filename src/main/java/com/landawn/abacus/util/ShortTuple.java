@@ -21,18 +21,28 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ShortStream;
 
 /**
- * Abstract base class for immutable tuples containing short primitive values.
- * This class provides a type-safe way to work with fixed-size collections of short values.
+ * Abstract base class for immutable tuple implementations that hold primitive short values.
+ * <p>
+ * This class provides common functionality for short-based tuples of various sizes (0 to 9 elements).
+ * ShortTuple is designed to be a lightweight, type-safe container for multiple short values
+ * that can be used as a composite key, return multiple values from a method, or group related
+ * short values together. All short tuple implementations extend this class and are immutable by design.
+ * </p>
  *
- * <p>ShortTuple and its subclasses offer:</p>
- * <ul>
- *   <li>Type safety for short collections of known size</li>
- *   <li>Immutability for thread-safe operations</li>
- *   <li>Convenient factory methods and utilities</li>
- *   <li>Statistical operations (min, max, median, sum, average)</li>
- * </ul>
+ * <p><b>Usage Examples:</b></p>
+ * <pre>{@code
+ * // Creating tuples
+ * ShortTuple.ShortTuple1 single = ShortTuple.of((short) 42);
+ * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 1, (short) 2);
+ * ShortTuple.ShortTuple3 triple = ShortTuple.of((short) 1, (short) 2, (short) 3);
  *
- * @param <TP> The specific ShortTuple subtype for fluent method chaining
+ * // Using statistical operations
+ * short min = triple.min();         // 1
+ * short max = triple.max();         // 3
+ * double avg = triple.average();    // 2.0
+ * }</pre>
+ *
+ * @param <TP> the specific ShortTuple subtype
  * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
@@ -60,7 +70,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @param _1 the short value to store in the tuple
-     * @return a new ShortTuple.ShortTuple1 containing the provided value
+     * @return a new ShortTuple.ShortTuple1 containing the specified value
      */
     public static ShortTuple1 of(final short _1) {
         return new ShortTuple1(_1);
@@ -77,7 +87,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * @param _1 the first short value
      * @param _2 the second short value
-     * @return a new ShortTuple.ShortTuple2 containing the provided values
+     * @return a new ShortTuple.ShortTuple2 containing the specified values
      */
     public static ShortTuple2 of(final short _1, final short _2) {
         return new ShortTuple2(_1, _2);
@@ -95,7 +105,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _1 the first short value
      * @param _2 the second short value
      * @param _3 the third short value
-     * @return a new ShortTuple.ShortTuple3 containing the provided values
+     * @return a new ShortTuple.ShortTuple3 containing the specified values
      */
     public static ShortTuple3 of(final short _1, final short _2, final short _3) {
         return new ShortTuple3(_1, _2, _3);
@@ -114,7 +124,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _2 the second short value
      * @param _3 the third short value
      * @param _4 the fourth short value
-     * @return a new ShortTuple.ShortTuple4 containing the provided values
+     * @return a new ShortTuple.ShortTuple4 containing the specified values
      */
     public static ShortTuple4 of(final short _1, final short _2, final short _3, final short _4) {
         return new ShortTuple4(_1, _2, _3, _4);
@@ -134,7 +144,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _3 the third short value
      * @param _4 the fourth short value
      * @param _5 the fifth short value
-     * @return a new ShortTuple.ShortTuple5 containing the provided values
+     * @return a new ShortTuple.ShortTuple5 containing the specified values
      */
     public static ShortTuple5 of(final short _1, final short _2, final short _3, final short _4, final short _5) {
         return new ShortTuple5(_1, _2, _3, _4, _5);
@@ -155,7 +165,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _4 the fourth short value
      * @param _5 the fifth short value
      * @param _6 the sixth short value
-     * @return a new ShortTuple.ShortTuple6 containing the provided values
+     * @return a new ShortTuple.ShortTuple6 containing the specified values
      */
     public static ShortTuple6 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6) {
         return new ShortTuple6(_1, _2, _3, _4, _5, _6);
@@ -177,7 +187,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _5 the fifth short value
      * @param _6 the sixth short value
      * @param _7 the seventh short value
-     * @return a new ShortTuple.ShortTuple7 containing the provided values
+     * @return a new ShortTuple.ShortTuple7 containing the specified values
      */
     public static ShortTuple7 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7) {
         return new ShortTuple7(_1, _2, _3, _4, _5, _6, _7);
@@ -201,7 +211,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _6 the sixth short value
      * @param _7 the seventh short value
      * @param _8 the eighth short value
-     * @return a new ShortTuple.ShortTuple8 containing the provided values
+     * @return a new ShortTuple.ShortTuple8 containing the specified values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more short values
      */
     @Deprecated
@@ -229,7 +239,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _7 the seventh short value
      * @param _8 the eighth short value
      * @param _9 the ninth short value
-     * @return a new ShortTuple.ShortTuple9 containing the provided values
+     * @return a new ShortTuple.ShortTuple9 containing the specified values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more short values
      */
     @Deprecated
@@ -240,18 +250,24 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a ShortTuple from an array of short values.
-     * The size of the returned tuple depends on the array length (0-9).
+     * <p>
+     * The size of the returned tuple depends on the length of the input array.
+     * This factory method supports arrays with 0 to 9 elements. For empty or null
+     * arrays, returns an empty {@code ShortTuple<?>}. For arrays with 1-9 elements, returns
+     * the corresponding ShortTuple.ShortTuple1-9 instance.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create from array
      * short[] values = {1, 2, 3};
      * ShortTuple.ShortTuple3 tuple = ShortTuple.fromArray(values);
-     * // tuple._1 == 1, tuple._2 == 2, tuple._3 == 3
      *
-     * short[] empty = {};
-     * ShortTuple<?> emptyTuple = ShortTuple.fromArray(empty);  // returns ShortTuple<?>.EMPTY
+     * // Empty array returns ShortTuple<?>
+     * ShortTuple<?> empty = ShortTuple.fromArray(new short[0]);
      *
-     * ShortTuple<?> nullTuple = ShortTuple.fromArray(null);    // returns ShortTuple<?>.EMPTY
+     * // Single element
+     * ShortTuple.ShortTuple1 single = ShortTuple.fromArray(new short[]{1});
      * }</pre>
      *
      * @param <TP> the specific ShortTuple type to return
@@ -300,11 +316,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns the minimum short value in this tuple.
+     * <p>
+     * Iterates through all elements in the tuple and returns the smallest value.
+     * For single-element tuples, the element itself is returned.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)3, (short)1, (short)2);
      * short min = tuple.min();   // 1
+     *
+     * ShortTuple.ShortTuple1 single = ShortTuple.of((short)42);
+     * short singleMin = single.min();   // 42
      * }</pre>
      *
      * @return the minimum short value in this tuple
@@ -316,11 +339,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns the maximum short value in this tuple.
+     * <p>
+     * Iterates through all elements in the tuple and returns the largest value.
+     * For single-element tuples, the element itself is returned.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)3, (short)1, (short)2);
      * short max = tuple.max();   // 3
+     *
+     * ShortTuple.ShortTuple1 single = ShortTuple.of((short)42);
+     * short singleMax = single.max();   // 42
      * }</pre>
      *
      * @return the maximum short value in this tuple
@@ -332,7 +362,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns the median short value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle element.
+     * <p>
+     * The median is calculated by sorting the elements internally. For tuples with an odd
+     * number of elements, returns the middle value when sorted. For tuples with an even
+     * number of elements, returns the lower middle value when sorted.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -351,9 +385,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the sum of all elements in this tuple as an int.
+     * Returns the sum of all elements in this tuple as an {@code int}.
      * <p>
-     * Note: While this tuple stores short values, the sum is returned as an int
+     * While this tuple stores short values, the sum is returned as an {@code int}
      * to prevent overflow when adding multiple short values together.
      * </p>
      *
@@ -361,9 +395,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * <pre>{@code
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
      * int sum = tuple.sum();   // 6 (returned as int, not short)
+     *
+     * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)100, (short)200);
+     * int total = pair.sum();  // 300
      * }</pre>
      *
-     * @return the sum of all short values in this tuple as an int
+     * @return the sum of all short values in this tuple as an {@code int}
      */
     public int sum() {
         return N.sum(elements());
@@ -391,9 +428,16 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a new tuple with the elements in reverse order.
+     * <p>
+     * This method creates and returns a new tuple instance with all elements in reversed order.
+     * The original tuple remains unchanged as tuples are immutable.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 1, (short) 2);
+     * ShortTuple.ShortTuple2 reversedPair = pair.reverse();   // (2, 1)
+     *
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * ShortTuple.ShortTuple3 reversed = tuple.reverse();   // (3, 2, 1)
      * }</pre>
@@ -404,12 +448,21 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Checks if this tuple contains the specified short value.
+     * <p>
+     * This method performs a linear search through all elements in the tuple to determine
+     * if any element matches the specified value. Returns {@code true} if at least one
+     * element equals the search value, {@code false} otherwise.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * boolean has2 = tuple.contains((short) 2);   // true
      * boolean has5 = tuple.contains((short) 5);   // false
+     *
+     * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 10, (short) 10);
+     * boolean hasTen = pair.contains((short) 10);   // true
+     * boolean hasOne = pair.contains((short) 1);    // false
      * }</pre>
      *
      * @param valueToFind the short value to search for
@@ -419,12 +472,20 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * Modifications to the returned array do not affect the tuple.
+     * <p>
+     * Creates and returns a defensive copy of the internal element array. Modifications
+     * to the returned array do not affect the tuple, maintaining immutability. The
+     * returned array has the same length as the tuple's arity.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * short[] array = tuple.toArray();   // [1, 2, 3]
+     * array[0] = 99;  // Does not modify the tuple
+     *
+     * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 10, (short) 20);
+     * short[] pairArray = pair.toArray();   // [10, 20]
      * }</pre>
      *
      * @return a new short array containing all tuple elements
@@ -435,11 +496,20 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a new ShortList containing all elements of this tuple.
+     * <p>
+     * Converts this tuple to a mutable {@link ShortList} containing all elements
+     * in their original order. The returned list is a new instance and modifications
+     * to it do not affect the original tuple.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * ShortList list = tuple.toList();
+     * list.add((short) 4);   // Adds to the list, tuple remains unchanged
+     *
+     * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 10, (short) 20);
+     * ShortList pairList = pair.toList();   // [10, 20]
      * }</pre>
      *
      * @return a new ShortList containing all tuple elements
@@ -450,16 +520,28 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Performs the given action for each element in this tuple.
+     * <p>
+     * Iterates through all elements in this tuple in order, executing the provided
+     * consumer action for each element. This method is primarily used for side effects
+     * such as logging, printing, or updating external state. The tuple itself is not
+     * modified as it is immutable.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
-     * tuple.forEach(System.out::println);   // prints each value
+     * tuple.forEach(v -> System.out.println("Value: " + v));
+     * // Output: Value: 1, Value: 2, Value: 3
+     *
+     * // Accumulate sum externally
+     * java.util.concurrent.atomic.AtomicInteger total = new java.util.concurrent.atomic.AtomicInteger();
+     * tuple.forEach(v -> total.addAndGet(v));
+     * // total is now 6
      * }</pre>
      *
-     * @param <E> the type of exception that the consumer may throw
-     * @param consumer the action to perform for each element
-     * @throws E if the consumer throws an exception
+     * @param <E> the type of exception that may be thrown by the consumer
+     * @param consumer the action to be performed for each element, must not be {@code null}
+     * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
         for (final short element : elements()) {
@@ -469,11 +551,19 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a ShortStream of all elements in this tuple.
+     * <p>
+     * Converts this tuple to a sequential {@link ShortStream} containing all elements
+     * in their original order. This allows using standard stream operations like filter,
+     * map, and reduce on the tuple elements.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * int sum = tuple.stream().sum();   // 6
+     *
+     * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 10, (short) 20);
+     * short max = pair.stream().max().getAsShort();   // 20
      * }</pre>
      *
      * @return a ShortStream containing all tuple elements
@@ -484,7 +574,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a hash code value for this tuple.
-     * The hash code is computed based on all elements using {@link N#hashCode(short[])}.
+     * <p>
+     * The hash code is computed based on the contents of the tuple using a standard
+     * algorithm that ensures equal tuples have equal hash codes. This implementation
+     * is consistent with {@link #equals(Object)}.
+     * </p>
      *
      * @return a hash code value for this tuple
      */
@@ -494,12 +588,21 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Compares this tuple to another object for equality.
-     * Two tuples are equal if they are of the same class and contain equal elements
-     * in the same order.
+     * Compares this tuple to the specified object for equality.
      *
-     * @param obj the object to compare with
-     * @return {@code true} if the objects are equal, {@code false} otherwise
+     * <p>
+     * Two tuples are considered equal if and only if:
+     * </p>
+     *
+     * <ul>
+     *   <li>They are the same object (reference equality), or</li>
+     *   <li>They are instances of the exact same class, and</li>
+     *   <li>They contain the same short values in the same order</li>
+     * </ul>
+     * This method is consistent with {@link #hashCode()}.
+     *
+     * @param obj the object to be compared for equality with this tuple
+     * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -514,7 +617,20 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a string representation of this tuple.
-     * The format is (element1, element2, ...).
+     * <p>
+     * The string representation consists of the tuple elements enclosed in parentheses
+     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
+     * This format is consistent across all tuple types and provides a readable representation
+     * of the tuple's contents.
+     * </p>
+     *
+     * <p><b>Examples:</b></p>
+     * <ul>
+     *   <li>{@code (1, 2, 3)} for a ShortTuple.ShortTuple3</li>
+     *   <li>{@code (1, 2)} for a ShortTuple.ShortTuple2</li>
+     *   <li>{@code (1)} for a ShortTuple.ShortTuple1</li>
+     *   <li>{@code ()} for an empty {@code ShortTuple<?>}</li>
+     * </ul>
      *
      * @return a string representation of this tuple
      */

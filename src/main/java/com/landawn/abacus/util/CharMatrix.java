@@ -289,7 +289,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
+     * Creates a square matrix from the specified anti-diagonal elements (upper-right to lower-left).
      * All other elements (off-diagonal) are set to zero (the null character '\u0000'). The matrix size is n×n where n is the length
      * of the diagonal array. The anti-diagonal runs from top-right to bottom-left.
      *
@@ -839,7 +839,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * Returns the elements on the anti-diagonal from upper-right to lower-left.
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
@@ -869,7 +869,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
      * a length equal to the number of rows in the matrix.
      *
@@ -901,7 +901,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Updates the elements on the anti-diagonal (right-upper to left-down) using the specified operator.
+     * Updates the elements on the anti-diagonal (upper-right to lower-left) using the specified operator.
      * The matrix must be square. Each anti-diagonal element is replaced with the result of applying
      * the operator to that element.
      *
@@ -2317,7 +2317,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a stream of elements on the diagonal from right-up to left-down.
+     * Returns a stream of elements on the anti-diagonal from upper-right to lower-left.
      * The matrix must be square (same number of rows and columns).
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2427,7 +2427,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
-    public CharStream streamH(final int fromRowIndex, final int toRowIndex) {
+    public CharStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         if (isEmpty()) {

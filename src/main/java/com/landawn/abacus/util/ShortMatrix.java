@@ -300,7 +300,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
+     * Creates a square matrix from the specified anti-diagonal elements (upper-right to lower-left).
      * All other elements are set to zero.
      *
      * <p><b>Usage Examples:</b></p>
@@ -830,11 +830,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns a copy of the anti-diagonal elements (right-up to left-down).
+     * Returns a copy of the anti-diagonal elements (upper-right to lower-left).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
-     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -858,12 +858,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the elements on the anti-diagonal from right-up to left-down.
+     * Sets the elements on the anti-diagonal from upper-right to lower-left.
      * The matrix must be square (rows == columns), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
-     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -888,7 +888,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Updates all elements on the anti-diagonal from right-up to left-down by applying the given operator.
+     * Updates all elements on the anti-diagonal from upper-right to lower-left by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -2338,11 +2338,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns a stream of elements on the anti-diagonal from right-up to left-down.
+     * Returns a stream of elements on the anti-diagonal from upper-right to lower-left.
      *
      * <p>The matrix must be square (same number of rows and columns). The stream contains elements
      * at positions (0,n-1), (1,n-2), (2,n-3), ..., (n-1,0) where n is the matrix dimension.
-     * This is the secondary diagonal running from top-right to bottom-left.</p>
+     * This is the secondary diagonal running from upper-right to lower-left.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2353,7 +2353,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Stream contains: 3, 5, 7
      * }</pre>
      *
-     * @return a ShortStream of anti-diagonal elements from right-up to left-down
+     * @return a ShortStream of anti-diagonal elements from upper-right to lower-left
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     @Override

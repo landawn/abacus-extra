@@ -55,11 +55,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     protected byte[] elements;
 
     /**
-     * Constructor for subclasses.
-     * <p>
-     * This constructor is protected to prevent direct instantiation of the abstract class.
-     * Subclasses should use this constructor to initialize their instances.
-     * </p>
+     * Protected constructor for subclass instantiation. This constructor is not intended for direct use.
+     * Use the static factory methods such as {@link #of(byte)} to create tuple instances.
      */
     protected ByteTuple() {
     }
@@ -74,7 +71,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param _1 the byte value to store in the tuple
-     * @return a new ByteTuple.ByteTuple1 containing the specified value
+     * @return a new ByteTuple.ByteTuple1 containing the specified value(s)
      */
     public static ByteTuple1 of(final byte _1) {
         return new ByteTuple1(_1);
@@ -92,7 +89,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * @param _1 the first byte value
      * @param _2 the second byte value
-     * @return a new ByteTuple.ByteTuple2 containing the specified values
+     * @return a new ByteTuple.ByteTuple2 containing the specified value(s)
      */
     public static ByteTuple2 of(final byte _1, final byte _2) {
         return new ByteTuple2(_1, _2);
@@ -110,7 +107,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _1 the first byte value
      * @param _2 the second byte value
      * @param _3 the third byte value
-     * @return a new ByteTuple.ByteTuple3 containing the specified values
+     * @return a new ByteTuple.ByteTuple3 containing the specified value(s)
      */
     public static ByteTuple3 of(final byte _1, final byte _2, final byte _3) {
         return new ByteTuple3(_1, _2, _3);
@@ -131,7 +128,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _2 the second byte value
      * @param _3 the third byte value
      * @param _4 the fourth byte value
-     * @return a new ByteTuple.ByteTuple4 containing the specified values
+     * @return a new ByteTuple.ByteTuple4 containing the specified value(s)
      */
     public static ByteTuple4 of(final byte _1, final byte _2, final byte _3, final byte _4) {
         return new ByteTuple4(_1, _2, _3, _4);
@@ -153,7 +150,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _3 the third byte value
      * @param _4 the fourth byte value
      * @param _5 the fifth byte value
-     * @return a new ByteTuple.ByteTuple5 containing the specified values
+     * @return a new ByteTuple.ByteTuple5 containing the specified value(s)
      */
     public static ByteTuple5 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5) {
         return new ByteTuple5(_1, _2, _3, _4, _5);
@@ -176,7 +173,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _4 the fourth byte value
      * @param _5 the fifth byte value
      * @param _6 the sixth byte value
-     * @return a new ByteTuple.ByteTuple6 containing the specified values
+     * @return a new ByteTuple.ByteTuple6 containing the specified value(s)
      */
     public static ByteTuple6 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6) {
         return new ByteTuple6(_1, _2, _3, _4, _5, _6);
@@ -200,7 +197,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _5 the fifth byte value
      * @param _6 the sixth byte value
      * @param _7 the seventh byte value
-     * @return a new ByteTuple.ByteTuple7 containing the specified values
+     * @return a new ByteTuple.ByteTuple7 containing the specified value(s)
      */
     public static ByteTuple7 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7) {
         return new ByteTuple7(_1, _2, _3, _4, _5, _6, _7);
@@ -225,7 +222,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _6 the sixth byte value
      * @param _7 the seventh byte value
      * @param _8 the eighth byte value
-     * @return a new ByteTuple.ByteTuple8 containing the specified values
+     * @return a new ByteTuple.ByteTuple8 containing the specified value(s)
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more byte values
      */
     @Deprecated
@@ -253,7 +250,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _7 the seventh byte value
      * @param _8 the eighth byte value
      * @param _9 the ninth byte value
-     * @return a new ByteTuple.ByteTuple9 containing the specified values
+     * @return a new ByteTuple.ByteTuple9 containing the specified value(s)
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values
      */
     @Deprecated
@@ -664,10 +661,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the internal array containing all byte elements in this tuple.
      * <p>
-     * This method provides direct access to the underlying byte array used by the tuple.
-     * Subclasses implement this method to return their internal storage. The returned array
-     * should not be modified directly as it may be shared or cached by the tuple implementation.
-     * For safe array access, use {@link #toArray()} instead, which returns a defensive copy.
+     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
      *
      * @return the internal array of byte elements

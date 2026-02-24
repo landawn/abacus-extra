@@ -332,7 +332,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
+     * Creates a square matrix from the specified main diagonal elements (upper-left to lower-right).
      * All other elements are set to zero. The resulting matrix has dimensions n×n where n is the length
      * of the diagonal array.
      *
@@ -353,7 +353,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements (right-up to left-down).
+     * Creates a square matrix from the specified anti-diagonal elements (upper-right to lower-left).
      * All other elements are set to zero. The resulting matrix has dimensions n×n where n is the length
      * of the diagonal array.
      *
@@ -812,7 +812,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns a copy of the main diagonal elements (left-up to right-down).
+     * Returns a copy of the main diagonal elements (upper-left to lower-right).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -840,7 +840,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
+     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -869,7 +869,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
+     * Updates the values on the main diagonal (upper-left to lower-right) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -893,11 +893,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns a copy of the anti-diagonal elements (right-up to left-down).
+     * Returns a copy of the anti-diagonal elements (upper-right to lower-left).
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
-     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      * The returned array is a copy; modifications to it will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
@@ -922,12 +922,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the elements on the anti-diagonal from right-up to left-down (anti-diagonal).
+     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
-     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -951,7 +951,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
+     * Updates the values on the anti-diagonal (upper-right to lower-left) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2277,7 +2277,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a stream of elements from the main diagonal (left-up to right-down).
+     * Returns a stream of elements from the main diagonal (upper-left to lower-right).
      * The matrix must be square (same number of rows and columns).
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2286,7 +2286,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * double[] diagonal = matrix.streamMainDiagonal().toArray();   // [1.0, 4.0]
      * }</pre>
      *
-     * @return a DoubleStream of diagonal elements from top-left to bottom-right
+     * @return a DoubleStream of diagonal elements from upper-left to lower-right
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
@@ -2332,7 +2332,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a stream of elements from the anti-diagonal (right-up to left-down).
+     * Returns a stream of elements from the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (same number of rows and columns).
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2341,7 +2341,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * double[] antiDiagonal = matrix.streamAntiDiagonal().toArray();   // [2.0, 3.0]
      * }</pre>
      *
-     * @return a DoubleStream of diagonal elements from top-right to bottom-left
+     * @return a DoubleStream of diagonal elements from upper-right to lower-left
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
