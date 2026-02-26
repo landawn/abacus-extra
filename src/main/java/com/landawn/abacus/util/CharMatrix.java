@@ -831,6 +831,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateMainDiagonal(final Throwables.CharUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -918,6 +919,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.CharUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -943,6 +945,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.CharUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.applyAsChar(a[i][j]);
         Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
@@ -969,6 +972,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Character, E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
@@ -993,6 +997,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
         Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
@@ -1020,6 +1025,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final char newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
         Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
     }
@@ -1691,6 +1697,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     public CharMatrix reshape(final int newRowCount, final int newColumnCount) {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+        checkRepresentableShape(newRowCount, newColumnCount);
         N.checkArgument((long) newRowCount * newColumnCount >= elementCount(), "New shape [{}x{}={}] is too small to hold all {} elements", newRowCount,
                 newColumnCount, (long) newRowCount * newColumnCount, elementCount());
 
@@ -1891,8 +1898,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public CharMatrix vstack(final CharMatrix other) throws IllegalArgumentException {
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
+        final long mergedRowCount = (long) rowCount + other.rowCount;
+        N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: %s + %s = %s", rowCount, other.rowCount, mergedRowCount);
 
-        final char[][] c = new char[rowCount + other.rowCount][];
+        final char[][] c = new char[(int) mergedRowCount][];
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
@@ -1924,8 +1933,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public CharMatrix hstack(final CharMatrix other) throws IllegalArgumentException {
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
+        final long mergedColumnCount = (long) columnCount + other.columnCount;
+        N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: %s + %s = %s", columnCount, other.columnCount,
+                mergedColumnCount);
 
-        final char[][] c = new char[rowCount][columnCount + other.columnCount];
+        final char[][] c = new char[rowCount][(int) mergedColumnCount];
 
         for (int i = 0; i < rowCount; i++) {
             N.copy(a[i], 0, c[i], 0, columnCount);
@@ -2667,10 +2679,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     @Override
     public Stream<CharStream> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
-
-        if (isEmpty()) {
-            return Stream.empty();
-        }
 
         return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;

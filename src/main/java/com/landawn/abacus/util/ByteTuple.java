@@ -52,7 +52,7 @@ import com.landawn.abacus.util.stream.ByteStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
 
-    protected byte[] elements;
+    protected volatile byte[] elements;
 
     /**
      * Protected constructor for subclass instantiation. This constructor is not intended for direct use.

@@ -58,7 +58,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     protected IntTuple() {
     }
 
-    protected int[] elements;
+    protected volatile int[] elements;
 
     /**
      * Creates an IntTuple.IntTuple1 containing a single int value.

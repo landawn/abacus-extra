@@ -140,6 +140,12 @@ public class CharTupleTest extends TestBase {
     }
 
     @Test
+    public void testToStringForHigherArityUsesTupleFormat() {
+        assertEquals("(a, b, c, d)", CharTuple.of('a', 'b', 'c', 'd').toString());
+        assertEquals("(a, b, c, d, e, f, g, h, i)", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i').toString());
+    }
+
+    @Test
     public void testReverse() {
         CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
         CharTuple.CharTuple3 reversed = tuple.reverse();

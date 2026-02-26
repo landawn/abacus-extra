@@ -46,7 +46,7 @@ import com.landawn.abacus.util.stream.Stream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
 
-    protected boolean[] elements;
+    protected volatile boolean[] elements;
 
     /**
      * Constructor for subclasses.

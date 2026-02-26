@@ -58,7 +58,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     protected LongTuple() {
     }
 
-    protected long[] elements;
+    protected volatile long[] elements;
 
     /**
      * Creates a LongTuple.LongTuple1 containing a single long value.

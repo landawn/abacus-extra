@@ -52,7 +52,7 @@ import com.landawn.abacus.util.stream.CharStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
 
-    protected char[] elements;
+    protected volatile char[] elements;
 
     /**
      * Constructor for subclasses.
@@ -1706,6 +1706,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_4);
         }
 
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
+        }
+
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
@@ -1904,6 +1909,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_3);
             consumer.accept(_4);
             consumer.accept(_5);
+        }
+
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
         }
 
         /**
@@ -2108,6 +2118,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_4);
             consumer.accept(_5);
             consumer.accept(_6);
+        }
+
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
         }
 
         /**
@@ -2319,6 +2334,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_7);
         }
 
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
+        }
+
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
@@ -2528,6 +2548,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_6);
             consumer.accept(_7);
             consumer.accept(_8);
+        }
+
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
         }
 
         /**
@@ -2743,6 +2768,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_7);
             consumer.accept(_8);
             consumer.accept(_9);
+        }
+
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
         }
 
         /**

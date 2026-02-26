@@ -58,7 +58,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     protected ShortTuple() {
     }
 
-    protected short[] elements;
+    protected volatile short[] elements;
 
     /**
      * Creates a ShortTuple.ShortTuple1 containing a single short value.

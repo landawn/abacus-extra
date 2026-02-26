@@ -353,40 +353,46 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     // These constants ensure consistent exception messages across all matrix classes.
 
     /** Exception message format for row index out of bounds. Arguments: rowIndex, rowCount */
-    protected static final String MSG_ROW_INDEX_OUT_OF_BOUNDS = "Row index %d is out of bounds. Valid range is [0, %d)";
+    protected static final String MSG_ROW_INDEX_OUT_OF_BOUNDS = "Row index {} is out of bounds. Valid range is [0, {})";
 
     /** Exception message format for column index out of bounds. Arguments: columnIndex, columnCount */
-    protected static final String MSG_COLUMN_INDEX_OUT_OF_BOUNDS = "Column index %d is out of bounds. Valid range is [0, %d)";
+    protected static final String MSG_COLUMN_INDEX_OUT_OF_BOUNDS = "Column index {} is out of bounds. Valid range is [0, {})";
 
     /** Exception message format for row length mismatch. Arguments: expected, actual */
-    protected static final String MSG_ROW_LENGTH_MISMATCH = "Row length mismatch: expected %d columns but got %d";
+    protected static final String MSG_ROW_LENGTH_MISMATCH = "Row length mismatch: expected {} columns but got {}";
 
     /** Exception message format for column length mismatch. Arguments: expected, actual */
-    protected static final String MSG_COLUMN_LENGTH_MISMATCH = "Column length mismatch: expected %d rows but got %d";
+    protected static final String MSG_COLUMN_LENGTH_MISMATCH = "Column length mismatch: expected {} rows but got {}";
 
     /** Exception message format for diagonal array length mismatch. Arguments: expected, actual */
-    protected static final String MSG_DIAGONAL_LENGTH_MISMATCH = "Diagonal array length must equal matrix size: expected %d but got %d";
+    protected static final String MSG_DIAGONAL_LENGTH_MISMATCH = "Diagonal array length must equal matrix size: expected {} but got {}";
 
     /** Exception message format for non-square matrix error. Arguments: rowCount, columnCount */
-    protected static final String MSG_MATRIX_NOT_SQUARE = "Matrix must be square: current dimensions are %d rows x %d columns";
+    protected static final String MSG_MATRIX_NOT_SQUARE = "Matrix must be square: current dimensions are {} rows x {} columns";
 
     /** Exception message format for shape mismatch between two matrices. Arguments: rows1, cols1, rows2, cols2 */
-    protected static final String MSG_SHAPE_MISMATCH = "Matrix shape mismatch: this matrix is %dx%d but other is %dx%d";
+    protected static final String MSG_SHAPE_MISMATCH = "Matrix shape mismatch: this matrix is {}x{} but other is {}x{}";
 
     /** Exception message format for non-rectangular matrix. Arguments: firstRowLength, currentRowIndex, currentRowLength */
-    protected static final String MSG_NOT_RECTANGULAR = "Matrix must be rectangular: row 0 has %d columns, but row %d has %d columns";
+    protected static final String MSG_NOT_RECTANGULAR = "Matrix must be rectangular: row 0 has {} columns, but row {} has {} columns";
 
     /** Exception message format for vstack column count mismatch. Arguments: thisColumnCount, otherColumnCount */
-    protected static final String MSG_VSTACK_COLUMN_MISMATCH = "Column count mismatch for vstack: this matrix has %d columns but other has %d";
+    protected static final String MSG_VSTACK_COLUMN_MISMATCH = "Column count mismatch for vstack: this matrix has {} columns but other has {}";
 
     /** Exception message format for hstack row count mismatch. Arguments: thisRowCount, otherRowCount */
-    protected static final String MSG_HSTACK_ROW_MISMATCH = "Row count mismatch for hstack: this matrix has %d rows but other has %d";
+    protected static final String MSG_HSTACK_ROW_MISMATCH = "Row count mismatch for hstack: this matrix has {} rows but other has {}";
 
     /** Exception message format for negative dimension. Arguments: paramName, value */
-    protected static final String MSG_NEGATIVE_DIMENSION = "%s cannot be negative: %d";
+    protected static final String MSG_NEGATIVE_DIMENSION = "%s cannot be negative: {}";
 
     /** Exception message format for non-positive repeats. Arguments: rowRepeats, colRepeats */
-    protected static final String MSG_REPEATS_NOT_POSITIVE = "rowRepeats and colRepeats must be positive: rowRepeats=%d, colRepeats=%d";
+    protected static final String MSG_REPEATS_NOT_POSITIVE = "rowRepeats and colRepeats must be positive: rowRepeats={}, colRepeats={}";
+
+    /**
+     * Exception message format for matrix shapes that cannot be represented by this row-array-backed implementation.
+     * Arguments: rowCount, columnCount.
+     */
+    protected static final String MSG_UNREPRESENTABLE_SHAPE = "Matrix shape {}x{} is not representable: zero rows require zero columns";
 
     // ==================== End Exception Message Constants ====================
 
@@ -461,6 +467,18 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         }
 
         return (int) count;
+    }
+
+    /**
+     * Validates that the specified shape is representable by this matrix implementation.
+     * Because dimensions are encoded by row arrays, a matrix with zero rows can only have zero columns.
+     *
+     * @param rowCount the row count
+     * @param columnCount the column count
+     * @throws IllegalArgumentException if the shape is not representable
+     */
+    protected static void checkRepresentableShape(final int rowCount, final int columnCount) {
+        N.checkArgument(rowCount > 0 || columnCount == 0, MSG_UNREPRESENTABLE_SHAPE, rowCount, columnCount);
     }
 
     /**
@@ -806,6 +824,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
         N.checkArgument(newRowCount <= Integer.MAX_VALUE, "Reshaped row count overflow: ceil(%s / %s) = %s exceeds Integer.MAX_VALUE", elementCount,
                 newColumnCount, newRowCount);
+
+        checkRepresentableShape((int) newRowCount, newColumnCount);
 
         return reshape((int) newRowCount, newColumnCount);
     }

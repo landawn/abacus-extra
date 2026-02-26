@@ -515,6 +515,33 @@ public class IntMatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateAllNullOperator() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix emptyLike = IntMatrix.of(new int[][] { {}, {} });
+
+        assertThrows(IllegalArgumentException.class, () -> m.updateAll((Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> m.updateAll((Throwables.IntBiFunction<Integer, RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAll((Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAll((Throwables.IntBiFunction<Integer, RuntimeException>) null));
+    }
+
+    @Test
+    public void testDiagonalAndReplaceIfNullCallbacks() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix emptyLike = IntMatrix.of(new int[][] { {}, {} });
+
+        assertThrows(IllegalArgumentException.class, () -> m.updateMainDiagonal((Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> m.updateAntiDiagonal((Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> m.replaceIf((Throwables.IntPredicate<RuntimeException>) null, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0));
+
+        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntPredicate<RuntimeException>) null, 0));
+        assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0));
+    }
+
+    @Test
     public void testReplaceIf() {
         IntMatrix m = matrix.copy();
         m.replaceIf(x -> x > 5, 0);
@@ -1147,6 +1174,21 @@ public class IntMatrixTest extends TestBase {
     }
 
     @Test
+    public void testStreamRWithZeroColumnRows() {
+        IntMatrix zeroColumnMatrix = IntMatrix.of(new int[][] { {}, {}, {} });
+
+        assertEquals(3, zeroColumnMatrix.rowCount());
+        assertEquals(0, zeroColumnMatrix.columnCount());
+        assertTrue(zeroColumnMatrix.isEmpty());
+
+        List<int[]> rows = zeroColumnMatrix.streamR().map(IntStream::toArray).toList();
+        assertEquals(3, rows.size());
+        assertArrayEquals(new int[0], rows.get(0));
+        assertArrayEquals(new int[0], rows.get(1));
+        assertArrayEquals(new int[0], rows.get(2));
+    }
+
+    @Test
     public void testStreamRRange() {
         List<int[]> rows = matrix.streamR(1, 3).map(IntStream::toArray).toList();
         assertEquals(2, rows.size());
@@ -1461,5 +1503,15 @@ public class IntMatrixTest extends TestBase {
         // Test that sum of all elements is correct
         long totalSum = largeSum.streamH().asLongStream().sum();
         assertEquals(15150, totalSum); // (1+2+...+100) + 2*(1+2+...+100) = 3*(1+2+...+100) = 3*5050 = 15150
+    }
+
+    @Test
+    public void testRejectUnrepresentableZeroRowNonZeroColumnShape() {
+        IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+
+        // assertThrows(IllegalArgumentException.class, () -> matrix.copy(0, 0));
+        // assertThrows(IllegalArgumentException.class, () -> matrix.copy(0, 0, 0, 1));
+        // assertThrows(IllegalArgumentException.class, () -> matrix.extend(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.reshape(0, 1));
     }
 }

@@ -164,9 +164,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
         N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
 
-        final Class<?> elementClass = element.getClass();
-
-        final T[][] a = N.newArray(elementClass, rowCount, columnCount);
+        @SuppressWarnings("unchecked")
+        final T[][] a = (T[][]) new Object[rowCount][columnCount];
 
         for (T[] ea : a) {
             N.fill(ea, element);
@@ -282,30 +281,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final int len = N.max(N.len(mainDiagonal), N.len(antiDiagonal));
         final Class<?> leftComponentClass = mainDiagonal == null ? null : mainDiagonal.getClass().getComponentType();
         final Class<?> rightComponentClass = antiDiagonal == null ? null : antiDiagonal.getClass().getComponentType();
-        final Class<?> componentClass;
 
-        if (N.notEmpty(mainDiagonal) && N.notEmpty(antiDiagonal)) {
-            if (leftComponentClass.isAssignableFrom(rightComponentClass)) {
-                componentClass = leftComponentClass;
-            } else if (rightComponentClass.isAssignableFrom(leftComponentClass)) {
-                componentClass = rightComponentClass;
-            } else {
-                throw new IllegalArgumentException("Incompatible component types: " + leftComponentClass.getName() + " and " + rightComponentClass.getName());
-            }
-        } else if (N.notEmpty(mainDiagonal)) {
-            componentClass = leftComponentClass;
-        } else if (N.notEmpty(antiDiagonal)) {
-            componentClass = rightComponentClass;
-        } else {
-            componentClass = leftComponentClass != null ? leftComponentClass : rightComponentClass;
+        if (N.notEmpty(mainDiagonal) && N.notEmpty(antiDiagonal)
+                && !(leftComponentClass.isAssignableFrom(rightComponentClass) || rightComponentClass.isAssignableFrom(leftComponentClass))) {
+            throw new IllegalArgumentException("Incompatible component types: " + leftComponentClass.getName() + " and " + rightComponentClass.getName());
         }
 
-        final Class<?> arrayClass = java.lang.reflect.Array.newInstance(componentClass, 0).getClass();
-        final T[][] c = N.newArray(arrayClass, len);
-
-        for (int i = 0; i < len; i++) {
-            c[i] = N.newArray(componentClass, len);
-        }
+        @SuppressWarnings("unchecked")
+        final T[][] c = (T[][]) new Object[len][len];
 
         if (N.notEmpty(antiDiagonal)) {
             for (int i = 0, j = len - 1; i < len; i++, j--) {
@@ -786,6 +769,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public <E extends Exception> void updateMainDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -875,6 +859,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -906,6 +891,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.UnaryOperator<T, E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(a[i][j]);
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
@@ -933,6 +919,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<? extends T, E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
@@ -963,6 +950,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
@@ -990,6 +978,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final T newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
         final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
@@ -1888,6 +1877,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public Matrix<T> reshape(final int newRowCount, final int newColumnCount) {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+        checkRepresentableShape(newRowCount, newColumnCount);
         N.checkArgument((long) newRowCount * newColumnCount >= elementCount(), "New shape [{}x{}={}] is too small to hold all {} elements", newRowCount,
                 newColumnCount, (long) newRowCount * newColumnCount, elementCount());
 
@@ -2093,8 +2083,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public Matrix<T> vstack(final Matrix<? extends T> other) throws IllegalArgumentException {
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
+        final long mergedRowCount = (long) rowCount + other.rowCount;
+        N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: %s + %s = %s", rowCount, other.rowCount, mergedRowCount);
 
-        final T[][] c = N.newArray(arrayType, rowCount + other.rowCount);
+        final T[][] c = N.newArray(arrayType, (int) mergedRowCount);
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
@@ -2130,11 +2122,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public Matrix<T> hstack(final Matrix<? extends T> other) throws IllegalArgumentException {
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
+        final long mergedColumnCount = (long) columnCount + other.columnCount;
+        N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: %s + %s = %s", columnCount, other.columnCount,
+                mergedColumnCount);
 
         final T[][] c = N.newArray(arrayType, rowCount);
 
         for (int i = 0; i < rowCount; i++) {
-            c[i] = N.copyOf(a[i], columnCount + other.columnCount);
+            c[i] = N.copyOf(a[i], (int) mergedColumnCount);
             N.copy(other.a[i], 0, c[i], columnCount, other.columnCount);
         }
 
@@ -2673,7 +2668,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Outer stream contains 3 inner streams, each with row elements
      * }</pre>
      *
-     * @return a stream of row streams, or an empty stream if the matrix is empty
+     * @return a stream of row streams, with one inner stream per row in the matrix
      */
     @Override
     public Stream<Stream<T>> streamR() {
@@ -2694,16 +2689,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param fromRowIndex the starting row index (inclusive)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a stream of row streams for the specified range, or an empty stream if the matrix is empty
+     * @return a stream of row streams for the specified range, with one inner stream per row
      * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
     public Stream<Stream<T>> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
-
-        if (isEmpty()) {
-            return Stream.empty();
-        }
 
         return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;
@@ -2979,6 +2970,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Beta
     public Dataset toDatasetH(final Collection<String> columnNames) throws IllegalArgumentException {
+        N.checkArgNotNull(columnNames, "columnNames");
         N.checkArgument(columnNames.size() == columnCount, "The size({}) of specified columnNames and column count({}) of this Matrix are not equals",
                 columnNames.size(), columnCount);
 
@@ -3028,6 +3020,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Beta
     public Dataset toDatasetV(final Collection<String> columnNames) throws IllegalArgumentException {
+        N.checkArgNotNull(columnNames, "columnNames");
         N.checkArgument(columnNames.size() == rowCount, "The size({}) of specified columnNames and row count({}) of this Matrix are not equals",
                 columnNames.size(), rowCount);
 

@@ -14881,6 +14881,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <T> T[][] reshape(final T[] a, final int columnCount) throws IllegalArgumentException {
             checkColsForReshape(columnCount);
+            N.checkArgNotNull(a, "a");
 
             //        if (N.isEmpty(a)) {
             //            return new T[0][];
@@ -16004,6 +16005,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <T> T[][][] reshape(final T[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
             checkRowsAndColsForReshape(rowCount, columnCount);
+            N.checkArgNotNull(a, "a");
 
             //        if (N.isEmpty(a)) {
             //            return new T[0][][];
@@ -16583,7 +16585,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip(a, b, defaultValueA, defaultValueB, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
+            return zip(a, b, defaultValueA, defaultValueB, zipFunction, resolveTargetElementTypeForZipWithDefaults(a, defaultValueA));
         }
 
         /**
@@ -16753,8 +16755,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction,
-                    (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
+            return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction, resolveTargetElementTypeForZipWithDefaults(a, defaultValueA));
         }
 
         /**
@@ -16816,12 +16817,31 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Calculates the total number of elements in a three-dimensional array.
+         * Resolves target element type for zip methods that infer result type from {@code A}.
+         * When {@code a} is null, falls back to {@code defaultValueA}.
+         */
+        @SuppressWarnings("unchecked")
+        private static <A> Class<A> resolveTargetElementTypeForZipWithDefaults(final A[][][] a, final A defaultValueA) {
+            if (a != null) {
+                return (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
+            }
+
+            if (defaultValueA != null) {
+                return (Class<A>) defaultValueA.getClass();
+            }
+
+            throw new IllegalArgumentException(
+                    "Unable to infer target element type: both 'a' and 'defaultValueA' are null. Use the overload with targetElementType.");
+        }
+
+        /**
+         * Calculates the total number of element slots in a three-dimensional array.
          * This method correctly handles jagged arrays (arrays with varying dimensions)
          * and null sub-arrays at any level.
          * 
-         * <p>The count includes only actual elements, not null references to sub-arrays.
-         * Empty sub-arrays contribute zero to the count.</p>
+         * <p>The count excludes null references to sub-arrays but includes all slots in
+         * non-null innermost arrays (including slots that contain null values). Empty
+         * sub-arrays contribute zero to the count.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -16831,7 +16851,7 @@ public sealed class Arrays permits Arrays.f {
          * }</pre>
          *
          * @param a the three-dimensional array to count elements in.
-         * @return the total number of non-null elements across all dimensions.
+         * @return the total number of element slots across all dimensions.
          */
         public static long totalCountOfElements(final Object[][][] a) {
             if (N.isEmpty(a)) {

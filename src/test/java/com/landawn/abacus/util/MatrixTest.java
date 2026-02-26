@@ -459,6 +459,33 @@ public class MatrixTest extends TestBase {
     }
 
     @Test
+    public void testUpdateAllNullOperator() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> emptyLike = Matrix.of(new Integer[][] { {}, {} });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateAll((Throwables.UnaryOperator<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateAll((Throwables.IntBiFunction<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAll((Throwables.UnaryOperator<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAll((Throwables.IntBiFunction<Integer, RuntimeException>) null));
+    }
+
+    @Test
+    public void testDiagonalAndReplaceIfNullCallbacks() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> emptyLike = Matrix.of(new Integer[][] { {}, {} });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateMainDiagonal((Throwables.UnaryOperator<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.updateAntiDiagonal((Throwables.UnaryOperator<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.Predicate<Integer, RuntimeException>) null, 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.UnaryOperator<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.UnaryOperator<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.Predicate<Integer, RuntimeException>) null, 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0));
+    }
+
+    @Test
     public void testReplaceIf() throws Exception {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
@@ -1077,6 +1104,22 @@ public class MatrixTest extends TestBase {
     }
 
     @Test
+    public void testStreamRWithZeroColumnRows() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { {}, {}, {} });
+
+        Assertions.assertEquals(3, matrix.rowCount());
+        Assertions.assertEquals(0, matrix.columnCount());
+        Assertions.assertTrue(matrix.isEmpty());
+
+        List<List<Integer>> rows = matrix.streamR().map(stream -> stream.toList()).toList();
+
+        Assertions.assertEquals(3, rows.size());
+        Assertions.assertTrue(rows.get(0).isEmpty());
+        Assertions.assertTrue(rows.get(1).isEmpty());
+        Assertions.assertTrue(rows.get(2).isEmpty());
+    }
+
+    @Test
     public void testStreamRRange() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
 
@@ -1168,6 +1211,13 @@ public class MatrixTest extends TestBase {
     }
 
     @Test
+    public void testToDatasetHNullColumnNames() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.toDatasetH(null));
+    }
+
+    @Test
     public void testToDatasetV() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         List<String> columnNames = Arrays.asList("Row1", "Row2");
@@ -1187,6 +1237,13 @@ public class MatrixTest extends TestBase {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             matrix.toDatasetV(columnNames);
         });
+    }
+
+    @Test
+    public void testToDatasetVNullColumnNames() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.toDatasetV(null));
     }
 
     @Test
@@ -1270,6 +1327,24 @@ public class MatrixTest extends TestBase {
 
         matrix.set(0, 0, "x");
         Assertions.assertEquals("x", matrix.get(0, 0));
+    }
+
+    @Test
+    public void testRejectUnrepresentableZeroRowNonZeroColumnShape() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+
+        // Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.copy(0, 0));
+        // Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.copy(0, 0, 0, 1));
+        // Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.extend(0, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.reshape(0, 1));
+    }
+
+    @Test
+    public void testRepeatSupportsWiderGenericType() {
+        Matrix<Number> matrix = Matrix.repeat(1, 1, 1);
+
+        matrix.set(0, 0, 2.5d);
+        Assertions.assertEquals(2.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
     }
 
     @Test

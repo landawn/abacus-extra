@@ -764,6 +764,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateMainDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -859,6 +860,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
@@ -890,6 +892,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.BooleanUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.applyAsBoolean(a[i][j]);
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
     }
@@ -919,6 +922,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Boolean, E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
     }
@@ -949,6 +953,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
     }
@@ -979,6 +984,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final boolean newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
     }
@@ -1702,6 +1708,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public BooleanMatrix reshape(final int newRowCount, final int newColumnCount) {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
+        checkRepresentableShape(newRowCount, newColumnCount);
         N.checkArgument((long) newRowCount * newColumnCount >= elementCount(), "New shape [{}x{}={}] is too small to hold all {} elements", newRowCount,
                 newColumnCount, (long) newRowCount * newColumnCount, elementCount());
 
@@ -1904,8 +1911,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public BooleanMatrix vstack(final BooleanMatrix other) throws IllegalArgumentException {
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
+        final long mergedRowCount = (long) rowCount + other.rowCount;
+        N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: %s + %s = %s", rowCount, other.rowCount, mergedRowCount);
 
-        final boolean[][] c = new boolean[rowCount + other.rowCount][];
+        final boolean[][] c = new boolean[(int) mergedRowCount][];
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
@@ -1948,8 +1957,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public BooleanMatrix hstack(final BooleanMatrix other) throws IllegalArgumentException {
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
+        final long mergedColumnCount = (long) columnCount + other.columnCount;
+        N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: %s + %s = %s", columnCount, other.columnCount,
+                mergedColumnCount);
 
-        final boolean[][] c = new boolean[rowCount][columnCount + other.columnCount];
+        final boolean[][] c = new boolean[rowCount][(int) mergedColumnCount];
 
         for (int i = 0; i < rowCount; i++) {
             N.copy(a[i], 0, c[i], 0, columnCount);
@@ -2586,8 +2598,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     .toArray();   // [2, 0, 3]
      * }</pre>
      * 
-     * @return a Stream of Stream&lt;Boolean&gt; objects, one for each row in the matrix,
-     *         or an empty stream if the matrix is empty
+     * @return a Stream of Stream&lt;Boolean&gt; objects, one for each row in the matrix
      */
     @Override
     public Stream<Stream<Boolean>> streamR() {
@@ -2620,18 +2631,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a Stream of Stream&lt;Boolean&gt; objects for the specified row range,
-     *         or an empty stream if the matrix is empty
+     * @return a Stream of Stream&lt;Boolean&gt; objects for the specified row range
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount,
      *         or fromRowIndex &gt; toRowIndex
      */
     @Override
     public Stream<Stream<Boolean>> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
-
-        if (isEmpty()) {
-            return Stream.empty();
-        }
 
         return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;

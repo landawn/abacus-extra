@@ -101,6 +101,32 @@ public class ArraysTest extends TestBase {
     }
 
     @Test
+    public void testFfReshapeRejectsNullInput() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ff.reshape((String[]) null, 2));
+    }
+
+    @Test
+    public void testFffReshapeRejectsNullInput() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> fff.reshape((String[]) null, 2, 2));
+    }
+
+    @Test
+    public void testFffZipWithDefaultsSupportsNullLeftInput() throws Exception {
+        Integer[][][] right = { { { 1, 2 } } };
+
+        Integer[][][] result = fff.zip(null, right, 0, 0, Integer::sum);
+
+        Assertions.assertArrayEquals(new Integer[][][] { { { 1, 2 } } }, result);
+    }
+
+    @Test
+    public void testFffZipWithDefaultsRejectsMissingTypeHints() {
+        Integer[][][] right = { { { 1 } } };
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> fff.zip(null, right, null, 0, Integer::sum));
+    }
+
+    @Test
     public void test_001() throws IOException {
 
         File file = new File("src/main/java/com/landawn/abacus/util/Arrays.java");
@@ -4151,7 +4177,7 @@ public class ArraysTest extends TestBase {
             Assertions.assertThrows(IllegalArgumentException.class, () -> {
                 fff.reshape(flat, -1, 2);
             });
-            Assertions.assertThrows(NullPointerException.class, () -> {
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
                 fff.reshape(null, 2, 2);
             });
         }

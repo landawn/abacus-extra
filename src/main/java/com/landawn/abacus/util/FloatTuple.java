@@ -52,7 +52,7 @@ import com.landawn.abacus.util.stream.FloatStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
 
-    protected float[] elements;
+    protected volatile float[] elements;
 
     /**
      * Protected constructor for subclass instantiation.

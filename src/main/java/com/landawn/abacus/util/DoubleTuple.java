@@ -52,7 +52,7 @@ import com.landawn.abacus.util.stream.DoubleStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
 
-    protected double[] elements;
+    protected volatile double[] elements;
 
     /**
      * Protected constructor for subclass instantiation.
