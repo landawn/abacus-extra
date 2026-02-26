@@ -736,7 +736,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public void setMainDiagonal(final boolean[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final boolean[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected %s but got %s", rowCount, diagonal.length);
+        N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected {} but got {}", rowCount, diagonal.length);
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = diagonal[i]; // NOSONAR
@@ -832,7 +832,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public void setAntiDiagonal(final boolean[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final boolean[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected %s but got %s", rowCount, diagonal.length);
+        N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected {} but got {}", rowCount, diagonal.length);
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = diagonal[i];
@@ -1120,8 +1120,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final boolean[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
-        N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rowCount);
-        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and columnCount(%s)", fromColumnIndex,
+        N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex({}) must be between 0 and rows({})", fromRowIndex, rowCount);
+        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex({}) must be between 0 and columnCount({})", fromColumnIndex,
                 columnCount);
 
         for (int i = 0, minLen = N.min(rowCount - fromRowIndex, b.length); i < minLen; i++) {
@@ -1912,7 +1912,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public BooleanMatrix vstack(final BooleanMatrix other) throws IllegalArgumentException {
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
-        N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: %s + %s = %s", rowCount, other.rowCount, mergedRowCount);
+        N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: {} + {} = {}", rowCount, other.rowCount, mergedRowCount);
 
         final boolean[][] c = new boolean[(int) mergedRowCount][];
         int j = 0;
@@ -1958,7 +1958,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public BooleanMatrix hstack(final BooleanMatrix other) throws IllegalArgumentException {
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
-        N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: %s + %s = %s", columnCount, other.columnCount,
+        N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: {} + {} = {}", columnCount, other.columnCount,
                 mergedColumnCount);
 
         final boolean[][] c = new boolean[rowCount][(int) mergedColumnCount];
@@ -2052,7 +2052,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Throwables.BooleanBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
+        N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is {}x{} but other is {}x{}", rowCount, columnCount,
                 matrixB.rowCount, matrixB.columnCount);
         N.checkArgNotNull(zipFunction, "zipFunction");
 
@@ -2104,7 +2104,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final BooleanMatrix matrixC,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rowCount,
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be {}x{}", rowCount,
                 columnCount);
         N.checkArgNotNull(zipFunction, "zipFunction");
 

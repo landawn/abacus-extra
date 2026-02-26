@@ -383,7 +383,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     protected static final String MSG_HSTACK_ROW_MISMATCH = "Row count mismatch for hstack: this matrix has {} rows but other has {}";
 
     /** Exception message format for negative dimension. Arguments: paramName, value */
-    protected static final String MSG_NEGATIVE_DIMENSION = "%s cannot be negative: {}";
+    protected static final String MSG_NEGATIVE_DIMENSION = "{} cannot be negative: {}";
 
     /** Exception message format for non-positive repeats. Arguments: rowRepeats, colRepeats */
     protected static final String MSG_REPEATS_NOT_POSITIVE = "rowRepeats and colRepeats must be positive: rowRepeats={}, colRepeats={}";
@@ -442,7 +442,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
         if (a.length > 1) {
             for (int i = 1, len = a.length; i < len; i++) {
-                N.checkArgument(a[i] != null, "Row %s cannot be null", i);
+                N.checkArgument(a[i] != null, "Row {} cannot be null", i);
                 if (length(a[i]) != columnCount) {
                     throw new IllegalArgumentException(String.format(MSG_NOT_RECTANGULAR, columnCount, i, length(a[i])));
                 }
@@ -818,11 +818,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalArgumentException if newColumnCount &lt;= 0
      */
     public X reshape(final int newColumnCount) {
-        N.checkArgument(newColumnCount > 0, "newColumnCount must be positive, but got: %s", newColumnCount);
+        N.checkArgument(newColumnCount > 0, "newColumnCount must be positive, but got: {}", newColumnCount);
 
         final long newRowCount = elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1;
 
-        N.checkArgument(newRowCount <= Integer.MAX_VALUE, "Reshaped row count overflow: ceil(%s / %s) = %s exceeds Integer.MAX_VALUE", elementCount,
+        N.checkArgument(newRowCount <= Integer.MAX_VALUE, "Reshaped row count overflow: ceil({} / {}) = {} exceeds Integer.MAX_VALUE", elementCount,
                 newColumnCount, newRowCount);
 
         checkRepresentableShape((int) newRowCount, newColumnCount);

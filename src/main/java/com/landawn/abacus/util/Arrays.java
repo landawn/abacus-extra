@@ -14419,14 +14419,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     private static void checkColsForReshape(final int m) { // NOSONAR
-        N.checkArgument(m > 0, "columnCount must be a positive number, but got: %s", m);
+        N.checkArgument(m > 0, "columnCount must be a positive number, but got: {}", m);
     }
 
     private static void checkRowsAndColsForReshape(final int rowCount, final int columnCount) {
-        N.checkArgument(rowCount > 0 && columnCount > 0, "rowCount and columnCount must be positive numbers: rowCount = %s, columnCount = %s", rowCount,
+        N.checkArgument(rowCount > 0 && columnCount > 0, "rowCount and columnCount must be positive numbers: rowCount = {}, columnCount = {}", rowCount,
                 columnCount);
         N.checkArgument((long) rowCount * (long) columnCount <= Integer.MAX_VALUE,
-                "rowCount * columnCount must be <= %s, but got: rowCount = %s, columnCount = %s", Integer.MAX_VALUE, rowCount, columnCount);
+                "rowCount * columnCount must be <= {}, but got: rowCount = {}, columnCount = {}", Integer.MAX_VALUE, rowCount, columnCount);
     }
 
     /**

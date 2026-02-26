@@ -370,8 +370,8 @@ public final class Matrices {
      */
     public static <T> T[][] newArray(final int rowCount, final int columnCount, final Class<T> targetElementType) {
         N.checkArgNotNull(targetElementType, "targetElementType");
-        N.checkArgument(rowCount >= 0, "rowCount cannot be negative: %s", rowCount);
-        N.checkArgument(columnCount >= 0, "columnCount cannot be negative: %s", columnCount);
+        N.checkArgument(rowCount >= 0, "rowCount cannot be negative: {}", rowCount);
+        N.checkArgument(columnCount >= 0, "columnCount cannot be negative: {}", columnCount);
         final Class<T> eleType = (Class<T>) ClassUtil.wrap(targetElementType);
         final Class<T[]> subArrayType = (Class<T[]>) N.newArray(eleType, 0).getClass();
 
@@ -812,7 +812,7 @@ public final class Matrices {
         N.checkArgNotNull(action, "action");
 
         N.checkArgument(a.columnCount == b.rowCount,
-                "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
+                "Matrix dimensions incompatible for multiplication: a is {}x{}, b is {}x{} (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
                 b.rowCount, b.columnCount);
 
         multiply(a, b, action, Matrices.isParallelizable(a, a.elementCount * b.columnCount));
@@ -857,7 +857,7 @@ public final class Matrices {
         N.checkArgNotNull(action, "action");
 
         N.checkArgument(a.columnCount == b.rowCount,
-                "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
+                "Matrix dimensions incompatible for multiplication: a is {}x{}, b is {}x{} (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
                 b.rowCount, b.columnCount);
 
         final int rowsA = a.rowCount;
