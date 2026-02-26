@@ -1707,6 +1707,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * _1 + _2) + _3)) + _4;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final CharTuple4 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4;
+            }
+        }
+
+        @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
         }
@@ -1909,6 +1925,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_3);
             consumer.accept(_4);
             consumer.accept(_5);
+        }
+
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4)) + _5;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final CharTuple5 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5;
+            }
         }
 
         @Override
@@ -2118,6 +2150,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_4);
             consumer.accept(_5);
             consumer.accept(_6);
+        }
+
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5)) + _6;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final CharTuple6 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6;
+            }
         }
 
         @Override
@@ -2335,6 +2383,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6)) + _7;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final CharTuple7 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7;
+            }
+        }
+
+        @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
         }
@@ -2548,6 +2612,23 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_6);
             consumer.accept(_7);
             consumer.accept(_8);
+        }
+
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7)) + _8;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final CharTuple8 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8;
+            }
         }
 
         @Override
@@ -2768,6 +2849,23 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_7);
             consumer.accept(_8);
             consumer.accept(_9);
+        }
+
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8)) + _9;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final CharTuple9 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8 && _9 == other._9;
+            }
         }
 
         @Override

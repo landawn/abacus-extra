@@ -1275,7 +1275,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         if (newRowCount <= rowCount && newColumnCount <= columnCount) {
             return copy(0, newRowCount, 0, newColumnCount);
         } else {
-            final boolean fillDefaultValue = defaultValueForNewCell != 0;
+            final boolean fillDefaultValue = Float.floatToRawIntBits(defaultValueForNewCell) != 0;
             final float[][] b = new float[newRowCount][];
 
             for (int i = 0; i < newRowCount; i++) {
@@ -1381,7 +1381,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
             final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
-            final boolean fillDefaultValue = defaultValueForNewCell != 0;
+            final boolean fillDefaultValue = Float.floatToRawIntBits(defaultValueForNewCell) != 0;
             final float[][] b = new float[newRowCount][newColumnCount];
 
             for (int i = 0; i < newRowCount; i++) {

@@ -1439,7 +1439,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         if (newRowCount <= rowCount && newColumnCount <= columnCount) {
             return copy(0, newRowCount, 0, newColumnCount);
         } else {
-            final boolean fillDefaultValue = defaultValueForNewCell != 0;
+            final boolean fillDefaultValue = Double.doubleToRawLongBits(defaultValueForNewCell) != 0;
             final double[][] b = new double[newRowCount][];
 
             for (int i = 0; i < newRowCount; i++) {
@@ -1545,7 +1545,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
             final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
-            final boolean fillDefaultValue = defaultValueForNewCell != 0;
+            final boolean fillDefaultValue = Double.doubleToRawLongBits(defaultValueForNewCell) != 0;
             final double[][] b = new double[newRowCount][newColumnCount];
 
             for (int i = 0; i < newRowCount; i++) {
