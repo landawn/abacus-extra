@@ -800,7 +800,7 @@ public class Matrix2510Test extends TestBase {
     @Test
     public void testExtend_larger() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        Matrix<Integer> extended = m.extend(3, 3);
+        Matrix<Integer> extended = m.resize(3, 3);
 
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
@@ -813,7 +813,7 @@ public class Matrix2510Test extends TestBase {
     @Test
     public void testExtend_larger_withDefault() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        Matrix<Integer> extended = m.extend(3, 3, 0);
+        Matrix<Integer> extended = m.resize(3, 3, 0);
 
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
@@ -826,7 +826,7 @@ public class Matrix2510Test extends TestBase {
     @Test
     public void testExtend_smaller() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        Matrix<Integer> truncated = m.extend(2, 2);
+        Matrix<Integer> truncated = m.resize(2, 2);
 
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());

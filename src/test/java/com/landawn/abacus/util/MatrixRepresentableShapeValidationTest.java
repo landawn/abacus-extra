@@ -25,15 +25,15 @@ public class MatrixRepresentableShapeValidationTest extends TestBase {
         FloatMatrix floatMatrix = FloatMatrix.of(new float[][] { { 1F, 2F }, { 3F, 4F } });
         DoubleMatrix doubleMatrix = DoubleMatrix.of(new double[][] { { 1D, 2D }, { 3D, 4D } });
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.extend(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> booleanMatrix.extend(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> byteMatrix.extend(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> charMatrix.extend(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> shortMatrix.extend(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> intMatrix.extend(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> longMatrix.extend(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> floatMatrix.extend(0, 1));
-        assertThrows(IllegalArgumentException.class, () -> doubleMatrix.extend(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.resize(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> booleanMatrix.resize(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> byteMatrix.resize(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> charMatrix.resize(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> shortMatrix.resize(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> intMatrix.resize(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> longMatrix.resize(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> floatMatrix.resize(0, 1));
+        assertThrows(IllegalArgumentException.class, () -> doubleMatrix.resize(0, 1));
     }
 
     @Test

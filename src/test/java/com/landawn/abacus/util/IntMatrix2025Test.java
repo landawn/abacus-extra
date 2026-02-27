@@ -836,7 +836,7 @@ public class IntMatrix2025Test extends TestBase {
     @Test
     public void testExtend_larger() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix extended = m.extend(4, 4);
+        IntMatrix extended = m.resize(4, 4);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -847,7 +847,7 @@ public class IntMatrix2025Test extends TestBase {
     @Test
     public void testExtend_smaller() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        IntMatrix truncated = m.extend(2, 2);
+        IntMatrix truncated = m.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
         assertEquals(1, truncated.get(0, 0));
@@ -857,7 +857,7 @@ public class IntMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix extended = m.extend(3, 3, -1);
+        IntMatrix extended = m.resize(3, 3, -1);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -867,8 +867,8 @@ public class IntMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withNegativeDimensions() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.extend(-1, 3, 0));
-        assertThrows(IllegalArgumentException.class, () -> m.extend(3, -1, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 3, 0));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(3, -1, 0));
     }
 
     @Test
@@ -1668,7 +1668,7 @@ public class IntMatrix2025Test extends TestBase {
         assertEquals(empty, empty.transpose());
         assertEquals(empty, empty.rotate90());
 
-        IntMatrix extended = empty.extend(2, 2, 5);
+        IntMatrix extended = empty.resize(2, 2, 5);
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertEquals(5, extended.get(0, 0));

@@ -791,7 +791,7 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testExtend_larger() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix extended = m.extend(4, 4);
+        FloatMatrix extended = m.resize(4, 4);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals(1.0f, extended.get(0, 0), DELTA);
@@ -802,7 +802,7 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testExtend_smaller() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
-        FloatMatrix truncated = m.extend(2, 2);
+        FloatMatrix truncated = m.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
         assertEquals(1.0f, truncated.get(0, 0), DELTA);
@@ -812,7 +812,7 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix extended = m.extend(3, 3, -1.5f);
+        FloatMatrix extended = m.resize(3, 3, -1.5f);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1.0f, extended.get(0, 0), DELTA);
@@ -822,8 +822,8 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withNegativeDimensions() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.extend(-1, 3, 0.0f));
-        assertThrows(IllegalArgumentException.class, () -> m.extend(3, -1, 0.0f));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 3, 0.0f));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(3, -1, 0.0f));
     }
 
     @Test
@@ -876,7 +876,7 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testExtend_mixedSmallerAndLarger() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        FloatMatrix extended = m.extend(2, 1, 9.9f);
+        FloatMatrix extended = m.resize(2, 1, 9.9f);
         assertEquals(2, extended.rowCount());
         assertEquals(1, extended.columnCount());
         assertEquals(1.0f, extended.get(0, 0), DELTA);
@@ -1762,7 +1762,7 @@ public class FloatMatrix2025Test extends TestBase {
         assertEquals(empty, empty.transpose());
         assertEquals(empty, empty.rotate90());
 
-        FloatMatrix extended = empty.extend(2, 2, 5.5f);
+        FloatMatrix extended = empty.resize(2, 2, 5.5f);
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertEquals(5.5f, extended.get(0, 0), DELTA);

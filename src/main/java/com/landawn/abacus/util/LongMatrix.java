@@ -1383,7 +1383,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix extended = matrix.extend(3, 3);
+     * LongMatrix extended = matrix.resize(3, 3);
      * // Result: [[1, 2, 0],
      * //          [3, 4, 0],
      * //          [0, 0, 0]]
@@ -1394,8 +1394,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a new LongMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public LongMatrix extend(final int newRowCount, final int newColumnCount) {
-        return extend(newRowCount, newColumnCount, 0);
+    public LongMatrix resize(final int newRowCount, final int newColumnCount) {
+        return resize(newRowCount, newColumnCount, 0);
     }
 
     /**
@@ -1405,18 +1405,18 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
      * from the top-left corner. If larger, the existing content is preserved in the top-left
      * corner and new cells are filled with the specified default value. This method provides
-     * more control over the fill value compared to {@link #extend(int, int)}.
+     * more control over the fill value compared to {@link #resize(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix extended = matrix.extend(3, 4, 9L);   // Extend to 3x4, fill new cells with 9
+     * LongMatrix extended = matrix.resize(3, 4, 9L);   // Extend to 3x4, fill new cells with 9
      * // Result: [[1, 2, 9, 9],
      * //          [3, 4, 9, 9],
      * //          [9, 9, 9, 9]]
      *
      * // Truncate to smaller size
-     * LongMatrix truncated = matrix.extend(1, 1, 0L);   // Keep only top-left element
+     * LongMatrix truncated = matrix.resize(1, 1, 0L);   // Keep only top-left element
      * // Result: [[1]]
      * }</pre>
      *
@@ -1427,7 +1427,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public LongMatrix extend(final int newRowCount, final int newColumnCount, final long defaultValueForNewCell) throws IllegalArgumentException {
+    public LongMatrix resize(final int newRowCount, final int newColumnCount, final long defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
         checkRepresentableShape(newRowCount, newColumnCount);

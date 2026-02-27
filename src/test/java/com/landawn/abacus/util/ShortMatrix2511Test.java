@@ -642,7 +642,7 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testExtend_newSize() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        ShortMatrix extended = m.extend(3, 3);
+        ShortMatrix extended = m.resize(3, 3);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals((short) 1, extended.get(0, 0));
@@ -652,7 +652,7 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        ShortMatrix extended = m.extend(2, 3, (short) 99);
+        ShortMatrix extended = m.resize(2, 3, (short) 99);
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals((short) 1, extended.get(0, 0));

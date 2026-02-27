@@ -739,7 +739,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testExtend_larger() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Matrix<String> extended = m.extend(4, 4);
+        Matrix<String> extended = m.resize(4, 4);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals("A", extended.get(0, 0));
@@ -750,7 +750,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testExtend_smaller() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-        Matrix<String> truncated = m.extend(2, 2);
+        Matrix<String> truncated = m.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
         assertEquals("A", truncated.get(0, 0));
@@ -760,7 +760,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Matrix<String> extended = m.extend(3, 3, "X");
+        Matrix<String> extended = m.resize(3, 3, "X");
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals("A", extended.get(0, 0));
@@ -770,8 +770,8 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testExtend_withNegativeDimensions() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        assertThrows(IllegalArgumentException.class, () -> m.extend(-1, 3, "X"));
-        assertThrows(IllegalArgumentException.class, () -> m.extend(3, -1, "X"));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 3, "X"));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(3, -1, "X"));
     }
 
     @Test
@@ -1428,7 +1428,7 @@ public class Matrix2025Test extends TestBase {
         assertEquals(empty, empty.transpose());
         assertEquals(empty, empty.rotate90());
 
-        Matrix<String> extended = empty.extend(2, 2, "X");
+        Matrix<String> extended = empty.resize(2, 2, "X");
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertEquals("X", extended.get(0, 0));
@@ -1506,7 +1506,7 @@ public class Matrix2025Test extends TestBase {
         // Operations that return new matrices
         m.transpose();
         m.rotate90();
-        m.extend(5, 5);
+        m.resize(5, 5);
 
         // Original dimensions should not change
         assertEquals(originalRows, m.rowCount());
@@ -1601,7 +1601,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testExtend_smaller_nonSquare() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        Matrix<String> result = m.extend(1, 2);
+        Matrix<String> result = m.resize(1, 2);
         assertEquals(1, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals("A", result.get(0, 0));
@@ -1611,7 +1611,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testExtend_largerRows_smallerCols() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Matrix<String> result = m.extend(3, 1, "X");
+        Matrix<String> result = m.resize(3, 1, "X");
         assertEquals(3, result.rowCount());
         assertEquals(1, result.columnCount());
         assertEquals("A", result.get(0, 0));

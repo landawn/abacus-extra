@@ -789,7 +789,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_extend() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix extended = m.extend(3, 3);
+        IntMatrix extended = m.resize(3, 3);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -799,7 +799,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_extend_withDefaultValue() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        IntMatrix extended = m.extend(2, 3, 99);
+        IntMatrix extended = m.resize(2, 3, 99);
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -810,7 +810,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_extend_smaller() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        IntMatrix result = m.extend(1, 2);
+        IntMatrix result = m.resize(1, 2);
         assertEquals(1, result.rowCount());
         assertEquals(2, result.columnCount());
     }

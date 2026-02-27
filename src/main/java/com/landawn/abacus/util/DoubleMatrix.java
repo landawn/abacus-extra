@@ -1410,7 +1410,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleMatrix extended = matrix.extend(3, 3);
+     * DoubleMatrix extended = matrix.resize(3, 3);
      * // Result: [[1.0, 2.0, 0.0],
      * //          [3.0, 4.0, 0.0],
      * //          [0.0, 0.0, 0.0]]
@@ -1421,8 +1421,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return a new DoubleMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public DoubleMatrix extend(final int newRowCount, final int newColumnCount) {
-        return extend(newRowCount, newColumnCount, 0);
+    public DoubleMatrix resize(final int newRowCount, final int newColumnCount) {
+        return resize(newRowCount, newColumnCount, 0);
     }
 
     /**
@@ -1432,18 +1432,18 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
      * from the top-left corner. If larger, the existing content is preserved in the top-left
      * corner and new cells are filled with the specified default value. This method provides
-     * more control over the fill value compared to {@link #extend(int, int)}.
+     * more control over the fill value compared to {@link #resize(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleMatrix extended = matrix.extend(3, 4, 9.0);   // Extend to 3x4, fill new cells with 9.0
+     * DoubleMatrix extended = matrix.resize(3, 4, 9.0);   // Extend to 3x4, fill new cells with 9.0
      * // Result: [[1.0, 2.0, 9.0, 9.0],
      * //          [3.0, 4.0, 9.0, 9.0],
      * //          [9.0, 9.0, 9.0, 9.0]]
      *
      * // Truncate to smaller size
-     * DoubleMatrix truncated = matrix.extend(1, 1, 0.0);   // Keep only top-left element
+     * DoubleMatrix truncated = matrix.resize(1, 1, 0.0);   // Keep only top-left element
      * // Result: [[1.0]]
      * }</pre>
      *
@@ -1454,7 +1454,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public DoubleMatrix extend(final int newRowCount, final int newColumnCount, final double defaultValueForNewCell) throws IllegalArgumentException {
+    public DoubleMatrix resize(final int newRowCount, final int newColumnCount, final double defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
         checkRepresentableShape(newRowCount, newColumnCount);

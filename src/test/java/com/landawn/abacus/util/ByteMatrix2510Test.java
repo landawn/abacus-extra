@@ -715,7 +715,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        ByteMatrix extended = m.extend(2, 3);
+        ByteMatrix extended = m.resize(2, 3);
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -727,7 +727,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testExtend_withCustomDefaultValue() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        ByteMatrix extended = m.extend(2, 3, (byte) 9);
+        ByteMatrix extended = m.resize(2, 3, (byte) 9);
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -759,7 +759,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testExtend_invalidSize() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        ByteMatrix extended = m.extend(1, 1);
+        ByteMatrix extended = m.resize(1, 1);
         assertEquals(1, extended.rowCount());
         assertEquals(1, extended.columnCount());
     }

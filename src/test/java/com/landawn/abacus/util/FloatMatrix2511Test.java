@@ -694,7 +694,7 @@ public class FloatMatrix2511Test extends TestBase {
     @Test
     public void testExtend_simple() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix extended = m.extend(3, 3);
+        FloatMatrix extended = m.resize(3, 3);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1.0f, extended.get(0, 0));
@@ -705,7 +705,7 @@ public class FloatMatrix2511Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix extended = m.extend(3, 3, 9.0f);
+        FloatMatrix extended = m.resize(3, 3, 9.0f);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(9.0f, extended.get(2, 2));

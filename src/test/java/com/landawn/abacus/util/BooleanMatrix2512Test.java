@@ -861,7 +861,7 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_extend_twoParams() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix extended = m.extend(3, 3);
+        BooleanMatrix extended = m.resize(3, 3);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertTrue(extended.get(0, 0));
@@ -871,7 +871,7 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_extend_twoParamsWithDefault() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix extended = m.extend(3, 3, true);
+        BooleanMatrix extended = m.resize(3, 3, true);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertTrue(extended.get(2, 2));

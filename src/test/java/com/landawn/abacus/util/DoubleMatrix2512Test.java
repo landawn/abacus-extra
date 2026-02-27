@@ -734,7 +734,7 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_extend() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        DoubleMatrix extended = m.extend(3, 3);
+        DoubleMatrix extended = m.resize(3, 3);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1.0, extended.get(0, 0), 0.0);
@@ -744,7 +744,7 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_extend_withDefaultValue() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        DoubleMatrix extended = m.extend(2, 3, 99.0);
+        DoubleMatrix extended = m.resize(2, 3, 99.0);
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1.0, extended.get(0, 0), 0.0);
@@ -755,7 +755,7 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_extend_smaller() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
-        DoubleMatrix result = m.extend(1, 2);
+        DoubleMatrix result = m.resize(1, 2);
         assertEquals(1, result.rowCount());
         assertEquals(2, result.columnCount());
     }

@@ -1570,7 +1570,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Matrix<Integer> extended = matrix.extend(3, 3);   // 3x3 matrix with nulls in new cells
+     * Matrix<Integer> extended = matrix.resize(3, 3);   // 3x3 matrix with nulls in new cells
      * }</pre>
      *
      * @param newRowCount the number of rows in the new matrix
@@ -1579,8 +1579,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public Matrix<T> extend(final int newRowCount, final int newColumnCount) {
-        return extend(newRowCount, newColumnCount, null);
+    public Matrix<T> resize(final int newRowCount, final int newColumnCount) {
+        return resize(newRowCount, newColumnCount, null);
     }
 
     /**
@@ -1591,7 +1591,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Matrix<Integer> extended = matrix.extend(3, 3, 0);   // 3x3 matrix with 0s in new cells
+     * Matrix<Integer> extended = matrix.resize(3, 3, 0);   // 3x3 matrix with 0s in new cells
      * }</pre>
      *
      * @param newRowCount the number of rows in the new matrix
@@ -1601,7 +1601,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if newRowCount or newColumnCount is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public Matrix<T> extend(final int newRowCount, final int newColumnCount, final T defaultValueForNewCell) throws IllegalArgumentException {
+    public Matrix<T> resize(final int newRowCount, final int newColumnCount, final T defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
         checkRepresentableShape(newRowCount, newColumnCount);

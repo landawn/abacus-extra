@@ -1466,7 +1466,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntMatrix extended = matrix.extend(3, 3);
+     * IntMatrix extended = matrix.resize(3, 3);
      * // Result: [[1, 2, 0],
      * //          [3, 4, 0],
      * //          [0, 0, 0]]
@@ -1477,8 +1477,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a new IntMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public IntMatrix extend(final int newRowCount, final int newColumnCount) {
-        return extend(newRowCount, newColumnCount, 0);
+    public IntMatrix resize(final int newRowCount, final int newColumnCount) {
+        return resize(newRowCount, newColumnCount, 0);
     }
 
     /**
@@ -1488,18 +1488,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
      * from the top-left corner. If larger, the existing content is preserved in the top-left
      * corner and new cells are filled with the specified default value. This method provides
-     * more control over the fill value compared to {@link #extend(int, int)}.
+     * more control over the fill value compared to {@link #resize(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntMatrix extended = matrix.extend(3, 4, 9);   // Extend to 3x4, fill new cells with 9
+     * IntMatrix extended = matrix.resize(3, 4, 9);   // Extend to 3x4, fill new cells with 9
      * // Result: [[1, 2, 9, 9],
      * //          [3, 4, 9, 9],
      * //          [9, 9, 9, 9]]
      *
      * // Truncate to smaller size
-     * IntMatrix truncated = matrix.extend(1, 1, 0);   // Keep only top-left element
+     * IntMatrix truncated = matrix.resize(1, 1, 0);   // Keep only top-left element
      * // Result: [[1]]
      * }</pre>
      *
@@ -1510,7 +1510,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public IntMatrix extend(final int newRowCount, final int newColumnCount, final int defaultValueForNewCell) throws IllegalArgumentException {
+    public IntMatrix resize(final int newRowCount, final int newColumnCount, final int defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
         checkRepresentableShape(newRowCount, newColumnCount);

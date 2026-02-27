@@ -587,14 +587,14 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        ByteMatrix extended = matrix.extend(3, 3);
+        ByteMatrix extended = matrix.resize(3, 3);
         Assertions.assertEquals(3, extended.rowCount());
         Assertions.assertEquals(3, extended.columnCount());
         Assertions.assertEquals(1, extended.get(0, 0));
         Assertions.assertEquals(4, extended.get(1, 1));
         Assertions.assertEquals(0, extended.get(2, 2));
 
-        ByteMatrix truncated = matrix.extend(1, 1);
+        ByteMatrix truncated = matrix.resize(1, 1);
         Assertions.assertEquals(1, truncated.rowCount());
         Assertions.assertEquals(1, truncated.columnCount());
         Assertions.assertEquals(1, truncated.get(0, 0));
@@ -605,13 +605,13 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        ByteMatrix extended = matrix.extend(3, 3, (byte) 9);
+        ByteMatrix extended = matrix.resize(3, 3, (byte) 9);
         Assertions.assertEquals(9, extended.get(2, 2));
         Assertions.assertEquals(9, extended.get(0, 2));
         Assertions.assertEquals(9, extended.get(2, 0));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.extend(-1, 2, (byte) 0));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.extend(2, -1, (byte) 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.resize(-1, 2, (byte) 0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.resize(2, -1, (byte) 0));
     }
 
     @Test

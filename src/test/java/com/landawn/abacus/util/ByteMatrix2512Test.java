@@ -935,7 +935,7 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_extend_twoParams() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix extended = m.extend(3, 3);
+        ByteMatrix extended = m.resize(3, 3);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -945,7 +945,7 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_extend_twoParamsWithDefault() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix extended = m.extend(3, 3, (byte) 9);
+        ByteMatrix extended = m.resize(3, 3, (byte) 9);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(9, extended.get(2, 2));

@@ -697,7 +697,7 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testExtend_larger() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        ShortMatrix extended = m.extend(4, 4);
+        ShortMatrix extended = m.resize(4, 4);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -708,7 +708,7 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testExtend_smaller() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        ShortMatrix truncated = m.extend(2, 2);
+        ShortMatrix truncated = m.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
         assertEquals(1, truncated.get(0, 0));
@@ -718,7 +718,7 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        ShortMatrix extended = m.extend(3, 3, (short) -1);
+        ShortMatrix extended = m.resize(3, 3, (short) -1);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -728,8 +728,8 @@ public class ShortMatrix2510Test extends TestBase {
     @Test
     public void testExtend_withNegativeDimensions() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.extend(-1, 3, (short) 0));
-        assertThrows(IllegalArgumentException.class, () -> m.extend(3, -1, (short) 0));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 3, (short) 0));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(3, -1, (short) 0));
     }
 
     @Test

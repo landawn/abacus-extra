@@ -571,29 +571,29 @@ public class FloatMatrixTest extends TestBase {
 
     @Test
     public void testExtend() {
-        FloatMatrix extended = matrix.extend(5, 5);
+        FloatMatrix extended = matrix.resize(5, 5);
         assertEquals(5, extended.rowCount());
         assertEquals(5, extended.columnCount());
         assertEquals(1.0f, extended.get(0, 0), DELTA);
         assertEquals(0.0f, extended.get(3, 3), DELTA); // new cells are 0
 
         // Test truncation
-        FloatMatrix truncated = matrix.extend(2, 2);
+        FloatMatrix truncated = matrix.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
     }
 
     @Test
     public void testExtendWithDefaultValue() {
-        FloatMatrix extended = matrix.extend(4, 4, -1.0f);
+        FloatMatrix extended = matrix.resize(4, 4, -1.0f);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals(1.0f, extended.get(0, 0), DELTA);
         assertEquals(-1.0f, extended.get(3, 3), DELTA); // new cell
 
         // Test negative dimensions
-        assertThrows(IllegalArgumentException.class, () -> matrix.extend(-1, 3, 0.0f));
-        assertThrows(IllegalArgumentException.class, () -> matrix.extend(3, -1, 0.0f));
+        assertThrows(IllegalArgumentException.class, () -> matrix.resize(-1, 3, 0.0f));
+        assertThrows(IllegalArgumentException.class, () -> matrix.resize(3, -1, 0.0f));
     }
 
     @Test
@@ -1182,7 +1182,7 @@ public class FloatMatrixTest extends TestBase {
         assertEquals(emptyMatrix, emptyMatrix.transpose());
         assertEquals(emptyMatrix, emptyMatrix.rotate90());
 
-        FloatMatrix extended = emptyMatrix.extend(2, 2, 5.0f);
+        FloatMatrix extended = emptyMatrix.resize(2, 2, 5.0f);
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertEquals(5.0f, extended.get(0, 0), DELTA);

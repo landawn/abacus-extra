@@ -581,14 +581,14 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        CharMatrix extended = matrix.extend(3, 3);
+        CharMatrix extended = matrix.resize(3, 3);
         Assertions.assertEquals(3, extended.rowCount());
         Assertions.assertEquals(3, extended.columnCount());
         Assertions.assertEquals('a', extended.get(0, 0));
         Assertions.assertEquals('d', extended.get(1, 1));
         Assertions.assertEquals((char) 0, extended.get(2, 2));
 
-        CharMatrix truncated = matrix.extend(1, 1);
+        CharMatrix truncated = matrix.resize(1, 1);
         Assertions.assertEquals(1, truncated.rowCount());
         Assertions.assertEquals(1, truncated.columnCount());
         Assertions.assertEquals('a', truncated.get(0, 0));
@@ -599,13 +599,13 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        CharMatrix extended = matrix.extend(3, 3, 'x');
+        CharMatrix extended = matrix.resize(3, 3, 'x');
         Assertions.assertEquals('x', extended.get(2, 2));
         Assertions.assertEquals('x', extended.get(0, 2));
         Assertions.assertEquals('x', extended.get(2, 0));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.extend(-1, 2, 'x'));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.extend(2, -1, 'x'));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.resize(-1, 2, 'x'));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.resize(2, -1, 'x'));
     }
 
     @Test

@@ -684,29 +684,29 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testExtend() {
-        IntMatrix extended = matrix.extend(5, 5);
+        IntMatrix extended = matrix.resize(5, 5);
         assertEquals(5, extended.rowCount());
         assertEquals(5, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
         assertEquals(0, extended.get(3, 3)); // new cells are 0
 
         // Test truncation
-        IntMatrix truncated = matrix.extend(2, 2);
+        IntMatrix truncated = matrix.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
     }
 
     @Test
     public void testExtendWithDefaultValue() {
-        IntMatrix extended = matrix.extend(4, 4, -1);
+        IntMatrix extended = matrix.resize(4, 4, -1);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
         assertEquals(-1, extended.get(3, 3)); // new cell
 
         // Test negative dimensions
-        assertThrows(IllegalArgumentException.class, () -> matrix.extend(-1, 3, 0));
-        assertThrows(IllegalArgumentException.class, () -> matrix.extend(3, -1, 0));
+        assertThrows(IllegalArgumentException.class, () -> matrix.resize(-1, 3, 0));
+        assertThrows(IllegalArgumentException.class, () -> matrix.resize(3, -1, 0));
     }
 
     @Test
@@ -1328,7 +1328,7 @@ public class IntMatrixTest extends TestBase {
         assertEquals(emptyMatrix, emptyMatrix.transpose());
         assertEquals(emptyMatrix, emptyMatrix.rotate90());
 
-        IntMatrix extended = emptyMatrix.extend(2, 2, 5);
+        IntMatrix extended = emptyMatrix.resize(2, 2, 5);
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertEquals(5, extended.get(0, 0));

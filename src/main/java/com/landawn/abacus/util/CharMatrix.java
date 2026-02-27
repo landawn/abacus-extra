@@ -1286,7 +1286,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * CharMatrix extended = matrix.extend(3, 3);
+     * CharMatrix extended = matrix.resize(3, 3);
      * // Result: [['a', 'b', '\u0000'],
      * //          ['c', 'd', '\u0000'],
      * //          ['\u0000', '\u0000', '\u0000']]
@@ -1297,8 +1297,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return a new CharMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public CharMatrix extend(final int newRowCount, final int newColumnCount) {
-        return extend(newRowCount, newColumnCount, CHAR_0);
+    public CharMatrix resize(final int newRowCount, final int newColumnCount) {
+        return resize(newRowCount, newColumnCount, CHAR_0);
     }
 
     /**
@@ -1308,18 +1308,18 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
      * from the top-left corner. If larger, the existing content is preserved in the top-left
      * corner and new cells are filled with the specified default value. This method provides
-     * more control over the fill value compared to {@link #extend(int, int)}.
+     * more control over the fill value compared to {@link #resize(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * CharMatrix extended = matrix.extend(3, 4, 'x');   // Extend to 3x4, fill new cells with 'x'
+     * CharMatrix extended = matrix.resize(3, 4, 'x');   // Extend to 3x4, fill new cells with 'x'
      * // Result: [['a', 'b', 'x', 'x'],
      * //          ['c', 'd', 'x', 'x'],
      * //          ['x', 'x', 'x', 'x']]
      *
      * // Truncate to smaller size
-     * CharMatrix truncated = matrix.extend(1, 1, '\u0000');   // Keep only top-left element
+     * CharMatrix truncated = matrix.resize(1, 1, '\u0000');   // Keep only top-left element
      * // Result: [['a']]
      * }</pre>
      *
@@ -1330,7 +1330,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public CharMatrix extend(final int newRowCount, final int newColumnCount, final char defaultValueForNewCell) throws IllegalArgumentException {
+    public CharMatrix resize(final int newRowCount, final int newColumnCount, final char defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
         checkRepresentableShape(newRowCount, newColumnCount);

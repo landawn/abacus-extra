@@ -635,7 +635,7 @@ public class Matrix2512Test extends TestBase {
     public void test_extend_increasesSize() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> extended = m.extend(3, 3);
+        Matrix<String> extended = m.resize(3, 3);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals("a", extended.get(0, 0));
@@ -646,7 +646,7 @@ public class Matrix2512Test extends TestBase {
     public void test_extend_withDefaultValue() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> extended = m.extend(3, 3, "X");
+        Matrix<String> extended = m.resize(3, 3, "X");
         assertEquals("X", extended.get(2, 2));
     }
 

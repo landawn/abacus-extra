@@ -1264,7 +1264,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * ByteMatrix extended = matrix.extend(3, 3);
+     * ByteMatrix extended = matrix.resize(3, 3);
      * // Result: [[1, 2, 0],
      * //          [3, 4, 0],
      * //          [0, 0, 0]]
@@ -1275,8 +1275,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return a new ByteMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public ByteMatrix extend(final int newRowCount, final int newColumnCount) {
-        return extend(newRowCount, newColumnCount, BYTE_0);
+    public ByteMatrix resize(final int newRowCount, final int newColumnCount) {
+        return resize(newRowCount, newColumnCount, BYTE_0);
     }
 
     /**
@@ -1286,18 +1286,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
      * from the top-left corner. If larger, the existing content is preserved in the top-left
      * corner and new cells are filled with the specified default value. This method provides
-     * more control over the fill value compared to {@link #extend(int, int)}.
+     * more control over the fill value compared to {@link #resize(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * ByteMatrix extended = matrix.extend(3, 4, (byte) 9);   // Extend to 3x4, fill new cells with 9
+     * ByteMatrix extended = matrix.resize(3, 4, (byte) 9);   // Extend to 3x4, fill new cells with 9
      * // Result: [[1, 2, 9, 9],
      * //          [3, 4, 9, 9],
      * //          [9, 9, 9, 9]]
      *
      * // Truncate to smaller size
-     * ByteMatrix truncated = matrix.extend(1, 1, (byte) 0);   // Keep only top-left element
+     * ByteMatrix truncated = matrix.resize(1, 1, (byte) 0);   // Keep only top-left element
      * // Result: [[1]]
      * }</pre>
      *
@@ -1308,7 +1308,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public ByteMatrix extend(final int newRowCount, final int newColumnCount, final byte defaultValueForNewCell) throws IllegalArgumentException {
+    public ByteMatrix resize(final int newRowCount, final int newColumnCount, final byte defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
         checkRepresentableShape(newRowCount, newColumnCount);
@@ -1733,7 +1733,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param newColumnCount the number of columns in the reshaped matrix (must be non-negative)
      * @return a new ByteMatrix with the specified shape containing this matrix's elements
      * @throws IllegalArgumentException if the new shape is too small to hold all elements
-     * @see #extend(int, int)
+     * @see #resize(int, int)
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override

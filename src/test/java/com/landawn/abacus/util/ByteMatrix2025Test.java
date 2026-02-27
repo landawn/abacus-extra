@@ -722,7 +722,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testExtend_larger() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix extended = m.extend(4, 4);
+        ByteMatrix extended = m.resize(4, 4);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -733,7 +733,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testExtend_smaller() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        ByteMatrix truncated = m.extend(2, 2);
+        ByteMatrix truncated = m.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
         assertEquals(1, truncated.get(0, 0));
@@ -743,7 +743,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix extended = m.extend(3, 3, (byte) -1);
+        ByteMatrix extended = m.resize(3, 3, (byte) -1);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
@@ -753,8 +753,8 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withNegativeDimensions() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.extend(-1, 3, (byte) 0));
-        assertThrows(IllegalArgumentException.class, () -> m.extend(3, -1, (byte) 0));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 3, (byte) 0));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(3, -1, (byte) 0));
     }
 
     @Test
@@ -1493,7 +1493,7 @@ public class ByteMatrix2025Test extends TestBase {
         assertEquals(empty, empty.transpose());
         assertEquals(empty, empty.rotate90());
 
-        ByteMatrix extended = empty.extend(2, 2, (byte) 5);
+        ByteMatrix extended = empty.resize(2, 2, (byte) 5);
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertEquals(5, extended.get(0, 0));

@@ -601,29 +601,29 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testExtend() {
-        ShortMatrix extended = matrix.extend(5, 5);
+        ShortMatrix extended = matrix.resize(5, 5);
         assertEquals(5, extended.rowCount());
         assertEquals(5, extended.columnCount());
         assertEquals((short) 1, extended.get(0, 0));
         assertEquals((short) 0, extended.get(3, 3)); // new cells are 0
 
         // Test truncation
-        ShortMatrix truncated = matrix.extend(2, 2);
+        ShortMatrix truncated = matrix.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
     }
 
     @Test
     public void testExtendWithDefaultValue() {
-        ShortMatrix extended = matrix.extend(4, 4, (short) -1);
+        ShortMatrix extended = matrix.resize(4, 4, (short) -1);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals((short) 1, extended.get(0, 0));
         assertEquals((short) -1, extended.get(3, 3)); // new cell
 
         // Test negative dimensions
-        assertThrows(IllegalArgumentException.class, () -> matrix.extend(-1, 3, (short) 0));
-        assertThrows(IllegalArgumentException.class, () -> matrix.extend(3, -1, (short) 0));
+        assertThrows(IllegalArgumentException.class, () -> matrix.resize(-1, 3, (short) 0));
+        assertThrows(IllegalArgumentException.class, () -> matrix.resize(3, -1, (short) 0));
     }
 
     @Test
@@ -1239,7 +1239,7 @@ public class ShortMatrixTest extends TestBase {
         assertEquals(emptyMatrix, emptyMatrix.transpose());
         assertEquals(emptyMatrix, emptyMatrix.rotate90());
 
-        ShortMatrix extended = emptyMatrix.extend(2, 2, (short) 5);
+        ShortMatrix extended = emptyMatrix.resize(2, 2, (short) 5);
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertEquals((short) 5, extended.get(0, 0));

@@ -715,7 +715,7 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        CharMatrix extended = m.extend(2, 3);
+        CharMatrix extended = m.resize(2, 3);
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals('a', extended.get(0, 0));
@@ -727,7 +727,7 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testExtend_withCustomDefaultValue() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        CharMatrix extended = m.extend(2, 3, 'x');
+        CharMatrix extended = m.resize(2, 3, 'x');
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals('a', extended.get(0, 0));
@@ -759,7 +759,7 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testExtend_invalidSize() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        CharMatrix extended = m.extend(1, 1);
+        CharMatrix extended = m.resize(1, 1);
         assertEquals(1, extended.rowCount());
         assertEquals(1, extended.columnCount());
     }

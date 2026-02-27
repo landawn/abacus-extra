@@ -616,14 +616,14 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        LongMatrix extended = matrix.extend(3, 3);
+        LongMatrix extended = matrix.resize(3, 3);
         Assertions.assertEquals(3, extended.rowCount());
         Assertions.assertEquals(3, extended.columnCount());
         Assertions.assertEquals(1L, extended.get(0, 0));
         Assertions.assertEquals(4L, extended.get(1, 1));
         Assertions.assertEquals(0L, extended.get(2, 2));
 
-        LongMatrix truncated = matrix.extend(1, 1);
+        LongMatrix truncated = matrix.resize(1, 1);
         Assertions.assertEquals(1, truncated.rowCount());
         Assertions.assertEquals(1, truncated.columnCount());
         Assertions.assertEquals(1L, truncated.get(0, 0));
@@ -634,13 +634,13 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        LongMatrix extended = matrix.extend(3, 3, -1L);
+        LongMatrix extended = matrix.resize(3, 3, -1L);
         Assertions.assertEquals(-1L, extended.get(2, 2));
         Assertions.assertEquals(-1L, extended.get(0, 2));
         Assertions.assertEquals(-1L, extended.get(2, 0));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.extend(-1, 2, 0L));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.extend(2, -1, 0L));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.resize(-1, 2, 0L));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.resize(2, -1, 0L));
     }
 
     @Test

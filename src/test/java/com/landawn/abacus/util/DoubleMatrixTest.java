@@ -576,7 +576,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix extended = matrix.extend(3, 3);
+        DoubleMatrix extended = matrix.resize(3, 3);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(0.0, extended.get(2, 2));
@@ -587,12 +587,12 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix extended = matrix.extend(3, 3, -1.0);
+        DoubleMatrix extended = matrix.resize(3, 3, -1.0);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(-1.0, extended.get(2, 2));
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.extend(-1, 3, -1.0));
+        assertThrows(IllegalArgumentException.class, () -> matrix.resize(-1, 3, -1.0));
     }
 
     @Test

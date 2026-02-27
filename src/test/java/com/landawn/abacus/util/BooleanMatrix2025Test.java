@@ -694,7 +694,7 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testExtend_larger() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix extended = m.extend(4, 4);
+        BooleanMatrix extended = m.resize(4, 4);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertTrue(extended.get(0, 0));
@@ -705,7 +705,7 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testExtend_smaller() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, false, true } });
-        BooleanMatrix truncated = m.extend(2, 2);
+        BooleanMatrix truncated = m.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
         assertTrue(truncated.get(0, 0));
@@ -715,7 +715,7 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix extended = m.extend(3, 3, true);
+        BooleanMatrix extended = m.resize(3, 3, true);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertTrue(extended.get(0, 0));
@@ -725,8 +725,8 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withNegativeDimensions() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        assertThrows(IllegalArgumentException.class, () -> m.extend(-1, 3, false));
-        assertThrows(IllegalArgumentException.class, () -> m.extend(3, -1, false));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 3, false));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(3, -1, false));
     }
 
     @Test
@@ -1366,7 +1366,7 @@ public class BooleanMatrix2025Test extends TestBase {
         assertEquals(empty, empty.transpose());
         assertEquals(empty, empty.rotate90());
 
-        BooleanMatrix extended = empty.extend(2, 2, true);
+        BooleanMatrix extended = empty.resize(2, 2, true);
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertTrue(extended.get(0, 0));
@@ -1616,7 +1616,7 @@ public class BooleanMatrix2025Test extends TestBase {
     @Test
     public void testExtend_noChange() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix extended = m.extend(2, 2);
+        BooleanMatrix extended = m.resize(2, 2);
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertTrue(extended.get(0, 0));

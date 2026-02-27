@@ -825,7 +825,7 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testExtend_larger() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        LongMatrix extended = m.extend(4, 4);
+        LongMatrix extended = m.resize(4, 4);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals(1L, extended.get(0, 0));
@@ -836,7 +836,7 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testExtend_smaller() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        LongMatrix truncated = m.extend(2, 2);
+        LongMatrix truncated = m.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
         assertEquals(1L, truncated.get(0, 0));
@@ -846,7 +846,7 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        LongMatrix extended = m.extend(3, 3, -1L);
+        LongMatrix extended = m.resize(3, 3, -1L);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1L, extended.get(0, 0));
@@ -856,8 +856,8 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withNegativeDimensions() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        assertThrows(IllegalArgumentException.class, () -> m.extend(-1, 3, 0L));
-        assertThrows(IllegalArgumentException.class, () -> m.extend(3, -1, 0L));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 3, 0L));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(3, -1, 0L));
     }
 
     @Test
@@ -1788,7 +1788,7 @@ public class LongMatrix2025Test extends TestBase {
         assertEquals(empty, empty.transpose());
         assertEquals(empty, empty.rotate90());
 
-        LongMatrix extended = empty.extend(2, 2, 5L);
+        LongMatrix extended = empty.resize(2, 2, 5L);
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertEquals(5L, extended.get(0, 0));

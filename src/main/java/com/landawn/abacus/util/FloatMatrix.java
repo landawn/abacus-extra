@@ -1243,7 +1243,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * FloatMatrix extended = matrix.extend(3, 3);
+     * FloatMatrix extended = matrix.resize(3, 3);
      * // Result: [[1.0, 2.0, 0.0],
      * //          [3.0, 4.0, 0.0],
      * //          [0.0, 0.0, 0.0]]
@@ -1254,8 +1254,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a new FloatMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public FloatMatrix extend(final int newRowCount, final int newColumnCount) {
-        return extend(newRowCount, newColumnCount, 0);
+    public FloatMatrix resize(final int newRowCount, final int newColumnCount) {
+        return resize(newRowCount, newColumnCount, 0);
     }
 
     /**
@@ -1265,18 +1265,18 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
      * from the top-left corner. If larger, the existing content is preserved in the top-left
      * corner and new cells are filled with the specified default value. This method provides
-     * more control over the fill value compared to {@link #extend(int, int)}.
+     * more control over the fill value compared to {@link #resize(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * FloatMatrix extended = matrix.extend(3, 4, 9.0f);   // Extend to 3x4, fill new cells with 9.0f
+     * FloatMatrix extended = matrix.resize(3, 4, 9.0f);   // Extend to 3x4, fill new cells with 9.0f
      * // Result: [[1.0, 2.0, 9.0, 9.0],
      * //          [3.0, 4.0, 9.0, 9.0],
      * //          [9.0, 9.0, 9.0, 9.0]]
      *
      * // Truncate to smaller size
-     * FloatMatrix truncated = matrix.extend(1, 1, 0.0f);   // Keep only top-left element
+     * FloatMatrix truncated = matrix.resize(1, 1, 0.0f);   // Keep only top-left element
      * // Result: [[1.0]]
      * }</pre>
      *
@@ -1287,7 +1287,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public FloatMatrix extend(final int newRowCount, final int newColumnCount, final float defaultValueForNewCell) throws IllegalArgumentException {
+    public FloatMatrix resize(final int newRowCount, final int newColumnCount, final float defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
         checkRepresentableShape(newRowCount, newColumnCount);

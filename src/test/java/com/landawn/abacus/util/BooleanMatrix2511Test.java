@@ -936,7 +936,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        BooleanMatrix extended = m.extend(2, 3);
+        BooleanMatrix extended = m.resize(2, 3);
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertTrue(extended.get(0, 0));
@@ -948,7 +948,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testExtend_withCustomDefaultValue() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false } });
-        BooleanMatrix extended = m.extend(2, 3, true);
+        BooleanMatrix extended = m.resize(2, 3, true);
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertFalse(extended.get(0, 0));
@@ -981,7 +981,7 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testExtend_invalidSize() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
 
-        BooleanMatrix extended = m.extend(1, 1);
+        BooleanMatrix extended = m.resize(1, 1);
         assertEquals(1, extended.rowCount());
         assertEquals(1, extended.columnCount());
     }
@@ -989,7 +989,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testExtend_noExtension() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        BooleanMatrix extended = m.extend(1, 2);
+        BooleanMatrix extended = m.resize(1, 2);
         assertEquals(1, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertTrue(extended.get(0, 0));

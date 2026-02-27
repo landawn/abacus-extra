@@ -722,7 +722,7 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testExtend_larger() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
-        CharMatrix extended = m.extend(4, 4);
+        CharMatrix extended = m.resize(4, 4);
         assertEquals(4, extended.rowCount());
         assertEquals(4, extended.columnCount());
         assertEquals('A', extended.get(0, 0));
@@ -733,7 +733,7 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testExtend_smaller() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' } });
-        CharMatrix truncated = m.extend(2, 2);
+        CharMatrix truncated = m.resize(2, 2);
         assertEquals(2, truncated.rowCount());
         assertEquals(2, truncated.columnCount());
         assertEquals('A', truncated.get(0, 0));
@@ -743,7 +743,7 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withDefaultValue() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
-        CharMatrix extended = m.extend(3, 3, '?');
+        CharMatrix extended = m.resize(3, 3, '?');
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals('A', extended.get(0, 0));
@@ -753,8 +753,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testExtend_withNegativeDimensions() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
-        assertThrows(IllegalArgumentException.class, () -> m.extend(-1, 3, '?'));
-        assertThrows(IllegalArgumentException.class, () -> m.extend(3, -1, '?'));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 3, '?'));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(3, -1, '?'));
     }
 
     @Test
@@ -1488,7 +1488,7 @@ public class CharMatrix2025Test extends TestBase {
         assertEquals(empty, empty.transpose());
         assertEquals(empty, empty.rotate90());
 
-        CharMatrix extended = empty.extend(2, 2, 'X');
+        CharMatrix extended = empty.resize(2, 2, 'X');
         assertEquals(2, extended.rowCount());
         assertEquals(2, extended.columnCount());
         assertEquals('X', extended.get(0, 0));

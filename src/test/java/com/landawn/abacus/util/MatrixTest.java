@@ -722,7 +722,7 @@ public class MatrixTest extends TestBase {
     public void testExtend() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
 
-        Matrix<Integer> extended = matrix.extend(3, 3);
+        Matrix<Integer> extended = matrix.resize(3, 3);
         Assertions.assertEquals(3, extended.rowCount());
         Assertions.assertEquals(3, extended.columnCount());
         Assertions.assertEquals(1, extended.get(0, 0));
@@ -734,7 +734,7 @@ public class MatrixTest extends TestBase {
     public void testExtendWithDefault() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
 
-        Matrix<Integer> extended = matrix.extend(3, 3, 0);
+        Matrix<Integer> extended = matrix.resize(3, 3, 0);
         Assertions.assertEquals(3, extended.rowCount());
         Assertions.assertEquals(3, extended.columnCount());
         Assertions.assertEquals(1, extended.get(0, 0));

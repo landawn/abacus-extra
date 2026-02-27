@@ -1276,7 +1276,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * BooleanMatrix extended = matrix.extend(3, 3);
+     * BooleanMatrix extended = matrix.resize(3, 3);
      * // Result: [[true, false, false],
      * //          [false, true, false],
      * //          [false, false, false]]
@@ -1287,8 +1287,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a new BooleanMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public BooleanMatrix extend(final int newRowCount, final int newColumnCount) {
-        return extend(newRowCount, newColumnCount, false);
+    public BooleanMatrix resize(final int newRowCount, final int newColumnCount) {
+        return resize(newRowCount, newColumnCount, false);
     }
 
     /**
@@ -1298,18 +1298,18 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
      * from the top-left corner. If larger, the existing content is preserved in the top-left
      * corner and new cells are filled with the specified default value. This method provides
-     * more control over the fill value compared to {@link #extend(int, int)}.
+     * more control over the fill value compared to {@link #resize(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * BooleanMatrix extended = matrix.extend(3, 4, true);   // Extend to 3x4, fill new cells with true
+     * BooleanMatrix extended = matrix.resize(3, 4, true);   // Extend to 3x4, fill new cells with true
      * // Result: [[true, false, true, true],
      * //          [false, true, true, true],
      * //          [true, true, true, true]]
      *
      * // Truncate to smaller size
-     * BooleanMatrix truncated = matrix.extend(1, 1, false);   // Keep only top-left element
+     * BooleanMatrix truncated = matrix.resize(1, 1, false);   // Keep only top-left element
      * // Result: [[true]]
      * }</pre>
      *
@@ -1320,7 +1320,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public BooleanMatrix extend(final int newRowCount, final int newColumnCount, final boolean defaultValueForNewCell) throws IllegalArgumentException {
+    public BooleanMatrix resize(final int newRowCount, final int newColumnCount, final boolean defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
         checkRepresentableShape(newRowCount, newColumnCount);

@@ -729,7 +729,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_extend() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        LongMatrix extended = m.extend(3, 3);
+        LongMatrix extended = m.resize(3, 3);
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1L, extended.get(0, 0));
@@ -739,7 +739,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_extend_withDefaultValue() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        LongMatrix extended = m.extend(2, 3, 99L);
+        LongMatrix extended = m.resize(2, 3, 99L);
         assertEquals(2, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals(1L, extended.get(0, 0));
@@ -750,7 +750,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_extend_smaller() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
-        LongMatrix result = m.extend(1, 2);
+        LongMatrix result = m.resize(1, 2);
         assertEquals(1, result.rowCount());
         assertEquals(2, result.columnCount());
     }
