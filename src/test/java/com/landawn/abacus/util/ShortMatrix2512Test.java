@@ -287,7 +287,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_leftOf_withElementToLeft() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        OptionalShort result = m.leftNeighbor(0, 1);
+        OptionalShort result = m.left(0, 1);
         assertTrue(result.isPresent());
         assertEquals(1, result.getAsShort());
     }
@@ -296,7 +296,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_leftOf_atLeftColumn_returnsEmpty() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        OptionalShort result = m.leftNeighbor(1, 0);
+        OptionalShort result = m.left(1, 0);
         assertFalse(result.isPresent());
     }
 
@@ -304,7 +304,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_rightOf_withElementToRight() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        OptionalShort result = m.rightNeighbor(1, 0);
+        OptionalShort result = m.right(1, 0);
         assertTrue(result.isPresent());
         assertEquals(4, result.getAsShort());
     }
@@ -313,7 +313,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_rightOf_atRightColumn_returnsEmpty() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        OptionalShort result = m.rightNeighbor(0, 1);
+        OptionalShort result = m.right(0, 1);
         assertFalse(result.isPresent());
     }
 

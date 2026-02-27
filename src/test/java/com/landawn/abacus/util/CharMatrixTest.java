@@ -235,11 +235,11 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        OptionalChar left = matrix.leftNeighbor(0, 1);
+        OptionalChar left = matrix.left(0, 1);
         Assertions.assertTrue(left.isPresent());
         Assertions.assertEquals('a', left.get());
 
-        OptionalChar empty = matrix.leftNeighbor(0, 0);
+        OptionalChar empty = matrix.left(0, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -248,11 +248,11 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        OptionalChar right = matrix.rightNeighbor(0, 0);
+        OptionalChar right = matrix.right(0, 0);
         Assertions.assertTrue(right.isPresent());
         Assertions.assertEquals('b', right.get());
 
-        OptionalChar empty = matrix.rightNeighbor(0, 1);
+        OptionalChar empty = matrix.right(0, 1);
         Assertions.assertFalse(empty.isPresent());
     }
 

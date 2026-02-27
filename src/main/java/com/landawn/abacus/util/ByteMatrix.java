@@ -532,8 +532,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.leftNeighbor(0, 1);   // Returns OptionalByte.of((byte)1)
-     * OptionalByte empty = matrix.leftNeighbor(0, 0);   // Returns OptionalByte.empty() - no column to the left
+     * OptionalByte value = matrix.left(0, 1);   // Returns OptionalByte.of((byte)1)
+     * OptionalByte empty = matrix.left(0, 0);   // Returns OptionalByte.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -541,7 +541,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return an OptionalByte containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte leftNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalByte left(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex][columnIndex - 1]);
@@ -555,8 +555,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.rightNeighbor(0, 0);   // Returns OptionalByte.of((byte)2)
-     * OptionalByte empty = matrix.rightNeighbor(0, 1);   // Returns OptionalByte.empty() - no column to the right
+     * OptionalByte value = matrix.right(0, 0);   // Returns OptionalByte.of((byte)2)
+     * OptionalByte empty = matrix.right(0, 1);   // Returns OptionalByte.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -564,7 +564,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return an OptionalByte containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte rightNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalByte right(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex][columnIndex + 1]);

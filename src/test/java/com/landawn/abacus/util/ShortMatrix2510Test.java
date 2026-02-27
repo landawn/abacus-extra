@@ -333,12 +333,12 @@ public class ShortMatrix2510Test extends TestBase {
     public void testLeftOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalShort left = m.leftNeighbor(0, 1);
+        OptionalShort left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
 
         // Leftmost column has no element to the left
-        OptionalShort empty = m.leftNeighbor(0, 0);
+        OptionalShort empty = m.left(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -346,12 +346,12 @@ public class ShortMatrix2510Test extends TestBase {
     public void testRightOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalShort right = m.rightNeighbor(0, 0);
+        OptionalShort right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
 
         // Rightmost column has no element to the right
-        OptionalShort empty = m.rightNeighbor(0, 1);
+        OptionalShort empty = m.right(0, 1);
         assertFalse(empty.isPresent());
     }
 

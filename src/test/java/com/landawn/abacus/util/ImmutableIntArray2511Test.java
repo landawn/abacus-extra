@@ -715,7 +715,7 @@ public class ImmutableIntArray2511Test extends TestBase {
     public void testCopyToArray_validRange() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 10, 20, 30, 40, 50 });
 
-        int[] result = array.copyToArray(1, 4);
+        int[] result = array.toArray(1, 4);
 
         assertArrayEquals(new int[] { 20, 30, 40 }, result);
     }
@@ -724,7 +724,7 @@ public class ImmutableIntArray2511Test extends TestBase {
     public void testCopyToArray_fullRange() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 10, 20, 30 });
 
-        int[] result = array.copyToArray(0, 3);
+        int[] result = array.toArray(0, 3);
 
         assertArrayEquals(new int[] { 10, 20, 30 }, result);
     }
@@ -733,7 +733,7 @@ public class ImmutableIntArray2511Test extends TestBase {
     public void testCopyToArray_emptyRange() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 10, 20, 30 });
 
-        int[] result = array.copyToArray(2, 2);
+        int[] result = array.toArray(2, 2);
 
         assertArrayEquals(new int[] {}, result);
     }
@@ -742,28 +742,28 @@ public class ImmutableIntArray2511Test extends TestBase {
     public void testCopyToArray_invalidRangeNegativeStart() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 10, 20, 30 });
 
-        assertThrows(IndexOutOfBoundsException.class, () -> array.copyToArray(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> array.toArray(-1, 2));
     }
 
     @Test
     public void testCopyToArray_invalidRangeEndTooLarge() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 10, 20, 30 });
 
-        assertThrows(IndexOutOfBoundsException.class, () -> array.copyToArray(0, 4));
+        assertThrows(IndexOutOfBoundsException.class, () -> array.toArray(0, 4));
     }
 
     @Test
     public void testCopyToArray_invalidRangeStartGreaterThanEnd() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 10, 20, 30 });
 
-        assertThrows(IndexOutOfBoundsException.class, () -> array.copyToArray(2, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> array.toArray(2, 1));
     }
 
     @Test
     public void testCopyToArray_isMutable() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 10, 20, 30, 40, 50 });
 
-        int[] result = array.copyToArray(1, 4);
+        int[] result = array.toArray(1, 4);
         result[0] = 999;
 
         // Original array should not be affected
@@ -776,7 +776,7 @@ public class ImmutableIntArray2511Test extends TestBase {
     public void testCopyToArray_singleElement() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 42 });
 
-        int[] result = array.copyToArray(0, 1);
+        int[] result = array.toArray(0, 1);
 
         assertArrayEquals(new int[] { 42 }, result);
     }
@@ -785,7 +785,7 @@ public class ImmutableIntArray2511Test extends TestBase {
     public void testCopyToArray_middleSection() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 1, 2, 3, 4, 5, 6, 7 });
 
-        int[] result = array.copyToArray(2, 5);
+        int[] result = array.toArray(2, 5);
 
         assertArrayEquals(new int[] { 3, 4, 5 }, result);
     }
@@ -1038,7 +1038,7 @@ public class ImmutableIntArray2511Test extends TestBase {
     @Test
     public void testImmutability_copyToArrayAllowsMutation() {
         ImmutableIntArray array = ImmutableIntArray.wrap(new int[] { 1, 2, 3 });
-        int[] copy = array.copyToArray(0, 3);
+        int[] copy = array.toArray(0, 3);
 
         // Mutate the copy
         copy[0] = 999;

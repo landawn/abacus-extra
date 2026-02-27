@@ -252,23 +252,23 @@ public class FloatMatrixTest extends TestBase {
 
     @Test
     public void testLeftOf() {
-        OptionalFloat left = matrix.leftNeighbor(1, 1);
+        OptionalFloat left = matrix.left(1, 1);
         assertTrue(left.isPresent());
         assertEquals(4.0f, left.get(), DELTA);
 
         // Test leftmost column
-        OptionalFloat empty = matrix.leftNeighbor(1, 0);
+        OptionalFloat empty = matrix.left(1, 0);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testRightOf() {
-        OptionalFloat right = matrix.rightNeighbor(1, 1);
+        OptionalFloat right = matrix.right(1, 1);
         assertTrue(right.isPresent());
         assertEquals(6.0f, right.get(), DELTA);
 
         // Test rightmost column
-        OptionalFloat empty = matrix.rightNeighbor(1, 2);
+        OptionalFloat empty = matrix.right(1, 2);
         assertFalse(empty.isPresent());
     }
 

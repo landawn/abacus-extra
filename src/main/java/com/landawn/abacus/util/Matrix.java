@@ -366,6 +366,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public void set(final int rowIndex, final int columnIndex, final T val) {
+        ensureRowCanStore(rowIndex, val);
         a[rowIndex][columnIndex] = val;
     }
 
@@ -388,6 +389,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public void set(final Point point, final T val) {
         N.checkArgNotNull(point, "point");
 
+        ensureRowCanStore(point.rowIndex(), val);
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
@@ -442,8 +444,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.leftNeighbor(0, 1);   // Returns Nullable.of("A")
-     * Nullable<String> empty = matrix.leftNeighbor(0, 0);   // Returns Nullable.empty() - no column to the left
+     * Nullable<String> value = matrix.left(0, 1);   // Returns Nullable.of("A")
+     * Nullable<String> empty = matrix.left(0, 0);   // Returns Nullable.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -451,7 +453,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a Nullable containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> leftNeighbor(final int rowIndex, final int columnIndex) {
+    public Nullable<T> left(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? Nullable.empty() : Nullable.of(a[rowIndex][columnIndex - 1]);
@@ -464,8 +466,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.rightNeighbor(0, 0);   // Returns Nullable.of("B")
-     * Nullable<String> empty = matrix.rightNeighbor(0, 1);   // Returns Nullable.empty() - no column to the right
+     * Nullable<String> value = matrix.right(0, 0);   // Returns Nullable.of("B")
+     * Nullable<String> empty = matrix.right(0, 1);   // Returns Nullable.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -473,7 +475,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a Nullable containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> rightNeighbor(final int rowIndex, final int columnIndex) {
+    public Nullable<T> right(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? Nullable.empty() : Nullable.of(a[rowIndex][columnIndex + 1]);
@@ -550,6 +552,43 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         }
 
         return N.copyOf(row, columnCount);
+    }
+
+    private void ensureRowCanStore(final int rowIndex, final T value) {
+        if (value == null) {
+            return;
+        }
+
+        final Class<?> componentType = a[rowIndex].getClass().getComponentType();
+
+        if (componentType != Object.class && !componentType.isInstance(value)) {
+            widenRowStorage(rowIndex);
+        }
+    }
+
+    private void ensureRowCanStoreAny(final int rowIndex, final T[] values, final int length) {
+        final Class<?> componentType = a[rowIndex].getClass().getComponentType();
+
+        if (componentType == Object.class || length == 0) {
+            return;
+        }
+
+        for (int i = 0; i < length; i++) {
+            final T value = values[i];
+
+            if (value != null && !componentType.isInstance(value)) {
+                widenRowStorage(rowIndex);
+                return;
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void widenRowStorage(final int rowIndex) {
+        final T[] row = a[rowIndex];
+        final T[] widened = (T[]) new Object[row.length];
+        N.copy(row, 0, widened, 0, row.length);
+        a[rowIndex] = widened;
     }
 
     private Class<?> resolveRowElementType(final T[] row) {
@@ -662,8 +701,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final T[] row) throws IllegalArgumentException {
+        N.checkArgNotNull(row, "row");
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
         N.checkArgument(row.length == columnCount, MSG_ROW_LENGTH_MISMATCH, columnCount, row.length);
+        ensureRowCanStoreAny(rowIndex, row, columnCount);
 
         N.copy(row, 0, a[rowIndex], 0, columnCount);
     }
@@ -688,10 +729,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final T[] column) throws IllegalArgumentException {
+        N.checkArgNotNull(column, "column");
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
         N.checkArgument(column.length == rowCount, MSG_COLUMN_LENGTH_MISMATCH, rowCount, column.length);
 
         for (int i = 0; i < rowCount; i++) {
+            ensureRowCanStore(i, column[i]);
             a[i][columnIndex] = column[i];
         }
     }
@@ -726,10 +769,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         N.checkArgNotNull(operator, "operator");
 
-        final T[] row = a[rowIndex];
-
         for (int i = 0; i < columnCount; i++) {
-            row[i] = operator.apply(row[i]);
+            final T updated = operator.apply(a[rowIndex][i]);
+            ensureRowCanStore(rowIndex, updated);
+            a[rowIndex][i] = updated;
         }
     }
 
@@ -764,7 +807,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
-            a[i][columnIndex] = operator.apply(a[i][columnIndex]);
+            final T updated = operator.apply(a[i][columnIndex]);
+            ensureRowCanStore(i, updated);
+            a[i][columnIndex] = updated;
         }
     }
 
@@ -821,6 +866,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         N.checkArgument(diagonal.length == rowCount, "The length of specified array does not equal to rows={}", rowCount);
 
         for (int i = 0; i < rowCount; i++) {
+            ensureRowCanStore(i, diagonal[i]);
             a[i][i] = diagonal[i]; // NOSONAR
         }
     }
@@ -854,7 +900,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
-            a[i][i] = operator.apply(a[i][i]);
+            final T updated = operator.apply(a[i][i]);
+            ensureRowCanStore(i, updated);
+            a[i][i] = updated;
         }
     }
 
@@ -907,11 +955,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if antiDiagonal array does not have exactly {@code rowCount} elements
      */
     public void setAntiDiagonal(final T[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
+        N.checkArgNotNull(antiDiagonal, "antiDiagonal");
         final T[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length == rowCount, "The length of specified array does not equal to rows={}", rowCount);
 
         for (int i = 0; i < rowCount; i++) {
+            ensureRowCanStore(i, diagonal[i]);
             a[i][columnCount - i - 1] = diagonal[i];
         }
     }
@@ -945,7 +995,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rowCount; i++) {
-            a[i][columnCount - i - 1] = operator.apply(a[i][columnCount - i - 1]);
+            final T updated = operator.apply(a[i][columnCount - i - 1]);
+            ensureRowCanStore(i, updated);
+            a[i][columnCount - i - 1] = updated;
         }
     }
 
@@ -975,7 +1027,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <E extends Exception> void updateAll(final Throwables.UnaryOperator<T, E> operator) throws E {
         N.checkArgNotNull(operator, "operator");
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> {
+            final T updated = operator.apply(a[i][j]);
+            ensureRowCanStore(i, updated);
+            a[i][j] = updated;
+        };
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
@@ -1004,7 +1060,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<? extends T, E> operator) throws E {
         N.checkArgNotNull(operator, "operator");
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(i, j);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> {
+            final T updated = operator.apply(i, j);
+            ensureRowCanStore(i, updated);
+            a[i][j] = updated;
+        };
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
@@ -1036,7 +1096,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <E extends Exception> void replaceIf(final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
         N.checkArgNotNull(predicate, "predicate");
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> {
+            if (predicate.test(a[i][j])) {
+                ensureRowCanStore(i, newValue);
+                a[i][j] = newValue;
+            }
+        };
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 
@@ -1065,7 +1130,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final T newValue) throws E {
         N.checkArgNotNull(predicate, "predicate");
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> {
+            if (predicate.test(i, j)) {
+                ensureRowCanStore(i, newValue);
+                a[i][j] = newValue;
+            }
+        };
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
     }
 

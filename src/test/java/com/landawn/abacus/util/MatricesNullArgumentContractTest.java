@@ -34,21 +34,21 @@ public class MatricesNullArgumentContractTest {
 
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip((Matrix<String>) null, m2, (a, b) -> a + b, String.class));
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, (Matrix<Integer>) null, (a, b) -> a + b, String.class));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, m2, (Throwables.BiFunction<String, Integer, String, RuntimeException>) null,
-                String.class));
+        assertThrows(IllegalArgumentException.class,
+                () -> Matrices.zip(m1, m2, (Throwables.BiFunction<String, Integer, String, RuntimeException>) null, String.class));
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, m2, (a, b) -> a + b, null));
 
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip((Matrix<String>) null, m2, m3, (a, b, c) -> a + b + c.intValue()));
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, (Matrix<Integer>) null, m3, (a, b, c) -> a + b + c.intValue()));
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, m2, (Matrix<Double>) null, (a, b, c) -> a + b + c.intValue()));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, m2, m3,
-                (Throwables.TriFunction<String, Integer, Double, String, RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class,
+                () -> Matrices.zip(m1, m2, m3, (Throwables.TriFunction<String, Integer, Double, String, RuntimeException>) null));
 
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip((Matrix<String>) null, m2, m3, (a, b, c) -> a + b + c.intValue(), String.class));
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, (Matrix<Integer>) null, m3, (a, b, c) -> a + b + c.intValue(), String.class));
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, m2, (Matrix<Double>) null, (a, b, c) -> a + b + c.intValue(), String.class));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, m2, m3,
-                (Throwables.TriFunction<String, Integer, Double, String, RuntimeException>) null, String.class));
+        assertThrows(IllegalArgumentException.class,
+                () -> Matrices.zip(m1, m2, m3, (Throwables.TriFunction<String, Integer, Double, String, RuntimeException>) null, String.class));
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, m2, m3, (a, b, c) -> a + b + c.intValue(), null));
     }
 }

@@ -423,22 +423,22 @@ public class IntMatrix2511Test extends TestBase {
     @Test
     public void testLeftOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt left = m.leftNeighbor(0, 1);
+        OptionalInt left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
 
-        OptionalInt noLeft = m.leftNeighbor(0, 0);
+        OptionalInt noLeft = m.left(0, 0);
         assertFalse(noLeft.isPresent());
     }
 
     @Test
     public void testRightOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt right = m.rightNeighbor(0, 0);
+        OptionalInt right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
 
-        OptionalInt noRight = m.rightNeighbor(0, 1);
+        OptionalInt noRight = m.right(0, 1);
         assertFalse(noRight.isPresent());
     }
 

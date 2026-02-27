@@ -335,7 +335,7 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testLeftOf() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat left = m.leftNeighbor(0, 1);
+        OptionalFloat left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1.0f, left.get());
     }
@@ -343,14 +343,14 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testLeftOf_firstColumn() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat left = m.leftNeighbor(0, 0);
+        OptionalFloat left = m.left(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void testRightOf() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat right = m.rightNeighbor(0, 0);
+        OptionalFloat right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2.0f, right.get());
     }
@@ -358,7 +358,7 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testRightOf_lastColumn() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat right = m.rightNeighbor(0, 1);
+        OptionalFloat right = m.right(0, 1);
         assertFalse(right.isPresent());
     }
 

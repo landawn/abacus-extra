@@ -380,7 +380,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong left = m.leftNeighbor(0, 1);
+        OptionalLong left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1L, left.get());
     }
@@ -388,14 +388,14 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf_firstColumn() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong left = m.leftNeighbor(0, 0);
+        OptionalLong left = m.left(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void test_rightOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong right = m.rightNeighbor(0, 0);
+        OptionalLong right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2L, right.get());
     }
@@ -403,7 +403,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_rightOf_lastColumn() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong right = m.rightNeighbor(0, 1);
+        OptionalLong right = m.right(0, 1);
         assertFalse(right.isPresent());
     }
 

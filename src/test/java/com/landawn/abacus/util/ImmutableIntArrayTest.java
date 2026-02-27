@@ -152,7 +152,7 @@ public class ImmutableIntArrayTest extends TestBase {
     @Test
     public void testCopyToArrayWithValidRange() {
         ImmutableIntArray immutable = ImmutableIntArray.wrap(new int[] { 10, 20, 30, 40, 50 });
-        int[] array = immutable.copyToArray(1, 4);
+        int[] array = immutable.toArray(1, 4);
 
         assertEquals(3, array.length);
         assertEquals(20, array[0]);
@@ -169,9 +169,9 @@ public class ImmutableIntArrayTest extends TestBase {
     public void testCopyToArrayWithInvalidRange() {
         ImmutableIntArray immutable = ImmutableIntArray.wrap(new int[] { 1, 2, 3, 4, 5 });
 
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyToArray(-1, 3));
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyToArray(2, 6));
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyToArray(3, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(-1, 3));
+        assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(2, 6));
+        assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(3, 2));
     }
 
     @Test

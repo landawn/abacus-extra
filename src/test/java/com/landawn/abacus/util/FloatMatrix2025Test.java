@@ -419,12 +419,12 @@ public class FloatMatrix2025Test extends TestBase {
     public void testLeftOf() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
 
-        OptionalFloat left = m.leftNeighbor(0, 1);
+        OptionalFloat left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1.0f, left.get(), DELTA);
 
         // Leftmost column has no element to the left
-        OptionalFloat empty = m.leftNeighbor(0, 0);
+        OptionalFloat empty = m.left(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -432,12 +432,12 @@ public class FloatMatrix2025Test extends TestBase {
     public void testRightOf() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
 
-        OptionalFloat right = m.rightNeighbor(0, 0);
+        OptionalFloat right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2.0f, right.get(), DELTA);
 
         // Rightmost column has no element to the right
-        OptionalFloat empty = m.rightNeighbor(0, 1);
+        OptionalFloat empty = m.right(0, 1);
         assertFalse(empty.isPresent());
     }
 

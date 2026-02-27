@@ -571,8 +571,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.leftNeighbor(0, 1);   // Returns OptionalLong.of(1L)
-     * OptionalLong empty = matrix.leftNeighbor(0, 0);   // Returns OptionalLong.empty() - no column to the left
+     * OptionalLong value = matrix.left(0, 1);   // Returns OptionalLong.of(1L)
+     * OptionalLong empty = matrix.left(0, 0);   // Returns OptionalLong.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -580,7 +580,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return an OptionalLong containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalLong leftNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalLong left(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalLong.empty() : OptionalLong.of(a[rowIndex][columnIndex - 1]);
@@ -594,8 +594,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.rightNeighbor(0, 0);   // Returns OptionalLong.of(2L)
-     * OptionalLong empty = matrix.rightNeighbor(0, 1);   // Returns OptionalLong.empty() - no column to the right
+     * OptionalLong value = matrix.right(0, 0);   // Returns OptionalLong.of(2L)
+     * OptionalLong empty = matrix.right(0, 1);   // Returns OptionalLong.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -603,7 +603,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return an OptionalLong containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalLong rightNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalLong right(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalLong.empty() : OptionalLong.of(a[rowIndex][columnIndex + 1]);

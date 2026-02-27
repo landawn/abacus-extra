@@ -278,7 +278,7 @@ public class CharMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf_exists() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar left = m.leftNeighbor(0, 1);
+        OptionalChar left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals('a', left.get());
     }
@@ -286,14 +286,14 @@ public class CharMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf_notExists() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar left = m.leftNeighbor(0, 0);
+        OptionalChar left = m.left(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void test_rightOf_exists() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar right = m.rightNeighbor(0, 0);
+        OptionalChar right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals('b', right.get());
     }
@@ -301,7 +301,7 @@ public class CharMatrix2512Test extends TestBase {
     @Test
     public void test_rightOf_notExists() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar right = m.rightNeighbor(0, 1);
+        OptionalChar right = m.right(0, 1);
         assertFalse(right.isPresent());
     }
 

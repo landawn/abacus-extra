@@ -154,8 +154,8 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  *
  * // For 2D arrays - get min/max sub-array lengths
  * int[][] matrix2D = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
- * int minLength = Arrays.minSubArrayLen(matrix2D);   // 4
- * int maxLength = Arrays.maxSubArrayLen(matrix2D);   // 4
+ * int minLength = Arrays.minSubArrayLength(matrix2D);   // 4
+ * int maxLength = Arrays.maxSubArrayLength(matrix2D);   // 4
  * }</pre>
  *
  * <p><b>Performance Characteristics and Optimizations:</b>
@@ -2897,14 +2897,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
-     * int minLen = minSubArrayLen(arr);
+     * int minLen = minSubArrayLength(arr);
      * // Result: 1
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the minimum length of sub-arrays, or 0 if array is empty.
      */
-    public static int minSubArrayLen(final boolean[][] a) {
+    public static int minSubArrayLength(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -2925,14 +2925,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
-     * int maxLen = maxSubArrayLen(arr);
+     * int maxLen = maxSubArrayLength(arr);
      * // Result: 3
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the maximum length of sub-arrays, or 0 if array is empty.
      */
-    public static int maxSubArrayLen(final boolean[][] a) {
+    public static int maxSubArrayLength(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -4236,14 +4236,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c'}, null};
-     * int minLen = Arrays.minSubArrayLen(array);
+     * int minLen = Arrays.minSubArrayLength(array);
      * // minLen is 0
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null}).
      * @return the minimum length of any sub-array. Returns 0 if the input array is empty or null.
      */
-    public static int minSubArrayLen(final char[][] a) {
+    public static int minSubArrayLength(final char[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -4264,14 +4264,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a'}, {'b', 'c', 'd'}, null};
-     * int maxLen = Arrays.maxSubArrayLen(array);
+     * int maxLen = Arrays.maxSubArrayLength(array);
      * // maxLen is 3
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null}).
      * @return the maximum length of any sub-array. Returns 0 if the input array is empty or null.
      */
-    public static int maxSubArrayLen(final char[][] a) {
+    public static int maxSubArrayLength(final char[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -5514,13 +5514,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen = minSubArrayLen(array);   // returns 2
+     * int minLen = minSubArrayLength(array);   // returns 2
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null}).
      * @return the minimum sub-array length, or 0 if the array is empty.
      */
-    public static int minSubArrayLen(final byte[][] a) {
+    public static int minSubArrayLength(final byte[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -5542,13 +5542,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2}, null, {3, 4, 5, 6}};
-     * int maxLen = maxSubArrayLen(array);   // returns 4
+     * int maxLen = maxSubArrayLength(array);   // returns 4
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null}).
      * @return the maximum sub-array length, or 0 if the array is empty.
      */
-    public static int maxSubArrayLen(final byte[][] a) {
+    public static int maxSubArrayLength(final byte[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -6779,14 +6779,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen = minSubArrayLen(array);
+     * int minLen = minSubArrayLength(array);
      * // minLen will be 2
      * }</pre>
      *
      * @param a the two-dimensional array to examine (can be {@code null}).
      * @return the minimum length of any sub-array, or 0 if array is {@code null}.
      */
-    public static int minSubArrayLen(final short[][] a) {
+    public static int minSubArrayLength(final short[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -6807,14 +6807,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int maxLen = maxSubArrayLen(array);
+     * int maxLen = maxSubArrayLength(array);
      * // maxLen will be 4
      * }</pre>
      *
      * @param a the two-dimensional array to examine (can be {@code null}).
      * @return the maximum length of any sub-array, or 0 if array is {@code null} or empty.
      */
-    public static int maxSubArrayLen(final short[][] a) {
+    public static int maxSubArrayLength(final short[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -8084,14 +8084,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2, 3}, {4, 5}, null, {6}};
-     * int minLen = minSubArrayLen(a);
+     * int minLen = minSubArrayLength(a);
      * // minLen will be 0
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null}).
      * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
-    public static int minSubArrayLen(final int[][] a) {
+    public static int minSubArrayLength(final int[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -8112,14 +8112,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1}, {2, 3}, null, {4, 5, 6}};
-     * int maxLen = maxSubArrayLen(a);
+     * int maxLen = maxSubArrayLength(a);
      * // maxLen will be 3
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null}).
      * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
-    public static int maxSubArrayLen(final int[][] a) {
+    public static int maxSubArrayLength(final int[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -9358,14 +9358,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L, 2L, 3L}, {4L, 5L}, null, {6L}};
-     * int minLen = minSubArrayLen(a);
+     * int minLen = minSubArrayLength(a);
      * // minLen will be 0
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null}).
      * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
-    public static int minSubArrayLen(final long[][] a) {
+    public static int minSubArrayLength(final long[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -9386,14 +9386,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L}, {2L, 3L}, null, {4L, 5L, 6L}};
-     * int maxLen = maxSubArrayLen(a);
+     * int maxLen = maxSubArrayLength(a);
      * // maxLen will be 3
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null}).
      * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
-    public static int maxSubArrayLen(final long[][] a) {
+    public static int maxSubArrayLength(final long[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -10633,13 +10633,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f, 2.0f}, {3.0f}, null};
-     * int minLen = Arrays.minSubArrayLen(matrix);   // minLen is 0
+     * int minLen = Arrays.minSubArrayLength(matrix);   // minLen is 0
      * }</pre>
      *
      * @param a the two-dimensional array to inspect.
      * @return the minimum sub-array length found.
      */
-    public static int minSubArrayLen(final float[][] a) {
+    public static int minSubArrayLength(final float[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -10660,13 +10660,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
-     * int maxLen = Arrays.maxSubArrayLen(matrix);   // maxLen is 3
+     * int maxLen = Arrays.maxSubArrayLength(matrix);   // maxLen is 3
      * }</pre>
      *
      * @param a the two-dimensional array to inspect.
      * @return the maximum sub-array length found.
      */
-    public static int maxSubArrayLen(final float[][] a) {
+    public static int maxSubArrayLength(final float[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -11914,14 +11914,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
-     * int minLen = Arrays.minSubArrayLen(matrix);
+     * int minLen = Arrays.minSubArrayLength(matrix);
      * // minLen is 0
      * }</pre>
      *
      * @param a the two-dimensional array.
      * @return the minimum sub-array length, or 0 if the input array is {@code null} or empty.
      */
-    public static int minSubArrayLen(final double[][] a) {
+    public static int minSubArrayLength(final double[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -11942,14 +11942,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
-     * int maxLen = Arrays.maxSubArrayLen(matrix);
+     * int maxLen = Arrays.maxSubArrayLength(matrix);
      * // maxLen is 3
      * }</pre>
      *
      * @param a the two-dimensional array.
      * @return the maximum sub-array length, or 0 if the input array is {@code null} or empty.
      */
-    public static int maxSubArrayLen(final double[][] a) {
+    public static int maxSubArrayLength(final double[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -15771,14 +15771,14 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * int minLen = ff.minSubArrayLen(array);
+         * int minLen = ff.minSubArrayLength(array);
          * // minLen is 0 (due to the null sub-array)
          * }</pre>
          * 
          * @param a the two-dimensional array to examine. can be {@code null}.
          * @return the minimum sub-array length, or 0 if the array is {@code null} or empty.
          */
-        public static int minSubArrayLen(final Object[][] a) {
+        public static int minSubArrayLength(final Object[][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }
@@ -15799,14 +15799,14 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * int maxLen = ff.maxSubArrayLen(array);
+         * int maxLen = ff.maxSubArrayLength(array);
          * // maxLen is 3 (from the first sub-array)
          * }</pre>
          * 
          * @param a the two-dimensional array to examine. can be {@code null}.
          * @return the maximum sub-array length, or 0 if the array is {@code null} or empty.
          */
-        public static int maxSubArrayLen(final Object[][] a) {
+        public static int maxSubArrayLength(final Object[][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }

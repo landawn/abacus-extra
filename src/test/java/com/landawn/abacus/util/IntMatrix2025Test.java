@@ -456,12 +456,12 @@ public class IntMatrix2025Test extends TestBase {
     public void testLeftOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalInt left = m.leftNeighbor(0, 1);
+        OptionalInt left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
 
         // Leftmost column has no element to the left
-        OptionalInt empty = m.leftNeighbor(0, 0);
+        OptionalInt empty = m.left(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -469,12 +469,12 @@ public class IntMatrix2025Test extends TestBase {
     public void testRightOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalInt right = m.rightNeighbor(0, 0);
+        OptionalInt right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
 
         // Rightmost column has no element to the right
-        OptionalInt empty = m.rightNeighbor(0, 1);
+        OptionalInt empty = m.right(0, 1);
         assertFalse(empty.isPresent());
     }
 

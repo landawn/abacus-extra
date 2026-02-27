@@ -19,7 +19,7 @@ import com.landawn.abacus.TestBase;
  * - Array transformations (reshape, flatten, zip)
  * - In-place operations (updateAll, replaceIf)
  * - Type conversions (toBoolean, toByte, toChar, etc.)
- * - Statistical operations (totalCountOfElements, minSubArrayLen, maxSubArrayLen)
+ * - Statistical operations (totalCountOfElements, minSubArrayLength, maxSubArrayLength)
  */
 @Tag("2510")
 public class Arrays2510Test extends TestBase {
@@ -2336,66 +2336,66 @@ public class Arrays2510Test extends TestBase {
     }
 
     // ============================================
-    // Tests for minSubArrayLen methods
+    // Tests for minSubArrayLength methods
     // ============================================
 
     @Test
     public void testMinSubArrayLen_2D_Boolean() {
         boolean[][] arr = { { true, false, true }, { false }, { true, false } };
-        int minLen = Arrays.minSubArrayLen(arr);
+        int minLen = Arrays.minSubArrayLength(arr);
         assertEquals(1, minLen);
     }
 
     @Test
     public void testMinSubArrayLen_2D_Boolean_null() {
         boolean[][] arr = null;
-        int minLen = Arrays.minSubArrayLen(arr);
+        int minLen = Arrays.minSubArrayLength(arr);
         assertEquals(0, minLen);
     }
 
     @Test
     public void testMinSubArrayLen_2D_Int() {
         int[][] arr = { { 1, 2, 3 }, { 4, 5 }, { 6, 7, 8, 9 } };
-        int minLen = Arrays.minSubArrayLen(arr);
+        int minLen = Arrays.minSubArrayLength(arr);
         assertEquals(2, minLen);
     }
 
     @Test
     public void testMinSubArrayLen_2D_Double() {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0, 5.0 }, { 6.0 } };
-        int minLen = Arrays.minSubArrayLen(arr);
+        int minLen = Arrays.minSubArrayLength(arr);
         assertEquals(1, minLen);
     }
 
     // ============================================
-    // Tests for maxSubArrayLen methods
+    // Tests for maxSubArrayLength methods
     // ============================================
 
     @Test
     public void testMaxSubArrayLen_2D_Boolean() {
         boolean[][] arr = { { true, false }, { true, false, true }, { false } };
-        int maxLen = Arrays.maxSubArrayLen(arr);
+        int maxLen = Arrays.maxSubArrayLength(arr);
         assertEquals(3, maxLen);
     }
 
     @Test
     public void testMaxSubArrayLen_2D_Boolean_null() {
         boolean[][] arr = null;
-        int maxLen = Arrays.maxSubArrayLen(arr);
+        int maxLen = Arrays.maxSubArrayLength(arr);
         assertEquals(0, maxLen);
     }
 
     @Test
     public void testMaxSubArrayLen_2D_Int() {
         int[][] arr = { { 1, 2 }, { 3, 4, 5, 6 }, { 7 } };
-        int maxLen = Arrays.maxSubArrayLen(arr);
+        int maxLen = Arrays.maxSubArrayLength(arr);
         assertEquals(4, maxLen);
     }
 
     @Test
     public void testMaxSubArrayLen_2D_Double() {
         double[][] arr = { { 1.0 }, { 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
-        int maxLen = Arrays.maxSubArrayLen(arr);
+        int maxLen = Arrays.maxSubArrayLength(arr);
         assertEquals(3, maxLen);
     }
 

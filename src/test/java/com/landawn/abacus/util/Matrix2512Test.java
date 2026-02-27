@@ -236,7 +236,7 @@ public class Matrix2512Test extends TestBase {
     public void test_leftOf_withElementToLeft() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.leftNeighbor(0, 1);
+        Nullable<String> result = m.left(0, 1);
         assertTrue(result.isPresent());
         assertEquals("a", result.get());
     }
@@ -245,7 +245,7 @@ public class Matrix2512Test extends TestBase {
     public void test_leftOf_atLeftColumn_returnsEmpty() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.leftNeighbor(1, 0);
+        Nullable<String> result = m.left(1, 0);
         assertFalse(result.isPresent());
     }
 
@@ -253,7 +253,7 @@ public class Matrix2512Test extends TestBase {
     public void test_rightOf_withElementToRight() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.rightNeighbor(1, 0);
+        Nullable<String> result = m.right(1, 0);
         assertTrue(result.isPresent());
         assertEquals("d", result.get());
     }
@@ -262,7 +262,7 @@ public class Matrix2512Test extends TestBase {
     public void test_rightOf_atRightColumn_returnsEmpty() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.rightNeighbor(0, 1);
+        Nullable<String> result = m.right(0, 1);
         assertFalse(result.isPresent());
     }
 

@@ -180,8 +180,8 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        assertTrue(matrix.leftNeighbor(0, 0).isEmpty());
-        assertEquals(true, matrix.leftNeighbor(0, 1).orElse(false));
+        assertTrue(matrix.left(0, 0).isEmpty());
+        assertEquals(true, matrix.left(0, 1).orElse(false));
     }
 
     @Test
@@ -189,8 +189,8 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        assertEquals(false, matrix.rightNeighbor(0, 0).orElse(true));
-        assertTrue(matrix.rightNeighbor(0, 1).isEmpty());
+        assertEquals(false, matrix.right(0, 0).orElse(true));
+        assertTrue(matrix.right(0, 1).isEmpty());
     }
 
     @Test

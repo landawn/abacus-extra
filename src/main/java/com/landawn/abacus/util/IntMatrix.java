@@ -651,8 +651,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * u.OptionalInt value = matrix.leftNeighbor(0, 1);   // Returns u.OptionalInt.of(1)
-     * u.OptionalInt empty = matrix.leftNeighbor(0, 0);   // Returns u.OptionalInt.empty() - no column to the left
+     * u.OptionalInt value = matrix.left(0, 1);   // Returns u.OptionalInt.of(1)
+     * u.OptionalInt empty = matrix.left(0, 0);   // Returns u.OptionalInt.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -660,7 +660,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return an u.OptionalInt containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalInt leftNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalInt left(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalInt.empty() : OptionalInt.of(a[rowIndex][columnIndex - 1]);
@@ -673,8 +673,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * u.OptionalInt value = matrix.rightNeighbor(0, 0);   // Returns u.OptionalInt.of(2)
-     * u.OptionalInt empty = matrix.rightNeighbor(0, 1);   // Returns u.OptionalInt.empty() - no column to the right
+     * u.OptionalInt value = matrix.right(0, 0);   // Returns u.OptionalInt.of(2)
+     * u.OptionalInt empty = matrix.right(0, 1);   // Returns u.OptionalInt.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -682,7 +682,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return an u.OptionalInt containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalInt rightNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalInt right(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalInt.empty() : OptionalInt.of(a[rowIndex][columnIndex + 1]);

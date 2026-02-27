@@ -435,7 +435,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testLeftOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftNeighbor(0, 1);
+        OptionalBoolean left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertTrue(left.get());
     }
@@ -443,14 +443,14 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testLeftOf_atLeftEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftNeighbor(0, 0);
+        OptionalBoolean left = m.left(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void testLeftOf_multipleColumns() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
-        OptionalBoolean left = m.leftNeighbor(0, 2);
+        OptionalBoolean left = m.left(0, 2);
         assertTrue(left.isPresent());
         assertFalse(left.get());
     }
@@ -458,7 +458,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRightOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightNeighbor(0, 0);
+        OptionalBoolean right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertFalse(right.get());
     }
@@ -466,14 +466,14 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRightOf_atRightEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightNeighbor(0, 1);
+        OptionalBoolean right = m.right(0, 1);
         assertFalse(right.isPresent());
     }
 
     @Test
     public void testRightOf_multipleColumns() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
-        OptionalBoolean right = m.rightNeighbor(0, 0);
+        OptionalBoolean right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertFalse(right.get());
     }

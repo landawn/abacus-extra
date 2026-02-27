@@ -221,8 +221,8 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2 }, { 3, 4 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Assertions.assertEquals(1, matrix.leftNeighbor(0, 1).orElse(null));
-        Assertions.assertFalse(matrix.leftNeighbor(0, 0).isPresent());
+        Assertions.assertEquals(1, matrix.left(0, 1).orElse(null));
+        Assertions.assertFalse(matrix.left(0, 0).isPresent());
     }
 
     @Test
@@ -230,8 +230,8 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2 }, { 3, 4 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Assertions.assertEquals(2, matrix.rightNeighbor(0, 0).orElse(null));
-        Assertions.assertFalse(matrix.rightNeighbor(0, 1).isPresent());
+        Assertions.assertEquals(2, matrix.right(0, 0).orElse(null));
+        Assertions.assertFalse(matrix.right(0, 1).isPresent());
     }
 
     @Test
@@ -1364,6 +1364,52 @@ public class MatrixTest extends TestBase {
 
         matrix.set(0, 0, 2.5d);
         Assertions.assertEquals(2.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
+    }
+
+    @Test
+    public void testRepeatSupportsWiderGenericTypeAfterRowView() {
+        Matrix<Number> matrix = Matrix.repeat(1, 1, 1);
+
+        Number[] row = matrix.rowView(0);
+        Assertions.assertEquals(Integer.class, row.getClass().getComponentType());
+
+        matrix.set(0, 0, 2.5d);
+        Assertions.assertEquals(2.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
+    }
+
+    @Test
+    public void testDiagonalSupportsWiderGenericTypeAfterRowView() {
+        Number[] mainDiag = new Integer[] { 1 };
+        Matrix<Number> matrix = Matrix.mainDiagonal(mainDiag);
+
+        Number[] row = matrix.rowView(0);
+        Assertions.assertEquals(Integer.class, row.getClass().getComponentType());
+
+        matrix.set(0, 0, 2.5d);
+        Assertions.assertEquals(2.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
+    }
+
+    @Test
+    public void testSetRowAndSetColumnWidenStorageWhenNeeded() {
+        Matrix<Number> matrix = Matrix.repeat(2, 2, 1);
+        matrix.rowView(0);
+        matrix.rowView(1);
+
+        matrix.setRow(0, new Number[] { 1.5d, 2.5d });
+        matrix.setColumn(1, new Number[] { 3.5d, 4.5d });
+
+        Assertions.assertEquals(1.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
+        Assertions.assertEquals(3.5d, matrix.get(0, 1).doubleValue(), 0.000001d);
+        Assertions.assertEquals(4.5d, matrix.get(1, 1).doubleValue(), 0.000001d);
+    }
+
+    @Test
+    public void testSetRowColumnAndAntiDiagonalRejectNullArguments() {
+        Matrix<String> matrix = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.setRow(0, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.setColumn(0, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.setAntiDiagonal(null));
     }
 
     @Test

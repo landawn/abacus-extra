@@ -215,8 +215,8 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        assertTrue(matrix.leftNeighbor(0, 0).isEmpty());
-        assertEquals(1.0, matrix.leftNeighbor(0, 1).orElse(0.0));
+        assertTrue(matrix.left(0, 0).isEmpty());
+        assertEquals(1.0, matrix.left(0, 1).orElse(0.0));
     }
 
     @Test
@@ -224,8 +224,8 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        assertEquals(2.0, matrix.rightNeighbor(0, 0).orElse(0.0));
-        assertTrue(matrix.rightNeighbor(0, 1).isEmpty());
+        assertEquals(2.0, matrix.right(0, 0).orElse(0.0));
+        assertTrue(matrix.right(0, 1).isEmpty());
     }
 
     @Test

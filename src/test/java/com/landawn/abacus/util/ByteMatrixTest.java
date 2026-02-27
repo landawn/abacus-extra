@@ -241,11 +241,11 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        OptionalByte left = matrix.leftNeighbor(0, 1);
+        OptionalByte left = matrix.left(0, 1);
         Assertions.assertTrue(left.isPresent());
         Assertions.assertEquals(1, left.get());
 
-        OptionalByte empty = matrix.leftNeighbor(0, 0);
+        OptionalByte empty = matrix.left(0, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -254,11 +254,11 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        OptionalByte right = matrix.rightNeighbor(0, 0);
+        OptionalByte right = matrix.right(0, 0);
         Assertions.assertTrue(right.isPresent());
         Assertions.assertEquals(2, right.get());
 
-        OptionalByte empty = matrix.rightNeighbor(0, 1);
+        OptionalByte empty = matrix.right(0, 1);
         Assertions.assertFalse(empty.isPresent());
     }
 

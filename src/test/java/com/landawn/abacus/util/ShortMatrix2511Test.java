@@ -321,22 +321,22 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testLeftOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        OptionalShort left = m.leftNeighbor(0, 1);
+        OptionalShort left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals((short) 1, left.get());
 
-        OptionalShort noLeft = m.leftNeighbor(0, 0);
+        OptionalShort noLeft = m.left(0, 0);
         assertFalse(noLeft.isPresent());
     }
 
     @Test
     public void testRightOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        OptionalShort right = m.rightNeighbor(0, 0);
+        OptionalShort right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals((short) 2, right.get());
 
-        OptionalShort noRight = m.rightNeighbor(0, 1);
+        OptionalShort noRight = m.right(0, 1);
         assertFalse(noRight.isPresent());
     }
 

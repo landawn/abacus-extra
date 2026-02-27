@@ -453,7 +453,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        int[] copy = immutable.copyToArray(0, 5);
+        int[] copy = immutable.toArray(0, 5);
 
         assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, copy);
     }
@@ -463,7 +463,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 10, 20, 30, 40, 50 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        int[] copy = immutable.copyToArray(2, 4);
+        int[] copy = immutable.toArray(2, 4);
 
         assertArrayEquals(new int[] { 30, 40 }, copy);
     }
@@ -473,7 +473,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        int[] copy = immutable.copyToArray(1, 1);
+        int[] copy = immutable.toArray(1, 1);
 
         assertEquals(0, copy.length);
     }
@@ -483,7 +483,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyToArray(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(-1, 2));
     }
 
     @Test
@@ -491,7 +491,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyToArray(0, 10));
+        assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(0, 10));
     }
 
     @Test
@@ -499,7 +499,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyToArray(2, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(2, 1));
     }
 
     @Test
@@ -507,7 +507,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
 
-        int[] copy = immutable.copyToArray(0, 5);
+        int[] copy = immutable.toArray(0, 5);
 
         // Modify the copy
         copy[0] = 99;
@@ -746,7 +746,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         assertEquals(180, sum);
 
         // Copy to mutable array
-        int[] mutableCopy = sub.copyToArray(1, 3);
+        int[] mutableCopy = sub.toArray(1, 3);
         assertArrayEquals(new int[] { 40, 50 }, mutableCopy);
     }
 

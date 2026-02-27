@@ -530,8 +530,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * OptionalChar value = matrix.leftNeighbor(0, 1);   // Returns OptionalChar.of('a')
-     * OptionalChar empty = matrix.leftNeighbor(0, 0);   // Returns OptionalChar.empty() - no column to the left
+     * OptionalChar value = matrix.left(0, 1);   // Returns OptionalChar.of('a')
+     * OptionalChar empty = matrix.left(0, 0);   // Returns OptionalChar.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -539,7 +539,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return an OptionalChar containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalChar leftNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalChar left(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalChar.empty() : OptionalChar.of(a[rowIndex][columnIndex - 1]);
@@ -553,8 +553,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * OptionalChar value = matrix.rightNeighbor(0, 0);   // Returns OptionalChar.of('b')
-     * OptionalChar empty = matrix.rightNeighbor(0, 1);   // Returns OptionalChar.empty() - no column to the right
+     * OptionalChar value = matrix.right(0, 0);   // Returns OptionalChar.of('b')
+     * OptionalChar empty = matrix.right(0, 1);   // Returns OptionalChar.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -562,7 +562,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return an OptionalChar containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalChar rightNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalChar right(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalChar.empty() : OptionalChar.of(a[rowIndex][columnIndex + 1]);

@@ -324,23 +324,23 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testLeftOf() {
-        OptionalInt left = matrix.leftNeighbor(1, 1);
+        OptionalInt left = matrix.left(1, 1);
         assertTrue(left.isPresent());
         assertEquals(4, left.get());
 
         // Test leftmost column
-        OptionalInt empty = matrix.leftNeighbor(1, 0);
+        OptionalInt empty = matrix.left(1, 0);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testRightOf() {
-        OptionalInt right = matrix.rightNeighbor(1, 1);
+        OptionalInt right = matrix.right(1, 1);
         assertTrue(right.isPresent());
         assertEquals(6, right.get());
 
         // Test rightmost column
-        OptionalInt empty = matrix.rightNeighbor(1, 2);
+        OptionalInt empty = matrix.right(1, 2);
         assertFalse(empty.isPresent());
     }
 

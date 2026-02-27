@@ -358,12 +358,12 @@ public class CharMatrix2025Test extends TestBase {
     public void testLeftOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
 
-        OptionalChar left = m.leftNeighbor(0, 1);
+        OptionalChar left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals('A', left.get());
 
         // Leftmost column has no element to the left
-        OptionalChar empty = m.leftNeighbor(0, 0);
+        OptionalChar empty = m.left(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -371,12 +371,12 @@ public class CharMatrix2025Test extends TestBase {
     public void testRightOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
 
-        OptionalChar right = m.rightNeighbor(0, 0);
+        OptionalChar right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals('B', right.get());
 
         // Rightmost column has no element to the right
-        OptionalChar empty = m.rightNeighbor(0, 1);
+        OptionalChar empty = m.right(0, 1);
         assertFalse(empty.isPresent());
     }
 

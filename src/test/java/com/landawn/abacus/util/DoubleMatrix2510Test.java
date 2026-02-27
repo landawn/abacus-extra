@@ -391,7 +391,7 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testLeftOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble left = m.leftNeighbor(0, 1);
+        OptionalDouble left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1.0, left.get());
     }
@@ -399,14 +399,14 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testLeftOf_firstColumn() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble left = m.leftNeighbor(0, 0);
+        OptionalDouble left = m.left(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void testRightOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble right = m.rightNeighbor(0, 0);
+        OptionalDouble right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2.0, right.get());
     }
@@ -414,7 +414,7 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testRightOf_lastColumn() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble right = m.rightNeighbor(0, 1);
+        OptionalDouble right = m.right(0, 1);
         assertFalse(right.isPresent());
     }
 

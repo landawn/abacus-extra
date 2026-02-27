@@ -712,35 +712,35 @@ public class Arrays2511Test extends TestBase {
         assertEquals(4L, count);
     }
 
-    // ============ Arrays.minSubArrayLen Tests ============
+    // ============ Arrays.minSubArrayLength Tests ============
 
     @Test
     public void testMinSubArrayLen_boolean_2D() {
         boolean[][] arr = { { true, false, true }, { false }, { true, false } };
-        int minLen = Arrays.minSubArrayLen(arr);
+        int minLen = Arrays.minSubArrayLength(arr);
         assertEquals(1, minLen);
     }
 
     @Test
     public void testMinSubArrayLen_boolean_2D_withNulls() {
         boolean[][] arr = { { true, false }, null, { true } };
-        int minLen = Arrays.minSubArrayLen(arr);
+        int minLen = Arrays.minSubArrayLength(arr);
         assertEquals(0, minLen);
     }
 
-    // ============ Arrays.maxSubArrayLen Tests ============
+    // ============ Arrays.maxSubArrayLength Tests ============
 
     @Test
     public void testMaxSubArrayLen_boolean_2D() {
         boolean[][] arr = { { true, false, true }, { false }, { true, false } };
-        int maxLen = Arrays.maxSubArrayLen(arr);
+        int maxLen = Arrays.maxSubArrayLength(arr);
         assertEquals(3, maxLen);
     }
 
     @Test
     public void testMaxSubArrayLen_boolean_2D_withNulls() {
         boolean[][] arr = { { true }, null, { true, false, false } };
-        int maxLen = Arrays.maxSubArrayLen(arr);
+        int maxLen = Arrays.maxSubArrayLength(arr);
         assertEquals(3, maxLen);
     }
 
@@ -1130,16 +1130,16 @@ public class Arrays2511Test extends TestBase {
     }
 
     @Test
-    public void testFF_minSubArrayLen() {
+    public void testFF_minSubArrayLength() {
         Object[][] arr = { { "a", "b", "c" }, { "d" }, { "e", "f" } };
-        int minLen = Arrays.ff.minSubArrayLen(arr);
+        int minLen = Arrays.ff.minSubArrayLength(arr);
         assertEquals(1, minLen);
     }
 
     @Test
-    public void testFF_maxSubArrayLen() {
+    public void testFF_maxSubArrayLength() {
         Object[][] arr = { { "a", "b", "c" }, { "d" }, { "e", "f" } };
-        int maxLen = Arrays.ff.maxSubArrayLen(arr);
+        int maxLen = Arrays.ff.maxSubArrayLength(arr);
         assertEquals(3, maxLen);
     }
 

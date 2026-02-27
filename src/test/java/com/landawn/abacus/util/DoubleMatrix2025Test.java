@@ -420,12 +420,12 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testLeftOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
 
-        OptionalDouble left = m.leftNeighbor(0, 1);
+        OptionalDouble left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1.5, left.get(), DELTA);
 
         // Leftmost column has no element to the left
-        OptionalDouble empty = m.leftNeighbor(0, 0);
+        OptionalDouble empty = m.left(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -433,12 +433,12 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testRightOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
 
-        OptionalDouble right = m.rightNeighbor(0, 0);
+        OptionalDouble right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2.5, right.get(), DELTA);
 
         // Rightmost column has no element to the right
-        OptionalDouble empty = m.rightNeighbor(0, 1);
+        OptionalDouble empty = m.right(0, 1);
         assertFalse(empty.isPresent());
     }
 

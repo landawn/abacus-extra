@@ -29,7 +29,7 @@ import com.landawn.abacus.TestBase;
  * Comprehensive unit tests for Arrays utility class.
  * This class provides extensive array manipulation methods for primitive and object arrays.
  * Tests cover println, mapToObj, mapToLong, mapToDouble, mapToInt, updateAll, replaceIf,
- * reshape, flatten, applyOnFlattened, zip, totalCountOfElements, minSubArrayLen, maxSubArrayLen methods.
+ * reshape, flatten, applyOnFlattened, zip, totalCountOfElements, minSubArrayLength, maxSubArrayLength methods.
  */
 @Tag("2512")
 public class Arrays2512Test extends TestBase {
@@ -741,52 +741,52 @@ public class Arrays2512Test extends TestBase {
     }
 
     // ============================================
-    // Tests for minSubArrayLen(boolean[][])
+    // Tests for minSubArrayLength(boolean[][])
     // ============================================
 
     @Test
-    public void test_minSubArrayLen_booleanArray2D() {
+    public void test_minSubArrayLength_booleanArray2D() {
         boolean[][] arr = { { true, false, true }, { true } };
-        int min = Arrays.minSubArrayLen(arr);
+        int min = Arrays.minSubArrayLength(arr);
 
         assertEquals(1, min);
     }
 
     @Test
-    public void test_minSubArrayLen_booleanArray2DNull() {
-        int min = Arrays.minSubArrayLen((boolean[][]) null);
+    public void test_minSubArrayLength_booleanArray2DNull() {
+        int min = Arrays.minSubArrayLength((boolean[][]) null);
         assertEquals(0, min);
     }
 
     @Test
-    public void test_minSubArrayLen_booleanArray2DEmpty() {
+    public void test_minSubArrayLength_booleanArray2DEmpty() {
         boolean[][] arr = {};
-        int min = Arrays.minSubArrayLen(arr);
+        int min = Arrays.minSubArrayLength(arr);
         assertEquals(0, min);
     }
 
     // ============================================
-    // Tests for maxSubArrayLen(boolean[][])
+    // Tests for maxSubArrayLength(boolean[][])
     // ============================================
 
     @Test
-    public void test_maxSubArrayLen_booleanArray2D() {
+    public void test_maxSubArrayLength_booleanArray2D() {
         boolean[][] arr = { { true, false, true }, { true } };
-        int max = Arrays.maxSubArrayLen(arr);
+        int max = Arrays.maxSubArrayLength(arr);
 
         assertEquals(3, max);
     }
 
     @Test
-    public void test_maxSubArrayLen_booleanArray2DNull() {
-        int max = Arrays.maxSubArrayLen((boolean[][]) null);
+    public void test_maxSubArrayLength_booleanArray2DNull() {
+        int max = Arrays.maxSubArrayLength((boolean[][]) null);
         assertEquals(0, max);
     }
 
     @Test
-    public void test_maxSubArrayLen_booleanArray2DEmpty() {
+    public void test_maxSubArrayLength_booleanArray2DEmpty() {
         boolean[][] arr = {};
-        int max = Arrays.maxSubArrayLen(arr);
+        int max = Arrays.maxSubArrayLength(arr);
         assertEquals(0, max);
     }
 

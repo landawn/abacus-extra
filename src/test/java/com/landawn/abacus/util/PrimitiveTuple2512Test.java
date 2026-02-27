@@ -321,7 +321,7 @@ public class PrimitiveTuple2512Test extends TestBase {
     }
 
     @Test
-    public void test_filter_nonMatchingPredicate() {
+    public void test_filter_nocountMatchBetweeningPredicate() {
         IntTuple2 tuple = IntTuple.of(5, 10);
 
         Optional<IntTuple2> result = tuple.filter(t -> t._1 + t._2 > 100);

@@ -282,23 +282,23 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testLeftOf() {
-        OptionalShort left = matrix.leftNeighbor(1, 1);
+        OptionalShort left = matrix.left(1, 1);
         assertTrue(left.isPresent());
         assertEquals((short) 4, left.get());
 
         // Test leftmost column
-        OptionalShort empty = matrix.leftNeighbor(1, 0);
+        OptionalShort empty = matrix.left(1, 0);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testRightOf() {
-        OptionalShort right = matrix.rightNeighbor(1, 1);
+        OptionalShort right = matrix.right(1, 1);
         assertTrue(right.isPresent());
         assertEquals((short) 6, right.get());
 
         // Test rightmost column
-        OptionalShort empty = matrix.rightNeighbor(1, 2);
+        OptionalShort empty = matrix.right(1, 2);
         assertFalse(empty.isPresent());
     }
 

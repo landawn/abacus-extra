@@ -358,12 +358,12 @@ public class ByteMatrix2025Test extends TestBase {
     public void testLeftOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalByte left = m.leftNeighbor(0, 1);
+        OptionalByte left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
 
         // Leftmost column has no element to the left
-        OptionalByte empty = m.leftNeighbor(0, 0);
+        OptionalByte empty = m.left(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -371,12 +371,12 @@ public class ByteMatrix2025Test extends TestBase {
     public void testRightOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalByte right = m.rightNeighbor(0, 0);
+        OptionalByte right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
 
         // Rightmost column has no element to the right
-        OptionalByte empty = m.rightNeighbor(0, 1);
+        OptionalByte empty = m.right(0, 1);
         assertFalse(empty.isPresent());
     }
 

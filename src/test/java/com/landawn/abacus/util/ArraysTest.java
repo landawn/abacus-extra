@@ -32,17 +32,17 @@ import com.landawn.abacus.util.stream.Stream;
 public class ArraysTest extends TestBase {
 
     @Test
-    public void test_minSubArrayLen() {
+    public void test_minSubArrayLength() {
         final String[][] a = { { "a", "b" }, { "c", "d", "d" } };
         final String[][][] b = { { { "a", "b" } }, { { "1", "2" }, { "3", "4" } } };
         final int[][][] c = Arrays.reshape(Array.rangeClosed(1, 9), 2, 3);
 
-        assertEquals(2, ff.minSubArrayLen(a));
-        assertEquals(3, ff.maxSubArrayLen(a));
-        assertEquals(1, ff.minSubArrayLen(b));
-        assertEquals(2, ff.maxSubArrayLen(b));
-        assertEquals(1, ff.minSubArrayLen(c));
-        assertEquals(2, ff.maxSubArrayLen(c));
+        assertEquals(2, ff.minSubArrayLength(a));
+        assertEquals(3, ff.maxSubArrayLength(a));
+        assertEquals(1, ff.minSubArrayLength(b));
+        assertEquals(2, ff.maxSubArrayLength(b));
+        assertEquals(1, ff.minSubArrayLength(c));
+        assertEquals(2, ff.maxSubArrayLength(c));
 
     }
 
@@ -4010,57 +4010,57 @@ public class ArraysTest extends TestBase {
         public void testMinSubArrayLen() {
             // Test normal array
             Object[][] array = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            int minLen = ff.minSubArrayLen(array);
+            int minLen = ff.minSubArrayLength(array);
             Assertions.assertEquals(0, minLen); // null counts as 0
 
             // Test without null
             Object[][] array2 = { { 1, 2, 3 }, { 4, 5 }, { 6 } };
-            int minLen2 = ff.minSubArrayLen(array2);
+            int minLen2 = ff.minSubArrayLength(array2);
             Assertions.assertEquals(1, minLen2);
 
             // Test empty array
             Object[][] emptyArray = {};
-            Assertions.assertEquals(0, ff.minSubArrayLen(emptyArray));
+            Assertions.assertEquals(0, ff.minSubArrayLength(emptyArray));
 
             // Test null array
             Object[][] nullArray = null;
-            Assertions.assertEquals(0, ff.minSubArrayLen(nullArray));
+            Assertions.assertEquals(0, ff.minSubArrayLength(nullArray));
 
             // Test with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, { 3, 4, 5 } };
-            Assertions.assertEquals(0, ff.minSubArrayLen(withEmpty));
+            Assertions.assertEquals(0, ff.minSubArrayLength(withEmpty));
 
             // Test uniform length
             Object[][] uniform = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-            Assertions.assertEquals(3, ff.minSubArrayLen(uniform));
+            Assertions.assertEquals(3, ff.minSubArrayLength(uniform));
         }
 
         @Test
         public void testMaxSubArrayLen() {
             // Test normal array
             Object[][] array = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            int maxLen = ff.maxSubArrayLen(array);
+            int maxLen = ff.maxSubArrayLength(array);
             Assertions.assertEquals(3, maxLen);
 
             // Test empty array
             Object[][] emptyArray = {};
-            Assertions.assertEquals(0, ff.maxSubArrayLen(emptyArray));
+            Assertions.assertEquals(0, ff.maxSubArrayLength(emptyArray));
 
             // Test null array
             Object[][] nullArray = null;
-            Assertions.assertEquals(0, ff.maxSubArrayLen(nullArray));
+            Assertions.assertEquals(0, ff.maxSubArrayLength(nullArray));
 
             // Test with all nulls
             Object[][] isAllNulls = { null, null, null };
-            Assertions.assertEquals(0, ff.maxSubArrayLen(isAllNulls));
+            Assertions.assertEquals(0, ff.maxSubArrayLength(isAllNulls));
 
             // Test with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, { 3, 4, 5, 6, 7 } };
-            Assertions.assertEquals(5, ff.maxSubArrayLen(withEmpty));
+            Assertions.assertEquals(5, ff.maxSubArrayLength(withEmpty));
 
             // Test uniform length
             Object[][] uniform = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
-            Assertions.assertEquals(2, ff.maxSubArrayLen(uniform));
+            Assertions.assertEquals(2, ff.maxSubArrayLength(uniform));
         }
     }
 

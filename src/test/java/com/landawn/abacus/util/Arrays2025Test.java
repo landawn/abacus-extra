@@ -1021,13 +1021,13 @@ public class Arrays2025Test extends TestBase {
     // Note: replaceIf for Object arrays is not available in Arrays.java
 
     // ============================================
-    // Tests for minSubArrayLen and maxSubArrayLen
+    // Tests for minSubArrayLength and maxSubArrayLength
     // ============================================
 
     @Test
     public void testMinSubArrayLen_Boolean2D() {
         boolean[][] a = { { true, false }, { true }, { true, false, true } };
-        int result = Arrays.minSubArrayLen(a);
+        int result = Arrays.minSubArrayLength(a);
 
         assertEquals(1, result);
     }
@@ -1035,7 +1035,7 @@ public class Arrays2025Test extends TestBase {
     @Test
     public void testMaxSubArrayLen_Boolean2D() {
         boolean[][] a = { { true, false }, { true }, { true, false, true } };
-        int result = Arrays.maxSubArrayLen(a);
+        int result = Arrays.maxSubArrayLength(a);
 
         assertEquals(3, result);
     }
@@ -1043,7 +1043,7 @@ public class Arrays2025Test extends TestBase {
     @Test
     public void testMinSubArrayLen_Char2D() {
         char[][] a = { { 'a', 'b' }, { 'c' }, { 'd', 'e', 'f' } };
-        int result = Arrays.minSubArrayLen(a);
+        int result = Arrays.minSubArrayLength(a);
 
         assertEquals(1, result);
     }
@@ -1051,7 +1051,7 @@ public class Arrays2025Test extends TestBase {
     @Test
     public void testMaxSubArrayLen_Char2D() {
         char[][] a = { { 'a', 'b' }, { 'c' }, { 'd', 'e', 'f' } };
-        int result = Arrays.maxSubArrayLen(a);
+        int result = Arrays.maxSubArrayLength(a);
 
         assertEquals(3, result);
     }
@@ -1059,7 +1059,7 @@ public class Arrays2025Test extends TestBase {
     @Test
     public void testMinSubArrayLen_Int2D() {
         int[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-        int result = Arrays.minSubArrayLen(a);
+        int result = Arrays.minSubArrayLength(a);
 
         assertEquals(1, result);
     }
@@ -1067,7 +1067,7 @@ public class Arrays2025Test extends TestBase {
     @Test
     public void testMaxSubArrayLen_Int2D() {
         int[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-        int result = Arrays.maxSubArrayLen(a);
+        int result = Arrays.maxSubArrayLength(a);
 
         assertEquals(3, result);
     }

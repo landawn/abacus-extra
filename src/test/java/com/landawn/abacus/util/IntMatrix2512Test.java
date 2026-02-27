@@ -442,7 +442,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt left = m.leftNeighbor(0, 1);
+        OptionalInt left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
     }
@@ -450,14 +450,14 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf_firstColumn() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt left = m.leftNeighbor(0, 0);
+        OptionalInt left = m.left(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void test_rightOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt right = m.rightNeighbor(0, 0);
+        OptionalInt right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
     }
@@ -465,7 +465,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_rightOf_lastColumn() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt right = m.rightNeighbor(0, 1);
+        OptionalInt right = m.right(0, 1);
         assertFalse(right.isPresent());
     }
 

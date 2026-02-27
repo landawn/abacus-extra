@@ -250,11 +250,11 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        OptionalLong left = matrix.leftNeighbor(0, 1);
+        OptionalLong left = matrix.left(0, 1);
         Assertions.assertTrue(left.isPresent());
         Assertions.assertEquals(1L, left.getAsLong());
 
-        OptionalLong empty = matrix.leftNeighbor(0, 0);
+        OptionalLong empty = matrix.left(0, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -263,11 +263,11 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        OptionalLong right = matrix.rightNeighbor(0, 0);
+        OptionalLong right = matrix.right(0, 0);
         Assertions.assertTrue(right.isPresent());
         Assertions.assertEquals(2L, right.getAsLong());
 
-        OptionalLong empty = matrix.rightNeighbor(0, 1);
+        OptionalLong empty = matrix.right(0, 1);
         Assertions.assertFalse(empty.isPresent());
     }
 

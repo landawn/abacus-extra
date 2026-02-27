@@ -445,8 +445,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.leftNeighbor(0, 1);   // Returns OptionalBoolean.of(true)
-     * OptionalBoolean empty = matrix.leftNeighbor(0, 0);   // Returns OptionalBoolean.empty() - no column to the left
+     * OptionalBoolean value = matrix.left(0, 1);   // Returns OptionalBoolean.of(true)
+     * OptionalBoolean empty = matrix.left(0, 0);   // Returns OptionalBoolean.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -454,7 +454,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return an OptionalBoolean containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalBoolean leftNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalBoolean left(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[rowIndex][columnIndex - 1]);
@@ -468,8 +468,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.rightNeighbor(0, 0);   // Returns OptionalBoolean.of(false)
-     * OptionalBoolean empty = matrix.rightNeighbor(0, 1);   // Returns OptionalBoolean.empty() - no column to the right
+     * OptionalBoolean value = matrix.right(0, 0);   // Returns OptionalBoolean.of(false)
+     * OptionalBoolean empty = matrix.right(0, 1);   // Returns OptionalBoolean.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -477,7 +477,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return an OptionalBoolean containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalBoolean rightNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalBoolean right(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[rowIndex][columnIndex + 1]);

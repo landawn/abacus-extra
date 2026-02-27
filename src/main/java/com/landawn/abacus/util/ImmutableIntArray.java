@@ -341,7 +341,7 @@ public final class ImmutableIntArray implements Immutable {
      * @return a new ImmutableIntArray containing a copy of the elements in the specified range
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length},
      *                                   or {@code fromIndex > toIndex}
-     * @see #copyToArray(int, int)
+     * @see #toArray(int, int)
      */
     public ImmutableIntArray copy(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
@@ -364,7 +364,7 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {10, 20, 30, 40, 50});
      *
-     * int[] mutableCopy = array.copyToArray(1, 4);
+     * int[] mutableCopy = array.toArray(1, 4);
      * // mutableCopy is {20, 30, 40}
      *
      * // Can modify the returned array
@@ -373,7 +373,7 @@ public final class ImmutableIntArray implements Immutable {
      * System.out.println(array.get(1));                             // still prints: 20 (original unchanged)
      *
      * // Get all elements as a mutable array
-     * int[] allElements = array.copyToArray(0, array.length);
+     * int[] allElements = array.toArray(0, array.length);
      * }</pre>
      *
      * @param fromIndex the starting index (inclusive) of the range to copy (must be {@code >= 0})
@@ -383,7 +383,7 @@ public final class ImmutableIntArray implements Immutable {
      *                                   or {@code fromIndex > toIndex}
      * @see #copy(int, int)
      */
-    public int[] copyToArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
+    public int[] toArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
 
         return N.copyOfRange(elements, fromIndex, toIndex);

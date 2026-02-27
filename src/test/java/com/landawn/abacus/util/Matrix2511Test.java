@@ -335,7 +335,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testLeftOf_validPosition() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Nullable<String> left = m.leftNeighbor(0, 1);
+        Nullable<String> left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertEquals("A", left.get());
     }
@@ -343,14 +343,14 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testLeftOf_leftEdge() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Nullable<String> left = m.leftNeighbor(0, 0);
+        Nullable<String> left = m.left(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void testRightOf_validPosition() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Nullable<String> right = m.rightNeighbor(0, 0);
+        Nullable<String> right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertEquals("B", right.get());
     }
@@ -358,7 +358,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testRightOf_rightEdge() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Nullable<String> right = m.rightNeighbor(0, 1);
+        Nullable<String> right = m.right(0, 1);
         assertFalse(right.isPresent());
     }
 
@@ -367,8 +367,8 @@ public class Matrix2511Test extends TestBase {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         assertEquals(5, m.above(2, 1).get());
         assertEquals(5, m.below(0, 1).get());
-        assertEquals(5, m.leftNeighbor(1, 2).get());
-        assertEquals(5, m.rightNeighbor(1, 0).get());
+        assertEquals(5, m.left(1, 2).get());
+        assertEquals(5, m.right(1, 0).get());
     }
 
     // ============ Row and Column Access ============

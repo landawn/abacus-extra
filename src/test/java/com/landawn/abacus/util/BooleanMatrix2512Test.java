@@ -253,7 +253,7 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf_exists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftNeighbor(0, 1);
+        OptionalBoolean left = m.left(0, 1);
         assertTrue(left.isPresent());
         assertTrue(left.get());
     }
@@ -261,14 +261,14 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf_notExists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftNeighbor(0, 0);
+        OptionalBoolean left = m.left(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void test_rightOf_exists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightNeighbor(0, 0);
+        OptionalBoolean right = m.right(0, 0);
         assertTrue(right.isPresent());
         assertFalse(right.get());
     }
@@ -276,7 +276,7 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_rightOf_notExists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightNeighbor(0, 1);
+        OptionalBoolean right = m.right(0, 1);
         assertFalse(right.isPresent());
     }
 

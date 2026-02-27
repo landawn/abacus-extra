@@ -586,8 +586,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * u.OptionalDouble value = matrix.leftNeighbor(0, 1);   // Returns u.OptionalDouble.of(1.0)
-     * u.OptionalDouble empty = matrix.leftNeighbor(0, 0);   // Returns u.OptionalDouble.empty() - no column to the left
+     * u.OptionalDouble value = matrix.left(0, 1);   // Returns u.OptionalDouble.of(1.0)
+     * u.OptionalDouble empty = matrix.left(0, 0);   // Returns u.OptionalDouble.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -595,7 +595,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return an u.OptionalDouble containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalDouble leftNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalDouble left(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[rowIndex][columnIndex - 1]);
@@ -609,8 +609,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * u.OptionalDouble value = matrix.rightNeighbor(0, 0);   // Returns u.OptionalDouble.of(2.0)
-     * u.OptionalDouble empty = matrix.rightNeighbor(0, 1);   // Returns u.OptionalDouble.empty() - no column to the right
+     * u.OptionalDouble value = matrix.right(0, 0);   // Returns u.OptionalDouble.of(2.0)
+     * u.OptionalDouble empty = matrix.right(0, 1);   // Returns u.OptionalDouble.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -618,7 +618,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return an u.OptionalDouble containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalDouble rightNeighbor(final int rowIndex, final int columnIndex) {
+    public OptionalDouble right(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[rowIndex][columnIndex + 1]);
