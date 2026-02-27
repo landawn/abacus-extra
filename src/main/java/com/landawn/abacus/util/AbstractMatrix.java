@@ -153,7 +153,7 @@ import com.landawn.abacus.util.stream.Stream;
  * // Complex stream operations with multiple access patterns
  * DoubleMatrix analyticsMatrix = DoubleMatrix.of(new double[][] {{1.0, 3.0, 5.0}, {2.0, 4.0, 8.0}});
  * int rowIndex = 0;
- * double[] row = analyticsMatrix.row(rowIndex);
+ * double[] row = analyticsMatrix.rowView(rowIndex);
  * double mean = java.util.stream.DoubleStream.of(row).average().orElse(0.0);
  * double variance = java.util.stream.DoubleStream.of(row)
  *     .map(x -> Math.pow(x - mean, 2))
@@ -279,7 +279,7 @@ import com.landawn.abacus.util.stream.Stream;
  * // Column statistics
  * double[] stats = new double[multiplied.columnCount()];
  * for (int c = 0; c < multiplied.columnCount(); c++) {
- *     stats[c] = java.util.stream.DoubleStream.of(multiplied.column(c))
+ *     stats[c] = java.util.stream.DoubleStream.of(multiplied.columnCopy(c))
  *         .filter(x -> !Double.isNaN(x))
  *         .average()
  *         .orElse(0.0);
@@ -646,6 +646,36 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public A[] rawArray() {
         return a;
     }
+
+    /**
+     * Returns the specified row as a direct view backed by internal storage.
+     * Changes to the returned array will modify this matrix.
+     *
+     * @param rowIndex the index of the row to retrieve (0-based)
+     * @return the specified row array (direct reference to internal storage)
+     * @throws IllegalArgumentException if rowIndex is out of bounds
+     */
+    public abstract A rowView(int rowIndex) throws IllegalArgumentException;
+
+    /**
+     * Returns a defensive copy of the specified row.
+     * Changes to the returned array do not affect this matrix.
+     *
+     * @param rowIndex the index of the row to retrieve (0-based)
+     * @return a new array containing the values from the specified row
+     * @throws IllegalArgumentException if rowIndex is out of bounds
+     */
+    public abstract A rowCopy(int rowIndex) throws IllegalArgumentException;
+
+    /**
+     * Returns a defensive copy of the specified column.
+     * Changes to the returned array do not affect this matrix.
+     *
+     * @param columnIndex the index of the column to retrieve (0-based)
+     * @return a new array containing the values from the specified column
+     * @throws IllegalArgumentException if columnIndex is out of bounds
+     */
+    public abstract A columnCopy(int columnIndex) throws IllegalArgumentException;
 
     /**
      * Returns the number of rows in this matrix.

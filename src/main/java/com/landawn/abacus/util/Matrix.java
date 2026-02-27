@@ -513,17 +513,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code matrix.row(i).clone()}.</p>
+     * copy, use {@code matrix.rowView(i).clone()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * String[] rowData = matrix.row(0);
+     * String[] rowData = matrix.rowView(0);
      * rowData[0] = "X";  // This modifies the matrix directly
      * // Matrix is now: [["X", "B"], ["C", "D"]]
      *
      * // Use clone() if you need an independent copy
-     * String[] rowCopy = matrix.row(1).clone();
+     * String[] rowCopy = matrix.rowView(1).clone();
      * rowCopy[0] = "Y";  // Does not affect the matrix
      * }</pre>
      *
@@ -531,7 +531,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return the specified row array (direct reference to internal storage)
      * @throws IllegalArgumentException if rowIndex is negative or greater than or equal to the number of rows
      */
-    public T[] row(final int rowIndex) throws IllegalArgumentException {
+    @Override
+    public T[] rowView(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         final T[] row = a[rowIndex];
@@ -550,6 +551,34 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         }
 
         return row;
+    }
+
+    /**
+     * Returns a defensive copy of the specified row.
+     * Changes to the returned array do not affect this matrix.
+     *
+     * @param rowIndex the index of the row to retrieve (0-based)
+     * @return a new array containing the values from the specified row
+     * @throws IllegalArgumentException if rowIndex is negative or greater than or equal to the number of rows
+     */
+    @Override
+    public T[] rowCopy(final int rowIndex) throws IllegalArgumentException {
+        N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
+
+        final T[] row = a[rowIndex];
+
+        if (elementType != Object.class && row.getClass().getComponentType() == Object.class) {
+            final Class<?> resolvedElementType = resolveRowElementType(row);
+
+            if (resolvedElementType != Object.class) {
+                final T[] converted = N.newArray((Class<T>) resolvedElementType, row.length);
+                N.copy(row, 0, converted, 0, row.length);
+                a[rowIndex] = converted;
+                return N.copyOf(converted, columnCount);
+            }
+        }
+
+        return N.copyOf(row, columnCount);
     }
 
     private Class<?> resolveRowElementType(final T[] row) {
@@ -611,14 +640,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Returns a copy of the specified column as a new array.
      *
-     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * String[] colData = matrix.column(1);   // Returns ["B", "D"]
+     * String[] colData = matrix.columnCopy(1);   // Returns ["B", "D"]
      *
      * // Modification does NOT affect the matrix (it's a copy)
      * colData[0] = "X";  // Matrix still has "B" at position (0, 1)
@@ -628,7 +657,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a new array containing the values from the specified column
      * @throws IllegalArgumentException if columnIndex is negative or greater than or equal to the number of columns
      */
-    public T[] column(final int columnIndex) throws IllegalArgumentException {
+    @Override
+    public T[] columnCopy(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
 
         final T[] c = N.newArray(elementType, rowCount);

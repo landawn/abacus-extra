@@ -353,42 +353,42 @@ public class BooleanMatrix2510Test extends TestBase {
     public void testRow() {
         boolean[][] arr = { { true, false, true }, { false, true, false } };
         BooleanMatrix m = BooleanMatrix.of(arr);
-        boolean[] row0 = m.row(0);
+        boolean[] row0 = m.rowView(0);
         assertArrayEquals(new boolean[] { true, false, true }, row0);
-        boolean[] row1 = m.row(1);
+        boolean[] row1 = m.rowView(1);
         assertArrayEquals(new boolean[] { false, true, false }, row1);
     }
 
     @Test
     public void testRow_invalidIndex() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(1));
     }
 
     @Test
     public void testColumn() {
         boolean[][] arr = { { true, false, true }, { false, true, false } };
         BooleanMatrix m = BooleanMatrix.of(arr);
-        boolean[] col0 = m.column(0);
+        boolean[] col0 = m.columnCopy(0);
         assertArrayEquals(new boolean[] { true, false }, col0);
-        boolean[] col1 = m.column(1);
+        boolean[] col1 = m.columnCopy(1);
         assertArrayEquals(new boolean[] { false, true }, col1);
     }
 
     @Test
     public void testColumn_invalidIndex() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.column(2));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(2));
     }
 
     @Test
     public void testSetRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, false }, { false, false, false } });
         m.setRow(0, new boolean[] { true, true, true });
-        assertArrayEquals(new boolean[] { true, true, true }, m.row(0));
-        assertArrayEquals(new boolean[] { false, false, false }, m.row(1));
+        assertArrayEquals(new boolean[] { true, true, true }, m.rowView(0));
+        assertArrayEquals(new boolean[] { false, false, false }, m.rowView(1));
     }
 
     @Test
@@ -401,8 +401,8 @@ public class BooleanMatrix2510Test extends TestBase {
     public void testSetColumn() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false }, { false, false }, { false, false } });
         m.setColumn(0, new boolean[] { true, true, true });
-        assertArrayEquals(new boolean[] { true, true, true }, m.column(0));
-        assertArrayEquals(new boolean[] { false, false, false }, m.column(1));
+        assertArrayEquals(new boolean[] { true, true, true }, m.columnCopy(0));
+        assertArrayEquals(new boolean[] { false, false, false }, m.columnCopy(1));
     }
 
     @Test
@@ -415,16 +415,16 @@ public class BooleanMatrix2510Test extends TestBase {
     public void testUpdateRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, false, false } });
         m.updateRow(0, val -> !val);
-        assertArrayEquals(new boolean[] { false, true, false }, m.row(0));
-        assertArrayEquals(new boolean[] { false, false, false }, m.row(1));
+        assertArrayEquals(new boolean[] { false, true, false }, m.rowView(0));
+        assertArrayEquals(new boolean[] { false, false, false }, m.rowView(1));
     }
 
     @Test
     public void testUpdateColumn() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, false }, { true, false } });
         m.updateColumn(0, val -> !val);
-        assertArrayEquals(new boolean[] { false, true, false }, m.column(0));
-        assertArrayEquals(new boolean[] { false, false, false }, m.column(1));
+        assertArrayEquals(new boolean[] { false, true, false }, m.columnCopy(0));
+        assertArrayEquals(new boolean[] { false, false, false }, m.columnCopy(1));
     }
 
     // ============ Diagonal Access Tests ============

@@ -234,7 +234,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 5);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowView(0));
     }
 
     @Test
@@ -242,7 +242,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.rowView(0));
     }
 
     @Test
@@ -257,7 +257,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 4);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowView(0));
     }
 
     @Test
@@ -265,7 +265,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(6, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.rowView(0));
     }
 
     @Test
@@ -474,34 +474,34 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        int[] row = m.row(0);
+        int[] row = m.rowView(0);
         assertArrayEquals(new int[] { 1, 2 }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
     }
 
     @Test
     public void test_column() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        int[] col = m.column(0);
+        int[] col = m.columnCopy(0);
         assertArrayEquals(new int[] { 1, 3 }, col);
     }
 
     @Test
     public void test_column_invalidIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(5));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(5));
     }
 
     @Test
     public void test_setRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(0, new int[] { 9, 8 });
-        assertArrayEquals(new int[] { 9, 8 }, m.row(0));
+        assertArrayEquals(new int[] { 9, 8 }, m.rowView(0));
     }
 
     @Test
@@ -520,7 +520,7 @@ public class IntMatrix2512Test extends TestBase {
     public void test_setColumn() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.setColumn(0, new int[] { 9, 8 });
-        assertArrayEquals(new int[] { 9, 8 }, m.column(0));
+        assertArrayEquals(new int[] { 9, 8 }, m.columnCopy(0));
     }
 
     @Test
@@ -541,16 +541,16 @@ public class IntMatrix2512Test extends TestBase {
     public void test_updateRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.updateRow(0, x -> x * 2);
-        assertArrayEquals(new int[] { 2, 4 }, m.row(0));
-        assertArrayEquals(new int[] { 3, 4 }, m.row(1));
+        assertArrayEquals(new int[] { 2, 4 }, m.rowView(0));
+        assertArrayEquals(new int[] { 3, 4 }, m.rowView(1));
     }
 
     @Test
     public void test_updateColumn() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.updateColumn(0, x -> x * 2);
-        assertArrayEquals(new int[] { 2, 6 }, m.column(0));
-        assertArrayEquals(new int[] { 2, 4 }, m.column(1));
+        assertArrayEquals(new int[] { 2, 6 }, m.columnCopy(0));
+        assertArrayEquals(new int[] { 2, 4 }, m.columnCopy(1));
     }
 
     // ============ Diagonal Get/Set Tests ============

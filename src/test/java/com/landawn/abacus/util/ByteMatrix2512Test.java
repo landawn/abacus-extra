@@ -310,27 +310,27 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        byte[] row = m.row(0);
+        byte[] row = m.rowView(0);
         assertArrayEquals(new byte[] { 1, 2, 3 }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
     }
 
     @Test
     public void test_column() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        byte[] col = m.column(0);
+        byte[] col = m.columnCopy(0);
         assertArrayEquals(new byte[] { 1, 4 }, col);
     }
 
     @Test
     public void test_column_invalidIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(5));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(5));
     }
 
     @Test

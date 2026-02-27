@@ -569,54 +569,54 @@ public class ByteMatrix2511Test extends TestBase {
     public void testRow() {
         byte[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix m = ByteMatrix.of(arr);
-        byte[] row0 = m.row(0);
+        byte[] row0 = m.rowView(0);
         assertArrayEquals(new byte[] { 1, 2, 3 }, row0);
-        byte[] row1 = m.row(1);
+        byte[] row1 = m.rowView(1);
         assertArrayEquals(new byte[] { 4, 5, 6 }, row1);
     }
 
     @Test
     public void testRow_invalidIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(1));
     }
 
     @Test
     public void testRow_singleRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 } });
-        assertArrayEquals(new byte[] { 1, 2, 3 }, m.row(0));
+        assertArrayEquals(new byte[] { 1, 2, 3 }, m.rowView(0));
     }
 
     @Test
     public void testColumn() {
         byte[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix m = ByteMatrix.of(arr);
-        byte[] col0 = m.column(0);
+        byte[] col0 = m.columnCopy(0);
         assertArrayEquals(new byte[] { 1, 4 }, col0);
-        byte[] col1 = m.column(1);
+        byte[] col1 = m.columnCopy(1);
         assertArrayEquals(new byte[] { 2, 5 }, col1);
     }
 
     @Test
     public void testColumn_invalidIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.column(2));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(2));
     }
 
     @Test
     public void testColumn_singleColumn() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1 }, { 2 }, { 3 } });
-        assertArrayEquals(new byte[] { 1, 2, 3 }, m.column(0));
+        assertArrayEquals(new byte[] { 1, 2, 3 }, m.columnCopy(0));
     }
 
     @Test
     public void testSetRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0, 0 }, { 0, 0, 0 } });
         m.setRow(0, new byte[] { 1, 2, 3 });
-        assertArrayEquals(new byte[] { 1, 2, 3 }, m.row(0));
-        assertArrayEquals(new byte[] { 0, 0, 0 }, m.row(1));
+        assertArrayEquals(new byte[] { 1, 2, 3 }, m.rowView(0));
+        assertArrayEquals(new byte[] { 0, 0, 0 }, m.rowView(1));
     }
 
     @Test
@@ -636,8 +636,8 @@ public class ByteMatrix2511Test extends TestBase {
     public void testSetColumn() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0 }, { 0, 0 }, { 0, 0 } });
         m.setColumn(0, new byte[] { 1, 2, 3 });
-        assertArrayEquals(new byte[] { 1, 2, 3 }, m.column(0));
-        assertArrayEquals(new byte[] { 0, 0, 0 }, m.column(1));
+        assertArrayEquals(new byte[] { 1, 2, 3 }, m.columnCopy(0));
+        assertArrayEquals(new byte[] { 0, 0, 0 }, m.columnCopy(1));
     }
 
     @Test
@@ -657,33 +657,33 @@ public class ByteMatrix2511Test extends TestBase {
     public void testUpdateRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 0, 0, 0 } });
         m.updateRow(0, val -> (byte) (val * 2));
-        assertArrayEquals(new byte[] { 2, 4, 6 }, m.row(0));
-        assertArrayEquals(new byte[] { 0, 0, 0 }, m.row(1));
+        assertArrayEquals(new byte[] { 2, 4, 6 }, m.rowView(0));
+        assertArrayEquals(new byte[] { 0, 0, 0 }, m.rowView(1));
     }
 
     @Test
     public void testUpdateRow_multipleRows() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
         m.updateRow(1, val -> (byte) (val + 10));
-        assertArrayEquals(new byte[] { 1, 2 }, m.row(0));
-        assertArrayEquals(new byte[] { 13, 14 }, m.row(1));
-        assertArrayEquals(new byte[] { 5, 6 }, m.row(2));
+        assertArrayEquals(new byte[] { 1, 2 }, m.rowView(0));
+        assertArrayEquals(new byte[] { 13, 14 }, m.rowView(1));
+        assertArrayEquals(new byte[] { 5, 6 }, m.rowView(2));
     }
 
     @Test
     public void testUpdateColumn() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 0 }, { 2, 0 }, { 3, 0 } });
         m.updateColumn(0, val -> (byte) (val * 2));
-        assertArrayEquals(new byte[] { 2, 4, 6 }, m.column(0));
-        assertArrayEquals(new byte[] { 0, 0, 0 }, m.column(1));
+        assertArrayEquals(new byte[] { 2, 4, 6 }, m.columnCopy(0));
+        assertArrayEquals(new byte[] { 0, 0, 0 }, m.columnCopy(1));
     }
 
     @Test
     public void testUpdateColumn_multipleColumns() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         m.updateColumn(2, val -> (byte) (val + 10));
-        assertArrayEquals(new byte[] { 1, 2, 13 }, m.row(0));
-        assertArrayEquals(new byte[] { 4, 5, 16 }, m.row(1));
+        assertArrayEquals(new byte[] { 1, 2, 13 }, m.rowView(0));
+        assertArrayEquals(new byte[] { 4, 5, 16 }, m.rowView(1));
     }
 
     // ============ Diagonal Access Tests ============
@@ -1087,30 +1087,30 @@ public class ByteMatrix2511Test extends TestBase {
     public void testReverseH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         m.reverseH();
-        assertArrayEquals(new byte[] { 3, 2, 1 }, m.row(0));
-        assertArrayEquals(new byte[] { 6, 5, 4 }, m.row(1));
+        assertArrayEquals(new byte[] { 3, 2, 1 }, m.rowView(0));
+        assertArrayEquals(new byte[] { 6, 5, 4 }, m.rowView(1));
     }
 
     @Test
     public void testReverseH_singleRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 } });
         m.reverseH();
-        assertArrayEquals(new byte[] { 3, 2, 1 }, m.row(0));
+        assertArrayEquals(new byte[] { 3, 2, 1 }, m.rowView(0));
     }
 
     @Test
     public void testReverseV() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
         m.reverseV();
-        assertArrayEquals(new byte[] { 5, 3, 1 }, m.column(0));
-        assertArrayEquals(new byte[] { 6, 4, 2 }, m.column(1));
+        assertArrayEquals(new byte[] { 5, 3, 1 }, m.columnCopy(0));
+        assertArrayEquals(new byte[] { 6, 4, 2 }, m.columnCopy(1));
     }
 
     @Test
     public void testReverseV_singleColumn() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1 }, { 2 }, { 3 } });
         m.reverseV();
-        assertArrayEquals(new byte[] { 3, 2, 1 }, m.column(0));
+        assertArrayEquals(new byte[] { 3, 2, 1 }, m.columnCopy(0));
     }
 
     @Test
@@ -1119,8 +1119,8 @@ public class ByteMatrix2511Test extends TestBase {
         ByteMatrix flipped = m.flipH();
         assertEquals(2, flipped.rowCount());
         assertEquals(3, flipped.columnCount());
-        assertArrayEquals(new byte[] { 3, 2, 1 }, flipped.row(0));
-        assertArrayEquals(new byte[] { 6, 5, 4 }, flipped.row(1));
+        assertArrayEquals(new byte[] { 3, 2, 1 }, flipped.rowView(0));
+        assertArrayEquals(new byte[] { 6, 5, 4 }, flipped.rowView(1));
         assertNotSame(m, flipped);
     }
 
@@ -1130,8 +1130,8 @@ public class ByteMatrix2511Test extends TestBase {
         ByteMatrix flipped = m.flipV();
         assertEquals(3, flipped.rowCount());
         assertEquals(2, flipped.columnCount());
-        assertArrayEquals(new byte[] { 5, 3, 1 }, flipped.column(0));
-        assertArrayEquals(new byte[] { 6, 4, 2 }, flipped.column(1));
+        assertArrayEquals(new byte[] { 5, 3, 1 }, flipped.columnCopy(0));
+        assertArrayEquals(new byte[] { 6, 4, 2 }, flipped.columnCopy(1));
         assertNotSame(m, flipped);
     }
 

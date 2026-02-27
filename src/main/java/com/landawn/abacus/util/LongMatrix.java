@@ -631,12 +631,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.rowView(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * long[] firstRow = matrix.row(0);   // Returns [1L, 2L, 3L]
+     * long[] firstRow = matrix.rowView(0);   // Returns [1L, 2L, 3L]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99L;  // matrix now has 99L at position (0,0)
@@ -646,23 +646,39 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return the specified row array (direct reference to internal storage)
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
-    public long[] row(final int rowIndex) throws IllegalArgumentException {
+    @Override
+    public long[] rowView(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
     }
 
     /**
+     * Returns a defensive copy of the specified row.
+     * Changes to the returned array do not affect this matrix.
+     *
+     * @param rowIndex the index of the row to retrieve (0-based)
+     * @return a new long array containing the values from the specified row
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
+     */
+    @Override
+    public long[] rowCopy(final int rowIndex) throws IllegalArgumentException {
+        N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
+
+        return N.copyOf(a[rowIndex], columnCount);
+    }
+
+    /**
      * Returns a copy of the specified column as a new long array.
      *
-     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * long[] firstColumn = matrix.column(0);   // Returns [1L, 4L]
+     * long[] firstColumn = matrix.columnCopy(0);   // Returns [1L, 4L]
      *
      * // Modification does NOT affect the matrix (it's a copy)
      * firstColumn[0] = 99L;  // matrix still has 1L at position (0,0)
@@ -672,7 +688,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a new array containing the values from the specified column
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
-    public long[] column(final int columnIndex) throws IllegalArgumentException {
+    @Override
+    public long[] columnCopy(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
 
         final long[] c = new long[rowCount];

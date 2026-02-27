@@ -422,29 +422,29 @@ public class FloatMatrix2511Test extends TestBase {
     @Test
     public void testRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        float[] row = m.row(0);
+        float[] row = m.rowView(0);
         assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, row);
     }
 
     @Test
     public void testRow_invalidIndex() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(2));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
     }
 
     @Test
     public void testColumn() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        float[] col = m.column(0);
+        float[] col = m.columnCopy(0);
         assertArrayEquals(new float[] { 1.0f, 4.0f }, col);
     }
 
     @Test
     public void testColumn_invalidIndex() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.column(2));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(2));
     }
 
     @Test

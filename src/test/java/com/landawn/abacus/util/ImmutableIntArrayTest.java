@@ -260,4 +260,3 @@ public class ImmutableIntArrayTest extends TestBase {
         // This is verified by the design - no setters or modification methods exist
     }
 }
-

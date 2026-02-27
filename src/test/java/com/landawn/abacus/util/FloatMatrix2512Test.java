@@ -363,34 +363,34 @@ public class FloatMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        float[] row = m.row(0);
+        float[] row = m.rowView(0);
         assertArrayEquals(new float[] { 1.0f, 2.0f }, row, 0.0f);
     }
 
     @Test
     public void test_row_invalidIndex() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
     }
 
     @Test
     public void test_column() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        float[] col = m.column(0);
+        float[] col = m.columnCopy(0);
         assertArrayEquals(new float[] { 1.0f, 3.0f }, col, 0.0f);
     }
 
     @Test
     public void test_column_invalidIndex() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(5));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(5));
     }
 
     @Test
     public void test_setRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         m.setRow(0, new float[] { 9.0f, 8.0f });
-        assertArrayEquals(new float[] { 9.0f, 8.0f }, m.row(0), 0.0f);
+        assertArrayEquals(new float[] { 9.0f, 8.0f }, m.rowView(0), 0.0f);
     }
 
     @Test
@@ -409,7 +409,7 @@ public class FloatMatrix2512Test extends TestBase {
     public void test_setColumn() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         m.setColumn(0, new float[] { 9.0f, 8.0f });
-        assertArrayEquals(new float[] { 9.0f, 8.0f }, m.column(0), 0.0f);
+        assertArrayEquals(new float[] { 9.0f, 8.0f }, m.columnCopy(0), 0.0f);
     }
 
     @Test
@@ -430,16 +430,16 @@ public class FloatMatrix2512Test extends TestBase {
     public void test_updateRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         m.updateRow(0, x -> x * 2);
-        assertArrayEquals(new float[] { 2.0f, 4.0f }, m.row(0), 0.0f);
-        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.row(1), 0.0f);
+        assertArrayEquals(new float[] { 2.0f, 4.0f }, m.rowView(0), 0.0f);
+        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.rowView(1), 0.0f);
     }
 
     @Test
     public void test_updateColumn() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         m.updateColumn(0, x -> x * 2);
-        assertArrayEquals(new float[] { 2.0f, 6.0f }, m.column(0), 0.0f);
-        assertArrayEquals(new float[] { 2.0f, 4.0f }, m.column(1), 0.0f);
+        assertArrayEquals(new float[] { 2.0f, 6.0f }, m.columnCopy(0), 0.0f);
+        assertArrayEquals(new float[] { 2.0f, 4.0f }, m.columnCopy(1), 0.0f);
     }
 
     // ============ Diagonal Get/Set Tests ============

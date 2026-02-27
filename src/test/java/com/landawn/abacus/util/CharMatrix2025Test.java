@@ -143,7 +143,7 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix m = CharMatrix.range('A', 'F');
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E' }, m.row(0));
+        assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E' }, m.rowView(0));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix m = CharMatrix.range('A', 'K', 2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new char[] { 'A', 'C', 'E', 'G', 'I' }, m.row(0));
+        assertArrayEquals(new char[] { 'A', 'C', 'E', 'G', 'I' }, m.rowView(0));
     }
 
     @Test
@@ -159,7 +159,7 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix m = CharMatrix.range('J', 'A', -2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new char[] { 'J', 'H', 'F', 'D', 'B' }, m.row(0));
+        assertArrayEquals(new char[] { 'J', 'H', 'F', 'D', 'B' }, m.rowView(0));
     }
 
     @Test
@@ -167,7 +167,7 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix m = CharMatrix.rangeClosed('A', 'E');
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E' }, m.row(0));
+        assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E' }, m.rowView(0));
     }
 
     @Test
@@ -175,7 +175,7 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix m = CharMatrix.rangeClosed('A', 'K', 2);
         assertEquals(1, m.rowCount());
         assertEquals(6, m.columnCount());
-        assertArrayEquals(new char[] { 'A', 'C', 'E', 'G', 'I', 'K' }, m.row(0));
+        assertArrayEquals(new char[] { 'A', 'C', 'E', 'G', 'I', 'K' }, m.rowView(0));
     }
 
     @Test
@@ -385,38 +385,38 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' } });
-        assertArrayEquals(new char[] { 'A', 'B', 'C' }, m.row(0));
-        assertArrayEquals(new char[] { 'D', 'E', 'F' }, m.row(1));
+        assertArrayEquals(new char[] { 'A', 'B', 'C' }, m.rowView(0));
+        assertArrayEquals(new char[] { 'D', 'E', 'F' }, m.rowView(1));
     }
 
     @Test
     public void testRow_outOfBounds() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(2));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
     }
 
     @Test
     public void testColumn() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' } });
-        assertArrayEquals(new char[] { 'A', 'D' }, m.column(0));
-        assertArrayEquals(new char[] { 'B', 'E' }, m.column(1));
-        assertArrayEquals(new char[] { 'C', 'F' }, m.column(2));
+        assertArrayEquals(new char[] { 'A', 'D' }, m.columnCopy(0));
+        assertArrayEquals(new char[] { 'B', 'E' }, m.columnCopy(1));
+        assertArrayEquals(new char[] { 'C', 'F' }, m.columnCopy(2));
     }
 
     @Test
     public void testColumn_outOfBounds() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.column(2));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(2));
     }
 
     @Test
     public void testSetRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         m.setRow(0, new char[] { 'X', 'Y' });
-        assertArrayEquals(new char[] { 'X', 'Y' }, m.row(0));
-        assertArrayEquals(new char[] { 'C', 'D' }, m.row(1)); // unchanged
+        assertArrayEquals(new char[] { 'X', 'Y' }, m.rowView(0));
+        assertArrayEquals(new char[] { 'C', 'D' }, m.rowView(1)); // unchanged
     }
 
     @Test
@@ -430,8 +430,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testSetColumn() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         m.setColumn(0, new char[] { 'X', 'Y' });
-        assertArrayEquals(new char[] { 'X', 'Y' }, m.column(0));
-        assertArrayEquals(new char[] { 'B', 'D' }, m.column(1)); // unchanged
+        assertArrayEquals(new char[] { 'X', 'Y' }, m.columnCopy(0));
+        assertArrayEquals(new char[] { 'B', 'D' }, m.columnCopy(1)); // unchanged
     }
 
     @Test
@@ -445,16 +445,16 @@ public class CharMatrix2025Test extends TestBase {
     public void testUpdateRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         m.updateRow(0, x -> (char) (x + 1));
-        assertArrayEquals(new char[] { 'B', 'C' }, m.row(0));
-        assertArrayEquals(new char[] { 'C', 'D' }, m.row(1)); // unchanged
+        assertArrayEquals(new char[] { 'B', 'C' }, m.rowView(0));
+        assertArrayEquals(new char[] { 'C', 'D' }, m.rowView(1)); // unchanged
     }
 
     @Test
     public void testUpdateColumn() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         m.updateColumn(0, x -> (char) (x + 1));
-        assertArrayEquals(new char[] { 'B', 'D' }, m.column(0));
-        assertArrayEquals(new char[] { 'B', 'D' }, m.column(1)); // unchanged
+        assertArrayEquals(new char[] { 'B', 'D' }, m.columnCopy(0));
+        assertArrayEquals(new char[] { 'B', 'D' }, m.columnCopy(1)); // unchanged
     }
 
     // ============ Diagonal Operations Tests ============
@@ -913,7 +913,7 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix reshaped = m.reshape(1, 9);
         assertEquals(1, reshaped.rowCount());
         assertEquals(9, reshaped.columnCount());
-        assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' }, reshaped.row(0));
+        assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' }, reshaped.rowView(0));
     }
 
     @Test

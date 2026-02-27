@@ -376,72 +376,72 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] row = m.row(0);
+        String[] row = m.rowView(0);
         assertArrayEquals(new String[] { "A", "B" }, row);
     }
 
     @Test
     public void testRow_lastRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] row = m.row(1);
+        String[] row = m.rowView(1);
         assertArrayEquals(new String[] { "C", "D" }, row);
     }
 
     @Test
     public void testRow_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        Integer[] row = m.row(1);
+        Integer[] row = m.rowView(1);
         assertArrayEquals(new Integer[] { 4, 5, 6 }, row);
     }
 
     @Test
     public void testRow_invalidIndex() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(1));
     }
 
     @Test
     public void testColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] col = m.column(0);
+        String[] col = m.columnCopy(0);
         assertArrayEquals(new String[] { "A", "C" }, col);
     }
 
     @Test
     public void testColumn_lastColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] col = m.column(1);
+        String[] col = m.columnCopy(1);
         assertArrayEquals(new String[] { "B", "D" }, col);
     }
 
     @Test
     public void testColumn_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        Integer[] col = m.column(1);
+        Integer[] col = m.columnCopy(1);
         assertArrayEquals(new Integer[] { 2, 4, 6 }, col);
     }
 
     @Test
     public void testColumn_invalidIndex() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.column(2));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(2));
     }
 
     @Test
     public void testSetRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setRow(0, new String[] { "X", "Y" });
-        assertArrayEquals(new String[] { "X", "Y" }, m.row(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.row(1));
+        assertArrayEquals(new String[] { "X", "Y" }, m.rowView(0));
+        assertArrayEquals(new String[] { "C", "D" }, m.rowView(1));
     }
 
     @Test
     public void testSetRow_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(1, new Integer[] { 10, 20 });
-        assertArrayEquals(new Integer[] { 10, 20 }, m.row(1));
+        assertArrayEquals(new Integer[] { 10, 20 }, m.rowView(1));
     }
 
     @Test
@@ -455,15 +455,15 @@ public class Matrix2511Test extends TestBase {
     public void testSetColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setColumn(0, new String[] { "X", "Y" });
-        assertArrayEquals(new String[] { "X", "Y" }, m.column(0));
-        assertArrayEquals(new String[] { "B", "D" }, m.column(1));
+        assertArrayEquals(new String[] { "X", "Y" }, m.columnCopy(0));
+        assertArrayEquals(new String[] { "B", "D" }, m.columnCopy(1));
     }
 
     @Test
     public void testSetColumn_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         m.setColumn(0, new Integer[] { 100, 200 });
-        assertArrayEquals(new Integer[] { 100, 200 }, m.column(0));
+        assertArrayEquals(new Integer[] { 100, 200 }, m.columnCopy(0));
     }
 
     @Test

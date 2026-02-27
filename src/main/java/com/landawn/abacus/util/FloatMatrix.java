@@ -544,12 +544,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(rowIndex), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.rowView(rowIndex), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
-     * float[] firstRow = matrix.row(0);   // Returns [1.0f, 2.0f, 3.0f]
+     * float[] firstRow = matrix.rowView(0);   // Returns [1.0f, 2.0f, 3.0f]
      * firstRow[0] = 99.0f;  // This modifies the matrix
      * }</pre>
      *
@@ -557,23 +557,39 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return the specified row array (direct reference to internal storage)
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
-    public float[] row(final int rowIndex) throws IllegalArgumentException {
+    @Override
+    public float[] rowView(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
     }
 
     /**
+     * Returns a defensive copy of the specified row.
+     * Changes to the returned array do not affect this matrix.
+     *
+     * @param rowIndex the index of the row to retrieve (0-based)
+     * @return a new float array containing the values from the specified row
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
+     */
+    @Override
+    public float[] rowCopy(final int rowIndex) throws IllegalArgumentException {
+        N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
+
+        return N.copyOf(a[rowIndex], columnCount);
+    }
+
+    /**
      * Returns a copy of the specified column as a new array.
      *
-     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
-     * float[] firstColumn = matrix.column(0);   // Returns [1.0f, 4.0f]
+     * float[] firstColumn = matrix.columnCopy(0);   // Returns [1.0f, 4.0f]
      * firstColumn[0] = 99.0f;  // This does NOT modify the matrix
      * }</pre>
      *
@@ -581,7 +597,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a new array containing a copy of the specified column
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
-    public float[] column(final int columnIndex) throws IllegalArgumentException {
+    @Override
+    public float[] columnCopy(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
 
         final float[] columnValues = new float[rowCount];

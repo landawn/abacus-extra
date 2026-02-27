@@ -239,7 +239,7 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2, 3 }, { 4, 5, 6 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Integer[] row = matrix.row(0);
+        Integer[] row = matrix.rowView(0);
         Assertions.assertArrayEquals(new Integer[] { 1, 2, 3 }, row);
 
         row[0] = 10; // This modifies the matrix
@@ -249,7 +249,7 @@ public class MatrixTest extends TestBase {
     @Test
     public void testRowOnObjectMatrixDoesNotNarrowInternalStorage() {
         Matrix<Object> matrix = Matrix.of(new Object[][] { { "a" } });
-        Object[] row = matrix.row(0);
+        Object[] row = matrix.rowView(0);
 
         Assertions.assertEquals(Object.class, row.getClass().getComponentType());
 
@@ -262,11 +262,11 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 } });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.row(-1);
+            matrix.rowView(-1);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.row(2);
+            matrix.rowView(2);
         });
     }
 
@@ -275,7 +275,7 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Integer[] column = matrix.column(1);
+        Integer[] column = matrix.columnCopy(1);
         Assertions.assertArrayEquals(new Integer[] { 2, 4, 6 }, column);
 
         column[0] = 10; // This does not modify the matrix
@@ -287,11 +287,11 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 } });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.column(-1);
+            matrix.columnCopy(-1);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.column(2);
+            matrix.columnCopy(2);
         });
     }
 
@@ -301,7 +301,7 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(data);
 
         matrix.setRow(0, new Integer[] { 7, 8, 9 });
-        Assertions.assertArrayEquals(new Integer[] { 7, 8, 9 }, matrix.row(0));
+        Assertions.assertArrayEquals(new Integer[] { 7, 8, 9 }, matrix.rowView(0));
     }
 
     @Test
@@ -319,7 +319,7 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(data);
 
         matrix.setColumn(1, new Integer[] { 7, 8, 9 });
-        Assertions.assertArrayEquals(new Integer[] { 7, 8, 9 }, matrix.column(1));
+        Assertions.assertArrayEquals(new Integer[] { 7, 8, 9 }, matrix.columnCopy(1));
     }
 
     @Test
@@ -336,8 +336,8 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
         matrix.updateRow(0, x -> x * 2);
-        Assertions.assertArrayEquals(new Integer[] { 2, 4, 6 }, matrix.row(0));
-        Assertions.assertArrayEquals(new Integer[] { 4, 5, 6 }, matrix.row(1));
+        Assertions.assertArrayEquals(new Integer[] { 2, 4, 6 }, matrix.rowView(0));
+        Assertions.assertArrayEquals(new Integer[] { 4, 5, 6 }, matrix.rowView(1));
     }
 
     @Test
@@ -360,8 +360,8 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
 
         matrix.updateColumn(1, x -> x + 10);
-        Assertions.assertArrayEquals(new Integer[] { 12, 14, 16 }, matrix.column(1));
-        Assertions.assertArrayEquals(new Integer[] { 1, 3, 5 }, matrix.column(0));
+        Assertions.assertArrayEquals(new Integer[] { 12, 14, 16 }, matrix.columnCopy(1));
+        Assertions.assertArrayEquals(new Integer[] { 1, 3, 5 }, matrix.columnCopy(0));
     }
 
     @Test

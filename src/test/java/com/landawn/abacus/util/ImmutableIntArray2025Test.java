@@ -779,4 +779,3 @@ public class ImmutableIntArray2025Test extends TestBase {
         assertEquals(size / 2, sum);
     }
 }
-

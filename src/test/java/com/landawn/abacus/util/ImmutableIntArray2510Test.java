@@ -836,4 +836,3 @@ public class ImmutableIntArray2510Test extends TestBase {
         assertEquals(40, array.get(array.length - 2));
     }
 }
-

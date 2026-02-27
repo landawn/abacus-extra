@@ -241,7 +241,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 5);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowView(0));
     }
 
     @Test
@@ -249,7 +249,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.rowView(0));
     }
 
     @Test
@@ -257,7 +257,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.range(10, 0, -2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 10, 8, 6, 4, 2 }, m.row(0));
+        assertArrayEquals(new int[] { 10, 8, 6, 4, 2 }, m.rowView(0));
     }
 
     @Test
@@ -265,7 +265,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 4);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowView(0));
     }
 
     @Test
@@ -273,7 +273,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(6, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.rowView(0));
     }
 
     @Test
@@ -483,38 +483,38 @@ public class IntMatrix2025Test extends TestBase {
     @Test
     public void testRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertArrayEquals(new int[] { 1, 2, 3 }, m.row(0));
-        assertArrayEquals(new int[] { 4, 5, 6 }, m.row(1));
+        assertArrayEquals(new int[] { 1, 2, 3 }, m.rowView(0));
+        assertArrayEquals(new int[] { 4, 5, 6 }, m.rowView(1));
     }
 
     @Test
     public void testRow_outOfBounds() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(2));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
     }
 
     @Test
     public void testColumn() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertArrayEquals(new int[] { 1, 4 }, m.column(0));
-        assertArrayEquals(new int[] { 2, 5 }, m.column(1));
-        assertArrayEquals(new int[] { 3, 6 }, m.column(2));
+        assertArrayEquals(new int[] { 1, 4 }, m.columnCopy(0));
+        assertArrayEquals(new int[] { 2, 5 }, m.columnCopy(1));
+        assertArrayEquals(new int[] { 3, 6 }, m.columnCopy(2));
     }
 
     @Test
     public void testColumn_outOfBounds() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.column(2));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(2));
     }
 
     @Test
     public void testSetRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(0, new int[] { 10, 20 });
-        assertArrayEquals(new int[] { 10, 20 }, m.row(0));
-        assertArrayEquals(new int[] { 3, 4 }, m.row(1)); // unchanged
+        assertArrayEquals(new int[] { 10, 20 }, m.rowView(0));
+        assertArrayEquals(new int[] { 3, 4 }, m.rowView(1)); // unchanged
     }
 
     @Test
@@ -528,8 +528,8 @@ public class IntMatrix2025Test extends TestBase {
     public void testSetColumn() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.setColumn(0, new int[] { 10, 20 });
-        assertArrayEquals(new int[] { 10, 20 }, m.column(0));
-        assertArrayEquals(new int[] { 2, 4 }, m.column(1)); // unchanged
+        assertArrayEquals(new int[] { 10, 20 }, m.columnCopy(0));
+        assertArrayEquals(new int[] { 2, 4 }, m.columnCopy(1)); // unchanged
     }
 
     @Test
@@ -543,16 +543,16 @@ public class IntMatrix2025Test extends TestBase {
     public void testUpdateRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.updateRow(0, x -> x * 2);
-        assertArrayEquals(new int[] { 2, 4 }, m.row(0));
-        assertArrayEquals(new int[] { 3, 4 }, m.row(1)); // unchanged
+        assertArrayEquals(new int[] { 2, 4 }, m.rowView(0));
+        assertArrayEquals(new int[] { 3, 4 }, m.rowView(1)); // unchanged
     }
 
     @Test
     public void testUpdateColumn() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.updateColumn(0, x -> x + 10);
-        assertArrayEquals(new int[] { 11, 13 }, m.column(0));
-        assertArrayEquals(new int[] { 2, 4 }, m.column(1)); // unchanged
+        assertArrayEquals(new int[] { 11, 13 }, m.columnCopy(0));
+        assertArrayEquals(new int[] { 2, 4 }, m.columnCopy(1)); // unchanged
     }
 
     // ============ Diagonal Operations Tests ============

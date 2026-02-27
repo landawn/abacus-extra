@@ -274,35 +274,35 @@ public class FloatMatrixTest extends TestBase {
 
     @Test
     public void testRow() {
-        float[] row0 = matrix.row(0);
+        float[] row0 = matrix.rowView(0);
         assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, row0, DELTA);
 
-        float[] row1 = matrix.row(1);
+        float[] row1 = matrix.rowView(1);
         assertArrayEquals(new float[] { 4.0f, 5.0f, 6.0f }, row1, DELTA);
 
         // Test bounds
-        assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.row(3));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(3));
     }
 
     @Test
     public void testColumn() {
-        float[] col0 = matrix.column(0);
+        float[] col0 = matrix.columnCopy(0);
         assertArrayEquals(new float[] { 1.0f, 4.0f, 7.0f }, col0, DELTA);
 
-        float[] col1 = matrix.column(1);
+        float[] col1 = matrix.columnCopy(1);
         assertArrayEquals(new float[] { 2.0f, 5.0f, 8.0f }, col1, DELTA);
 
         // Test bounds
-        assertThrows(IllegalArgumentException.class, () -> matrix.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.column(3));
+        assertThrows(IllegalArgumentException.class, () -> matrix.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.columnCopy(3));
     }
 
     @Test
     public void testSetRow() {
         FloatMatrix m = matrix.copy();
         m.setRow(0, new float[] { 10.0f, 20.0f, 30.0f });
-        assertArrayEquals(new float[] { 10.0f, 20.0f, 30.0f }, m.row(0), DELTA);
+        assertArrayEquals(new float[] { 10.0f, 20.0f, 30.0f }, m.rowView(0), DELTA);
 
         // Test wrong size
         assertThrows(IllegalArgumentException.class, () -> m.setRow(0, new float[] { 1.0f, 2.0f }));
@@ -312,7 +312,7 @@ public class FloatMatrixTest extends TestBase {
     public void testSetColumn() {
         FloatMatrix m = matrix.copy();
         m.setColumn(0, new float[] { 10.0f, 20.0f, 30.0f });
-        assertArrayEquals(new float[] { 10.0f, 20.0f, 30.0f }, m.column(0), DELTA);
+        assertArrayEquals(new float[] { 10.0f, 20.0f, 30.0f }, m.columnCopy(0), DELTA);
 
         // Test wrong size
         assertThrows(IllegalArgumentException.class, () -> m.setColumn(0, new float[] { 1.0f, 2.0f }));
@@ -322,14 +322,14 @@ public class FloatMatrixTest extends TestBase {
     public void testUpdateRow() {
         FloatMatrix m = matrix.copy();
         m.updateRow(0, x -> x * 2.0f);
-        assertArrayEquals(new float[] { 2.0f, 4.0f, 6.0f }, m.row(0), DELTA);
+        assertArrayEquals(new float[] { 2.0f, 4.0f, 6.0f }, m.rowView(0), DELTA);
     }
 
     @Test
     public void testUpdateColumn() {
         FloatMatrix m = matrix.copy();
         m.updateColumn(0, x -> x + 10.0f);
-        assertArrayEquals(new float[] { 11.0f, 14.0f, 17.0f }, m.column(0), DELTA);
+        assertArrayEquals(new float[] { 11.0f, 14.0f, 17.0f }, m.columnCopy(0), DELTA);
     }
 
     @Test
@@ -1081,7 +1081,7 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testLength() {
         // This is a protected method, test indirectly through row operations
-        float[] row = matrix.row(0);
+        float[] row = matrix.rowView(0);
         assertEquals(3, row.length);
     }
 

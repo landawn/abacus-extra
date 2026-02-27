@@ -276,14 +276,14 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        long[] row0 = matrix.row(0);
+        long[] row0 = matrix.rowView(0);
         Assertions.assertArrayEquals(new long[] { 1L, 2L, 3L }, row0);
 
-        long[] row1 = matrix.row(1);
+        long[] row1 = matrix.rowView(1);
         Assertions.assertArrayEquals(new long[] { 4L, 5L, 6L }, row1);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.row(2));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowView(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
     }
 
     @Test
@@ -291,14 +291,14 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        long[] col0 = matrix.column(0);
+        long[] col0 = matrix.columnCopy(0);
         Assertions.assertArrayEquals(new long[] { 1L, 4L }, col0);
 
-        long[] col1 = matrix.column(1);
+        long[] col1 = matrix.columnCopy(1);
         Assertions.assertArrayEquals(new long[] { 2L, 5L }, col1);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.column(-1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.column(3));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.columnCopy(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.columnCopy(3));
     }
 
     @Test
@@ -307,7 +307,7 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         matrix.setRow(0, new long[] { 10L, 20L, 30L });
-        Assertions.assertArrayEquals(new long[] { 10L, 20L, 30L }, matrix.row(0));
+        Assertions.assertArrayEquals(new long[] { 10L, 20L, 30L }, matrix.rowView(0));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.setRow(0, new long[] { 1L, 2L }));
     }
@@ -318,7 +318,7 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         matrix.setColumn(0, new long[] { 10L, 20L });
-        Assertions.assertArrayEquals(new long[] { 10L, 20L }, matrix.column(0));
+        Assertions.assertArrayEquals(new long[] { 10L, 20L }, matrix.columnCopy(0));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.setColumn(0, new long[] { 1L }));
     }
@@ -329,7 +329,7 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         matrix.updateRow(0, x -> x * 2);
-        Assertions.assertArrayEquals(new long[] { 2L, 4L, 6L }, matrix.row(0));
+        Assertions.assertArrayEquals(new long[] { 2L, 4L, 6L }, matrix.rowView(0));
     }
 
     @Test
@@ -338,7 +338,7 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         matrix.updateColumn(1, x -> x + 10);
-        Assertions.assertArrayEquals(new long[] { 12L, 15L }, matrix.column(1));
+        Assertions.assertArrayEquals(new long[] { 12L, 15L }, matrix.columnCopy(1));
     }
 
     @Test

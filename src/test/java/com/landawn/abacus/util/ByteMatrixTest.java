@@ -267,14 +267,14 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        byte[] row0 = matrix.row(0);
+        byte[] row0 = matrix.rowView(0);
         Assertions.assertArrayEquals(new byte[] { 1, 2, 3 }, row0);
 
-        byte[] row1 = matrix.row(1);
+        byte[] row1 = matrix.rowView(1);
         Assertions.assertArrayEquals(new byte[] { 4, 5, 6 }, row1);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.row(2));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowView(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
     }
 
     @Test
@@ -282,14 +282,14 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        byte[] col0 = matrix.column(0);
+        byte[] col0 = matrix.columnCopy(0);
         Assertions.assertArrayEquals(new byte[] { 1, 4 }, col0);
 
-        byte[] col1 = matrix.column(1);
+        byte[] col1 = matrix.columnCopy(1);
         Assertions.assertArrayEquals(new byte[] { 2, 5 }, col1);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.column(-1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.column(3));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.columnCopy(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.columnCopy(3));
     }
 
     @Test
@@ -298,7 +298,7 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(a);
 
         matrix.setRow(0, new byte[] { 7, 8, 9 });
-        Assertions.assertArrayEquals(new byte[] { 7, 8, 9 }, matrix.row(0));
+        Assertions.assertArrayEquals(new byte[] { 7, 8, 9 }, matrix.rowView(0));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.setRow(0, new byte[] { 1, 2 }));
     }
@@ -309,7 +309,7 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(a);
 
         matrix.setColumn(0, new byte[] { 7, 8 });
-        Assertions.assertArrayEquals(new byte[] { 7, 8 }, matrix.column(0));
+        Assertions.assertArrayEquals(new byte[] { 7, 8 }, matrix.columnCopy(0));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.setColumn(0, new byte[] { 1 }));
     }
@@ -320,7 +320,7 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(a);
 
         matrix.updateRow(0, b -> (byte) (b * 2));
-        Assertions.assertArrayEquals(new byte[] { 2, 4, 6 }, matrix.row(0));
+        Assertions.assertArrayEquals(new byte[] { 2, 4, 6 }, matrix.rowView(0));
     }
 
     @Test
@@ -329,7 +329,7 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(a);
 
         matrix.updateColumn(1, b -> (byte) (b + 10));
-        Assertions.assertArrayEquals(new byte[] { 12, 15 }, matrix.column(1));
+        Assertions.assertArrayEquals(new byte[] { 12, 15 }, matrix.columnCopy(1));
     }
 
     @Test

@@ -173,7 +173,7 @@ public class AbstractMatrix2025Test extends TestBase {
 
         assertEquals(1, subset.rowCount());
         assertEquals(3, subset.columnCount());
-        assertArrayEquals(new int[] { 4, 5, 6 }, subset.row(0));
+        assertArrayEquals(new int[] { 4, 5, 6 }, subset.rowView(0));
     }
 
     @Test
@@ -374,7 +374,7 @@ public class AbstractMatrix2025Test extends TestBase {
 
         assertEquals(1, reshaped.rowCount());
         assertEquals(4, reshaped.columnCount());
-        assertArrayEquals(new int[] { 1, 2, 3, 4 }, reshaped.row(0));
+        assertArrayEquals(new int[] { 1, 2, 3, 4 }, reshaped.rowView(0));
     }
 
     @Test
@@ -384,7 +384,7 @@ public class AbstractMatrix2025Test extends TestBase {
 
         assertEquals(4, reshaped.rowCount());
         assertEquals(1, reshaped.columnCount());
-        assertArrayEquals(new int[] { 1, 2, 3, 4 }, reshaped.column(0));
+        assertArrayEquals(new int[] { 1, 2, 3, 4 }, reshaped.columnCopy(0));
     }
 
     // ============ isSameShape Tests ============

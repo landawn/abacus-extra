@@ -1076,5 +1076,3 @@ public class ImmutableIntArray2512Test extends TestBase {
         assertEquals(original.toString(), fullCopy.toString());
     }
 }
-
-

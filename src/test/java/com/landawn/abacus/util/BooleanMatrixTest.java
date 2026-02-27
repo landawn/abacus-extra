@@ -198,13 +198,13 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        boolean[] row = matrix.row(0);
+        boolean[] row = matrix.rowView(0);
         assertEquals(2, row.length);
         assertTrue(row[0]);
         assertFalse(row[1]);
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.row(2));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
     }
 
     @Test
@@ -212,13 +212,13 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        boolean[] col = matrix.column(0);
+        boolean[] col = matrix.columnCopy(0);
         assertEquals(2, col.length);
         assertTrue(col[0]);
         assertFalse(col[1]);
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.column(2));
+        assertThrows(IllegalArgumentException.class, () -> matrix.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.columnCopy(2));
     }
 
     @Test

@@ -420,42 +420,42 @@ public class CharMatrix2510Test extends TestBase {
     public void testRow() {
         char[][] arr = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
         CharMatrix m = CharMatrix.of(arr);
-        char[] row0 = m.row(0);
+        char[] row0 = m.rowView(0);
         assertArrayEquals(new char[] { 'a', 'b', 'c' }, row0);
-        char[] row1 = m.row(1);
+        char[] row1 = m.rowView(1);
         assertArrayEquals(new char[] { 'd', 'e', 'f' }, row1);
     }
 
     @Test
     public void testRow_invalidIndex() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(1));
     }
 
     @Test
     public void testColumn() {
         char[][] arr = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
         CharMatrix m = CharMatrix.of(arr);
-        char[] col0 = m.column(0);
+        char[] col0 = m.columnCopy(0);
         assertArrayEquals(new char[] { 'a', 'd' }, col0);
-        char[] col1 = m.column(1);
+        char[] col1 = m.columnCopy(1);
         assertArrayEquals(new char[] { 'b', 'e' }, col1);
     }
 
     @Test
     public void testColumn_invalidIndex() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.column(2));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(2));
     }
 
     @Test
     public void testSetRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { '\0', '\0', '\0' }, { '\0', '\0', '\0' } });
         m.setRow(0, new char[] { 'a', 'b', 'c' });
-        assertArrayEquals(new char[] { 'a', 'b', 'c' }, m.row(0));
-        assertArrayEquals(new char[] { '\0', '\0', '\0' }, m.row(1));
+        assertArrayEquals(new char[] { 'a', 'b', 'c' }, m.rowView(0));
+        assertArrayEquals(new char[] { '\0', '\0', '\0' }, m.rowView(1));
     }
 
     @Test
@@ -468,8 +468,8 @@ public class CharMatrix2510Test extends TestBase {
     public void testSetColumn() {
         CharMatrix m = CharMatrix.of(new char[][] { { '\0', '\0' }, { '\0', '\0' }, { '\0', '\0' } });
         m.setColumn(0, new char[] { 'a', 'b', 'c' });
-        assertArrayEquals(new char[] { 'a', 'b', 'c' }, m.column(0));
-        assertArrayEquals(new char[] { '\0', '\0', '\0' }, m.column(1));
+        assertArrayEquals(new char[] { 'a', 'b', 'c' }, m.columnCopy(0));
+        assertArrayEquals(new char[] { '\0', '\0', '\0' }, m.columnCopy(1));
     }
 
     @Test
@@ -482,16 +482,16 @@ public class CharMatrix2510Test extends TestBase {
     public void testUpdateRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
         m.updateRow(0, val -> (char) (val + 1));
-        assertArrayEquals(new char[] { 'b', 'c', 'd' }, m.row(0));
-        assertArrayEquals(new char[] { 'd', 'e', 'f' }, m.row(1));
+        assertArrayEquals(new char[] { 'b', 'c', 'd' }, m.rowView(0));
+        assertArrayEquals(new char[] { 'd', 'e', 'f' }, m.rowView(1));
     }
 
     @Test
     public void testUpdateColumn() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } });
         m.updateColumn(0, val -> (char) (val + 2));
-        assertArrayEquals(new char[] { 'c', 'e', 'g' }, m.column(0));
-        assertArrayEquals(new char[] { 'b', 'd', 'f' }, m.column(1));
+        assertArrayEquals(new char[] { 'c', 'e', 'g' }, m.columnCopy(0));
+        assertArrayEquals(new char[] { 'b', 'd', 'f' }, m.columnCopy(1));
     }
 
     // ============ Diagonal Access Tests ============

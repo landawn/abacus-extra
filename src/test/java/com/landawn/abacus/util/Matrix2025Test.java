@@ -320,38 +320,38 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        assertArrayEquals(new String[] { "A", "B", "C" }, m.row(0));
-        assertArrayEquals(new String[] { "D", "E", "F" }, m.row(1));
+        assertArrayEquals(new String[] { "A", "B", "C" }, m.rowView(0));
+        assertArrayEquals(new String[] { "D", "E", "F" }, m.rowView(1));
     }
 
     @Test
     public void testRow_outOfBounds() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(2));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
     }
 
     @Test
     public void testColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        assertArrayEquals(new String[] { "A", "D" }, m.column(0));
-        assertArrayEquals(new String[] { "B", "E" }, m.column(1));
-        assertArrayEquals(new String[] { "C", "F" }, m.column(2));
+        assertArrayEquals(new String[] { "A", "D" }, m.columnCopy(0));
+        assertArrayEquals(new String[] { "B", "E" }, m.columnCopy(1));
+        assertArrayEquals(new String[] { "C", "F" }, m.columnCopy(2));
     }
 
     @Test
     public void testColumn_outOfBounds() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        assertThrows(IllegalArgumentException.class, () -> m.column(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.column(2));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.columnCopy(2));
     }
 
     @Test
     public void testSetRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setRow(0, new String[] { "X", "Y" });
-        assertArrayEquals(new String[] { "X", "Y" }, m.row(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.row(1)); // unchanged
+        assertArrayEquals(new String[] { "X", "Y" }, m.rowView(0));
+        assertArrayEquals(new String[] { "C", "D" }, m.rowView(1)); // unchanged
     }
 
     @Test
@@ -365,8 +365,8 @@ public class Matrix2025Test extends TestBase {
     public void testSetColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setColumn(0, new String[] { "X", "Y" });
-        assertArrayEquals(new String[] { "X", "Y" }, m.column(0));
-        assertArrayEquals(new String[] { "B", "D" }, m.column(1)); // unchanged
+        assertArrayEquals(new String[] { "X", "Y" }, m.columnCopy(0));
+        assertArrayEquals(new String[] { "B", "D" }, m.columnCopy(1)); // unchanged
     }
 
     @Test
@@ -380,16 +380,16 @@ public class Matrix2025Test extends TestBase {
     public void testUpdateRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.updateRow(0, x -> x + "1");
-        assertArrayEquals(new String[] { "A1", "B1" }, m.row(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.row(1)); // unchanged
+        assertArrayEquals(new String[] { "A1", "B1" }, m.rowView(0));
+        assertArrayEquals(new String[] { "C", "D" }, m.rowView(1)); // unchanged
     }
 
     @Test
     public void testUpdateColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.updateColumn(0, x -> x + "2");
-        assertArrayEquals(new String[] { "A2", "C2" }, m.column(0));
-        assertArrayEquals(new String[] { "B", "D" }, m.column(1)); // unchanged
+        assertArrayEquals(new String[] { "A2", "C2" }, m.columnCopy(0));
+        assertArrayEquals(new String[] { "B", "D" }, m.columnCopy(1)); // unchanged
     }
 
     // ============ Diagonal Operations Tests ============
