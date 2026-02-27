@@ -643,7 +643,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * of the tuple's contents.
      * </p>
      *
-     * <p><b>Examples:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <ul>
      *   <li>{@code (10, 20, 30)} for a ByteTuple.ByteTuple3</li>
      *   <li>{@code (5, 10)} for a ByteTuple.ByteTuple2</li>

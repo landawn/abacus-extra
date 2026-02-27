@@ -193,6 +193,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a new FloatMatrix of dimensions rowCount x columnCount filled with random values
      */
     public static FloatMatrix random(final int rowCount, final int columnCount) {
+        N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
+        N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
+        checkRepresentableShape(rowCount, columnCount);
+
         final float[][] a = new float[rowCount][columnCount];
 
         for (float[] ea : a) {
@@ -219,6 +223,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a new FloatMatrix of dimensions rowCount x columnCount filled with the specified element
      */
     public static FloatMatrix repeat(final int rowCount, final int columnCount, final float element) {
+        N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
+        N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
+        checkRepresentableShape(rowCount, columnCount);
+
         final float[][] a = new float[rowCount][columnCount];
 
         for (float[] ea : a) {
@@ -664,7 +672,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (rowIndex < 0 || rowIndex >= rowCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -698,7 +706,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (columnIndex < 0 || columnIndex >= columnCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -1199,7 +1207,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public FloatMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
-
         final float[][] c = new float[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1266,7 +1273,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public FloatMatrix extend(final int newRowCount, final int newColumnCount, final float defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
-
+        checkRepresentableShape(newRowCount, newColumnCount);
         // Check for overflow before allocation
         if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
@@ -1381,6 +1388,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
             final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
+            checkRepresentableShape(newRowCount, newColumnCount);
             final boolean fillDefaultValue = Float.floatToRawIntBits(defaultValueForNewCell) != 0;
             final float[][] b = new float[newRowCount][newColumnCount];
 
@@ -1503,6 +1511,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix rotate90() {
+
         final float[][] c = new float[columnCount][rowCount];
 
         if (rowCount <= columnCount) {
@@ -1561,6 +1570,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix rotate270() {
+
         final float[][] c = new float[columnCount][rowCount];
 
         if (rowCount <= columnCount) {
@@ -1602,6 +1612,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix transpose() {
+
         final float[][] c = new float[columnCount][rowCount];
 
         if (rowCount <= columnCount) {

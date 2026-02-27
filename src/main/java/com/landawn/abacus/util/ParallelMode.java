@@ -117,7 +117,7 @@ public enum ParallelMode {
      * <p>This option automatically decides whether to parallelize based on the
      * matrix size and operation complexity. The framework evaluates factors such as
      * the number of elements in the matrix and the computational cost of the operation
-     * to make an optimal decision. Operations on matrices with more than 8192 elements
+     * to make an optimal decision. Operations on matrices with 8192 or more elements
      * are typically parallelized, but this threshold may vary based on the operation.</p>
      *
      * <p><b>Advantages:</b></p>
@@ -138,7 +138,7 @@ public enum ParallelMode {
      * IntMatrix result1 = small.transpose();   // Sequential execution
      *
      * // Large matrix - will automatically parallelize
-     * IntMatrix large = IntMatrix.random(20, 20);   // still demonstrates API usage
+     * IntMatrix large = IntMatrix.random(100, 100); // 10,000 elements
      * IntMatrix result2 = large.transpose();          // Parallel execution
      *
      * // This is the recommended setting for most use cases

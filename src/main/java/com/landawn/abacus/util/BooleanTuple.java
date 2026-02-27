@@ -524,7 +524,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * of the tuple's contents.
      * </p>
      *
-     * <p><b>Examples:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <ul>
      *   <li>{@code (true, false, true)} for a BooleanTuple.BooleanTuple3</li>
      *   <li>{@code (true, false)} for a BooleanTuple.BooleanTuple2</li>

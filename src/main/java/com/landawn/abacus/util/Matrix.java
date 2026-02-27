@@ -101,9 +101,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if the array is null or if rows have different lengths (not rectangular)
      */
     public Matrix(final T[][] a) {
+        this(a, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Matrix(final T[][] a, final Class<T> explicitElementType) {
         super(a);
         arrayType = (Class<T[]>) this.a.getClass().getComponentType();
-        elementType = (Class<T>) arrayType.getComponentType();
+        elementType = explicitElementType == null ? (Class<T>) arrayType.getComponentType() : explicitElementType;
     }
 
     /**
@@ -163,6 +168,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         N.checkArgNotNull(element, "element");
         N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
         N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
+        checkRepresentableShape(rowCount, columnCount);
 
         @SuppressWarnings("unchecked")
         final T[][] a = (T[][]) new Object[rowCount][columnCount];
@@ -287,6 +293,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             throw new IllegalArgumentException("Incompatible component types: " + leftComponentClass.getName() + " and " + rightComponentClass.getName());
         }
 
+        final Class<?> commonType = resolveCommonAssignableType(leftComponentClass, rightComponentClass);
+
         @SuppressWarnings("unchecked")
         final T[][] c = (T[][]) new Object[len][len];
 
@@ -302,7 +310,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(c);
+        @SuppressWarnings("unchecked")
+        final Class<T> resolvedElementType = (Class<T>) commonType;
+        return new Matrix<>(c, resolvedElementType);
     }
 
     /**
@@ -526,7 +536,78 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public T[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
-        return a[rowIndex];
+        final T[] row = a[rowIndex];
+
+        // Matrices created from Object[][] (for example via repeat/diagonals) can otherwise
+        // trigger ClassCastException at call sites expecting T[] (for example String[]).
+        if (row.getClass().getComponentType() == Object.class) {
+            final Class<?> resolvedElementType = resolveRowElementType(row);
+
+            if (resolvedElementType != Object.class) {
+                final T[] converted = N.newArray((Class<T>) resolvedElementType, row.length);
+                N.copy(row, 0, converted, 0, row.length);
+                a[rowIndex] = converted;
+                return converted;
+            }
+        }
+
+        return row;
+    }
+
+    private Class<?> resolveRowElementType(final T[] row) {
+        if (elementType != Object.class) {
+            boolean allAssignableToElementType = true;
+
+            for (final T value : row) {
+                if (value != null && !elementType.isInstance(value)) {
+                    allAssignableToElementType = false;
+                    break;
+                }
+            }
+
+            if (allAssignableToElementType) {
+                return elementType;
+            }
+        }
+
+        Class<?> candidate = null;
+
+        for (final T value : row) {
+            if (value == null) {
+                continue;
+            }
+
+            final Class<?> valueClass = value.getClass();
+
+            if (candidate == null) {
+                candidate = valueClass;
+            } else if (!candidate.isAssignableFrom(valueClass)) {
+                candidate = resolveCommonAssignableType(candidate, valueClass);
+
+                if (candidate == Object.class) {
+                    return Object.class;
+                }
+            }
+        }
+
+        return candidate == null ? elementType : candidate;
+    }
+
+    @SuppressWarnings("unchecked")
+    private T[] convertArrayTypeIfNeeded(final T[] values) {
+        if (values.getClass().getComponentType() != Object.class) {
+            return values;
+        }
+
+        final Class<?> resolvedElementType = resolveRowElementType(values);
+
+        if (resolvedElementType == Object.class) {
+            return values;
+        }
+
+        final T[] converted = N.newArray((Class<T>) resolvedElementType, values.length);
+        N.copy(values, 0, converted, 0, values.length);
+        return converted;
     }
 
     /**
@@ -558,7 +639,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             c[i] = a[i][columnIndex];
         }
 
-        return c;
+        return convertArrayTypeIfNeeded(c);
     }
 
     /**
@@ -641,7 +722,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.UnaryOperator<T, E> operator) throws E {
         if (rowIndex < 0 || rowIndex >= rowCount) {
-            throw new IndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+            throw new IndexOutOfBoundsException(formatMsg(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -678,7 +759,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.UnaryOperator<T, E> operator) throws E {
         if (columnIndex < 0 || columnIndex >= columnCount) {
-            throw new IndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+            throw new IndexOutOfBoundsException(formatMsg(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -712,7 +793,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             res[i] = a[i][i]; // NOSONAR
         }
 
-        return res;
+        return convertArrayTypeIfNeeded(res);
     }
 
     /**
@@ -767,6 +848,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param operator the operator to apply to each diagonal element (must not be null)
      * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      */
     public <E extends Exception> void updateMainDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E {
         N.checkArgNotNull(operator, "operator");
@@ -802,7 +884,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             res[i] = a[i][columnCount - i - 1];
         }
 
-        return res;
+        return convertArrayTypeIfNeeded(res);
     }
 
     /**
@@ -857,6 +939,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param operator the operator to apply to each anti-diagonal element (must not be null)
      * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.UnaryOperator<T, E> operator) throws E {
         N.checkArgNotNull(operator, "operator");
@@ -889,6 +972,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown by the operator
      * @param operator the operator to apply to each element (must not be null)
      * @throws E if the operator throws an exception
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      */
     public <E extends Exception> void updateAll(final Throwables.UnaryOperator<T, E> operator) throws E {
         N.checkArgNotNull(operator, "operator");
@@ -917,6 +1001,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown by the operator
      * @param operator the operator that takes row and column indices and returns the new value (must not be null)
      * @throws E if the operator throws an exception
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<? extends T, E> operator) throws E {
         N.checkArgNotNull(operator, "operator");
@@ -948,6 +1033,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param predicate the condition to test each element (must not be null)
      * @param newValue the value to use as replacement (can be null)
      * @throws E if the predicate throws an exception
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}
      */
     public <E extends Exception> void replaceIf(final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
         N.checkArgNotNull(predicate, "predicate");
@@ -976,6 +1062,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param predicate the condition based on position (must not be null)
      * @param newValue the value to use as replacement (can be null)
      * @throws E if the predicate throws an exception
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final T newValue) throws E {
         N.checkArgNotNull(predicate, "predicate");
@@ -1039,6 +1126,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <R, E extends Exception> Matrix<R> map(final Throwables.Function<? super T, R, E> mapper, final Class<R> targetElementType) throws E {
         N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(targetElementType, "targetElementType");
         final R[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
@@ -1080,7 +1168,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Creates a byte matrix by applying a byte-valued function to each element.
-     * Values outside the byte range (-128 to 127) will be truncated.
+     * Any narrowing conversion behavior depends on the mapper implementation.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1141,7 +1229,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Creates a short matrix by applying a short-valued function to each element.
-     * Values outside the short range (-32,768 to 32,767) will be truncated.
+     * Any narrowing conversion behavior depends on the mapper implementation.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1322,6 +1410,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param b the source two-dimensional array to copy values from (must not be null)
+     * @throws IllegalArgumentException if {@code b} is {@code null}
      */
     public void fill(final T[][] b) {
         fill(0, 0, b);
@@ -1344,7 +1433,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param fromRowIndex the starting row index (0-based, must be between 0 and rowCount inclusive)
      * @param fromColumnIndex the starting column index (0-based, must be between 0 and columnCount inclusive)
      * @param b the source two-dimensional array to copy values from (must not be null)
-     * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
+     * @throws IllegalArgumentException if {@code b} is {@code null}, or if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
@@ -1436,7 +1525,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public Matrix<T> copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
-
         final T[][] c = N.newArray(arrayType, toRowIndex - fromRowIndex);
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1460,6 +1548,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param newRowCount the number of rows in the new matrix
      * @param newColumnCount the number of columns in the new matrix
      * @return a new matrix with the specified dimensions
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
+     *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
     public Matrix<T> extend(final int newRowCount, final int newColumnCount) {
         return extend(newRowCount, newColumnCount, null);
@@ -1486,7 +1576,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public Matrix<T> extend(final int newRowCount, final int newColumnCount, final T defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
-
+        checkRepresentableShape(newRowCount, newColumnCount);
         // Check for overflow before allocation
         if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
@@ -1576,6 +1666,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
+            checkRepresentableShape(newRowCount, newColumnCount);
             final boolean fillDefaultValue = defaultValueForNewCell != null;
             final T[][] b = N.newArray(arrayType, newRowCount);
 
@@ -1716,6 +1807,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> rotate90() {
+
         final T[][] c = N.newArray(arrayType, columnCount);
 
         for (int i = 0; i < columnCount; i++) {
@@ -1785,6 +1877,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> rotate270() {
+
         final T[][] c = N.newArray(arrayType, columnCount);
 
         for (int i = 0; i < columnCount; i++) {
@@ -1830,6 +1923,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> transpose() {
+
         final T[][] c = N.newArray(arrayType, columnCount);
 
         for (int i = 0; i < columnCount; i++) {
@@ -2077,6 +2171,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param other the matrix to stack below this matrix (must not be null)
      * @return a new vertically stacked matrix with dimensions (this.rowCount + other.rowCount) × columnCount
+     * @throws NullPointerException if {@code other} is {@code null}
      * @throws IllegalArgumentException if the matrices have different column counts
      * @see #hstack(Matrix)
      * @see IntMatrix#vstack(IntMatrix)
@@ -2116,6 +2211,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param other the matrix to stack to the right of this matrix (must not be null)
      * @return a new horizontally stacked matrix with dimensions rowCount × (this.columnCount + other.columnCount)
+     * @throws NullPointerException if {@code other} is {@code null}
      * @throws IllegalArgumentException if the matrices have different row counts
      * @see #vstack(Matrix)
      * @see IntMatrix#hstack(IntMatrix)
@@ -2965,7 +3061,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param columnNames the names to assign to each column in the resulting Dataset
      * @return a Dataset containing the matrix data with the specified column names
-     * @throws IllegalArgumentException if the size of columnNames doesn't match the column count
+     * @throws IllegalArgumentException if {@code columnNames} is {@code null}, or if its size doesn't match the column count
      * @see Dataset
      */
     @Beta
@@ -3014,7 +3110,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param columnNames the collection of column names to use for the Dataset
      * @return a Dataset containing the matrix data organized vertically
-     * @throws IllegalArgumentException if the number of column names doesn't match the number of rows in the matrix
+     * @throws IllegalArgumentException if {@code columnNames} is {@code null}, or if the number of column names doesn't match the number of rows in the matrix
      * @see Dataset
      * @see RowDataset
      */

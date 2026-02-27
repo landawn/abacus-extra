@@ -620,7 +620,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * of the tuple's contents.
      * </p>
      *
-     * <p><b>Examples:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <ul>
      *   <li>{@code (1, 2, 3)} for an IntTuple.IntTuple3</li>
      *   <li>{@code (1, 2)} for an IntTuple.IntTuple2</li>

@@ -149,6 +149,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a new BooleanMatrix of dimensions rowCount x columnCount filled with random values
      */
     public static BooleanMatrix random(final int rowCount, final int columnCount) {
+        N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
+        N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
+        checkRepresentableShape(rowCount, columnCount);
+
         final boolean[][] a = new boolean[rowCount][columnCount];
 
         for (boolean[] ea : a) {
@@ -175,6 +179,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a new BooleanMatrix of dimensions rowCount x columnCount filled with the specified element
      */
     public static BooleanMatrix repeat(final int rowCount, final int columnCount, final boolean element) {
+        N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
+        N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
+        checkRepresentableShape(rowCount, columnCount);
+
         final boolean[][] a = new boolean[rowCount][columnCount];
 
         for (boolean[] ea : a) {
@@ -630,7 +638,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (rowIndex < 0 || rowIndex >= rowCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -668,7 +676,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (columnIndex < 0 || columnIndex >= columnCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -1232,7 +1240,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
-
         final boolean[][] c = new boolean[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1299,7 +1306,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public BooleanMatrix extend(final int newRowCount, final int newColumnCount, final boolean defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
-
+        checkRepresentableShape(newRowCount, newColumnCount);
         // Check for overflow before allocation
         if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
@@ -1414,6 +1421,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
             final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
+            checkRepresentableShape(newRowCount, newColumnCount);
             // NOSONAR
             final boolean[][] b = new boolean[newRowCount][newColumnCount];
 
@@ -1557,6 +1565,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     public BooleanMatrix rotate90() {
+
         final boolean[][] c = new boolean[columnCount][rowCount];
 
         if (rowCount <= columnCount) {
@@ -1621,6 +1630,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     public BooleanMatrix rotate270() {
+
         final boolean[][] c = new boolean[columnCount][rowCount];
 
         if (rowCount <= columnCount) {
@@ -1662,6 +1672,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     public BooleanMatrix transpose() {
+
         final boolean[][] c = new boolean[columnCount][rowCount];
 
         if (rowCount <= columnCount) {

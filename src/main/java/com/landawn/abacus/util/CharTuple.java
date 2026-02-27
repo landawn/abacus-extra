@@ -627,7 +627,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * representation of the tuple's contents.
      * </p>
      *
-     * <p><b>Example output:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <ul>
      * <li>{@code (A, B, C)} - for a CharTuple.CharTuple3</li>
      * <li>{@code (X, Y)} - for a CharTuple.CharTuple2</li>

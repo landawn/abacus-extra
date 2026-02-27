@@ -624,7 +624,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * of the tuple's contents.
      * </p>
      *
-     * <p><b>Examples:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <ul>
      *   <li>{@code (1, 2, 3)} for a ShortTuple.ShortTuple3</li>
      *   <li>{@code (1, 2)} for a ShortTuple.ShortTuple2</li>

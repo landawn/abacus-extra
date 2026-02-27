@@ -153,6 +153,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return a new CharMatrix of dimensions rowCount x columnCount filled with random values
      */
     public static CharMatrix random(final int rowCount, final int columnCount) {
+        N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
+        N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
+        checkRepresentableShape(rowCount, columnCount);
+
         final char[][] a = new char[rowCount][columnCount];
 
         for (char[] ea : a) {
@@ -179,6 +183,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return a new CharMatrix of dimensions rowCount x columnCount filled with the specified element
      */
     public static CharMatrix repeat(final int rowCount, final int columnCount, final char element) {
+        N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
+        N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
+        checkRepresentableShape(rowCount, columnCount);
+
         final char[][] a = new char[rowCount][columnCount];
 
         for (char[] ea : a) {
@@ -712,7 +720,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (rowIndex < 0 || rowIndex >= rowCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -727,7 +735,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * This modifies the matrix directly.
      *
      * <p>The operator is applied to each element in the specified column sequentially
-     * from top to bottom (row 0 to row rows-1).</p>
+     * from top to bottom (row 0 to row rowCount-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -746,7 +754,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (columnIndex < 0 || columnIndex >= columnCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -916,7 +924,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param <E> the exception type that the operator may throw
      * @param operator the operator to apply to each anti-diagonal element
      * @throws E if the operator throws an exception
-     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.CharUnaryOperator<E> operator) throws E {
         N.checkArgNotNull(operator, "operator");
@@ -1242,7 +1250,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     public CharMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
-
         final char[][] c = new char[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1309,7 +1316,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     public CharMatrix extend(final int newRowCount, final int newColumnCount, final char defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
-
+        checkRepresentableShape(newRowCount, newColumnCount);
         // Check for overflow before allocation
         if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
@@ -1424,6 +1431,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
             final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
+            checkRepresentableShape(newRowCount, newColumnCount);
             final boolean fillDefaultValue = defaultValueForNewCell != CHAR_0;
             final char[][] b = new char[newRowCount][newColumnCount];
 
@@ -1548,6 +1556,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     @Override
     public CharMatrix rotate90() {
+
         final char[][] c = new char[columnCount][rowCount];
 
         if (rowCount <= columnCount) {
@@ -1606,6 +1615,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     @Override
     public CharMatrix rotate270() {
+
         final char[][] c = new char[columnCount][rowCount];
 
         if (rowCount <= columnCount) {
@@ -1647,6 +1657,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     @Override
     public CharMatrix transpose() {
+
         final char[][] c = new char[columnCount][rowCount];
 
         if (rowCount <= columnCount) {

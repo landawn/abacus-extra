@@ -295,6 +295,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a new IntMatrix of dimensions rowCount x columnCount filled with random values
      */
     public static IntMatrix random(final int rowCount, final int columnCount) {
+        N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
+        N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
+        checkRepresentableShape(rowCount, columnCount);
+
         final int[][] a = new int[rowCount][columnCount];
 
         for (int[] ea : a) {
@@ -321,6 +325,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a new IntMatrix of dimensions rowCount x columnCount filled with the specified element
      */
     public static IntMatrix repeat(final int rowCount, final int columnCount, final int element) {
+        N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
+        N.checkArgument(columnCount >= 0, MSG_NEGATIVE_DIMENSION, "columnCount", columnCount);
+        checkRepresentableShape(rowCount, columnCount);
+
         final int[][] a = new int[rowCount][columnCount];
 
         for (int[] ea : a) {
@@ -807,6 +815,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to copy into the column; must have length equal to the number of rows
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
+     * @throws ArrayIndexOutOfBoundsException if any row in this matrix has insufficient length for {@code columnIndex}
      */
     public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
@@ -841,7 +850,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (rowIndex < 0 || rowIndex >= rowCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -875,7 +884,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (columnIndex < 0 || columnIndex >= columnCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
         }
 
         N.checkArgNotNull(operator, "operator");
@@ -1421,7 +1430,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     public IntMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
-
         final int[][] c = new int[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1488,7 +1496,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     public IntMatrix extend(final int newRowCount, final int newColumnCount, final int defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
         N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
-
+        checkRepresentableShape(newRowCount, newColumnCount);
         // Check for overflow before allocation
         if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
@@ -1603,6 +1611,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
             final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
+            checkRepresentableShape(newRowCount, newColumnCount);
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
             final int[][] extendedData = new int[newRowCount][newColumnCount];
 
@@ -1746,6 +1755,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix rotate90() {
+
         final int[][] c = new int[columnCount][rowCount];
 
         if (rowCount <= columnCount) {
@@ -1812,6 +1822,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix rotate270() {
+
         final int[][] c = new int[columnCount][rowCount];
 
         if (rowCount <= columnCount) {
@@ -1853,6 +1864,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix transpose() {
+
         final int[][] c = new int[columnCount][rowCount];
 
         if (rowCount <= columnCount) {

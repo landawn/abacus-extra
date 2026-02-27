@@ -14,8 +14,12 @@
 
 package com.landawn.abacus.util;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.Sheet.Point;
@@ -444,7 +448,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
             for (int i = 1, len = a.length; i < len; i++) {
                 N.checkArgument(a[i] != null, "Row {} cannot be null", i);
                 if (length(a[i]) != columnCount) {
-                    throw new IllegalArgumentException(String.format(MSG_NOT_RECTANGULAR, columnCount, i, length(a[i])));
+                    throw new IllegalArgumentException(formatMsg(MSG_NOT_RECTANGULAR, columnCount, i, length(a[i])));
                 }
             }
         }
@@ -479,6 +483,123 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     protected static void checkRepresentableShape(final int rowCount, final int columnCount) {
         N.checkArgument(rowCount > 0 || columnCount == 0, MSG_UNREPRESENTABLE_SHAPE, rowCount, columnCount);
+    }
+
+    /**
+     * Formats matrix error message templates that use "{}" placeholders.
+     */
+    protected static String formatMsg(final String template, final Object... args) {
+        if (template == null || args == null || args.length == 0) {
+            return template;
+        }
+
+        final StringBuilder sb = new StringBuilder(template.length() + args.length * 8);
+        int fromIndex = 0;
+        int argIndex = 0;
+        int placeholderIndex = 0;
+
+        while (argIndex < args.length && (placeholderIndex = template.indexOf("{}", fromIndex)) >= 0) {
+            sb.append(template, fromIndex, placeholderIndex);
+            sb.append(args[argIndex++]);
+            fromIndex = placeholderIndex + 2;
+        }
+
+        sb.append(template, fromIndex, template.length());
+
+        return sb.toString();
+    }
+
+    /**
+     * Resolves the most specific assignable common type for the two input types.
+     *
+     * <p>This search considers both super classes and interfaces. If no better common type
+     * can be identified, {@link Object} is returned.</p>
+     */
+    protected static Class<?> resolveCommonAssignableType(final Class<?> left, final Class<?> right) {
+        if (left == null) {
+            return right == null ? Object.class : right;
+        }
+
+        if (right == null) {
+            return left;
+        }
+
+        if (left.isAssignableFrom(right)) {
+            return left;
+        }
+
+        if (right.isAssignableFrom(left)) {
+            return right;
+        }
+
+        final Map<Class<?>, Integer> leftDistances = collectTypeDistances(left);
+        final Map<Class<?>, Integer> rightDistances = collectTypeDistances(right);
+        Class<?> best = Object.class;
+        int bestDistance = Integer.MAX_VALUE;
+        int bestPenalty = Integer.MAX_VALUE;
+        int bestMethodCount = Integer.MIN_VALUE;
+
+        for (final Map.Entry<Class<?>, Integer> entry : leftDistances.entrySet()) {
+            final Class<?> candidate = entry.getKey();
+            final Integer rightDistance = rightDistances.get(candidate);
+
+            if (rightDistance == null || !candidate.isAssignableFrom(left) || !candidate.isAssignableFrom(right)) {
+                continue;
+            }
+
+            final int totalDistance = entry.getValue() + rightDistance;
+            final int typePenalty = commonTypePenalty(candidate);
+            final int methodCount = candidate.getMethods().length;
+
+            if (totalDistance < bestDistance || (totalDistance == bestDistance && typePenalty < bestPenalty)
+                    || (totalDistance == bestDistance && typePenalty == bestPenalty && methodCount > bestMethodCount)
+                    || (totalDistance == bestDistance && typePenalty == bestPenalty && methodCount == bestMethodCount && best.isAssignableFrom(candidate))) {
+                best = candidate;
+                bestDistance = totalDistance;
+                bestPenalty = typePenalty;
+                bestMethodCount = methodCount;
+            }
+        }
+
+        return best;
+    }
+
+    private static Map<Class<?>, Integer> collectTypeDistances(final Class<?> startType) {
+        final Map<Class<?>, Integer> distances = new LinkedHashMap<>();
+        final Deque<Class<?>> queue = new ArrayDeque<>();
+        distances.put(startType, 0);
+        queue.add(startType);
+
+        while (!queue.isEmpty()) {
+            final Class<?> current = queue.removeFirst();
+            final int nextDistance = distances.get(current) + 1;
+
+            final Class<?> superClass = current.getSuperclass();
+
+            if (superClass != null && distances.putIfAbsent(superClass, nextDistance) == null) {
+                queue.addLast(superClass);
+            }
+
+            for (final Class<?> intf : current.getInterfaces()) {
+                if (distances.putIfAbsent(intf, nextDistance) == null) {
+                    queue.addLast(intf);
+                }
+            }
+        }
+
+        return distances;
+    }
+
+    private static int commonTypePenalty(final Class<?> type) {
+        if (type == Object.class) {
+            return 3;
+        }
+
+        if (type.isInterface()) {
+            return type.getMethods().length == 0 ? 2 : 1;
+        }
+
+        return 0;
     }
 
     /**
@@ -1925,11 +2046,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     protected void checkRowColumnIndex(final int rowIndex, final int columnIndex) {
         if (rowIndex < 0 || rowIndex >= rowCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount));
         }
 
         if (columnIndex < 0 || columnIndex >= columnCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
+            throw new ArrayIndexOutOfBoundsException(formatMsg(MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount));
         }
     }
 

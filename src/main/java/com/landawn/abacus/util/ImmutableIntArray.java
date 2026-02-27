@@ -428,7 +428,7 @@ public final class ImmutableIntArray implements Immutable {
      * and both arrays contain the same elements in the same order. This method follows the
      * same contract as {@link java.util.Arrays#equals(int[], int[])}.</p>
      *
-     * <p>Two ImmutableIntArray instances are considered equal if:
+     * <p>Two ImmutableIntArray instances are considered equal if:</p>
      * <ul>
      *   <li>They have the same length</li>
      *   <li>For every index {@code i}, {@code this.get(i) == other.get(i)}</li>

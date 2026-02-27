@@ -627,12 +627,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * representation of the tuple's contents.
      * </p>
      *
-     * <p><b>Example output:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <ul>
      * <li>{@code (1.0, 2.0, 3.0)} - for a FloatTuple.FloatTuple3</li>
      * <li>{@code (1.5, 2.5)} - for a FloatTuple.FloatTuple2</li>
      * <li>{@code (3.14)} - for a FloatTuple.FloatTuple1</li>
-     * <li>{@code ()} - for an empty FloatTuple.FloatTuple0</li>
+     * <li>{@code ()} - for an empty {@code FloatTuple<?>}</li>
      * </ul>
      *
      * @return a string representation of this tuple

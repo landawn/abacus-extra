@@ -621,7 +621,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * of the tuple's contents.
      * </p>
      *
-     * <p><b>Examples:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <ul>
      *   <li>{@code (1, 2, 3)} for a LongTuple.LongTuple3</li>
      *   <li>{@code (1, 2)} for a LongTuple.LongTuple2</li>

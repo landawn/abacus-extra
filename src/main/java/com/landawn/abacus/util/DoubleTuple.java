@@ -627,12 +627,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * representation of the tuple's contents.
      * </p>
      *
-     * <p><b>Example output:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <ul>
      * <li>{@code (1.0, 2.0, 3.0)} - for a DoubleTuple.DoubleTuple3</li>
      * <li>{@code (1.5, 2.5)} - for a DoubleTuple.DoubleTuple2</li>
      * <li>{@code (3.14)} - for a DoubleTuple.DoubleTuple1</li>
-     * <li>{@code ()} - for an empty DoubleTuple.DoubleTuple0</li>
+     * <li>{@code ()} - for an empty {@code DoubleTuple<?>}</li>
      * </ul>
      *
      * @return a string representation of this tuple

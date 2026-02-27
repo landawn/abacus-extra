@@ -118,4 +118,3 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
         assertTrue(rows.get(2).isEmpty());
     }
 }
-
