@@ -350,9 +350,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @return {@code float.class}
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Class componentType() {
+    public Class<?> componentType() {
         return float.class;
     }
 
@@ -445,8 +444,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * u.OptionalFloat value = matrix.upOf(1, 0);   // Returns u.OptionalFloat.of(1.0f)
-     * u.OptionalFloat empty = matrix.upOf(0, 0);   // Returns u.OptionalFloat.empty() - no row above
+     * u.OptionalFloat value = matrix.above(1, 0);   // Returns u.OptionalFloat.of(1.0f)
+     * u.OptionalFloat empty = matrix.above(0, 0);   // Returns u.OptionalFloat.empty() - no row above
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -454,7 +453,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return an u.OptionalFloat containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalFloat upOf(final int rowIndex, final int columnIndex) {
+    public OptionalFloat above(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[rowIndex - 1][columnIndex]);
@@ -468,8 +467,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * u.OptionalFloat value = matrix.downOf(0, 0);   // Returns u.OptionalFloat.of(3.0f)
-     * u.OptionalFloat empty = matrix.downOf(1, 0);   // Returns u.OptionalFloat.empty() - no row below
+     * u.OptionalFloat value = matrix.below(0, 0);   // Returns u.OptionalFloat.of(3.0f)
+     * u.OptionalFloat empty = matrix.below(1, 0);   // Returns u.OptionalFloat.empty() - no row below
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -477,7 +476,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return an u.OptionalFloat containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalFloat downOf(final int rowIndex, final int columnIndex) {
+    public OptionalFloat below(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == rowCount - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[rowIndex + 1][columnIndex]);
@@ -491,8 +490,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * u.OptionalFloat value = matrix.leftOf(0, 1);   // Returns u.OptionalFloat.of(1.0f)
-     * u.OptionalFloat empty = matrix.leftOf(0, 0);   // Returns u.OptionalFloat.empty() - no column to the left
+     * u.OptionalFloat value = matrix.leftNeighbor(0, 1);   // Returns u.OptionalFloat.of(1.0f)
+     * u.OptionalFloat empty = matrix.leftNeighbor(0, 0);   // Returns u.OptionalFloat.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -500,7 +499,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return an u.OptionalFloat containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalFloat leftOf(final int rowIndex, final int columnIndex) {
+    public OptionalFloat leftNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[rowIndex][columnIndex - 1]);
@@ -514,8 +513,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * u.OptionalFloat value = matrix.rightOf(0, 0);   // Returns u.OptionalFloat.of(2.0f)
-     * u.OptionalFloat empty = matrix.rightOf(0, 1);   // Returns u.OptionalFloat.empty() - no column to the right
+     * u.OptionalFloat value = matrix.rightNeighbor(0, 0);   // Returns u.OptionalFloat.of(2.0f)
+     * u.OptionalFloat empty = matrix.rightNeighbor(0, 1);   // Returns u.OptionalFloat.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -523,7 +522,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return an u.OptionalFloat containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalFloat rightOf(final int rowIndex, final int columnIndex) {
+    public OptionalFloat rightNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[rowIndex][columnIndex + 1]);
@@ -1051,7 +1050,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.FloatFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, "mapper");
-        final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
+        final T[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
@@ -1518,6 +1517,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix rotate90() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final float[][] c = new float[columnCount][rowCount];
 
@@ -1577,6 +1577,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix rotate270() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final float[][] c = new float[columnCount][rowCount];
 
@@ -1619,6 +1620,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix transpose() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final float[][] c = new float[columnCount][rowCount];
 
@@ -1826,18 +1828,18 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{3.0f, 1.0f}, {4.0f, 2.0f}});
-     * matrix.flatOp(row -> N.sort(row));   // Sorts each row independently
+     * matrix.applyOnFlattened(row -> N.sort(row));   // Sorts each row independently
      * // matrix is now [[1.0f, 3.0f], [2.0f, 4.0f]]
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
      * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
-     * @see Arrays#flatOp(float[][], Throwables.Consumer)
+     * @see Arrays#applyOnFlattened(float[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void flatOp(final Throwables.Consumer<? super float[], E> op) throws E {
-        Arrays.flatOp(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super float[], E> op) throws E {
+        Arrays.applyOnFlattened(a, op);
     }
 
     /**

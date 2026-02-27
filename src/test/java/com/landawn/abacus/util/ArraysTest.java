@@ -3250,12 +3250,12 @@ public class ArraysTest extends TestBase {
             Assertions.assertArrayEquals(new boolean[] {}, deepEmptyFlattened);
         }
 
-        // Tests for flatOp methods
+        // Tests for applyOnFlattened methods
         @Test
         public void testFlatOp_Boolean2DArray() {
             // Test sorting operation
             boolean[][] arr = { { true, false, true }, { false, true } };
-            Arrays.flatOp(arr, flatArr -> {
+            Arrays.applyOnFlattened(arr, flatArr -> {
                 // Sort to have all false values first
                 CommonUtil.sort(flatArr);
             });
@@ -3265,7 +3265,7 @@ public class ArraysTest extends TestBase {
 
             // Test with operation that sets all to true
             boolean[][] arr2 = { { true, false }, { false, true } };
-            Arrays.flatOp(arr2, flatArr -> {
+            Arrays.applyOnFlattened(arr2, flatArr -> {
                 for (int i = 0; i < flatArr.length; i++) {
                     flatArr[i] = true;
                 }
@@ -3275,14 +3275,14 @@ public class ArraysTest extends TestBase {
 
             // Test with empty array
             boolean[][] emptyArr = {};
-            Arrays.flatOp(emptyArr, flatArr -> {
+            Arrays.applyOnFlattened(emptyArr, flatArr -> {
                 // Should not be called
                 Assertions.fail("Operation should not be called on empty array");
             });
 
             // Test with array containing empty sub-arrays
             boolean[][] mixedArr = { { true, false }, {}, { true } };
-            Arrays.flatOp(mixedArr, flatArr -> {
+            Arrays.applyOnFlattened(mixedArr, flatArr -> {
                 for (int i = 0; i < flatArr.length; i++) {
                     flatArr[i] = !flatArr[i];
                 }
@@ -3296,7 +3296,7 @@ public class ArraysTest extends TestBase {
         public void testFlatOp_Boolean3DArray() {
             // Test with normal three-dimensional array
             boolean[][][] arr = { { { true, false } }, { { false, true }, { true, true } } };
-            Arrays.flatOp(arr, flatArr -> {
+            Arrays.applyOnFlattened(arr, flatArr -> {
                 // Reverse all values
                 for (int i = 0; i < flatArr.length; i++) {
                     flatArr[i] = !flatArr[i];
@@ -3308,7 +3308,7 @@ public class ArraysTest extends TestBase {
 
             // Test with empty three-dimensional array
             boolean[][][] emptyArr = {};
-            Arrays.flatOp(emptyArr, flatArr -> {
+            Arrays.applyOnFlattened(emptyArr, flatArr -> {
                 // Should not be called
                 Assertions.fail("Operation should not be called on empty array");
             });
@@ -3316,7 +3316,7 @@ public class ArraysTest extends TestBase {
             // Test counting operation
             boolean[][][] countArr = { { { true, false, true } }, { { false, false } } };
             int[] trueCount = { 0 };
-            Arrays.flatOp(countArr, flatArr -> {
+            Arrays.applyOnFlattened(countArr, flatArr -> {
                 for (boolean b : flatArr) {
                     if (b)
                         trueCount[0]++;
@@ -3330,7 +3330,7 @@ public class ArraysTest extends TestBase {
             boolean[][] arr = { { true, false }, { true } };
 
             Assertions.assertThrows(Exception.class, () -> {
-                Arrays.flatOp(arr, flatArr -> {
+                Arrays.applyOnFlattened(arr, flatArr -> {
                     throw new Exception("Test exception");
                 });
             });
@@ -3522,35 +3522,35 @@ public class ArraysTest extends TestBase {
         public void testFlatOp() throws Exception {
             // Test sorting all elements
             Integer[][] array = { { 3, 1, 4 }, { 1, 5, 9 } };
-            ff.flatOp(array, arr -> java.util.Arrays.sort(arr));
+            ff.applyOnFlattened(array, arr -> java.util.Arrays.sort(arr));
             Assertions.assertArrayEquals(new Integer[] { 1, 1, 3 }, array[0]);
             Assertions.assertArrayEquals(new Integer[] { 4, 5, 9 }, array[1]);
 
             // Test with null sub-arrays
             Integer[][] arrayWithNulls = { { 5, 3 }, null, { 1, 4 } };
-            ff.flatOp(arrayWithNulls, arr -> java.util.Arrays.sort(arr));
+            ff.applyOnFlattened(arrayWithNulls, arr -> java.util.Arrays.sort(arr));
             Assertions.assertArrayEquals(new Integer[] { 1, 3 }, arrayWithNulls[0]);
             Assertions.assertNull(arrayWithNulls[1]);
             Assertions.assertArrayEquals(new Integer[] { 4, 5 }, arrayWithNulls[2]);
 
             // Test with empty sub-arrays
             Integer[][] arrayWithEmpty = { { 5, 3 }, {}, { 1, 4 } };
-            ff.flatOp(arrayWithEmpty, arr -> java.util.Arrays.sort(arr));
+            ff.applyOnFlattened(arrayWithEmpty, arr -> java.util.Arrays.sort(arr));
             Assertions.assertArrayEquals(new Integer[] { 1, 3 }, arrayWithEmpty[0]);
             Assertions.assertArrayEquals(new Integer[] {}, arrayWithEmpty[1]);
             Assertions.assertArrayEquals(new Integer[] { 4, 5 }, arrayWithEmpty[2]);
 
             // Test with empty array
             Integer[][] emptyArray = {};
-            ff.flatOp(emptyArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
+            ff.applyOnFlattened(emptyArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
 
             // Test with null array
             Integer[][] nullArray = null;
-            ff.flatOp(nullArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
+            ff.applyOnFlattened(nullArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
 
             // Test with custom operation
             Integer[][] array2 = { { 1, 2 }, { 3, 4 } };
-            ff.flatOp(array2, arr -> {
+            ff.applyOnFlattened(array2, arr -> {
                 for (int i = 0; i < arr.length; i++) {
                     arr[i] = arr[i] * 10;
                 }
@@ -4217,7 +4217,7 @@ public class ArraysTest extends TestBase {
         public void testFlatOp() throws Exception {
             // Test sorting all elements
             Integer[][][] arr = { { { 5, 2 } }, { { 9, 1 } }, { { 3, 7 } } };
-            fff.flatOp(arr, flat -> java.util.Arrays.sort(flat));
+            fff.applyOnFlattened(arr, flat -> java.util.Arrays.sort(flat));
             Assertions.assertEquals(1, arr[0][0][0]);
             Assertions.assertEquals(2, arr[0][0][1]);
             Assertions.assertEquals(3, arr[1][0][0]);
@@ -4227,7 +4227,7 @@ public class ArraysTest extends TestBase {
 
             // Test reversing elements
             Integer[][][] arr2 = { { { 1, 2 } }, { { 3, 4 } } };
-            fff.flatOp(arr2, flat -> {
+            fff.applyOnFlattened(arr2, flat -> {
                 for (int i = 0; i < flat.length / 2; i++) {
                     Integer temp = flat[i];
                     flat[i] = flat[flat.length - 1 - i];
@@ -4241,12 +4241,12 @@ public class ArraysTest extends TestBase {
 
             // Test with empty array
             Integer[][][] emptyArr = new Integer[0][][];
-            fff.flatOp(emptyArr, flat -> java.util.Arrays.sort(flat));
+            fff.applyOnFlattened(emptyArr, flat -> java.util.Arrays.sort(flat));
             Assertions.assertEquals(0, emptyArr.length);
 
             // Test with null and empty sub-arrays
             Integer[][][] mixedArr = { { { 1, 2 } }, null, { {} }, { { 3, 4 } } };
-            fff.flatOp(mixedArr, flat -> {
+            fff.applyOnFlattened(mixedArr, flat -> {
                 for (int i = 0; i < flat.length; i++) {
                     flat[i] = flat[i] * 10;
                 }

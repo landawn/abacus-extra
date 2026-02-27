@@ -469,7 +469,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testUpOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar up = m.upOf(1, 0);
+        OptionalChar up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals('a', up.get());
     }
@@ -477,14 +477,14 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testUpOf_atTopEdge() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar up = m.upOf(0, 0);
+        OptionalChar up = m.above(0, 0);
         assertFalse(up.isPresent());
     }
 
     @Test
     public void testUpOf_multipleRows() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } });
-        OptionalChar up = m.upOf(2, 1);
+        OptionalChar up = m.above(2, 1);
         assertTrue(up.isPresent());
         assertEquals('d', up.get());
     }
@@ -492,7 +492,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testDownOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar down = m.downOf(0, 0);
+        OptionalChar down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals('c', down.get());
     }
@@ -500,14 +500,14 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testDownOf_atBottomEdge() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar down = m.downOf(1, 0);
+        OptionalChar down = m.below(1, 0);
         assertFalse(down.isPresent());
     }
 
     @Test
     public void testDownOf_multipleRows() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } });
-        OptionalChar down = m.downOf(0, 0);
+        OptionalChar down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals('c', down.get());
     }
@@ -515,7 +515,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testLeftOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar left = m.leftOf(0, 1);
+        OptionalChar left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals('a', left.get());
     }
@@ -523,14 +523,14 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testLeftOf_atLeftEdge() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar left = m.leftOf(0, 0);
+        OptionalChar left = m.leftNeighbor(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void testLeftOf_multipleColumns() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' } });
-        OptionalChar left = m.leftOf(0, 2);
+        OptionalChar left = m.leftNeighbor(0, 2);
         assertTrue(left.isPresent());
         assertEquals('b', left.get());
     }
@@ -538,7 +538,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testRightOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar right = m.rightOf(0, 0);
+        OptionalChar right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals('b', right.get());
     }
@@ -546,14 +546,14 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testRightOf_atRightEdge() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        OptionalChar right = m.rightOf(0, 1);
+        OptionalChar right = m.rightNeighbor(0, 1);
         assertFalse(right.isPresent());
     }
 
     @Test
     public void testRightOf_multipleColumns() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' } });
-        OptionalChar right = m.rightOf(0, 0);
+        OptionalChar right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals('b', right.get());
     }

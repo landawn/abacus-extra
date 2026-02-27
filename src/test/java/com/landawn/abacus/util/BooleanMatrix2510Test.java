@@ -290,7 +290,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testUpOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean up = m.upOf(1, 0);
+        OptionalBoolean up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertTrue(up.get());
     }
@@ -298,14 +298,14 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testUpOf_atTopEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean up = m.upOf(0, 0);
+        OptionalBoolean up = m.above(0, 0);
         assertFalse(up.isPresent());
     }
 
     @Test
     public void testDownOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean down = m.downOf(0, 0);
+        OptionalBoolean down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertFalse(down.get());
     }
@@ -313,14 +313,14 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testDownOf_atBottomEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean down = m.downOf(1, 0);
+        OptionalBoolean down = m.below(1, 0);
         assertFalse(down.isPresent());
     }
 
     @Test
     public void testLeftOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftOf(0, 1);
+        OptionalBoolean left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertTrue(left.get());
     }
@@ -328,14 +328,14 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testLeftOf_atLeftEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftOf(0, 0);
+        OptionalBoolean left = m.leftNeighbor(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void testRightOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightOf(0, 0);
+        OptionalBoolean right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertFalse(right.get());
     }
@@ -343,7 +343,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testRightOf_atRightEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightOf(0, 1);
+        OptionalBoolean right = m.rightNeighbor(0, 1);
         assertFalse(right.isPresent());
     }
 
@@ -890,7 +890,7 @@ public class BooleanMatrix2510Test extends TestBase {
     public void testFlatOp() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         AtomicInteger count = new AtomicInteger(0);
-        m.flatOp(row -> count.addAndGet(row.length));
+        m.applyOnFlattened(row -> count.addAndGet(row.length));
         assertEquals(4, count.get());
     }
 

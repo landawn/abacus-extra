@@ -332,12 +332,12 @@ public class ByteMatrix2025Test extends TestBase {
     public void testUpOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalByte up = m.upOf(1, 0);
+        OptionalByte up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1, up.get());
 
         // Top row has no element above
-        OptionalByte empty = m.upOf(0, 0);
+        OptionalByte empty = m.above(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -345,12 +345,12 @@ public class ByteMatrix2025Test extends TestBase {
     public void testDownOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalByte down = m.downOf(0, 0);
+        OptionalByte down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3, down.get());
 
         // Bottom row has no element below
-        OptionalByte empty = m.downOf(1, 0);
+        OptionalByte empty = m.below(1, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -358,12 +358,12 @@ public class ByteMatrix2025Test extends TestBase {
     public void testLeftOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalByte left = m.leftOf(0, 1);
+        OptionalByte left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
 
         // Leftmost column has no element to the left
-        OptionalByte empty = m.leftOf(0, 0);
+        OptionalByte empty = m.leftNeighbor(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -371,12 +371,12 @@ public class ByteMatrix2025Test extends TestBase {
     public void testRightOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalByte right = m.rightOf(0, 0);
+        OptionalByte right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
 
         // Rightmost column has no element to the right
-        OptionalByte empty = m.rightOf(0, 1);
+        OptionalByte empty = m.rightNeighbor(0, 1);
         assertFalse(empty.isPresent());
     }
 
@@ -1011,7 +1011,7 @@ public class ByteMatrix2025Test extends TestBase {
     public void testFlatOp() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         List<Integer> sums = new ArrayList<>();
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             int sum = 0;
             for (byte val : row) {
                 sum += val;

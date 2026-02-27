@@ -303,9 +303,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @return {@code boolean.class}
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Class componentType() {
+    public Class<?> componentType() {
         return boolean.class;
     }
 
@@ -400,8 +399,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.upOf(1, 0);   // Returns OptionalBoolean.of(true)
-     * OptionalBoolean empty = matrix.upOf(0, 0);   // Returns OptionalBoolean.empty() - no row above
+     * OptionalBoolean value = matrix.above(1, 0);   // Returns OptionalBoolean.of(true)
+     * OptionalBoolean empty = matrix.above(0, 0);   // Returns OptionalBoolean.empty() - no row above
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -409,7 +408,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return an OptionalBoolean containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalBoolean upOf(final int rowIndex, final int columnIndex) {
+    public OptionalBoolean above(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[rowIndex - 1][columnIndex]);
@@ -423,8 +422,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.downOf(0, 0);   // Returns OptionalBoolean.of(false)
-     * OptionalBoolean empty = matrix.downOf(1, 0);   // Returns OptionalBoolean.empty() - no row below
+     * OptionalBoolean value = matrix.below(0, 0);   // Returns OptionalBoolean.of(false)
+     * OptionalBoolean empty = matrix.below(1, 0);   // Returns OptionalBoolean.empty() - no row below
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -432,7 +431,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return an OptionalBoolean containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalBoolean downOf(final int rowIndex, final int columnIndex) {
+    public OptionalBoolean below(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == rowCount - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[rowIndex + 1][columnIndex]);
@@ -446,8 +445,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.leftOf(0, 1);   // Returns OptionalBoolean.of(true)
-     * OptionalBoolean empty = matrix.leftOf(0, 0);   // Returns OptionalBoolean.empty() - no column to the left
+     * OptionalBoolean value = matrix.leftNeighbor(0, 1);   // Returns OptionalBoolean.of(true)
+     * OptionalBoolean empty = matrix.leftNeighbor(0, 0);   // Returns OptionalBoolean.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -455,7 +454,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return an OptionalBoolean containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalBoolean leftOf(final int rowIndex, final int columnIndex) {
+    public OptionalBoolean leftNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[rowIndex][columnIndex - 1]);
@@ -469,8 +468,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.rightOf(0, 0);   // Returns OptionalBoolean.of(false)
-     * OptionalBoolean empty = matrix.rightOf(0, 1);   // Returns OptionalBoolean.empty() - no column to the right
+     * OptionalBoolean value = matrix.rightNeighbor(0, 0);   // Returns OptionalBoolean.of(false)
+     * OptionalBoolean empty = matrix.rightNeighbor(0, 1);   // Returns OptionalBoolean.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -478,7 +477,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return an OptionalBoolean containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalBoolean rightOf(final int rowIndex, final int columnIndex) {
+    public OptionalBoolean rightNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[rowIndex][columnIndex + 1]);
@@ -1059,7 +1058,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.BooleanFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, "mapper");
-        final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
+        final T[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
@@ -1566,6 +1565,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     public BooleanMatrix rotate90() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final boolean[][] c = new boolean[columnCount][rowCount];
 
@@ -1631,6 +1631,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     public BooleanMatrix rotate270() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final boolean[][] c = new boolean[columnCount][rowCount];
 
@@ -1673,6 +1674,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     public BooleanMatrix transpose() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final boolean[][] c = new boolean[columnCount][rowCount];
 
@@ -1879,18 +1881,18 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * matrix.flatOp(row -> java.util.Arrays.fill(row, true));   // Sets each row to all true
+     * matrix.applyOnFlattened(row -> java.util.Arrays.fill(row, true));   // Sets each row to all true
      * // Each row is now all true
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
      * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
-     * @see Arrays#flatOp(boolean[][], Throwables.Consumer)
+     * @see Arrays#applyOnFlattened(boolean[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void flatOp(final Throwables.Consumer<? super boolean[], E> op) throws E {
-        Arrays.flatOp(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super boolean[], E> op) throws E {
+        Arrays.applyOnFlattened(a, op);
     }
 
     /**

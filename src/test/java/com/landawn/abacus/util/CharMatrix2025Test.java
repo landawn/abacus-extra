@@ -332,12 +332,12 @@ public class CharMatrix2025Test extends TestBase {
     public void testUpOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
 
-        OptionalChar up = m.upOf(1, 0);
+        OptionalChar up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals('A', up.get());
 
         // Top row has no element above
-        OptionalChar empty = m.upOf(0, 0);
+        OptionalChar empty = m.above(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -345,12 +345,12 @@ public class CharMatrix2025Test extends TestBase {
     public void testDownOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
 
-        OptionalChar down = m.downOf(0, 0);
+        OptionalChar down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals('C', down.get());
 
         // Bottom row has no element below
-        OptionalChar empty = m.downOf(1, 0);
+        OptionalChar empty = m.below(1, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -358,12 +358,12 @@ public class CharMatrix2025Test extends TestBase {
     public void testLeftOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
 
-        OptionalChar left = m.leftOf(0, 1);
+        OptionalChar left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals('A', left.get());
 
         // Leftmost column has no element to the left
-        OptionalChar empty = m.leftOf(0, 0);
+        OptionalChar empty = m.leftNeighbor(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -371,12 +371,12 @@ public class CharMatrix2025Test extends TestBase {
     public void testRightOf() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
 
-        OptionalChar right = m.rightOf(0, 0);
+        OptionalChar right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals('B', right.get());
 
         // Rightmost column has no element to the right
-        OptionalChar empty = m.rightOf(0, 1);
+        OptionalChar empty = m.rightNeighbor(0, 1);
         assertFalse(empty.isPresent());
     }
 
@@ -1010,7 +1010,7 @@ public class CharMatrix2025Test extends TestBase {
     public void testFlatOp() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' } });
         List<Integer> sums = new ArrayList<>();
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             int sum = 0;
             for (char val : row) {
                 sum += val;

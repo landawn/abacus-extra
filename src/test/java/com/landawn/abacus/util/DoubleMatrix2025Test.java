@@ -394,12 +394,12 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testUpOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
 
-        OptionalDouble up = m.upOf(1, 0);
+        OptionalDouble up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1.5, up.get(), DELTA);
 
         // Top row has no element above
-        OptionalDouble empty = m.upOf(0, 0);
+        OptionalDouble empty = m.above(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -407,12 +407,12 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testDownOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
 
-        OptionalDouble down = m.downOf(0, 0);
+        OptionalDouble down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3.5, down.get(), DELTA);
 
         // Bottom row has no element below
-        OptionalDouble empty = m.downOf(1, 0);
+        OptionalDouble empty = m.below(1, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -420,12 +420,12 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testLeftOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
 
-        OptionalDouble left = m.leftOf(0, 1);
+        OptionalDouble left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1.5, left.get(), DELTA);
 
         // Leftmost column has no element to the left
-        OptionalDouble empty = m.leftOf(0, 0);
+        OptionalDouble empty = m.leftNeighbor(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -433,12 +433,12 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testRightOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
 
-        OptionalDouble right = m.rightOf(0, 0);
+        OptionalDouble right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2.5, right.get(), DELTA);
 
         // Rightmost column has no element to the right
-        OptionalDouble empty = m.rightOf(0, 1);
+        OptionalDouble empty = m.rightNeighbor(0, 1);
         assertFalse(empty.isPresent());
     }
 
@@ -1091,7 +1091,7 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testFlatOp() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
         List<Double> sums = new ArrayList<>();
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             double sum = 0.0;
             for (double val : row) {
                 sum += val;

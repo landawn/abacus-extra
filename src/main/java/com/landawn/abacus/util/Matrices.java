@@ -224,6 +224,18 @@ public final class Matrices {
                 || (Matrices.PARALLEL_MODE_TL.get() == ParallelMode.AUTO && count >= MIN_COUNT_FOR_PARALLEL));
     }
 
+    private static long saturatedMultiply(final long left, final long right) {
+        if (left == 0 || right == 0) {
+            return 0;
+        }
+
+        if (left > Long.MAX_VALUE / right) {
+            return Long.MAX_VALUE;
+        }
+
+        return left * right;
+    }
+
     /**
      * Checks if two matrices have the same shape (identical dimensions).
      *
@@ -368,7 +380,7 @@ public final class Matrices {
      * @return a new two-dimensional array of type {@code T[][]} with the specified dimensions, never {@code null}
      * @throws IllegalArgumentException if {@code rowCount} or {@code columnCount} is negative, or if {@code targetElementType} is {@code null}
      */
-    public static <T> T[][] newArray(final int rowCount, final int columnCount, final Class<T> targetElementType) {
+    public static <T> T[][] newMatrixArray(final int rowCount, final int columnCount, final Class<T> targetElementType) {
         N.checkArgNotNull(targetElementType, "targetElementType");
         N.checkArgument(rowCount >= 0, "rowCount cannot be negative: {}", rowCount);
         N.checkArgument(columnCount >= 0, "columnCount cannot be negative: {}", columnCount);
@@ -815,7 +827,7 @@ public final class Matrices {
                 "Matrix dimensions incompatible for multiplication: a is {}x{}, b is {}x{} (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
                 b.rowCount, b.columnCount);
 
-        multiply(a, b, action, Matrices.isParallelizable(a, a.elementCount * b.columnCount));
+        multiply(a, b, action, Matrices.isParallelizable(a, saturatedMultiply(a.elementCount, b.columnCount)));
     }
 
     /**
@@ -1003,6 +1015,9 @@ public final class Matrices {
      * @see ByteMatrix#zipWith(ByteMatrix, Throwables.ByteBinaryOperator)
      */
     public static <E extends Exception> ByteMatrix zip(final ByteMatrix a, final ByteMatrix b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, zipFunction);
     }
 
@@ -1039,6 +1054,10 @@ public final class Matrices {
      */
     public static <E extends Exception> ByteMatrix zip(final ByteMatrix a, final ByteMatrix b, final ByteMatrix c,
             final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(c, "c");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, c, zipFunction);
     }
 
@@ -1202,7 +1221,7 @@ public final class Matrices {
         final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final byte[] intermediateArray = new byte[size];
-        final R[][] result = newArray(rowCount, columnCount, targetElementType);
+        final R[][] result = newMatrixArray(rowCount, columnCount, targetElementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final byte[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
@@ -1469,6 +1488,9 @@ public final class Matrices {
      * @see IntMatrix#zipWith(IntMatrix, Throwables.IntBinaryOperator)
      */
     public static <E extends Exception> IntMatrix zip(final IntMatrix a, final IntMatrix b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, zipFunction);
     }
 
@@ -1506,6 +1528,10 @@ public final class Matrices {
      */
     public static <E extends Exception> IntMatrix zip(final IntMatrix a, final IntMatrix b, final IntMatrix c,
             final Throwables.IntTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(c, "c");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, c, zipFunction);
     }
 
@@ -1675,7 +1701,7 @@ public final class Matrices {
         final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final int[] intermediateArray = new int[size];
-        final R[][] result = newArray(rowCount, columnCount, targetElementType);
+        final R[][] result = newMatrixArray(rowCount, columnCount, targetElementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final int[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
@@ -2099,6 +2125,9 @@ public final class Matrices {
      * @see LongMatrix#zipWith(LongMatrix, Throwables.LongBinaryOperator)
      */
     public static <E extends Exception> LongMatrix zip(final LongMatrix a, final LongMatrix b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, zipFunction);
     }
 
@@ -2135,6 +2164,10 @@ public final class Matrices {
      */
     public static <E extends Exception> LongMatrix zip(final LongMatrix a, final LongMatrix b, final LongMatrix c,
             final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(c, "c");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, c, zipFunction);
     }
 
@@ -2281,7 +2314,7 @@ public final class Matrices {
         final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final long[] intermediateArray = new long[size];
-        final R[][] result = newArray(rowCount, columnCount, targetElementType);
+        final R[][] result = newMatrixArray(rowCount, columnCount, targetElementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final long[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
@@ -2518,6 +2551,9 @@ public final class Matrices {
      */
     public static <E extends Exception> DoubleMatrix zip(final DoubleMatrix a, final DoubleMatrix b, final Throwables.DoubleBinaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, zipFunction);
     }
 
@@ -2554,6 +2590,10 @@ public final class Matrices {
      */
     public static <E extends Exception> DoubleMatrix zip(final DoubleMatrix a, final DoubleMatrix b, final DoubleMatrix c,
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(c, "c");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, c, zipFunction);
     }
 
@@ -2701,7 +2741,7 @@ public final class Matrices {
         final boolean zipInParallel = Matrices.isParallelizable(matrices[0]);
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final double[] intermediateArray = new double[size];
-        final R[][] result = newArray(rowCount, columnCount, targetElementType);
+        final R[][] result = newMatrixArray(rowCount, columnCount, targetElementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final double[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);
@@ -2755,6 +2795,9 @@ public final class Matrices {
      */
     public static <A, B, E extends Exception> Matrix<A> zip(final Matrix<A> a, final Matrix<B> b,
             final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, zipFunction);
     }
 
@@ -2799,6 +2842,10 @@ public final class Matrices {
      */
     public static <A, B, R, E extends Exception> Matrix<R> zip(final Matrix<A> a, final Matrix<B> b,
             final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(targetElementType, "targetElementType");
         return a.zipWith(b, zipFunction, targetElementType);
     }
 
@@ -2840,6 +2887,10 @@ public final class Matrices {
      */
     public static <A, B, C, E extends Exception> Matrix<A> zip(final Matrix<A> a, final Matrix<B> b, final Matrix<C> c,
             final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(c, "c");
+        N.checkArgNotNull(zipFunction, "zipFunction");
         return a.zipWith(b, c, zipFunction);
     }
 
@@ -2886,6 +2937,11 @@ public final class Matrices {
      */
     public static <A, B, C, R, E extends Exception> Matrix<R> zip(final Matrix<A> a, final Matrix<B> b, final Matrix<C> c,
             final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType) throws E {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
+        N.checkArgNotNull(c, "c");
+        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(targetElementType, "targetElementType");
         return a.zipWith(b, c, zipFunction, targetElementType);
     }
 
@@ -2943,7 +2999,7 @@ public final class Matrices {
         final int rowCount = matrices[0].rowCount;
         final int columnCount = matrices[0].columnCount;
         final Class<T> elementType = resolveCommonElementType(matrices);
-        final T[][] result = newArray(rowCount, columnCount, elementType);
+        final T[][] result = newMatrixArray(rowCount, columnCount, elementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final T[] ret = result[i];
@@ -3066,7 +3122,7 @@ public final class Matrices {
         final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final Class<T> elementType = resolveCommonElementType(matrices);
         final T[] intermediateArray = N.newArray(elementType, size);
-        final R[][] result = newArray(rowCount, columnCount, targetElementType);
+        final R[][] result = newMatrixArray(rowCount, columnCount, targetElementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             final T[] tmp = shareArray ? intermediateArray : N.clone(intermediateArray);

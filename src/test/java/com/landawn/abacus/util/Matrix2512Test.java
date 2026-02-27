@@ -202,7 +202,7 @@ public class Matrix2512Test extends TestBase {
     public void test_upOf_withElementAbove() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.upOf(1, 0);
+        Nullable<String> result = m.above(1, 0);
         assertTrue(result.isPresent());
         assertEquals("a", result.get());
     }
@@ -211,7 +211,7 @@ public class Matrix2512Test extends TestBase {
     public void test_upOf_atTopRow_returnsEmpty() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.upOf(0, 0);
+        Nullable<String> result = m.above(0, 0);
         assertFalse(result.isPresent());
     }
 
@@ -219,7 +219,7 @@ public class Matrix2512Test extends TestBase {
     public void test_downOf_withElementBelow() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.downOf(0, 1);
+        Nullable<String> result = m.below(0, 1);
         assertTrue(result.isPresent());
         assertEquals("d", result.get());
     }
@@ -228,7 +228,7 @@ public class Matrix2512Test extends TestBase {
     public void test_downOf_atBottomRow_returnsEmpty() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.downOf(1, 1);
+        Nullable<String> result = m.below(1, 1);
         assertFalse(result.isPresent());
     }
 
@@ -236,7 +236,7 @@ public class Matrix2512Test extends TestBase {
     public void test_leftOf_withElementToLeft() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.leftOf(0, 1);
+        Nullable<String> result = m.leftNeighbor(0, 1);
         assertTrue(result.isPresent());
         assertEquals("a", result.get());
     }
@@ -245,7 +245,7 @@ public class Matrix2512Test extends TestBase {
     public void test_leftOf_atLeftColumn_returnsEmpty() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.leftOf(1, 0);
+        Nullable<String> result = m.leftNeighbor(1, 0);
         assertFalse(result.isPresent());
     }
 
@@ -253,7 +253,7 @@ public class Matrix2512Test extends TestBase {
     public void test_rightOf_withElementToRight() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.rightOf(1, 0);
+        Nullable<String> result = m.rightNeighbor(1, 0);
         assertTrue(result.isPresent());
         assertEquals("d", result.get());
     }
@@ -262,7 +262,7 @@ public class Matrix2512Test extends TestBase {
     public void test_rightOf_atRightColumn_returnsEmpty() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Nullable<String> result = m.rightOf(0, 1);
+        Nullable<String> result = m.rightNeighbor(0, 1);
         assertFalse(result.isPresent());
     }
 
@@ -826,11 +826,11 @@ public class Matrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flatOp_appliesOperationToEachRow() {
+    public void test_applyOnFlattened_appliesOperationToEachRow() {
         Integer[][] arr = { { 1, 2 }, { 3, 4 } };
         Matrix<Integer> m = new Matrix<>(arr);
         final int[] sum = { 0 };
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             for (Integer val : row) {
                 sum[0] += val;
             }

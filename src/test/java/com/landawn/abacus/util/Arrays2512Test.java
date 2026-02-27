@@ -29,7 +29,7 @@ import com.landawn.abacus.TestBase;
  * Comprehensive unit tests for Arrays utility class.
  * This class provides extensive array manipulation methods for primitive and object arrays.
  * Tests cover println, mapToObj, mapToLong, mapToDouble, mapToInt, updateAll, replaceIf,
- * reshape, flatten, flatOp, zip, totalCountOfElements, minSubArrayLen, maxSubArrayLen methods.
+ * reshape, flatten, applyOnFlattened, zip, totalCountOfElements, minSubArrayLen, maxSubArrayLen methods.
  */
 @Tag("2512")
 public class Arrays2512Test extends TestBase {
@@ -632,22 +632,22 @@ public class Arrays2512Test extends TestBase {
     }
 
     // ============================================
-    // Tests for flatOp(boolean[][])
+    // Tests for applyOnFlattened(boolean[][])
     // ============================================
 
     @Test
-    public void test_flatOp_booleanArray2D() {
+    public void test_applyOnFlattened_booleanArray2D() {
         boolean[][] arr = { { true, false }, { true, false } };
         int[] count = { 0 };
 
-        Arrays.flatOp(arr, subArray -> count[0] += subArray.length);
+        Arrays.applyOnFlattened(arr, subArray -> count[0] += subArray.length);
 
         assertEquals(4, count[0]);
     }
 
     @Test
-    public void test_flatOp_booleanArray2DNull() {
-        Arrays.flatOp((boolean[][]) null, subArray -> {
+    public void test_applyOnFlattened_booleanArray2DNull() {
+        Arrays.applyOnFlattened((boolean[][]) null, subArray -> {
         });
     }
 

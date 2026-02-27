@@ -620,8 +620,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @return the Class object representing the component type of matrix elements
      */
-    @SuppressWarnings("rawtypes")
-    public abstract Class componentType();
+    public abstract Class<?> componentType();
 
     /**
      * Returns the underlying two-dimensional array of this matrix.
@@ -1127,10 +1126,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{3, 1, 4}, {1, 5, 9}});
-     * matrix.flatOp(a -> java.util.Arrays.sort(a));   // Sorts all elements
+     * matrix.applyOnFlattened(a -> java.util.Arrays.sort(a));   // Sorts all elements
      * // Matrix becomes [[1, 1, 3], [4, 5, 9]] (elements sorted in row-major order)
      *
-     * matrix.flatOp(a -> { for (int i = 0; i < a.length; i++) a[i] *= 2; });
+     * matrix.applyOnFlattened(a -> { for (int i = 0; i < a.length; i++) a[i] *= 2; });
      * // Doubles all elements
      * }</pre>
      *
@@ -1138,7 +1137,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param op the operation to apply to the flattened array (receives array type A, not A[])
      * @throws E if the operation throws an exception
      */
-    public abstract <E extends Exception> void flatOp(Throwables.Consumer<? super A, E> op) throws E;
+    public abstract <E extends Exception> void applyOnFlattened(Throwables.Consumer<? super A, E> op) throws E;
 
     /**
      * Performs the specified action for each element position in the matrix.

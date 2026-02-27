@@ -300,9 +300,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @return the Class object representing the element type
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Class componentType() {
+    public Class<?> componentType() {
         return elementType;
     }
 
@@ -399,8 +398,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.upOf(1, 0);   // Returns Nullable.of("A")
-     * Nullable<String> empty = matrix.upOf(0, 0);   // Returns Nullable.empty() - no row above
+     * Nullable<String> value = matrix.above(1, 0);   // Returns Nullable.of("A")
+     * Nullable<String> empty = matrix.above(0, 0);   // Returns Nullable.empty() - no row above
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -408,7 +407,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a Nullable containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> upOf(final int rowIndex, final int columnIndex) {
+    public Nullable<T> above(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == 0 ? Nullable.empty() : Nullable.of(a[rowIndex - 1][columnIndex]);
@@ -421,8 +420,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.downOf(0, 0);   // Returns Nullable.of("C")
-     * Nullable<String> empty = matrix.downOf(1, 0);   // Returns Nullable.empty() - no row below
+     * Nullable<String> value = matrix.below(0, 0);   // Returns Nullable.of("C")
+     * Nullable<String> empty = matrix.below(1, 0);   // Returns Nullable.empty() - no row below
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -430,7 +429,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a Nullable containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> downOf(final int rowIndex, final int columnIndex) {
+    public Nullable<T> below(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == rowCount - 1 ? Nullable.empty() : Nullable.of(a[rowIndex + 1][columnIndex]);
@@ -443,8 +442,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.leftOf(0, 1);   // Returns Nullable.of("A")
-     * Nullable<String> empty = matrix.leftOf(0, 0);   // Returns Nullable.empty() - no column to the left
+     * Nullable<String> value = matrix.leftNeighbor(0, 1);   // Returns Nullable.of("A")
+     * Nullable<String> empty = matrix.leftNeighbor(0, 0);   // Returns Nullable.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -452,7 +451,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a Nullable containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> leftOf(final int rowIndex, final int columnIndex) {
+    public Nullable<T> leftNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? Nullable.empty() : Nullable.of(a[rowIndex][columnIndex - 1]);
@@ -465,8 +464,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.rightOf(0, 0);   // Returns Nullable.of("B")
-     * Nullable<String> empty = matrix.rightOf(0, 1);   // Returns Nullable.empty() - no column to the right
+     * Nullable<String> value = matrix.rightNeighbor(0, 0);   // Returns Nullable.of("B")
+     * Nullable<String> empty = matrix.rightNeighbor(0, 1);   // Returns Nullable.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -474,7 +473,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a Nullable containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public Nullable<T> rightOf(final int rowIndex, final int columnIndex) {
+    public Nullable<T> rightNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? Nullable.empty() : Nullable.of(a[rowIndex][columnIndex + 1]);
@@ -1127,7 +1126,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public <R, E extends Exception> Matrix<R> map(final Throwables.Function<? super T, R, E> mapper, final Class<R> targetElementType) throws E {
         N.checkArgNotNull(mapper, "mapper");
         N.checkArgNotNull(targetElementType, "targetElementType");
-        final R[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
+        final R[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
@@ -1472,7 +1471,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             c[i] = a[i].clone();
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -1501,7 +1500,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             c[i - fromRowIndex] = a[i].clone();
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -1531,7 +1530,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             c[i - fromRowIndex] = N.copyOfRange(a[i], fromColumnIndex, toColumnIndex);
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -1600,7 +1599,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
 
-            return new Matrix<>(b);
+            return new Matrix<>(b, elementType);
         }
     }
 
@@ -1692,7 +1691,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
 
-            return new Matrix<>(b);
+            return new Matrix<>(b, elementType);
         }
     }
 
@@ -1807,6 +1806,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> rotate90() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final T[][] c = N.newArray(arrayType, columnCount);
 
@@ -1828,7 +1828,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -1855,7 +1855,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             N.reverse(c[i]);
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -1877,6 +1877,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> rotate270() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final T[][] c = N.newArray(arrayType, columnCount);
 
@@ -1898,7 +1899,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -1923,6 +1924,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> transpose() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final T[][] c = N.newArray(arrayType, columnCount);
 
@@ -1943,7 +1945,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
         }
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -1982,7 +1984,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         }
 
         if (newRowCount == 0 || newColumnCount == 0 || N.isEmpty(a)) {
-            return new Matrix<>(c);
+            return new Matrix<>(c, elementType);
         }
 
         final int rowLen = (int) N.min(newRowCount, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
@@ -2001,7 +2003,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -2053,7 +2055,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -2103,7 +2105,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(c, elementType);
     }
 
     /**
@@ -2141,18 +2143,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{3, 1, 2}, {6, 4, 5}});
-     * matrix.flatOp(row -> java.util.Arrays.sort(row));
+     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));
      * // Matrix becomes: [[1, 2, 3], [4, 5, 6]]
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
      * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
-     * @see ff#flatOp(Object[][], Throwables.Consumer)
+     * @see ff#applyOnFlattened(Object[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void flatOp(final Throwables.Consumer<? super T[], E> op) throws E {
-        ff.flatOp(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super T[], E> op) throws E {
+        ff.applyOnFlattened(a, op);
     }
 
     /**
@@ -2181,18 +2183,26 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final long mergedRowCount = (long) rowCount + other.rowCount;
         N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: {} + {} = {}", rowCount, other.rowCount, mergedRowCount);
 
-        final T[][] c = N.newArray(arrayType, (int) mergedRowCount);
+        @SuppressWarnings("unchecked")
+        final Class<T> mergedElementType = (Class<T>) resolveCommonAssignableType(elementType, other.elementType);
+        @SuppressWarnings("unchecked")
+        final Class<T[]> mergedArrayType = (Class<T[]>) N.newArray(mergedElementType, 0).getClass();
+        final T[][] c = N.newArray(mergedArrayType, (int) mergedRowCount);
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
-            c[j++] = a[i].clone();
+            c[j] = N.newArray(mergedElementType, columnCount);
+            N.copy(a[i], 0, c[j], 0, columnCount);
+            j++;
         }
 
         for (int i = 0; i < other.rowCount; i++) {
-            c[j++] = other.a[i].clone();
+            c[j] = N.newArray(mergedElementType, columnCount);
+            N.copy(other.a[i], 0, c[j], 0, columnCount);
+            j++;
         }
 
-        return Matrix.of(c);
+        return new Matrix<>(c, mergedElementType);
     }
 
     /**
@@ -2222,14 +2232,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: {} + {} = {}", columnCount, other.columnCount,
                 mergedColumnCount);
 
-        final T[][] c = N.newArray(arrayType, rowCount);
+        @SuppressWarnings("unchecked")
+        final Class<T> mergedElementType = (Class<T>) resolveCommonAssignableType(elementType, other.elementType);
+        @SuppressWarnings("unchecked")
+        final Class<T[]> mergedArrayType = (Class<T[]>) N.newArray(mergedElementType, 0).getClass();
+        final T[][] c = N.newArray(mergedArrayType, rowCount);
 
         for (int i = 0; i < rowCount; i++) {
-            c[i] = N.copyOf(a[i], (int) mergedColumnCount);
+            c[i] = N.newArray(mergedElementType, (int) mergedColumnCount);
+            N.copy(a[i], 0, c[i], 0, columnCount);
             N.copy(other.a[i], 0, c[i], columnCount, other.columnCount);
         }
 
-        return Matrix.of(c);
+        return new Matrix<>(c, mergedElementType);
     }
 
     /**
@@ -2290,7 +2305,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         final B[][] b = matrixB.a;
-        final R[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
+        final R[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
 
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
 
@@ -2366,7 +2381,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         final B[][] b = matrixB.a;
         final C[][] c = matrixC.a;
-        final R[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
+        final R[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
 
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
 

@@ -197,8 +197,8 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        assertTrue(matrix.upOf(0, 0).isEmpty());
-        assertEquals(1.0, matrix.upOf(1, 0).orElse(0.0));
+        assertTrue(matrix.above(0, 0).isEmpty());
+        assertEquals(1.0, matrix.above(1, 0).orElse(0.0));
     }
 
     @Test
@@ -206,8 +206,8 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        assertEquals(3.0, matrix.downOf(0, 0).orElse(0.0));
-        assertTrue(matrix.downOf(1, 0).isEmpty());
+        assertEquals(3.0, matrix.below(0, 0).orElse(0.0));
+        assertTrue(matrix.below(1, 0).isEmpty());
     }
 
     @Test
@@ -215,8 +215,8 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        assertTrue(matrix.leftOf(0, 0).isEmpty());
-        assertEquals(1.0, matrix.leftOf(0, 1).orElse(0.0));
+        assertTrue(matrix.leftNeighbor(0, 0).isEmpty());
+        assertEquals(1.0, matrix.leftNeighbor(0, 1).orElse(0.0));
     }
 
     @Test
@@ -224,8 +224,8 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        assertEquals(2.0, matrix.rightOf(0, 0).orElse(0.0));
-        assertTrue(matrix.rightOf(0, 1).isEmpty());
+        assertEquals(2.0, matrix.rightNeighbor(0, 0).orElse(0.0));
+        assertTrue(matrix.rightNeighbor(0, 1).isEmpty());
     }
 
     @Test
@@ -781,7 +781,7 @@ public class DoubleMatrixTest extends TestBase {
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
         int[] count = { 0 };
-        matrix.flatOp(array -> count[0] += array.length);
+        matrix.applyOnFlattened(array -> count[0] += array.length);
         assertEquals(4, count[0]);
     }
 

@@ -215,11 +215,11 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        OptionalByte up = matrix.upOf(1, 0);
+        OptionalByte up = matrix.above(1, 0);
         Assertions.assertTrue(up.isPresent());
         Assertions.assertEquals(1, up.get());
 
-        OptionalByte empty = matrix.upOf(0, 0);
+        OptionalByte empty = matrix.above(0, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -228,11 +228,11 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        OptionalByte down = matrix.downOf(0, 0);
+        OptionalByte down = matrix.below(0, 0);
         Assertions.assertTrue(down.isPresent());
         Assertions.assertEquals(3, down.get());
 
-        OptionalByte empty = matrix.downOf(1, 0);
+        OptionalByte empty = matrix.below(1, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -241,11 +241,11 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        OptionalByte left = matrix.leftOf(0, 1);
+        OptionalByte left = matrix.leftNeighbor(0, 1);
         Assertions.assertTrue(left.isPresent());
         Assertions.assertEquals(1, left.get());
 
-        OptionalByte empty = matrix.leftOf(0, 0);
+        OptionalByte empty = matrix.leftNeighbor(0, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -254,11 +254,11 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        OptionalByte right = matrix.rightOf(0, 0);
+        OptionalByte right = matrix.rightNeighbor(0, 0);
         Assertions.assertTrue(right.isPresent());
         Assertions.assertEquals(2, right.get());
 
-        OptionalByte empty = matrix.rightOf(0, 1);
+        OptionalByte empty = matrix.rightNeighbor(0, 1);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -823,7 +823,7 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(a);
 
         List<Byte> collected = new ArrayList<>();
-        matrix.flatOp(row -> {
+        matrix.applyOnFlattened(row -> {
             for (byte b : row) {
                 collected.add(b);
             }

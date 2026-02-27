@@ -581,12 +581,12 @@ public class Arrays2511Test extends TestBase {
         assertArrayEquals(new char[] { 'x', 'y', 'z' }, result);
     }
 
-    // ============ Arrays.flatOp Tests (boolean) ============
+    // ============ Arrays.applyOnFlattened Tests (boolean) ============
 
     @Test
     public void testFlatOp_boolean_2D_null() {
         boolean[][] arr = null;
-        Arrays.flatOp(arr, flat -> {
+        Arrays.applyOnFlattened(arr, flat -> {
             // Should not execute
             throw new RuntimeException("Should not be called");
         });
@@ -595,7 +595,7 @@ public class Arrays2511Test extends TestBase {
     @Test
     public void testFlatOp_boolean_2D_valid() {
         boolean[][] arr = { { true, false, true }, { false, true, false } };
-        Arrays.flatOp(arr, flat -> {
+        Arrays.applyOnFlattened(arr, flat -> {
             for (int i = 0; i < flat.length; i++) {
                 flat[i] = !flat[i];
             }
@@ -607,7 +607,7 @@ public class Arrays2511Test extends TestBase {
     @Test
     public void testFlatOp_boolean_3D_valid() {
         boolean[][][] arr = { { { true, false } }, { { false, true } } };
-        Arrays.flatOp(arr, flat -> {
+        Arrays.applyOnFlattened(arr, flat -> {
             for (int i = 0; i < flat.length; i++) {
                 flat[i] = true;
             }
@@ -994,17 +994,17 @@ public class Arrays2511Test extends TestBase {
     }
 
     @Test
-    public void testFF_flatOp_null() {
+    public void testFF_applyOnFlattened_null() {
         String[][] arr = null;
-        Arrays.ff.flatOp(arr, flat -> {
+        Arrays.ff.applyOnFlattened(arr, flat -> {
             throw new RuntimeException("Should not be called");
         });
     }
 
     @Test
-    public void testFF_flatOp_valid() {
+    public void testFF_applyOnFlattened_valid() {
         Integer[][] arr = { { 3, 1, 4 }, { 1, 5, 9 } };
-        Arrays.ff.flatOp(arr, flat -> java.util.Arrays.sort(flat));
+        Arrays.ff.applyOnFlattened(arr, flat -> java.util.Arrays.sort(flat));
         assertArrayEquals(new Integer[] { 1, 1, 3 }, arr[0]);
         assertArrayEquals(new Integer[] { 4, 5, 9 }, arr[1]);
     }
@@ -1232,17 +1232,17 @@ public class Arrays2511Test extends TestBase {
     }
 
     @Test
-    public void testFFF_flatOp_null() {
+    public void testFFF_applyOnFlattened_null() {
         String[][][] arr = null;
-        Arrays.fff.flatOp(arr, flat -> {
+        Arrays.fff.applyOnFlattened(arr, flat -> {
             throw new RuntimeException("Should not be called");
         });
     }
 
     @Test
-    public void testFFF_flatOp_valid() {
+    public void testFFF_applyOnFlattened_valid() {
         Integer[][][] arr = { { { 5, 2 } }, { { 9, 1 } }, { { 3, 7 } } };
-        Arrays.fff.flatOp(arr, flat -> java.util.Arrays.sort(flat));
+        Arrays.fff.applyOnFlattened(arr, flat -> java.util.Arrays.sort(flat));
         assertArrayEquals(new Integer[] { 1, 2 }, arr[0][0]);
         assertArrayEquals(new Integer[] { 3, 5 }, arr[1][0]);
         assertArrayEquals(new Integer[] { 7, 9 }, arr[2][0]);

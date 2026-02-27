@@ -389,7 +389,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testUpOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean up = m.upOf(1, 0);
+        OptionalBoolean up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertTrue(up.get());
     }
@@ -397,14 +397,14 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testUpOf_atTopEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean up = m.upOf(0, 0);
+        OptionalBoolean up = m.above(0, 0);
         assertFalse(up.isPresent());
     }
 
     @Test
     public void testUpOf_multipleRows() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
-        OptionalBoolean up = m.upOf(2, 1);
+        OptionalBoolean up = m.above(2, 1);
         assertTrue(up.isPresent());
         assertTrue(up.get());
     }
@@ -412,7 +412,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testDownOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean down = m.downOf(0, 0);
+        OptionalBoolean down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertFalse(down.get());
     }
@@ -420,14 +420,14 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testDownOf_atBottomEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean down = m.downOf(1, 0);
+        OptionalBoolean down = m.below(1, 0);
         assertFalse(down.isPresent());
     }
 
     @Test
     public void testDownOf_multipleRows() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
-        OptionalBoolean down = m.downOf(0, 0);
+        OptionalBoolean down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertFalse(down.get());
     }
@@ -435,7 +435,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testLeftOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftOf(0, 1);
+        OptionalBoolean left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertTrue(left.get());
     }
@@ -443,14 +443,14 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testLeftOf_atLeftEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftOf(0, 0);
+        OptionalBoolean left = m.leftNeighbor(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void testLeftOf_multipleColumns() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
-        OptionalBoolean left = m.leftOf(0, 2);
+        OptionalBoolean left = m.leftNeighbor(0, 2);
         assertTrue(left.isPresent());
         assertFalse(left.get());
     }
@@ -458,7 +458,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRightOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightOf(0, 0);
+        OptionalBoolean right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertFalse(right.get());
     }
@@ -466,14 +466,14 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRightOf_atRightEdge() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightOf(0, 1);
+        OptionalBoolean right = m.rightNeighbor(0, 1);
         assertFalse(right.isPresent());
     }
 
     @Test
     public void testRightOf_multipleColumns() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
-        OptionalBoolean right = m.rightOf(0, 0);
+        OptionalBoolean right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertFalse(right.get());
     }

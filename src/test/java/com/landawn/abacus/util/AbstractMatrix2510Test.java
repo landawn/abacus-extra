@@ -759,7 +759,7 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testFlatOp_intMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 3, 1 }, { 4, 2 } });
         AtomicInteger sum = new AtomicInteger(0);
-        m.flatOp(arr -> {
+        m.applyOnFlattened(arr -> {
             for (int val : arr) {
                 sum.addAndGet(val);
             }
@@ -771,7 +771,7 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testFlatOp_doubleMatrix() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
         final double[] sum = { 0.0 };
-        m.flatOp(arr -> {
+        m.applyOnFlattened(arr -> {
             for (double val : arr) {
                 sum[0] += val;
             }
@@ -783,7 +783,7 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testFlatOp_objectMatrix() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         StringBuilder sb = new StringBuilder();
-        m.flatOp(arr -> {
+        m.applyOnFlattened(arr -> {
             for (String val : arr) {
                 sb.append(val);
             }

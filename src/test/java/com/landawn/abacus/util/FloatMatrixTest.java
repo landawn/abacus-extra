@@ -230,45 +230,45 @@ public class FloatMatrixTest extends TestBase {
 
     @Test
     public void testUpOf() {
-        OptionalFloat up = matrix.upOf(1, 1);
+        OptionalFloat up = matrix.above(1, 1);
         assertTrue(up.isPresent());
         assertEquals(2.0f, up.get(), DELTA);
 
         // Test top row
-        OptionalFloat empty = matrix.upOf(0, 1);
+        OptionalFloat empty = matrix.above(0, 1);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testDownOf() {
-        OptionalFloat down = matrix.downOf(1, 1);
+        OptionalFloat down = matrix.below(1, 1);
         assertTrue(down.isPresent());
         assertEquals(8.0f, down.get(), DELTA);
 
         // Test bottom row
-        OptionalFloat empty = matrix.downOf(2, 1);
+        OptionalFloat empty = matrix.below(2, 1);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testLeftOf() {
-        OptionalFloat left = matrix.leftOf(1, 1);
+        OptionalFloat left = matrix.leftNeighbor(1, 1);
         assertTrue(left.isPresent());
         assertEquals(4.0f, left.get(), DELTA);
 
         // Test leftmost column
-        OptionalFloat empty = matrix.leftOf(1, 0);
+        OptionalFloat empty = matrix.leftNeighbor(1, 0);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testRightOf() {
-        OptionalFloat right = matrix.rightOf(1, 1);
+        OptionalFloat right = matrix.rightNeighbor(1, 1);
         assertTrue(right.isPresent());
         assertEquals(6.0f, right.get(), DELTA);
 
         // Test rightmost column
-        OptionalFloat empty = matrix.rightOf(1, 2);
+        OptionalFloat empty = matrix.rightNeighbor(1, 2);
         assertFalse(empty.isPresent());
     }
 
@@ -804,7 +804,7 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testFlatOp() {
         List<Float> sums = new ArrayList<>();
-        matrix.flatOp(row -> {
+        matrix.applyOnFlattened(row -> {
             float sum = 0.0f;
             for (float val : row) {
                 sum += val;

@@ -251,7 +251,7 @@ public class Matrices2511Test extends TestBase {
 
     @Test
     public void testNewArray_primitive_int() {
-        Integer[][] arr = Matrices.newArray(3, 4, int.class);
+        Integer[][] arr = Matrices.newMatrixArray(3, 4, int.class);
         assertNotNull(arr);
         assertEquals(3, arr.length);
         assertEquals(4, arr[0].length);
@@ -261,7 +261,7 @@ public class Matrices2511Test extends TestBase {
 
     @Test
     public void testNewArray_primitive_double() {
-        Double[][] arr = Matrices.newArray(2, 5, double.class);
+        Double[][] arr = Matrices.newMatrixArray(2, 5, double.class);
         assertNotNull(arr);
         assertEquals(2, arr.length);
         assertEquals(5, arr[0].length);
@@ -270,7 +270,7 @@ public class Matrices2511Test extends TestBase {
 
     @Test
     public void testNewArray_primitive_long() {
-        Long[][] arr = Matrices.newArray(4, 3, long.class);
+        Long[][] arr = Matrices.newMatrixArray(4, 3, long.class);
         assertNotNull(arr);
         assertEquals(4, arr.length);
         assertEquals(3, arr[0].length);
@@ -278,7 +278,7 @@ public class Matrices2511Test extends TestBase {
 
     @Test
     public void testNewArray_primitive_boolean() {
-        Boolean[][] arr = Matrices.newArray(2, 2, boolean.class);
+        Boolean[][] arr = Matrices.newMatrixArray(2, 2, boolean.class);
         assertNotNull(arr);
         assertEquals(2, arr.length);
         assertEquals(2, arr[0].length);
@@ -286,7 +286,7 @@ public class Matrices2511Test extends TestBase {
 
     @Test
     public void testNewArray_reference_string() {
-        String[][] arr = Matrices.newArray(3, 2, String.class);
+        String[][] arr = Matrices.newMatrixArray(3, 2, String.class);
         assertNotNull(arr);
         assertEquals(3, arr.length);
         assertEquals(2, arr[0].length);
@@ -296,14 +296,14 @@ public class Matrices2511Test extends TestBase {
 
     @Test
     public void testNewArray_zeroRows() {
-        Integer[][] arr = Matrices.newArray(0, 5, int.class);
+        Integer[][] arr = Matrices.newMatrixArray(0, 5, int.class);
         assertNotNull(arr);
         assertEquals(0, arr.length);
     }
 
     @Test
     public void testNewArray_zeroCols() {
-        Integer[][] arr = Matrices.newArray(5, 0, int.class);
+        Integer[][] arr = Matrices.newMatrixArray(5, 0, int.class);
         assertNotNull(arr);
         assertEquals(5, arr.length);
         assertEquals(0, arr[0].length);
@@ -311,7 +311,7 @@ public class Matrices2511Test extends TestBase {
 
     @Test
     public void testNewArray_largeDimensions() {
-        Integer[][] arr = Matrices.newArray(100, 100, int.class);
+        Integer[][] arr = Matrices.newMatrixArray(100, 100, int.class);
         assertNotNull(arr);
         assertEquals(100, arr.length);
         assertEquals(100, arr[0].length);

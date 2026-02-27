@@ -291,7 +291,7 @@ public class AbstractMatrixTest extends TestBase {
     public void testFlatOp() throws Exception {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 3, 1, 4 }, { 1, 5, 9 } });
 
-        matrix.flatOp(arrays -> java.util.Arrays.sort(arrays));
+        matrix.applyOnFlattened(arrays -> java.util.Arrays.sort(arrays));
 
         Assertions.assertEquals(1, matrix.get(0, 0));
         Assertions.assertEquals(1, matrix.get(0, 1));

@@ -1759,14 +1759,14 @@ public class Arrays2510Test extends TestBase {
     }
 
     // ============================================
-    // Tests for flatOp methods - boolean
+    // Tests for applyOnFlattened methods - boolean
     // ============================================
 
     @Test
     public void testFlatOp_2D_Boolean_normal() {
         boolean[][] arr = { { true, false }, { false, true } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(4, count[0]);
     }
 
@@ -1774,19 +1774,19 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_3D_Boolean_normal() {
         boolean[][][] arr = { { { true, false } }, { { true } } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 
     // ============================================
-    // Tests for flatOp methods - char
+    // Tests for applyOnFlattened methods - char
     // ============================================
 
     @Test
     public void testFlatOp_2D_Char_normal() {
         char[][] arr = { { 'a', 'b' }, { 'c' } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 
@@ -1794,19 +1794,19 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_3D_Char_normal() {
         char[][][] arr = { { { 'x', 'y' } }, { { 'z' } } };
         final int[] sum = { 0 };
-        Arrays.flatOp(arr, subArr -> sum[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> sum[0] += subArr.length);
         assertEquals(3, sum[0]);
     }
 
     // ============================================
-    // Tests for flatOp methods - byte
+    // Tests for applyOnFlattened methods - byte
     // ============================================
 
     @Test
     public void testFlatOp_2D_Byte_normal() {
         byte[][] arr = { { 1, 2 }, { 3, 4 } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(4, count[0]);
     }
 
@@ -1814,19 +1814,19 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_3D_Byte_normal() {
         byte[][][] arr = { { { 1, 2 } }, { { 3 } } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 
     // ============================================
-    // Tests for flatOp methods - short
+    // Tests for applyOnFlattened methods - short
     // ============================================
 
     @Test
     public void testFlatOp_2D_Short_normal() {
         short[][] arr = { { 10, 20 }, { 30 } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 
@@ -1834,19 +1834,19 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_3D_Short_normal() {
         short[][][] arr = { { { 100, 200 } }, { { 300 } } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 
     // ============================================
-    // Tests for flatOp methods - int
+    // Tests for applyOnFlattened methods - int
     // ============================================
 
     @Test
     public void testFlatOp_2D_Int_normal() {
         int[][] arr = { { 1, 2, 3 }, { 4, 5 } };
         final int[] sum = { 0 };
-        Arrays.flatOp(arr, subArr -> {
+        Arrays.applyOnFlattened(arr, subArr -> {
             for (int val : subArr) {
                 sum[0] += val;
             }
@@ -1858,7 +1858,7 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_2D_Int_null() {
         int[][] arr = null;
         final int[] sum = { 0 };
-        Arrays.flatOp(arr, subArr -> sum[0]++); // Should not throw exception
+        Arrays.applyOnFlattened(arr, subArr -> sum[0]++); // Should not throw exception
         assertEquals(0, sum[0]);
     }
 
@@ -1866,19 +1866,19 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_3D_Int_normal() {
         int[][][] arr = { { { 1, 2 }, { 3 } }, { { 4 } } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(4, count[0]);
     }
 
     // ============================================
-    // Tests for flatOp methods - long
+    // Tests for applyOnFlattened methods - long
     // ============================================
 
     @Test
     public void testFlatOp_2D_Long_normal() {
         long[][] arr = { { 100L, 200L }, { 300L } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 
@@ -1886,19 +1886,19 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_3D_Long_normal() {
         long[][][] arr = { { { 1000L, 2000L } }, { { 3000L } } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 
     // ============================================
-    // Tests for flatOp methods - float
+    // Tests for applyOnFlattened methods - float
     // ============================================
 
     @Test
     public void testFlatOp_2D_Float_normal() {
         float[][] arr = { { 1.1f, 2.2f }, { 3.3f } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 
@@ -1906,19 +1906,19 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_3D_Float_normal() {
         float[][][] arr = { { { 1.0f, 2.0f } }, { { 3.0f } } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 
     // ============================================
-    // Tests for flatOp methods - double
+    // Tests for applyOnFlattened methods - double
     // ============================================
 
     @Test
     public void testFlatOp_2D_Double_normal() {
         double[][] arr = { { 1.5, 2.5 }, { 3.5, 4.5 } };
         final double[] sum = { 0.0 };
-        Arrays.flatOp(arr, subArr -> {
+        Arrays.applyOnFlattened(arr, subArr -> {
             for (double val : subArr) {
                 sum[0] += val;
             }
@@ -1930,7 +1930,7 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_3D_Double_normal() {
         double[][][] arr = { { { 10.5, 20.5 } }, { { 30.5 } } };
         final int[] count = { 0 };
-        Arrays.flatOp(arr, subArr -> count[0] += subArr.length);
+        Arrays.applyOnFlattened(arr, subArr -> count[0] += subArr.length);
         assertEquals(3, count[0]);
     }
 

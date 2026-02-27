@@ -386,9 +386,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @return {@code short.class}
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Class componentType() {
+    public Class<?> componentType() {
         return short.class;
     }
 
@@ -483,8 +482,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * OptionalShort value = matrix.upOf(1, 0);   // Returns OptionalShort.of((short)1)
-     * OptionalShort empty = matrix.upOf(0, 0);   // Returns OptionalShort.empty() - no row above
+     * OptionalShort value = matrix.above(1, 0);   // Returns OptionalShort.of((short)1)
+     * OptionalShort empty = matrix.above(0, 0);   // Returns OptionalShort.empty() - no row above
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -492,7 +491,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return an OptionalShort containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalShort upOf(final int rowIndex, final int columnIndex) {
+    public OptionalShort above(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == 0 ? OptionalShort.empty() : OptionalShort.of(a[rowIndex - 1][columnIndex]);
@@ -506,8 +505,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * OptionalShort value = matrix.downOf(0, 0);   // Returns OptionalShort.of((short)3)
-     * OptionalShort empty = matrix.downOf(1, 0);   // Returns OptionalShort.empty() - no row below
+     * OptionalShort value = matrix.below(0, 0);   // Returns OptionalShort.of((short)3)
+     * OptionalShort empty = matrix.below(1, 0);   // Returns OptionalShort.empty() - no row below
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -515,7 +514,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return an OptionalShort containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalShort downOf(final int rowIndex, final int columnIndex) {
+    public OptionalShort below(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == rowCount - 1 ? OptionalShort.empty() : OptionalShort.of(a[rowIndex + 1][columnIndex]);
@@ -529,8 +528,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * OptionalShort value = matrix.leftOf(0, 1);   // Returns OptionalShort.of((short)1)
-     * OptionalShort empty = matrix.leftOf(0, 0);   // Returns OptionalShort.empty() - no column to the left
+     * OptionalShort value = matrix.leftNeighbor(0, 1);   // Returns OptionalShort.of((short)1)
+     * OptionalShort empty = matrix.leftNeighbor(0, 0);   // Returns OptionalShort.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -538,7 +537,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return an OptionalShort containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalShort leftOf(final int rowIndex, final int columnIndex) {
+    public OptionalShort leftNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalShort.empty() : OptionalShort.of(a[rowIndex][columnIndex - 1]);
@@ -552,8 +551,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * OptionalShort value = matrix.rightOf(0, 0);   // Returns OptionalShort.of((short)2)
-     * OptionalShort empty = matrix.rightOf(0, 1);   // Returns OptionalShort.empty() - no column to the right
+     * OptionalShort value = matrix.rightNeighbor(0, 0);   // Returns OptionalShort.of((short)2)
+     * OptionalShort empty = matrix.rightNeighbor(0, 1);   // Returns OptionalShort.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -561,7 +560,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return an OptionalShort containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalShort rightOf(final int rowIndex, final int columnIndex) {
+    public OptionalShort rightNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalShort.empty() : OptionalShort.of(a[rowIndex][columnIndex + 1]);
@@ -1056,7 +1055,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.ShortFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, "mapper");
-        final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
+        final T[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
@@ -1529,6 +1528,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     @Override
     public ShortMatrix rotate90() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final short[][] result = new short[columnCount][rowCount];
 
@@ -1599,6 +1599,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     @Override
     public ShortMatrix rotate270() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final short[][] result = new short[columnCount][rowCount];
 
@@ -1642,6 +1643,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     @Override
     public ShortMatrix transpose() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final short[][] result = new short[columnCount][rowCount];
 
@@ -1866,18 +1868,18 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{3, 1, 2}, {6, 4, 5}});
-     * matrix.flatOp(row -> java.util.Arrays.sort(row));
+     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));
      * // matrix is now [[1, 2, 3], [4, 5, 6]]
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
      * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
-     * @see Arrays#flatOp(short[][], Throwables.Consumer)
+     * @see Arrays#applyOnFlattened(short[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void flatOp(final Throwables.Consumer<? super short[], E> op) throws E {
-        Arrays.flatOp(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super short[], E> op) throws E {
+        Arrays.applyOnFlattened(a, op);
     }
 
     /**

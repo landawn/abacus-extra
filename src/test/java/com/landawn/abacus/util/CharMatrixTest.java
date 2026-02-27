@@ -209,11 +209,11 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        OptionalChar up = matrix.upOf(1, 0);
+        OptionalChar up = matrix.above(1, 0);
         Assertions.assertTrue(up.isPresent());
         Assertions.assertEquals('a', up.get());
 
-        OptionalChar empty = matrix.upOf(0, 0);
+        OptionalChar empty = matrix.above(0, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -222,11 +222,11 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        OptionalChar down = matrix.downOf(0, 0);
+        OptionalChar down = matrix.below(0, 0);
         Assertions.assertTrue(down.isPresent());
         Assertions.assertEquals('c', down.get());
 
-        OptionalChar empty = matrix.downOf(1, 0);
+        OptionalChar empty = matrix.below(1, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -235,11 +235,11 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        OptionalChar left = matrix.leftOf(0, 1);
+        OptionalChar left = matrix.leftNeighbor(0, 1);
         Assertions.assertTrue(left.isPresent());
         Assertions.assertEquals('a', left.get());
 
-        OptionalChar empty = matrix.leftOf(0, 0);
+        OptionalChar empty = matrix.leftNeighbor(0, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -248,11 +248,11 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        OptionalChar right = matrix.rightOf(0, 0);
+        OptionalChar right = matrix.rightNeighbor(0, 0);
         Assertions.assertTrue(right.isPresent());
         Assertions.assertEquals('b', right.get());
 
-        OptionalChar empty = matrix.rightOf(0, 1);
+        OptionalChar empty = matrix.rightNeighbor(0, 1);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -817,7 +817,7 @@ public class CharMatrixTest extends TestBase {
         CharMatrix matrix = CharMatrix.of(a);
 
         List<Character> collected = new ArrayList<>();
-        matrix.flatOp(row -> {
+        matrix.applyOnFlattened(row -> {
             for (char c : row) {
                 collected.add(c);
             }

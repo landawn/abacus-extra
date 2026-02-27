@@ -162,8 +162,8 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        assertTrue(matrix.upOf(0, 0).isEmpty());
-        assertEquals(true, matrix.upOf(1, 0).orElse(false));
+        assertTrue(matrix.above(0, 0).isEmpty());
+        assertEquals(true, matrix.above(1, 0).orElse(false));
     }
 
     @Test
@@ -171,8 +171,8 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        assertEquals(false, matrix.downOf(0, 0).orElse(true));
-        assertTrue(matrix.downOf(1, 0).isEmpty());
+        assertEquals(false, matrix.below(0, 0).orElse(true));
+        assertTrue(matrix.below(1, 0).isEmpty());
     }
 
     @Test
@@ -180,8 +180,8 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        assertTrue(matrix.leftOf(0, 0).isEmpty());
-        assertEquals(true, matrix.leftOf(0, 1).orElse(false));
+        assertTrue(matrix.leftNeighbor(0, 0).isEmpty());
+        assertEquals(true, matrix.leftNeighbor(0, 1).orElse(false));
     }
 
     @Test
@@ -189,8 +189,8 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        assertEquals(false, matrix.rightOf(0, 0).orElse(true));
-        assertTrue(matrix.rightOf(0, 1).isEmpty());
+        assertEquals(false, matrix.rightNeighbor(0, 0).orElse(true));
+        assertTrue(matrix.rightNeighbor(0, 1).isEmpty());
     }
 
     @Test
@@ -715,7 +715,7 @@ public class BooleanMatrixTest extends TestBase {
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
         int[] count = { 0 };
-        matrix.flatOp(array -> count[0] += array.length);
+        matrix.applyOnFlattened(array -> count[0] += array.length);
         assertEquals(4, count[0]);
     }
 

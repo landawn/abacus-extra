@@ -390,9 +390,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @return {@code byte.class}
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Class componentType() {
+    public Class<?> componentType() {
         return byte.class;
     }
 
@@ -487,8 +486,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.upOf(1, 0);   // Returns OptionalByte.of((byte)1)
-     * OptionalByte empty = matrix.upOf(0, 0);   // Returns OptionalByte.empty() - no row above
+     * OptionalByte value = matrix.above(1, 0);   // Returns OptionalByte.of((byte)1)
+     * OptionalByte empty = matrix.above(0, 0);   // Returns OptionalByte.empty() - no row above
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -496,7 +495,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return an OptionalByte containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte upOf(final int rowIndex, final int columnIndex) {
+    public OptionalByte above(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == 0 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex - 1][columnIndex]);
@@ -510,8 +509,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.downOf(0, 0);   // Returns OptionalByte.of((byte)3)
-     * OptionalByte empty = matrix.downOf(1, 0);   // Returns OptionalByte.empty() - no row below
+     * OptionalByte value = matrix.below(0, 0);   // Returns OptionalByte.of((byte)3)
+     * OptionalByte empty = matrix.below(1, 0);   // Returns OptionalByte.empty() - no row below
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -519,7 +518,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return an OptionalByte containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte downOf(final int rowIndex, final int columnIndex) {
+    public OptionalByte below(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == rowCount - 1 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex + 1][columnIndex]);
@@ -533,8 +532,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.leftOf(0, 1);   // Returns OptionalByte.of((byte)1)
-     * OptionalByte empty = matrix.leftOf(0, 0);   // Returns OptionalByte.empty() - no column to the left
+     * OptionalByte value = matrix.leftNeighbor(0, 1);   // Returns OptionalByte.of((byte)1)
+     * OptionalByte empty = matrix.leftNeighbor(0, 0);   // Returns OptionalByte.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -542,7 +541,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return an OptionalByte containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte leftOf(final int rowIndex, final int columnIndex) {
+    public OptionalByte leftNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex][columnIndex - 1]);
@@ -556,8 +555,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.rightOf(0, 0);   // Returns OptionalByte.of((byte)2)
-     * OptionalByte empty = matrix.rightOf(0, 1);   // Returns OptionalByte.empty() - no column to the right
+     * OptionalByte value = matrix.rightNeighbor(0, 0);   // Returns OptionalByte.of((byte)2)
+     * OptionalByte empty = matrix.rightNeighbor(0, 1);   // Returns OptionalByte.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -565,7 +564,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return an OptionalByte containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalByte rightOf(final int rowIndex, final int columnIndex) {
+    public OptionalByte rightNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalByte.empty() : OptionalByte.of(a[rowIndex][columnIndex + 1]);
@@ -1071,7 +1070,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, "mapper");
-        final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
+        final T[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
@@ -1547,6 +1546,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     @Override
     public ByteMatrix rotate90() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final byte[][] c = new byte[columnCount][rowCount];
 
@@ -1626,6 +1626,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     @Override
     public ByteMatrix rotate270() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final byte[][] c = new byte[columnCount][rowCount];
 
@@ -1668,6 +1669,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     @Override
     public ByteMatrix transpose() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final byte[][] c = new byte[columnCount][rowCount];
 
@@ -1893,7 +1895,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * matrix.flatOp(row -> {
+     * matrix.applyOnFlattened(row -> {
      *     // Process each row array directly
      *     java.util.Arrays.sort(row);
      * });
@@ -1903,11 +1905,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param <E> the type of exception that may be thrown by the operation
      * @param op the operation to apply to each row's internal array
      * @throws E if the operation throws an exception
-     * @see Arrays#flatOp(byte[][], Throwables.Consumer)
+     * @see Arrays#applyOnFlattened(byte[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void flatOp(final Throwables.Consumer<? super byte[], E> op) throws E {
-        Arrays.flatOp(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super byte[], E> op) throws E {
+        Arrays.applyOnFlattened(a, op);
     }
 
     /**

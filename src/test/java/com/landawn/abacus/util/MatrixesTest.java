@@ -190,16 +190,16 @@ class MatricesTest extends TestBase {
     @Test
     public void testNewArray() {
         // Test creating different types of arrays
-        Integer[][] intArray = Matrices.newArray(3, 4, Integer.class);
+        Integer[][] intArray = Matrices.newMatrixArray(3, 4, Integer.class);
         assertEquals(3, intArray.length);
         assertEquals(4, intArray[0].length);
 
-        String[][] stringArray = Matrices.newArray(2, 5, String.class);
+        String[][] stringArray = Matrices.newMatrixArray(2, 5, String.class);
         assertEquals(2, stringArray.length);
         assertEquals(5, stringArray[0].length);
 
         // Test with primitive wrapper
-        Double[][] doubleArray = Matrices.newArray(1, 1, Double.class);
+        Double[][] doubleArray = Matrices.newMatrixArray(1, 1, Double.class);
         assertEquals(1, doubleArray.length);
         assertEquals(1, doubleArray[0].length);
     }

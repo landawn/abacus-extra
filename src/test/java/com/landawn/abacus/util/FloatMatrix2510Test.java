@@ -305,7 +305,7 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testUpOf() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat up = m.upOf(1, 0);
+        OptionalFloat up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1.0f, up.get());
     }
@@ -313,14 +313,14 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testUpOf_firstRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat up = m.upOf(0, 0);
+        OptionalFloat up = m.above(0, 0);
         assertFalse(up.isPresent());
     }
 
     @Test
     public void testDownOf() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat down = m.downOf(0, 0);
+        OptionalFloat down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3.0f, down.get());
     }
@@ -328,14 +328,14 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testDownOf_lastRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat down = m.downOf(1, 0);
+        OptionalFloat down = m.below(1, 0);
         assertFalse(down.isPresent());
     }
 
     @Test
     public void testLeftOf() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat left = m.leftOf(0, 1);
+        OptionalFloat left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1.0f, left.get());
     }
@@ -343,14 +343,14 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testLeftOf_firstColumn() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat left = m.leftOf(0, 0);
+        OptionalFloat left = m.leftNeighbor(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void testRightOf() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat right = m.rightOf(0, 0);
+        OptionalFloat right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2.0f, right.get());
     }
@@ -358,7 +358,7 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testRightOf_lastColumn() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        OptionalFloat right = m.rightOf(0, 1);
+        OptionalFloat right = m.rightNeighbor(0, 1);
         assertFalse(right.isPresent());
     }
 
@@ -834,7 +834,7 @@ public class FloatMatrix2510Test extends TestBase {
     public void testFlatOp() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         final float[] sum = { 0.0f };
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             for (float val : row) {
                 sum[0] += val;
             }

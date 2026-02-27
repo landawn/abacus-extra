@@ -506,7 +506,7 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         List<Integer> values = new ArrayList<>();
 
-        m.flatOp(arr -> {
+        m.applyOnFlattened(arr -> {
             for (int val : arr) {
                 values.add(val);
             }

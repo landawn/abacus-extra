@@ -302,45 +302,45 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testUpOf() {
-        OptionalInt up = matrix.upOf(1, 1);
+        OptionalInt up = matrix.above(1, 1);
         assertTrue(up.isPresent());
         assertEquals(2, up.get());
 
         // Test top row
-        OptionalInt empty = matrix.upOf(0, 1);
+        OptionalInt empty = matrix.above(0, 1);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testDownOf() {
-        OptionalInt down = matrix.downOf(1, 1);
+        OptionalInt down = matrix.below(1, 1);
         assertTrue(down.isPresent());
         assertEquals(8, down.get());
 
         // Test bottom row
-        OptionalInt empty = matrix.downOf(2, 1);
+        OptionalInt empty = matrix.below(2, 1);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testLeftOf() {
-        OptionalInt left = matrix.leftOf(1, 1);
+        OptionalInt left = matrix.leftNeighbor(1, 1);
         assertTrue(left.isPresent());
         assertEquals(4, left.get());
 
         // Test leftmost column
-        OptionalInt empty = matrix.leftOf(1, 0);
+        OptionalInt empty = matrix.leftNeighbor(1, 0);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testRightOf() {
-        OptionalInt right = matrix.rightOf(1, 1);
+        OptionalInt right = matrix.rightNeighbor(1, 1);
         assertTrue(right.isPresent());
         assertEquals(6, right.get());
 
         // Test rightmost column
-        OptionalInt empty = matrix.rightOf(1, 2);
+        OptionalInt empty = matrix.rightNeighbor(1, 2);
         assertFalse(empty.isPresent());
     }
 
@@ -917,7 +917,7 @@ public class IntMatrixTest extends TestBase {
     @Test
     public void testFlatOp() {
         List<Integer> sums = new ArrayList<>();
-        matrix.flatOp(row -> {
+        matrix.applyOnFlattened(row -> {
             int sum = 0;
             for (int val : row) {
                 sum += val;

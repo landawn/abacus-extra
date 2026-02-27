@@ -333,44 +333,44 @@ public class LongMatrix2511Test extends TestBase {
     @Test
     public void testUpOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong up = m.upOf(1, 0);
+        OptionalLong up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1L, up.get());
 
-        OptionalLong noUp = m.upOf(0, 0);
+        OptionalLong noUp = m.above(0, 0);
         assertFalse(noUp.isPresent());
     }
 
     @Test
     public void testDownOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong down = m.downOf(0, 0);
+        OptionalLong down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3L, down.get());
 
-        OptionalLong noDown = m.downOf(1, 0);
+        OptionalLong noDown = m.below(1, 0);
         assertFalse(noDown.isPresent());
     }
 
     @Test
     public void testLeftOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong left = m.leftOf(0, 1);
+        OptionalLong left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1L, left.get());
 
-        OptionalLong noLeft = m.leftOf(0, 0);
+        OptionalLong noLeft = m.leftNeighbor(0, 0);
         assertFalse(noLeft.isPresent());
     }
 
     @Test
     public void testRightOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong right = m.rightOf(0, 0);
+        OptionalLong right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2L, right.get());
 
-        OptionalLong noRight = m.rightOf(0, 1);
+        OptionalLong noRight = m.rightNeighbor(0, 1);
         assertFalse(noRight.isPresent());
     }
 
@@ -837,7 +837,7 @@ public class LongMatrix2511Test extends TestBase {
     public void testFlatOp() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         final long[] sum = { 0L };
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             for (long val : row) {
                 sum[0] += val;
             }

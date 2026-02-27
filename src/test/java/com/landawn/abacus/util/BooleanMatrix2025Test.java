@@ -302,12 +302,12 @@ public class BooleanMatrix2025Test extends TestBase {
     public void testUpOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
 
-        OptionalBoolean up = m.upOf(1, 0);
+        OptionalBoolean up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertTrue(up.get());
 
         // Top row has no element above
-        OptionalBoolean empty = m.upOf(0, 0);
+        OptionalBoolean empty = m.above(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -315,12 +315,12 @@ public class BooleanMatrix2025Test extends TestBase {
     public void testDownOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
 
-        OptionalBoolean down = m.downOf(0, 0);
+        OptionalBoolean down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertFalse(down.get());
 
         // Bottom row has no element below
-        OptionalBoolean empty = m.downOf(1, 0);
+        OptionalBoolean empty = m.below(1, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -328,12 +328,12 @@ public class BooleanMatrix2025Test extends TestBase {
     public void testLeftOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
 
-        OptionalBoolean left = m.leftOf(0, 1);
+        OptionalBoolean left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertTrue(left.get());
 
         // Leftmost column has no element to the left
-        OptionalBoolean empty = m.leftOf(0, 0);
+        OptionalBoolean empty = m.leftNeighbor(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -341,12 +341,12 @@ public class BooleanMatrix2025Test extends TestBase {
     public void testRightOf() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
 
-        OptionalBoolean right = m.rightOf(0, 0);
+        OptionalBoolean right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertFalse(right.get());
 
         // Rightmost column has no element to the right
-        OptionalBoolean empty = m.rightOf(0, 1);
+        OptionalBoolean empty = m.rightNeighbor(0, 1);
         assertFalse(empty.isPresent());
     }
 
@@ -985,7 +985,7 @@ public class BooleanMatrix2025Test extends TestBase {
     public void testFlatOp() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, false, true } });
         List<Integer> trueCounts = new ArrayList<>();
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             int count = 0;
             for (boolean val : row) {
                 if (val) {

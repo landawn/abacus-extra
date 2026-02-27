@@ -514,9 +514,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @return {@code int.class}
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Class componentType() {
+    public Class<?> componentType() {
         return int.class;
     }
 
@@ -608,8 +607,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * u.OptionalInt value = matrix.upOf(1, 0);   // Returns u.OptionalInt.of(1)
-     * u.OptionalInt empty = matrix.upOf(0, 0);   // Returns u.OptionalInt.empty() - no row above
+     * u.OptionalInt value = matrix.above(1, 0);   // Returns u.OptionalInt.of(1)
+     * u.OptionalInt empty = matrix.above(0, 0);   // Returns u.OptionalInt.empty() - no row above
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -617,7 +616,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return an u.OptionalInt containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalInt upOf(final int rowIndex, final int columnIndex) {
+    public OptionalInt above(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == 0 ? OptionalInt.empty() : OptionalInt.of(a[rowIndex - 1][columnIndex]);
@@ -630,8 +629,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * u.OptionalInt value = matrix.downOf(0, 0);   // Returns u.OptionalInt.of(3)
-     * u.OptionalInt empty = matrix.downOf(1, 0);   // Returns u.OptionalInt.empty() - no row below
+     * u.OptionalInt value = matrix.below(0, 0);   // Returns u.OptionalInt.of(3)
+     * u.OptionalInt empty = matrix.below(1, 0);   // Returns u.OptionalInt.empty() - no row below
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -639,7 +638,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return an u.OptionalInt containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalInt downOf(final int rowIndex, final int columnIndex) {
+    public OptionalInt below(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == rowCount - 1 ? OptionalInt.empty() : OptionalInt.of(a[rowIndex + 1][columnIndex]);
@@ -652,8 +651,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * u.OptionalInt value = matrix.leftOf(0, 1);   // Returns u.OptionalInt.of(1)
-     * u.OptionalInt empty = matrix.leftOf(0, 0);   // Returns u.OptionalInt.empty() - no column to the left
+     * u.OptionalInt value = matrix.leftNeighbor(0, 1);   // Returns u.OptionalInt.of(1)
+     * u.OptionalInt empty = matrix.leftNeighbor(0, 0);   // Returns u.OptionalInt.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -661,7 +660,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return an u.OptionalInt containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalInt leftOf(final int rowIndex, final int columnIndex) {
+    public OptionalInt leftNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalInt.empty() : OptionalInt.of(a[rowIndex][columnIndex - 1]);
@@ -674,8 +673,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * u.OptionalInt value = matrix.rightOf(0, 0);   // Returns u.OptionalInt.of(2)
-     * u.OptionalInt empty = matrix.rightOf(0, 1);   // Returns u.OptionalInt.empty() - no column to the right
+     * u.OptionalInt value = matrix.rightNeighbor(0, 0);   // Returns u.OptionalInt.of(2)
+     * u.OptionalInt empty = matrix.rightNeighbor(0, 1);   // Returns u.OptionalInt.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -683,7 +682,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return an u.OptionalInt containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalInt rightOf(final int rowIndex, final int columnIndex) {
+    public OptionalInt rightNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalInt.empty() : OptionalInt.of(a[rowIndex][columnIndex + 1]);
@@ -1266,7 +1265,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, "mapper");
-        final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
+        final T[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
@@ -1744,6 +1743,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix rotate90() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final int[][] c = new int[columnCount][rowCount];
 
@@ -1811,6 +1811,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix rotate270() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final int[][] c = new int[columnCount][rowCount];
 
@@ -1853,6 +1854,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix transpose() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final int[][] c = new int[columnCount][rowCount];
 
@@ -2060,18 +2062,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{3, 1, 2}, {6, 4, 5}});
-     * matrix.flatOp(row -> java.util.Arrays.sort(row));
+     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));
      * // Matrix becomes: [[1, 2, 3], [4, 5, 6]]
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
      * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
-     * @see Arrays#flatOp(int[][], Throwables.Consumer)
+     * @see Arrays#applyOnFlattened(int[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void flatOp(final Throwables.Consumer<? super int[], E> op) throws E {
-        Arrays.flatOp(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super int[], E> op) throws E {
+        Arrays.applyOnFlattened(a, op);
     }
 
     /**

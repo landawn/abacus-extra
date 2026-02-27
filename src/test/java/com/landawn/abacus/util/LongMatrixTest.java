@@ -224,11 +224,11 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        OptionalLong up = matrix.upOf(1, 0);
+        OptionalLong up = matrix.above(1, 0);
         Assertions.assertTrue(up.isPresent());
         Assertions.assertEquals(1L, up.getAsLong());
 
-        OptionalLong empty = matrix.upOf(0, 0);
+        OptionalLong empty = matrix.above(0, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -237,11 +237,11 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        OptionalLong down = matrix.downOf(0, 0);
+        OptionalLong down = matrix.below(0, 0);
         Assertions.assertTrue(down.isPresent());
         Assertions.assertEquals(3L, down.getAsLong());
 
-        OptionalLong empty = matrix.downOf(1, 0);
+        OptionalLong empty = matrix.below(1, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -250,11 +250,11 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        OptionalLong left = matrix.leftOf(0, 1);
+        OptionalLong left = matrix.leftNeighbor(0, 1);
         Assertions.assertTrue(left.isPresent());
         Assertions.assertEquals(1L, left.getAsLong());
 
-        OptionalLong empty = matrix.leftOf(0, 0);
+        OptionalLong empty = matrix.leftNeighbor(0, 0);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -263,11 +263,11 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        OptionalLong right = matrix.rightOf(0, 0);
+        OptionalLong right = matrix.rightNeighbor(0, 0);
         Assertions.assertTrue(right.isPresent());
         Assertions.assertEquals(2L, right.getAsLong());
 
-        OptionalLong empty = matrix.rightOf(0, 1);
+        OptionalLong empty = matrix.rightNeighbor(0, 1);
         Assertions.assertFalse(empty.isPresent());
     }
 
@@ -852,7 +852,7 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         List<Long> collected = new ArrayList<>();
-        matrix.flatOp(row -> {
+        matrix.applyOnFlattened(row -> {
             for (long val : row) {
                 collected.add(val);
             }

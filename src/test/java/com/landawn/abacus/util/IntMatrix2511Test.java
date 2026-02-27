@@ -401,44 +401,44 @@ public class IntMatrix2511Test extends TestBase {
     @Test
     public void testUpOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt up = m.upOf(1, 0);
+        OptionalInt up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1, up.get());
 
-        OptionalInt noUp = m.upOf(0, 0);
+        OptionalInt noUp = m.above(0, 0);
         assertFalse(noUp.isPresent());
     }
 
     @Test
     public void testDownOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt down = m.downOf(0, 0);
+        OptionalInt down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3, down.get());
 
-        OptionalInt noDown = m.downOf(1, 0);
+        OptionalInt noDown = m.below(1, 0);
         assertFalse(noDown.isPresent());
     }
 
     @Test
     public void testLeftOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt left = m.leftOf(0, 1);
+        OptionalInt left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
 
-        OptionalInt noLeft = m.leftOf(0, 0);
+        OptionalInt noLeft = m.leftNeighbor(0, 0);
         assertFalse(noLeft.isPresent());
     }
 
     @Test
     public void testRightOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        OptionalInt right = m.rightOf(0, 0);
+        OptionalInt right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
 
-        OptionalInt noRight = m.rightOf(0, 1);
+        OptionalInt noRight = m.rightNeighbor(0, 1);
         assertFalse(noRight.isPresent());
     }
 
@@ -913,7 +913,7 @@ public class IntMatrix2511Test extends TestBase {
     public void testFlatOp() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         final int[] sum = { 0 };
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             for (int val : row) {
                 sum[0] += val;
             }

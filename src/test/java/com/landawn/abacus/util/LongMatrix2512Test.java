@@ -350,7 +350,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_upOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong up = m.upOf(1, 0);
+        OptionalLong up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1L, up.get());
     }
@@ -358,14 +358,14 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_upOf_firstRow() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong up = m.upOf(0, 0);
+        OptionalLong up = m.above(0, 0);
         assertFalse(up.isPresent());
     }
 
     @Test
     public void test_downOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong down = m.downOf(0, 0);
+        OptionalLong down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3L, down.get());
     }
@@ -373,14 +373,14 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_downOf_lastRow() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong down = m.downOf(1, 0);
+        OptionalLong down = m.below(1, 0);
         assertFalse(down.isPresent());
     }
 
     @Test
     public void test_leftOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong left = m.leftOf(0, 1);
+        OptionalLong left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1L, left.get());
     }
@@ -388,14 +388,14 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf_firstColumn() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong left = m.leftOf(0, 0);
+        OptionalLong left = m.leftNeighbor(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void test_rightOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong right = m.rightOf(0, 0);
+        OptionalLong right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2L, right.get());
     }
@@ -403,7 +403,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_rightOf_lastColumn() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        OptionalLong right = m.rightOf(0, 1);
+        OptionalLong right = m.rightNeighbor(0, 1);
         assertFalse(right.isPresent());
     }
 
@@ -969,10 +969,10 @@ public class LongMatrix2512Test extends TestBase {
     // ============ FlatOp Test ============
 
     @Test
-    public void test_flatOp() {
+    public void test_applyOnFlattened() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         AtomicInteger count = new AtomicInteger(0);
-        m.flatOp(row -> count.addAndGet(row.length));
+        m.applyOnFlattened(row -> count.addAndGet(row.length));
         assertEquals(4, count.get());
     }
 

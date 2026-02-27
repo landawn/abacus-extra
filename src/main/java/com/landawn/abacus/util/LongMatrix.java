@@ -431,9 +431,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @return {@code long.class}
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Class componentType() {
+    public Class<?> componentType() {
         return long.class;
     }
 
@@ -526,8 +525,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.upOf(1, 0);   // Returns OptionalLong.of(1L)
-     * OptionalLong empty = matrix.upOf(0, 0);   // Returns OptionalLong.empty() - no row above
+     * OptionalLong value = matrix.above(1, 0);   // Returns OptionalLong.of(1L)
+     * OptionalLong empty = matrix.above(0, 0);   // Returns OptionalLong.empty() - no row above
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -535,7 +534,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return an OptionalLong containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalLong upOf(final int rowIndex, final int columnIndex) {
+    public OptionalLong above(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == 0 ? OptionalLong.empty() : OptionalLong.of(a[rowIndex - 1][columnIndex]);
@@ -549,8 +548,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.downOf(0, 0);   // Returns OptionalLong.of(3L)
-     * OptionalLong empty = matrix.downOf(1, 0);   // Returns OptionalLong.empty() - no row below
+     * OptionalLong value = matrix.below(0, 0);   // Returns OptionalLong.of(3L)
+     * OptionalLong empty = matrix.below(1, 0);   // Returns OptionalLong.empty() - no row below
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -558,7 +557,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return an OptionalLong containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalLong downOf(final int rowIndex, final int columnIndex) {
+    public OptionalLong below(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return rowIndex == rowCount - 1 ? OptionalLong.empty() : OptionalLong.of(a[rowIndex + 1][columnIndex]);
@@ -572,8 +571,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.leftOf(0, 1);   // Returns OptionalLong.of(1L)
-     * OptionalLong empty = matrix.leftOf(0, 0);   // Returns OptionalLong.empty() - no column to the left
+     * OptionalLong value = matrix.leftNeighbor(0, 1);   // Returns OptionalLong.of(1L)
+     * OptionalLong empty = matrix.leftNeighbor(0, 0);   // Returns OptionalLong.empty() - no column to the left
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -581,7 +580,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return an OptionalLong containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalLong leftOf(final int rowIndex, final int columnIndex) {
+    public OptionalLong leftNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == 0 ? OptionalLong.empty() : OptionalLong.of(a[rowIndex][columnIndex - 1]);
@@ -595,8 +594,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.rightOf(0, 0);   // Returns OptionalLong.of(2L)
-     * OptionalLong empty = matrix.rightOf(0, 1);   // Returns OptionalLong.empty() - no column to the right
+     * OptionalLong value = matrix.rightNeighbor(0, 0);   // Returns OptionalLong.of(2L)
+     * OptionalLong empty = matrix.rightNeighbor(0, 1);   // Returns OptionalLong.empty() - no column to the right
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -604,7 +603,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return an OptionalLong containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
-    public OptionalLong rightOf(final int rowIndex, final int columnIndex) {
+    public OptionalLong rightNeighbor(final int rowIndex, final int columnIndex) {
         checkRowColumnIndex(rowIndex, columnIndex);
 
         return columnIndex == columnCount - 1 ? OptionalLong.empty() : OptionalLong.of(a[rowIndex][columnIndex + 1]);
@@ -1193,7 +1192,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, "mapper");
-        final T[][] result = Matrices.newArray(rowCount, columnCount, targetElementType);
+        final T[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
@@ -1665,6 +1664,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     public LongMatrix rotate90() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final long[][] c = new long[columnCount][rowCount];
 
@@ -1729,6 +1729,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     public LongMatrix rotate270() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final long[][] c = new long[columnCount][rowCount];
 
@@ -1771,6 +1772,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     public LongMatrix transpose() {
+        checkRepresentableShape(columnCount, rowCount);
 
         final long[][] c = new long[columnCount][rowCount];
 
@@ -1985,18 +1987,18 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{3, 1, 2}, {6, 4, 5}});
-     * matrix.flatOp(row -> java.util.Arrays.sort(row));
+     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));
      * // matrix is now [[1, 2, 3], [4, 5, 6]]
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
      * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
-     * @see Arrays#flatOp(long[][], Throwables.Consumer)
+     * @see Arrays#applyOnFlattened(long[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void flatOp(final Throwables.Consumer<? super long[], E> op) throws E {
-        Arrays.flatOp(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super long[], E> op) throws E {
+        Arrays.applyOnFlattened(a, op);
     }
 
     /**

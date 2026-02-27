@@ -203,8 +203,8 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2 }, { 3, 4 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Assertions.assertEquals(1, matrix.upOf(1, 0).orElse(null));
-        Assertions.assertFalse(matrix.upOf(0, 0).isPresent());
+        Assertions.assertEquals(1, matrix.above(1, 0).orElse(null));
+        Assertions.assertFalse(matrix.above(0, 0).isPresent());
     }
 
     @Test
@@ -212,8 +212,8 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2 }, { 3, 4 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Assertions.assertEquals(3, matrix.downOf(0, 0).orElse(null));
-        Assertions.assertFalse(matrix.downOf(1, 0).isPresent());
+        Assertions.assertEquals(3, matrix.below(0, 0).orElse(null));
+        Assertions.assertFalse(matrix.below(1, 0).isPresent());
     }
 
     @Test
@@ -221,8 +221,8 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2 }, { 3, 4 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Assertions.assertEquals(1, matrix.leftOf(0, 1).orElse(null));
-        Assertions.assertFalse(matrix.leftOf(0, 0).isPresent());
+        Assertions.assertEquals(1, matrix.leftNeighbor(0, 1).orElse(null));
+        Assertions.assertFalse(matrix.leftNeighbor(0, 0).isPresent());
     }
 
     @Test
@@ -230,8 +230,8 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2 }, { 3, 4 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Assertions.assertEquals(2, matrix.rightOf(0, 0).orElse(null));
-        Assertions.assertFalse(matrix.rightOf(0, 1).isPresent());
+        Assertions.assertEquals(2, matrix.rightNeighbor(0, 0).orElse(null));
+        Assertions.assertFalse(matrix.rightNeighbor(0, 1).isPresent());
     }
 
     @Test
@@ -917,7 +917,7 @@ public class MatrixTest extends TestBase {
     public void testFlatOp() throws Exception {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 3, 1, 4 }, { 1, 5, 9 } });
 
-        matrix.flatOp(arrays -> {
+        matrix.applyOnFlattened(arrays -> {
             Arrays.sort(arrays);
         });
 
@@ -1364,6 +1364,45 @@ public class MatrixTest extends TestBase {
 
         matrix.set(0, 0, 2.5d);
         Assertions.assertEquals(2.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
+    }
+
+    @Test
+    public void testCopyAndTransformsPreserveElementTypeForRepeatMatrices() {
+        Matrix<String> matrix = Matrix.repeat(1, 2, "x");
+
+        Matrix<String> copied = matrix.copy();
+        Assertions.assertEquals(String.class, copied.componentType());
+        Assertions.assertEquals(String.class, copied.rowView(0).getClass().getComponentType());
+
+        Matrix<String> transposed = matrix.transpose();
+        Assertions.assertEquals(String.class, transposed.componentType());
+        Assertions.assertEquals(String.class, transposed.rowView(0).getClass().getComponentType());
+
+        Matrix<String> reshaped = matrix.reshape(2, 1);
+        Assertions.assertEquals(String.class, reshaped.componentType());
+        Assertions.assertEquals(String.class, reshaped.rowView(0).getClass().getComponentType());
+
+        Matrix<String> repeated = matrix.repeatElements(2, 2);
+        Assertions.assertEquals(String.class, repeated.componentType());
+        Assertions.assertEquals(String.class, repeated.rowView(0).getClass().getComponentType());
+    }
+
+    @Test
+    public void testStackOperationsPreserveElementTypeForRepeatMatrices() {
+        Matrix<Integer> top = Matrix.repeat(1, 2, 1);
+        Matrix<Integer> bottom = Matrix.repeat(1, 2, 2);
+
+        Matrix<Integer> vstacked = top.vstack(bottom);
+        Assertions.assertEquals(Integer.class, vstacked.componentType());
+        Assertions.assertEquals(Integer.class, vstacked.rowView(0).getClass().getComponentType());
+        vstacked.set(0, 0, 3);
+        Assertions.assertEquals(3, vstacked.get(0, 0));
+
+        Matrix<Integer> hstacked = top.hstack(bottom);
+        Assertions.assertEquals(Integer.class, hstacked.componentType());
+        Assertions.assertEquals(Integer.class, hstacked.rowView(0).getClass().getComponentType());
+        hstacked.set(0, 3, 4);
+        Assertions.assertEquals(4, hstacked.get(0, 3));
     }
 
     @Test

@@ -357,7 +357,7 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_upOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble up = m.upOf(1, 0);
+        OptionalDouble up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1.0, up.get(), 0.0);
     }
@@ -365,14 +365,14 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_upOf_firstRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble up = m.upOf(0, 0);
+        OptionalDouble up = m.above(0, 0);
         assertFalse(up.isPresent());
     }
 
     @Test
     public void test_downOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble down = m.downOf(0, 0);
+        OptionalDouble down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3.0, down.get(), 0.0);
     }
@@ -380,14 +380,14 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_downOf_lastRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble down = m.downOf(1, 0);
+        OptionalDouble down = m.below(1, 0);
         assertFalse(down.isPresent());
     }
 
     @Test
     public void test_leftOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble left = m.leftOf(0, 1);
+        OptionalDouble left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1.0, left.get(), 0.0);
     }
@@ -395,14 +395,14 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf_firstColumn() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble left = m.leftOf(0, 0);
+        OptionalDouble left = m.leftNeighbor(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void test_rightOf() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble right = m.rightOf(0, 0);
+        OptionalDouble right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2.0, right.get(), 0.0);
     }
@@ -410,7 +410,7 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_rightOf_lastColumn() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        OptionalDouble right = m.rightOf(0, 1);
+        OptionalDouble right = m.rightNeighbor(0, 1);
         assertFalse(right.isPresent());
     }
 
@@ -968,10 +968,10 @@ public class DoubleMatrix2512Test extends TestBase {
     // ============ FlatOp Test ============
 
     @Test
-    public void test_flatOp() {
+    public void test_applyOnFlattened() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         AtomicInteger count = new AtomicInteger(0);
-        m.flatOp(row -> count.addAndGet(row.length));
+        m.applyOnFlattened(row -> count.addAndGet(row.length));
         assertEquals(4, count.get());
     }
 

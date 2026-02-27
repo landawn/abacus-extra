@@ -357,7 +357,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testUpOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        OptionalByte up = m.upOf(1, 0);
+        OptionalByte up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1, up.get());
     }
@@ -365,14 +365,14 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testUpOf_atTopEdge() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        OptionalByte up = m.upOf(0, 0);
+        OptionalByte up = m.above(0, 0);
         assertFalse(up.isPresent());
     }
 
     @Test
     public void testDownOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        OptionalByte down = m.downOf(0, 0);
+        OptionalByte down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3, down.get());
     }
@@ -380,14 +380,14 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testDownOf_atBottomEdge() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        OptionalByte down = m.downOf(1, 0);
+        OptionalByte down = m.below(1, 0);
         assertFalse(down.isPresent());
     }
 
     @Test
     public void testLeftOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        OptionalByte left = m.leftOf(0, 1);
+        OptionalByte left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
     }
@@ -395,14 +395,14 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testLeftOf_atLeftEdge() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        OptionalByte left = m.leftOf(0, 0);
+        OptionalByte left = m.leftNeighbor(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void testRightOf() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        OptionalByte right = m.rightOf(0, 0);
+        OptionalByte right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
     }
@@ -410,7 +410,7 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testRightOf_atRightEdge() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        OptionalByte right = m.rightOf(0, 1);
+        OptionalByte right = m.rightNeighbor(0, 1);
         assertFalse(right.isPresent());
     }
 
@@ -956,7 +956,7 @@ public class ByteMatrix2510Test extends TestBase {
     public void testFlatOp() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         AtomicInteger count = new AtomicInteger(0);
-        m.flatOp(row -> count.addAndGet(row.length));
+        m.applyOnFlattened(row -> count.addAndGet(row.length));
         assertEquals(4, count.get());
     }
 

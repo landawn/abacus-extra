@@ -56,10 +56,10 @@ public class MatrixParityFuzzTest extends TestBase {
                 assertArrayEquals(intCols.get(i), genericCols.get(i));
             }
 
-            assertMatrixEquals(intMatrix.transpose(), genericMatrix.transpose());
-            assertMatrixEquals(intMatrix.rotate90(), genericMatrix.rotate90());
+            assertTransformParity(intMatrix::transpose, genericMatrix::transpose);
+            assertTransformParity(intMatrix::rotate90, genericMatrix::rotate90);
             assertMatrixEquals(intMatrix.rotate180(), genericMatrix.rotate180());
-            assertMatrixEquals(intMatrix.rotate270(), genericMatrix.rotate270());
+            assertTransformParity(intMatrix::rotate270, genericMatrix::rotate270);
             assertMatrixEquals(intMatrix.flipH(), genericMatrix.flipH());
             assertMatrixEquals(intMatrix.flipV(), genericMatrix.flipV());
 
@@ -105,6 +105,23 @@ public class MatrixParityFuzzTest extends TestBase {
         }
 
         return a;
+    }
+
+    private static void assertTransformParity(final java.util.function.Supplier<IntMatrix> intTransform,
+            final java.util.function.Supplier<Matrix<Integer>> genericTransform) {
+        try {
+            final IntMatrix intResult = intTransform.get();
+            final Matrix<Integer> genericResult = genericTransform.get();
+            assertMatrixEquals(intResult, genericResult);
+        } catch (final IllegalArgumentException e) {
+            try {
+                genericTransform.get();
+            } catch (final IllegalArgumentException expected) {
+                return;
+            }
+
+            throw e;
+        }
     }
 
     private static void assertMatrixEquals(final IntMatrix intMatrix, final Matrix<Integer> genericMatrix) {

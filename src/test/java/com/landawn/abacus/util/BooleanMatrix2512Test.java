@@ -223,7 +223,7 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_upOf_exists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean up = m.upOf(1, 0);
+        OptionalBoolean up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertTrue(up.get());
     }
@@ -231,14 +231,14 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_upOf_notExists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean up = m.upOf(0, 0);
+        OptionalBoolean up = m.above(0, 0);
         assertFalse(up.isPresent());
     }
 
     @Test
     public void test_downOf_exists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean down = m.downOf(0, 0);
+        OptionalBoolean down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertFalse(down.get());
     }
@@ -246,14 +246,14 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_downOf_notExists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean down = m.downOf(1, 0);
+        OptionalBoolean down = m.below(1, 0);
         assertFalse(down.isPresent());
     }
 
     @Test
     public void test_leftOf_exists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftOf(0, 1);
+        OptionalBoolean left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertTrue(left.get());
     }
@@ -261,14 +261,14 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_leftOf_notExists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean left = m.leftOf(0, 0);
+        OptionalBoolean left = m.leftNeighbor(0, 0);
         assertFalse(left.isPresent());
     }
 
     @Test
     public void test_rightOf_exists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightOf(0, 0);
+        OptionalBoolean right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertFalse(right.get());
     }
@@ -276,7 +276,7 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_rightOf_notExists() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        OptionalBoolean right = m.rightOf(0, 1);
+        OptionalBoolean right = m.rightNeighbor(0, 1);
         assertFalse(right.isPresent());
     }
 
@@ -670,9 +670,9 @@ public class BooleanMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flatOp() {
+    public void test_applyOnFlattened() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        m.flatOp(arr -> {
+        m.applyOnFlattened(arr -> {
             for (int i = 0; i < arr.length; i++) {
                 arr[i] = !arr[i];
             }

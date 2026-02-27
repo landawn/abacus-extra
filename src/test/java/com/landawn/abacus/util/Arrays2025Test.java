@@ -1073,7 +1073,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for flatOp methods
+    // Tests for applyOnFlattened methods
     // ============================================
 
     @Test
@@ -1081,7 +1081,7 @@ public class Arrays2025Test extends TestBase {
         boolean[][] a = { { true, false }, { true, false } };
         List<Boolean> result = new ArrayList<>();
 
-        Arrays.flatOp(a, subArray -> {
+        Arrays.applyOnFlattened(a, subArray -> {
             for (boolean val : subArray) {
                 result.add(val);
             }
@@ -1097,7 +1097,7 @@ public class Arrays2025Test extends TestBase {
         int[][] a = { { 1, 2 }, { 3, 4 } };
         List<Integer> result = new ArrayList<>();
 
-        Arrays.flatOp(a, subArray -> {
+        Arrays.applyOnFlattened(a, subArray -> {
             for (int val : subArray) {
                 result.add(val);
             }
@@ -1113,7 +1113,7 @@ public class Arrays2025Test extends TestBase {
         double[][] a = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         List<Double> result = new ArrayList<>();
 
-        Arrays.flatOp(a, subArray -> {
+        Arrays.applyOnFlattened(a, subArray -> {
             for (double val : subArray) {
                 result.add(val);
             }
@@ -1128,7 +1128,7 @@ public class Arrays2025Test extends TestBase {
         boolean[][][] a = { { { true, false } }, { { true } } };
         List<Boolean> result = new ArrayList<>();
 
-        Arrays.flatOp(a, subArray -> {
+        Arrays.applyOnFlattened(a, subArray -> {
             for (boolean val : subArray) {
                 result.add(val);
             }
@@ -1142,7 +1142,7 @@ public class Arrays2025Test extends TestBase {
         int[][][] a = { { { 1, 2 } }, { { 3 } } };
         List<Integer> result = new ArrayList<>();
 
-        Arrays.flatOp(a, subArray -> {
+        Arrays.applyOnFlattened(a, subArray -> {
             for (int val : subArray) {
                 result.add(val);
             }

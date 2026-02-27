@@ -299,44 +299,44 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testUpOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        OptionalShort up = m.upOf(1, 0);
+        OptionalShort up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals((short) 1, up.get());
 
-        OptionalShort noUp = m.upOf(0, 0);
+        OptionalShort noUp = m.above(0, 0);
         assertFalse(noUp.isPresent());
     }
 
     @Test
     public void testDownOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        OptionalShort down = m.downOf(0, 0);
+        OptionalShort down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals((short) 3, down.get());
 
-        OptionalShort noDown = m.downOf(1, 0);
+        OptionalShort noDown = m.below(1, 0);
         assertFalse(noDown.isPresent());
     }
 
     @Test
     public void testLeftOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        OptionalShort left = m.leftOf(0, 1);
+        OptionalShort left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals((short) 1, left.get());
 
-        OptionalShort noLeft = m.leftOf(0, 0);
+        OptionalShort noLeft = m.leftNeighbor(0, 0);
         assertFalse(noLeft.isPresent());
     }
 
     @Test
     public void testRightOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        OptionalShort right = m.rightOf(0, 0);
+        OptionalShort right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals((short) 2, right.get());
 
-        OptionalShort noRight = m.rightOf(0, 1);
+        OptionalShort noRight = m.rightNeighbor(0, 1);
         assertFalse(noRight.isPresent());
     }
 
@@ -822,7 +822,7 @@ public class ShortMatrix2511Test extends TestBase {
     public void testFlatOp() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
         final int[] sum = { 0 };
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             for (short val : row) {
                 sum[0] += val;
             }

@@ -267,12 +267,12 @@ public class Matrix2025Test extends TestBase {
     public void testUpOf() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
 
-        Nullable<String> up = m.upOf(1, 0);
+        Nullable<String> up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals("A", up.get());
 
         // Top row has no element above
-        Nullable<String> empty = m.upOf(0, 0);
+        Nullable<String> empty = m.above(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -280,12 +280,12 @@ public class Matrix2025Test extends TestBase {
     public void testDownOf() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
 
-        Nullable<String> down = m.downOf(0, 0);
+        Nullable<String> down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals("C", down.get());
 
         // Bottom row has no element below
-        Nullable<String> empty = m.downOf(1, 0);
+        Nullable<String> empty = m.below(1, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -293,12 +293,12 @@ public class Matrix2025Test extends TestBase {
     public void testLeftOf() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
 
-        Nullable<String> left = m.leftOf(0, 1);
+        Nullable<String> left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals("A", left.get());
 
         // Leftmost column has no element to the left
-        Nullable<String> empty = m.leftOf(0, 0);
+        Nullable<String> empty = m.leftNeighbor(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -306,12 +306,12 @@ public class Matrix2025Test extends TestBase {
     public void testRightOf() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
 
-        Nullable<String> right = m.rightOf(0, 0);
+        Nullable<String> right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals("B", right.get());
 
         // Rightmost column has no element to the right
-        Nullable<String> empty = m.rightOf(0, 1);
+        Nullable<String> empty = m.rightNeighbor(0, 1);
         assertFalse(empty.isPresent());
     }
 
@@ -1031,7 +1031,7 @@ public class Matrix2025Test extends TestBase {
     public void testFlatOp() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
         List<Integer> rowLengths = new ArrayList<>();
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             rowLengths.add(row.length);
         });
         assertEquals(1, rowLengths.size());
@@ -1879,7 +1879,7 @@ public class Matrix2025Test extends TestBase {
     public void testFlatOp_emptyMatrix() {
         Matrix<String> empty = Matrix.of(new String[0][0]);
         List<Integer> lengths = new ArrayList<>();
-        empty.flatOp(row -> lengths.add(row.length));
+        empty.applyOnFlattened(row -> lengths.add(row.length));
         assertEquals(0, lengths.size());
     }
 }

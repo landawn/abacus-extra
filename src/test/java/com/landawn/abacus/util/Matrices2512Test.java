@@ -177,7 +177,7 @@ public class Matrices2512Test extends TestBase {
 
     @Test
     public void test_newArray_createsCorrectDimensions() {
-        String[][] arr = Matrices.newArray(3, 4, String.class);
+        String[][] arr = Matrices.newMatrixArray(3, 4, String.class);
         assertEquals(3, arr.length);
         assertEquals(4, arr[0].length);
         assertEquals(4, arr[1].length);
@@ -186,20 +186,20 @@ public class Matrices2512Test extends TestBase {
 
     @Test
     public void test_newArray_withZeroRows() {
-        Integer[][] arr = Matrices.newArray(0, 5, Integer.class);
+        Integer[][] arr = Matrices.newMatrixArray(0, 5, Integer.class);
         assertEquals(0, arr.length);
     }
 
     @Test
     public void test_newArray_withZeroCols() {
-        Integer[][] arr = Matrices.newArray(3, 0, Integer.class);
+        Integer[][] arr = Matrices.newMatrixArray(3, 0, Integer.class);
         assertEquals(3, arr.length);
         assertEquals(0, arr[0].length);
     }
 
     @Test
     public void test_newArray_withPrimitiveType() {
-        Integer[][] arr = Matrices.newArray(2, 3, int.class); // Should be wrapped to Integer
+        Integer[][] arr = Matrices.newMatrixArray(2, 3, int.class); // Should be wrapped to Integer
         assertEquals(2, arr.length);
         assertEquals(3, arr[0].length);
         // Elements should be null by default

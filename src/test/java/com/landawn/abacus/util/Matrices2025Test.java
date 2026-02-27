@@ -179,7 +179,7 @@ public class Matrices2025Test extends TestBase {
 
     @Test
     public void testNewArray() {
-        Integer[][] arr = Matrices.newArray(2, 3, Integer.class);
+        Integer[][] arr = Matrices.newMatrixArray(2, 3, Integer.class);
         assertNotNull(arr);
         assertEquals(2, arr.length);
         assertEquals(3, arr[0].length);
@@ -188,7 +188,7 @@ public class Matrices2025Test extends TestBase {
 
     @Test
     public void testNewArray_primitiveType() {
-        Integer[][] arr = Matrices.newArray(3, 4, int.class);
+        Integer[][] arr = Matrices.newMatrixArray(3, 4, int.class);
         assertNotNull(arr);
         assertEquals(3, arr.length);
         assertEquals(4, arr[0].length);
@@ -196,7 +196,7 @@ public class Matrices2025Test extends TestBase {
 
     @Test
     public void testNewArray_stringType() {
-        String[][] arr = Matrices.newArray(2, 2, String.class);
+        String[][] arr = Matrices.newMatrixArray(2, 2, String.class);
         assertNotNull(arr);
         assertEquals(2, arr.length);
         assertEquals(2, arr[0].length);
@@ -204,7 +204,7 @@ public class Matrices2025Test extends TestBase {
 
     @Test
     public void testNewArray_singleElement() {
-        Double[][] arr = Matrices.newArray(1, 1, Double.class);
+        Double[][] arr = Matrices.newMatrixArray(1, 1, Double.class);
         assertNotNull(arr);
         assertEquals(1, arr.length);
         assertEquals(1, arr[0].length);

@@ -411,12 +411,12 @@ public class IntMatrix2510Test extends TestBase {
     public void testUpOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalInt up = m.upOf(1, 0);
+        OptionalInt up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1, up.get());
 
         // Top row has no element above
-        OptionalInt empty = m.upOf(0, 0);
+        OptionalInt empty = m.above(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -424,12 +424,12 @@ public class IntMatrix2510Test extends TestBase {
     public void testDownOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalInt down = m.downOf(0, 0);
+        OptionalInt down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3, down.get());
 
         // Bottom row has no element below
-        OptionalInt empty = m.downOf(1, 0);
+        OptionalInt empty = m.below(1, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -437,12 +437,12 @@ public class IntMatrix2510Test extends TestBase {
     public void testLeftOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalInt left = m.leftOf(0, 1);
+        OptionalInt left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
 
         // Leftmost column has no element to the left
-        OptionalInt empty = m.leftOf(0, 0);
+        OptionalInt empty = m.leftNeighbor(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -450,12 +450,12 @@ public class IntMatrix2510Test extends TestBase {
     public void testRightOf() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalInt right = m.rightOf(0, 0);
+        OptionalInt right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
 
         // Rightmost column has no element to the right
-        OptionalInt empty = m.rightOf(0, 1);
+        OptionalInt empty = m.rightNeighbor(0, 1);
         assertFalse(empty.isPresent());
     }
 
@@ -1092,7 +1092,7 @@ public class IntMatrix2510Test extends TestBase {
     public void testFlatOp() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         final int[] count = { 0 };
-        m.flatOp(row -> count[0] += row.length);
+        m.applyOnFlattened(row -> count[0] += row.length);
         assertEquals(4, count[0]);
     }
 

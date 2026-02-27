@@ -307,12 +307,12 @@ public class ShortMatrix2510Test extends TestBase {
     public void testUpOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalShort up = m.upOf(1, 0);
+        OptionalShort up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1, up.get());
 
         // Top row has no element above
-        OptionalShort empty = m.upOf(0, 0);
+        OptionalShort empty = m.above(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -320,12 +320,12 @@ public class ShortMatrix2510Test extends TestBase {
     public void testDownOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalShort down = m.downOf(0, 0);
+        OptionalShort down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3, down.get());
 
         // Bottom row has no element below
-        OptionalShort empty = m.downOf(1, 0);
+        OptionalShort empty = m.below(1, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -333,12 +333,12 @@ public class ShortMatrix2510Test extends TestBase {
     public void testLeftOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalShort left = m.leftOf(0, 1);
+        OptionalShort left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1, left.get());
 
         // Leftmost column has no element to the left
-        OptionalShort empty = m.leftOf(0, 0);
+        OptionalShort empty = m.leftNeighbor(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -346,12 +346,12 @@ public class ShortMatrix2510Test extends TestBase {
     public void testRightOf() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
 
-        OptionalShort right = m.rightOf(0, 0);
+        OptionalShort right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2, right.get());
 
         // Rightmost column has no element to the right
-        OptionalShort empty = m.rightOf(0, 1);
+        OptionalShort empty = m.rightNeighbor(0, 1);
         assertFalse(empty.isPresent());
     }
 
@@ -988,7 +988,7 @@ public class ShortMatrix2510Test extends TestBase {
     public void testFlatOp() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
         final int[] count = { 0 };
-        m.flatOp(row -> count[0] += row.length);
+        m.applyOnFlattened(row -> count[0] += row.length);
         assertEquals(4, count[0]);
     }
 

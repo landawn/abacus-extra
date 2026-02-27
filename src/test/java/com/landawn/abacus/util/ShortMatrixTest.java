@@ -260,45 +260,45 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testUpOf() {
-        OptionalShort up = matrix.upOf(1, 1);
+        OptionalShort up = matrix.above(1, 1);
         assertTrue(up.isPresent());
         assertEquals((short) 2, up.get());
 
         // Test top row
-        OptionalShort empty = matrix.upOf(0, 1);
+        OptionalShort empty = matrix.above(0, 1);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testDownOf() {
-        OptionalShort down = matrix.downOf(1, 1);
+        OptionalShort down = matrix.below(1, 1);
         assertTrue(down.isPresent());
         assertEquals((short) 8, down.get());
 
         // Test bottom row
-        OptionalShort empty = matrix.downOf(2, 1);
+        OptionalShort empty = matrix.below(2, 1);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testLeftOf() {
-        OptionalShort left = matrix.leftOf(1, 1);
+        OptionalShort left = matrix.leftNeighbor(1, 1);
         assertTrue(left.isPresent());
         assertEquals((short) 4, left.get());
 
         // Test leftmost column
-        OptionalShort empty = matrix.leftOf(1, 0);
+        OptionalShort empty = matrix.leftNeighbor(1, 0);
         assertFalse(empty.isPresent());
     }
 
     @Test
     public void testRightOf() {
-        OptionalShort right = matrix.rightOf(1, 1);
+        OptionalShort right = matrix.rightNeighbor(1, 1);
         assertTrue(right.isPresent());
         assertEquals((short) 6, right.get());
 
         // Test rightmost column
-        OptionalShort empty = matrix.rightOf(1, 2);
+        OptionalShort empty = matrix.rightNeighbor(1, 2);
         assertFalse(empty.isPresent());
     }
 
@@ -834,7 +834,7 @@ public class ShortMatrixTest extends TestBase {
     @Test
     public void testFlatOp() {
         List<Short> sums = new ArrayList<>();
-        matrix.flatOp(row -> {
+        matrix.applyOnFlattened(row -> {
             short sum = 0;
             for (short val : row) {
                 sum += val;

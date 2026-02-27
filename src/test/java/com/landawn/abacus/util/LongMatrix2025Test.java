@@ -419,12 +419,12 @@ public class LongMatrix2025Test extends TestBase {
     public void testUpOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
 
-        OptionalLong up = m.upOf(1, 0);
+        OptionalLong up = m.above(1, 0);
         assertTrue(up.isPresent());
         assertEquals(1L, up.get());
 
         // Top row has no element above
-        OptionalLong empty = m.upOf(0, 0);
+        OptionalLong empty = m.above(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -432,12 +432,12 @@ public class LongMatrix2025Test extends TestBase {
     public void testDownOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
 
-        OptionalLong down = m.downOf(0, 0);
+        OptionalLong down = m.below(0, 0);
         assertTrue(down.isPresent());
         assertEquals(3L, down.get());
 
         // Bottom row has no element below
-        OptionalLong empty = m.downOf(1, 0);
+        OptionalLong empty = m.below(1, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -445,12 +445,12 @@ public class LongMatrix2025Test extends TestBase {
     public void testLeftOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
 
-        OptionalLong left = m.leftOf(0, 1);
+        OptionalLong left = m.leftNeighbor(0, 1);
         assertTrue(left.isPresent());
         assertEquals(1L, left.get());
 
         // Leftmost column has no element to the left
-        OptionalLong empty = m.leftOf(0, 0);
+        OptionalLong empty = m.leftNeighbor(0, 0);
         assertFalse(empty.isPresent());
     }
 
@@ -458,12 +458,12 @@ public class LongMatrix2025Test extends TestBase {
     public void testRightOf() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
 
-        OptionalLong right = m.rightOf(0, 0);
+        OptionalLong right = m.rightNeighbor(0, 0);
         assertTrue(right.isPresent());
         assertEquals(2L, right.get());
 
         // Rightmost column has no element to the right
-        OptionalLong empty = m.rightOf(0, 1);
+        OptionalLong empty = m.rightNeighbor(0, 1);
         assertFalse(empty.isPresent());
     }
 
@@ -1158,7 +1158,7 @@ public class LongMatrix2025Test extends TestBase {
     public void testFlatOp() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
         List<Long> sums = new ArrayList<>();
-        m.flatOp(row -> {
+        m.applyOnFlattened(row -> {
             long sum = 0;
             for (long val : row) {
                 sum += val;
