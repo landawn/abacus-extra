@@ -2439,7 +2439,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * double avg = tuple.average();   // 5.0
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more long values
      */
     @Deprecated
     public static final class LongTuple9 extends LongTuple<LongTuple9> {

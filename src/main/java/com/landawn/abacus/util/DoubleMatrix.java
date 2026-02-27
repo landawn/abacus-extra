@@ -28,28 +28,12 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A matrix implementation for double primitive values, providing efficient storage and operations
- * for two-dimensional double arrays. This class extends AbstractMatrix and provides specialized
- * methods for double matrix manipulation including mathematical operations, transformations,
- * and element access.
- * 
- * <p>The matrix is backed by a two-dimensional double array and provides methods for:
- * <ul>
- *   <li>Basic matrix operations (add, subtract, multiply)</li>
- *   <li>Transformations (transpose, rotate, flip)</li>
- *   <li>Element access and modification</li>
- *   <li>Streaming operations for rows, columns, and diagonals</li>
- *   <li>Reshaping and extending operations</li>
- *   <li>Type conversion to other numeric matrix types</li>
- * </ul>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
- * double value = matrix.get(0, 1);   // returns 2.0
- * matrix.transpose();   // returns new matrix with rows and columns swapped
- * }</pre>
- * 
+ * Matrix implementation for primitive {@code double} values.
+ *
+ * <p>This class stores matrix data in a {@code double[][]} and supports element access,
+ * update, transformation, reshaping, aggregation, and stream-oriented traversal operations.
+ * For efficiency, construction and factory APIs wrap input arrays directly unless documented otherwise.</p>
+ *
  * @see AbstractMatrix
  * @see BooleanMatrix
  * @see ByteMatrix

@@ -2439,7 +2439,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * A DoubleTuple containing exactly nine double values.
      * Provides direct access to elements via public final fields {@code _1} through {@code _9}.
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more double values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more double values
      */
     @Deprecated
     public static final class DoubleTuple9 extends DoubleTuple<DoubleTuple9> {

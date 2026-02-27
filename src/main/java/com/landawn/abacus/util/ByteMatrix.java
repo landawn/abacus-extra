@@ -28,34 +28,12 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A matrix implementation for byte primitive values, providing efficient storage and operations
- * for two-dimensional byte arrays. This class extends AbstractMatrix and provides specialized
- * methods for byte matrix manipulation including mathematical operations, transformations,
- * and element access.
- * 
- * <p>The matrix is stored as a two-dimensional byte array and supports various operations such as:
- * <ul>
- * <li>Element access and modification</li>
- * <li>Matrix arithmetic (add, subtract, multiply)</li>
- * <li>Transformations (transpose, rotate, flip)</li>
- * <li>Reshaping and extending</li>
- * <li>Stream-based iteration</li>
- * </ul>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Create a 3x3 matrix
- * byte[][] data = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
- * ByteMatrix matrix = ByteMatrix.of(data);
- * 
- * // Access elements
- * byte value = matrix.get(1, 2);   // Gets value at row 1, column 2
- * 
- * // Perform operations
- * ByteMatrix transposed = matrix.transpose();
- * ByteMatrix rotated = matrix.rotate90();
- * }</pre>
- * 
+ * Matrix implementation for primitive {@code byte} values.
+ *
+ * <p>This class is backed by a {@code byte[][]} and provides matrix-style operations including
+ * element access, updates, transformations, reshaping, and stream-oriented traversal.
+ * Input arrays are wrapped directly for performance unless a method explicitly creates a copy.</p>
+ *
  * @see AbstractMatrix
  * @see BooleanMatrix
  * @see CharMatrix

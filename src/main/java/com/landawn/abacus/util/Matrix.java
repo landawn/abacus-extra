@@ -29,39 +29,11 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A generic matrix implementation that stores elements in a two-dimensional array.
- * This class provides comprehensive matrix operations including element access,
- * transformations, and various utility methods for matrix manipulation.
- * 
- * <p>The matrix is immutable in terms of its dimensions once created, but individual
- * elements can be modified. Most transformation operations return new matrix instances.</p>
- * 
- * <p>Key features:</p>
- * <ul>
- *   <li>Generic type support for any object type</li>
- *   <li>Element-wise operations (map, update, replace)</li>
- *   <li>Matrix transformations (transpose, rotate, flip)</li>
- *   <li>Matrix combination operations (vstack, hstack, zip)</li>
- *   <li>Stream-based access patterns</li>
- *   <li>Conversion to primitive type matrices</li>
- * </ul>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Create a 3x3 matrix of integers
- * Integer[][] data = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
- * Matrix<Integer> matrix = Matrix.of(data);
+ * Generic object matrix backed by a two-dimensional array.
  *
- * // Access elements
- * Integer value = matrix.get(1, 2);   // Gets 6
- *
- * // Transform the matrix
- * Matrix<Double> doubled = matrix.map(x -> x * 2.0, Double.class);
- *
- * // Combine matrices
- * Matrix<Integer> other = Matrix.of(new Integer[][] {{9, 8, 7}, {6, 5, 4}, {3, 2, 1}});
- * Matrix<Integer> sum = matrix.zipWith(other, (a, b) -> a + b);
- * }</pre>
+ * <p>This class supports matrix operations such as indexing, transformation, reshaping,
+ * zipping/combination, and stream traversal for arbitrary reference types.
+ * Unless explicitly documented otherwise, construction and factory methods wrap the provided backing array.</p>
  *
  * @param <T> the type of elements in this matrix
  * @see AbstractMatrix

@@ -28,31 +28,12 @@ import com.landawn.abacus.util.stream.ShortStream;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A matrix implementation for short primitive values, providing efficient storage and operations
- * for two-dimensional short arrays. This class extends AbstractMatrix and provides specialized
- * methods for short matrix manipulation including mathematical operations, transformations,
- * and element access.
- * 
- * <p>The matrix is internally represented as a two-dimensional short array (short[][]) and supports various
- * operations including arithmetic operations, matrix transformations (transpose, rotate, flip),
- * and element-wise operations.</p>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Create a 3x3 matrix
- * short[][] data = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
- * ShortMatrix matrix = ShortMatrix.of(data);
- * 
- * // Get element at position (1, 2)
- * short value = matrix.get(1, 2);   // returns 6
- * 
- * // Transpose the matrix
- * ShortMatrix transposed = matrix.transpose();
- * 
- * // Stream all elements
- * matrix.streamH().forEach(System.out::println);
- * }</pre>
- * 
+ * Matrix implementation for primitive {@code short} values.
+ *
+ * <p>This class is backed by a {@code short[][]} and supports matrix operations such as
+ * element access, transformation, reshaping, extension, and stream-based traversal.
+ * Arrays passed to constructors and factory methods are wrapped directly for performance.</p>
+ *
  * @see AbstractMatrix
  * @see BooleanMatrix
  * @see ByteMatrix

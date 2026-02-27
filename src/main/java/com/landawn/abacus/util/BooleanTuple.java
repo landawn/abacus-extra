@@ -1996,7 +1996,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * int arity = tuple.arity();   // 9
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more boolean values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
      */
     @Deprecated
     public static final class BooleanTuple9 extends BooleanTuple<BooleanTuple9> {

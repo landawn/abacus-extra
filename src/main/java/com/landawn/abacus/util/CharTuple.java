@@ -2659,7 +2659,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * {@code _1} through {@code _9}.
      * </p>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more char values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more char values
      */
     @Deprecated
     public static final class CharTuple9 extends CharTuple<CharTuple9> {

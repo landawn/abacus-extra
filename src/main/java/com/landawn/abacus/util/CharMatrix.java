@@ -28,27 +28,12 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A matrix implementation for char primitive values, providing efficient storage and operations
- * for two-dimensional char arrays. This class extends AbstractMatrix and provides specialized
- * methods for char matrix manipulation including mathematical operations, transformations,
- * and element access.
- * 
- * <p>The matrix is backed by a two-dimensional char array and provides methods for:
- * <ul>
- *   <li>Basic matrix operations (add, subtract, multiply)</li>
- *   <li>Transformations (transpose, rotate, flip)</li>
- *   <li>Element access and modification</li>
- *   <li>Streaming operations for rows, columns, and diagonals</li>
- *   <li>Reshaping and extending operations</li>
- * </ul>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
- * char value = matrix.get(0, 1);   // returns 'b'
- * matrix.transpose();   // returns new matrix with rows and columns swapped
- * }</pre>
- * 
+ * Matrix implementation for primitive {@code char} values.
+ *
+ * <p>This class is backed by a {@code char[][]} and provides matrix operations such as
+ * indexing, mutation, reshaping, transformation, and streaming over rows, columns, and diagonals.
+ * The provided input array is wrapped directly unless a method documents defensive copying.</p>
+ *
  * @see AbstractMatrix
  * @see BooleanMatrix
  * @see ByteMatrix

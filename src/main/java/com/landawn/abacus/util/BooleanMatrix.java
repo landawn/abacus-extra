@@ -26,28 +26,12 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A matrix implementation for boolean primitive values, providing efficient storage and operations
- * for two-dimensional boolean arrays. This class extends AbstractMatrix and provides specialized
- * methods for boolean matrix manipulation including mathematical operations, transformations,
- * and element access.
- * 
- * <p>The matrix is internally represented as a two-dimensional boolean array (boolean[][]) and supports
- * various operations such as:
- * <ul>
- *   <li>Element access and modification</li>
- *   <li>Matrix transformations (transpose, rotate, flip)</li>
- *   <li>Matrix reshaping and resizing</li>
- *   <li>Stream operations for rows, columns, and diagonals</li>
- *   <li>Functional operations (map, filter, forEach)</li>
- * </ul>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
- * boolean value = matrix.get(0, 1);   // false
- * matrix.set(1, 0, true);   // Set element at row 1, column 0 to true
- * }</pre>
- * 
+ * Matrix implementation for primitive {@code boolean} values.
+ *
+ * <p>This class is backed by a {@code boolean[][]} and provides matrix-style operations such as
+ * indexing, traversal, reshaping, transformation, and conversion while avoiding boxing overhead.
+ * Factory methods and constructors wrap the provided array directly unless explicitly documented otherwise.</p>
+ *
  * @see AbstractMatrix
  * @see ByteMatrix
  * @see CharMatrix

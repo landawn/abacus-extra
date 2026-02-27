@@ -2360,7 +2360,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * double avg = tuple.average();   // 5.0
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more short values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more short values
      */
     @Deprecated
     public static final class ShortTuple9 extends ShortTuple<ShortTuple9> {

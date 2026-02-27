@@ -2755,7 +2755,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * int arity = tuple.arity();   // 9
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more byte values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values
      */
     @Deprecated
     public static final class ByteTuple9 extends ByteTuple<ByteTuple9> {

@@ -28,28 +28,12 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A matrix implementation for long primitive values, providing efficient storage and operations
- * for two-dimensional long arrays. This class extends AbstractMatrix and provides specialized
- * methods for long matrix manipulation including mathematical operations, transformations,
- * and element access.
- * 
- * <p>The matrix is internally represented as a two-dimensional long array and supports various
- * matrix operations including arithmetic operations, transformations, and element-wise operations.</p>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Create a 3x3 matrix
- * long[][] data = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
- * LongMatrix matrix = LongMatrix.of(data);
- * 
- * // Access elements
- * long value = matrix.get(1, 2);   // Gets element at row 1, column 2
- * 
- * // Perform operations
- * LongMatrix transposed = matrix.transpose();
- * LongMatrix doubled = matrix.map(x -> x * 2);
- * }</pre>
- * 
+ * Matrix implementation for primitive {@code long} values.
+ *
+ * <p>This class stores data in a {@code long[][]} and provides matrix operations such as
+ * element access, update, transformation, reshaping, and stream traversal.
+ * For performance, input arrays are wrapped directly unless an API contract states otherwise.</p>
+ *
  * @see AbstractMatrix
  * @see BooleanMatrix
  * @see ByteMatrix

@@ -2354,7 +2354,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * double avg = tuple.average();   // 5.0
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more int values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more int values
      */
     @Deprecated
     public static final class IntTuple9 extends IntTuple<IntTuple9> {

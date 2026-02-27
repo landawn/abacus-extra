@@ -28,39 +28,11 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A matrix implementation for int primitive values, providing efficient storage and operations
- * for two-dimensional int arrays. This class extends AbstractMatrix and provides specialized
- * methods for int matrix manipulation including mathematical operations, transformations,
- * element access, and streaming capabilities.
+ * Matrix implementation for primitive {@code int} values.
  *
- * <p>The matrix is stored internally as a two-dimensional int array (int[][]) and provides
- * methods for element access, manipulation, and various matrix operations such as
- * transpose, rotation, multiplication, diagonal operations, and more.</p>
- *
- * <p><b>Key Features:</b></p>
- * <ul>
- *   <li>Factory methods for creating matrices from various sources (arrays, ranges, random values)</li>
- *   <li>Matrix transformations (transpose, rotate, flip, reshape, extend)</li>
- *   <li>Mathematical operations (add, subtract, multiply, element-wise operations)</li>
- *   <li>Streaming support for rows, columns, and diagonals</li>
- *   <li>Diagonal operations (get, set, update main and anti-diagonals)</li>
- *   <li>Conversion methods to other matrix types (Long, Float, Double, boxed Integer)</li>
- * </ul>
- *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Create matrices
- * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
- * IntMatrix range = IntMatrix.range(0, 10);
- *
- * // Transformations
- * IntMatrix transposed = matrix.transpose();
- * IntMatrix rotated = matrix.rotate90();
- *
- * // Operations
- * IntMatrix doubled = matrix.map(x -> x * 2);
- * int sum = matrix.streamH().sum();
- * }</pre>
+ * <p>This class is backed by a {@code int[][]} and provides a rich set of matrix operations,
+ * including indexing, mutation, reshaping, transformation, diagonal utilities, and stream-based traversal.
+ * Construction and factory methods typically wrap the provided array directly to avoid copy overhead.</p>
  *
  * @see AbstractMatrix
  * @see BooleanMatrix
@@ -78,7 +50,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     static final IntMatrix EMPTY_INT_MATRIX = new IntMatrix(new int[0][0]);
 
     /**
-     * Constructs a IntMatrix from a two-dimensional int array.
+     * Constructs an IntMatrix from a two-dimensional int array.
      * If the input array is null, an empty matrix (0x0) is created.
      *
      * <p><b>Important:</b> The array is used directly without copying. Modifications to the input array

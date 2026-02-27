@@ -28,22 +28,12 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A matrix implementation for float primitive values, providing efficient storage and operations
- * for two-dimensional float arrays. This class extends AbstractMatrix and provides specialized
- * methods for float matrix manipulation including mathematical operations, transformations,
- * and element access.
- * 
- * <p>The matrix is stored internally as a two-dimensional float array (float[][]) and provides
- * methods for element access, manipulation, and various matrix operations such as
- * transpose, rotation, multiplication, and more.</p>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
- * FloatMatrix transposed = matrix.transpose();
- * float element = matrix.get(0, 1);   // Returns 2.0f
- * }</pre>
- * 
+ * Matrix implementation for primitive {@code float} values.
+ *
+ * <p>This class is backed by a {@code float[][]} and provides matrix operations including
+ * access, mutation, mapping, transformation, reshaping, and stream traversal.
+ * Arrays supplied to constructors and factory methods are wrapped directly for performance.</p>
+ *
  * @see AbstractMatrix
  * @see BooleanMatrix
  * @see ByteMatrix
