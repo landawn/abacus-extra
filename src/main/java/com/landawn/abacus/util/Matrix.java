@@ -177,7 +177,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             N.fill(ea, element);
         }
 
-        return new Matrix<>(a);
+        @SuppressWarnings("unchecked")
+        final Class<T> resolvedElementType = (Class<T>) element.getClass();
+
+        return new Matrix<>(a, resolvedElementType);
     }
 
     /**
@@ -287,11 +290,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final int len = N.max(N.len(mainDiagonal), N.len(antiDiagonal));
         final Class<?> leftComponentClass = mainDiagonal == null ? null : mainDiagonal.getClass().getComponentType();
         final Class<?> rightComponentClass = antiDiagonal == null ? null : antiDiagonal.getClass().getComponentType();
-
-        if (N.notEmpty(mainDiagonal) && N.notEmpty(antiDiagonal)
-                && !(leftComponentClass.isAssignableFrom(rightComponentClass) || rightComponentClass.isAssignableFrom(leftComponentClass))) {
-            throw new IllegalArgumentException("Incompatible component types: " + leftComponentClass.getName() + " and " + rightComponentClass.getName());
-        }
 
         final Class<?> commonType = resolveCommonAssignableType(leftComponentClass, rightComponentClass);
 
@@ -540,7 +538,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         // Matrices created from Object[][] (for example via repeat/diagonals) can otherwise
         // trigger ClassCastException at call sites expecting T[] (for example String[]).
-        if (row.getClass().getComponentType() == Object.class) {
+        if (elementType != Object.class && row.getClass().getComponentType() == Object.class) {
             final Class<?> resolvedElementType = resolveRowElementType(row);
 
             if (resolvedElementType != Object.class) {

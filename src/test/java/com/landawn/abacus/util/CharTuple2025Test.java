@@ -128,28 +128,28 @@ public class CharTuple2025Test extends TestBase {
     // Create method tests
     @Test
     public void testCreateEmpty() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreateNull() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(null);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate1() {
-        CharTuple1 tuple = CharTuple.fromArray(new char[] { 'a' });
+        CharTuple1 tuple = CharTuple.copyOf(new char[] { 'a' });
         assertEquals('a', tuple._1);
         assertEquals(1, tuple.arity());
     }
 
     @Test
     public void testCreate3() {
-        CharTuple3 tuple = CharTuple.fromArray(new char[] { 'a', 'b', 'c' });
+        CharTuple3 tuple = CharTuple.copyOf(new char[] { 'a', 'b', 'c' });
         assertEquals('a', tuple._1);
         assertEquals('b', tuple._2);
         assertEquals('c', tuple._3);
@@ -157,7 +157,7 @@ public class CharTuple2025Test extends TestBase {
 
     @Test
     public void testCreate9() {
-        CharTuple9 tuple = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' });
+        CharTuple9 tuple = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' });
         assertEquals('a', tuple._1);
         assertEquals('i', tuple._9);
     }
@@ -165,7 +165,7 @@ public class CharTuple2025Test extends TestBase {
     @Test
     public void testCreateTooMany() {
         assertThrows(IllegalArgumentException.class, () -> {
-            CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' });
+            CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' });
         });
     }
 
@@ -184,7 +184,7 @@ public class CharTuple2025Test extends TestBase {
 
     @Test
     public void testMinTuple0ThrowsException() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
@@ -203,7 +203,7 @@ public class CharTuple2025Test extends TestBase {
 
     @Test
     public void testMaxTuple0ThrowsException() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
@@ -222,14 +222,14 @@ public class CharTuple2025Test extends TestBase {
 
     @Test
     public void testMedianTuple0ThrowsException() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     // Statistical method tests - sum
     @Test
     public void testSumTuple0() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         assertEquals(0, tuple.sum());
     }
 
@@ -260,14 +260,14 @@ public class CharTuple2025Test extends TestBase {
 
     @Test
     public void testAverageTuple0ThrowsException() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     // Reverse tests
     @Test
     public void testReverseTuple0() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         CharTuple<CharTuple0> reversed = tuple.reverse();
         assertNotNull(reversed);
         assertEquals(0, reversed.arity());
@@ -300,7 +300,7 @@ public class CharTuple2025Test extends TestBase {
     // Contains tests
     @Test
     public void testContainsTuple0() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         assertFalse(tuple.contains('a'));
     }
 
@@ -328,7 +328,7 @@ public class CharTuple2025Test extends TestBase {
     // toArray tests
     @Test
     public void testToArrayTuple0() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         char[] array = tuple.toArray();
         assertEquals(0, array.length);
     }
@@ -358,7 +358,7 @@ public class CharTuple2025Test extends TestBase {
     // toList tests
     @Test
     public void testToListTuple0() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         CharList list = tuple.toList();
         assertEquals(0, list.size());
     }
@@ -384,7 +384,7 @@ public class CharTuple2025Test extends TestBase {
     // forEach tests
     @Test
     public void testForEachTuple0() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         List<Character> result = new ArrayList<>();
         tuple.forEach(i -> result.add(i));
         assertEquals(0, result.size());
@@ -413,7 +413,7 @@ public class CharTuple2025Test extends TestBase {
     // stream tests
     @Test
     public void testStreamTuple0() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         CharStream stream = tuple.stream();
         assertEquals(0, stream.count());
     }
@@ -503,7 +503,7 @@ public class CharTuple2025Test extends TestBase {
     // toString tests
     @Test
     public void testToStringTuple0() {
-        CharTuple<CharTuple0> tuple = CharTuple.fromArray(new char[0]);
+        CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
         assertEquals("()", tuple.toString());
     }
 
@@ -604,7 +604,7 @@ public class CharTuple2025Test extends TestBase {
     // arity tests for all tuple sizes
     @Test
     public void testArity() {
-        assertEquals(0, CharTuple.fromArray(new char[0]).arity());
+        assertEquals(0, CharTuple.copyOf(new char[0]).arity());
         assertEquals(1, CharTuple.of('a').arity());
         assertEquals(2, CharTuple.of('a', 'b').arity());
         assertEquals(3, CharTuple.of('a', 'b', 'c').arity());
@@ -760,42 +760,42 @@ public class CharTuple2025Test extends TestBase {
     // Test for create() with all sizes (2, 4-9)
     @Test
     public void testCreate2() {
-        CharTuple2 tuple = CharTuple.fromArray(new char[] { 'a', 'b' });
+        CharTuple2 tuple = CharTuple.copyOf(new char[] { 'a', 'b' });
         assertEquals('a', tuple._1);
         assertEquals('b', tuple._2);
     }
 
     @Test
     public void testCreate4() {
-        CharTuple4 tuple = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd' });
+        CharTuple4 tuple = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd' });
         assertEquals('a', tuple._1);
         assertEquals('d', tuple._4);
     }
 
     @Test
     public void testCreate5() {
-        CharTuple5 tuple = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e' });
+        CharTuple5 tuple = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e' });
         assertEquals('a', tuple._1);
         assertEquals('e', tuple._5);
     }
 
     @Test
     public void testCreate6() {
-        CharTuple6 tuple = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e', 'f' });
+        CharTuple6 tuple = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e', 'f' });
         assertEquals('a', tuple._1);
         assertEquals('f', tuple._6);
     }
 
     @Test
     public void testCreate7() {
-        CharTuple7 tuple = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' });
+        CharTuple7 tuple = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' });
         assertEquals('a', tuple._1);
         assertEquals('g', tuple._7);
     }
 
     @Test
     public void testCreate8() {
-        CharTuple8 tuple = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' });
+        CharTuple8 tuple = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' });
         assertEquals('a', tuple._1);
         assertEquals('h', tuple._8);
     }
@@ -968,27 +968,27 @@ public class CharTuple2025Test extends TestBase {
     // Test create methods for sizes 2, 4-8
     @Test
     public void testCreate2Through8() {
-        CharTuple2 tuple2 = CharTuple.fromArray(new char[] { 'a', 'b' });
+        CharTuple2 tuple2 = CharTuple.copyOf(new char[] { 'a', 'b' });
         assertEquals('a', tuple2._1);
         assertEquals('b', tuple2._2);
 
-        CharTuple4 tuple4 = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd' });
+        CharTuple4 tuple4 = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd' });
         assertEquals('a', tuple4._1);
         assertEquals('d', tuple4._4);
 
-        CharTuple5 tuple5 = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e' });
+        CharTuple5 tuple5 = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e' });
         assertEquals('a', tuple5._1);
         assertEquals('e', tuple5._5);
 
-        CharTuple6 tuple6 = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e', 'f' });
+        CharTuple6 tuple6 = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e', 'f' });
         assertEquals('a', tuple6._1);
         assertEquals('f', tuple6._6);
 
-        CharTuple7 tuple7 = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' });
+        CharTuple7 tuple7 = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' });
         assertEquals('a', tuple7._1);
         assertEquals('g', tuple7._7);
 
-        CharTuple8 tuple8 = CharTuple.fromArray(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' });
+        CharTuple8 tuple8 = CharTuple.copyOf(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' });
         assertEquals('a', tuple8._1);
         assertEquals('h', tuple8._8);
     }

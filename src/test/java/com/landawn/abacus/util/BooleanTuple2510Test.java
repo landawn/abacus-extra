@@ -140,25 +140,25 @@ public class BooleanTuple2510Test extends TestBase {
         assertEquals(9, tuple.arity());
     }
 
-    // ============ Factory Method Tests - BooleanTuple.fromArray() ============
+    // ============ Factory Method Tests - BooleanTuple.copyOf() ============
 
     @Test
     public void testCreate_nullArray() {
-        BooleanTuple<?> tuple = BooleanTuple.fromArray(null);
+        BooleanTuple<?> tuple = BooleanTuple.copyOf(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_emptyArray() {
-        BooleanTuple<?> tuple = BooleanTuple.fromArray(new boolean[0]);
+        BooleanTuple<?> tuple = BooleanTuple.copyOf(new boolean[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_array1() {
-        BooleanTuple1 tuple = BooleanTuple.fromArray(new boolean[] { true });
+        BooleanTuple1 tuple = BooleanTuple.copyOf(new boolean[] { true });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals(true, tuple._1);
@@ -166,7 +166,7 @@ public class BooleanTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_array2() {
-        BooleanTuple2 tuple = BooleanTuple.fromArray(new boolean[] { true, false });
+        BooleanTuple2 tuple = BooleanTuple.copyOf(new boolean[] { true, false });
         assertNotNull(tuple);
         assertEquals(2, tuple.arity());
         assertEquals(true, tuple._1);
@@ -175,7 +175,7 @@ public class BooleanTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_array3() {
-        BooleanTuple3 tuple = BooleanTuple.fromArray(new boolean[] { true, false, true });
+        BooleanTuple3 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true });
         assertNotNull(tuple);
         assertEquals(3, tuple.arity());
         assertEquals(true, tuple._1);
@@ -185,44 +185,44 @@ public class BooleanTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_array4() {
-        BooleanTuple4 tuple = BooleanTuple.fromArray(new boolean[] { true, false, true, false });
+        BooleanTuple4 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true, false });
         assertEquals(4, tuple.arity());
     }
 
     @Test
     public void testCreate_array5() {
-        BooleanTuple5 tuple = BooleanTuple.fromArray(new boolean[] { true, false, true, false, true });
+        BooleanTuple5 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true, false, true });
         assertEquals(5, tuple.arity());
     }
 
     @Test
     public void testCreate_array6() {
-        BooleanTuple6 tuple = BooleanTuple.fromArray(new boolean[] { true, false, true, false, true, false });
+        BooleanTuple6 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true, false, true, false });
         assertEquals(6, tuple.arity());
     }
 
     @Test
     public void testCreate_array7() {
-        BooleanTuple7 tuple = BooleanTuple.fromArray(new boolean[] { true, false, true, false, true, false, true });
+        BooleanTuple7 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true, false, true, false, true });
         assertEquals(7, tuple.arity());
     }
 
     @Test
     public void testCreate_array8() {
-        BooleanTuple8 tuple = BooleanTuple.fromArray(new boolean[] { true, false, true, false, true, false, true, false });
+        BooleanTuple8 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true, false, true, false, true, false });
         assertEquals(8, tuple.arity());
     }
 
     @Test
     public void testCreate_array9() {
-        BooleanTuple9 tuple = BooleanTuple.fromArray(new boolean[] { true, false, true, false, true, false, true, false, true });
+        BooleanTuple9 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true, false, true, false, true, false, true });
         assertEquals(9, tuple.arity());
     }
 
     @Test
     public void testCreate_arrayTooLarge() {
         assertThrows(IllegalArgumentException.class, () -> {
-            BooleanTuple.fromArray(new boolean[10]);
+            BooleanTuple.copyOf(new boolean[10]);
         });
     }
 

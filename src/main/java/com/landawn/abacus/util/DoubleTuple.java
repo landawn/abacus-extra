@@ -265,13 +265,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <pre>{@code
      * // Create from array
      * double[] values = {1.0, 2.0, 3.0};
-     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.fromArray(values);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.copyOf(values);
      *
      * // Empty array returns DoubleTuple.DoubleTuple0
-     * DoubleTuple<?> empty = DoubleTuple.fromArray(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
      *
      * // Single element
-     * DoubleTuple.DoubleTuple1 single = DoubleTuple.fromArray(new double[]{3.14});
+     * DoubleTuple.DoubleTuple1 single = DoubleTuple.copyOf(new double[]{3.14});
      * }</pre>
      *
      * @param <TP> the specific DoubleTuple subtype to return
@@ -280,7 +280,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends DoubleTuple<TP>> TP fromArray(final double[] values) {
+    public static <TP extends DoubleTuple<TP>> TP copyOf(final double[] values) {
         if (values == null || values.length == 0) {
             return (TP) DoubleTuple0.EMPTY;
         }
@@ -494,7 +494,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double[] array = tuple.toArray();   // [1.0, 2.0, 3.0]
      * array[0] = 5.0;  // Does not modify the original tuple
      *
-     * DoubleTuple<?> empty = DoubleTuple.fromArray(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
      * double[] emptyArray = empty.toArray();   // []
      * }</pre>
      *
@@ -662,7 +662,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * An empty DoubleTuple containing no elements.
      * <p>
      * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
-     * with a single shared instance accessed via {@code DoubleTuple.fromArray(new double[0])} or returned
+     * with a single shared instance accessed via {@code DoubleTuple.copyOf(new double[0])} or returned
      * when creating tuples from null/empty arrays. All statistical operations on DoubleTuple.DoubleTuple0 either
      * return 0.0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
      * </p>

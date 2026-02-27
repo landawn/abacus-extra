@@ -136,21 +136,21 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testCreate_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_null() {
-        CharTuple0 tuple = CharTuple.fromArray(null);
+        CharTuple0 tuple = CharTuple.copyOf(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_single() {
-        CharTuple1 tuple = CharTuple.fromArray(new char[] { 'X' });
+        CharTuple1 tuple = CharTuple.copyOf(new char[] { 'X' });
         assertNotNull(tuple);
         assertEquals('X', tuple._1);
         assertEquals(1, tuple.arity());
@@ -158,7 +158,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testCreate_two() {
-        CharTuple2 tuple = CharTuple.fromArray(new char[] { 'X', 'Y' });
+        CharTuple2 tuple = CharTuple.copyOf(new char[] { 'X', 'Y' });
         assertNotNull(tuple);
         assertEquals('X', tuple._1);
         assertEquals('Y', tuple._2);
@@ -166,7 +166,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testCreate_nine() {
-        CharTuple9 tuple = CharTuple.fromArray(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' });
+        CharTuple9 tuple = CharTuple.copyOf(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' });
         assertNotNull(tuple);
         assertEquals('A', tuple._1);
         assertEquals('I', tuple._9);
@@ -176,7 +176,7 @@ public class CharTuple2511Test extends TestBase {
     @Test
     public void testCreate_tooMany() {
         assertThrows(IllegalArgumentException.class, () -> {
-            CharTuple.fromArray(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' });
+            CharTuple.copyOf(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' });
         });
     }
 
@@ -184,7 +184,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testMin_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
@@ -202,7 +202,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testMax_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
@@ -220,7 +220,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testMedian_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
@@ -244,7 +244,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testSum_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertEquals(0, tuple.sum());
     }
 
@@ -262,7 +262,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testAverage_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
@@ -282,7 +282,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testReverse_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         CharTuple0 reversed = tuple.reverse();
         assertNotNull(reversed);
         assertEquals(0, reversed.arity());
@@ -319,7 +319,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testContains_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertFalse(tuple.contains('A'));
     }
 
@@ -429,7 +429,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testForEach_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         AtomicInteger count = new AtomicInteger(0);
         tuple.forEach(c -> count.incrementAndGet());
         assertEquals(0, count.get());
@@ -460,7 +460,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testToArray_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         char[] array = tuple.toArray();
         assertNotNull(array);
         assertEquals(0, array.length);
@@ -493,7 +493,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testToList_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         CharList list = tuple.toList();
         assertNotNull(list);
         assertEquals(0, list.size());
@@ -521,7 +521,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testStream_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         int sum = tuple.stream().sum();
         assertEquals(0, sum);
     }
@@ -597,7 +597,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testHashCode_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertNotNull(tuple.hashCode());
     }
 
@@ -605,7 +605,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testToString_empty() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertEquals("()", tuple.toString());
     }
 
@@ -625,7 +625,7 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testArity_0() {
-        CharTuple0 tuple = CharTuple.fromArray(new char[0]);
+        CharTuple0 tuple = CharTuple.copyOf(new char[0]);
         assertEquals(0, tuple.arity());
     }
 

@@ -121,7 +121,12 @@ public class MatrixTest extends TestBase {
         Number[] mainDiag = new Integer[] { 1, 2 };
         Number[] antiDiag = new Double[] { 3.0, 4.0 };
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Matrix.diagonals(mainDiag, antiDiag));
+        Matrix<Number> matrix = Matrix.diagonals(mainDiag, antiDiag);
+        Assertions.assertEquals(Number.class, matrix.componentType());
+        Assertions.assertEquals(1, matrix.get(0, 0));
+        Assertions.assertEquals(2, matrix.get(1, 1));
+        Assertions.assertEquals(3.0d, matrix.get(0, 1).doubleValue());
+        Assertions.assertEquals(4.0d, matrix.get(1, 0).doubleValue());
     }
 
     @Test
@@ -141,6 +146,9 @@ public class MatrixTest extends TestBase {
 
         Matrix<Integer> intMatrix = Matrix.of(new Integer[][] { { 1, 2 } });
         Assertions.assertEquals(Integer.class, intMatrix.componentType());
+
+        Matrix<String> repeated = Matrix.repeat(1, 2, "x");
+        Assertions.assertEquals(String.class, repeated.componentType());
     }
 
     @Test
@@ -236,6 +244,17 @@ public class MatrixTest extends TestBase {
 
         row[0] = 10; // This modifies the matrix
         Assertions.assertEquals(10, matrix.get(0, 0));
+    }
+
+    @Test
+    public void testRowOnObjectMatrixDoesNotNarrowInternalStorage() {
+        Matrix<Object> matrix = Matrix.of(new Object[][] { { "a" } });
+        Object[] row = matrix.row(0);
+
+        Assertions.assertEquals(Object.class, row.getClass().getComponentType());
+
+        matrix.set(0, 0, 1);
+        Assertions.assertEquals(1, matrix.get(0, 0));
     }
 
     @Test

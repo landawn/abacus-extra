@@ -144,7 +144,7 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testArray_intMatrix() {
         int[][] arr = { { 1, 2 }, { 3, 4 } };
         IntMatrix m = IntMatrix.of(arr);
-        int[][] returnedArray = m.array();
+        int[][] returnedArray = m.rawArray();
 
         assertNotNull(returnedArray);
         assertEquals(2, returnedArray.length);
@@ -156,7 +156,7 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testArray_doubleMatrix() {
         double[][] arr = { { 1.5, 2.5 }, { 3.5, 4.5 } };
         DoubleMatrix m = DoubleMatrix.of(arr);
-        double[][] returnedArray = m.array();
+        double[][] returnedArray = m.rawArray();
 
         assertNotNull(returnedArray);
         assertEquals(2, returnedArray.length);
@@ -168,7 +168,7 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testArray_objectMatrix() {
         String[][] arr = { { "A", "B" }, { "C", "D" } };
         Matrix<String> m = Matrix.of(arr);
-        String[][] returnedArray = m.array();
+        String[][] returnedArray = m.rawArray();
 
         assertNotNull(returnedArray);
         assertEquals(2, returnedArray.length);

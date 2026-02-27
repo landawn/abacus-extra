@@ -263,13 +263,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * // Create from array
      * char[] values = {'A', 'B', 'C'};
-     * CharTuple.CharTuple3 tuple = CharTuple.fromArray(values);
+     * CharTuple.CharTuple3 tuple = CharTuple.copyOf(values);
      *
      * // Empty array returns CharTuple<?>
-     * CharTuple<?> empty = CharTuple.fromArray(new char[0]);
+     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
      *
      * // Single element
-     * CharTuple.CharTuple1 single = CharTuple.fromArray(new char[]{'X'});
+     * CharTuple.CharTuple1 single = CharTuple.copyOf(new char[]{'X'});
      * }</pre>
      *
      * @param <TP> the specific CharTuple subtype to return
@@ -278,7 +278,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends CharTuple<TP>> TP fromArray(final char[] values) {
+    public static <TP extends CharTuple<TP>> TP copyOf(final char[] values) {
         if (values == null || values.length == 0) {
             return (TP) CharTuple0.EMPTY;
         }
@@ -492,7 +492,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * char[] array = tuple.toArray();   // ['A', 'B', 'C']
      * array[0] = 'X';  // Does not modify the original tuple
      *
-     * CharTuple<?> empty = CharTuple.fromArray(new char[0]);
+     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
      * char[] emptyArray = empty.toArray();   // []
      * }</pre>
      *
@@ -659,7 +659,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * An empty CharTuple containing no elements.
      * <p>
      * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
-     * with a single shared instance accessed via {@code CharTuple.fromArray(new char[0])} or returned
+     * with a single shared instance accessed via {@code CharTuple.copyOf(new char[0])} or returned
      * when creating tuples from null/empty arrays. All statistical operations on CharTuple<?> either
      * return 0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
      * </p>
@@ -687,7 +687,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple<?> emptyTuple = CharTuple.fromArray(new char[0]);
+         * CharTuple<?> emptyTuple = CharTuple.copyOf(new char[0]);
          * try {
          *     emptyTuple.min();
          * } catch (NoSuchElementException e) {
@@ -709,7 +709,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple<?> emptyTuple = CharTuple.fromArray(new char[0]);
+         * CharTuple<?> emptyTuple = CharTuple.copyOf(new char[0]);
          * try {
          *     emptyTuple.max();
          * } catch (NoSuchElementException e) {
@@ -731,7 +731,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple<?> emptyTuple = CharTuple.fromArray(new char[0]);
+         * CharTuple<?> emptyTuple = CharTuple.copyOf(new char[0]);
          * try {
          *     emptyTuple.median();
          * } catch (NoSuchElementException e) {

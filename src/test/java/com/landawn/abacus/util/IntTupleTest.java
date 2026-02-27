@@ -117,29 +117,29 @@ public class IntTupleTest extends TestBase {
     @Test
     public void testCreate() {
         // Test empty array
-        IntTuple<?> empty = IntTuple.fromArray(null);
+        IntTuple<?> empty = IntTuple.copyOf(null);
         assertEquals(0, empty.arity());
 
-        empty = IntTuple.fromArray(new int[0]);
+        empty = IntTuple.copyOf(new int[0]);
         assertEquals(0, empty.arity());
 
         // Test array with 1 element
-        IntTuple.IntTuple1 tuple1 = IntTuple.fromArray(new int[] { 10 });
+        IntTuple.IntTuple1 tuple1 = IntTuple.copyOf(new int[] { 10 });
         assertEquals(1, tuple1.arity());
         assertEquals(10, tuple1._1);
 
         // Test array with 5 elements
-        IntTuple.IntTuple5 tuple5 = IntTuple.fromArray(new int[] { 10, 20, 30, 40, 50 });
+        IntTuple.IntTuple5 tuple5 = IntTuple.copyOf(new int[] { 10, 20, 30, 40, 50 });
         assertEquals(5, tuple5.arity());
         assertEquals(50, tuple5._5);
 
         // Test array with 9 elements
-        IntTuple.IntTuple9 tuple9 = IntTuple.fromArray(new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
+        IntTuple.IntTuple9 tuple9 = IntTuple.copyOf(new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
         assertEquals(9, tuple9.arity());
         assertEquals(90, tuple9._9);
 
         // Test too many elements
-        assertThrows(IllegalArgumentException.class, () -> IntTuple.fromArray(new int[10]));
+        assertThrows(IllegalArgumentException.class, () -> IntTuple.copyOf(new int[10]));
     }
 
     @Test
@@ -147,7 +147,7 @@ public class IntTupleTest extends TestBase {
         IntTuple.IntTuple3 tuple = IntTuple.of(30, 10, 20);
         assertEquals(10, tuple.min());
 
-        IntTuple.IntTuple0 empty = IntTuple.fromArray(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
         assertThrows(NoSuchElementException.class, () -> empty.min());
     }
 
@@ -156,7 +156,7 @@ public class IntTupleTest extends TestBase {
         IntTuple.IntTuple3 tuple = IntTuple.of(30, 10, 20);
         assertEquals(30, tuple.max());
 
-        IntTuple.IntTuple0 empty = IntTuple.fromArray(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
         assertThrows(NoSuchElementException.class, () -> empty.max());
     }
 
@@ -168,7 +168,7 @@ public class IntTupleTest extends TestBase {
         IntTuple.IntTuple4 evenTuple = IntTuple.of(10, 20, 30, 40);
         assertEquals(20, tuple.median()); // Should be (20 + 30) / 2 = 25
 
-        IntTuple.IntTuple0 empty = IntTuple.fromArray(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());
     }
 
@@ -177,7 +177,7 @@ public class IntTupleTest extends TestBase {
         IntTuple.IntTuple3 tuple = IntTuple.of(10, 20, 30);
         assertEquals(60, tuple.sum());
 
-        IntTuple.IntTuple0 empty = IntTuple.fromArray(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
         assertEquals(0, empty.sum());
     }
 
@@ -186,14 +186,14 @@ public class IntTupleTest extends TestBase {
         IntTuple.IntTuple3 tuple = IntTuple.of(10, 20, 30);
         assertEquals(20.0, tuple.average());
 
-        IntTuple.IntTuple0 empty = IntTuple.fromArray(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
         assertThrows(NoSuchElementException.class, () -> empty.average());
     }
 
     @Test
     public void testReverse() {
         // Test Tuple0
-        IntTuple.IntTuple0 empty = IntTuple.fromArray(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
         IntTuple.IntTuple0 reversedEmpty = empty.reverse();
         assertEquals(0, reversedEmpty.arity());
 
@@ -228,7 +228,7 @@ public class IntTupleTest extends TestBase {
     @Test
     public void testContains() {
         // Test Tuple0
-        IntTuple.IntTuple0 empty = IntTuple.fromArray(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
         assertFalse(empty.contains(10));
 
         // Test Tuple1
@@ -348,7 +348,7 @@ public class IntTupleTest extends TestBase {
 
     @Test
     public void testToString() {
-        IntTuple.IntTuple0 empty = IntTuple.fromArray(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
         assertEquals("()", empty.toString());
 
         IntTuple.IntTuple1 single = IntTuple.of(10);

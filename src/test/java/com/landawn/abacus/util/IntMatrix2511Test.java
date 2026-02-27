@@ -1177,7 +1177,7 @@ public class IntMatrix2511Test extends TestBase {
     @Test
     public void testToArray() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        int[][] arr = m.array();
+        int[][] arr = m.rawArray();
         assertEquals(2, arr.length);
         assertEquals(2, arr[0].length);
         assertArrayEquals(new int[] { 1, 2 }, arr[0]);

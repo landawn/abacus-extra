@@ -1557,7 +1557,7 @@ public class CharMatrix2511Test extends TestBase {
     public void testArray() {
         char[][] arr = { { 'a', 'b' }, { 'c', 'd' } };
         CharMatrix m = CharMatrix.of(arr);
-        char[][] result = m.array();
+        char[][] result = m.rawArray();
         assertArrayEquals(arr, result);
     }
 

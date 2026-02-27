@@ -635,7 +635,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * int[][] array = matrix.array();
+     * int[][] array = matrix.rawArray();
      * array[0][0] = 10;  // This WILL modify the matrix!
      * // matrix now contains {{10, 2}, {3, 4}}
      * }</pre>
@@ -643,7 +643,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return the underlying two-dimensional array (not a copy)
      */
     @SuppressFBWarnings("EI_EXPOSE_REP")
-    public A[] array() {
+    public A[] rawArray() {
         return a;
     }
 

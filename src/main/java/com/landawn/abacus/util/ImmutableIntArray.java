@@ -24,7 +24,7 @@ import com.landawn.abacus.util.stream.IntStream;
  * 
  * <p>This class provides two factory methods:</p>
  * <ul>
- *   <li>{@link #of(int[])} - Creates a wrapper around the provided array (no copy)</li>
+ *   <li>{@link #wrap(int[])} - Creates a wrapper around the provided array (no copy)</li>
  *   <li>{@link #copyOf(int[])} - Creates a wrapper around a defensive copy of the array</li>
  * </ul>
  * 
@@ -74,7 +74,7 @@ public final class ImmutableIntArray implements Immutable {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] data = new int[] {10, 20, 30};
-     * ImmutableIntArray array = ImmutableIntArray.of(data);
+     * ImmutableIntArray array = ImmutableIntArray.wrap(data);
      * System.out.println(array.get(1));   // prints: 20
      *
      * // CAUTION: Modifying the original array affects the ImmutableIntArray
@@ -86,7 +86,7 @@ public final class ImmutableIntArray implements Immutable {
      * @return an ImmutableIntArray wrapping the provided array, or an empty ImmutableIntArray if the input is {@code null}
      * @see #copyOf(int[])
      */
-    public static ImmutableIntArray of(final int[] array) {
+    public static ImmutableIntArray wrap(final int[] array) {
         return new ImmutableIntArray(array);
     }
 
@@ -98,7 +98,7 @@ public final class ImmutableIntArray implements Immutable {
      * This is the recommended factory method when the source array might be modified after
      * creating the ImmutableIntArray, or when you need guaranteed immutability.</p>
      *
-     * <p>Unlike {@link #of(int[])}, which wraps the array directly, this method provides
+     * <p>Unlike {@link #wrap(int[])}, which wraps the array directly, this method provides
      * true immutability at the cost of array copying overhead.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -115,7 +115,7 @@ public final class ImmutableIntArray implements Immutable {
      * @param array the int array to copy, or {@code null} to create an empty ImmutableIntArray
      * @return a new ImmutableIntArray containing a defensive copy of the provided array,
      *         or an empty ImmutableIntArray if the input is {@code null}
-     * @see #of(int[])
+     * @see #wrap(int[])
      */
     public static ImmutableIntArray copyOf(final int[] array) {
         return new ImmutableIntArray(array == null ? N.EMPTY_INT_ARRAY : array.clone());
@@ -126,13 +126,13 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray empty = ImmutableIntArray.of(new int[0]);
+     * ImmutableIntArray empty = ImmutableIntArray.wrap(new int[0]);
      * boolean result1 = empty.isEmpty();   // returns true
      *
-     * ImmutableIntArray nonEmpty = ImmutableIntArray.of(new int[] {1, 2, 3});
+     * ImmutableIntArray nonEmpty = ImmutableIntArray.wrap(new int[] {1, 2, 3});
      * boolean result2 = nonEmpty.isEmpty();   // returns false
      *
-     * ImmutableIntArray fromNull = ImmutableIntArray.of(null);
+     * ImmutableIntArray fromNull = ImmutableIntArray.wrap(null);
      * boolean result3 = fromNull.isEmpty();   // returns true (null becomes empty array)
      * }</pre>
      *
@@ -151,11 +151,11 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {10, 20, 30, 40, 50});
+     * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {10, 20, 30, 40, 50});
      * boolean found1 = array.contains(30);   // returns true
      * boolean found2 = array.contains(99);   // returns false
      *
-     * ImmutableIntArray empty = ImmutableIntArray.of(new int[0]);
+     * ImmutableIntArray empty = ImmutableIntArray.wrap(new int[0]);
      * boolean found3 = empty.contains(1);   // returns false
      * }</pre>
      *
@@ -181,7 +181,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {5, 10, 15, 20});
+     * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {5, 10, 15, 20});
      * int value = array.get(1);                 // returns 10
      * int first = array.get(0);                 // returns 5
      * int last = array.get(array.length - 1);   // returns 20
@@ -208,7 +208,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {1, 2, 3, 4, 5});
+     * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {1, 2, 3, 4, 5});
      *
      * // Print each element
      * array.forEach(value -> System.out.println(value));
@@ -245,7 +245,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {10, 20, 30});
+     * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {10, 20, 30});
      *
      * // Print each element with its index
      * array.forEachIndexed((index, value) ->
@@ -287,7 +287,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {1, 2, 3, 4, 5});
+     * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {1, 2, 3, 4, 5});
      *
      * // Calculate sum
      * int sum = array.stream().sum();   // returns 15
@@ -324,7 +324,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {10, 20, 30, 40, 50});
+     * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {10, 20, 30, 40, 50});
      *
      * ImmutableIntArray subArray = array.copy(1, 4);
      * // subArray contains {20, 30, 40} with length 3
@@ -346,7 +346,7 @@ public final class ImmutableIntArray implements Immutable {
     public ImmutableIntArray copy(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
 
-        return ImmutableIntArray.of(N.copyOfRange(elements, fromIndex, toIndex));
+        return ImmutableIntArray.wrap(N.copyOfRange(elements, fromIndex, toIndex));
     }
 
     /**
@@ -362,7 +362,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {10, 20, 30, 40, 50});
+     * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {10, 20, 30, 40, 50});
      *
      * int[] mutableCopy = array.copyToArray(1, 4);
      * // mutableCopy is {20, 30, 40}
@@ -403,14 +403,14 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array1 = ImmutableIntArray.of(new int[] {1, 2, 3});
+     * ImmutableIntArray array1 = ImmutableIntArray.wrap(new int[] {1, 2, 3});
      * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] {1, 2, 3});
      *
      * int hash1 = array1.hashCode();
      * int hash2 = array2.hashCode();
      * System.out.println(hash1 == hash2);   // prints: true (equal arrays have same hash)
      *
-     * ImmutableIntArray array3 = ImmutableIntArray.of(new int[] {1, 2, 4});
+     * ImmutableIntArray array3 = ImmutableIntArray.wrap(new int[] {1, 2, 4});
      * System.out.println(hash1 == array3.hashCode());   // prints: false (different arrays)
      * }</pre>
      *
@@ -436,9 +436,9 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array1 = ImmutableIntArray.of(new int[] {1, 2, 3});
+     * ImmutableIntArray array1 = ImmutableIntArray.wrap(new int[] {1, 2, 3});
      * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] {1, 2, 3});
-     * ImmutableIntArray array3 = ImmutableIntArray.of(new int[] {1, 2, 4});
+     * ImmutableIntArray array3 = ImmutableIntArray.wrap(new int[] {1, 2, 4});
      *
      * System.out.println(array1.equals(array2));                // prints: true
      * System.out.println(array1.equals(array3));                // prints: false
@@ -464,14 +464,14 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {1, 2, 3});
+     * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {1, 2, 3});
      * System.out.println(array.toString());   // prints: [1, 2, 3]
      * System.out.println(array);              // prints: [1, 2, 3]
      *
-     * ImmutableIntArray empty = ImmutableIntArray.of(null);
+     * ImmutableIntArray empty = ImmutableIntArray.wrap(null);
      * System.out.println(empty);   // prints: []
      *
-     * ImmutableIntArray single = ImmutableIntArray.of(new int[] {42});
+     * ImmutableIntArray single = ImmutableIntArray.wrap(new int[] {42});
      * System.out.println(single);   // prints: [42]
      * }</pre>
      *

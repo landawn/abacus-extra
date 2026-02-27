@@ -107,21 +107,21 @@ public class ShortTuple2512Test extends TestBase {
 
     @Test
     public void test_create_nullArray() {
-        ShortTuple0 tuple = ShortTuple.fromArray(null);
+        ShortTuple0 tuple = ShortTuple.copyOf(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_emptyArray() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_singleElementArray() {
-        ShortTuple1 tuple = ShortTuple.fromArray(new short[] { (short) 42 });
+        ShortTuple1 tuple = ShortTuple.copyOf(new short[] { (short) 42 });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals((short) 42, tuple._1);
@@ -129,7 +129,7 @@ public class ShortTuple2512Test extends TestBase {
 
     @Test
     public void test_create_multipleElementsArray() {
-        ShortTuple3 tuple = ShortTuple.fromArray(new short[] { (short) 1, (short) 2, (short) 3 });
+        ShortTuple3 tuple = ShortTuple.copyOf(new short[] { (short) 1, (short) 2, (short) 3 });
         assertNotNull(tuple);
         assertEquals(3, tuple.arity());
         assertEquals((short) 1, tuple._1);
@@ -140,63 +140,63 @@ public class ShortTuple2512Test extends TestBase {
     @Test
     public void test_create_tooManyElements() {
         short[] array = new short[10];
-        assertThrows(IllegalArgumentException.class, () -> ShortTuple.fromArray(array));
+        assertThrows(IllegalArgumentException.class, () -> ShortTuple.copyOf(array));
     }
 
     // ===== ShortTuple0 Tests =====
 
     @Test
     public void test_ShortTuple0_arity() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_ShortTuple0_min_throwsException() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
     @Test
     public void test_ShortTuple0_max_throwsException() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
     @Test
     public void test_ShortTuple0_median_throwsException() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     @Test
     public void test_ShortTuple0_sum() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         assertEquals(0, tuple.sum());
     }
 
     @Test
     public void test_ShortTuple0_average_throwsException() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     @Test
     public void test_ShortTuple0_reverse() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         ShortTuple0 reversed = tuple.reverse();
         assertSame(tuple, reversed);
     }
 
     @Test
     public void test_ShortTuple0_contains() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         assertFalse(tuple.contains((short) 1));
     }
 
     @Test
     public void test_ShortTuple0_toString() {
-        ShortTuple0 tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
         assertEquals("()", tuple.toString());
     }
 

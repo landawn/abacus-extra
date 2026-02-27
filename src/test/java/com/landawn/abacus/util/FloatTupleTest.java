@@ -119,29 +119,29 @@ public class FloatTupleTest extends TestBase {
     @Test
     public void testCreate() {
         // Test empty array
-        FloatTuple<?> empty = FloatTuple.fromArray(null);
+        FloatTuple<?> empty = FloatTuple.copyOf(null);
         assertEquals(0, empty.arity());
 
-        empty = FloatTuple.fromArray(new float[0]);
+        empty = FloatTuple.copyOf(new float[0]);
         assertEquals(0, empty.arity());
 
         // Test array with 1 element
-        FloatTuple.FloatTuple1 tuple1 = FloatTuple.fromArray(new float[] { 1.5f });
+        FloatTuple.FloatTuple1 tuple1 = FloatTuple.copyOf(new float[] { 1.5f });
         assertEquals(1, tuple1.arity());
         assertEquals(1.5f, tuple1._1, DELTA);
 
         // Test array with 5 elements
-        FloatTuple.FloatTuple5 tuple5 = FloatTuple.fromArray(new float[] { 1.5f, 2.5f, 3.5f, 4.5f, 5.5f });
+        FloatTuple.FloatTuple5 tuple5 = FloatTuple.copyOf(new float[] { 1.5f, 2.5f, 3.5f, 4.5f, 5.5f });
         assertEquals(5, tuple5.arity());
         assertEquals(5.5f, tuple5._5, DELTA);
 
         // Test array with 9 elements
-        FloatTuple.FloatTuple9 tuple9 = FloatTuple.fromArray(new float[] { 1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f });
+        FloatTuple.FloatTuple9 tuple9 = FloatTuple.copyOf(new float[] { 1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f });
         assertEquals(9, tuple9.arity());
         assertEquals(9.5f, tuple9._9, DELTA);
 
         // Test too many elements
-        assertThrows(IllegalArgumentException.class, () -> FloatTuple.fromArray(new float[10]));
+        assertThrows(IllegalArgumentException.class, () -> FloatTuple.copyOf(new float[10]));
     }
 
     @Test
@@ -149,7 +149,7 @@ public class FloatTupleTest extends TestBase {
         FloatTuple.FloatTuple3 tuple = FloatTuple.of(3.5f, 1.5f, 2.5f);
         assertEquals(1.5f, tuple.min(), DELTA);
 
-        FloatTuple.FloatTuple0 empty = FloatTuple.fromArray(new float[0]);
+        FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         assertThrows(NoSuchElementException.class, () -> empty.min());
     }
 
@@ -158,7 +158,7 @@ public class FloatTupleTest extends TestBase {
         FloatTuple.FloatTuple3 tuple = FloatTuple.of(3.5f, 1.5f, 2.5f);
         assertEquals(3.5f, tuple.max(), DELTA);
 
-        FloatTuple.FloatTuple0 empty = FloatTuple.fromArray(new float[0]);
+        FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         assertThrows(NoSuchElementException.class, () -> empty.max());
     }
 
@@ -170,7 +170,7 @@ public class FloatTupleTest extends TestBase {
         FloatTuple.FloatTuple4 evenTuple = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f);
         assertEquals(2.5f, evenTuple.median(), DELTA);
 
-        FloatTuple.FloatTuple0 empty = FloatTuple.fromArray(new float[0]);
+        FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());
     }
 
@@ -179,7 +179,7 @@ public class FloatTupleTest extends TestBase {
         FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.5f, 2.5f, 3.0f);
         assertEquals(7.0f, tuple.sum(), DELTA);
 
-        FloatTuple.FloatTuple0 empty = FloatTuple.fromArray(new float[0]);
+        FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         assertEquals(0.0f, empty.sum(), DELTA);
     }
 
@@ -188,14 +188,14 @@ public class FloatTupleTest extends TestBase {
         FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
         assertEquals(2.0f, tuple.average(), DELTA);
 
-        FloatTuple.FloatTuple0 empty = FloatTuple.fromArray(new float[0]);
+        FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         assertThrows(NoSuchElementException.class, () -> empty.average());
     }
 
     @Test
     public void testReverse() {
         // Test Tuple0
-        FloatTuple.FloatTuple0 empty = FloatTuple.fromArray(new float[0]);
+        FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         FloatTuple.FloatTuple0 reversedEmpty = empty.reverse();
         assertEquals(0, reversedEmpty.arity());
 
@@ -230,7 +230,7 @@ public class FloatTupleTest extends TestBase {
     @Test
     public void testContains() {
         // Test Tuple0
-        FloatTuple.FloatTuple0 empty = FloatTuple.fromArray(new float[0]);
+        FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         assertFalse(empty.contains(1.5f));
 
         // Test Tuple1
@@ -350,7 +350,7 @@ public class FloatTupleTest extends TestBase {
 
     @Test
     public void testToString() {
-        FloatTuple.FloatTuple0 empty = FloatTuple.fromArray(new float[0]);
+        FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         assertEquals("()", empty.toString());
 
         FloatTuple.FloatTuple1 single = FloatTuple.of(1.5f);

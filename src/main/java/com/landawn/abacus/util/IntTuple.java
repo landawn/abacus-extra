@@ -257,13 +257,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <pre>{@code
      * // Create from array
      * int[] values = {1, 2, 3};
-     * IntTuple.IntTuple3 tuple = IntTuple.fromArray(values);
+     * IntTuple.IntTuple3 tuple = IntTuple.copyOf(values);
      *
      * // Empty array returns IntTuple<?>
-     * IntTuple<?> empty = IntTuple.fromArray(new int[0]);
+     * IntTuple<?> empty = IntTuple.copyOf(new int[0]);
      *
      * // Single element
-     * IntTuple.IntTuple1 single = IntTuple.fromArray(new int[]{42});
+     * IntTuple.IntTuple1 single = IntTuple.copyOf(new int[]{42});
      * }</pre>
      *
      * @param <TP> the specific IntTuple subtype to return
@@ -272,7 +272,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends IntTuple<TP>> TP fromArray(final int[] values) {
+    public static <TP extends IntTuple<TP>> TP copyOf(final int[] values) {
         if (values == null || values.length == 0) {
             return (TP) IntTuple0.EMPTY;
         }
@@ -654,7 +654,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * An empty tuple containing no elements.
      * This class is used to represent a tuple with zero elements
-     * and is returned by {@link #fromArray(int[])} when passed a null or empty array.
+     * and is returned by {@link #copyOf(int[])} when passed a null or empty array.
      */
     static final class IntTuple0 extends IntTuple<IntTuple0> {
 

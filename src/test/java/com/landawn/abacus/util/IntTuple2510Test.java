@@ -119,26 +119,26 @@ public class IntTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_nullArray() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_emptyArray() {
-        IntTuple<?> tuple = IntTuple.fromArray(new int[0]);
+        IntTuple<?> tuple = IntTuple.copyOf(new int[0]);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_sizeOne() {
-        IntTuple1 tuple = IntTuple.fromArray(new int[] { 42 });
+        IntTuple1 tuple = IntTuple.copyOf(new int[] { 42 });
         assertEquals(1, tuple.arity());
         assertEquals(42, tuple._1);
     }
 
     @Test
     public void testCreate_sizeTwo() {
-        IntTuple2 tuple = IntTuple.fromArray(new int[] { 1, 2 });
+        IntTuple2 tuple = IntTuple.copyOf(new int[] { 1, 2 });
         assertEquals(2, tuple.arity());
         assertEquals(1, tuple._1);
         assertEquals(2, tuple._2);
@@ -146,7 +146,7 @@ public class IntTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_sizeThree() {
-        IntTuple3 tuple = IntTuple.fromArray(new int[] { 1, 2, 3 });
+        IntTuple3 tuple = IntTuple.copyOf(new int[] { 1, 2, 3 });
         assertEquals(3, tuple.arity());
         assertEquals(1, tuple._1);
         assertEquals(3, tuple._3);
@@ -154,7 +154,7 @@ public class IntTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_sizeFour() {
-        IntTuple4 tuple = IntTuple.fromArray(new int[] { 1, 2, 3, 4 });
+        IntTuple4 tuple = IntTuple.copyOf(new int[] { 1, 2, 3, 4 });
         assertEquals(4, tuple.arity());
         assertEquals(1, tuple._1);
         assertEquals(4, tuple._4);
@@ -162,42 +162,42 @@ public class IntTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_sizeFive() {
-        IntTuple5 tuple = IntTuple.fromArray(new int[] { 1, 2, 3, 4, 5 });
+        IntTuple5 tuple = IntTuple.copyOf(new int[] { 1, 2, 3, 4, 5 });
         assertEquals(5, tuple.arity());
         assertEquals(5, tuple._5);
     }
 
     @Test
     public void testCreate_sizeSix() {
-        IntTuple6 tuple = IntTuple.fromArray(new int[] { 1, 2, 3, 4, 5, 6 });
+        IntTuple6 tuple = IntTuple.copyOf(new int[] { 1, 2, 3, 4, 5, 6 });
         assertEquals(6, tuple.arity());
         assertEquals(6, tuple._6);
     }
 
     @Test
     public void testCreate_sizeSeven() {
-        IntTuple7 tuple = IntTuple.fromArray(new int[] { 1, 2, 3, 4, 5, 6, 7 });
+        IntTuple7 tuple = IntTuple.copyOf(new int[] { 1, 2, 3, 4, 5, 6, 7 });
         assertEquals(7, tuple.arity());
         assertEquals(7, tuple._7);
     }
 
     @Test
     public void testCreate_sizeEight() {
-        IntTuple8 tuple = IntTuple.fromArray(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+        IntTuple8 tuple = IntTuple.copyOf(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
         assertEquals(8, tuple.arity());
         assertEquals(8, tuple._8);
     }
 
     @Test
     public void testCreate_sizeNine() {
-        IntTuple9 tuple = IntTuple.fromArray(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+        IntTuple9 tuple = IntTuple.copyOf(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         assertEquals(9, tuple.arity());
         assertEquals(9, tuple._9);
     }
 
     @Test
     public void testCreate_tooManyElements() {
-        assertThrows(IllegalArgumentException.class, () -> IntTuple.fromArray(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
+        assertThrows(IllegalArgumentException.class, () -> IntTuple.copyOf(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
     }
 
     @Test
@@ -650,55 +650,55 @@ public class IntTuple2510Test extends TestBase {
 
     @Test
     public void testTuple0_arity() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testTuple0_min() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
     @Test
     public void testTuple0_max() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
     @Test
     public void testTuple0_median() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     @Test
     public void testTuple0_sum() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertEquals(0, tuple.sum());
     }
 
     @Test
     public void testTuple0_average() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     @Test
     public void testTuple0_reverse() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertNotNull(tuple.reverse());
     }
 
     @Test
     public void testTuple0_contains() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertFalse(tuple.contains(1));
     }
 
     @Test
     public void testTuple0_toString() {
-        IntTuple<?> tuple = IntTuple.fromArray(null);
+        IntTuple<?> tuple = IntTuple.copyOf(null);
         assertEquals("()", tuple.toString());
     }
 

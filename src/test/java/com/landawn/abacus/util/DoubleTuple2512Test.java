@@ -137,25 +137,25 @@ public class DoubleTuple2512Test extends TestBase {
         assertEquals(9, tuple.arity());
     }
 
-    // ============ Factory Method Tests - DoubleTuple.fromArray() ============
+    // ============ Factory Method Tests - DoubleTuple.copyOf() ============
 
     @Test
     public void test_create_nullArray() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(null);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_emptyArray() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_arraySize1() {
-        DoubleTuple1 tuple = DoubleTuple.fromArray(new double[] { 1.5 });
+        DoubleTuple1 tuple = DoubleTuple.copyOf(new double[] { 1.5 });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals(1.5, tuple._1, DELTA);
@@ -163,7 +163,7 @@ public class DoubleTuple2512Test extends TestBase {
 
     @Test
     public void test_create_arraySize2() {
-        DoubleTuple2 tuple = DoubleTuple.fromArray(new double[] { 1.5, 2.5 });
+        DoubleTuple2 tuple = DoubleTuple.copyOf(new double[] { 1.5, 2.5 });
         assertNotNull(tuple);
         assertEquals(2, tuple.arity());
         assertEquals(1.5, tuple._1, DELTA);
@@ -172,7 +172,7 @@ public class DoubleTuple2512Test extends TestBase {
 
     @Test
     public void test_create_arraySize9() {
-        DoubleTuple9 tuple = DoubleTuple.fromArray(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 });
+        DoubleTuple9 tuple = DoubleTuple.copyOf(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 });
         assertNotNull(tuple);
         assertEquals(9, tuple.arity());
         assertEquals(1.0, tuple._1, DELTA);
@@ -182,7 +182,7 @@ public class DoubleTuple2512Test extends TestBase {
     @Test
     public void test_create_arrayTooLarge() {
         assertThrows(IllegalArgumentException.class, () -> {
-            DoubleTuple.fromArray(new double[10]);
+            DoubleTuple.copyOf(new double[10]);
         });
     }
 
@@ -190,56 +190,56 @@ public class DoubleTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_arity() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_tuple0_min_throwsException() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
     @Test
     public void test_tuple0_max_throwsException() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
     @Test
     public void test_tuple0_median_throwsException() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     @Test
     public void test_tuple0_sum() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         assertEquals(0.0, tuple.sum(), DELTA);
     }
 
     @Test
     public void test_tuple0_average_throwsException() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     @Test
     public void test_tuple0_reverse() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         DoubleTuple0 reversed = tuple.reverse();
         assertSame(tuple, reversed);
     }
 
     @Test
     public void test_tuple0_contains() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         assertFalse(tuple.contains(1.0));
     }
 
     @Test
     public void test_tuple0_toArray() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         double[] array = tuple.toArray();
         assertNotNull(array);
         assertEquals(0, array.length);
@@ -247,7 +247,7 @@ public class DoubleTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_toList() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         DoubleList list = tuple.toList();
         assertNotNull(list);
         assertTrue(list.isEmpty());
@@ -255,7 +255,7 @@ public class DoubleTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_forEach() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         List<Double> collected = new ArrayList<>();
         tuple.forEach(collected::add);
         assertTrue(collected.isEmpty());
@@ -263,14 +263,14 @@ public class DoubleTuple2512Test extends TestBase {
 
     @Test
     public void test_tuple0_stream() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         long count = tuple.stream().count();
         assertEquals(0, count);
     }
 
     @Test
     public void test_tuple0_toString() {
-        DoubleTuple0 tuple = DoubleTuple.fromArray(new double[0]);
+        DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
         assertEquals("()", tuple.toString());
     }
 
@@ -835,7 +835,7 @@ public class DoubleTuple2512Test extends TestBase {
     public void test_create_allSizes() {
         for (int i = 0; i <= 9; i++) {
             double[] array = new double[i];
-            DoubleTuple<?> tuple = DoubleTuple.fromArray(array);
+            DoubleTuple<?> tuple = DoubleTuple.copyOf(array);
             assertNotNull(tuple);
             assertEquals(i, tuple.arity());
         }

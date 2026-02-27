@@ -107,21 +107,21 @@ public class LongTuple2512Test extends TestBase {
 
     @Test
     public void test_create_nullArray() {
-        LongTuple0 tuple = LongTuple.fromArray(null);
+        LongTuple0 tuple = LongTuple.copyOf(null);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_emptyArray() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         assertNotNull(tuple);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_create_singleElementArray() {
-        LongTuple1 tuple = LongTuple.fromArray(new long[] { 42L });
+        LongTuple1 tuple = LongTuple.copyOf(new long[] { 42L });
         assertNotNull(tuple);
         assertEquals(1, tuple.arity());
         assertEquals(42L, tuple._1);
@@ -129,7 +129,7 @@ public class LongTuple2512Test extends TestBase {
 
     @Test
     public void test_create_multipleElementsArray() {
-        LongTuple3 tuple = LongTuple.fromArray(new long[] { 1L, 2L, 3L });
+        LongTuple3 tuple = LongTuple.copyOf(new long[] { 1L, 2L, 3L });
         assertNotNull(tuple);
         assertEquals(3, tuple.arity());
         assertEquals(1L, tuple._1);
@@ -140,63 +140,63 @@ public class LongTuple2512Test extends TestBase {
     @Test
     public void test_create_tooManyElements() {
         long[] array = new long[10];
-        assertThrows(IllegalArgumentException.class, () -> LongTuple.fromArray(array));
+        assertThrows(IllegalArgumentException.class, () -> LongTuple.copyOf(array));
     }
 
     // ===== LongTuple0 Tests =====
 
     @Test
     public void test_LongTuple0_arity() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void test_LongTuple0_min_throwsException() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
     @Test
     public void test_LongTuple0_max_throwsException() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
     @Test
     public void test_LongTuple0_median_throwsException() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     @Test
     public void test_LongTuple0_sum() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         assertEquals(0L, tuple.sum());
     }
 
     @Test
     public void test_LongTuple0_average_throwsException() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     @Test
     public void test_LongTuple0_reverse() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         LongTuple0 reversed = tuple.reverse();
         assertSame(tuple, reversed);
     }
 
     @Test
     public void test_LongTuple0_contains() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         assertFalse(tuple.contains(1L));
     }
 
     @Test
     public void test_LongTuple0_toString() {
-        LongTuple0 tuple = LongTuple.fromArray(new long[0]);
+        LongTuple0 tuple = LongTuple.copyOf(new long[0]);
         assertEquals("()", tuple.toString());
     }
 

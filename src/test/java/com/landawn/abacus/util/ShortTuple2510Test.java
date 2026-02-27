@@ -119,26 +119,26 @@ public class ShortTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_nullArray() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_emptyArray() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(new short[0]);
+        ShortTuple<?> tuple = ShortTuple.copyOf(new short[0]);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testCreate_sizeOne() {
-        ShortTuple1 tuple = ShortTuple.fromArray(new short[] { 1 });
+        ShortTuple1 tuple = ShortTuple.copyOf(new short[] { 1 });
         assertEquals(1, tuple.arity());
         assertEquals((short) 1, tuple._1);
     }
 
     @Test
     public void testCreate_sizeTwo() {
-        ShortTuple2 tuple = ShortTuple.fromArray(new short[] { 1, 2 });
+        ShortTuple2 tuple = ShortTuple.copyOf(new short[] { 1, 2 });
         assertEquals(2, tuple.arity());
         assertEquals((short) 1, tuple._1);
         assertEquals((short) 2, tuple._2);
@@ -146,7 +146,7 @@ public class ShortTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_sizeThree() {
-        ShortTuple3 tuple = ShortTuple.fromArray(new short[] { 1, 2, 3 });
+        ShortTuple3 tuple = ShortTuple.copyOf(new short[] { 1, 2, 3 });
         assertEquals(3, tuple.arity());
         assertEquals((short) 1, tuple._1);
         assertEquals((short) 3, tuple._3);
@@ -154,7 +154,7 @@ public class ShortTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_sizeFour() {
-        ShortTuple4 tuple = ShortTuple.fromArray(new short[] { 1, 2, 3, 4 });
+        ShortTuple4 tuple = ShortTuple.copyOf(new short[] { 1, 2, 3, 4 });
         assertEquals(4, tuple.arity());
         assertEquals((short) 1, tuple._1);
         assertEquals((short) 4, tuple._4);
@@ -162,42 +162,42 @@ public class ShortTuple2510Test extends TestBase {
 
     @Test
     public void testCreate_sizeFive() {
-        ShortTuple5 tuple = ShortTuple.fromArray(new short[] { 1, 2, 3, 4, 5 });
+        ShortTuple5 tuple = ShortTuple.copyOf(new short[] { 1, 2, 3, 4, 5 });
         assertEquals(5, tuple.arity());
         assertEquals((short) 5, tuple._5);
     }
 
     @Test
     public void testCreate_sizeSix() {
-        ShortTuple6 tuple = ShortTuple.fromArray(new short[] { 1, 2, 3, 4, 5, 6 });
+        ShortTuple6 tuple = ShortTuple.copyOf(new short[] { 1, 2, 3, 4, 5, 6 });
         assertEquals(6, tuple.arity());
         assertEquals((short) 6, tuple._6);
     }
 
     @Test
     public void testCreate_sizeSeven() {
-        ShortTuple7 tuple = ShortTuple.fromArray(new short[] { 1, 2, 3, 4, 5, 6, 7 });
+        ShortTuple7 tuple = ShortTuple.copyOf(new short[] { 1, 2, 3, 4, 5, 6, 7 });
         assertEquals(7, tuple.arity());
         assertEquals((short) 7, tuple._7);
     }
 
     @Test
     public void testCreate_sizeEight() {
-        ShortTuple8 tuple = ShortTuple.fromArray(new short[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+        ShortTuple8 tuple = ShortTuple.copyOf(new short[] { 1, 2, 3, 4, 5, 6, 7, 8 });
         assertEquals(8, tuple.arity());
         assertEquals((short) 8, tuple._8);
     }
 
     @Test
     public void testCreate_sizeNine() {
-        ShortTuple9 tuple = ShortTuple.fromArray(new short[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+        ShortTuple9 tuple = ShortTuple.copyOf(new short[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         assertEquals(9, tuple.arity());
         assertEquals((short) 9, tuple._9);
     }
 
     @Test
     public void testCreate_tooManyElements() {
-        assertThrows(IllegalArgumentException.class, () -> ShortTuple.fromArray(new short[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
+        assertThrows(IllegalArgumentException.class, () -> ShortTuple.copyOf(new short[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
     }
 
     @Test
@@ -636,55 +636,55 @@ public class ShortTuple2510Test extends TestBase {
 
     @Test
     public void testTuple0_arity() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertEquals(0, tuple.arity());
     }
 
     @Test
     public void testTuple0_min() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertThrows(NoSuchElementException.class, () -> tuple.min());
     }
 
     @Test
     public void testTuple0_max() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertThrows(NoSuchElementException.class, () -> tuple.max());
     }
 
     @Test
     public void testTuple0_median() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertThrows(NoSuchElementException.class, () -> tuple.median());
     }
 
     @Test
     public void testTuple0_sum() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertEquals(0, tuple.sum());
     }
 
     @Test
     public void testTuple0_average() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertThrows(NoSuchElementException.class, () -> tuple.average());
     }
 
     @Test
     public void testTuple0_reverse() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertNotNull(tuple.reverse());
     }
 
     @Test
     public void testTuple0_contains() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertFalse(tuple.contains((short) 1));
     }
 
     @Test
     public void testTuple0_toString() {
-        ShortTuple<?> tuple = ShortTuple.fromArray(null);
+        ShortTuple<?> tuple = ShortTuple.copyOf(null);
         assertEquals("()", tuple.toString());
     }
 
