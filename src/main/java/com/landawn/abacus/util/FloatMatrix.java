@@ -533,12 +533,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.rowView(rowIndex), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.row(rowIndex), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
-     * float[] firstRow = matrix.rowView(0);   // Returns [1.0f, 2.0f, 3.0f]
+     * float[] firstRow = matrix.row(0);   // Returns [1.0f, 2.0f, 3.0f]
      * firstRow[0] = 99.0f;  // This modifies the matrix
      * }</pre>
      *
@@ -547,7 +547,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     @Override
-    public float[] rowView(final int rowIndex) throws IllegalArgumentException {
+    public float[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -571,7 +571,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Returns a copy of the specified column as a new array.
      *
-     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -794,9 +794,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateMainDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateMainDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = operator.applyAsFloat(a[i][i]);
@@ -876,9 +876,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAntiDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.FloatUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = operator.applyAsFloat(a[i][columnCount - i - 1]);
@@ -1939,7 +1939,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
         final float[][] otherMatrix = other.a;
         final float[][] result = new float[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (a[i][j] + otherMatrix[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = a[i][j] + otherMatrix[i][j];
 
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
@@ -1970,7 +1970,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
         final float[][] otherMatrix = other.a;
         final float[][] result = new float[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (a[i][j] - otherMatrix[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = a[i][j] - otherMatrix[i][j];
 
         Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 

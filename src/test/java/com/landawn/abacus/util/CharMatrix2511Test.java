@@ -564,23 +564,23 @@ public class CharMatrix2511Test extends TestBase {
     public void testRow() {
         char[][] arr = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
         CharMatrix m = CharMatrix.of(arr);
-        char[] row0 = m.rowView(0);
+        char[] row0 = m.row(0);
         assertArrayEquals(new char[] { 'a', 'b', 'c' }, row0);
-        char[] row1 = m.rowView(1);
+        char[] row1 = m.row(1);
         assertArrayEquals(new char[] { 'd', 'e', 'f' }, row1);
     }
 
     @Test
     public void testRow_invalidIndex() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(1));
     }
 
     @Test
     public void testRow_singleRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' } });
-        assertArrayEquals(new char[] { 'a', 'b', 'c' }, m.rowView(0));
+        assertArrayEquals(new char[] { 'a', 'b', 'c' }, m.row(0));
     }
 
     @Test
@@ -610,8 +610,8 @@ public class CharMatrix2511Test extends TestBase {
     public void testSetRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { ' ', ' ', ' ' }, { ' ', ' ', ' ' } });
         m.setRow(0, new char[] { 'a', 'b', 'c' });
-        assertArrayEquals(new char[] { 'a', 'b', 'c' }, m.rowView(0));
-        assertArrayEquals(new char[] { ' ', ' ', ' ' }, m.rowView(1));
+        assertArrayEquals(new char[] { 'a', 'b', 'c' }, m.row(0));
+        assertArrayEquals(new char[] { ' ', ' ', ' ' }, m.row(1));
     }
 
     @Test
@@ -652,17 +652,17 @@ public class CharMatrix2511Test extends TestBase {
     public void testUpdateRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { ' ', ' ', ' ' } });
         m.updateRow(0, val -> Character.toUpperCase(val));
-        assertArrayEquals(new char[] { 'A', 'B', 'C' }, m.rowView(0));
-        assertArrayEquals(new char[] { ' ', ' ', ' ' }, m.rowView(1));
+        assertArrayEquals(new char[] { 'A', 'B', 'C' }, m.row(0));
+        assertArrayEquals(new char[] { ' ', ' ', ' ' }, m.row(1));
     }
 
     @Test
     public void testUpdateRow_multipleRows() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } });
         m.updateRow(1, val -> Character.toUpperCase(val));
-        assertArrayEquals(new char[] { 'a', 'b' }, m.rowView(0));
-        assertArrayEquals(new char[] { 'C', 'D' }, m.rowView(1));
-        assertArrayEquals(new char[] { 'e', 'f' }, m.rowView(2));
+        assertArrayEquals(new char[] { 'a', 'b' }, m.row(0));
+        assertArrayEquals(new char[] { 'C', 'D' }, m.row(1));
+        assertArrayEquals(new char[] { 'e', 'f' }, m.row(2));
     }
 
     @Test
@@ -677,8 +677,8 @@ public class CharMatrix2511Test extends TestBase {
     public void testUpdateColumn_multipleColumns() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
         m.updateColumn(2, val -> Character.toUpperCase(val));
-        assertArrayEquals(new char[] { 'a', 'b', 'C' }, m.rowView(0));
-        assertArrayEquals(new char[] { 'd', 'e', 'F' }, m.rowView(1));
+        assertArrayEquals(new char[] { 'a', 'b', 'C' }, m.row(0));
+        assertArrayEquals(new char[] { 'd', 'e', 'F' }, m.row(1));
     }
 
     // ============ Diagonal Access Tests ============
@@ -1082,15 +1082,15 @@ public class CharMatrix2511Test extends TestBase {
     public void testReverseH() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
         m.reverseH();
-        assertArrayEquals(new char[] { 'c', 'b', 'a' }, m.rowView(0));
-        assertArrayEquals(new char[] { 'f', 'e', 'd' }, m.rowView(1));
+        assertArrayEquals(new char[] { 'c', 'b', 'a' }, m.row(0));
+        assertArrayEquals(new char[] { 'f', 'e', 'd' }, m.row(1));
     }
 
     @Test
     public void testReverseH_singleRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' } });
         m.reverseH();
-        assertArrayEquals(new char[] { 'c', 'b', 'a' }, m.rowView(0));
+        assertArrayEquals(new char[] { 'c', 'b', 'a' }, m.row(0));
     }
 
     @Test
@@ -1114,8 +1114,8 @@ public class CharMatrix2511Test extends TestBase {
         CharMatrix flipped = m.flipH();
         assertEquals(2, flipped.rowCount());
         assertEquals(3, flipped.columnCount());
-        assertArrayEquals(new char[] { 'c', 'b', 'a' }, flipped.rowView(0));
-        assertArrayEquals(new char[] { 'f', 'e', 'd' }, flipped.rowView(1));
+        assertArrayEquals(new char[] { 'c', 'b', 'a' }, flipped.row(0));
+        assertArrayEquals(new char[] { 'f', 'e', 'd' }, flipped.row(1));
         assertNotSame(m, flipped);
     }
 

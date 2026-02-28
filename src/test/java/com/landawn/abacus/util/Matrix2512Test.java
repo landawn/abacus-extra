@@ -272,14 +272,14 @@ public class Matrix2512Test extends TestBase {
     public void test_row_returnsCorrectRow() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        String[] row = m.rowView(1);
+        String[] row = m.row(1);
         assertArrayEquals(new String[] { "d", "e", "f" }, row);
     }
 
     @Test
     public void test_row_outOfBounds_throwsException() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b" } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
+        assertThrows(IllegalArgumentException.class, () -> m.row(5));
     }
 
     @Test

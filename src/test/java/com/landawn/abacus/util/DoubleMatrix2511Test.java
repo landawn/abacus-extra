@@ -466,15 +466,15 @@ public class DoubleMatrix2511Test extends TestBase {
     @Test
     public void testRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
-        double[] row = m.rowView(0);
+        double[] row = m.row(0);
         assertArrayEquals(new double[] { 1.0, 2.0, 3.0 }, row);
     }
 
     @Test
     public void testRow_invalidIndex() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(2));
     }
 
     @Test

@@ -261,14 +261,14 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        char[] row0 = matrix.rowView(0);
+        char[] row0 = matrix.row(0);
         Assertions.assertArrayEquals(new char[] { 'a', 'b', 'c' }, row0);
 
-        char[] row1 = matrix.rowView(1);
+        char[] row1 = matrix.row(1);
         Assertions.assertArrayEquals(new char[] { 'd', 'e', 'f' }, row1);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowView(-1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.row(2));
     }
 
     @Test
@@ -292,7 +292,7 @@ public class CharMatrixTest extends TestBase {
         CharMatrix matrix = CharMatrix.of(a);
 
         matrix.setRow(0, new char[] { 'x', 'y', 'z' });
-        Assertions.assertArrayEquals(new char[] { 'x', 'y', 'z' }, matrix.rowView(0));
+        Assertions.assertArrayEquals(new char[] { 'x', 'y', 'z' }, matrix.row(0));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.setRow(0, new char[] { 'x', 'y' }));
     }
@@ -314,7 +314,7 @@ public class CharMatrixTest extends TestBase {
         CharMatrix matrix = CharMatrix.of(a);
 
         matrix.updateRow(0, c -> Character.toUpperCase(c));
-        Assertions.assertArrayEquals(new char[] { 'A', 'B', 'C' }, matrix.rowView(0));
+        Assertions.assertArrayEquals(new char[] { 'A', 'B', 'C' }, matrix.row(0));
     }
 
     @Test

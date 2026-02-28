@@ -488,12 +488,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.rowView(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {false, true, false}});
-     * boolean[] firstRow = matrix.rowView(0);   // Returns [true, false, false]
+     * boolean[] firstRow = matrix.row(0);   // Returns [true, false, false]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = false;  // matrix now has false at position (0,0)
@@ -504,7 +504,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public boolean[] rowView(final int rowIndex) throws IllegalArgumentException {
+    public boolean[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -528,7 +528,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Returns a copy of the specified column as a new boolean array.
      *
-     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -771,9 +771,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateMainDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateMainDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = operator.applyAsBoolean(a[i][i]);
@@ -868,8 +868,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = operator.applyAsBoolean(a[i][columnCount - i - 1]);

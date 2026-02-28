@@ -484,23 +484,23 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testRow() {
         boolean[][] arr = { { true, false, true }, { false, true, false } };
         BooleanMatrix m = BooleanMatrix.of(arr);
-        boolean[] row0 = m.rowView(0);
+        boolean[] row0 = m.row(0);
         assertArrayEquals(new boolean[] { true, false, true }, row0);
-        boolean[] row1 = m.rowView(1);
+        boolean[] row1 = m.row(1);
         assertArrayEquals(new boolean[] { false, true, false }, row1);
     }
 
     @Test
     public void testRow_invalidIndex() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(1));
     }
 
     @Test
     public void testRow_singleRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
-        assertArrayEquals(new boolean[] { true, false, true }, m.rowView(0));
+        assertArrayEquals(new boolean[] { true, false, true }, m.row(0));
     }
 
     @Test
@@ -530,8 +530,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testSetRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, false }, { false, false, false } });
         m.setRow(0, new boolean[] { true, true, true });
-        assertArrayEquals(new boolean[] { true, true, true }, m.rowView(0));
-        assertArrayEquals(new boolean[] { false, false, false }, m.rowView(1));
+        assertArrayEquals(new boolean[] { true, true, true }, m.row(0));
+        assertArrayEquals(new boolean[] { false, false, false }, m.row(1));
     }
 
     @Test
@@ -572,17 +572,17 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testUpdateRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, false, false } });
         m.updateRow(0, val -> !val);
-        assertArrayEquals(new boolean[] { false, true, false }, m.rowView(0));
-        assertArrayEquals(new boolean[] { false, false, false }, m.rowView(1));
+        assertArrayEquals(new boolean[] { false, true, false }, m.row(0));
+        assertArrayEquals(new boolean[] { false, false, false }, m.row(1));
     }
 
     @Test
     public void testUpdateRow_multipleRows() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
         m.updateRow(1, val -> !val);
-        assertArrayEquals(new boolean[] { true, false }, m.rowView(0));
-        assertArrayEquals(new boolean[] { true, false }, m.rowView(1));
-        assertArrayEquals(new boolean[] { true, true }, m.rowView(2));
+        assertArrayEquals(new boolean[] { true, false }, m.row(0));
+        assertArrayEquals(new boolean[] { true, false }, m.row(1));
+        assertArrayEquals(new boolean[] { true, true }, m.row(2));
     }
 
     @Test
@@ -597,8 +597,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testUpdateColumn_multipleColumns() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, false, false } });
         m.updateColumn(2, val -> !val);
-        assertArrayEquals(new boolean[] { true, false, false }, m.rowView(0));
-        assertArrayEquals(new boolean[] { false, false, true }, m.rowView(1));
+        assertArrayEquals(new boolean[] { true, false, false }, m.row(0));
+        assertArrayEquals(new boolean[] { false, false, true }, m.row(1));
     }
 
     // ============ Diagonal Access Tests ============
@@ -1002,15 +1002,15 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testReverseH() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
         m.reverseH();
-        assertArrayEquals(new boolean[] { true, false, true }, m.rowView(0));
-        assertArrayEquals(new boolean[] { false, true, false }, m.rowView(1));
+        assertArrayEquals(new boolean[] { true, false, true }, m.row(0));
+        assertArrayEquals(new boolean[] { false, true, false }, m.row(1));
     }
 
     @Test
     public void testReverseH_singleRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
         m.reverseH();
-        assertArrayEquals(new boolean[] { true, false, true }, m.rowView(0));
+        assertArrayEquals(new boolean[] { true, false, true }, m.row(0));
     }
 
     @Test
@@ -1034,8 +1034,8 @@ public class BooleanMatrix2511Test extends TestBase {
         BooleanMatrix flipped = m.flipH();
         assertEquals(2, flipped.rowCount());
         assertEquals(3, flipped.columnCount());
-        assertArrayEquals(new boolean[] { true, false, true }, flipped.rowView(0));
-        assertArrayEquals(new boolean[] { false, true, false }, flipped.rowView(1));
+        assertArrayEquals(new boolean[] { true, false, true }, flipped.row(0));
+        assertArrayEquals(new boolean[] { false, true, false }, flipped.row(1));
         assertNotSame(m, flipped);
     }
 

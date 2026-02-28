@@ -323,14 +323,14 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_row_returnsCorrectRow() {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        short[] row = m.rowView(1);
+        short[] row = m.row(1);
         assertArrayEquals(new short[] { 4, 5, 6 }, row);
     }
 
     @Test
     public void test_row_outOfBounds_throwsException() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
+        assertThrows(IllegalArgumentException.class, () -> m.row(5));
     }
 
     @Test

@@ -310,14 +310,14 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        byte[] row = m.rowView(0);
+        byte[] row = m.row(0);
         assertArrayEquals(new byte[] { 1, 2, 3 }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
+        assertThrows(IllegalArgumentException.class, () -> m.row(5));
     }
 
     @Test

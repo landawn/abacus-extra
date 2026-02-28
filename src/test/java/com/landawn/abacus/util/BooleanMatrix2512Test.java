@@ -285,14 +285,14 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        boolean[] row = m.rowView(0);
+        boolean[] row = m.row(0);
         assertArrayEquals(new boolean[] { true, false, true }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
+        assertThrows(IllegalArgumentException.class, () -> m.row(5));
     }
 
     @Test

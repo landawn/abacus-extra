@@ -447,15 +447,15 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5, 3.5 }, { 4.5, 5.5, 6.5 } });
-        assertArrayEquals(new double[] { 1.5, 2.5, 3.5 }, m.rowView(0), DELTA);
-        assertArrayEquals(new double[] { 4.5, 5.5, 6.5 }, m.rowView(1), DELTA);
+        assertArrayEquals(new double[] { 1.5, 2.5, 3.5 }, m.row(0), DELTA);
+        assertArrayEquals(new double[] { 4.5, 5.5, 6.5 }, m.row(1), DELTA);
     }
 
     @Test
     public void testRow_outOfBounds() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(2));
     }
 
     @Test
@@ -477,8 +477,8 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testSetRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         m.setRow(0, new double[] { 10.5, 20.5 });
-        assertArrayEquals(new double[] { 10.5, 20.5 }, m.rowView(0), DELTA);
-        assertArrayEquals(new double[] { 3.0, 4.0 }, m.rowView(1), DELTA); // unchanged
+        assertArrayEquals(new double[] { 10.5, 20.5 }, m.row(0), DELTA);
+        assertArrayEquals(new double[] { 3.0, 4.0 }, m.row(1), DELTA); // unchanged
     }
 
     @Test
@@ -507,8 +507,8 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testUpdateRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         m.updateRow(0, x -> x * 2.0);
-        assertArrayEquals(new double[] { 2.0, 4.0 }, m.rowView(0), DELTA);
-        assertArrayEquals(new double[] { 3.0, 4.0 }, m.rowView(1), DELTA); // unchanged
+        assertArrayEquals(new double[] { 2.0, 4.0 }, m.row(0), DELTA);
+        assertArrayEquals(new double[] { 3.0, 4.0 }, m.row(1), DELTA); // unchanged
     }
 
     @Test

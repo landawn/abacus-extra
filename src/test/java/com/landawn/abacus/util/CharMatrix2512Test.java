@@ -310,14 +310,14 @@ public class CharMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        char[] row = m.rowView(0);
+        char[] row = m.row(0);
         assertArrayEquals(new char[] { 'a', 'b', 'c' }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
+        assertThrows(IllegalArgumentException.class, () -> m.row(5));
     }
 
     @Test

@@ -239,7 +239,7 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2, 3 }, { 4, 5, 6 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Integer[] row = matrix.rowView(0);
+        Integer[] row = matrix.row(0);
         Assertions.assertArrayEquals(new Integer[] { 1, 2, 3 }, row);
 
         row[0] = 10; // This modifies the matrix
@@ -249,7 +249,7 @@ public class MatrixTest extends TestBase {
     @Test
     public void testRowOnObjectMatrixDoesNotNarrowInternalStorage() {
         Matrix<Object> matrix = Matrix.of(new Object[][] { { "a" } });
-        Object[] row = matrix.rowView(0);
+        Object[] row = matrix.row(0);
 
         Assertions.assertEquals(Object.class, row.getClass().getComponentType());
 
@@ -262,11 +262,11 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 } });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.rowView(-1);
+            matrix.row(-1);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.rowView(2);
+            matrix.row(2);
         });
     }
 
@@ -301,7 +301,7 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(data);
 
         matrix.setRow(0, new Integer[] { 7, 8, 9 });
-        Assertions.assertArrayEquals(new Integer[] { 7, 8, 9 }, matrix.rowView(0));
+        Assertions.assertArrayEquals(new Integer[] { 7, 8, 9 }, matrix.row(0));
     }
 
     @Test
@@ -336,8 +336,8 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
         matrix.updateRow(0, x -> x * 2);
-        Assertions.assertArrayEquals(new Integer[] { 2, 4, 6 }, matrix.rowView(0));
-        Assertions.assertArrayEquals(new Integer[] { 4, 5, 6 }, matrix.rowView(1));
+        Assertions.assertArrayEquals(new Integer[] { 2, 4, 6 }, matrix.row(0));
+        Assertions.assertArrayEquals(new Integer[] { 4, 5, 6 }, matrix.row(1));
     }
 
     @Test
@@ -498,8 +498,8 @@ public class MatrixTest extends TestBase {
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.Predicate<Integer, RuntimeException>) null, 0));
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.UnaryOperator<Integer, RuntimeException>) null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.UnaryOperator<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalStateException.class, () -> emptyLike.updateMainDiagonal((Throwables.UnaryOperator<Integer, RuntimeException>) null));
+        Assertions.assertThrows(IllegalStateException.class, () -> emptyLike.updateAntiDiagonal((Throwables.UnaryOperator<Integer, RuntimeException>) null));
         Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.Predicate<Integer, RuntimeException>) null, 0));
         Assertions.assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0));
     }
@@ -1370,7 +1370,7 @@ public class MatrixTest extends TestBase {
     public void testRepeatSupportsWiderGenericTypeAfterRowView() {
         Matrix<Number> matrix = Matrix.repeat(1, 1, 1);
 
-        Number[] row = matrix.rowView(0);
+        Number[] row = matrix.row(0);
         Assertions.assertEquals(Integer.class, row.getClass().getComponentType());
 
         matrix.set(0, 0, 2.5d);
@@ -1382,7 +1382,7 @@ public class MatrixTest extends TestBase {
         Number[] mainDiag = new Integer[] { 1 };
         Matrix<Number> matrix = Matrix.mainDiagonal(mainDiag);
 
-        Number[] row = matrix.rowView(0);
+        Number[] row = matrix.row(0);
         Assertions.assertEquals(Integer.class, row.getClass().getComponentType());
 
         matrix.set(0, 0, 2.5d);
@@ -1390,10 +1390,23 @@ public class MatrixTest extends TestBase {
     }
 
     @Test
+    public void testTransformsStillWorkAfterWideningElementTypeAtRuntime() {
+        Matrix<Number> matrix = Matrix.repeat(1, 2, 1);
+        matrix.row(0);
+        matrix.set(0, 1, 2.5d);
+
+        Matrix<Number> transposed = matrix.transpose();
+        Assertions.assertEquals(2.5d, transposed.get(1, 0).doubleValue(), 0.000001d);
+
+        Matrix<Number> reshaped = matrix.reshape(2, 1);
+        Assertions.assertEquals(2.5d, reshaped.get(1, 0).doubleValue(), 0.000001d);
+    }
+
+    @Test
     public void testSetRowAndSetColumnWidenStorageWhenNeeded() {
         Matrix<Number> matrix = Matrix.repeat(2, 2, 1);
-        matrix.rowView(0);
-        matrix.rowView(1);
+        matrix.row(0);
+        matrix.row(1);
 
         matrix.setRow(0, new Number[] { 1.5d, 2.5d });
         matrix.setColumn(1, new Number[] { 3.5d, 4.5d });
@@ -1401,6 +1414,29 @@ public class MatrixTest extends TestBase {
         Assertions.assertEquals(1.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
         Assertions.assertEquals(3.5d, matrix.get(0, 1).doubleValue(), 0.000001d);
         Assertions.assertEquals(4.5d, matrix.get(1, 1).doubleValue(), 0.000001d);
+    }
+
+    @Test
+    public void testFillWidenStorageWhenNeeded() {
+        Matrix<Number> matrix = Matrix.repeat(1, 2, 1);
+        matrix.row(0);
+
+        matrix.fill(2.5d);
+        Assertions.assertEquals(2.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
+        Assertions.assertEquals(2.5d, matrix.get(0, 1).doubleValue(), 0.000001d);
+
+        matrix.fill(new Number[][] { { 3.5d, 4.5d } });
+        Assertions.assertEquals(3.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
+        Assertions.assertEquals(4.5d, matrix.get(0, 1).doubleValue(), 0.000001d);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testIncompatibleWriteOnNarrowBackingArrayThrowsIllegalArgumentException() {
+        Matrix<Integer> intMatrix = Matrix.of(new Integer[][] { { 1 } });
+        Matrix<Number> numberView = (Matrix<Number>) (Matrix<?>) intMatrix;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> numberView.set(0, 0, 2.5d));
     }
 
     @Test
@@ -1418,19 +1454,19 @@ public class MatrixTest extends TestBase {
 
         Matrix<String> copied = matrix.copy();
         Assertions.assertEquals(String.class, copied.componentType());
-        Assertions.assertEquals(String.class, copied.rowView(0).getClass().getComponentType());
+        Assertions.assertEquals(String.class, copied.row(0).getClass().getComponentType());
 
         Matrix<String> transposed = matrix.transpose();
         Assertions.assertEquals(String.class, transposed.componentType());
-        Assertions.assertEquals(String.class, transposed.rowView(0).getClass().getComponentType());
+        Assertions.assertEquals(String.class, transposed.row(0).getClass().getComponentType());
 
         Matrix<String> reshaped = matrix.reshape(2, 1);
         Assertions.assertEquals(String.class, reshaped.componentType());
-        Assertions.assertEquals(String.class, reshaped.rowView(0).getClass().getComponentType());
+        Assertions.assertEquals(String.class, reshaped.row(0).getClass().getComponentType());
 
         Matrix<String> repeated = matrix.repeatElements(2, 2);
         Assertions.assertEquals(String.class, repeated.componentType());
-        Assertions.assertEquals(String.class, repeated.rowView(0).getClass().getComponentType());
+        Assertions.assertEquals(String.class, repeated.row(0).getClass().getComponentType());
     }
 
     @Test
@@ -1440,13 +1476,13 @@ public class MatrixTest extends TestBase {
 
         Matrix<Integer> vstacked = top.vstack(bottom);
         Assertions.assertEquals(Integer.class, vstacked.componentType());
-        Assertions.assertEquals(Integer.class, vstacked.rowView(0).getClass().getComponentType());
+        Assertions.assertEquals(Integer.class, vstacked.row(0).getClass().getComponentType());
         vstacked.set(0, 0, 3);
         Assertions.assertEquals(3, vstacked.get(0, 0));
 
         Matrix<Integer> hstacked = top.hstack(bottom);
         Assertions.assertEquals(Integer.class, hstacked.componentType());
-        Assertions.assertEquals(Integer.class, hstacked.rowView(0).getClass().getComponentType());
+        Assertions.assertEquals(Integer.class, hstacked.row(0).getClass().getComponentType());
         hstacked.set(0, 3, 4);
         Assertions.assertEquals(4, hstacked.get(0, 3));
     }

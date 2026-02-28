@@ -313,77 +313,36 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * Creates a new ImmutableIntArray containing a copy of the elements in the specified range.
+     * Returns a new int array containing a copy of the elements in the specified range.
      *
-     * <p>The range follows the standard half-open interval convention: {@code [fromIndex, toIndex)},
-     * meaning {@code fromIndex} is inclusive and {@code toIndex} is exclusive. The resulting
-     * ImmutableIntArray will have a length of {@code toIndex - fromIndex}.</p>
+     * <p>The range follows the standard half-open interval convention: {@code [fromIndex, toIndex)}.
+     * {@code fromIndex} is inclusive and {@code toIndex} is exclusive. The returned array length is
+     * {@code toIndex - fromIndex}. If {@code fromIndex == toIndex}, an empty array is returned.</p>
      *
-     * <p>This method creates a defensive copy of the specified range, so the returned
-     * ImmutableIntArray is completely independent of the original array.</p>
+     * <p>The returned array is a fresh copy and is independent of this ImmutableIntArray.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {10, 20, 30, 40, 50});
      *
-     * ImmutableIntArray subArray = array.copy(1, 4);
+     * int[] subArray = array.copy(1, 4);
      * // subArray contains {20, 30, 40} with length 3
      *
-     * ImmutableIntArray first3 = array.copy(0, 3);
+     * int[] first3 = array.copy(0, 3);
      * // first3 contains {10, 20, 30}
      *
-     * ImmutableIntArray empty = array.copy(2, 2);
+     * int[] empty = array.copy(2, 2);
      * // empty is an empty array with length 0
      * }</pre>
      *
      * @param fromIndex the starting index (inclusive) of the range to copy (must be {@code >= 0})
      * @param toIndex the ending index (exclusive) of the range to copy (must be {@code <= length})
-     * @return a new ImmutableIntArray containing a copy of the elements in the specified range
+     * @return a newly allocated int array containing the elements in {@code [fromIndex, toIndex)}
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length},
      *                                   or {@code fromIndex > toIndex}
-     * @see #toArray(int, int)
+     * @see java.util.Arrays#copyOfRange(int[], int, int)
      */
-    public ImmutableIntArray copy(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromIndex, toIndex, length);
-
-        return ImmutableIntArray.wrap(N.copyOfRange(elements, fromIndex, toIndex));
-    }
-
-    /**
-     * Copies the elements in the specified range to a new mutable primitive int array.
-     *
-     * <p>The range follows the standard half-open interval convention: {@code [fromIndex, toIndex)},
-     * meaning {@code fromIndex} is inclusive and {@code toIndex} is exclusive. The resulting
-     * array will have a length of {@code toIndex - fromIndex}.</p>
-     *
-     * <p>Unlike {@link #copy(int, int)}, which returns an ImmutableIntArray, this method returns
-     * a standard mutable int array that can be modified. This is useful when you need to perform
-     * mutations on the copied data or when interfacing with APIs that require primitive arrays.</p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.wrap(new int[] {10, 20, 30, 40, 50});
-     *
-     * int[] mutableCopy = array.toArray(1, 4);
-     * // mutableCopy is {20, 30, 40}
-     *
-     * // Can modify the returned array
-     * mutableCopy[0] = 99;
-     * System.out.println(java.util.Arrays.toString(mutableCopy));   // prints: [99, 30, 40]
-     * System.out.println(array.get(1));                             // still prints: 20 (original unchanged)
-     *
-     * // Get all elements as a mutable array
-     * int[] allElements = array.toArray(0, array.length);
-     * }</pre>
-     *
-     * @param fromIndex the starting index (inclusive) of the range to copy (must be {@code >= 0})
-     * @param toIndex the ending index (exclusive) of the range to copy (must be {@code <= length})
-     * @return a new mutable int array containing the specified range of elements
-     * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length},
-     *                                   or {@code fromIndex > toIndex}
-     * @see #copy(int, int)
-     */
-    public int[] toArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
+    public int[] copy(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
 
         return N.copyOfRange(elements, fromIndex, toIndex);

@@ -614,12 +614,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.rowView(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * long[] firstRow = matrix.rowView(0);   // Returns [1L, 2L, 3L]
+     * long[] firstRow = matrix.row(0);   // Returns [1L, 2L, 3L]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99L;  // matrix now has 99L at position (0,0)
@@ -630,7 +630,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public long[] rowView(final int rowIndex) throws IllegalArgumentException {
+    public long[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -654,7 +654,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Returns a copy of the specified column as a new long array.
      *
-     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -875,9 +875,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateMainDiagonal(final Throwables.LongUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateMainDiagonal(final Throwables.LongUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = operator.applyAsLong(a[i][i]);
@@ -958,9 +958,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAntiDiagonal(final Throwables.LongUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.LongUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = operator.applyAsLong(a[i][columnCount - i - 1]);
@@ -2099,7 +2099,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
         final long[][] otherArray = other.a;
         final long[][] result = new long[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] + otherArray[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = a[i][j] + otherArray[i][j];
 
         Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 
@@ -2130,7 +2130,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
         final long[][] otherArray = other.a;
         final long[][] result = new long[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] - otherArray[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = a[i][j] - otherArray[i][j];
 
         Matrices.forEachIndex(rowCount, columnCount, cmd, Matrices.isParallelizable(this));
 

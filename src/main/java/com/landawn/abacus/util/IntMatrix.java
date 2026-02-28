@@ -693,12 +693,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.rowView(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * int[] firstRow = matrix.rowView(0);   // Returns [1, 2, 3]
+     * int[] firstRow = matrix.row(0);   // Returns [1, 2, 3]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 10;  // matrix now has 10 at position (0,0)
@@ -709,7 +709,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public int[] rowView(final int rowIndex) throws IllegalArgumentException {
+    public int[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -733,7 +733,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Returns a copy of the specified column as a new int array.
      *
-     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -951,12 +951,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each diagonal element; receives current element value and returns new value
-     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square
+     * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateMainDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
-        N.checkArgNotNull(operator, "operator");
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = operator.applyAsInt(a[i][i]);
@@ -1034,12 +1034,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each anti-diagonal element; receives current element value and returns new value
-     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square
+     * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
-        N.checkArgNotNull(operator, "operator");
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = operator.applyAsInt(a[i][columnCount - i - 1]);
@@ -2179,7 +2179,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
         final int[][] otherData = other.a;
         final int[][] result = new int[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] + otherData[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = a[i][j] + otherData[i][j];
 
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
 
@@ -2208,7 +2208,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
         final int[][] otherData = other.a;
         final int[][] result = new int[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] - otherData[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = a[i][j] - otherData[i][j];
 
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
 

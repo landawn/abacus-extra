@@ -233,13 +233,13 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] row = matrix.rowView(0);
+        double[] row = matrix.row(0);
         assertEquals(2, row.length);
         assertEquals(1.0, row[0]);
         assertEquals(2.0, row[1]);
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
+        assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.row(2));
     }
 
     @Test

@@ -346,15 +346,15 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testRow() {
-        int[] row0 = matrix.rowView(0);
+        int[] row0 = matrix.row(0);
         assertArrayEquals(new int[] { 1, 2, 3 }, row0);
 
-        int[] row1 = matrix.rowView(1);
+        int[] row1 = matrix.row(1);
         assertArrayEquals(new int[] { 4, 5, 6 }, row1);
 
         // Test bounds
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(3));
+        assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.row(3));
     }
 
     @Test
@@ -374,7 +374,7 @@ public class IntMatrixTest extends TestBase {
     public void testSetRow() {
         IntMatrix m = matrix.copy();
         m.setRow(0, new int[] { 10, 20, 30 });
-        assertArrayEquals(new int[] { 10, 20, 30 }, m.rowView(0));
+        assertArrayEquals(new int[] { 10, 20, 30 }, m.row(0));
 
         // Test wrong size
         assertThrows(IllegalArgumentException.class, () -> m.setRow(0, new int[] { 1, 2 }));
@@ -394,7 +394,7 @@ public class IntMatrixTest extends TestBase {
     public void testUpdateRow() {
         IntMatrix m = matrix.copy();
         m.updateRow(0, x -> x * 2);
-        assertArrayEquals(new int[] { 2, 4, 6 }, m.rowView(0));
+        assertArrayEquals(new int[] { 2, 4, 6 }, m.row(0));
     }
 
     @Test
@@ -535,9 +535,9 @@ public class IntMatrixTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> m.replaceIf((Throwables.IntPredicate<RuntimeException>) null, 0));
         assertThrows(IllegalArgumentException.class, () -> m.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0));
 
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.IntUnaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.IntUnaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntPredicate<RuntimeException>) null, 0));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateMainDiagonal((Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateAntiDiagonal((Throwables.IntUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> m.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0));
     }
 
@@ -1227,7 +1227,7 @@ public class IntMatrixTest extends TestBase {
     @Test
     public void testLength() {
         // This is a protected method, test indirectly through row operations
-        int[] row = matrix.rowView(0);
+        int[] row = matrix.row(0);
         assertEquals(3, row.length);
     }
 

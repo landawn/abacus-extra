@@ -304,15 +304,15 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testRow() {
-        short[] row0 = matrix.rowView(0);
+        short[] row0 = matrix.row(0);
         assertArrayEquals(new short[] { 1, 2, 3 }, row0);
 
-        short[] row1 = matrix.rowView(1);
+        short[] row1 = matrix.row(1);
         assertArrayEquals(new short[] { 4, 5, 6 }, row1);
 
         // Test bounds
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(3));
+        assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.row(3));
     }
 
     @Test
@@ -332,7 +332,7 @@ public class ShortMatrixTest extends TestBase {
     public void testSetRow() {
         ShortMatrix m = matrix.copy();
         m.setRow(0, new short[] { 10, 20, 30 });
-        assertArrayEquals(new short[] { 10, 20, 30 }, m.rowView(0));
+        assertArrayEquals(new short[] { 10, 20, 30 }, m.row(0));
 
         // Test wrong size
         assertThrows(IllegalArgumentException.class, () -> m.setRow(0, new short[] { 1, 2 }));
@@ -352,7 +352,7 @@ public class ShortMatrixTest extends TestBase {
     public void testUpdateRow() {
         ShortMatrix m = matrix.copy();
         m.updateRow(0, x -> (short) (x * 2));
-        assertArrayEquals(new short[] { 2, 4, 6 }, m.rowView(0));
+        assertArrayEquals(new short[] { 2, 4, 6 }, m.row(0));
     }
 
     @Test
@@ -1138,7 +1138,7 @@ public class ShortMatrixTest extends TestBase {
     @Test
     public void testLength() {
         // This is a protected method, test indirectly through row operations
-        short[] row = matrix.rowView(0);
+        short[] row = matrix.row(0);
         assertEquals(3, row.length);
     }
 

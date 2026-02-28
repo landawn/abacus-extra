@@ -19,8 +19,8 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.BytePredicate<RuntimeException>) null, (byte) 0));
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, (byte) 0));
 
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.ByteUnaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.ByteUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateMainDiagonal((Throwables.ByteUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateAntiDiagonal((Throwables.ByteUnaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.BytePredicate<RuntimeException>) null, (byte) 0));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, (byte) 0));
     }
@@ -36,8 +36,8 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.ShortPredicate<RuntimeException>) null, (short) 0));
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, (short) 0));
 
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.ShortUnaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.ShortUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateMainDiagonal((Throwables.ShortUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateAntiDiagonal((Throwables.ShortUnaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.ShortPredicate<RuntimeException>) null, (short) 0));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, (short) 0));
     }
@@ -53,8 +53,8 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.LongPredicate<RuntimeException>) null, 0L));
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0L));
 
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.LongUnaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.LongUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateMainDiagonal((Throwables.LongUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateAntiDiagonal((Throwables.LongUnaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.LongPredicate<RuntimeException>) null, 0L));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0L));
     }
@@ -70,8 +70,8 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.FloatPredicate<RuntimeException>) null, 0f));
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0f));
 
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.FloatUnaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.FloatUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateMainDiagonal((Throwables.FloatUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateAntiDiagonal((Throwables.FloatUnaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.FloatPredicate<RuntimeException>) null, 0f));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0f));
     }
@@ -87,8 +87,8 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.DoublePredicate<RuntimeException>) null, 0d));
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0d));
 
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.DoubleUnaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.DoubleUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateMainDiagonal((Throwables.DoubleUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateAntiDiagonal((Throwables.DoubleUnaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.DoublePredicate<RuntimeException>) null, 0d));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 0d));
     }
@@ -104,8 +104,8 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.CharPredicate<RuntimeException>) null, 'x'));
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 'x'));
 
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.CharUnaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.CharUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateMainDiagonal((Throwables.CharUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateAntiDiagonal((Throwables.CharUnaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.CharPredicate<RuntimeException>) null, 'x'));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, 'x'));
     }
@@ -121,8 +121,8 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.BooleanPredicate<RuntimeException>) null, true));
         assertThrows(IllegalArgumentException.class, () -> matrix.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, true));
 
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateMainDiagonal((Throwables.BooleanUnaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> emptyLike.updateAntiDiagonal((Throwables.BooleanUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateMainDiagonal((Throwables.BooleanUnaryOperator<RuntimeException>) null));
+        assertThrows(IllegalStateException.class, () -> emptyLike.updateAntiDiagonal((Throwables.BooleanUnaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.BooleanPredicate<RuntimeException>) null, true));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, true));
     }

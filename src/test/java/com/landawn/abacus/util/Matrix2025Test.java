@@ -320,15 +320,15 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        assertArrayEquals(new String[] { "A", "B", "C" }, m.rowView(0));
-        assertArrayEquals(new String[] { "D", "E", "F" }, m.rowView(1));
+        assertArrayEquals(new String[] { "A", "B", "C" }, m.row(0));
+        assertArrayEquals(new String[] { "D", "E", "F" }, m.row(1));
     }
 
     @Test
     public void testRow_outOfBounds() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(2));
     }
 
     @Test
@@ -350,8 +350,8 @@ public class Matrix2025Test extends TestBase {
     public void testSetRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setRow(0, new String[] { "X", "Y" });
-        assertArrayEquals(new String[] { "X", "Y" }, m.rowView(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.rowView(1)); // unchanged
+        assertArrayEquals(new String[] { "X", "Y" }, m.row(0));
+        assertArrayEquals(new String[] { "C", "D" }, m.row(1)); // unchanged
     }
 
     @Test
@@ -380,8 +380,8 @@ public class Matrix2025Test extends TestBase {
     public void testUpdateRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.updateRow(0, x -> x + "1");
-        assertArrayEquals(new String[] { "A1", "B1" }, m.rowView(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.rowView(1)); // unchanged
+        assertArrayEquals(new String[] { "A1", "B1" }, m.row(0));
+        assertArrayEquals(new String[] { "C", "D" }, m.row(1)); // unchanged
     }
 
     @Test

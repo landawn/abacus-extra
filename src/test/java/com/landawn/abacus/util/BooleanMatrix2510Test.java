@@ -353,17 +353,17 @@ public class BooleanMatrix2510Test extends TestBase {
     public void testRow() {
         boolean[][] arr = { { true, false, true }, { false, true, false } };
         BooleanMatrix m = BooleanMatrix.of(arr);
-        boolean[] row0 = m.rowView(0);
+        boolean[] row0 = m.row(0);
         assertArrayEquals(new boolean[] { true, false, true }, row0);
-        boolean[] row1 = m.rowView(1);
+        boolean[] row1 = m.row(1);
         assertArrayEquals(new boolean[] { false, true, false }, row1);
     }
 
     @Test
     public void testRow_invalidIndex() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(1));
     }
 
     @Test
@@ -387,8 +387,8 @@ public class BooleanMatrix2510Test extends TestBase {
     public void testSetRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, false }, { false, false, false } });
         m.setRow(0, new boolean[] { true, true, true });
-        assertArrayEquals(new boolean[] { true, true, true }, m.rowView(0));
-        assertArrayEquals(new boolean[] { false, false, false }, m.rowView(1));
+        assertArrayEquals(new boolean[] { true, true, true }, m.row(0));
+        assertArrayEquals(new boolean[] { false, false, false }, m.row(1));
     }
 
     @Test
@@ -415,8 +415,8 @@ public class BooleanMatrix2510Test extends TestBase {
     public void testUpdateRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, false, false } });
         m.updateRow(0, val -> !val);
-        assertArrayEquals(new boolean[] { false, true, false }, m.rowView(0));
-        assertArrayEquals(new boolean[] { false, false, false }, m.rowView(1));
+        assertArrayEquals(new boolean[] { false, true, false }, m.row(0));
+        assertArrayEquals(new boolean[] { false, false, false }, m.row(1));
     }
 
     @Test

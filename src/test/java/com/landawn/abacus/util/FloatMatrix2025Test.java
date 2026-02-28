@@ -446,15 +446,15 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, m.rowView(0), DELTA);
-        assertArrayEquals(new float[] { 4.0f, 5.0f, 6.0f }, m.rowView(1), DELTA);
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, m.row(0), DELTA);
+        assertArrayEquals(new float[] { 4.0f, 5.0f, 6.0f }, m.row(1), DELTA);
     }
 
     @Test
     public void testRow_outOfBounds() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(2));
     }
 
     @Test
@@ -476,8 +476,8 @@ public class FloatMatrix2025Test extends TestBase {
     public void testSetRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         m.setRow(0, new float[] { 10.5f, 20.5f });
-        assertArrayEquals(new float[] { 10.5f, 20.5f }, m.rowView(0), DELTA);
-        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.rowView(1), DELTA); // unchanged
+        assertArrayEquals(new float[] { 10.5f, 20.5f }, m.row(0), DELTA);
+        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.row(1), DELTA); // unchanged
     }
 
     @Test
@@ -506,8 +506,8 @@ public class FloatMatrix2025Test extends TestBase {
     public void testUpdateRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         m.updateRow(0, x -> x * 2.0f);
-        assertArrayEquals(new float[] { 2.0f, 4.0f }, m.rowView(0), DELTA);
-        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.rowView(1), DELTA); // unchanged
+        assertArrayEquals(new float[] { 2.0f, 4.0f }, m.row(0), DELTA);
+        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.row(1), DELTA); // unchanged
     }
 
     @Test

@@ -629,12 +629,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.rowView(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * double[] firstRow = matrix.rowView(0);   // Returns [1.0, 2.0, 3.0]
+     * double[] firstRow = matrix.row(0);   // Returns [1.0, 2.0, 3.0]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99.0;  // matrix now has 99.0 at position (0,0)
@@ -645,7 +645,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     @Override
-    public double[] rowView(final int rowIndex) throws IllegalArgumentException {
+    public double[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -669,7 +669,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Returns a copy of the specified column as a new double array.
      *
-     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -894,9 +894,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateMainDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateMainDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = operator.applyAsDouble(a[i][i]);
@@ -977,9 +977,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAntiDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.DoubleUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = operator.applyAsDouble(a[i][columnCount - i - 1]);
@@ -2106,7 +2106,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         final double[][] otherData = other.a;
         final double[][] result = new double[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] + otherData[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = a[i][j] + otherData[i][j];
 
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
 
@@ -2134,7 +2134,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         final double[][] otherData = other.a;
         final double[][] result = new double[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] - otherData[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = a[i][j] - otherData[i][j];
 
         Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
 

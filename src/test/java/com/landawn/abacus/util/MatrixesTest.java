@@ -177,14 +177,14 @@ class MatricesTest extends TestBase {
         assertTrue(Matrices.isSameShape(new ArrayList<IntMatrix>()));
 
         // Test single element
-        assertTrue(Matrices.isSameShape(CommonUtil.asList(intMatrix1)));
+        assertTrue(Matrices.isSameShape(N.asList(intMatrix1)));
 
         // Test multiple elements with same shape
-        assertTrue(Matrices.isSameShape(CommonUtil.asList(intMatrix1, intMatrix2, intMatrix3)));
+        assertTrue(Matrices.isSameShape(N.asList(intMatrix1, intMatrix2, intMatrix3)));
 
         // Test multiple elements with different shapes
         IntMatrix differentShape = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertFalse(Matrices.isSameShape(CommonUtil.asList(intMatrix1, intMatrix2, differentShape)));
+        assertFalse(Matrices.isSameShape(N.asList(intMatrix1, intMatrix2, differentShape)));
     }
 
     @Test
@@ -430,7 +430,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipByteMatrixCollection() throws Exception {
-        List<ByteMatrix> matrices = CommonUtil.asList(byteMatrix1, byteMatrix2, byteMatrix3);
+        List<ByteMatrix> matrices = N.asList(byteMatrix1, byteMatrix2, byteMatrix3);
 
         // Test with binary operator
         ByteMatrix result = Matrices.zip(matrices, (a, b) -> (byte) Math.max(a, b));
@@ -443,13 +443,13 @@ class MatricesTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip(new ArrayList<ByteMatrix>(), (a, b) -> a));
 
         // Test with single element
-        ByteMatrix single = Matrices.zip(CommonUtil.asList(byteMatrix1), (a, b) -> a);
+        ByteMatrix single = Matrices.zip(N.asList(byteMatrix1), (a, b) -> a);
         assertEquals(byteMatrix1.get(0, 0), single.get(0, 0));
     }
 
     @Test
     public void testZipByteMatrixToGeneric() throws Exception {
-        List<ByteMatrix> matrices = CommonUtil.asList(byteMatrix1, byteMatrix2);
+        List<ByteMatrix> matrices = N.asList(byteMatrix1, byteMatrix2);
 
         // Test without sharing array
         Matrix<Integer> result = Matrices.zip(matrices, arr -> arr[0] + arr[1], Integer.class);
@@ -475,7 +475,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipByteMatrixCollectionToInt() throws Exception {
-        List<ByteMatrix> matrices = CommonUtil.asList(byteMatrix1, byteMatrix2, byteMatrix3);
+        List<ByteMatrix> matrices = N.asList(byteMatrix1, byteMatrix2, byteMatrix3);
 
         // Test without sharing array
         IntMatrix result = Matrices.zipToInt(matrices, arr -> ByteStream.of(arr).mapToInt(b -> b).sum());
@@ -500,7 +500,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipIntMatrixCollection() throws Exception {
-        List<IntMatrix> matrices = CommonUtil.asList(intMatrix1, intMatrix2, intMatrix3);
+        List<IntMatrix> matrices = N.asList(intMatrix1, intMatrix2, intMatrix3);
 
         IntMatrix result = Matrices.zip(matrices, (a, b) -> a + b);
         assertEquals(15, result.get(0, 0)); // 1 + 5 + 9
@@ -509,7 +509,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipIntMatrixToGeneric() throws Exception {
-        List<IntMatrix> matrices = CommonUtil.asList(intMatrix1, intMatrix2);
+        List<IntMatrix> matrices = N.asList(intMatrix1, intMatrix2);
 
         Matrix<Double> result = Matrices.zip(matrices, arr -> IntStream.of(arr).average().orElse(0.0), Double.class);
         assertEquals(3.0, result.get(0, 0)); // (1 + 5) / 2
@@ -528,7 +528,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipIntMatrixCollectionToLong() throws Exception {
-        List<IntMatrix> matrices = CommonUtil.asList(intMatrix1, intMatrix2);
+        List<IntMatrix> matrices = N.asList(intMatrix1, intMatrix2);
 
         LongMatrix result = Matrices.zipToLong(matrices, arr -> (long) IntStream.of(arr).sum());
         assertEquals(6L, result.get(0, 0));
@@ -547,7 +547,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipIntMatrixCollectionToDouble() throws Exception {
-        List<IntMatrix> matrices = CommonUtil.asList(intMatrix1, intMatrix2);
+        List<IntMatrix> matrices = N.asList(intMatrix1, intMatrix2);
 
         DoubleMatrix result = Matrices.zipToDouble(matrices, arr -> IntStream.of(arr).average().orElse(0.0));
         assertEquals(3.0, result.get(0, 0));
@@ -566,7 +566,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipLongMatrixCollection() throws Exception {
-        List<LongMatrix> matrices = CommonUtil.asList(longMatrix1, longMatrix2, longMatrix3);
+        List<LongMatrix> matrices = N.asList(longMatrix1, longMatrix2, longMatrix3);
 
         LongMatrix result = Matrices.zip(matrices, Math::max);
         assertEquals(9L, result.get(0, 0));
@@ -574,7 +574,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipLongMatrixToGeneric() throws Exception {
-        List<LongMatrix> matrices = CommonUtil.asList(longMatrix1, longMatrix2);
+        List<LongMatrix> matrices = N.asList(longMatrix1, longMatrix2);
 
         Matrix<String> result = Matrices.zip(matrices, arr -> LongStream.of(arr).mapToObj(String::valueOf).collect(Collectors.joining(",")), String.class);
         assertEquals("1,5", result.get(0, 0));
@@ -593,7 +593,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipLongMatrixCollectionToDouble() throws Exception {
-        List<LongMatrix> matrices = CommonUtil.asList(longMatrix1, longMatrix2);
+        List<LongMatrix> matrices = N.asList(longMatrix1, longMatrix2);
 
         DoubleMatrix result = Matrices.zipToDouble(matrices, arr -> LongStream.of(arr).average().orElse(0.0));
         assertEquals(3.0, result.get(0, 0));
@@ -612,7 +612,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipDoubleMatrixCollection() throws Exception {
-        List<DoubleMatrix> matrices = CommonUtil.asList(doubleMatrix1, doubleMatrix2, doubleMatrix3);
+        List<DoubleMatrix> matrices = N.asList(doubleMatrix1, doubleMatrix2, doubleMatrix3);
 
         DoubleMatrix result = Matrices.zip(matrices, Math::min);
         assertEquals(1.0, result.get(0, 0), 0.001);
@@ -620,7 +620,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipDoubleMatrixToGeneric() throws Exception {
-        List<DoubleMatrix> matrices = CommonUtil.asList(doubleMatrix1, doubleMatrix2);
+        List<DoubleMatrix> matrices = N.asList(doubleMatrix1, doubleMatrix2);
 
         Matrix<Boolean> result = Matrices.zip(matrices, arr -> arr[0] < arr[1], Boolean.class);
         assertTrue(result.get(0, 0)); // 1.0 < 5.0
@@ -648,7 +648,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipGenericMatrixCollection() throws Exception {
-        List<Matrix<String>> matrices = CommonUtil.asList(stringMatrix1, stringMatrix2, stringMatrix3);
+        List<Matrix<String>> matrices = N.asList(stringMatrix1, stringMatrix2, stringMatrix3);
 
         // Test with binary operator
         Matrix<String> result = Matrices.zip(matrices, (a, b) -> a + b);
@@ -657,7 +657,7 @@ class MatricesTest extends TestBase {
 
     @Test
     public void testZipGenericMatrixCollectionWithFunction() throws Exception {
-        List<Matrix<String>> matrices = CommonUtil.asList(stringMatrix1, stringMatrix2);
+        List<Matrix<String>> matrices = N.asList(stringMatrix1, stringMatrix2);
 
         // Test without sharing array
         Matrix<String> result = Matrices.zip(matrices, arr -> String.join("-", arr), String.class);
@@ -672,7 +672,7 @@ class MatricesTest extends TestBase {
     public void testZipGenericMatrixCollectionWithMixedRuntimeTypes() throws Exception {
         Number[][] intData = new Integer[][] { { 1, 2 }, { 3, 4 } };
         Number[][] doubleData = new Double[][] { { 0.5, 1.5 }, { 2.5, 3.5 } };
-        List<Matrix<Number>> matrices = CommonUtil.asList(Matrix.of(intData), Matrix.of(doubleData));
+        List<Matrix<Number>> matrices = N.asList(Matrix.of(doubleData), Matrix.of(intData));
 
         Matrix<Number> result = Matrices.zip(matrices, (a, b) -> a.doubleValue() + b.doubleValue());
         assertEquals(1.5d, result.get(0, 0).doubleValue());
@@ -683,7 +683,7 @@ class MatricesTest extends TestBase {
     public void testZipGenericMatrixCollectionWithFunctionAndMixedRuntimeTypes() throws Exception {
         Number[][] intData = new Integer[][] { { 1, 2 }, { 3, 4 } };
         Number[][] doubleData = new Double[][] { { 0.5, 1.5 }, { 2.5, 3.5 } };
-        List<Matrix<Number>> matrices = CommonUtil.asList(Matrix.of(intData), Matrix.of(doubleData));
+        List<Matrix<Number>> matrices = N.asList(Matrix.of(intData), Matrix.of(doubleData));
 
         Matrix<Double> result = Matrices.zip(matrices, arr -> arr[0].doubleValue() + arr[1].doubleValue(), true, Double.class);
         assertEquals(1.5d, result.get(0, 0));
@@ -693,61 +693,61 @@ class MatricesTest extends TestBase {
     @Test
     public void testZipNullArguments() {
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteBinaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2),
+                () -> Matrices.zip(N.asList(byteMatrix1, byteMatrix2), (Throwables.ByteBinaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(N.asList(byteMatrix1, byteMatrix2),
                 (Throwables.ByteNFunction<Integer, RuntimeException>) null, false, Integer.class));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(byteMatrix1, byteMatrix2), arr -> (int) arr[0], false, (Class<Integer>) null));
+                () -> Matrices.zip(N.asList(byteMatrix1, byteMatrix2), arr -> (int) arr[0], false, (Class<Integer>) null));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zipToInt(byteMatrix1, byteMatrix2, (Throwables.ByteBiFunction<Integer, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zipToInt(byteMatrix1, byteMatrix2, byteMatrix3, (Throwables.ByteTriFunction<Integer, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zipToInt(CommonUtil.asList(byteMatrix1, byteMatrix2), (Throwables.ByteNFunction<Integer, RuntimeException>) null, false));
+                () -> Matrices.zipToInt(N.asList(byteMatrix1, byteMatrix2), (Throwables.ByteNFunction<Integer, RuntimeException>) null, false));
 
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntBinaryOperator<RuntimeException>) null));
+                () -> Matrices.zip(N.asList(intMatrix1, intMatrix2), (Throwables.IntBinaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Integer, RuntimeException>) null, false, Integer.class));
+                () -> Matrices.zip(N.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Integer, RuntimeException>) null, false, Integer.class));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(intMatrix1, intMatrix2), arr -> arr[0], false, (Class<Integer>) null));
+                () -> Matrices.zip(N.asList(intMatrix1, intMatrix2), arr -> arr[0], false, (Class<Integer>) null));
         assertThrows(IllegalArgumentException.class, () -> Matrices.zipToLong(intMatrix1, intMatrix2, (Throwables.IntBiFunction<Long, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zipToLong(intMatrix1, intMatrix2, intMatrix3, (Throwables.IntTriFunction<Long, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zipToLong(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Long, RuntimeException>) null, false));
+                () -> Matrices.zipToLong(N.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Long, RuntimeException>) null, false));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zipToDouble(intMatrix1, intMatrix2, (Throwables.IntBiFunction<Double, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zipToDouble(intMatrix1, intMatrix2, intMatrix3, (Throwables.IntTriFunction<Double, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zipToDouble(CommonUtil.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Double, RuntimeException>) null, false));
+                () -> Matrices.zipToDouble(N.asList(intMatrix1, intMatrix2), (Throwables.IntNFunction<Double, RuntimeException>) null, false));
 
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongBinaryOperator<RuntimeException>) null));
+                () -> Matrices.zip(N.asList(longMatrix1, longMatrix2), (Throwables.LongBinaryOperator<RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongNFunction<Long, RuntimeException>) null, false, Long.class));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(longMatrix1, longMatrix2), arr -> arr[0], false, (Class<Long>) null));
+                () -> Matrices.zip(N.asList(longMatrix1, longMatrix2), (Throwables.LongNFunction<Long, RuntimeException>) null, false, Long.class));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(N.asList(longMatrix1, longMatrix2), arr -> arr[0], false, (Class<Long>) null));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zipToDouble(longMatrix1, longMatrix2, (Throwables.LongBiFunction<Double, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
                 () -> Matrices.zipToDouble(longMatrix1, longMatrix2, longMatrix3, (Throwables.LongTriFunction<Double, RuntimeException>) null));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zipToDouble(CommonUtil.asList(longMatrix1, longMatrix2), (Throwables.LongNFunction<Double, RuntimeException>) null, false));
+                () -> Matrices.zipToDouble(N.asList(longMatrix1, longMatrix2), (Throwables.LongNFunction<Double, RuntimeException>) null, false));
 
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), (Throwables.DoubleBinaryOperator<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2),
+                () -> Matrices.zip(N.asList(doubleMatrix1, doubleMatrix2), (Throwables.DoubleBinaryOperator<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(N.asList(doubleMatrix1, doubleMatrix2),
                 (Throwables.DoubleNFunction<Double, RuntimeException>) null, false, Double.class));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(doubleMatrix1, doubleMatrix2), arr -> arr[0], false, (Class<Double>) null));
+                () -> Matrices.zip(N.asList(doubleMatrix1, doubleMatrix2), arr -> arr[0], false, (Class<Double>) null));
 
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), (Throwables.BinaryOperator<String, RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2),
+                () -> Matrices.zip(N.asList(stringMatrix1, stringMatrix2), (Throwables.BinaryOperator<String, RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(N.asList(stringMatrix1, stringMatrix2),
                 (Throwables.Function<String[], String, RuntimeException>) null, false, String.class));
         assertThrows(IllegalArgumentException.class,
-                () -> Matrices.zip(CommonUtil.asList(stringMatrix1, stringMatrix2), arr -> arr[0], false, (Class<String>) null));
+                () -> Matrices.zip(N.asList(stringMatrix1, stringMatrix2), arr -> arr[0], false, (Class<String>) null));
     }
 
     @Test
@@ -758,7 +758,7 @@ class MatricesTest extends TestBase {
         // Test that zip methods throw exception for different shapes
         assertThrows(IllegalArgumentException.class, () -> Matrices.zip(intMatrix1, differentShape, (a, b) -> a + b));
 
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(CommonUtil.asList(intMatrix1, differentShape), (a, b) -> a + b));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(N.asList(intMatrix1, differentShape), (a, b) -> a + b));
     }
 
     @Test
@@ -791,7 +791,7 @@ class MatricesTest extends TestBase {
     @Test
     public void testZipCollectionEdgeCases() throws Exception {
         // Test collection zip with two elements (should use optimized path)
-        List<IntMatrix> twoMatrices = CommonUtil.asList(intMatrix1, intMatrix2);
+        List<IntMatrix> twoMatrices = N.asList(intMatrix1, intMatrix2);
         IntMatrix twoResult = Matrices.zip(twoMatrices, (a, b) -> a + b);
         assertEquals(6, twoResult.get(0, 0));
 
@@ -820,8 +820,8 @@ class MatricesTest extends TestBase {
             N.println(mx);
             N.println(mx.boxed());
 
-            mx.boxed().toDatasetH(CommonUtil.asList("a", "b", "c", "d")).println();
-            mx.boxed().toDatasetV(CommonUtil.asList("a", "b")).println();
+            mx.boxed().toDatasetH(N.asList("a", "b", "c", "d")).println();
+            mx.boxed().toDatasetV(N.asList("a", "b")).println();
         }
     }
 
@@ -833,22 +833,22 @@ class MatricesTest extends TestBase {
             mx.println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx), (i, j) -> (byte) (i + j)).println();
+            Matrices.zip(N.asList(mx), (i, j) -> (byte) (i + j)).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx, mx), (i, j) -> (byte) (i + j)).println();
+            Matrices.zip(N.asList(mx, mx), (i, j) -> (byte) (i + j)).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx, mx, mx), (i, j) -> (byte) (i + j)).println();
+            Matrices.zip(N.asList(mx, mx, mx), (i, j) -> (byte) (i + j)).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx, mx, mx, mx), (i, j) -> (byte) (i + j)).println();
+            Matrices.zip(N.asList(mx, mx, mx, mx), (i, j) -> (byte) (i + j)).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), Byte.class).println();
+            Matrices.zip(N.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), Byte.class).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zipToInt(CommonUtil.asList(mx, mx, mx, mx), N::sum).println();
+            Matrices.zipToInt(N.asList(mx, mx, mx, mx), N::sum).println();
         }
 
         N.println(Strings.repeat('=', 80));
@@ -859,22 +859,22 @@ class MatricesTest extends TestBase {
             mx.println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx), (i, j) -> i + j).println();
+            Matrices.zip(N.asList(mx), (i, j) -> i + j).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx, mx), (i, j) -> i + j).println();
+            Matrices.zip(N.asList(mx, mx), (i, j) -> i + j).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx, mx, mx), (i, j) -> i + j).println();
+            Matrices.zip(N.asList(mx, mx, mx), (i, j) -> i + j).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx, mx, mx, mx), (i, j) -> i + j).println();
+            Matrices.zip(N.asList(mx, mx, mx, mx), (i, j) -> i + j).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zip(CommonUtil.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), byte.class).println();
+            Matrices.zip(N.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), byte.class).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrices.zipToLong(CommonUtil.asList(mx, mx, mx, mx), a -> (long) N.sum(a)).println();
+            Matrices.zipToLong(N.asList(mx, mx, mx, mx), a -> (long) N.sum(a)).println();
         }
 
     }

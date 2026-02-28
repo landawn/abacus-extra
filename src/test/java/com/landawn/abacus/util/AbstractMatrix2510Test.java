@@ -292,7 +292,7 @@ public class AbstractMatrix2510Test extends TestBase {
 
         assertEquals(1, subset.rowCount());
         assertEquals(3, subset.columnCount());
-        assertArrayEquals(new int[] { 4, 5, 6 }, subset.rowView(0));
+        assertArrayEquals(new int[] { 4, 5, 6 }, subset.row(0));
     }
 
     @Test

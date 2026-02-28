@@ -367,15 +367,15 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        float[] row = m.rowView(0);
+        float[] row = m.row(0);
         assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, row);
     }
 
     @Test
     public void testRow_invalidIndex() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(2));
     }
 
     @Test

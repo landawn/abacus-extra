@@ -575,12 +575,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.rowView(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * byte[] firstRow = matrix.rowView(0);   // Returns [1, 2, 3]
+     * byte[] firstRow = matrix.row(0);   // Returns [1, 2, 3]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99;  // matrix now has 99 at position (0,0)
@@ -591,7 +591,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public byte[] rowView(final int rowIndex) throws IllegalArgumentException {
+    public byte[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -615,7 +615,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Returns a copy of the specified column as a new byte array.
      *
-     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
      * columns are not stored contiguously. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -829,12 +829,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each diagonal element
-     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateMainDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateMainDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = operator.applyAsByte(a[i][i]);
@@ -913,12 +913,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each anti-diagonal element
-     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAntiDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.ByteUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = operator.applyAsByte(a[i][columnCount - i - 1]);

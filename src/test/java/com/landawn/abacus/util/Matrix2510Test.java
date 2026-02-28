@@ -294,22 +294,22 @@ public class Matrix2510Test extends TestBase {
     @Test
     public void testRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] row = m.rowView(0);
+        String[] row = m.row(0);
         assertArrayEquals(new String[] { "A", "B" }, row);
     }
 
     @Test
     public void testRow_lastRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] row = m.rowView(1);
+        String[] row = m.row(1);
         assertArrayEquals(new String[] { "C", "D" }, row);
     }
 
     @Test
     public void testRow_invalidIndex() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(1));
     }
 
     @Test
@@ -337,8 +337,8 @@ public class Matrix2510Test extends TestBase {
     public void testSetRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setRow(0, new String[] { "X", "Y" });
-        assertArrayEquals(new String[] { "X", "Y" }, m.rowView(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.rowView(1));
+        assertArrayEquals(new String[] { "X", "Y" }, m.row(0));
+        assertArrayEquals(new String[] { "C", "D" }, m.row(1));
     }
 
     @Test

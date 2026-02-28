@@ -153,7 +153,7 @@ import com.landawn.abacus.util.stream.Stream;
  * // Complex stream operations with multiple access patterns
  * DoubleMatrix analyticsMatrix = DoubleMatrix.of(new double[][] {{1.0, 3.0, 5.0}, {2.0, 4.0, 8.0}});
  * int rowIndex = 0;
- * double[] row = analyticsMatrix.rowView(rowIndex);
+ * double[] row = analyticsMatrix.row(rowIndex);
  * double mean = java.util.stream.DoubleStream.of(row).average().orElse(0.0);
  * double variance = java.util.stream.DoubleStream.of(row)
  *     .map(x -> Math.pow(x - mean, 2))
@@ -654,7 +654,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return the specified row array (direct reference to internal storage)
      * @throws IllegalArgumentException if rowIndex is out of bounds
      */
-    public abstract A rowView(int rowIndex) throws IllegalArgumentException;
+    public abstract A row(int rowIndex) throws IllegalArgumentException;
 
     /**
      * Returns a defensive copy of the specified row.

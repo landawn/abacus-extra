@@ -571,12 +571,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.rowView(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * short[] firstRow = matrix.rowView(0);   // Returns [1, 2, 3]
+     * short[] firstRow = matrix.row(0);   // Returns [1, 2, 3]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 10;  // matrix now has 10 at position (0,0)
@@ -587,7 +587,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     @Override
-    public short[] rowView(final int rowIndex) throws IllegalArgumentException {
+    public short[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -611,7 +611,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Returns a copy of the specified column as a new short array.
      *
-     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -823,12 +823,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each diagonal element
-     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateMainDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateMainDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = operator.applyAsShort(a[i][i]);
@@ -906,12 +906,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each anti-diagonal element
-     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columnCount)
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAntiDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
+        N.checkArgNotNull(operator, "operator");
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = operator.applyAsShort(a[i][columnCount - i - 1]);

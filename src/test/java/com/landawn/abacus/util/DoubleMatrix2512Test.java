@@ -419,14 +419,14 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        double[] row = m.rowView(0);
+        double[] row = m.row(0);
         assertArrayEquals(new double[] { 1.0, 2.0 }, row, 0.0);
     }
 
     @Test
     public void test_row_invalidIndex() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
+        assertThrows(IllegalArgumentException.class, () -> m.row(5));
     }
 
     @Test
@@ -446,7 +446,7 @@ public class DoubleMatrix2512Test extends TestBase {
     public void test_setRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         m.setRow(0, new double[] { 9.0, 8.0 });
-        assertArrayEquals(new double[] { 9.0, 8.0 }, m.rowView(0), 0.0);
+        assertArrayEquals(new double[] { 9.0, 8.0 }, m.row(0), 0.0);
     }
 
     @Test
@@ -486,8 +486,8 @@ public class DoubleMatrix2512Test extends TestBase {
     public void test_updateRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         m.updateRow(0, x -> x * 2);
-        assertArrayEquals(new double[] { 2.0, 4.0 }, m.rowView(0), 0.0);
-        assertArrayEquals(new double[] { 3.0, 4.0 }, m.rowView(1), 0.0);
+        assertArrayEquals(new double[] { 2.0, 4.0 }, m.row(0), 0.0);
+        assertArrayEquals(new double[] { 3.0, 4.0 }, m.row(1), 0.0);
     }
 
     @Test

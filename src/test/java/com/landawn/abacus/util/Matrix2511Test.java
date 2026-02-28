@@ -376,29 +376,29 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] row = m.rowView(0);
+        String[] row = m.row(0);
         assertArrayEquals(new String[] { "A", "B" }, row);
     }
 
     @Test
     public void testRow_lastRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[] row = m.rowView(1);
+        String[] row = m.row(1);
         assertArrayEquals(new String[] { "C", "D" }, row);
     }
 
     @Test
     public void testRow_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        Integer[] row = m.rowView(1);
+        Integer[] row = m.row(1);
         assertArrayEquals(new Integer[] { 4, 5, 6 }, row);
     }
 
     @Test
     public void testRow_invalidIndex() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowView(1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.row(1));
     }
 
     @Test
@@ -433,15 +433,15 @@ public class Matrix2511Test extends TestBase {
     public void testSetRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setRow(0, new String[] { "X", "Y" });
-        assertArrayEquals(new String[] { "X", "Y" }, m.rowView(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.rowView(1));
+        assertArrayEquals(new String[] { "X", "Y" }, m.row(0));
+        assertArrayEquals(new String[] { "C", "D" }, m.row(1));
     }
 
     @Test
     public void testSetRow_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(1, new Integer[] { 10, 20 });
-        assertArrayEquals(new Integer[] { 10, 20 }, m.rowView(1));
+        assertArrayEquals(new Integer[] { 10, 20 }, m.row(1));
     }
 
     @Test

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -375,11 +374,11 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        ImmutableIntArray copy = immutable.copy(0, 5);
+        int[] copy = immutable.copy(0, 5);
 
         assertEquals(5, copy.length);
-        assertEquals(1, copy.get(0));
-        assertEquals(5, copy.get(4));
+        assertEquals(1, copy[0]);
+        assertEquals(5, copy[4]);
     }
 
     @Test
@@ -387,12 +386,12 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 10, 20, 30, 40, 50 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        ImmutableIntArray copy = immutable.copy(1, 4);
+        int[] copy = immutable.copy(1, 4);
 
         assertEquals(3, copy.length);
-        assertEquals(20, copy.get(0));
-        assertEquals(30, copy.get(1));
-        assertEquals(40, copy.get(2));
+        assertEquals(20, copy[0]);
+        assertEquals(30, copy[1]);
+        assertEquals(40, copy[2]);
     }
 
     @Test
@@ -400,7 +399,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        ImmutableIntArray copy = immutable.copy(1, 1);
+        int[] copy = immutable.copy(1, 1);
 
         assertEquals(0, copy.length);
     }
@@ -429,92 +428,9 @@ public class ImmutableIntArray2025Test extends TestBase {
         assertThrows(IndexOutOfBoundsException.class, () -> immutable.copy(2, 1));
     }
 
-    @Test
-    public void testCopy_IndependentOfOriginal() {
-        int[] data = { 1, 2, 3, 4, 5 };
-        ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
-        ImmutableIntArray copy = immutable.copy(1, 4);
-
-        // Modify original data
-        data[2] = 99;
-
-        // Copy should not be affected (if original was created with copyOf)
-        // or will be affected (if original was created with wrap)
-        // This test documents the behavior
-        assertNotSame(immutable, copy);
-    }
-
     // ============================================
     // Tests for copyToArray() method
     // ============================================
-
-    @Test
-    public void testCopyToArray_FullRange() {
-        int[] data = { 1, 2, 3, 4, 5 };
-        ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
-
-        int[] copy = immutable.toArray(0, 5);
-
-        assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, copy);
-    }
-
-    @Test
-    public void testCopyToArray_PartialRange() {
-        int[] data = { 10, 20, 30, 40, 50 };
-        ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
-
-        int[] copy = immutable.toArray(2, 4);
-
-        assertArrayEquals(new int[] { 30, 40 }, copy);
-    }
-
-    @Test
-    public void testCopyToArray_EmptyRange() {
-        int[] data = { 1, 2, 3 };
-        ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
-
-        int[] copy = immutable.toArray(1, 1);
-
-        assertEquals(0, copy.length);
-    }
-
-    @Test
-    public void testCopyToArray_InvalidFromIndex() {
-        int[] data = { 1, 2, 3 };
-        ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
-
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(-1, 2));
-    }
-
-    @Test
-    public void testCopyToArray_InvalidToIndex() {
-        int[] data = { 1, 2, 3 };
-        ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
-
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(0, 10));
-    }
-
-    @Test
-    public void testCopyToArray_FromIndexGreaterThanToIndex() {
-        int[] data = { 1, 2, 3 };
-        ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
-
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(2, 1));
-    }
-
-    @Test
-    public void testCopyToArray_Mutable() {
-        int[] data = { 1, 2, 3, 4, 5 };
-        ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
-
-        int[] copy = immutable.toArray(0, 5);
-
-        // Modify the copy
-        copy[0] = 99;
-
-        // Original immutable array should not be affected
-        assertEquals(1, immutable.get(0));
-    }
 
     // ============================================
     // Tests for hashCode() method
@@ -726,28 +642,6 @@ public class ImmutableIntArray2025Test extends TestBase {
         // Array should remain unchanged
         assertEquals(1, array.get(0));
         assertEquals(5, array.get(4));
-    }
-
-    @Test
-    public void testCombinedOperations() {
-        int[] data = { 10, 20, 30, 40, 50, 60, 70, 80 };
-        ImmutableIntArray array = ImmutableIntArray.copyOf(data);
-
-        // Get a sub-range
-        ImmutableIntArray sub = array.copy(2, 6);
-
-        // Verify the sub-range
-        assertEquals(4, sub.length);
-        assertEquals(30, sub.get(0));
-        assertEquals(60, sub.get(3));
-
-        // Use stream on sub-range
-        int sum = sub.stream().sum();
-        assertEquals(180, sum);
-
-        // Copy to mutable array
-        int[] mutableCopy = sub.toArray(1, 3);
-        assertArrayEquals(new int[] { 40, 50 }, mutableCopy);
     }
 
     @Test
