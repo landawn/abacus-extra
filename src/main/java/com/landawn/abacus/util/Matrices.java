@@ -3153,21 +3153,8 @@ public final class Matrices {
     }
 
     private static Class<?> resolveCommonSuperType(final Class<?> left, final Class<?> right) {
-        if (left.isAssignableFrom(right)) {
-            return left;
-        }
-
-        if (right.isAssignableFrom(left)) {
-            return right;
-        }
-
-        Class<?> candidate = left.getSuperclass();
-
-        while (candidate != null && !candidate.isAssignableFrom(right)) {
-            candidate = candidate.getSuperclass();
-        }
-
-        return candidate == null ? Object.class : candidate;
+        // Use the same interface-aware common-type resolution as matrices themselves.
+        return AbstractMatrix.resolveCommonAssignableType(left, right);
     }
 
     private static void checkShapeForZip(final AbstractMatrix<?, ?, ?, ?, ?> a, final AbstractMatrix<?, ?, ?, ?, ?> b) {
