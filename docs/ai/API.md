@@ -1,7 +1,7 @@
 # abacus-extra API Index (v3.6.1)
 - Build: unknown
 - Java: 17
-- Generated: 2026-02-27
+- Generated: 2026-03-03
 
 ## Packages
 - com.landawn.abacus.util
