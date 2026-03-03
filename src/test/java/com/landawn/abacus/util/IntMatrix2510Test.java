@@ -1076,7 +1076,7 @@ public class IntMatrix2510Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntList flat = m.flatten();
         assertEquals(6, flat.size());
-        assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6 }, flat.array());
+        assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6 }, flat.toArray());
     }
 
     @Test

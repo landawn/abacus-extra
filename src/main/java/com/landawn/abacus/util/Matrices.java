@@ -53,10 +53,10 @@ public final class Matrices {
 
     static final Logger logger = LoggerFactory.getLogger(Matrices.class);
 
-    static final int MIN_COUNT_FOR_PARALLEL = 8192;
+    static final int MIN_COUNT_FOR_DOUBLE_PIPE = 8192;
 
-    static final boolean IS_PARALLEL_STREAM_SUPPORTED;
-    static final ThreadLocal<ParallelMode> PARALLEL_MODE_TL = ThreadLocal.withInitial(() -> ParallelMode.AUTO);
+    static final boolean IS_DOUBLE_PIPE_STREAM_SUPPORTED;
+    static final ThreadLocal<ParallelMode> DOUBLE_PIPE_MODE_TL = ThreadLocal.withInitial(() -> ParallelMode.AUTO);
 
     static {
         boolean tmp = false;
@@ -70,7 +70,7 @@ public final class Matrices {
             // ignore.
         }
 
-        IS_PARALLEL_STREAM_SUPPORTED = tmp;
+        IS_DOUBLE_PIPE_STREAM_SUPPORTED = tmp;
     }
 
     private Matrices() {
@@ -106,7 +106,7 @@ public final class Matrices {
      * @see ParallelMode
      */
     public static ParallelMode getParallelMode() {
-        return PARALLEL_MODE_TL.get();
+        return DOUBLE_PIPE_MODE_TL.get();
     }
 
     /**
@@ -148,7 +148,7 @@ public final class Matrices {
     public static void setParallelMode(final ParallelMode parallelMode) throws IllegalArgumentException {
         N.checkArgNotNull(parallelMode);
 
-        PARALLEL_MODE_TL.set(parallelMode);
+        DOUBLE_PIPE_MODE_TL.set(parallelMode);
     }
 
     /**
@@ -220,8 +220,8 @@ public final class Matrices {
      */
     public static boolean isParallelizable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
         N.checkArgNotNull(x, "x");
-        return IS_PARALLEL_STREAM_SUPPORTED && (Matrices.PARALLEL_MODE_TL.get() == ParallelMode.FORCE_ON
-                || (Matrices.PARALLEL_MODE_TL.get() == ParallelMode.AUTO && count >= MIN_COUNT_FOR_PARALLEL));
+        return IS_DOUBLE_PIPE_STREAM_SUPPORTED && (Matrices.DOUBLE_PIPE_MODE_TL.get() == ParallelMode.FORCE_ON
+                || (Matrices.DOUBLE_PIPE_MODE_TL.get() == ParallelMode.AUTO && count >= MIN_COUNT_FOR_DOUBLE_PIPE));
     }
 
     private static long saturatedMultiply(final long left, final long right) {

@@ -1008,7 +1008,7 @@ public class LongMatrix2510Test extends TestBase {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
         LongList flat = m.flatten();
         assertEquals(6, flat.size());
-        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L, 5L, 6L }, flat.array());
+        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L, 5L, 6L }, flat.toArray());
     }
 
     @Test

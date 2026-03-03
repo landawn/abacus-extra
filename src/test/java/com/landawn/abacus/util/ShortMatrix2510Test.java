@@ -972,7 +972,7 @@ public class ShortMatrix2510Test extends TestBase {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         ShortList flat = m.flatten();
         assertEquals(6, flat.size());
-        assertArrayEquals(new short[] { 1, 2, 3, 4, 5, 6 }, flat.array());
+        assertArrayEquals(new short[] { 1, 2, 3, 4, 5, 6 }, flat.toArray());
     }
 
     @Test

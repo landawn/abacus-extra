@@ -133,7 +133,7 @@ class MatricesTest extends TestBase {
 
         // Test with large count (above threshold)
         boolean result = Matrices.isParallelizable(matrix, 10000);
-        assertTrue(result || !result); // Depends on IS_PARALLEL_STREAM_SUPPORTED
+        assertTrue(result || !result); // Depends on IS_DOUBLE_PIPE_STREAM_SUPPORTED
 
         // Test with forced settings
         Matrices.setParallelMode(ParallelMode.FORCE_ON);

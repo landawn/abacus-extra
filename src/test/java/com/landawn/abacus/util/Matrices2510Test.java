@@ -80,7 +80,7 @@ public class Matrices2510Test extends TestBase {
         Matrices.setParallelMode(ParallelMode.AUTO);
         // Large matrix should be parallelable by default if parallel streams supported
         boolean result = Matrices.isParallelizable(m);
-        // Result depends on IS_PARALLEL_STREAM_SUPPORTED
+        // Result depends on IS_DOUBLE_PIPE_STREAM_SUPPORTED
         assertNotNull(result);
     }
 
@@ -115,7 +115,7 @@ public class Matrices2510Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[100][100]);
         Matrices.setParallelMode(ParallelMode.AUTO);
         boolean result = Matrices.isParallelizable(m, 10000);
-        // Result depends on IS_PARALLEL_STREAM_SUPPORTED
+        // Result depends on IS_DOUBLE_PIPE_STREAM_SUPPORTED
         assertNotNull(result);
     }
 

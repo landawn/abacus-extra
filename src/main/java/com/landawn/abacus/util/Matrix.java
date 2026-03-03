@@ -2231,7 +2231,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             N.copy(a[i], 0, c, i * columnCount, columnCount);
         }
 
-        return N.asList(c);
+        return N.toList(c);
     }
 
     /**
