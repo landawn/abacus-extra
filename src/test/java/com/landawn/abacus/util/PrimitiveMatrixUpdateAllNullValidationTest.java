@@ -126,4 +126,27 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.BooleanPredicate<RuntimeException>) null, true));
         assertThrows(IllegalArgumentException.class, () -> emptyLike.replaceIf((Throwables.IntBiPredicate<RuntimeException>) null, true));
     }
+
+    @Test
+    public void testBooleanMatrixStackRejectsNullMatrix() {
+        BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] { { true } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+    }
+
+    @Test
+    public void testByteMatrixStackAndMultiplyRejectNullMatrix() {
+        ByteMatrix matrix = ByteMatrix.of(new byte[][] { { 1, 2 } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+    }
+
+    @Test
+    public void testCharMatrixStackAndMultiplyRejectNullMatrix() {
+        CharMatrix matrix = CharMatrix.of(new char[][] { { 'a', 'b' } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+    }
 }

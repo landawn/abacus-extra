@@ -559,17 +559,27 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             return;
         }
 
-        widenElementTypeFor(value.getClass());
+        final Class<T> resolvedElementType = resolveWidenedElementType(elementType, value.getClass());
+        final Class<?> rowStorageComponentType = rowStorageComponentType();
+
+        if (rowStorageComponentType != Object.class && !rowStorageComponentType.isInstance(value)) {
+            throw new IllegalArgumentException(
+                    "Matrix row type " + a.getClass().getComponentType().getTypeName() + " can't store value type " + value.getClass().getTypeName());
+        }
 
         final Class<?> componentType = a[rowIndex].getClass().getComponentType();
 
         if (componentType != Object.class && !componentType.isInstance(value)) {
             widenRowStorage(rowIndex);
         }
+
+        elementType = resolvedElementType;
     }
 
     private void ensureRowCanStoreAny(final int rowIndex, final T[] values, final int length) {
         final Class<?> componentType = a[rowIndex].getClass().getComponentType();
+        final Class<?> rowStorageComponentType = rowStorageComponentType();
+        Class<T> resolvedElementType = elementType;
         boolean needsWiden = false;
 
         if (length == 0) {
@@ -580,7 +590,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             final T value = values[i];
 
             if (value != null) {
-                widenElementTypeFor(value.getClass());
+                resolvedElementType = resolveWidenedElementType(resolvedElementType, value.getClass());
+
+                if (rowStorageComponentType != Object.class && !rowStorageComponentType.isInstance(value)) {
+                    throw new IllegalArgumentException(
+                            "Matrix row type " + a.getClass().getComponentType().getTypeName() + " can't store value type " + value.getClass().getTypeName());
+                }
 
                 if (componentType != Object.class && !componentType.isInstance(value)) {
                     needsWiden = true;
@@ -591,29 +606,42 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         if (needsWiden) {
             widenRowStorage(rowIndex);
         }
+
+        elementType = resolvedElementType;
     }
 
     @SuppressWarnings("unchecked")
     private void widenRowStorage(final int rowIndex) {
         final T[] row = a[rowIndex];
         final Class<?> rowArrayType = a.getClass().getComponentType();
+        final Class<?> rowComponentType = rowStorageComponentType();
 
-        if (!rowArrayType.isAssignableFrom(Object[].class)) {
-            throw new IllegalArgumentException("Matrix row type " + rowArrayType.getTypeName() + " can't be widened to store incompatible values");
+        if (rowComponentType == null || rowComponentType.isPrimitive()) {
+            throw new IllegalArgumentException(
+                    "Matrix row type " + (rowArrayType == null ? "<unknown>" : rowArrayType.getTypeName()) + " can't be widened to store incompatible values");
         }
 
-        final T[] widened = (T[]) new Object[row.length];
+        final T[] widened = (T[]) java.lang.reflect.Array.newInstance(rowComponentType, row.length);
         N.copy(row, 0, widened, 0, row.length);
         a[rowIndex] = widened;
     }
 
+    private Class<?> rowStorageComponentType() {
+        final Class<?> rowArrayType = a.getClass().getComponentType();
+        return rowArrayType == null ? Object.class : rowArrayType.getComponentType();
+    }
+
     @SuppressWarnings("unchecked")
-    private void widenElementTypeFor(final Class<?> valueType) {
-        if (valueType == null || elementType == Object.class || elementType.isAssignableFrom(valueType)) {
-            return;
+    private Class<T> resolveWidenedElementType(final Class<T> currentElementType, final Class<?> valueType) {
+        if (currentElementType == null) {
+            return (Class<T>) (valueType == null ? Object.class : valueType);
         }
 
-        elementType = (Class<T>) resolveCommonAssignableType(elementType, valueType);
+        if (valueType == null || currentElementType == Object.class || currentElementType.isAssignableFrom(valueType)) {
+            return currentElementType;
+        }
+
+        return (Class<T>) resolveCommonAssignableType(currentElementType, valueType);
     }
 
     private Class<?> resolveRowElementType(final T[] row) {
@@ -1057,7 +1085,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             ensureRowCanStore(i, updated);
             a[i][j] = updated;
         };
-        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        // Must be sequential because ensureRowCanStore mutates shared matrix metadata/storage.
+        Matrices.forEachIndex(rowCount, columnCount, operation, false);
     }
 
     /**
@@ -1090,7 +1119,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             ensureRowCanStore(i, updated);
             a[i][j] = updated;
         };
-        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        // Must be sequential because ensureRowCanStore mutates shared matrix metadata/storage.
+        Matrices.forEachIndex(rowCount, columnCount, operation, false);
     }
 
     /**
@@ -1127,7 +1157,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 a[i][j] = newValue;
             }
         };
-        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        // Must be sequential because ensureRowCanStore mutates shared matrix metadata/storage.
+        Matrices.forEachIndex(rowCount, columnCount, operation, false);
     }
 
     /**
@@ -1161,7 +1192,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 a[i][j] = newValue;
             }
         };
-        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        // Must be sequential because ensureRowCanStore mutates shared matrix metadata/storage.
+        Matrices.forEachIndex(rowCount, columnCount, operation, false);
     }
 
     /**
@@ -1591,6 +1623,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     @Override
     public Matrix<T> copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, columnCount);
 
         final T[][] c = N.newArray(arrayType, toRowIndex - fromRowIndex);
 
@@ -1622,6 +1655,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public Matrix<T> copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, toColumnIndex - fromColumnIndex);
         final T[][] c = N.newArray(arrayType, toRowIndex - fromRowIndex);
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1904,6 +1938,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> rotate90() {
+        if (columnCount == 0) {
+            return new Matrix<>(N.newArray(arrayType, 0), elementType);
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final T[][] c = N.newArray(arrayType, columnCount);
@@ -1975,6 +2013,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> rotate270() {
+        if (columnCount == 0) {
+            return new Matrix<>(N.newArray(arrayType, 0), elementType);
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final T[][] c = N.newArray(arrayType, columnCount);
@@ -2022,6 +2064,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> transpose() {
+        if (columnCount == 0) {
+            return new Matrix<>(N.newArray(arrayType, 0), elementType);
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final T[][] c = N.newArray(arrayType, columnCount);

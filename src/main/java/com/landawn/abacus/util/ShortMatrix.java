@@ -1176,6 +1176,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     @Override
     public ShortMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, columnCount);
 
         final short[][] result = new short[toRowIndex - fromRowIndex][];
 
@@ -1209,6 +1210,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     public ShortMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, toColumnIndex - fromColumnIndex);
         final short[][] result = new short[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1528,6 +1530,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     @Override
     public ShortMatrix rotate90() {
+        if (columnCount == 0) {
+            return EMPTY_SHORT_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final short[][] result = new short[columnCount][rowCount];
@@ -1599,6 +1605,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     @Override
     public ShortMatrix rotate270() {
+        if (columnCount == 0) {
+            return EMPTY_SHORT_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final short[][] result = new short[columnCount][rowCount];
@@ -1643,6 +1653,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     @Override
     public ShortMatrix transpose() {
+        if (columnCount == 0) {
+            return EMPTY_SHORT_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final short[][] result = new short[columnCount][rowCount];

@@ -127,6 +127,65 @@ public class ArraysTest extends TestBase {
     }
 
     @Test
+    public void testFfZipTypeInferenceRejectsNullLeftArray() {
+        Integer[][] right = { { 1, 2 } };
+        Integer[][] third = { { 3, 4 } };
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ff.zip((Integer[][]) null, right, Integer::sum));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ff.zip((Integer[][]) null, right, third, (a, b, c) -> a + b + c));
+    }
+
+    @Test
+    public void testFffZipTypeInferenceRejectsNullLeftArray() {
+        Integer[][][] right = { { { 1, 2 } } };
+        Integer[][][] third = { { { 3, 4 } } };
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> fff.zip((Integer[][][]) null, right, Integer::sum));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> fff.zip((Integer[][][]) null, right, third, (a, b, c) -> a + b + c));
+    }
+
+    @Test
+    public void testFfMapInferredTypeSupportsCovariantInput() throws Exception {
+        Number[][] input = new Integer[][] { { 1, 2 } };
+
+        Number[][] out = ff.map(input, n -> n.longValue() + 1L);
+
+        Assertions.assertEquals(2L, out[0][0]);
+        Assertions.assertEquals(3L, out[0][1]);
+    }
+
+    @Test
+    public void testFffMapInferredTypeSupportsCovariantInput() throws Exception {
+        Number[][][] input = new Integer[][][] { { { 1, 2 } } };
+
+        Number[][][] out = fff.map(input, n -> n.longValue() + 1L);
+
+        Assertions.assertEquals(2L, out[0][0][0]);
+        Assertions.assertEquals(3L, out[0][0][1]);
+    }
+
+    @Test
+    public void testFfZipInferredTypeSupportsCovariantInput() throws Exception {
+        Number[][] left = new Integer[][] { { 1, 2 } };
+        Number[][] right = new Number[][] { { 10L, 20L } };
+
+        Number[][] out = ff.zip(left, right, (x, y) -> y);
+
+        Assertions.assertEquals(10L, out[0][0]);
+        Assertions.assertEquals(20L, out[0][1]);
+    }
+
+    @Test
+    public void testFfZipWithDefaultsInferredTypeSupportsCovariantInput() throws Exception {
+        Number[][] right = new Number[][] { { 10L, 20L } };
+
+        Number[][] out = ff.zip((Number[][]) null, right, (Number) 0, (Number) 0L, (x, y) -> y);
+
+        Assertions.assertEquals(10L, out[0][0]);
+        Assertions.assertEquals(20L, out[0][1]);
+    }
+
+    @Test
     public void test_001() throws IOException {
 
         File file = new File("src/main/java/com/landawn/abacus/util/Arrays.java");

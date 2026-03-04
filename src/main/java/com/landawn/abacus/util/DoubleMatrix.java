@@ -1340,6 +1340,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     @Override
     public DoubleMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, columnCount);
 
         final double[][] c = new double[toRowIndex - fromRowIndex][];
 
@@ -1374,6 +1375,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
             throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, toColumnIndex - fromColumnIndex);
         final double[][] c = new double[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1679,6 +1681,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     @Override
     public DoubleMatrix rotate90() {
+        if (columnCount == 0) {
+            return EMPTY_DOUBLE_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final double[][] c = new double[columnCount][rowCount];
@@ -1744,6 +1750,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     @Override
     public DoubleMatrix rotate270() {
+        if (columnCount == 0) {
+            return EMPTY_DOUBLE_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final double[][] c = new double[columnCount][rowCount];
@@ -1787,6 +1797,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     @Override
     public DoubleMatrix transpose() {
+        if (columnCount == 0) {
+            return EMPTY_DOUBLE_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final double[][] c = new double[columnCount][rowCount];

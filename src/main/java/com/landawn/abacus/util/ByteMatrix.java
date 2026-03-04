@@ -1191,6 +1191,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     @Override
     public ByteMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, columnCount);
 
         final byte[][] c = new byte[toRowIndex - fromRowIndex][];
 
@@ -1222,6 +1223,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     public ByteMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, toColumnIndex - fromColumnIndex);
         final byte[][] c = new byte[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1546,6 +1548,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     @Override
     public ByteMatrix rotate90() {
+        if (columnCount == 0) {
+            return EMPTY_BYTE_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final byte[][] c = new byte[columnCount][rowCount];
@@ -1626,6 +1632,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     @Override
     public ByteMatrix rotate270() {
+        if (columnCount == 0) {
+            return EMPTY_BYTE_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final byte[][] c = new byte[columnCount][rowCount];
@@ -1669,6 +1679,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     @Override
     public ByteMatrix transpose() {
+        if (columnCount == 0) {
+            return EMPTY_BYTE_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final byte[][] c = new byte[columnCount][rowCount];
@@ -1933,6 +1947,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see IntMatrix#vstack(IntMatrix)
      */
     public ByteMatrix vstack(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
         N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: {} + {} = {}", rowCount, other.rowCount, mergedRowCount);
@@ -1970,6 +1985,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see IntMatrix#hstack(IntMatrix)
      */
     public ByteMatrix hstack(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
         N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: {} + {} = {}", columnCount, other.columnCount,
@@ -2075,6 +2091,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IllegalArgumentException if this.columnCount != other.rowCount (incompatible dimensions for multiplication)
      */
     public ByteMatrix multiply(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.rowCount,
                 "Matrix dimensions incompatible for multiplication: this is {}x{}, other is {}x{} (this.columnCount must equal other.rowCount)", rowCount,
                 columnCount, other.rowCount, other.columnCount);

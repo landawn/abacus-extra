@@ -296,9 +296,7 @@ public class Matrices2511Test extends TestBase {
 
     @Test
     public void testNewArray_zeroRows() {
-        Integer[][] arr = Matrices.newMatrixArray(0, 5, int.class);
-        assertNotNull(arr);
-        assertEquals(0, arr.length);
+        assertThrows(IllegalArgumentException.class, () -> Matrices.newMatrixArray(0, 5, int.class));
     }
 
     @Test

@@ -186,8 +186,7 @@ public class Matrices2512Test extends TestBase {
 
     @Test
     public void test_newArray_withZeroRows() {
-        Integer[][] arr = Matrices.newMatrixArray(0, 5, Integer.class);
-        assertEquals(0, arr.length);
+        assertThrows(IllegalArgumentException.class, () -> Matrices.newMatrixArray(0, 5, Integer.class));
     }
 
     @Test

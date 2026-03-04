@@ -1316,6 +1316,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     @Override
     public LongMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, columnCount);
 
         final long[][] c = new long[toRowIndex - fromRowIndex][];
 
@@ -1347,6 +1348,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     public LongMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, toColumnIndex - fromColumnIndex);
         final long[][] c = new long[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1664,6 +1666,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     public LongMatrix rotate90() {
+        if (columnCount == 0) {
+            return EMPTY_LONG_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final long[][] c = new long[columnCount][rowCount];
@@ -1729,6 +1735,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     public LongMatrix rotate270() {
+        if (columnCount == 0) {
+            return EMPTY_LONG_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final long[][] c = new long[columnCount][rowCount];
@@ -1772,6 +1782,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     public LongMatrix transpose() {
+        if (columnCount == 0) {
+            return EMPTY_LONG_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final long[][] c = new long[columnCount][rowCount];

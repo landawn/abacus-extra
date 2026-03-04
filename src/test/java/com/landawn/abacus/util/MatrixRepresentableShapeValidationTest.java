@@ -1,5 +1,7 @@
 package com.landawn.abacus.util;
 
+import java.io.Serializable;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -101,6 +103,106 @@ public class MatrixRepresentableShapeValidationTest extends TestBase {
 
         assertTrue(Math.abs(matrix.get(0, 0).doubleValue() - 2.5d) < 1e-9d);
         assertTrue(Math.abs(row[0].doubleValue() - 2.5d) < 1e-9d);
+    }
+
+    @Test
+    public void testFailedSetDoesNotCorruptElementTypeForLaterAllocations() {
+        Serializable[][] backing = new String[][] { { "a" } };
+        Matrix<Serializable> matrix = new Matrix<>(backing);
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.set(0, 0, 1));
+
+        Matrix<Serializable> transposed = matrix.transpose();
+        assertEquals("a", transposed.get(0, 0));
+    }
+
+    @Test
+    public void testSetWideningSupportsCovariantRows() {
+        Number[][] backing = new Number[][] { new Integer[] { 1, 2 } };
+        Matrix<Number> matrix = Matrix.of(backing);
+
+        matrix.set(0, 1, 2L);
+
+        assertEquals(2L, matrix.get(0, 1));
+        assertEquals(Number.class, matrix.row(0).getClass().getComponentType());
+    }
+
+    @Test
+    public void testRotateAndTransposeOnNxZeroMatricesReturnEmptyShape() {
+        Matrix<String> objectMatrix = Matrix.of(new String[][] { {}, {} });
+        assertEquals(0, objectMatrix.rotate90().rowCount());
+        assertEquals(0, objectMatrix.rotate90().columnCount());
+        assertEquals(0, objectMatrix.rotate270().rowCount());
+        assertEquals(0, objectMatrix.rotate270().columnCount());
+        assertEquals(0, objectMatrix.transpose().rowCount());
+        assertEquals(0, objectMatrix.transpose().columnCount());
+
+        BooleanMatrix booleanMatrix = BooleanMatrix.of(new boolean[][] { {}, {} });
+        ByteMatrix byteMatrix = ByteMatrix.of(new byte[][] { {}, {} });
+        CharMatrix charMatrix = CharMatrix.of(new char[][] { {}, {} });
+        ShortMatrix shortMatrix = ShortMatrix.of(new short[][] { {}, {} });
+        IntMatrix intMatrix = IntMatrix.of(new int[][] { {}, {} });
+        LongMatrix longMatrix = LongMatrix.of(new long[][] { {}, {} });
+        FloatMatrix floatMatrix = FloatMatrix.of(new float[][] { {}, {} });
+        DoubleMatrix doubleMatrix = DoubleMatrix.of(new double[][] { {}, {} });
+
+        assertEquals(0, booleanMatrix.transpose().rowCount());
+        assertEquals(0, booleanMatrix.rotate90().rowCount());
+        assertEquals(0, booleanMatrix.rotate270().rowCount());
+        assertEquals(0, byteMatrix.transpose().rowCount());
+        assertEquals(0, byteMatrix.rotate90().rowCount());
+        assertEquals(0, byteMatrix.rotate270().rowCount());
+        assertEquals(0, charMatrix.transpose().rowCount());
+        assertEquals(0, charMatrix.rotate90().rowCount());
+        assertEquals(0, charMatrix.rotate270().rowCount());
+        assertEquals(0, shortMatrix.transpose().rowCount());
+        assertEquals(0, shortMatrix.rotate90().rowCount());
+        assertEquals(0, shortMatrix.rotate270().rowCount());
+        assertEquals(0, intMatrix.transpose().rowCount());
+        assertEquals(0, intMatrix.rotate90().rowCount());
+        assertEquals(0, intMatrix.rotate270().rowCount());
+        assertEquals(0, longMatrix.transpose().rowCount());
+        assertEquals(0, longMatrix.rotate90().rowCount());
+        assertEquals(0, longMatrix.rotate270().rowCount());
+        assertEquals(0, floatMatrix.transpose().rowCount());
+        assertEquals(0, floatMatrix.rotate90().rowCount());
+        assertEquals(0, floatMatrix.rotate270().rowCount());
+        assertEquals(0, doubleMatrix.transpose().rowCount());
+        assertEquals(0, doubleMatrix.rotate90().rowCount());
+        assertEquals(0, doubleMatrix.rotate270().rowCount());
+    }
+
+    @Test
+    public void testCopyRejectsUnrepresentableZeroRowNonZeroColumnShape() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 } });
+        BooleanMatrix booleanMatrix = BooleanMatrix.of(new boolean[][] { { true, false } });
+        ByteMatrix byteMatrix = ByteMatrix.of(new byte[][] { { 1, 2 } });
+        CharMatrix charMatrix = CharMatrix.of(new char[][] { { 'a', 'b' } });
+        ShortMatrix shortMatrix = ShortMatrix.of(new short[][] { { 1, 2 } });
+        IntMatrix intMatrix = IntMatrix.of(new int[][] { { 1, 2 } });
+        LongMatrix longMatrix = LongMatrix.of(new long[][] { { 1L, 2L } });
+        FloatMatrix floatMatrix = FloatMatrix.of(new float[][] { { 1F, 2F } });
+        DoubleMatrix doubleMatrix = DoubleMatrix.of(new double[][] { { 1D, 2D } });
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.copy(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> booleanMatrix.copy(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> byteMatrix.copy(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> charMatrix.copy(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> shortMatrix.copy(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> intMatrix.copy(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> longMatrix.copy(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> floatMatrix.copy(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> doubleMatrix.copy(0, 0));
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.copy(0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> booleanMatrix.copy(0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> byteMatrix.copy(0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> charMatrix.copy(0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> shortMatrix.copy(0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> intMatrix.copy(0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> longMatrix.copy(0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> floatMatrix.copy(0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> doubleMatrix.copy(0, 0, 0, 1));
     }
 
     @Test

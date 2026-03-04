@@ -1219,6 +1219,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     @Override
     public CharMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, columnCount);
 
         final char[][] c = new char[toRowIndex - fromRowIndex][];
 
@@ -1251,6 +1252,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     public CharMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, toColumnIndex - fromColumnIndex);
         final char[][] c = new char[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1557,6 +1559,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     @Override
     public CharMatrix rotate90() {
+        if (columnCount == 0) {
+            return EMPTY_CHAR_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final char[][] c = new char[columnCount][rowCount];
@@ -1617,6 +1623,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     @Override
     public CharMatrix rotate270() {
+        if (columnCount == 0) {
+            return EMPTY_CHAR_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final char[][] c = new char[columnCount][rowCount];
@@ -1660,6 +1670,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     @Override
     public CharMatrix transpose() {
+        if (columnCount == 0) {
+            return EMPTY_CHAR_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final char[][] c = new char[columnCount][rowCount];
@@ -1912,6 +1926,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see IntMatrix#vstack(IntMatrix)
      */
     public CharMatrix vstack(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
         N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: {} + {} = {}", rowCount, other.rowCount, mergedRowCount);
@@ -1947,6 +1962,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see IntMatrix#hstack(IntMatrix)
      */
     public CharMatrix hstack(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
         N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: {} + {} = {}", columnCount, other.columnCount,
@@ -2040,6 +2056,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if this.columnCount != other.rowCount
      */
     public CharMatrix multiply(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.rowCount,
                 "Matrix dimensions incompatible for multiplication: this is {}x{}, other is {}x{} (this.columnCount must equal other.rowCount)", rowCount,
                 columnCount, other.rowCount, other.columnCount);

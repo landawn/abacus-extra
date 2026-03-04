@@ -384,6 +384,7 @@ public final class Matrices {
         N.checkArgNotNull(targetElementType, "targetElementType");
         N.checkArgument(rowCount >= 0, "rowCount cannot be negative: {}", rowCount);
         N.checkArgument(columnCount >= 0, "columnCount cannot be negative: {}", columnCount);
+        AbstractMatrix.checkRepresentableShape(rowCount, columnCount);
         final Class<T> eleType = (Class<T>) ClassUtil.wrap(targetElementType);
         final Class<T[]> subArrayType = (Class<T[]>) N.newArray(eleType, 0).getClass();
 

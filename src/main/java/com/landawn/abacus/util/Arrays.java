@@ -15002,7 +15002,10 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
-            return map(a, mapper, (Class<T>) a.getClass().getComponentType().getComponentType());
+            final Class<T> initialTargetElementType = (Class<T>) a.getClass().getComponentType().getComponentType();
+            final Object[][] mappedValues = map(a, mapper, Object.class);
+            final Class<T> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
+            return castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**
@@ -15334,7 +15337,11 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
                 throws E {
-            return zip(a, b, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
+            N.checkArgNotNull(a, "a");
+            final Class<A> initialTargetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
+            final Object[][] mappedValues = zip(a, b, (x, y) -> zipFunction.apply(x, y), Object.class);
+            final Class<A> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
+            return castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**
@@ -15412,7 +15419,10 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip(a, b, defaultValueA, defaultValueB, zipFunction, resolveTargetElementTypeForZipWithDefaults(a, defaultValueA));
+            final Class<A> initialTargetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
+            final Object[][] mappedValues = ff.<A, B, Object, E> zip(a, b, defaultValueA, defaultValueB, (x, y) -> zipFunction.apply(x, y), Object.class);
+            final Class<A> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
+            return castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**
@@ -15494,7 +15504,11 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip(a, b, c, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
+            N.checkArgNotNull(a, "a");
+            final Class<A> initialTargetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
+            final Object[][] mappedValues = zip(a, b, c, (x, y, z) -> zipFunction.apply(x, y, z), Object.class);
+            final Class<A> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
+            return castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**
@@ -15578,7 +15592,11 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction, resolveTargetElementTypeForZipWithDefaults(a, defaultValueA));
+            final Class<A> initialTargetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
+            final Object[][] mappedValues = ff.<A, B, C, Object, E> zip(a, b, c, defaultValueA, defaultValueB, defaultValueC,
+                    (x, y, z) -> zipFunction.apply(x, y, z), Object.class);
+            final Class<A> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
+            return castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**
@@ -15651,6 +15669,72 @@ public sealed class Arrays permits Arrays.f {
 
             throw new IllegalArgumentException(
                     "Unable to infer target element type: both 'a' and 'defaultValueA' are null. Use the overload with targetElementType.");
+        }
+
+        @SuppressWarnings("unchecked")
+        static <T> Class<T> inferTargetElementType(final Class<T> initialTargetElementType, final Object[][] mappedValues) {
+            Class<T> targetElementType = initialTargetElementType;
+
+            for (int i = 0, len = N.len(mappedValues); i < len; i++) {
+                final Object[] row = mappedValues[i];
+
+                for (int j = 0, rowLen = N.len(row); j < rowLen; j++) {
+                    targetElementType = widenTargetElementType(targetElementType, row[j]);
+                }
+            }
+
+            return targetElementType;
+        }
+
+        static <T> Class<T> inferTargetElementType(final Class<T> initialTargetElementType, final Object[][][] mappedValues) {
+            Class<T> targetElementType = initialTargetElementType;
+
+            for (int i = 0, len = N.len(mappedValues); i < len; i++) {
+                targetElementType = inferTargetElementType(targetElementType, mappedValues[i]);
+            }
+
+            return targetElementType;
+        }
+
+        @SuppressWarnings("unchecked")
+        static <T> Class<T> widenTargetElementType(final Class<T> currentTargetElementType, final Object value) {
+            if (currentTargetElementType == null) {
+                return (Class<T>) (value == null ? Object.class : value.getClass());
+            }
+
+            if (value == null || currentTargetElementType == Object.class || currentTargetElementType.isInstance(value)) {
+                return currentTargetElementType;
+            }
+
+            return (Class<T>) AbstractMatrix.resolveCommonAssignableType(currentTargetElementType, value.getClass());
+        }
+
+        @SuppressWarnings("unchecked")
+        static <T> T[][] castToTargetElementType(final Object[][] mappedValues, final Class<T> targetElementType) {
+            final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.len(mappedValues));
+
+            for (int i = 0, len = result.length; i < len; i++) {
+                final Object[] row = mappedValues[i];
+                final T[] converted = N.newArray(targetElementType, N.len(row));
+
+                for (int j = 0, rowLen = converted.length; j < rowLen; j++) {
+                    converted[j] = (T) row[j];
+                }
+
+                result[i] = converted;
+            }
+
+            return result;
+        }
+
+        static <T> T[][][] castToTargetElementType(final Object[][][] mappedValues, final Class<T> targetElementType) {
+            final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), N.len(mappedValues));
+
+            for (int i = 0, len = result.length; i < len; i++) {
+                result[i] = castToTargetElementType(mappedValues[i], targetElementType);
+            }
+
+            return result;
         }
 
         /**
@@ -16145,7 +16229,10 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
-            return map(a, mapper, (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType());
+            final Class<T> initialTargetElementType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
+            final Object[][][] mappedValues = map(a, mapper, Object.class);
+            final Class<T> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
+            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**
@@ -16511,7 +16598,11 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip(a, b, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
+            N.checkArgNotNull(a, "a");
+            final Class<A> initialTargetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
+            final Object[][][] mappedValues = zip(a, b, (x, y) -> zipFunction.apply(x, y), Object.class);
+            final Class<A> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
+            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**
@@ -16585,7 +16676,10 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip(a, b, defaultValueA, defaultValueB, zipFunction, resolveTargetElementTypeForZipWithDefaults(a, defaultValueA));
+            final Class<A> initialTargetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
+            final Object[][][] mappedValues = zip(a, b, defaultValueA, defaultValueB, (x, y) -> zipFunction.apply(x, y), Object.class);
+            final Class<A> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
+            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**
@@ -16673,7 +16767,11 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip(a, b, c, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
+            N.checkArgNotNull(a, "a");
+            final Class<A> initialTargetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
+            final Object[][][] mappedValues = zip(a, b, c, (x, y, z) -> zipFunction.apply(x, y, z), Object.class);
+            final Class<A> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
+            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**
@@ -16755,7 +16853,10 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction, resolveTargetElementTypeForZipWithDefaults(a, defaultValueA));
+            final Class<A> initialTargetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
+            final Object[][][] mappedValues = zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, (x, y, z) -> zipFunction.apply(x, y, z), Object.class);
+            final Class<A> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
+            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
         }
 
         /**

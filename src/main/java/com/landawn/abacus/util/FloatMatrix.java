@@ -1179,6 +1179,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     @Override
     public FloatMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, columnCount);
 
         final float[][] c = new float[toRowIndex - fromRowIndex][];
 
@@ -1213,6 +1214,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public FloatMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, toColumnIndex - fromColumnIndex);
         final float[][] c = new float[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1517,6 +1519,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix rotate90() {
+        if (columnCount == 0) {
+            return EMPTY_FLOAT_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final float[][] c = new float[columnCount][rowCount];
@@ -1577,6 +1583,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix rotate270() {
+        if (columnCount == 0) {
+            return EMPTY_FLOAT_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final float[][] c = new float[columnCount][rowCount];
@@ -1620,6 +1630,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix transpose() {
+        if (columnCount == 0) {
+            return EMPTY_FLOAT_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final float[][] c = new float[columnCount][rowCount];

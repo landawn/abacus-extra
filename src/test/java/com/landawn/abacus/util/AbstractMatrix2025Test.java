@@ -1142,21 +1142,13 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testCopy_emptyRowRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        IntMatrix subset = m.copy(1, 1);
-
-        assertEquals(0, subset.rowCount());
-        assertEquals(0, subset.columnCount());
-        assertTrue(subset.isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> m.copy(1, 1));
     }
 
     @Test
     public void testCopy_emptyRegion() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        IntMatrix subset = m.copy(1, 1, 0, 2);
-
-        assertEquals(0, subset.rowCount());
-        assertEquals(0, subset.columnCount());
-        assertTrue(subset.isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> m.copy(1, 1, 0, 2));
     }
 
     @Test

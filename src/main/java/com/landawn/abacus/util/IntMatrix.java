@@ -1387,6 +1387,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     @Override
     public IntMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, columnCount);
 
         final int[][] c = new int[toRowIndex - fromRowIndex][];
 
@@ -1418,6 +1419,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     public IntMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, toColumnIndex - fromColumnIndex);
         final int[][] c = new int[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1743,6 +1745,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix rotate90() {
+        if (columnCount == 0) {
+            return EMPTY_INT_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final int[][] c = new int[columnCount][rowCount];
@@ -1811,6 +1817,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix rotate270() {
+        if (columnCount == 0) {
+            return EMPTY_INT_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final int[][] c = new int[columnCount][rowCount];
@@ -1854,6 +1864,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix transpose() {
+        if (columnCount == 0) {
+            return EMPTY_INT_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final int[][] c = new int[columnCount][rowCount];

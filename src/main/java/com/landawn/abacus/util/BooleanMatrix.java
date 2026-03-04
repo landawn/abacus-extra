@@ -1192,6 +1192,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     @Override
     public BooleanMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, columnCount);
 
         final boolean[][] c = new boolean[toRowIndex - fromRowIndex][];
 
@@ -1240,6 +1241,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
+        checkRepresentableShape(toRowIndex - fromRowIndex, toColumnIndex - fromColumnIndex);
         final boolean[][] c = new boolean[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -1565,6 +1567,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     public BooleanMatrix rotate90() {
+        if (columnCount == 0) {
+            return EMPTY_BOOLEAN_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final boolean[][] c = new boolean[columnCount][rowCount];
@@ -1631,6 +1637,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     public BooleanMatrix rotate270() {
+        if (columnCount == 0) {
+            return EMPTY_BOOLEAN_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final boolean[][] c = new boolean[columnCount][rowCount];
@@ -1674,6 +1684,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     public BooleanMatrix transpose() {
+        if (columnCount == 0) {
+            return EMPTY_BOOLEAN_MATRIX;
+        }
+
         checkRepresentableShape(columnCount, rowCount);
 
         final boolean[][] c = new boolean[columnCount][rowCount];
@@ -1924,6 +1938,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @see #hstack(BooleanMatrix)
      */
     public BooleanMatrix vstack(final BooleanMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
         N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: {} + {} = {}", rowCount, other.rowCount, mergedRowCount);
@@ -1970,6 +1985,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @see #vstack(BooleanMatrix)
      */
     public BooleanMatrix hstack(final BooleanMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
         N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: {} + {} = {}", columnCount, other.columnCount,
