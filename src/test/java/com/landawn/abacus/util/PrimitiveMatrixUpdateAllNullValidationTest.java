@@ -139,6 +139,8 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(new byte[][] { { 1, 2 } });
         assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
         assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.add(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
         assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
     }
 
@@ -147,6 +149,65 @@ public class PrimitiveMatrixUpdateAllNullValidationTest extends TestBase {
         CharMatrix matrix = CharMatrix.of(new char[][] { { 'a', 'b' } });
         assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
         assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.add(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
         assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+    }
+
+    @Test
+    public void testIntMatrixBinaryOpsRejectNullMatrix() {
+        IntMatrix matrix = IntMatrix.of(new int[][] { { 1 } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.add(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+    }
+
+    @Test
+    public void testLongMatrixBinaryOpsRejectNullMatrix() {
+        LongMatrix matrix = LongMatrix.of(new long[][] { { 1L } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.add(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+    }
+
+    @Test
+    public void testShortMatrixBinaryOpsRejectNullMatrix() {
+        ShortMatrix matrix = ShortMatrix.of(new short[][] { { 1 } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.add(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+    }
+
+    @Test
+    public void testFloatMatrixBinaryOpsRejectNullMatrix() {
+        FloatMatrix matrix = FloatMatrix.of(new float[][] { { 1F } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.add(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+    }
+
+    @Test
+    public void testDoubleMatrixBinaryOpsRejectNullMatrix() {
+        DoubleMatrix matrix = DoubleMatrix.of(new double[][] { { 1D } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.add(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+    }
+
+    @Test
+    public void testObjectMatrixStackRejectsNullMatrix() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1 } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.vstack(null));
+        assertThrows(IllegalArgumentException.class, () -> matrix.hstack(null));
     }
 }

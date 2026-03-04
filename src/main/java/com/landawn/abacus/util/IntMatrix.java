@@ -2115,6 +2115,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @see #hstack(IntMatrix)
      */
     public IntMatrix vstack(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
         N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: {} + {} = {}", rowCount, other.rowCount, mergedRowCount);
@@ -2156,6 +2157,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @see #vstack(IntMatrix)
      */
     public IntMatrix hstack(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
         N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: {} + {} = {}", columnCount, other.columnCount,
@@ -2188,6 +2190,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public IntMatrix add(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot add matrices with different shapes: this is {}x{} but other is {}x{}", rowCount, columnCount,
                 other.rowCount, other.columnCount);
 
@@ -2217,6 +2220,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public IntMatrix subtract(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is {}x{} but other is {}x{}", rowCount,
                 columnCount, other.rowCount, other.columnCount);
 
@@ -2246,6 +2250,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if the matrix dimensions are incompatible for multiplication
      */
     public IntMatrix multiply(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.rowCount,
                 "Matrix dimensions incompatible for multiplication: this is {}x{}, other is {}x{} (this.columnCount must equal other.rowCount)", rowCount,
                 columnCount, other.rowCount, other.columnCount);

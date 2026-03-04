@@ -2047,6 +2047,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @see IntMatrix#vstack(IntMatrix)
      */
     public DoubleMatrix vstack(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
         N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: {} + {} = {}", rowCount, other.rowCount, mergedRowCount);
@@ -2084,6 +2085,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @see IntMatrix#hstack(IntMatrix)
      */
     public DoubleMatrix hstack(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
         N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: {} + {} = {}", columnCount, other.columnCount,
@@ -2115,6 +2117,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public DoubleMatrix add(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot add matrices with different shapes: this is {}x{} but other is {}x{}", rowCount, columnCount,
                 other.rowCount, other.columnCount);
 
@@ -2143,6 +2146,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public DoubleMatrix subtract(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is {}x{} but other is {}x{}", rowCount,
                 columnCount, other.rowCount, other.columnCount);
 
@@ -2172,6 +2176,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if the matrix dimensions are incompatible for multiplication
      */
     public DoubleMatrix multiply(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.rowCount,
                 "Matrix dimensions incompatible for multiplication: this is {}x{}, other is {}x{} (this.columnCount must equal other.rowCount)", rowCount,
                 columnCount, other.rowCount, other.columnCount);

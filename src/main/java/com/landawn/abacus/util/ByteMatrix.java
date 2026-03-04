@@ -2022,6 +2022,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see #subtract(ByteMatrix)
      */
     public ByteMatrix add(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot add matrices with different shapes: this is {}x{} but other is {}x{}", rowCount, columnCount,
                 other.rowCount, other.columnCount);
 
@@ -2055,6 +2056,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see #add(ByteMatrix)
      */
     public ByteMatrix subtract(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is {}x{} but other is {}x{}", rowCount,
                 columnCount, other.rowCount, other.columnCount);
 

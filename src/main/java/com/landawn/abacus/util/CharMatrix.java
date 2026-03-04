@@ -1994,6 +1994,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public CharMatrix add(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot add matrices with different shapes: this is {}x{} but other is {}x{}", rowCount, columnCount,
                 other.rowCount, other.columnCount);
 
@@ -2023,6 +2024,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public CharMatrix subtract(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is {}x{} but other is {}x{}", rowCount,
                 columnCount, other.rowCount, other.columnCount);
 

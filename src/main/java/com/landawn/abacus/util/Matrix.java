@@ -2323,6 +2323,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @see IntMatrix#vstack(IntMatrix)
      */
     public Matrix<T> vstack(final Matrix<? extends T> other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
         N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: {} + {} = {}", rowCount, other.rowCount, mergedRowCount);
@@ -2371,6 +2372,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @see IntMatrix#hstack(IntMatrix)
      */
     public Matrix<T> hstack(final Matrix<? extends T> other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
         N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: {} + {} = {}", columnCount, other.columnCount,

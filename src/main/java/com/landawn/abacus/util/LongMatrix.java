@@ -2036,6 +2036,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @see IntMatrix#vstack(IntMatrix)
      */
     public LongMatrix vstack(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
         N.checkArgument(mergedRowCount <= Integer.MAX_VALUE, "Merged row count overflow: {} + {} = {}", rowCount, other.rowCount, mergedRowCount);
@@ -2074,6 +2075,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @see IntMatrix#hstack(IntMatrix)
      */
     public LongMatrix hstack(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
         N.checkArgument(mergedColumnCount <= Integer.MAX_VALUE, "Merged column count overflow: {} + {} = {}", columnCount, other.columnCount,
@@ -2108,6 +2110,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if the matrices don't have the same shape
      */
     public LongMatrix add(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot add matrices with different shapes: this is {}x{} but other is {}x{}", rowCount, columnCount,
                 other.rowCount, other.columnCount);
 
@@ -2139,6 +2142,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if the matrices don't have the same shape
      */
     public LongMatrix subtract(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(Matrices.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is {}x{} but other is {}x{}", rowCount,
                 columnCount, other.rowCount, other.columnCount);
 
@@ -2173,6 +2177,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if the matrix dimensions are incompatible (this.columnCount != other.rowCount)
      */
     public LongMatrix multiply(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.rowCount,
                 "Matrix dimensions incompatible for multiplication: this is {}x{}, other is {}x{} (this.columnCount must equal other.rowCount)", rowCount,
                 columnCount, other.rowCount, other.columnCount);
