@@ -473,7 +473,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsR() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Sheet.Point>> rows = matrix.pointsRow().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> rows = matrix.pointsRows().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(2, rows.size());
         Assertions.assertEquals(3, rows.get(0).size());
@@ -484,7 +484,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsRRange() {
         IntMatrix matrix = createTestMatrix();
-        List<List<Sheet.Point>> rows = matrix.pointsRow(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> rows = matrix.pointsRows(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(2, rows.size());
         Assertions.assertEquals(3, rows.get(0).size());
@@ -494,7 +494,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsC() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Sheet.Point>> columnCount = matrix.pointsColumn().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> columnCount = matrix.pointsColumns().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(3, columnCount.size());
         Assertions.assertEquals(2, columnCount.get(0).size());
@@ -505,7 +505,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsCRange() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Sheet.Point>> columnCount = matrix.pointsColumn(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> columnCount = matrix.pointsColumns(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(2, columnCount.size());
         Assertions.assertEquals(2, columnCount.get(0).size());

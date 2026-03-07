@@ -1249,14 +1249,14 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testPointsR() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        Stream<Stream<Point>> points = m.pointsRow();
+        Stream<Stream<Point>> points = m.pointsRows();
         assertEquals(2, points.count());
     }
 
     @Test
     public void testPointsC() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        Stream<Stream<Point>> points = m.pointsColumn();
+        Stream<Stream<Point>> points = m.pointsColumns();
         assertEquals(2, points.count());
     }
 

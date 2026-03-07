@@ -1047,7 +1047,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testPointsR() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        Stream<Stream<Point>> rows = m.pointsRow();
+        Stream<Stream<Point>> rows = m.pointsRows();
         List<List<Point>> list = rows.map(Stream::toList).toList();
 
         assertEquals(2, list.size());
@@ -1059,7 +1059,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testPointsR_rowRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        Stream<Stream<Point>> rows = m.pointsRow(1, 3);
+        Stream<Stream<Point>> rows = m.pointsRows(1, 3);
         List<List<Point>> list = rows.map(Stream::toList).toList();
 
         assertEquals(2, list.size());
@@ -1069,7 +1069,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testPointsC() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        Stream<Stream<Point>> columnCount = m.pointsColumn();
+        Stream<Stream<Point>> columnCount = m.pointsColumns();
         List<List<Point>> list = columnCount.map(Stream::toList).toList();
 
         assertEquals(2, list.size());
@@ -1081,7 +1081,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testPointsC_columnRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        Stream<Stream<Point>> columnCount = m.pointsColumn(1, 3);
+        Stream<Stream<Point>> columnCount = m.pointsColumns(1, 3);
         List<List<Point>> list = columnCount.map(Stream::toList).toList();
 
         assertEquals(2, list.size());

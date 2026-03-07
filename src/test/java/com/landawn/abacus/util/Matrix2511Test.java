@@ -2128,14 +2128,14 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testPointsR() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Stream<Stream<Point>> points = m.pointsRow();
+        Stream<Stream<Point>> points = m.pointsRows();
         assertEquals(2, points.count());
     }
 
     @Test
     public void testPointsC() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Stream<Stream<Point>> points = m.pointsColumn();
+        Stream<Stream<Point>> points = m.pointsColumns();
         assertEquals(2, points.count());
     }
 

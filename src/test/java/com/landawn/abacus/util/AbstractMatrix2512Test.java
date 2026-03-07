@@ -274,7 +274,7 @@ public class AbstractMatrix2512Test extends TestBase {
     @Test
     public void test_pointsR_allRows() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<List<Point>> rows = matrix.pointsRow().map(Stream::toList).toList();
+        List<List<Point>> rows = matrix.pointsRows().map(Stream::toList).toList();
         assertEquals(2, rows.size());
         assertEquals(2, rows.get(0).size());
         assertEquals(Point.of(0, 0), rows.get(0).get(0));
@@ -284,7 +284,7 @@ public class AbstractMatrix2512Test extends TestBase {
     @Test
     public void test_pointsR_rowRange() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        List<List<Point>> rows = matrix.pointsRow(1, 3).map(Stream::toList).toList();
+        List<List<Point>> rows = matrix.pointsRows(1, 3).map(Stream::toList).toList();
         assertEquals(2, rows.size());
         assertEquals(2, rows.get(0).size());
     }
@@ -292,7 +292,7 @@ public class AbstractMatrix2512Test extends TestBase {
     @Test
     public void test_pointsC_allColumns() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<List<Point>> columnCount = matrix.pointsColumn().map(Stream::toList).toList();
+        List<List<Point>> columnCount = matrix.pointsColumns().map(Stream::toList).toList();
         assertEquals(2, columnCount.size());
         assertEquals(2, columnCount.get(0).size());
         assertEquals(Point.of(0, 0), columnCount.get(0).get(0));
@@ -302,7 +302,7 @@ public class AbstractMatrix2512Test extends TestBase {
     @Test
     public void test_pointsC_columnRange() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<List<Point>> columnCount = matrix.pointsColumn(0, 2).map(Stream::toList).toList();
+        List<List<Point>> columnCount = matrix.pointsColumns(0, 2).map(Stream::toList).toList();
         assertEquals(2, columnCount.size());
         assertEquals(2, columnCount.get(0).size());
     }

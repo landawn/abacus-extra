@@ -1176,14 +1176,14 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testPointsR() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        Stream<Stream<Point>> points = m.pointsRow();
+        Stream<Stream<Point>> points = m.pointsRows();
         assertEquals(2, points.count());
     }
 
     @Test
     public void testPointsC() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        Stream<Stream<Point>> points = m.pointsColumn();
+        Stream<Stream<Point>> points = m.pointsColumns();
         assertEquals(2, points.count());
     }
 

@@ -1170,7 +1170,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testPointsR() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[2][2]);
-        List<Stream<Point>> rows = m.pointsRow().toList();
+        List<Stream<Point>> rows = m.pointsRows().toList();
         assertEquals(2, rows.size());
         assertEquals(2, rows.get(0).count());
     }
@@ -1178,7 +1178,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testPointsC() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[2][2]);
-        List<Stream<Point>> columnCount = m.pointsColumn().toList();
+        List<Stream<Point>> columnCount = m.pointsColumns().toList();
         assertEquals(2, columnCount.size());
         assertEquals(2, columnCount.get(0).count());
     }
