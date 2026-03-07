@@ -2067,7 +2067,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         final char[][] result = new char[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += (char) (a[i][k] * otherArray[k][j]);
 
-        Matrices.multiply(this, other, cmd);
+        Matrices.forEachMultiplyIndex(this, other, cmd);
 
         return new CharMatrix(result);
     }

@@ -2259,7 +2259,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[][] result = new int[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherData[k][j];
 
-        Matrices.multiply(this, other, multiplyAction);
+        Matrices.forEachMultiplyIndex(this, other, multiplyAction);
 
         return new IntMatrix(result);
     }

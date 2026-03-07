@@ -335,7 +335,7 @@ public class Matrices2025Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         int[][] result = new int[2][2];
 
-        Matrices.multiply(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j));
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j));
 
         assertEquals(19, result[0][0]);
         assertEquals(22, result[0][1]);
@@ -347,7 +347,7 @@ public class Matrices2025Test extends TestBase {
     public void testMultiply_incompatibleDimensions() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 1 }, { 2 }, { 3 } });
-        assertThrows(IllegalArgumentException.class, () -> Matrices.multiply(m1, m2, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> {
         }));
     }
 
@@ -357,7 +357,7 @@ public class Matrices2025Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         int[][] result = new int[2][2];
 
-        Matrices.multiply(m1, m2, (i, j, k) -> {
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> {
             synchronized (result) {
                 result[i][j] += m1.get(i, k) * m2.get(k, j);
             }
@@ -697,7 +697,7 @@ public class Matrices2025Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
         int[][] result = new int[1][1];
 
-        Matrices.multiply(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j));
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j));
 
         assertEquals(32, result[0][0]); // 1*4 + 2*5 + 3*6
     }
@@ -777,7 +777,7 @@ public class Matrices2025Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 7, 8, 9, 10 }, { 11, 12, 13, 14 } }); // 2x4
         int[][] result = new int[3][4];
 
-        Matrices.multiply(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j), false);
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j), false);
 
         assertEquals(29, result[0][0]); // 1*7 + 2*11
         assertEquals(65, result[1][0]); // 3*7 + 4*11 = 21 + 44 = 65
@@ -790,7 +790,7 @@ public class Matrices2025Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } }); // 3x2
         int[][] result = new int[4][2];
 
-        Matrices.multiply(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j), false);
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j), false);
 
         assertEquals(22, result[0][0]); // 1*1 + 2*3 + 3*5
         assertEquals(28, result[0][1]); // 1*2 + 2*4 + 3*6
@@ -803,7 +803,7 @@ public class Matrices2025Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6, 7 }, { 8, 9, 10 } }); // 2x3
         int[][] result = new int[2][3];
 
-        Matrices.multiply(m1, m2, (i, j, k) -> {
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> {
             synchronized (result) {
                 result[i][j] += m1.get(i, k) * m2.get(k, j);
             }

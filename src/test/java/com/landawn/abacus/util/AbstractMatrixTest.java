@@ -48,7 +48,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testArray() {
         IntMatrix matrix = createTestMatrix();
-        int[][] array = matrix.rawArray();
+        int[][] array = matrix.backingArray();
         Assertions.assertEquals(3, array.length);
         Assertions.assertEquals(3, array[0].length);
         Assertions.assertEquals(1, array[0][0]);

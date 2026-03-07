@@ -1099,7 +1099,7 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testToArray() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        short[][] arr = m.rawArray();
+        short[][] arr = m.backingArray();
         assertEquals(2, arr.length);
         assertEquals(2, arr[0].length);
         assertArrayEquals(new short[] { 1, 2 }, arr[0]);

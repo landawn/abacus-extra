@@ -2067,7 +2067,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         final short[][] result = new short[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * otherArray[k][j];
 
-        Matrices.multiply(this, other, cmd);
+        Matrices.forEachMultiplyIndex(this, other, cmd);
 
         return new ShortMatrix(result);
     }

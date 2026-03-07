@@ -497,7 +497,7 @@ public class Matrices2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }); // 2x2
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }); // 2x2
         List<String> triplets = new ArrayList<>();
-        Matrices.multiply(m1, m2, (i, j, k) -> triplets.add(i + "," + j + "," + k));
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> triplets.add(i + "," + j + "," + k));
         assertEquals(8, triplets.size()); // 2*2*2
         assertTrue(triplets.contains("0,0,0"));
         assertTrue(triplets.contains("1,1,1"));
@@ -508,7 +508,7 @@ public class Matrices2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } }); // 1x2
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3 }, { 4 }, { 5 } }); // 3x1
         assertThrows(IllegalArgumentException.class, () -> {
-            Matrices.multiply(m1, m2, (i, j, k) -> {
+            Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> {
             });
         });
     }
@@ -518,7 +518,7 @@ public class Matrices2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
         IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
         AtomicInteger count = new AtomicInteger(0);
-        Matrices.multiply(m1, m2, (i, j, k) -> count.incrementAndGet());
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> count.incrementAndGet());
         assertEquals(3, count.get()); // 1*1*3
     }
 
@@ -527,7 +527,7 @@ public class Matrices2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         AtomicInteger count = new AtomicInteger(0);
-        Matrices.multiply(m1, m2, (i, j, k) -> count.incrementAndGet(), false);
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> count.incrementAndGet(), false);
         assertEquals(8, count.get());
     }
 
@@ -536,7 +536,7 @@ public class Matrices2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3 } });
         assertThrows(IllegalArgumentException.class, () -> {
-            Matrices.multiply(m1, m2, (i, j, k) -> {
+            Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> {
             }, false);
         });
     }
@@ -1092,7 +1092,7 @@ public class Matrices2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
         IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
         List<Integer> kValues = new ArrayList<>();
-        Matrices.multiply(m1, m2, (i, j, k) -> kValues.add(k));
+        Matrices.forEachMultiplyIndex(m1, m2, (i, j, k) -> kValues.add(k));
         assertEquals(3, kValues.size());
         assertTrue(kValues.contains(0));
         assertTrue(kValues.contains(1));

@@ -2056,7 +2056,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testArray_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        String[][] array = m.rawArray();
+        String[][] array = m.backingArray();
         assertArrayEquals(new String[] { "A", "B" }, array[0]);
         assertArrayEquals(new String[] { "C", "D" }, array[1]);
     }
@@ -2064,7 +2064,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testArray_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        Integer[][] array = m.rawArray();
+        Integer[][] array = m.backingArray();
         assertArrayEquals(new Integer[] { 1, 2 }, array[0]);
         assertArrayEquals(new Integer[] { 3, 4 }, array[1]);
     }

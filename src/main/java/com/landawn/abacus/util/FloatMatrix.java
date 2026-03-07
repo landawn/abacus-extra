@@ -2027,7 +2027,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         final float[][] result = new float[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> operation = (i, j, k) -> result[i][j] += a[i][k] * otherMatrix[k][j];
 
-        Matrices.multiply(this, other, operation);
+        Matrices.forEachMultiplyIndex(this, other, operation);
 
         return new FloatMatrix(result);
     }

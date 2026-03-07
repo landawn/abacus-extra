@@ -374,7 +374,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        int[] copy = immutable.copy(0, 5);
+        int[] copy = immutable.copyOfRange(0, 5);
 
         assertEquals(5, copy.length);
         assertEquals(1, copy[0]);
@@ -386,7 +386,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 10, 20, 30, 40, 50 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        int[] copy = immutable.copy(1, 4);
+        int[] copy = immutable.copyOfRange(1, 4);
 
         assertEquals(3, copy.length);
         assertEquals(20, copy[0]);
@@ -399,7 +399,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        int[] copy = immutable.copy(1, 1);
+        int[] copy = immutable.copyOfRange(1, 1);
 
         assertEquals(0, copy.length);
     }
@@ -409,7 +409,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copy(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(-1, 2));
     }
 
     @Test
@@ -417,7 +417,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copy(0, 10));
+        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(0, 10));
     }
 
     @Test
@@ -425,7 +425,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.wrap(data);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copy(2, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(2, 1));
     }
 
     // ============================================

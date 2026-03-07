@@ -1197,7 +1197,7 @@ public class BooleanMatrix2510Test extends TestBase {
     public void testArray() {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix m = BooleanMatrix.of(arr);
-        boolean[][] result = m.rawArray();
+        boolean[][] result = m.backingArray();
         assertSame(arr, result);
     }
 

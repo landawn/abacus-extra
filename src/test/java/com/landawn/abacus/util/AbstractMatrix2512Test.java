@@ -382,7 +382,7 @@ public class AbstractMatrix2512Test extends TestBase {
     public void test_array_returnsInternalArray() {
         int[][] arr = { { 1, 2 }, { 3, 4 } };
         IntMatrix matrix = IntMatrix.of(arr);
-        int[][] returned = matrix.rawArray();
+        int[][] returned = matrix.backingArray();
         assertEquals(arr, returned); // Same reference
         returned[0][0] = 999;
         assertEquals(999, matrix.get(0, 0)); // Modification affects matrix

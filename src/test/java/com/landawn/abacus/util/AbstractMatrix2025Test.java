@@ -79,7 +79,7 @@ public class AbstractMatrix2025Test extends TestBase {
     public void testArray() {
         int[][] arr = { { 1, 2 }, { 3, 4 } };
         IntMatrix m = IntMatrix.of(arr);
-        int[][] returnedArray = m.rawArray();
+        int[][] returnedArray = m.backingArray();
 
         // Should return the same underlying array
         assertNotNull(returnedArray);

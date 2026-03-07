@@ -2102,7 +2102,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         final byte[][] result = new byte[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherArray[k][j];
 
-        Matrices.multiply(this, other, multiplyAction);
+        Matrices.forEachMultiplyIndex(this, other, multiplyAction);
 
         return new ByteMatrix(result);
     }

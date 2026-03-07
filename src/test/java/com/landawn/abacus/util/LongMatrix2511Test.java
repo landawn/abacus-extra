@@ -1101,7 +1101,7 @@ public class LongMatrix2511Test extends TestBase {
     @Test
     public void testToArray() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        long[][] arr = m.rawArray();
+        long[][] arr = m.backingArray();
         assertEquals(2, arr.length);
         assertEquals(2, arr[0].length);
         assertArrayEquals(new long[] { 1L, 2L }, arr[0]);

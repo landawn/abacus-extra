@@ -1263,7 +1263,7 @@ public class ByteMatrix2510Test extends TestBase {
     public void testArray() {
         byte[][] arr = { { 1, 2 }, { 3, 4 } };
         ByteMatrix m = ByteMatrix.of(arr);
-        byte[][] result = m.rawArray();
+        byte[][] result = m.backingArray();
         assertSame(arr, result);
     }
 

@@ -1193,7 +1193,7 @@ public class DoubleMatrix2511Test extends TestBase {
     @Test
     public void testArray() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        double[][] array = m.rawArray();
+        double[][] array = m.backingArray();
         assertArrayEquals(new double[] { 1.0, 2.0 }, array[0]);
         assertArrayEquals(new double[] { 3.0, 4.0 }, array[1]);
     }

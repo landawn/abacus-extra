@@ -2185,7 +2185,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final double[][] result = new double[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherData[k][j];
 
-        Matrices.multiply(this, other, multiplyAction);
+        Matrices.forEachMultiplyIndex(this, other, multiplyAction);
 
         return new DoubleMatrix(result);
     }
