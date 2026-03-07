@@ -454,9 +454,9 @@ public class JavadocExampleMatrixTest {
     @Test
     public void testDoubleMatrixFlipH() {
         // DoubleMatrix.java: DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}});
-        // DoubleMatrix flipped = matrix.flippedH();   // returns [[3.0, 2.0, 1.0]], original unchanged
+        // DoubleMatrix flipped = matrix.flippedHorizontally();   // returns [[3.0, 2.0, 1.0]], original unchanged
         DoubleMatrix matrix = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 } });
-        DoubleMatrix flipped = matrix.flippedH();
+        DoubleMatrix flipped = matrix.flippedHorizontally();
         assertEquals(3.0, flipped.get(0, 0));
         assertEquals(2.0, flipped.get(0, 1));
         assertEquals(1.0, flipped.get(0, 2));
@@ -467,9 +467,9 @@ public class JavadocExampleMatrixTest {
     @Test
     public void testDoubleMatrixFlipV() {
         // DoubleMatrix.java: DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0}, {2.0}, {3.0}});
-        // DoubleMatrix flipped = matrix.flippedV();   // returns [[3.0], [2.0], [1.0]], original unchanged
+        // DoubleMatrix flipped = matrix.flippedVertically();   // returns [[3.0], [2.0], [1.0]], original unchanged
         DoubleMatrix matrix = DoubleMatrix.of(new double[][] { { 1.0 }, { 2.0 }, { 3.0 } });
-        DoubleMatrix flipped = matrix.flippedV();
+        DoubleMatrix flipped = matrix.flippedVertically();
         assertEquals(3.0, flipped.get(0, 0));
         assertEquals(2.0, flipped.get(1, 0));
         assertEquals(1.0, flipped.get(2, 0));
@@ -590,7 +590,7 @@ public class JavadocExampleMatrixTest {
         assertEquals(0.0, matrix.get(0, 1));
     }
 
-    // ==================== AbstractMatrix streamR/streamC examples ====================
+    // ==================== AbstractMatrix streamRows/streamColumns examples ====================
 
     @Test
     public void testAbstractMatrixStreamRRowSums() {
@@ -598,7 +598,7 @@ public class JavadocExampleMatrixTest {
         // Row sums: 6 and 15
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         List<Integer> rowSums = new ArrayList<>();
-        matrix.streamR().forEach(rowStream -> {
+        matrix.streamRows().forEach(rowStream -> {
             int sum = rowStream.sum();
             rowSums.add(sum);
         });
@@ -613,7 +613,7 @@ public class JavadocExampleMatrixTest {
         // Column averages: 2.0 and 3.0
         DoubleMatrix matrix = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         List<Double> colAvgs = new ArrayList<>();
-        matrix.streamC().forEach(colStream -> {
+        matrix.streamColumns().forEach(colStream -> {
             double avg = colStream.average().orElse(0);
             colAvgs.add(avg);
         });

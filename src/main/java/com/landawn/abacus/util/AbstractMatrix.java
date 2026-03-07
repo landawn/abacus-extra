@@ -115,12 +115,22 @@ import com.landawn.abacus.util.stream.Stream;
  * <p><b>Core Matrix Operations Categories:</b>
  * <ul>
  *   <li><b>Dimensional Operations:</b> {@code rowCount}, {@code columnCount}, {@code elementCount}, {@code isEmpty()}</li>
- *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code rowRef()}, {@code column()}</li>
- *   <li><b>Stream Operations:</b> {@code streamHorizontal()}, {@code streamVertical()}, {@code streamR()}, {@code streamC()}, {@code streamMainDiagonal()}, {@code streamAntiDiagonal()}</li>
+ *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code rowView()}, {@code column()}</li>
+ *   <li><b>Stream Operations:</b> {@code streamHorizontal()}, {@code streamVertical()}, {@code streamRows()}, {@code streamColumns()}, {@code streamMainDiagonal()}, {@code streamAntiDiagonal()}</li>
  *   <li><b>Transformation Operations:</b> {@code transpose()}, {@code rotate()}, {@code flip()}, {@code reshape()}</li>
  *   <li><b>Mathematical Operations:</b> Element-wise arithmetic, linear algebra, statistical functions</li>
  *   <li><b>Utility Operations:</b> {@code copy()}, {@code clone()}, {@code toArray()}, {@code toString()}</li>
  * </ul>
+ *
+ * <p><b>Unsafe API Boundary:</b>
+ * <ul>
+ *   <li>{@link #backingArray()} exposes the live backing storage</li>
+ *   <li>{@link #rowView(int)} exposes a mutable row alias backed by internal storage</li>
+ *   <li>{@link #applyOnFlattened(Throwables.Consumer)} allows in-place mutation through a flattened view</li>
+ * </ul>
+ *
+ * <p>These methods exist for performance-sensitive code. Callers should treat them as unsafe escape hatches and prefer
+ * {@link #copy()}, {@link #rowCopy(int)}, or other defensive APIs unless they intentionally need to mutate shared storage.</p>
  *
  * <p><b>Common Usage Patterns:</b>
  * <pre>{@code
@@ -132,7 +142,7 @@ import com.landawn.abacus.util.stream.Stream;
  * // Basic matrix operations
  * IntMatrix transposed = intMatrix.transpose();   // 3x2 matrix from 2x3
  * IntMatrix rotated = intMatrix.rotate90();   // 90-degree rotation
- * IntMatrix flipped = intMatrix.flippedH();   // Horizontal flip
+ * IntMatrix flipped = intMatrix.flippedHorizontally();   // Horizontal flip
  *
  * // Stream-based processing
  * intMatrix.streamHorizontal()                            // Stream all elements
@@ -153,7 +163,7 @@ import com.landawn.abacus.util.stream.Stream;
  * // Complex stream operations with multiple access patterns
  * DoubleMatrix analyticsMatrix = DoubleMatrix.of(new double[][] {{1.0, 3.0, 5.0}, {2.0, 4.0, 8.0}});
  * int rowIndex = 0;
- * double[] row = analyticsMatrix.rowRef(rowIndex);
+ * double[] row = analyticsMatrix.rowView(rowIndex);
  * double mean = java.util.stream.DoubleStream.of(row).average().orElse(0.0);
  * double variance = java.util.stream.DoubleStream.of(row)
  *     .map(x -> Math.pow(x - mean, 2))
@@ -380,11 +390,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /** Exception message format for non-rectangular matrix. Arguments: firstRowLength, currentRowIndex, currentRowLength */
     protected static final String MSG_NOT_RECTANGULAR = "Matrix must be rectangular: row 0 has {} columns, but row {} has {} columns";
 
-    /** Exception message format for vstack column count mismatch. Arguments: thisColumnCount, otherColumnCount */
-    protected static final String MSG_VSTACK_COLUMN_MISMATCH = "Column count mismatch for vstack: this matrix has {} columns but other has {}";
+    /** Exception message format for stackVertically column count mismatch. Arguments: thisColumnCount, otherColumnCount */
+    protected static final String MSG_VSTACK_COLUMN_MISMATCH = "Column count mismatch for stackVertically: this matrix has {} columns but other has {}";
 
-    /** Exception message format for hstack row count mismatch. Arguments: thisRowCount, otherRowCount */
-    protected static final String MSG_HSTACK_ROW_MISMATCH = "Row count mismatch for hstack: this matrix has {} rows but other has {}";
+    /** Exception message format for stackHorizontally row count mismatch. Arguments: thisRowCount, otherRowCount */
+    protected static final String MSG_HSTACK_ROW_MISMATCH = "Row count mismatch for stackHorizontally: this matrix has {} rows but other has {}";
 
     /** Exception message format for negative dimension. Arguments: paramName, value */
     protected static final String MSG_NEGATIVE_DIMENSION = "{} cannot be negative: {}";
@@ -627,7 +637,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * This method exposes the internal array representation for performance reasons and should be used with caution
      * as modifications to the returned array will directly affect the matrix.
      *
-     * <p><strong>Warning:</strong> This method returns the actual internal array, not a copy.
+     * <p><strong>Unsafe API boundary:</strong> This method returns the actual internal array, not a copy.
      * Any changes made to the returned array will be reflected in the matrix.
      * If you need an independent copy, use {@link #copy()} instead.</p>
      *
@@ -650,10 +660,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns the specified row as a direct view backed by internal storage.
      * Changes to the returned array will modify this matrix.
      *
+     * <p><strong>Unsafe API boundary:</strong> the returned row is a mutable alias to internal storage. Prefer
+     * {@link #rowCopy(int)} unless you intentionally need to mutate the matrix through the row view.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * int[] row0 = matrix.rowRef(0);  // Returns [1, 2, 3] (direct reference)
+     * int[] row0 = matrix.rowView(0);  // Returns [1, 2, 3] (direct reference)
      * row0[0] = 99;                // Also changes matrix element at (0, 0) to 99
      * }</pre>
      *
@@ -661,7 +674,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return the specified row array (direct reference to internal storage)
      * @throws IllegalArgumentException if rowIndex is out of bounds
      */
-    public abstract A rowRef(int rowIndex) throws IllegalArgumentException;
+    public abstract A rowView(int rowIndex) throws IllegalArgumentException;
 
     /**
      * Returns a defensive copy of the specified row.
@@ -1142,7 +1155,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This is useful for operations that are easier to perform on a flat array representation,
      * such as sorting all elements, applying statistical transformations, or batch updates.</p>
      *
-     * <p><strong>Note:</strong> The operation modifies the array in place, which directly affects the matrix.</p>
+     * <p><strong>Unsafe API boundary:</strong> the supplied action receives a mutable flattened view of the matrix data.
+     * Any mutation performed by the action is reflected back into this matrix.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1910,7 +1924,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.streamR().forEach(rowStream -> {
+     * matrix.streamRows().forEach(rowStream -> {
      *     int sum = rowStream.sum();   // Sum each row
      *     System.out.println("Row sum: " + sum);
      * });
@@ -1920,7 +1934,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @return a stream of row streams
      */
-    public abstract RS streamR();
+    public abstract RS streamRows();
 
     /**
      * Returns a stream of row streams for a range of rows.
@@ -1932,7 +1946,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
      * // Process only rows 1 and 2
-     * matrix.streamR(1, 3).forEach(rowStream -> {
+     * matrix.streamRows(1, 3).forEach(rowStream -> {
      *     int max = rowStream.max().orElse(0);
      *     System.out.println("Row max: " + max);
      * });
@@ -1943,7 +1957,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of row streams for the specified range
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
-    public abstract RS streamR(final int fromRowIndex, final int toRowIndex);
+    public abstract RS streamRows(final int fromRowIndex, final int toRowIndex);
 
     /**
      * Returns a stream of column streams.
@@ -1955,7 +1969,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.streamC().forEach(colStream -> {
+     * matrix.streamColumns().forEach(colStream -> {
      *     double avg = colStream.average().orElse(0);
      *     System.out.println("Column average: " + avg);
      * });
@@ -1965,7 +1979,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @return a stream of column streams
      */
-    public abstract RS streamC();
+    public abstract RS streamColumns();
 
     /**
      * Returns a stream of column streams for a range of columns.
@@ -1977,7 +1991,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
      * // Process columns 2 through 4
-     * matrix.streamC(2, 5).forEach(colStream -> {
+     * matrix.streamColumns(2, 5).forEach(colStream -> {
      *     int sum = colStream.sum();
      *     System.out.println("Column sum: " + sum);
      * });
@@ -1988,7 +2002,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of column streams for the specified range
      * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
-    public abstract RS streamC(final int fromColumnIndex, final int toColumnIndex);
+    public abstract RS streamColumns(final int fromColumnIndex, final int toColumnIndex);
 
     /**
      * Executes the specified action with this matrix as the parameter.

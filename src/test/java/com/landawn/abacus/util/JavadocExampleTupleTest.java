@@ -74,9 +74,7 @@ public class JavadocExampleTupleTest {
         // IntTuple.IntTuple3 values = IntTuple.of(10, 20, 30);
         // result = "Sum is: 60"
         IntTuple.IntTuple3 values = IntTuple.of(10, 20, 30);
-        String result = values.filter(t -> t._1 + t._2 + t._3 > 50)
-                .map(t -> "Sum is: " + (t._1 + t._2 + t._3))
-                .orElse("Sum too small");
+        String result = values.filter(t -> t._1 + t._2 + t._3 > 50).map(t -> "Sum is: " + (t._1 + t._2 + t._3)).orElse("Sum too small");
         assertEquals("Sum is: 60", result);
     }
 
@@ -259,12 +257,12 @@ public class JavadocExampleTupleTest {
         // IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
         // int[] array = tuple.toArray();   // [1, 2, 3]
         IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
-        assertArrayEquals(new int[]{1, 2, 3}, tuple.toArray());
+        assertArrayEquals(new int[] { 1, 2, 3 }, tuple.toArray());
 
         // IntTuple.IntTuple2 pair = IntTuple.of(10, 20);
         // int[] pairArray = pair.toArray();   // [10, 20]
         IntTuple.IntTuple2 pair = IntTuple.of(10, 20);
-        assertArrayEquals(new int[]{10, 20}, pair.toArray());
+        assertArrayEquals(new int[] { 10, 20 }, pair.toArray());
     }
 
     @Test
@@ -956,7 +954,7 @@ public class JavadocExampleTupleTest {
         // CharTuple.CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
         // char[] array = tuple.toArray();   // ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
         CharTuple.CharTuple9 t = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-        assertArrayEquals(new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'}, t.toArray());
+        assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' }, t.toArray());
     }
 
     @Test

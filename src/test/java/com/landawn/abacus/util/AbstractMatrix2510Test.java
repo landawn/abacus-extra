@@ -292,7 +292,7 @@ public class AbstractMatrix2510Test extends TestBase {
 
         assertEquals(1, subset.rowCount());
         assertEquals(3, subset.columnCount());
-        assertArrayEquals(new int[] { 4, 5, 6 }, subset.rowRef(0));
+        assertArrayEquals(new int[] { 4, 5, 6 }, subset.rowView(0));
     }
 
     @Test
@@ -1186,7 +1186,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testStreamR_intMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<int[]> rows = m.streamR().map(s -> s.toArray()).toList();
+        List<int[]> rows = m.streamRows().map(s -> s.toArray()).toList();
 
         assertEquals(2, rows.size());
         assertArrayEquals(new int[] { 1, 2 }, rows.get(0));
@@ -1196,7 +1196,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testStreamR_rowRange_intMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        List<int[]> rows = m.streamR(1, 3).map(s -> s.toArray()).toList();
+        List<int[]> rows = m.streamRows(1, 3).map(s -> s.toArray()).toList();
 
         assertEquals(2, rows.size());
         assertArrayEquals(new int[] { 3, 4 }, rows.get(0));
@@ -1206,7 +1206,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testStreamC_intMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<int[]> columnCount = m.streamC().map(s -> s.toArray()).toList();
+        List<int[]> columnCount = m.streamColumns().map(s -> s.toArray()).toList();
 
         assertEquals(2, columnCount.size());
         assertArrayEquals(new int[] { 1, 3 }, columnCount.get(0));
@@ -1216,7 +1216,7 @@ public class AbstractMatrix2510Test extends TestBase {
     @Test
     public void testStreamC_columnRange_intMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<int[]> columnCount = m.streamC(1, 3).map(s -> s.toArray()).toList();
+        List<int[]> columnCount = m.streamColumns(1, 3).map(s -> s.toArray()).toList();
 
         assertEquals(2, columnCount.size());
         assertArrayEquals(new int[] { 2, 5 }, columnCount.get(0));

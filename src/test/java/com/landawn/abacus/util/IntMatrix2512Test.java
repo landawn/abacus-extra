@@ -234,7 +234,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 5);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowView(0));
     }
 
     @Test
@@ -242,7 +242,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.rowRef(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.rowView(0));
     }
 
     @Test
@@ -257,7 +257,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 4);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowView(0));
     }
 
     @Test
@@ -265,7 +265,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(6, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.rowRef(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.rowView(0));
     }
 
     @Test
@@ -474,14 +474,14 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        int[] row = m.rowRef(0);
+        int[] row = m.rowView(0);
         assertArrayEquals(new int[] { 1, 2 }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowRef(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
     }
 
     @Test
@@ -501,7 +501,7 @@ public class IntMatrix2512Test extends TestBase {
     public void test_setRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(0, new int[] { 9, 8 });
-        assertArrayEquals(new int[] { 9, 8 }, m.rowRef(0));
+        assertArrayEquals(new int[] { 9, 8 }, m.rowView(0));
     }
 
     @Test
@@ -541,8 +541,8 @@ public class IntMatrix2512Test extends TestBase {
     public void test_updateRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.updateRow(0, x -> x * 2);
-        assertArrayEquals(new int[] { 2, 4 }, m.rowRef(0));
-        assertArrayEquals(new int[] { 3, 4 }, m.rowRef(1));
+        assertArrayEquals(new int[] { 2, 4 }, m.rowView(0));
+        assertArrayEquals(new int[] { 3, 4 }, m.rowView(1));
     }
 
     @Test
@@ -720,7 +720,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_fill_array() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        m.fill(new int[][] { { 9, 8 }, { 7, 6 } });
+        m.copyFrom(new int[][] { { 9, 8 }, { 7, 6 } });
         assertEquals(9, m.get(0, 0));
         assertEquals(8, m.get(0, 1));
         assertEquals(7, m.get(1, 0));
@@ -730,7 +730,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_fill_withOffset() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.fill(1, 1, new int[][] { { 99 } });
+        m.copyFrom(1, 1, new int[][] { { 99 } });
         assertEquals(1, m.get(0, 0));
         assertEquals(99, m.get(1, 1));
         assertEquals(9, m.get(2, 2));
@@ -740,7 +740,7 @@ public class IntMatrix2512Test extends TestBase {
     public void test_fill_withOffset_partialFill() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
         // When source array is larger than destination, only what fits is copied
-        m.fill(0, 0, new int[][] { { 9, 8, 7 } });
+        m.copyFrom(0, 0, new int[][] { { 9, 8, 7 } });
         assertEquals(9, m.get(0, 0));
         assertEquals(8, m.get(0, 1));
     }
@@ -838,27 +838,27 @@ public class IntMatrix2512Test extends TestBase {
     // ============ Reverse and Flip Tests ============
 
     @Test
-    public void test_reverseH() {
+    public void test_flipHorizontally() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        m.reverseH();
+        m.flipHorizontally();
         assertEquals(3, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(1, m.get(0, 2));
     }
 
     @Test
-    public void test_reverseV() {
+    public void test_flipVertically() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        m.reverseV();
+        m.flipVertically();
         assertEquals(5, m.get(0, 0));
         assertEquals(3, m.get(1, 0));
         assertEquals(1, m.get(2, 0));
     }
 
     @Test
-    public void test_flippedH() {
+    public void test_flippedHorizontally() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        IntMatrix flipped = m.flippedH();
+        IntMatrix flipped = m.flippedHorizontally();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(2, flipped.get(0, 1));
         assertEquals(1, flipped.get(0, 2));
@@ -867,9 +867,9 @@ public class IntMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flippedV() {
+    public void test_flippedVertically() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        IntMatrix flipped = m.flippedV();
+        IntMatrix flipped = m.flippedVertically();
         assertEquals(5, flipped.get(0, 0));
         assertEquals(3, flipped.get(1, 0));
         assertEquals(1, flipped.get(2, 0));
@@ -1034,10 +1034,10 @@ public class IntMatrix2512Test extends TestBase {
     // ============ Vstack and Hstack Tests ============
 
     @Test
-    public void test_vstack() {
+    public void test_stackVertically() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3, 4 } });
-        IntMatrix result = m1.vstack(m2);
+        IntMatrix result = m1.stackVertically(m2);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(1, result.get(0, 0));
@@ -1048,14 +1048,14 @@ public class IntMatrix2512Test extends TestBase {
     public void test_vstack_incompatibleCols() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3 } });
-        assertThrows(IllegalArgumentException.class, () -> m1.vstack(m2));
+        assertThrows(IllegalArgumentException.class, () -> m1.stackVertically(m2));
     }
 
     @Test
-    public void test_hstack() {
+    public void test_stackHorizontally() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1 }, { 2 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3 }, { 4 } });
-        IntMatrix result = m1.hstack(m2);
+        IntMatrix result = m1.stackHorizontally(m2);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
         assertEquals(1, result.get(0, 0));
@@ -1066,7 +1066,7 @@ public class IntMatrix2512Test extends TestBase {
     public void test_hstack_incompatibleRows() {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3 }, { 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m1.hstack(m2));
+        assertThrows(IllegalArgumentException.class, () -> m1.stackHorizontally(m2));
     }
 
     // ============ Arithmetic Operations Tests ============
@@ -1251,30 +1251,30 @@ public class IntMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_streamR() {
+    public void test_streamRows() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        long count = m.streamR().count();
+        long count = m.streamRows().count();
         assertEquals(2, count);
     }
 
     @Test
     public void test_streamR_withRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        long count = m.streamR(1, 3).count();
+        long count = m.streamRows(1, 3).count();
         assertEquals(2, count);
     }
 
     @Test
-    public void test_streamC() {
+    public void test_streamColumns() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        long count = m.streamC().count();
+        long count = m.streamColumns().count();
         assertEquals(2, count);
     }
 
     @Test
     public void test_streamC_withRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 } });
-        long count = m.streamC(1, 3).count();
+        long count = m.streamColumns(1, 3).count();
         assertEquals(2, count);
     }
 

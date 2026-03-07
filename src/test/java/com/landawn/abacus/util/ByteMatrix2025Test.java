@@ -143,7 +143,7 @@ public class ByteMatrix2025Test extends TestBase {
         ByteMatrix m = ByteMatrix.range((byte) 0, (byte) 5);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new byte[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 0, 1, 2, 3, 4 }, m.rowView(0));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class ByteMatrix2025Test extends TestBase {
         ByteMatrix m = ByteMatrix.range((byte) 0, (byte) 10, (byte) 2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new byte[] { 0, 2, 4, 6, 8 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 0, 2, 4, 6, 8 }, m.rowView(0));
     }
 
     @Test
@@ -159,7 +159,7 @@ public class ByteMatrix2025Test extends TestBase {
         ByteMatrix m = ByteMatrix.range((byte) 10, (byte) 0, (byte) -2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new byte[] { 10, 8, 6, 4, 2 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 10, 8, 6, 4, 2 }, m.rowView(0));
     }
 
     @Test
@@ -167,7 +167,7 @@ public class ByteMatrix2025Test extends TestBase {
         ByteMatrix m = ByteMatrix.rangeClosed((byte) 0, (byte) 4);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new byte[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 0, 1, 2, 3, 4 }, m.rowView(0));
     }
 
     @Test
@@ -175,7 +175,7 @@ public class ByteMatrix2025Test extends TestBase {
         ByteMatrix m = ByteMatrix.rangeClosed((byte) 0, (byte) 10, (byte) 2);
         assertEquals(1, m.rowCount());
         assertEquals(6, m.columnCount());
-        assertArrayEquals(new byte[] { 0, 2, 4, 6, 8, 10 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 0, 2, 4, 6, 8, 10 }, m.rowView(0));
     }
 
     @Test
@@ -385,15 +385,15 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertArrayEquals(new byte[] { 1, 2, 3 }, m.rowRef(0));
-        assertArrayEquals(new byte[] { 4, 5, 6 }, m.rowRef(1));
+        assertArrayEquals(new byte[] { 1, 2, 3 }, m.rowView(0));
+        assertArrayEquals(new byte[] { 4, 5, 6 }, m.rowView(1));
     }
 
     @Test
     public void testRow_outOfBounds() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowRef(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.rowRef(2));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(2));
     }
 
     @Test
@@ -415,8 +415,8 @@ public class ByteMatrix2025Test extends TestBase {
     public void testSetRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(0, new byte[] { 10, 20 });
-        assertArrayEquals(new byte[] { 10, 20 }, m.rowRef(0));
-        assertArrayEquals(new byte[] { 3, 4 }, m.rowRef(1)); // unchanged
+        assertArrayEquals(new byte[] { 10, 20 }, m.rowView(0));
+        assertArrayEquals(new byte[] { 3, 4 }, m.rowView(1)); // unchanged
     }
 
     @Test
@@ -445,8 +445,8 @@ public class ByteMatrix2025Test extends TestBase {
     public void testUpdateRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         m.updateRow(0, x -> (byte) (x * 2));
-        assertArrayEquals(new byte[] { 2, 4 }, m.rowRef(0));
-        assertArrayEquals(new byte[] { 3, 4 }, m.rowRef(1)); // unchanged
+        assertArrayEquals(new byte[] { 2, 4 }, m.rowView(0));
+        assertArrayEquals(new byte[] { 3, 4 }, m.rowView(1)); // unchanged
     }
 
     @Test
@@ -639,7 +639,7 @@ public class ByteMatrix2025Test extends TestBase {
     public void testFill_withArray() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } });
         byte[][] patch = { { 1, 2 }, { 3, 4 } };
-        m.fill(patch);
+        m.copyFrom(patch);
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(3, m.get(1, 0));
@@ -651,7 +651,7 @@ public class ByteMatrix2025Test extends TestBase {
     public void testFill_withArrayAtPosition() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } });
         byte[][] patch = { { 1, 2 }, { 3, 4 } };
-        m.fill(1, 1, patch);
+        m.copyFrom(1, 1, patch);
         assertEquals(0, m.get(0, 0)); // unchanged
         assertEquals(1, m.get(1, 1));
         assertEquals(2, m.get(1, 2));
@@ -663,7 +663,7 @@ public class ByteMatrix2025Test extends TestBase {
     public void testFill_outOfBounds() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         byte[][] patch = { { 1, 2 }, { 3, 4 } };
-        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.copyFrom(-1, 0, patch));
     }
 
     // ============ Copy Tests ============
@@ -798,7 +798,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testReverseH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        m.reverseH();
+        m.flipHorizontally();
         assertEquals(3, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(1, m.get(0, 2));
@@ -808,7 +808,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testReverseV() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        m.reverseV();
+        m.flipVertically();
         assertEquals(5, m.get(0, 0));
         assertEquals(6, m.get(0, 1));
         assertEquals(3, m.get(1, 0));
@@ -818,7 +818,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testFlipH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        ByteMatrix flipped = m.flippedH();
+        ByteMatrix flipped = m.flippedHorizontally();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(2, flipped.get(0, 1));
         assertEquals(1, flipped.get(0, 2));
@@ -830,7 +830,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testFlipV() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        ByteMatrix flipped = m.flippedV();
+        ByteMatrix flipped = m.flippedVertically();
         assertEquals(5, flipped.get(0, 0));
         assertEquals(3, flipped.get(1, 0));
         assertEquals(1, flipped.get(2, 0));
@@ -1028,7 +1028,7 @@ public class ByteMatrix2025Test extends TestBase {
     public void testVstack() {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 7, 8, 9 }, { 10, 11, 12 } });
-        ByteMatrix stacked = m1.vstack(m2);
+        ByteMatrix stacked = m1.stackVertically(m2);
 
         assertEquals(4, stacked.rowCount());
         assertEquals(3, stacked.columnCount());
@@ -1041,14 +1041,14 @@ public class ByteMatrix2025Test extends TestBase {
     public void testVstack_differentColumnCounts() {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 1, 2, 3 } });
-        assertThrows(IllegalArgumentException.class, () -> m1.vstack(m2));
+        assertThrows(IllegalArgumentException.class, () -> m1.stackVertically(m2));
     }
 
     @Test
     public void testHstack() {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
-        ByteMatrix stacked = m1.hstack(m2);
+        ByteMatrix stacked = m1.stackHorizontally(m2);
 
         assertEquals(2, stacked.rowCount());
         assertEquals(4, stacked.columnCount());
@@ -1061,7 +1061,7 @@ public class ByteMatrix2025Test extends TestBase {
     public void testHstack_differentRowCounts() {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 } });
-        assertThrows(IllegalArgumentException.class, () -> m1.hstack(m2));
+        assertThrows(IllegalArgumentException.class, () -> m1.stackHorizontally(m2));
     }
 
     // ============ Arithmetic Operations Tests ============
@@ -1355,7 +1355,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testStreamR() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<byte[]> rows = m.streamR().map(ByteStream::toArray).toList();
+        List<byte[]> rows = m.streamRows().map(ByteStream::toArray).toList();
         assertEquals(2, rows.size());
         assertArrayEquals(new byte[] { 1, 2, 3 }, rows.get(0));
         assertArrayEquals(new byte[] { 4, 5, 6 }, rows.get(1));
@@ -1364,13 +1364,13 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testStreamR_empty() {
         ByteMatrix empty = ByteMatrix.empty();
-        assertEquals(0, empty.streamR().count());
+        assertEquals(0, empty.streamRows().count());
     }
 
     @Test
     public void testStreamR_withRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<byte[]> rows = m.streamR(1, 3).map(ByteStream::toArray).toList();
+        List<byte[]> rows = m.streamRows(1, 3).map(ByteStream::toArray).toList();
         assertEquals(2, rows.size());
         assertArrayEquals(new byte[] { 4, 5, 6 }, rows.get(0));
         assertArrayEquals(new byte[] { 7, 8, 9 }, rows.get(1));
@@ -1379,14 +1379,14 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testStreamR_withRange_outOfBounds() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamR(-1, 2));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamR(0, 3));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamRows(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamRows(0, 3));
     }
 
     @Test
     public void testStreamC() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<byte[]> columnCount = m.streamC().map(ByteStream::toArray).toList();
+        List<byte[]> columnCount = m.streamColumns().map(ByteStream::toArray).toList();
         assertEquals(3, columnCount.size());
         assertArrayEquals(new byte[] { 1, 4 }, columnCount.get(0));
         assertArrayEquals(new byte[] { 2, 5 }, columnCount.get(1));
@@ -1396,13 +1396,13 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testStreamC_empty() {
         ByteMatrix empty = ByteMatrix.empty();
-        assertEquals(0, empty.streamC().count());
+        assertEquals(0, empty.streamColumns().count());
     }
 
     @Test
     public void testStreamC_withRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<byte[]> columnCount = m.streamC(1, 3).map(ByteStream::toArray).toList();
+        List<byte[]> columnCount = m.streamColumns(1, 3).map(ByteStream::toArray).toList();
         assertEquals(2, columnCount.size());
         assertArrayEquals(new byte[] { 2, 5, 8 }, columnCount.get(0));
         assertArrayEquals(new byte[] { 3, 6, 9 }, columnCount.get(1));
@@ -1411,8 +1411,8 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testStreamC_withRange_outOfBounds() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamC(-1, 2));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamC(0, 3));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamColumns(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamColumns(0, 3));
     }
 
     // ============ Object Methods Tests ============

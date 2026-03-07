@@ -84,13 +84,13 @@ public class MatrixRepresentableShapeValidationTest extends TestBase {
     @Test
     public void testRowFromRepeatAndDiagonalIsTypeSafe() {
         Matrix<String> repeated = Matrix.repeat(1, 2, "a");
-        String[] repeatRow = repeated.rowRef(0);
+        String[] repeatRow = repeated.rowView(0);
         assertTrue(repeatRow.getClass().getComponentType() == String.class);
         repeatRow[0] = "x";
         assertTrue("x".equals(repeated.get(0, 0)));
 
         Matrix<String> diagonal = Matrix.mainDiagonal(new String[] { "p", "q" });
-        String[] diagonalRow = diagonal.rowRef(0);
+        String[] diagonalRow = diagonal.rowView(0);
         assertTrue(diagonalRow.getClass().getComponentType() == String.class);
         assertTrue("p".equals(diagonalRow[0]));
     }
@@ -99,7 +99,7 @@ public class MatrixRepresentableShapeValidationTest extends TestBase {
     public void testRepeatStillSupportsWiderGenericAssignments() {
         Matrix<Number> matrix = Matrix.repeat(1, 1, 1);
         matrix.set(0, 0, 2.5d);
-        Number[] row = matrix.rowRef(0);
+        Number[] row = matrix.rowView(0);
 
         assertTrue(Math.abs(matrix.get(0, 0).doubleValue() - 2.5d) < 1e-9d);
         assertTrue(Math.abs(row[0].doubleValue() - 2.5d) < 1e-9d);
@@ -124,7 +124,7 @@ public class MatrixRepresentableShapeValidationTest extends TestBase {
         matrix.set(0, 1, 2L);
 
         assertEquals(2L, matrix.get(0, 1));
-        assertEquals(Number.class, matrix.rowRef(0).getClass().getComponentType());
+        assertEquals(Number.class, matrix.rowView(0).getClass().getComponentType());
     }
 
     @Test

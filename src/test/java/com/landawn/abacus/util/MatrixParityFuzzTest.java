@@ -42,15 +42,15 @@ public class MatrixParityFuzzTest extends TestBase {
             assertArrayEquals(intMatrix.streamHorizontal().toArray(), toIntArray(genericMatrix.streamHorizontal().toList()));
             assertArrayEquals(intMatrix.streamVertical().toArray(), toIntArray(genericMatrix.streamVertical().toList()));
 
-            final List<int[]> intRows = intMatrix.streamR().map(IntStream::toArray).toList();
-            final List<int[]> genericRows = genericMatrix.streamR().map(row -> toIntArray(row.toList())).toList();
+            final List<int[]> intRows = intMatrix.streamRows().map(IntStream::toArray).toList();
+            final List<int[]> genericRows = genericMatrix.streamRows().map(row -> toIntArray(row.toList())).toList();
             assertEquals(intRows.size(), genericRows.size());
             for (int i = 0; i < intRows.size(); i++) {
                 assertArrayEquals(intRows.get(i), genericRows.get(i));
             }
 
-            final List<int[]> intCols = intMatrix.streamC().map(IntStream::toArray).toList();
-            final List<int[]> genericCols = genericMatrix.streamC().map(col -> toIntArray(col.toList())).toList();
+            final List<int[]> intCols = intMatrix.streamColumns().map(IntStream::toArray).toList();
+            final List<int[]> genericCols = genericMatrix.streamColumns().map(col -> toIntArray(col.toList())).toList();
             assertEquals(intCols.size(), genericCols.size());
             for (int i = 0; i < intCols.size(); i++) {
                 assertArrayEquals(intCols.get(i), genericCols.get(i));
@@ -60,8 +60,8 @@ public class MatrixParityFuzzTest extends TestBase {
             assertTransformParity(intMatrix::rotate90, genericMatrix::rotate90);
             assertMatrixEquals(intMatrix.rotate180(), genericMatrix.rotate180());
             assertTransformParity(intMatrix::rotate270, genericMatrix::rotate270);
-            assertMatrixEquals(intMatrix.flippedH(), genericMatrix.flippedH());
-            assertMatrixEquals(intMatrix.flippedV(), genericMatrix.flippedV());
+            assertMatrixEquals(intMatrix.flippedHorizontally(), genericMatrix.flippedHorizontally());
+            assertMatrixEquals(intMatrix.flippedVertically(), genericMatrix.flippedVertically());
 
             final int rowRepeats = random.nextInt(3) + 1;
             final int colRepeats = random.nextInt(3) + 1;

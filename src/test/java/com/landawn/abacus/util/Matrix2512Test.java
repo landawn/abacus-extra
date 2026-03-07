@@ -272,14 +272,14 @@ public class Matrix2512Test extends TestBase {
     public void test_row_returnsCorrectRow() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        String[] row = m.rowRef(1);
+        String[] row = m.rowView(1);
         assertArrayEquals(new String[] { "d", "e", "f" }, row);
     }
 
     @Test
     public void test_row_outOfBounds_throwsException() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b" } });
-        assertThrows(IllegalArgumentException.class, () -> m.rowRef(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowView(5));
     }
 
     @Test
@@ -576,7 +576,7 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
         String[][] b = { { "X", "Y" }, { "Z", "W" } };
-        m.fill(b);
+        m.copyFrom(b);
         assertEquals("X", m.get(0, 0));
         assertEquals("W", m.get(1, 1));
     }
@@ -586,7 +586,7 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" }, { "g", "h", "i" } };
         Matrix<String> m = new Matrix<>(arr);
         String[][] b = { { "X", "Y" } };
-        m.fill(1, 1, b);
+        m.copyFrom(1, 1, b);
         assertEquals("a", m.get(0, 0));
         assertEquals("X", m.get(1, 1));
         assertEquals("Y", m.get(1, 2));
@@ -675,7 +675,7 @@ public class Matrix2512Test extends TestBase {
     public void test_reverseH_reversesHorizontally() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        m.reverseH();
+        m.flipHorizontally();
         assertEquals("c", m.get(0, 0));
         assertEquals("a", m.get(0, 2));
         assertEquals("f", m.get(1, 0));
@@ -685,7 +685,7 @@ public class Matrix2512Test extends TestBase {
     public void test_reverseV_reversesVertically() {
         String[][] arr = { { "a", "b" }, { "c", "d" }, { "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        m.reverseV();
+        m.flipVertically();
         assertEquals("e", m.get(0, 0));
         assertEquals("f", m.get(0, 1));
         assertEquals("a", m.get(2, 0));
@@ -695,7 +695,7 @@ public class Matrix2512Test extends TestBase {
     public void test_flipH_createsNewHorizontallyFlipped() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> flipped = m.flippedH();
+        Matrix<String> flipped = m.flippedHorizontally();
         assertEquals("c", flipped.get(0, 0));
         assertEquals("a", m.get(0, 0)); // original unchanged
     }
@@ -704,7 +704,7 @@ public class Matrix2512Test extends TestBase {
     public void test_flipV_createsNewVerticallyFlipped() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> flipped = m.flippedV();
+        Matrix<String> flipped = m.flippedVertically();
         assertEquals("c", flipped.get(0, 0));
         assertEquals("a", m.get(0, 0)); // original unchanged
     }
@@ -846,7 +846,7 @@ public class Matrix2512Test extends TestBase {
         String[][] arr2 = { { "c", "d" } };
         Matrix<String> m1 = new Matrix<>(arr1);
         Matrix<String> m2 = new Matrix<>(arr2);
-        Matrix<String> stacked = m1.vstack(m2);
+        Matrix<String> stacked = m1.stackVertically(m2);
         assertEquals(2, stacked.rowCount());
         assertEquals(2, stacked.columnCount());
         assertEquals("a", stacked.get(0, 0));
@@ -857,7 +857,7 @@ public class Matrix2512Test extends TestBase {
     public void test_vstack_incompatibleColumns_throwsException() {
         Matrix<String> m1 = Matrix.of(new String[][] { { "a", "b" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "c", "d", "e" } });
-        assertThrows(IllegalArgumentException.class, () -> m1.vstack(m2));
+        assertThrows(IllegalArgumentException.class, () -> m1.stackVertically(m2));
     }
 
     @Test
@@ -866,7 +866,7 @@ public class Matrix2512Test extends TestBase {
         String[][] arr2 = { { "c" }, { "d" } };
         Matrix<String> m1 = new Matrix<>(arr1);
         Matrix<String> m2 = new Matrix<>(arr2);
-        Matrix<String> stacked = m1.hstack(m2);
+        Matrix<String> stacked = m1.stackHorizontally(m2);
         assertEquals(2, stacked.rowCount());
         assertEquals(2, stacked.columnCount());
         assertEquals("a", stacked.get(0, 0));
@@ -877,7 +877,7 @@ public class Matrix2512Test extends TestBase {
     public void test_hstack_incompatibleRows_throwsException() {
         Matrix<String> m1 = Matrix.of(new String[][] { { "a" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "b" }, { "c" } });
-        assertThrows(IllegalArgumentException.class, () -> m1.hstack(m2));
+        assertThrows(IllegalArgumentException.class, () -> m1.stackHorizontally(m2));
     }
 
     // ============ Zip Tests ============
@@ -963,7 +963,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamR_streamsRows() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Stream<Stream<String>> streams = m.streamR();
+        Stream<Stream<String>> streams = m.streamRows();
         assertEquals(2, streams.count());
     }
 
@@ -971,7 +971,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamR_withRange() {
         String[][] arr = { { "a", "b" }, { "c", "d" }, { "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        Stream<Stream<String>> streams = m.streamR(1, 3);
+        Stream<Stream<String>> streams = m.streamRows(1, 3);
         assertEquals(2, streams.count());
     }
 
@@ -979,7 +979,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamC_streamsColumns() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Stream<Stream<String>> streams = m.streamC();
+        Stream<Stream<String>> streams = m.streamColumns();
         assertEquals(2, streams.count());
     }
 
@@ -987,7 +987,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamC_withRange() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        Stream<Stream<String>> streams = m.streamC(1, 3);
+        Stream<Stream<String>> streams = m.streamColumns(1, 3);
         assertEquals(2, streams.count());
     }
 
@@ -1008,7 +1008,7 @@ public class Matrix2512Test extends TestBase {
     public void test_toDatasetH_convertsToDataset() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Dataset ds = m.toDatasetH(Arrays.asList("col1", "col2"));
+        Dataset ds = m.toRowDataset(Arrays.asList("col1", "col2"));
         assertNotNull(ds);
         assertEquals(2, ds.size());
     }
@@ -1017,7 +1017,7 @@ public class Matrix2512Test extends TestBase {
     public void test_toDatasetV_convertsToDataset() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Dataset ds = m.toDatasetV(Arrays.asList("col1", "col2"));
+        Dataset ds = m.toColumnDataset(Arrays.asList("col1", "col2"));
         assertNotNull(ds);
         assertEquals(2, ds.size());
     }

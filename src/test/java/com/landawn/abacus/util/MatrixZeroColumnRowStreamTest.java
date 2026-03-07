@@ -22,7 +22,7 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
     @Test
     public void testIntMatrixRowsForZeroColumnMatrix() {
         final IntMatrix matrix = IntMatrix.of(new int[][] { {}, {}, {} });
-        final List<int[]> rows = matrix.streamR().map(IntStream::toArray).toList();
+        final List<int[]> rows = matrix.streamRows().map(IntStream::toArray).toList();
 
         assertEquals(3, rows.size());
         assertArrayEquals(new int[0], rows.get(0));
@@ -33,7 +33,7 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
     @Test
     public void testLongMatrixRowsForZeroColumnMatrix() {
         final LongMatrix matrix = LongMatrix.of(new long[][] { {}, {}, {} });
-        final List<long[]> rows = matrix.streamR().map(LongStream::toArray).toList();
+        final List<long[]> rows = matrix.streamRows().map(LongStream::toArray).toList();
 
         assertEquals(3, rows.size());
         assertArrayEquals(new long[0], rows.get(0));
@@ -44,7 +44,7 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
     @Test
     public void testDoubleMatrixRowsForZeroColumnMatrix() {
         final DoubleMatrix matrix = DoubleMatrix.of(new double[][] { {}, {}, {} });
-        final List<double[]> rows = matrix.streamR().map(DoubleStream::toArray).toList();
+        final List<double[]> rows = matrix.streamRows().map(DoubleStream::toArray).toList();
 
         assertEquals(3, rows.size());
         assertArrayEquals(new double[0], rows.get(0));
@@ -55,7 +55,7 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
     @Test
     public void testFloatMatrixRowsForZeroColumnMatrix() {
         final FloatMatrix matrix = FloatMatrix.of(new float[][] { {}, {}, {} });
-        final List<float[]> rows = matrix.streamR().map(FloatStream::toArray).toList();
+        final List<float[]> rows = matrix.streamRows().map(FloatStream::toArray).toList();
 
         assertEquals(3, rows.size());
         assertArrayEquals(new float[0], rows.get(0));
@@ -66,7 +66,7 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
     @Test
     public void testShortMatrixRowsForZeroColumnMatrix() {
         final ShortMatrix matrix = ShortMatrix.of(new short[][] { {}, {}, {} });
-        final List<short[]> rows = matrix.streamR().map(ShortStream::toArray).toList();
+        final List<short[]> rows = matrix.streamRows().map(ShortStream::toArray).toList();
 
         assertEquals(3, rows.size());
         assertArrayEquals(new short[0], rows.get(0));
@@ -77,7 +77,7 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
     @Test
     public void testByteMatrixRowsForZeroColumnMatrix() {
         final ByteMatrix matrix = ByteMatrix.of(new byte[][] { {}, {}, {} });
-        final List<byte[]> rows = matrix.streamR().map(ByteStream::toArray).toList();
+        final List<byte[]> rows = matrix.streamRows().map(ByteStream::toArray).toList();
 
         assertEquals(3, rows.size());
         assertArrayEquals(new byte[0], rows.get(0));
@@ -88,7 +88,7 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
     @Test
     public void testCharMatrixRowsForZeroColumnMatrix() {
         final CharMatrix matrix = CharMatrix.of(new char[][] { {}, {}, {} });
-        final List<char[]> rows = matrix.streamR().map(CharStream::toArray).toList();
+        final List<char[]> rows = matrix.streamRows().map(CharStream::toArray).toList();
 
         assertEquals(3, rows.size());
         assertArrayEquals(new char[0], rows.get(0));
@@ -99,7 +99,7 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
     @Test
     public void testBooleanMatrixRowsForZeroColumnMatrix() {
         final BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] { {}, {}, {} });
-        final List<List<Boolean>> rows = matrix.streamR().map(row -> row.toList()).toList();
+        final List<List<Boolean>> rows = matrix.streamRows().map(row -> row.toList()).toList();
 
         assertEquals(3, rows.size());
         assertTrue(rows.get(0).isEmpty());
@@ -110,7 +110,7 @@ public class MatrixZeroColumnRowStreamTest extends TestBase {
     @Test
     public void testGenericMatrixRowsForZeroColumnMatrix() {
         final Matrix<Integer> matrix = Matrix.of(new Integer[][] { {}, {}, {} });
-        final List<List<Integer>> rows = matrix.streamR().map(row -> row.toList()).toList();
+        final List<List<Integer>> rows = matrix.streamRows().map(row -> row.toList()).toList();
 
         assertEquals(3, rows.size());
         assertTrue(rows.get(0).isEmpty());

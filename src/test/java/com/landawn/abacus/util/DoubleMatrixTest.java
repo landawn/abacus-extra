@@ -233,13 +233,13 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] row = matrix.rowRef(0);
+        double[] row = matrix.rowView(0);
         assertEquals(2, row.length);
         assertEquals(1.0, row[0]);
         assertEquals(2.0, row[1]);
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowRef(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowRef(2));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
     }
 
     @Test
@@ -511,7 +511,7 @@ public class DoubleMatrixTest extends TestBase {
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
         double[][] fillArr = { { 5.0, 6.0 }, { 7.0, 8.0 } };
-        matrix.fill(fillArr);
+        matrix.copyFrom(fillArr);
         assertEquals(5.0, matrix.get(0, 0));
         assertEquals(6.0, matrix.get(0, 1));
         assertEquals(7.0, matrix.get(1, 0));
@@ -523,11 +523,11 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
         double[][] fillArr = { { 7.0, 8.0 } };
-        matrix.fill(0, 1, fillArr);
+        matrix.copyFrom(0, 1, fillArr);
         assertEquals(7.0, matrix.get(0, 1));
         assertEquals(8.0, matrix.get(0, 2));
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.fill(-1, 0, fillArr));
+        assertThrows(IllegalArgumentException.class, () -> matrix.copyFrom(-1, 0, fillArr));
     }
 
     @Test
@@ -624,7 +624,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        matrix.reverseH();
+        matrix.flipHorizontally();
         assertEquals(2.0, matrix.get(0, 0));
         assertEquals(1.0, matrix.get(0, 1));
     }
@@ -634,7 +634,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        matrix.reverseV();
+        matrix.flipVertically();
         assertEquals(3.0, matrix.get(0, 0));
         assertEquals(1.0, matrix.get(1, 0));
     }
@@ -644,7 +644,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix flipped = matrix.flippedH();
+        DoubleMatrix flipped = matrix.flippedHorizontally();
         assertEquals(2.0, flipped.get(0, 0));
         assertEquals(1.0, flipped.get(0, 1));
 
@@ -657,7 +657,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix flipped = matrix.flippedV();
+        DoubleMatrix flipped = matrix.flippedVertically();
         assertEquals(3.0, flipped.get(0, 0));
         assertEquals(1.0, flipped.get(1, 0));
 
@@ -790,14 +790,14 @@ public class DoubleMatrixTest extends TestBase {
         DoubleMatrix a = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
         DoubleMatrix b = DoubleMatrix.of(new double[][] { { 3.0, 4.0 } });
 
-        DoubleMatrix stacked = a.vstack(b);
+        DoubleMatrix stacked = a.stackVertically(b);
         assertEquals(2, stacked.rowCount());
         assertEquals(2, stacked.columnCount());
         assertEquals(1.0, stacked.get(0, 0));
         assertEquals(3.0, stacked.get(1, 0));
 
         DoubleMatrix c = DoubleMatrix.of(new double[][] { { 5.0 } });
-        assertThrows(IllegalArgumentException.class, () -> a.vstack(c));
+        assertThrows(IllegalArgumentException.class, () -> a.stackVertically(c));
     }
 
     @Test
@@ -805,14 +805,14 @@ public class DoubleMatrixTest extends TestBase {
         DoubleMatrix a = DoubleMatrix.of(new double[][] { { 1.0 }, { 3.0 } });
         DoubleMatrix b = DoubleMatrix.of(new double[][] { { 2.0 }, { 4.0 } });
 
-        DoubleMatrix stacked = a.hstack(b);
+        DoubleMatrix stacked = a.stackHorizontally(b);
         assertEquals(2, stacked.rowCount());
         assertEquals(2, stacked.columnCount());
         assertEquals(1.0, stacked.get(0, 0));
         assertEquals(2.0, stacked.get(0, 1));
 
         DoubleMatrix c = DoubleMatrix.of(new double[][] { { 5.0 } });
-        assertThrows(IllegalArgumentException.class, () -> a.hstack(c));
+        assertThrows(IllegalArgumentException.class, () -> a.stackHorizontally(c));
     }
 
     @Test
@@ -1003,7 +1003,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        List<double[]> rows = matrix.streamR().map(stream -> stream.toArray()).toList();
+        List<double[]> rows = matrix.streamRows().map(stream -> stream.toArray()).toList();
         assertEquals(2, rows.size());
         assertEquals(2, rows.get(0).length);
         assertEquals(1.0, rows.get(0)[0]);
@@ -1015,10 +1015,10 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        List<double[]> rows = matrix.streamR(1, 3).map(stream -> stream.toArray()).toList();
+        List<double[]> rows = matrix.streamRows(1, 3).map(stream -> stream.toArray()).toList();
         assertEquals(2, rows.size());
 
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamR(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamRows(-1, 2));
     }
 
     @Test
@@ -1026,7 +1026,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        List<double[]> columnCount = matrix.streamC().map(stream -> stream.toArray()).toList();
+        List<double[]> columnCount = matrix.streamColumns().map(stream -> stream.toArray()).toList();
         assertEquals(2, columnCount.size());
         assertEquals(2, columnCount.get(0).length);
         assertEquals(1.0, columnCount.get(0)[0]);
@@ -1038,10 +1038,10 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        List<double[]> columnCount = matrix.streamC(1, 3).map(stream -> stream.toArray()).toList();
+        List<double[]> columnCount = matrix.streamColumns(1, 3).map(stream -> stream.toArray()).toList();
         assertEquals(2, columnCount.size());
 
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamC(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamColumns(-1, 2));
     }
 
     @Test
@@ -1164,26 +1164,26 @@ public class DoubleMatrixTest extends TestBase {
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
         // Test statistics on individual rows
-        List<Double> rowSums = matrix.streamR().map(row -> row.sum()).toList();
+        List<Double> rowSums = matrix.streamRows().map(row -> row.sum()).toList();
         assertEquals(3, rowSums.size());
         assertEquals(6.0, rowSums.get(0).doubleValue(), 0.0001); // 1+2+3
         assertEquals(15.0, rowSums.get(1).doubleValue(), 0.0001); // 4+5+6
         assertEquals(24.0, rowSums.get(2).doubleValue(), 0.0001); // 7+8+9
 
         // Test statistics on individual columns
-        List<Double> colSums = matrix.streamC().map(col -> col.sum()).toList();
+        List<Double> colSums = matrix.streamColumns().map(col -> col.sum()).toList();
         assertEquals(3, colSums.size());
         assertEquals(12.0, colSums.get(0).doubleValue(), 0.0001); // 1+4+7
         assertEquals(15.0, colSums.get(1).doubleValue(), 0.0001); // 2+5+8
         assertEquals(18.0, colSums.get(2).doubleValue(), 0.0001); // 3+6+9
 
         // Test min/max per row
-        List<Double> rowMins = matrix.streamR().map(row -> row.min().orElse(0.0)).toList();
+        List<Double> rowMins = matrix.streamRows().map(row -> row.min().orElse(0.0)).toList();
         assertEquals(1.0, rowMins.get(0).doubleValue(), 0.0001);
         assertEquals(4.0, rowMins.get(1).doubleValue(), 0.0001);
         assertEquals(7.0, rowMins.get(2).doubleValue(), 0.0001);
 
-        List<Double> rowMaxs = matrix.streamR().map(row -> row.max().orElse(0.0)).toList();
+        List<Double> rowMaxs = matrix.streamRows().map(row -> row.max().orElse(0.0)).toList();
         assertEquals(3.0, rowMaxs.get(0).doubleValue(), 0.0001);
         assertEquals(6.0, rowMaxs.get(1).doubleValue(), 0.0001);
         assertEquals(9.0, rowMaxs.get(2).doubleValue(), 0.0001);

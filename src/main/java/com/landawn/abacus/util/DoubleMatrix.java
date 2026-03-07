@@ -636,12 +636,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.rowRef(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.rowView(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * double[] firstRow = matrix.rowRef(0);   // Returns [1.0, 2.0, 3.0]
+     * double[] firstRow = matrix.rowView(0);   // Returns [1.0, 2.0, 3.0]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99.0;  // matrix now has 99.0 at position (0,0)
@@ -652,7 +652,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     @Override
-    public double[] rowRef(final int rowIndex) throws IllegalArgumentException {
+    public double[] rowView(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -676,7 +676,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Returns a copy of the specified column as a new double array.
      *
-     * <p>Unlike {@link #rowRef(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -1255,14 +1255,14 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[3][3]);
-     * matrix.fill(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
+     * matrix.copyFrom(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * // Top-left 2x2 region is filled: [[1.0, 2.0, 0.0], [3.0, 4.0, 0.0], [0.0, 0.0, 0.0]]
      * }</pre>
      *
      * @param b the source array to copy values from (maybe smaller or larger than the matrix)
      */
-    public void fill(final double[][] b) {
-        fill(0, 0, b);
+    public void copyFrom(final double[][] b) {
+        copyFrom(0, 0, b);
     }
 
     /**
@@ -1273,7 +1273,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[3][3]);
-     * matrix.fill(1, 1, new double[][] {{9.0, 8.0}, {7.0, 6.0}});
+     * matrix.copyFrom(1, 1, new double[][] {{9.0, 8.0}, {7.0, 6.0}});
      * // Result: [[0.0, 0.0, 0.0], [0.0, 9.0, 8.0], [0.0, 7.0, 6.0]]
      * }</pre>
      *
@@ -1282,7 +1282,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param b the source array to copy values from
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final double[][] b) throws IllegalArgumentException {
+    public void copyFrom(final int fromRowIndex, final int fromColumnIndex, final double[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex({}) must be between 0 and rows({})", fromRowIndex, rowCount);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex({}) must be between 0 and columnCount({})", fromColumnIndex,
@@ -1597,12 +1597,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}});
-     * matrix.reverseH();   // matrix is now [[3.0, 2.0, 1.0]]
+     * matrix.flipHorizontally();   // matrix is now [[3.0, 2.0, 1.0]]
      * }</pre>
      *
-     * @see #flippedH()
+     * @see #flippedHorizontally()
      */
-    public void reverseH() {
+    public void flipHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1615,12 +1615,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0}, {2.0}, {3.0}});
-     * matrix.reverseV();   // matrix is now [[3.0], [2.0], [1.0]]
+     * matrix.flipVertically();   // matrix is now [[3.0], [2.0], [1.0]]
      * }</pre>
      *
-     * @see #flippedV()
+     * @see #flippedVertically()
      */
-    public void reverseV() {
+    public void flipVertically() {
         for (int j = 0; j < columnCount; j++) {
             double tmp = 0;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1633,39 +1633,39 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns a new matrix that is a horizontal flip of this matrix (columns in reversed order within each row).
-     * The original matrix is not modified. This is a non-mutating version of {@link #reverseH()}.
+     * The original matrix is not modified. This is a non-mutating version of {@link #flipHorizontally()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}});
-     * DoubleMatrix flipped = matrix.flippedH();   // returns [[3.0, 2.0, 1.0]], original unchanged
+     * DoubleMatrix flipped = matrix.flippedHorizontally();   // returns [[3.0, 2.0, 1.0]], original unchanged
      * }</pre>
      *
      * @return a new matrix that is a horizontal flip of this matrix (columns in reversed order within each row)
-     * @see #reverseH()
+     * @see #flipHorizontally()
      */
-    public DoubleMatrix flippedH() {
+    public DoubleMatrix flippedHorizontally() {
         final DoubleMatrix res = this.copy();
-        res.reverseH();
+        res.flipHorizontally();
         return res;
     }
 
     /**
      * Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
-     * The original matrix is not modified. This is a non-mutating version of {@link #reverseV()}.
+     * The original matrix is not modified. This is a non-mutating version of {@link #flipVertically()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0}, {2.0}, {3.0}});
-     * DoubleMatrix flipped = matrix.flippedV();   // returns [[3.0], [2.0], [1.0]], original unchanged
+     * DoubleMatrix flipped = matrix.flippedVertically();   // returns [[3.0], [2.0], [1.0]], original unchanged
      * }</pre>
      *
      * @return a new matrix that is a vertical flip of this matrix (rows in reversed order)
-     * @see #reverseV()
+     * @see #flipVertically()
      */
-    public DoubleMatrix flippedV() {
+    public DoubleMatrix flippedVertically() {
         final DoubleMatrix res = this.copy();
-        res.reverseV();
+        res.flipVertically();
         return res;
     }
 
@@ -2042,16 +2042,16 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix a = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * DoubleMatrix b = DoubleMatrix.of(new double[][] {{5.0, 6.0}});
-     * DoubleMatrix stacked = a.vstack(b);
+     * DoubleMatrix stacked = a.stackVertically(b);
      * // Result: [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]]
      * }</pre>
      *
      * @param other the matrix to stack below this matrix
      * @return a new matrix with combined rows
      * @throws IllegalArgumentException if the matrices have different number of columns
-     * @see IntMatrix#vstack(IntMatrix)
+     * @see IntMatrix#stackVertically(IntMatrix)
      */
-    public DoubleMatrix vstack(final DoubleMatrix other) throws IllegalArgumentException {
+    public DoubleMatrix stackVertically(final DoubleMatrix other) throws IllegalArgumentException {
         N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
@@ -2080,16 +2080,16 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix a = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * DoubleMatrix b = DoubleMatrix.of(new double[][] {{5.0}, {6.0}});
-     * DoubleMatrix stacked = a.hstack(b);
+     * DoubleMatrix stacked = a.stackHorizontally(b);
      * // Result: [[1.0, 2.0, 5.0], [3.0, 4.0, 6.0]]
      * }</pre>
      *
      * @param other the matrix to stack to the right of this matrix
      * @return a new matrix with combined columns
      * @throws IllegalArgumentException if the matrices have different number of rows
-     * @see IntMatrix#hstack(IntMatrix)
+     * @see IntMatrix#stackHorizontally(IntMatrix)
      */
-    public DoubleMatrix hstack(final DoubleMatrix other) throws IllegalArgumentException {
+    public DoubleMatrix stackHorizontally(final DoubleMatrix other) throws IllegalArgumentException {
         N.checkArgNotNull(other, "other");
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
@@ -2688,12 +2688,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Creates a stream of streams, where each inner stream represents a complete row of the matrix.
-     * This is equivalent to calling {@code streamR(0, rowCount)}.
+     * This is equivalent to calling {@code streamRows(0, rowCount)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.streamR().forEach(row -> System.out.println(row.toList()));
+     * matrix.streamRows().forEach(row -> System.out.println(row.toList()));
      * // Prints: [1.0, 2.0]
      * //         [3.0, 4.0]
      * }</pre>
@@ -2701,8 +2701,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return a Stream of DoubleStreams, one for each row in the matrix
      */
     @Override
-    public Stream<DoubleStream> streamR() {
-        return streamR(0, rowCount);
+    public Stream<DoubleStream> streamRows() {
+        return streamRows(0, rowCount);
     }
 
     /**
@@ -2712,7 +2712,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}});
-     * List<double[]> rows = matrix.streamR(1, 3)
+     * List<double[]> rows = matrix.streamRows(1, 3)
      *     .map(stream -> stream.toArray())
      *     .toList();
      * // rows contains: [[3.0, 4.0], [5.0, 6.0]]
@@ -2724,7 +2724,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IndexOutOfBoundsException if the row indices are out of bounds
      */
     @Override
-    public Stream<DoubleStream> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public Stream<DoubleStream> streamRows(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         return Stream.of(new ObjIteratorEx<>() {
@@ -2764,12 +2764,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Creates a stream of streams, where each inner stream represents a complete column of the matrix.
      * This method is marked as Beta and may change in future versions.
-     * This is equivalent to calling {@code streamC(0, columnCount)}.
+     * This is equivalent to calling {@code streamColumns(0, columnCount)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.streamC().forEach(col -> System.out.println(col.toList()));
+     * matrix.streamColumns().forEach(col -> System.out.println(col.toList()));
      * // Prints: [1.0, 3.0]
      * //         [2.0, 4.0]
      * }</pre>
@@ -2778,8 +2778,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     @Override
     @Beta
-    public Stream<DoubleStream> streamC() {
-        return streamC(0, columnCount);
+    public Stream<DoubleStream> streamColumns() {
+        return streamColumns(0, columnCount);
     }
 
     /**
@@ -2790,7 +2790,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * List<double[]> columns = matrix.streamC(1, 3)
+     * List<double[]> columns = matrix.streamColumns(1, 3)
      *     .map(stream -> stream.toArray())
      *     .toList();
      * // columns contains: [[2.0, 5.0], [3.0, 6.0]]
@@ -2803,7 +2803,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     @Override
     @Beta
-    public Stream<DoubleStream> streamC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public Stream<DoubleStream> streamColumns(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         if (isEmpty()) {

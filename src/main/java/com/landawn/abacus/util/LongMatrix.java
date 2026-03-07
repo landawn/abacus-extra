@@ -616,12 +616,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.rowRef(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.rowView(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * long[] firstRow = matrix.rowRef(0);   // Returns [1L, 2L, 3L]
+     * long[] firstRow = matrix.rowView(0);   // Returns [1L, 2L, 3L]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99L;  // matrix now has 99L at position (0,0)
@@ -632,7 +632,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public long[] rowRef(final int rowIndex) throws IllegalArgumentException {
+    public long[] rowView(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -656,7 +656,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Returns a copy of the specified column as a new long array.
      *
-     * <p>Unlike {@link #rowRef(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowView(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -1224,14 +1224,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{0, 0, 0}, {0, 0, 0}});
-     * matrix.fill(new long[][] {{1, 2}, {3, 4}});
+     * matrix.copyFrom(new long[][] {{1, 2}, {3, 4}});
      * // Result: [[1, 2, 0], [3, 4, 0]]
      * }</pre>
      *
      * @param b the two-dimensional array to copy values from
      */
-    public void fill(final long[][] b) {
-        fill(0, 0, b);
+    public void copyFrom(final long[][] b) {
+        copyFrom(0, 0, b);
     }
 
     /**
@@ -1242,7 +1242,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}});
-     * matrix.fill(1, 1, new long[][] {{1, 2}, {3, 4}});
+     * matrix.copyFrom(1, 1, new long[][] {{1, 2}, {3, 4}});
      * // Result: [[0, 0, 0], [0, 1, 2], [0, 3, 4]]
      * }</pre>
      *
@@ -1251,7 +1251,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param b the source array to copy values from
      * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rowCount, or if fromColumnIndex &lt; 0 or &gt; columnCount
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final long[][] b) throws IllegalArgumentException {
+    public void copyFrom(final int fromRowIndex, final int fromColumnIndex, final long[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex({}) must be between 0 and rows({})", fromRowIndex, rowCount);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex({}) must be between 0 and columnCount({})", fromColumnIndex,
@@ -1558,19 +1558,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
-     * This operation modifies the matrix directly. For a non-destructive version, use {@link #flippedH()}.
+     * This operation modifies the matrix directly. For a non-destructive version, use {@link #flippedHorizontally()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.reverseH();
+     * matrix.flipHorizontally();
      * // matrix is now [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flippedH()
-     * @see #reverseV()
+     * @see #flippedHorizontally()
+     * @see #flipVertically()
      */
-    public void reverseH() {
+    public void flipHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1578,19 +1578,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Reverses the order of rows in the matrix (vertical flip in-place).
-     * This operation modifies the matrix directly by reversing the row order. For a non-destructive version, use {@link #flippedV()}.
+     * This operation modifies the matrix directly by reversing the row order. For a non-destructive version, use {@link #flippedVertically()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.reverseV();
+     * matrix.flipVertically();
      * // matrix is now [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
      * }</pre>
      *
-     * @see #flippedV()
-     * @see #reverseH()
+     * @see #flippedVertically()
+     * @see #flipHorizontally()
      */
-    public void reverseV() {
+    public void flipVertically() {
         for (int j = 0; j < columnCount; j++) {
             long tmp = 0;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1608,19 +1608,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongMatrix flipped = matrix.flippedH();
+     * LongMatrix flipped = matrix.flippedHorizontally();
      * // Result: [[3, 2, 1],
      * //          [6, 5, 4]]
      * }</pre>
      *
      * @return a new matrix with each row reversed
-     * @see #reverseH()
-     * @see #flippedV()
+     * @see #flipHorizontally()
+     * @see #flippedVertically()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public LongMatrix flippedH() {
+    public LongMatrix flippedHorizontally() {
         final LongMatrix res = this.copy();
-        res.reverseH();
+        res.flipHorizontally();
         return res;
     }
 
@@ -1631,19 +1631,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongMatrix flipped = matrix.flippedV();
+     * LongMatrix flipped = matrix.flippedVertically();
      * // Result: [[4, 5, 6],
      * //          [1, 2, 3]]
      * }</pre>
      *
      * @return a new matrix with rows in reversed order
-     * @see #reverseV()
-     * @see #flippedH()
+     * @see #flipVertically()
+     * @see #flippedHorizontally()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public LongMatrix flippedV() {
+    public LongMatrix flippedVertically() {
         final LongMatrix res = this.copy();
-        res.reverseV();
+        res.flipVertically();
         return res;
     }
 
@@ -2022,7 +2022,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <pre>{@code
      * LongMatrix matrix1 = LongMatrix.of(new long[][] {{1, 2, 3}});
      * LongMatrix matrix2 = LongMatrix.of(new long[][] {{4, 5, 6}, {7, 8, 9}});
-     * LongMatrix stacked = matrix1.vstack(matrix2);
+     * LongMatrix stacked = matrix1.stackVertically(matrix2);
      * // Result: [[1, 2, 3],
      * //          [4, 5, 6],
      * //          [7, 8, 9]]
@@ -2031,9 +2031,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param other the matrix to stack below this matrix
      * @return a new matrix with rows from both matrices stacked vertically
      * @throws IllegalArgumentException if the matrices don't have the same number of columns
-     * @see IntMatrix#vstack(IntMatrix)
+     * @see IntMatrix#stackVertically(IntMatrix)
      */
-    public LongMatrix vstack(final LongMatrix other) throws IllegalArgumentException {
+    public LongMatrix stackVertically(final LongMatrix other) throws IllegalArgumentException {
         N.checkArgNotNull(other, "other");
         N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
         final long mergedRowCount = (long) rowCount + other.rowCount;
@@ -2062,7 +2062,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <pre>{@code
      * LongMatrix matrix1 = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
      * LongMatrix matrix2 = LongMatrix.of(new long[][] {{5}, {6}});
-     * LongMatrix stacked = matrix1.hstack(matrix2);
+     * LongMatrix stacked = matrix1.stackHorizontally(matrix2);
      * // Result: [[1, 2, 5],
      * //          [3, 4, 6]]
      * }</pre>
@@ -2070,9 +2070,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param other the matrix to stack to the right of this matrix
      * @return a new matrix with columns from both matrices stacked horizontally
      * @throws IllegalArgumentException if the matrices don't have the same number of rows
-     * @see IntMatrix#hstack(IntMatrix)
+     * @see IntMatrix#stackHorizontally(IntMatrix)
      */
-    public LongMatrix hstack(final LongMatrix other) throws IllegalArgumentException {
+    public LongMatrix stackHorizontally(final LongMatrix other) throws IllegalArgumentException {
         N.checkArgNotNull(other, "other");
         N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
         final long mergedColumnCount = (long) columnCount + other.columnCount;
@@ -2774,7 +2774,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * Stream<LongStream> rows = matrix.streamR();
+     * Stream<LongStream> rows = matrix.streamRows();
      * // First stream contains: 1, 2, 3
      * // Second stream contains: 4, 5, 6
      * }</pre>
@@ -2782,8 +2782,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a stream of row streams
      */
     @Override
-    public Stream<LongStream> streamR() {
-        return streamR(0, rowCount);
+    public Stream<LongStream> streamRows() {
+        return streamRows(0, rowCount);
     }
 
     /**
@@ -2793,7 +2793,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}, {5, 6}});
-     * Stream<LongStream> rows = matrix.streamR(1, 3);
+     * Stream<LongStream> rows = matrix.streamRows(1, 3);
      * // First stream contains: 3, 4
      * // Second stream contains: 5, 6
      * }</pre>
@@ -2804,7 +2804,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IndexOutOfBoundsException if the row indices are out of bounds
      */
     @Override
-    public Stream<LongStream> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public Stream<LongStream> streamRows(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         return Stream.of(new ObjIteratorEx<>() {
@@ -2848,7 +2848,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * Stream<LongStream> columns = matrix.streamC();
+     * Stream<LongStream> columns = matrix.streamColumns();
      * // First stream contains: 1, 4
      * // Second stream contains: 2, 5
      * // Third stream contains: 3, 6
@@ -2858,8 +2858,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     @Beta
-    public Stream<LongStream> streamC() {
-        return streamC(0, columnCount);
+    public Stream<LongStream> streamColumns() {
+        return streamColumns(0, columnCount);
     }
 
     /**
@@ -2869,7 +2869,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * Stream<LongStream> columns = matrix.streamC(1, 3);
+     * Stream<LongStream> columns = matrix.streamColumns(1, 3);
      * // First stream contains: 2, 5
      * // Second stream contains: 3, 6
      * }</pre>
@@ -2881,7 +2881,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     @Beta
-    public Stream<LongStream> streamC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public Stream<LongStream> streamColumns(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         if (isEmpty()) {

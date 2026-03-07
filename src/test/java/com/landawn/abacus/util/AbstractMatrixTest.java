@@ -600,7 +600,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamR() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Integer>> rows = matrix.streamR().map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Integer>> rows = matrix.streamRows().map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(2, rows.size());
         Assertions.assertEquals(3, rows.get(0).size());
@@ -611,7 +611,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamRRange() {
         IntMatrix matrix = createTestMatrix();
-        List<List<Integer>> rows = matrix.streamR(1, 3).map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Integer>> rows = matrix.streamRows(1, 3).map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(2, rows.size());
         Assertions.assertEquals(3, rows.get(0).size());
@@ -621,7 +621,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamC() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Integer>> columnCount = matrix.streamC().map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Integer>> columnCount = matrix.streamColumns().map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(3, columnCount.size());
         Assertions.assertEquals(2, columnCount.get(0).size());
@@ -632,7 +632,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamCRange() {
         IntMatrix matrix = createTestMatrix();
-        List<List<Integer>> columnCount = matrix.streamC(1, 3).map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Integer>> columnCount = matrix.streamColumns(1, 3).map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(2, columnCount.size());
         Assertions.assertEquals(3, columnCount.get(0).size());
