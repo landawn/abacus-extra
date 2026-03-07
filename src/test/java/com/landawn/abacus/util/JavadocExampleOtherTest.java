@@ -337,7 +337,7 @@ public class JavadocExampleOtherTest {
         ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {5, 10, 15, 20});
         assertEquals(10, array.get(1));                // returns 10
         assertEquals(5, array.get(0));                 // returns 5
-        assertEquals(20, array.get(array.length - 1)); // returns 20
+        assertEquals(20, array.get(array.length() - 1)); // returns 20
     }
 
     @Test

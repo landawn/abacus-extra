@@ -38,11 +38,7 @@ import com.landawn.abacus.util.stream.IntStream;
  */
 @Beta
 public final class ImmutableIntArray implements Immutable {
-    /**
-     * The length of the underlying array. This field is public and final for
-     * efficient access without method invocation overhead.
-     */
-    public final int length;
+    private final int length;
 
     /**
      * The underlying int array storage. This field is private to ensure immutability.
@@ -136,7 +132,7 @@ public final class ImmutableIntArray implements Immutable {
      * boolean result3 = fromNull.isEmpty();   // returns true (null becomes empty array)
      * }</pre>
      *
-     * @return {@code true} if {@code length == 0}
+     * @return {@code true} if {@code length() == 0}
      */
     public boolean isEmpty() {
         return length == 0;
@@ -192,19 +188,19 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p>This method provides constant-time O(1) access to elements by index.
      * The index is zero-based, meaning the first element is at index 0 and the
-     * last element is at index {@code length - 1}.</p>
+     * last element is at index {@code length() - 1}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {5, 10, 15, 20});
      * int value = array.get(1);                 // returns 10
      * int first = array.get(0);                 // returns 5
-     * int last = array.get(array.length - 1);   // returns 20
+     * int last = array.get(array.length() - 1);   // returns 20
      * }</pre>
      *
-     * @param index the zero-based index of the element to retrieve (must be {@code >= 0 and < length})
+     * @param index the zero-based index of the element to retrieve (must be {@code >= 0 and < length()})
      * @return the int element at the specified index
-     * @throws ArrayIndexOutOfBoundsException if the index is negative or greater than or equal to {@code length}
+     * @throws ArrayIndexOutOfBoundsException if the index is negative or greater than or equal to {@code length()}
      */
     public int get(final int index) {
         return elements[index];
@@ -214,7 +210,7 @@ public final class ImmutableIntArray implements Immutable {
      * Performs the given action for each element in this ImmutableIntArray.
      *
      * <p>The action is executed sequentially for each element in array order, starting
-     * from index 0 and proceeding to index {@code length - 1}. The action receives
+     * from index 0 and proceeding to index {@code length() - 1}. The action receives
      * each element value as a primitive int.</p>
      *
      * <p>This method is useful for performing side effects on each element, such as
@@ -252,7 +248,7 @@ public final class ImmutableIntArray implements Immutable {
      * Performs the given action for each element in this ImmutableIntArray, providing both the index and value.
      *
      * <p>The action is executed sequentially for each element in array order, starting from index 0
-     * and proceeding to index {@code length - 1}. For each element, the action receives two int parameters:
+     * and proceeding to index {@code length() - 1}. For each element, the action receives two int parameters:
      * the element's index (first parameter) and the element's value (second parameter).</p>
      *
      * <p>This method is useful when you need to know the position of each element during iteration,
@@ -295,7 +291,7 @@ public final class ImmutableIntArray implements Immutable {
      * <p>The returned stream provides a functional programming interface for processing
      * the array elements, supporting operations such as filtering, mapping, reduction,
      * and collection. The stream processes elements in array order (from index 0 to
-     * {@code length - 1}).</p>
+     * {@code length() - 1}).</p>
      *
      * <p>This method is useful for applying functional transformations and operations
      * on the array elements without manually iterating through them.</p>

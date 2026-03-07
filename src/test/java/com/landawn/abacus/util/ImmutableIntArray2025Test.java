@@ -35,7 +35,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-        assertEquals(5, immutable.length);
+        assertEquals(5, immutable.length());
         assertEquals(1, immutable.get(0));
         assertEquals(5, immutable.get(4));
     }
@@ -44,7 +44,7 @@ public class ImmutableIntArray2025Test extends TestBase {
     public void testWrap_WithNullArray() {
         ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(null);
 
-        assertEquals(0, immutable.length);
+        assertEquals(0, immutable.length());
     }
 
     @Test
@@ -52,7 +52,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = {};
         ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-        assertEquals(0, immutable.length);
+        assertEquals(0, immutable.length());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = { 10, 20, 30 };
         ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
 
-        assertEquals(3, immutable.length);
+        assertEquals(3, immutable.length());
         assertEquals(10, immutable.get(0));
         assertEquals(30, immutable.get(2));
     }
@@ -85,7 +85,7 @@ public class ImmutableIntArray2025Test extends TestBase {
     public void testCopyOf_WithNullArray() {
         ImmutableIntArray immutable = ImmutableIntArray.copyOf(null);
 
-        assertEquals(0, immutable.length);
+        assertEquals(0, immutable.length());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = {};
         ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
 
-        assertEquals(0, immutable.length);
+        assertEquals(0, immutable.length());
     }
 
     @Test
@@ -117,7 +117,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
         ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
 
-        assertEquals(10000, immutable.length);
+        assertEquals(10000, immutable.length());
         assertEquals(0, immutable.get(0));
         assertEquals(9999, immutable.get(9999));
 
@@ -601,14 +601,14 @@ public class ImmutableIntArray2025Test extends TestBase {
     public void testLength_EmptyArray() {
         ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[0]);
 
-        assertEquals(0, array.length);
+        assertEquals(0, array.length());
     }
 
     @Test
     public void testLength_SingleElement() {
         ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
 
-        assertEquals(1, array.length);
+        assertEquals(1, array.length());
     }
 
     @Test
@@ -616,14 +616,14 @@ public class ImmutableIntArray2025Test extends TestBase {
         int[] data = new int[100];
         ImmutableIntArray array = ImmutableIntArray.unsafeWrap(data);
 
-        assertEquals(100, array.length);
+        assertEquals(100, array.length());
     }
 
     @Test
     public void testLength_NullInput() {
         ImmutableIntArray array = ImmutableIntArray.unsafeWrap(null);
 
-        assertEquals(0, array.length);
+        assertEquals(0, array.length());
     }
 
     // ============================================
@@ -664,7 +664,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
         ImmutableIntArray array = ImmutableIntArray.copyOf(data);
 
-        assertEquals(size, array.length);
+        assertEquals(size, array.length());
         assertEquals(0, array.get(0));
         assertEquals(size - 1, array.get(size - 1));
 
