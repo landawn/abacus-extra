@@ -744,7 +744,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public void setMainDiagonal(final boolean[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final boolean[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected {} but got {}", rowCount, diagonal.length);
+        N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = diagonal[i]; // NOSONAR
@@ -840,7 +840,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public void setAntiDiagonal(final boolean[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final boolean[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected {} but got {}", rowCount, diagonal.length);
+        N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = diagonal[i];

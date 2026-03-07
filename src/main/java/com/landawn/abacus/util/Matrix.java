@@ -913,14 +913,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if {@code mainDiagonal} is {@code null} or its length does not equal rowCount
      */
     public void setMainDiagonal(final T[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
-        N.checkArgNotNull(mainDiagonal, "mainDiagonal");
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(mainDiagonal.length == rowCount, "The length of specified array does not equal to rows={}", rowCount);
-        final T[] diagonal = mainDiagonal;
+        N.checkArgument(mainDiagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, mainDiagonal.length);
 
         for (int i = 0; i < rowCount; i++) {
-            ensureRowCanStore(i, diagonal[i]);
-            a[i][i] = diagonal[i]; // NOSONAR
+            ensureRowCanStore(i, mainDiagonal[i]);
+            a[i][i] = mainDiagonal[i]; // NOSONAR
         }
     }
 
@@ -1008,14 +1006,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if antiDiagonal array does not have exactly {@code rowCount} elements
      */
     public void setAntiDiagonal(final T[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
-        N.checkArgNotNull(antiDiagonal, "antiDiagonal");
-        final T[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, "The length of specified array does not equal to rows={}", rowCount);
+        N.checkArgument(antiDiagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, antiDiagonal.length);
 
         for (int i = 0; i < rowCount; i++) {
-            ensureRowCanStore(i, diagonal[i]);
-            a[i][columnCount - i - 1] = diagonal[i];
+            ensureRowCanStore(i, antiDiagonal[i]);
+            a[i][columnCount - i - 1] = antiDiagonal[i];
         }
     }
 
