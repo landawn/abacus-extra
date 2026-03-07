@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1134,4 +1135,85 @@ public class Matrices2025Test extends TestBase {
         assertEquals(16, result.get(0, 0).intValue());
         assertEquals(32, result.get(0, 1).intValue());
     }
+
+    private static long invokeSaturatedMultiply(final long left, final long right) throws Exception {
+        final Method method = Matrices.class.getDeclaredMethod("saturatedMultiply", long.class, long.class);
+        method.setAccessible(true);
+        return (long) method.invoke(null, left, right);
+    }
+
+    // ============ saturatedMultiply basic cases ============
+
+    @Test
+    public void test_saturatedMultiply_zeroLeft() throws Exception {
+        assertEquals(0, invokeSaturatedMultiply(0, 100));
+    }
+
+    @Test
+    public void test_saturatedMultiply_zeroRight() throws Exception {
+        assertEquals(0, invokeSaturatedMultiply(100, 0));
+    }
+
+    @Test
+    public void test_saturatedMultiply_bothZero() throws Exception {
+        assertEquals(0, invokeSaturatedMultiply(0, 0));
+    }
+
+    @Test
+    public void test_saturatedMultiply_normalPositive() throws Exception {
+        assertEquals(20, invokeSaturatedMultiply(4, 5));
+        assertEquals(1_000_000L, invokeSaturatedMultiply(1000, 1000));
+    }
+
+    @Test
+    public void test_saturatedMultiply_normalNegative() throws Exception {
+        assertEquals(-20, invokeSaturatedMultiply(-4, 5));
+        assertEquals(-20, invokeSaturatedMultiply(4, -5));
+        assertEquals(20, invokeSaturatedMultiply(-4, -5));
+    }
+
+    // ============ saturatedMultiply overflow cases ============
+
+    @Test
+    public void test_saturatedMultiply_positiveOverflow() throws Exception {
+        assertEquals(Long.MAX_VALUE, invokeSaturatedMultiply(Long.MAX_VALUE, 2));
+        assertEquals(Long.MAX_VALUE, invokeSaturatedMultiply(2, Long.MAX_VALUE));
+        assertEquals(Long.MAX_VALUE, invokeSaturatedMultiply(Long.MAX_VALUE, Long.MAX_VALUE));
+    }
+
+    @Test
+    public void test_saturatedMultiply_negativeOverflow() throws Exception {
+        assertEquals(Long.MIN_VALUE, invokeSaturatedMultiply(Long.MAX_VALUE, -2));
+        assertEquals(Long.MIN_VALUE, invokeSaturatedMultiply(-2, Long.MAX_VALUE));
+        assertEquals(Long.MIN_VALUE, invokeSaturatedMultiply(Long.MIN_VALUE, 2));
+    }
+
+    @Test
+    public void test_saturatedMultiply_bothNegativeOverflow() throws Exception {
+        assertEquals(Long.MAX_VALUE, invokeSaturatedMultiply(Long.MIN_VALUE, -2));
+        assertEquals(Long.MAX_VALUE, invokeSaturatedMultiply(Long.MIN_VALUE, Long.MIN_VALUE));
+    }
+
+    @Test
+    public void test_saturatedMultiply_largeNonOverflow() throws Exception {
+        // Just under overflow: (2^31) * (2^32) = 2^63 which overflows, but (2^31 - 1) * 2 is fine
+        final long a = Integer.MAX_VALUE;
+        final long b = 2;
+        assertEquals(a * b, invokeSaturatedMultiply(a, b));
+    }
+
+    @Test
+    public void test_saturatedMultiply_one() throws Exception {
+        assertEquals(Long.MAX_VALUE, invokeSaturatedMultiply(Long.MAX_VALUE, 1));
+        assertEquals(Long.MIN_VALUE, invokeSaturatedMultiply(Long.MIN_VALUE, 1));
+        assertEquals(42, invokeSaturatedMultiply(1, 42));
+        assertEquals(-42, invokeSaturatedMultiply(1, -42));
+    }
+
+    @Test
+    public void test_saturatedMultiply_minValueEdge() throws Exception {
+        // Long.MIN_VALUE * -1 overflows (since |Long.MIN_VALUE| > Long.MAX_VALUE)
+        assertEquals(Long.MAX_VALUE, invokeSaturatedMultiply(Long.MIN_VALUE, -1));
+    }
+
 }

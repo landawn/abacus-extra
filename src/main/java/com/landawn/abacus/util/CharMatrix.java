@@ -767,7 +767,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Returns a copy of the main diagonal elements (left-up to right-down).
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      *
@@ -778,7 +778,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @return a new char array containing the main diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public char[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -794,7 +794,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -850,7 +850,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Returns the elements on the anti-diagonal from upper-right to lower-left.
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
@@ -864,7 +864,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @return a new char array containing the anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public char[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -880,7 +880,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * a length equal to the number of rows in the matrix.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
@@ -1214,7 +1214,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a new CharMatrix containing the specified rows
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
     public CharMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1245,7 +1245,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a new CharMatrix containing the specified region
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, fromRowIndex &gt; toRowIndex,
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, fromRowIndex &gt; toRowIndex,
      *         fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
     @Override
@@ -1652,7 +1652,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates the transpose of this matrix by swapping rows and columns.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
+     * matrix has dimensions swapped (rowCount × columnCount becomes columnCount × rowCount).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1666,7 +1666,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rows
+     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rowCount
      */
     @Override
     public CharMatrix transpose() {
@@ -1866,7 +1866,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @return a new CharList containing all elements in row-major order
-     * @throws IllegalStateException if the matrix is too large to flatten (rows * columnCount &gt; Integer.MAX_VALUE)
+     * @throws IllegalStateException if the matrix is too large to flatten (rowCount * columnCount &gt; Integer.MAX_VALUE)
      */
     @Override
     public CharList flatten() {

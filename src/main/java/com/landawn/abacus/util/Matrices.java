@@ -229,11 +229,15 @@ public final class Matrices {
             return 0;
         }
 
-        if (left > Long.MAX_VALUE / right) {
-            return Long.MAX_VALUE;
+        final long result = left * right;
+
+        // Check for overflow: if dividing the result back by one operand doesn't give the other, overflow occurred
+        if (result / left != right) {
+            // Determine saturation direction based on sign of operands
+            return (left ^ right) < 0 ? Long.MIN_VALUE : Long.MAX_VALUE;
         }
 
-        return left * right;
+        return result;
     }
 
     /**
@@ -364,13 +368,13 @@ public final class Matrices {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Create a 3×4 array of Double objects
-     * Double[][] doubles = Matrices.newArray(3, 4, Double.class);
+     * Double[][] doubles = Matrices.newMatrixArray(3, 4, Double.class);
      *
      * // Create a 2×5 array of String objects
-     * String[][] strings = Matrices.newArray(2, 5, String.class);
+     * String[][] strings = Matrices.newMatrixArray(2, 5, String.class);
      *
      * // Primitive types are automatically wrapped
-     * Integer[][] ints = Matrices.newArray(10, 20, int.class);
+     * Integer[][] ints = Matrices.newMatrixArray(10, 20, int.class);
      * }</pre>
      *
      * @param <T> the element type of the array
@@ -806,7 +810,7 @@ public final class Matrices {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] result = new int[matrixA.rowCount][matrixB.columnCount];
-     * Matrices.multiply(matrixA, matrixB, (i, j, k) -> {
+     * Matrices.forEachMultiplyIndex(matrixA, matrixB, (i, j, k) -> {
      *     result[i][j] += matrixA.get(i, k) * matrixB.get(k, j);
      * });
      * }</pre>
@@ -851,7 +855,7 @@ public final class Matrices {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] result = new double[a.rowCount][b.columnCount];
-     * Matrices.multiply(a, b, (i, j, k) ->
+     * Matrices.forEachMultiplyIndex(a, b, (i, j, k) ->
      *     result[i][j] += a.get(i, k) * b.get(k, j), true);
      * }</pre>
      *

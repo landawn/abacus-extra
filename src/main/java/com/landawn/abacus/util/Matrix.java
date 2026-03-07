@@ -910,13 +910,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param mainDiagonal the new diagonal values (must not be null and must have exactly {@code rowCount} elements)
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
-     * @throws NullPointerException if {@code mainDiagonal} is {@code null}
-     * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
+     * @throws IllegalArgumentException if {@code mainDiagonal} is {@code null} or its length does not equal rowCount
      */
     public void setMainDiagonal(final T[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
-        final T[] diagonal = mainDiagonal;
+        N.checkArgNotNull(mainDiagonal, "mainDiagonal");
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, "The length of specified array does not equal to rows={}", rowCount);
+        N.checkArgument(mainDiagonal.length == rowCount, "The length of specified array does not equal to rows={}", rowCount);
+        final T[] diagonal = mainDiagonal;
 
         for (int i = 0; i < rowCount; i++) {
             ensureRowCanStore(i, diagonal[i]);
@@ -2281,18 +2281,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Applies an operation to each row array of the matrix.
-     * This method provides direct access to the internal row arrays for batch operations.
+     * Applies an operation to the flattened (row-major order) view of this matrix.
+     * The operation receives a single one-dimensional array containing all elements in row-major order,
+     * and any modifications to that array are reflected back in this matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{3, 1, 2}, {6, 4, 5}});
-     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));
-     * // Matrix becomes: [[1, 2, 3], [4, 5, 6]]
+     * matrix.applyOnFlattened(arr -> java.util.Arrays.sort(arr));
+     * // Matrix becomes: [[1, 2, 3], [4, 5, 6]] (all elements sorted in row-major order)
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param op the operation to apply to each row array
+     * @param op the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      * @see ff#applyOnFlattened(Object[][], Throwables.Consumer)
      */
@@ -2317,8 +2318,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param other the matrix to stack below this matrix (must not be null)
      * @return a new vertically stacked matrix with dimensions (this.rowCount + other.rowCount) × columnCount
-     * @throws NullPointerException if {@code other} is {@code null}
-     * @throws IllegalArgumentException if the matrices have different column counts
+     * @throws IllegalArgumentException if {@code other} is {@code null} or the matrices have different column counts
      * @see #hstack(Matrix)
      * @see IntMatrix#vstack(IntMatrix)
      */
@@ -2366,8 +2366,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param other the matrix to stack to the right of this matrix (must not be null)
      * @return a new horizontally stacked matrix with dimensions rowCount × (this.columnCount + other.columnCount)
-     * @throws NullPointerException if {@code other} is {@code null}
-     * @throws IllegalArgumentException if the matrices have different row counts
+     * @throws IllegalArgumentException if {@code other} is {@code null} or the matrices have different row counts
      * @see #vstack(Matrix)
      * @see IntMatrix#hstack(IntMatrix)
      */

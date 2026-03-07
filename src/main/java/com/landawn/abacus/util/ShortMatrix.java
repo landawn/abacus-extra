@@ -584,7 +584,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return the specified row array (direct reference to internal storage)
-     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
     public short[] row(final int rowIndex) throws IllegalArgumentException {
@@ -755,7 +755,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns a copy of the main diagonal elements (left-up to right-down).
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      *
@@ -766,7 +766,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * }</pre>
      *
      * @return a new short array containing the main diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public short[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -782,7 +782,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Sets the elements on the main diagonal from left-up to right-down.
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -795,10 +795,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Diagonal is now [9, 8]
      * }</pre>
      *
-     * @param mainDiagonal the new values for the main diagonal; must have length == rows
+     * @param mainDiagonal the new values for the main diagonal; must have length == rowCount
      * @throws NullPointerException if {@code mainDiagonal} is {@code null}
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if mainDiagonal array length does not equal rows
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
     public void setMainDiagonal(final short[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         final short[] diagonal = mainDiagonal;
@@ -823,7 +823,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each diagonal element
-     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateMainDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws IllegalStateException, E {
@@ -837,7 +837,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns a copy of the anti-diagonal elements (upper-right to lower-left).
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
@@ -849,7 +849,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * }</pre>
      *
      * @return a new short array containing the anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public short[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -865,7 +865,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Sets the elements on the anti-diagonal from upper-right to lower-left.
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
@@ -878,10 +878,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Anti-diagonal is now [9, 8]
      * }</pre>
      *
-     * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rows
+     * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
      * @throws NullPointerException if {@code antiDiagonal} is {@code null}
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if antiDiagonal array length does not equal rows
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
     public void setAntiDiagonal(final short[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         final short[] diagonal = antiDiagonal;
@@ -906,7 +906,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each anti-diagonal element
-     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.ShortUnaryOperator<E> operator) throws IllegalStateException, E {
@@ -1111,10 +1111,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Result: [[0, 0, 0], [0, 1, 2], [0, 3, 4]]
      * }</pre>
      *
-     * @param fromRowIndex the starting row index in this matrix (0-based, must be 0 &lt;= fromRowIndex &lt;= rows)
+     * @param fromRowIndex the starting row index in this matrix (0-based, must be 0 &lt;= fromRowIndex &lt;= rowCount)
      * @param fromColumnIndex the starting column index in this matrix (0-based, must be 0 &lt;= fromColumnIndex &lt;= columnCount)
      * @param b the source array to copy values from
-     * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rows, or if fromColumnIndex &lt; 0 or &gt; columnCount
+     * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rowCount, or if fromColumnIndex &lt; 0 or &gt; columnCount
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final short[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
@@ -1171,7 +1171,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a new ShortMatrix containing an independent copy of the specified rows
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
     public ShortMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1325,7 +1325,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param toDown number of rows to add below; must be non-negative
      * @param toLeft number of columns to add to the left; must be non-negative
      * @param toRight number of columns to add to the right; must be non-negative
-     * @return a new extended ShortMatrix with dimensions ((toUp+rows+toDown) x (toLeft+columnCount+toRight))
+     * @return a new extended ShortMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any parameter is negative
      */
     public ShortMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
@@ -1367,7 +1367,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param toLeft number of columns to add to the left; must be non-negative
      * @param toRight number of columns to add to the right; must be non-negative
      * @param defaultValueForNewCell the short value to fill all new cells with
-     * @return a new extended ShortMatrix with dimensions ((toUp+rows+toDown) x (toLeft+columnCount+toRight))
+     * @return a new extended ShortMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any padding parameter is negative,
      *         or if the resulting dimensions would exceed Integer.MAX_VALUE
      */
@@ -1526,7 +1526,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * //          [4, 2]]
      * }</pre>
      *
-     * @return a new ShortMatrix rotated 90 degrees clockwise with dimensions columnCount × rows
+     * @return a new ShortMatrix rotated 90 degrees clockwise with dimensions columnCount × rowCount
      */
     @Override
     public ShortMatrix rotate90() {
@@ -1601,7 +1601,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * //          [1, 3]]
      * }</pre>
      *
-     * @return a new ShortMatrix rotated 270 degrees clockwise with dimensions columnCount × rows
+     * @return a new ShortMatrix rotated 270 degrees clockwise with dimensions columnCount × rowCount
      */
     @Override
     public ShortMatrix rotate270() {
@@ -1649,7 +1649,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * ShortMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new ShortMatrix that is the transpose with dimensions columnCount × rows
+     * @return a new ShortMatrix that is the transpose with dimensions columnCount × rowCount
      */
     @Override
     public ShortMatrix transpose() {
@@ -1738,7 +1738,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p>Each element is repeated {@code rowRepeats} times in the row direction and {@code colRepeats}
      * times in the column direction. This creates a new matrix where each original element becomes
      * a block of size rowRepeats × colRepeats. The resulting matrix has dimensions
-     * (rows * rowRepeats) × (columnCount * colRepeats). The original matrix is not modified.</p>
+     * (rowCount * rowRepeats) × (columnCount * colRepeats). The original matrix is not modified.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1752,7 +1752,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param rowRepeats the number of times to repeat each element in the row direction (must be positive)
      * @param colRepeats the number of times to repeat each element in the column direction (must be positive)
-     * @return a new ShortMatrix with dimensions (rows * rowRepeats) × (columnCount * colRepeats)
+     * @return a new ShortMatrix with dimensions (rowCount * rowRepeats) × (columnCount * colRepeats)
      * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
      * @see IntMatrix#repeatElements(int, int)
      */
@@ -1791,7 +1791,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p>The whole matrix is repeated {@code rowRepeats} times in the row direction and {@code colRepeats}
      * times in the column direction, creating a tiled pattern. The resulting matrix has dimensions
-     * (rows * rowRepeats) × (columnCount * colRepeats). This is different from {@link #repeatElements(int, int)} which
+     * (rowCount * rowRepeats) × (columnCount * colRepeats). This is different from {@link #repeatElements(int, int)} which
      * repeats individual elements. The original matrix is not modified.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1806,7 +1806,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param rowRepeats the number of times to repeat the matrix in the row direction (must be positive)
      * @param colRepeats the number of times to repeat the matrix in the column direction (must be positive)
-     * @return a new ShortMatrix with dimensions (rows * rowRepeats) × (columnCount * colRepeats) containing the tiled pattern
+     * @return a new ShortMatrix with dimensions (rowCount * rowRepeats) × (columnCount * colRepeats) containing the tiled pattern
      * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
      * @see IntMatrix#repeatMatrix(int, int)
      * @see #repeatElements(int, int)
@@ -2335,7 +2335,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * }</pre>
      *
      * @return a ShortStream of diagonal elements from left-up to right-down
-     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     @Override
     public ShortStream streamMainDiagonal() {
@@ -2396,7 +2396,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * }</pre>
      *
      * @return a ShortStream of anti-diagonal elements from upper-right to lower-left
-     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     @Override
     public ShortStream streamAntiDiagonal() {

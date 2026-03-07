@@ -331,7 +331,7 @@ public final class ImmutableIntArray implements Immutable {
      * int[] first3 = array.copyOfRange(0, 3);
      * // first3 contains {10, 20, 30}
      *
-     * int[] empty = array.copy(2, 2);
+     * int[] empty = array.copyOfRange(2, 2);
      * // empty is an empty array with length 0
      * }</pre>
      *
