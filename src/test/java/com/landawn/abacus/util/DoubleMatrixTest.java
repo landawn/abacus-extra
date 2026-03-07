@@ -624,7 +624,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        matrix.flipHorizontally();
+        matrix.flipInPlaceHorizontally();
         assertEquals(2.0, matrix.get(0, 0));
         assertEquals(1.0, matrix.get(0, 1));
     }
@@ -634,7 +634,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        matrix.flipVertically();
+        matrix.flipInPlaceVertically();
         assertEquals(3.0, matrix.get(0, 0));
         assertEquals(1.0, matrix.get(1, 0));
     }
@@ -644,7 +644,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix flipped = matrix.flippedHorizontally();
+        DoubleMatrix flipped = matrix.flipHorizontally();
         assertEquals(2.0, flipped.get(0, 0));
         assertEquals(1.0, flipped.get(0, 1));
 
@@ -657,7 +657,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix flipped = matrix.flippedVertically();
+        DoubleMatrix flipped = matrix.flipVertically();
         assertEquals(3.0, flipped.get(0, 0));
         assertEquals(1.0, flipped.get(1, 0));
 

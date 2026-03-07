@@ -783,27 +783,27 @@ public class DoubleMatrix2512Test extends TestBase {
     // ============ Reverse and Flip Tests ============
 
     @Test
-    public void test_flipHorizontally() {
+    public void test_flipInPlaceHorizontally() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(3.0, m.get(0, 0), 0.0);
         assertEquals(2.0, m.get(0, 1), 0.0);
         assertEquals(1.0, m.get(0, 2), 0.0);
     }
 
     @Test
-    public void test_flipVertically() {
+    public void test_flipInPlaceVertically() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(5.0, m.get(0, 0), 0.0);
         assertEquals(3.0, m.get(1, 0), 0.0);
         assertEquals(1.0, m.get(2, 0), 0.0);
     }
 
     @Test
-    public void test_flippedHorizontally() {
+    public void test_flipHorizontally() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
-        DoubleMatrix flipped = m.flippedHorizontally();
+        DoubleMatrix flipped = m.flipHorizontally();
         assertEquals(3.0, flipped.get(0, 0), 0.0);
         assertEquals(2.0, flipped.get(0, 1), 0.0);
         assertEquals(1.0, flipped.get(0, 2), 0.0);
@@ -812,9 +812,9 @@ public class DoubleMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flippedVertically() {
+    public void test_flipVertically() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } });
-        DoubleMatrix flipped = m.flippedVertically();
+        DoubleMatrix flipped = m.flipVertically();
         assertEquals(5.0, flipped.get(0, 0), 0.0);
         assertEquals(3.0, flipped.get(1, 0), 0.0);
         assertEquals(1.0, flipped.get(2, 0), 0.0);

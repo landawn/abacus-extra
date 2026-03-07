@@ -675,7 +675,7 @@ public class Matrix2512Test extends TestBase {
     public void test_reverseH_reversesHorizontally() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals("c", m.get(0, 0));
         assertEquals("a", m.get(0, 2));
         assertEquals("f", m.get(1, 0));
@@ -685,7 +685,7 @@ public class Matrix2512Test extends TestBase {
     public void test_reverseV_reversesVertically() {
         String[][] arr = { { "a", "b" }, { "c", "d" }, { "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals("e", m.get(0, 0));
         assertEquals("f", m.get(0, 1));
         assertEquals("a", m.get(2, 0));
@@ -695,7 +695,7 @@ public class Matrix2512Test extends TestBase {
     public void test_flipH_createsNewHorizontallyFlipped() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> flipped = m.flippedHorizontally();
+        Matrix<String> flipped = m.flipHorizontally();
         assertEquals("c", flipped.get(0, 0));
         assertEquals("a", m.get(0, 0)); // original unchanged
     }
@@ -704,7 +704,7 @@ public class Matrix2512Test extends TestBase {
     public void test_flipV_createsNewVerticallyFlipped() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> flipped = m.flippedVertically();
+        Matrix<String> flipped = m.flipVertically();
         assertEquals("c", flipped.get(0, 0));
         assertEquals("a", m.get(0, 0)); // original unchanged
     }

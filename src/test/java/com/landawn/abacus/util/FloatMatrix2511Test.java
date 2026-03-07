@@ -736,7 +736,7 @@ public class FloatMatrix2511Test extends TestBase {
     @Test
     public void testReverseH() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(2.0f, m.get(0, 0));
         assertEquals(1.0f, m.get(0, 1));
         assertEquals(4.0f, m.get(1, 0));
@@ -746,7 +746,7 @@ public class FloatMatrix2511Test extends TestBase {
     @Test
     public void testReverseV() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(3.0f, m.get(0, 0));
         assertEquals(4.0f, m.get(0, 1));
         assertEquals(1.0f, m.get(1, 0));
@@ -756,7 +756,7 @@ public class FloatMatrix2511Test extends TestBase {
     @Test
     public void testFlipH() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix flipped = m.flippedHorizontally();
+        FloatMatrix flipped = m.flipHorizontally();
         assertEquals(2.0f, flipped.get(0, 0));
         assertEquals(1.0f, flipped.get(0, 1));
         assertEquals(1.0f, m.get(0, 0));
@@ -765,7 +765,7 @@ public class FloatMatrix2511Test extends TestBase {
     @Test
     public void testFlipV() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix flipped = m.flippedVertically();
+        FloatMatrix flipped = m.flipVertically();
         assertEquals(3.0f, flipped.get(0, 0));
         assertEquals(4.0f, flipped.get(0, 1));
         assertEquals(1.0f, m.get(0, 0));

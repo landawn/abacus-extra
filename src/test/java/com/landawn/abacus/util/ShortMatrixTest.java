@@ -660,7 +660,7 @@ public class ShortMatrixTest extends TestBase {
     @Test
     public void testReverseH() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals((short) 3, m.get(0, 0));
         assertEquals((short) 2, m.get(0, 1));
         assertEquals((short) 1, m.get(0, 2));
@@ -672,7 +672,7 @@ public class ShortMatrixTest extends TestBase {
     @Test
     public void testReverseV() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals((short) 5, m.get(0, 0));
         assertEquals((short) 6, m.get(0, 1));
         assertEquals((short) 3, m.get(1, 0));
@@ -683,7 +683,7 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testFlipH() {
-        ShortMatrix flipped = matrix.flippedHorizontally();
+        ShortMatrix flipped = matrix.flipHorizontally();
         assertEquals((short) 3, flipped.get(0, 0));
         assertEquals((short) 2, flipped.get(0, 1));
         assertEquals((short) 1, flipped.get(0, 2));
@@ -694,7 +694,7 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testFlipV() {
-        ShortMatrix flipped = matrix.flippedVertically();
+        ShortMatrix flipped = matrix.flipVertically();
         assertEquals((short) 7, flipped.get(0, 0));
         assertEquals((short) 8, flipped.get(0, 1));
         assertEquals((short) 9, flipped.get(0, 2));

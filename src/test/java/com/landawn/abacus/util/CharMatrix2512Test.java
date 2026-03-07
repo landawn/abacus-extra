@@ -613,33 +613,33 @@ public class CharMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flippedHorizontally() {
+    public void test_flipHorizontally() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        CharMatrix flipped = m.flippedHorizontally();
+        CharMatrix flipped = m.flipHorizontally();
         assertEquals('b', flipped.get(0, 0));
         assertEquals('a', flipped.get(0, 1));
     }
 
     @Test
-    public void test_flippedVertically() {
+    public void test_flipVertically() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        CharMatrix flipped = m.flippedVertically();
+        CharMatrix flipped = m.flipVertically();
         assertEquals('c', flipped.get(0, 0));
         assertEquals('d', flipped.get(0, 1));
     }
 
     @Test
-    public void test_flipHorizontally() {
+    public void test_flipInPlaceHorizontally() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals('b', m.get(0, 0));
         assertEquals('a', m.get(0, 1));
     }
 
     @Test
-    public void test_flipVertically() {
+    public void test_flipInPlaceVertically() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals('c', m.get(0, 0));
         assertEquals('d', m.get(0, 1));
     }

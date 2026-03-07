@@ -60,13 +60,13 @@ public class MatrixParityFuzzTest extends TestBase {
             assertTransformParity(intMatrix::rotate90, genericMatrix::rotate90);
             assertMatrixEquals(intMatrix.rotate180(), genericMatrix.rotate180());
             assertTransformParity(intMatrix::rotate270, genericMatrix::rotate270);
-            assertMatrixEquals(intMatrix.flippedHorizontally(), genericMatrix.flippedHorizontally());
-            assertMatrixEquals(intMatrix.flippedVertically(), genericMatrix.flippedVertically());
+            assertMatrixEquals(intMatrix.flipHorizontally(), genericMatrix.flipHorizontally());
+            assertMatrixEquals(intMatrix.flipVertically(), genericMatrix.flipVertically());
 
             final int rowRepeats = random.nextInt(3) + 1;
-            final int colRepeats = random.nextInt(3) + 1;
-            assertMatrixEquals(intMatrix.repeatElements(rowRepeats, colRepeats), genericMatrix.repeatElements(rowRepeats, colRepeats));
-            assertMatrixEquals(intMatrix.repeatMatrix(rowRepeats, colRepeats), genericMatrix.repeatMatrix(rowRepeats, colRepeats));
+            final int columnRepeats = random.nextInt(3) + 1;
+            assertMatrixEquals(intMatrix.repeatElements(rowRepeats, columnRepeats), genericMatrix.repeatElements(rowRepeats, columnRepeats));
+            assertMatrixEquals(intMatrix.repeatMatrix(rowRepeats, columnRepeats), genericMatrix.repeatMatrix(rowRepeats, columnRepeats));
 
             final int elements = (int) intMatrix.elementCount();
             int newRows = 0;

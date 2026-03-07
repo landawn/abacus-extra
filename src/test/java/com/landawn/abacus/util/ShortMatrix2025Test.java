@@ -798,7 +798,7 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testReverseH() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(3, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(1, m.get(0, 2));
@@ -808,7 +808,7 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testReverseV() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(5, m.get(0, 0));
         assertEquals(6, m.get(0, 1));
         assertEquals(3, m.get(1, 0));
@@ -818,7 +818,7 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testFlipH() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        ShortMatrix flipped = m.flippedHorizontally();
+        ShortMatrix flipped = m.flipHorizontally();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(2, flipped.get(0, 1));
         assertEquals(1, flipped.get(0, 2));
@@ -830,7 +830,7 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testFlipV() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        ShortMatrix flipped = m.flippedVertically();
+        ShortMatrix flipped = m.flipVertically();
         assertEquals(5, flipped.get(0, 0));
         assertEquals(3, flipped.get(1, 0));
         assertEquals(1, flipped.get(2, 0));
@@ -1672,7 +1672,7 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testReverseH_singleColumn() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1 }, { 2 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(1, 0));
     }
@@ -1680,7 +1680,7 @@ public class ShortMatrix2025Test extends TestBase {
     @Test
     public void testReverseV_singleRow() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
     }

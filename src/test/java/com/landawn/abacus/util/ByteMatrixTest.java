@@ -647,7 +647,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        matrix.flipHorizontally();
+        matrix.flipInPlaceHorizontally();
         Assertions.assertEquals(3, matrix.get(0, 0));
         Assertions.assertEquals(2, matrix.get(0, 1));
         Assertions.assertEquals(1, matrix.get(0, 2));
@@ -659,7 +659,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        matrix.flipVertically();
+        matrix.flipInPlaceVertically();
         Assertions.assertEquals(5, matrix.get(0, 0));
         Assertions.assertEquals(6, matrix.get(0, 1));
         Assertions.assertEquals(3, matrix.get(1, 0));
@@ -671,7 +671,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        ByteMatrix flipped = matrix.flippedHorizontally();
+        ByteMatrix flipped = matrix.flipHorizontally();
         Assertions.assertEquals(3, flipped.get(0, 0));
         Assertions.assertEquals(1, flipped.get(0, 2));
         Assertions.assertEquals(1, matrix.get(0, 0)); // original unchanged
@@ -682,7 +682,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        ByteMatrix flipped = matrix.flippedVertically();
+        ByteMatrix flipped = matrix.flipVertically();
         Assertions.assertEquals(5, flipped.get(0, 0));
         Assertions.assertEquals(1, flipped.get(2, 0));
         Assertions.assertEquals(1, matrix.get(0, 0)); // original unchanged

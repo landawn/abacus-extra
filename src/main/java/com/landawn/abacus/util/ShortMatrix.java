@@ -1425,13 +1425,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.flipHorizontally();
+     * matrix.flipInPlaceHorizontally();
      * // matrix is now [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flippedHorizontally()
+     * @see #flipHorizontally()
      */
-    public void flipHorizontally() {
+    public void flipInPlaceHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1444,13 +1444,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.flipVertically();
+     * matrix.flipInPlaceVertically();
      * // matrix is now [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
      * }</pre>
      *
-     * @see #flippedVertically()
+     * @see #flipVertically()
      */
-    public void flipVertically() {
+    public void flipInPlaceVertically() {
         for (int j = 0; j < columnCount; j++) {
             short tmp = 0;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1468,20 +1468,20 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * ShortMatrix flipped = matrix.flippedHorizontally();
+     * ShortMatrix flipped = matrix.flipHorizontally();
      * // Result: [[3, 2, 1],
      * //          [6, 5, 4]]
      * }</pre>
      * 
      * @return a new matrix with each row reversed
-     * @see #flipHorizontally()
-     * @see #flippedVertically()
-     * @see IntMatrix#flippedHorizontally()
+     * @see #flipInPlaceHorizontally()
+     * @see #flipVertically()
+     * @see IntMatrix#flipHorizontally()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public ShortMatrix flippedHorizontally() {
+    public ShortMatrix flipHorizontally() {
         final ShortMatrix res = this.copy();
-        res.flipHorizontally();
+        res.flipInPlaceHorizontally();
         return res;
     }
 
@@ -1492,20 +1492,20 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * ShortMatrix flipped = matrix.flippedVertically();
+     * ShortMatrix flipped = matrix.flipVertically();
      * // Result: [[4, 5, 6],
      * //          [1, 2, 3]]
      * }</pre>
      *
      * @return a new matrix with rows in reversed order
-     * @see #flipVertically()
-     * @see #flippedHorizontally()
-     * @see IntMatrix#flippedVertically()
+     * @see #flipInPlaceVertically()
+     * @see #flipHorizontally()
+     * @see IntMatrix#flipVertically()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public ShortMatrix flippedVertically() {
+    public ShortMatrix flipVertically() {
         final ShortMatrix res = this.copy();
-        res.flipVertically();
+        res.flipInPlaceVertically();
         return res;
     }
 
@@ -1733,10 +1733,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Repeats each element in the matrix by the specified factors.
      *
-     * <p>Each element is repeated {@code rowRepeats} times in the row direction and {@code colRepeats}
+     * <p>Each element is repeated {@code rowRepeats} times in the row direction and {@code columnRepeats}
      * times in the column direction. This creates a new matrix where each original element becomes
-     * a block of size rowRepeats × colRepeats. The resulting matrix has dimensions
-     * (rowCount * rowRepeats) × (columnCount * colRepeats). The original matrix is not modified.</p>
+     * a block of size rowRepeats × columnRepeats. The resulting matrix has dimensions
+     * (rowCount * rowRepeats) × (columnCount * columnRepeats). The original matrix is not modified.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1749,31 +1749,31 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * }</pre>
      *
      * @param rowRepeats the number of times to repeat each element in the row direction (must be positive)
-     * @param colRepeats the number of times to repeat each element in the column direction (must be positive)
-     * @return a new ShortMatrix with dimensions (rowCount * rowRepeats) × (columnCount * colRepeats)
-     * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
+     * @param columnRepeats the number of times to repeat each element in the column direction (must be positive)
+     * @return a new ShortMatrix with dimensions (rowCount * rowRepeats) × (columnCount * columnRepeats)
+     * @throws IllegalArgumentException if {@code rowRepeats} or {@code columnRepeats} is less than or equal to 0
      * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public ShortMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public ShortMatrix repeatElements(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final short[][] result = new short[rowCount * rowRepeats][columnCount * colRepeats];
+        final short[][] result = new short[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
             final short[] sourceRow = a[i];
             final short[] firstRepeatedRow = result[i * rowRepeats];
 
             for (int j = 0; j < columnCount; j++) {
-                N.copy(Array.repeat(sourceRow[j], colRepeats), 0, firstRepeatedRow, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(sourceRow[j], columnRepeats), 0, firstRepeatedRow, j * columnRepeats, columnRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1787,9 +1787,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Repeats the entire matrix as a tile pattern.
      *
-     * <p>The whole matrix is repeated {@code rowRepeats} times in the row direction and {@code colRepeats}
+     * <p>The whole matrix is repeated {@code rowRepeats} times in the row direction and {@code columnRepeats}
      * times in the column direction, creating a tiled pattern. The resulting matrix has dimensions
-     * (rowCount * rowRepeats) × (columnCount * colRepeats). This is different from {@link #repeatElements(int, int)} which
+     * (rowCount * rowRepeats) × (columnCount * columnRepeats). This is different from {@link #repeatElements(int, int)} which
      * repeats individual elements. The original matrix is not modified.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1803,28 +1803,28 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * }</pre>
      *
      * @param rowRepeats the number of times to repeat the matrix in the row direction (must be positive)
-     * @param colRepeats the number of times to repeat the matrix in the column direction (must be positive)
-     * @return a new ShortMatrix with dimensions (rowCount * rowRepeats) × (columnCount * colRepeats) containing the tiled pattern
-     * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
+     * @param columnRepeats the number of times to repeat the matrix in the column direction (must be positive)
+     * @return a new ShortMatrix with dimensions (rowCount * rowRepeats) × (columnCount * columnRepeats) containing the tiled pattern
+     * @throws IllegalArgumentException if {@code rowRepeats} or {@code columnRepeats} is less than or equal to 0
      * @see IntMatrix#repeatMatrix(int, int)
      * @see #repeatElements(int, int)
      */
     @Override
-    public ShortMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public ShortMatrix repeatMatrix(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final short[][] result = new short[rowCount * rowRepeats][columnCount * colRepeats];
+        final short[][] result = new short[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < colRepeats; j++) {
+            for (int j = 0; j < columnRepeats; j++) {
                 N.copy(a[i], 0, result[i], j * columnCount, columnCount);
             }
         }

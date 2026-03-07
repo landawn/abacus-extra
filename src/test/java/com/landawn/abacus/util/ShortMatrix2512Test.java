@@ -652,7 +652,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_reverseH_reversesHorizontally() {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(3, m.get(0, 0));
         assertEquals(1, m.get(0, 2));
         assertEquals(6, m.get(1, 0));
@@ -662,7 +662,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_reverseV_reversesVertically() {
         short[][] arr = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(5, m.get(0, 0));
         assertEquals(6, m.get(0, 1));
         assertEquals(1, m.get(2, 0));
@@ -672,7 +672,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_flipH_createsNewHorizontallyFlipped() {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        ShortMatrix flipped = m.flippedHorizontally();
+        ShortMatrix flipped = m.flipHorizontally();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(1, m.get(0, 0)); // original unchanged
     }
@@ -681,7 +681,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_flipV_createsNewVerticallyFlipped() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        ShortMatrix flipped = m.flippedVertically();
+        ShortMatrix flipped = m.flipVertically();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(1, m.get(0, 0)); // original unchanged
     }

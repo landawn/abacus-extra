@@ -809,7 +809,7 @@ public class LongMatrix2510Test extends TestBase {
     @Test
     public void testReverseH() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(3L, m.get(0, 0));
         assertEquals(2L, m.get(0, 1));
         assertEquals(1L, m.get(0, 2));
@@ -819,7 +819,7 @@ public class LongMatrix2510Test extends TestBase {
     @Test
     public void testReverseV() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(5L, m.get(0, 0));
         assertEquals(6L, m.get(0, 1));
         assertEquals(3L, m.get(1, 0));
@@ -829,7 +829,7 @@ public class LongMatrix2510Test extends TestBase {
     @Test
     public void testFlipH() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
-        LongMatrix flipped = m.flippedHorizontally();
+        LongMatrix flipped = m.flipHorizontally();
         assertEquals(3L, flipped.get(0, 0));
         assertEquals(2L, flipped.get(0, 1));
         assertEquals(1L, flipped.get(0, 2));
@@ -841,7 +841,7 @@ public class LongMatrix2510Test extends TestBase {
     @Test
     public void testFlipV() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } });
-        LongMatrix flipped = m.flippedVertically();
+        LongMatrix flipped = m.flipVertically();
         assertEquals(5L, flipped.get(0, 0));
         assertEquals(3L, flipped.get(1, 0));
         assertEquals(1L, flipped.get(2, 0));

@@ -1634,19 +1634,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * This modifies the current matrix; each row is reversed left-to-right.
      *
      * <p>This is an in-place operation that modifies the current matrix.
-     * For a non-destructive version that returns a new matrix, use {@link #flippedHorizontally()}.</p>
+     * For a non-destructive version that returns a new matrix, use {@link #flipHorizontally()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.flipHorizontally();
+     * matrix.flipInPlaceHorizontally();
      * // matrix is now [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flippedHorizontally()
-     * @see #flipVertically()
+     * @see #flipHorizontally()
+     * @see #flipInPlaceVertically()
      */
-    public void flipHorizontally() {
+    public void flipInPlaceHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1658,19 +1658,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * while the order of elements within each row remains unchanged.
      *
      * <p>This is an in-place operation that modifies the current matrix.
-     * For a non-destructive version that returns a new matrix, use {@link #flippedVertically()}.</p>
+     * For a non-destructive version that returns a new matrix, use {@link #flipVertically()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}, {5, 6}});
-     * matrix.flipVertically();
+     * matrix.flipInPlaceVertically();
      * // matrix is now [[5, 6], [3, 4], [1, 2]]
      * }</pre>
      *
-     * @see #flippedVertically()
-     * @see #flipHorizontally()
+     * @see #flipVertically()
+     * @see #flipInPlaceHorizontally()
      */
-    public void flipVertically() {
+    public void flipInPlaceVertically() {
         for (int j = 0; j < columnCount; j++) {
             int tmp = 0;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1689,18 +1689,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntMatrix flipped = matrix.flippedHorizontally();
+     * IntMatrix flipped = matrix.flipHorizontally();
      * // flipped is: [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
      * @return a new IntMatrix with each row reversed
-     * @see #flipHorizontally()
-     * @see #flippedVertically()
+     * @see #flipInPlaceHorizontally()
+     * @see #flipVertically()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public IntMatrix flippedHorizontally() {
+    public IntMatrix flipHorizontally() {
         final IntMatrix res = this.copy();
-        res.flipHorizontally();
+        res.flipInPlaceHorizontally();
         return res;
     }
 
@@ -1712,18 +1712,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntMatrix flipped = matrix.flippedVertically();
+     * IntMatrix flipped = matrix.flipVertically();
      * // flipped is: [[4, 5, 6], [1, 2, 3]]
      * }</pre>
      *
      * @return a new IntMatrix with rows reversed
-     * @see #flipVertically()
-     * @see #flippedHorizontally()
+     * @see #flipInPlaceVertically()
+     * @see #flipHorizontally()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public IntMatrix flippedVertically() {
+    public IntMatrix flipVertically() {
         final IntMatrix res = this.copy();
-        res.flipVertically();
+        res.flipInPlaceVertically();
         return res;
     }
 
@@ -1945,7 +1945,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Repeats elements in both row and column directions.
-     * Each element is repeated to form a block of size rowRepeats x colRepeats.
+     * Each element is repeated to form a block of size rowRepeats x columnRepeats.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1956,31 +1956,31 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @param rowRepeats number of times to repeat each element in row direction
-     * @param colRepeats number of times to repeat each element in column direction
+     * @param columnRepeats number of times to repeat each element in column direction
      * @return a new IntMatrix with repeated elements
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatElements.html">MATLAB repeatElements function</a>
      */
     @Override
-    public IntMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public IntMatrix repeatElements(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final int[][] c = new int[rowCount * rowRepeats][columnCount * colRepeats];
+        final int[][] c = new int[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
             final int[] sourceRow = a[i];
             final int[] firstRepeatedRow = c[i * rowRepeats];
 
             for (int j = 0; j < columnCount; j++) {
-                N.copy(Array.repeat(sourceRow[j], colRepeats), 0, firstRepeatedRow, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(sourceRow[j], columnRepeats), 0, firstRepeatedRow, j * columnRepeats, columnRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1993,7 +1993,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Repeats the entire matrix in a tiled pattern.
-     * The matrix is repeated as a whole rowRepeats times vertically and colRepeats times horizontally.
+     * The matrix is repeated as a whole rowRepeats times vertically and columnRepeats times horizontally.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2006,27 +2006,27 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @param rowRepeats number of times to repeat the matrix vertically
-     * @param colRepeats number of times to repeat the matrix horizontally
+     * @param columnRepeats number of times to repeat the matrix horizontally
      * @return a new IntMatrix with the tiled pattern
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatMatrix.html">MATLAB repeatMatrix function</a>
      */
     @Override
-    public IntMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public IntMatrix repeatMatrix(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final int[][] c = new int[rowCount * rowRepeats][columnCount * colRepeats];
+        final int[][] c = new int[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < colRepeats; j++) {
+            for (int j = 0; j < columnRepeats; j++) {
                 N.copy(a[i], 0, c[i], j * columnCount, columnCount);
             }
         }

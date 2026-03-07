@@ -1225,7 +1225,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testReverseH_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals("C", m.get(0, 0));
         assertEquals("B", m.get(0, 1));
         assertEquals("A", m.get(0, 2));
@@ -1235,7 +1235,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testReverseH_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(2, m.get(0, 0));
         assertEquals(1, m.get(0, 1));
         assertEquals(4, m.get(1, 0));
@@ -1245,7 +1245,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testReverseV_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" }, { "E", "F" } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals("E", m.get(0, 0));
         assertEquals("F", m.get(0, 1));
         assertEquals("C", m.get(1, 0));
@@ -1255,7 +1255,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testReverseV_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(3, m.get(0, 0));
         assertEquals(4, m.get(0, 1));
         assertEquals(1, m.get(1, 0));
@@ -1265,7 +1265,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testFlipH_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        Matrix<String> flipped = m.flippedHorizontally();
+        Matrix<String> flipped = m.flipHorizontally();
 
         assertEquals("C", flipped.get(0, 0));
         assertEquals("B", flipped.get(0, 1));
@@ -1277,7 +1277,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testFlipH_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        Matrix<Integer> flipped = m.flippedHorizontally();
+        Matrix<Integer> flipped = m.flipHorizontally();
 
         assertEquals(2, flipped.get(0, 0));
         assertEquals(1, flipped.get(0, 1));
@@ -1287,7 +1287,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testFlipV_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" }, { "E", "F" } });
-        Matrix<String> flipped = m.flippedVertically();
+        Matrix<String> flipped = m.flipVertically();
 
         assertEquals("E", flipped.get(0, 0));
         assertEquals("F", flipped.get(0, 1));
@@ -1299,7 +1299,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testFlipV_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        Matrix<Integer> flipped = m.flippedVertically();
+        Matrix<Integer> flipped = m.flipVertically();
 
         assertEquals(3, flipped.get(0, 0));
         assertEquals(1, m.get(0, 0)); // Original unchanged

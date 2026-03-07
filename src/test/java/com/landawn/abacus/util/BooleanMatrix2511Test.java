@@ -1001,7 +1001,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testReverseH() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertArrayEquals(new boolean[] { true, false, true }, m.rowView(0));
         assertArrayEquals(new boolean[] { false, true, false }, m.rowView(1));
     }
@@ -1009,14 +1009,14 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testReverseH_singleRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertArrayEquals(new boolean[] { true, false, true }, m.rowView(0));
     }
 
     @Test
     public void testReverseV() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertArrayEquals(new boolean[] { true, false, true }, m.columnCopy(0));
         assertArrayEquals(new boolean[] { true, true, false }, m.columnCopy(1));
     }
@@ -1024,14 +1024,14 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testReverseV_singleColumn() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true }, { false }, { true } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertArrayEquals(new boolean[] { true, false, true }, m.columnCopy(0));
     }
 
     @Test
     public void testFlipH() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        BooleanMatrix flipped = m.flippedHorizontally();
+        BooleanMatrix flipped = m.flipHorizontally();
         assertEquals(2, flipped.rowCount());
         assertEquals(3, flipped.columnCount());
         assertArrayEquals(new boolean[] { true, false, true }, flipped.rowView(0));
@@ -1042,7 +1042,7 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testFlipV() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
-        BooleanMatrix flipped = m.flippedVertically();
+        BooleanMatrix flipped = m.flipVertically();
         assertEquals(3, flipped.rowCount());
         assertEquals(2, flipped.columnCount());
         assertArrayEquals(new boolean[] { true, false, true }, flipped.columnCopy(0));

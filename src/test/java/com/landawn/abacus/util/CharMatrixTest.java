@@ -641,7 +641,7 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        matrix.flipHorizontally();
+        matrix.flipInPlaceHorizontally();
         Assertions.assertEquals('c', matrix.get(0, 0));
         Assertions.assertEquals('b', matrix.get(0, 1));
         Assertions.assertEquals('a', matrix.get(0, 2));
@@ -653,7 +653,7 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        matrix.flipVertically();
+        matrix.flipInPlaceVertically();
         Assertions.assertEquals('e', matrix.get(0, 0));
         Assertions.assertEquals('f', matrix.get(0, 1));
         Assertions.assertEquals('c', matrix.get(1, 0));
@@ -665,7 +665,7 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        CharMatrix flipped = matrix.flippedHorizontally();
+        CharMatrix flipped = matrix.flipHorizontally();
         Assertions.assertEquals('c', flipped.get(0, 0));
         Assertions.assertEquals('a', flipped.get(0, 2));
         Assertions.assertEquals('a', matrix.get(0, 0)); // original unchanged
@@ -676,7 +676,7 @@ public class CharMatrixTest extends TestBase {
         char[][] a = { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } };
         CharMatrix matrix = CharMatrix.of(a);
 
-        CharMatrix flipped = matrix.flippedVertically();
+        CharMatrix flipped = matrix.flipVertically();
         Assertions.assertEquals('e', flipped.get(0, 0));
         Assertions.assertEquals('a', flipped.get(2, 0));
         Assertions.assertEquals('a', matrix.get(0, 0)); // original unchanged

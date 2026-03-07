@@ -1081,7 +1081,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testReverseH() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertArrayEquals(new char[] { 'c', 'b', 'a' }, m.rowView(0));
         assertArrayEquals(new char[] { 'f', 'e', 'd' }, m.rowView(1));
     }
@@ -1089,14 +1089,14 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testReverseH_singleRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertArrayEquals(new char[] { 'c', 'b', 'a' }, m.rowView(0));
     }
 
     @Test
     public void testReverseV() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertArrayEquals(new char[] { 'e', 'c', 'a' }, m.columnCopy(0));
         assertArrayEquals(new char[] { 'f', 'd', 'b' }, m.columnCopy(1));
     }
@@ -1104,14 +1104,14 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testReverseV_singleColumn() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a' }, { 'b' }, { 'c' } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertArrayEquals(new char[] { 'c', 'b', 'a' }, m.columnCopy(0));
     }
 
     @Test
     public void testFlipH() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        CharMatrix flipped = m.flippedHorizontally();
+        CharMatrix flipped = m.flipHorizontally();
         assertEquals(2, flipped.rowCount());
         assertEquals(3, flipped.columnCount());
         assertArrayEquals(new char[] { 'c', 'b', 'a' }, flipped.rowView(0));
@@ -1122,7 +1122,7 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testFlipV() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } });
-        CharMatrix flipped = m.flippedVertically();
+        CharMatrix flipped = m.flipVertically();
         assertEquals(3, flipped.rowCount());
         assertEquals(2, flipped.columnCount());
         assertArrayEquals(new char[] { 'e', 'c', 'a' }, flipped.columnCopy(0));

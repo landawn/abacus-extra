@@ -1086,7 +1086,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testReverseH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertArrayEquals(new byte[] { 3, 2, 1 }, m.rowView(0));
         assertArrayEquals(new byte[] { 6, 5, 4 }, m.rowView(1));
     }
@@ -1094,14 +1094,14 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testReverseH_singleRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertArrayEquals(new byte[] { 3, 2, 1 }, m.rowView(0));
     }
 
     @Test
     public void testReverseV() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertArrayEquals(new byte[] { 5, 3, 1 }, m.columnCopy(0));
         assertArrayEquals(new byte[] { 6, 4, 2 }, m.columnCopy(1));
     }
@@ -1109,14 +1109,14 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testReverseV_singleColumn() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1 }, { 2 }, { 3 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertArrayEquals(new byte[] { 3, 2, 1 }, m.columnCopy(0));
     }
 
     @Test
     public void testFlipH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        ByteMatrix flipped = m.flippedHorizontally();
+        ByteMatrix flipped = m.flipHorizontally();
         assertEquals(2, flipped.rowCount());
         assertEquals(3, flipped.columnCount());
         assertArrayEquals(new byte[] { 3, 2, 1 }, flipped.rowView(0));
@@ -1127,7 +1127,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testFlipV() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        ByteMatrix flipped = m.flippedVertically();
+        ByteMatrix flipped = m.flipVertically();
         assertEquals(3, flipped.rowCount());
         assertEquals(2, flipped.columnCount());
         assertArrayEquals(new byte[] { 5, 3, 1 }, flipped.columnCopy(0));

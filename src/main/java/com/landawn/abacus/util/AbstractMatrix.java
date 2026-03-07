@@ -142,7 +142,7 @@ import com.landawn.abacus.util.stream.Stream;
  * // Basic matrix operations
  * IntMatrix transposed = intMatrix.transpose();   // 3x2 matrix from 2x3
  * IntMatrix rotated = intMatrix.rotate90();   // 90-degree rotation
- * IntMatrix flipped = intMatrix.flippedHorizontally();   // Horizontal flip
+ * IntMatrix flipped = intMatrix.flipHorizontally();   // Horizontal flip
  *
  * // Stream-based processing
  * intMatrix.streamHorizontal()                            // Stream all elements
@@ -399,8 +399,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /** Exception message format for negative dimension. Arguments: paramName, value */
     protected static final String MSG_NEGATIVE_DIMENSION = "{} cannot be negative: {}";
 
-    /** Exception message format for non-positive repeats. Arguments: rowRepeats, colRepeats */
-    protected static final String MSG_REPEATS_NOT_POSITIVE = "rowRepeats and colRepeats must be positive: rowRepeats={}, colRepeats={}";
+    /** Exception message format for non-positive repeats. Arguments: rowRepeats, columnRepeats */
+    protected static final String MSG_REPEATS_NOT_POSITIVE = "rowRepeats and columnRepeats must be positive: rowRepeats={}, columnRepeats={}";
 
     /**
      * Exception message format for matrix shapes that cannot be represented by this row-array-backed implementation.
@@ -1069,8 +1069,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
     /**
      * Returns a new matrix with each element repeated the specified number of times in both dimensions.
-     * Each element is expanded into a block of size rowRepeats x colRepeats.
-     * The resulting matrix has dimensions (rowCount x rowRepeats) x (columnCount x colRepeats).
+     * Each element is expanded into a block of size rowRepeats x columnRepeats.
+     * The resulting matrix has dimensions (rowCount x rowRepeats) x (columnCount x columnRepeats).
      * The original matrix is not modified.
      *
      * <p>This operation is similar to MATLAB's repeatElements function. Each element becomes a block,
@@ -1090,17 +1090,17 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * }</pre>
      *
      * @param rowRepeats number of times to repeat each element in the row direction (must be &gt;= 1)
-     * @param colRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
-     * @return a new matrix with repeated elements, with dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
-     * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
+     * @param columnRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
+     * @return a new matrix with repeated elements, with dimensions (rowCount x rowRepeats) x (columnCount x columnRepeats)
+     * @throws IllegalArgumentException if rowRepeats &lt; 1 or columnRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatElements.html">MATLAB repeatElements</a>
      */
-    public abstract X repeatElements(int rowRepeats, int colRepeats);
+    public abstract X repeatElements(int rowRepeats, int columnRepeats);
 
     /**
      * Returns a new matrix formed by tiling this matrix the specified number of times in both dimensions.
-     * The matrix is tiled rowRepeats times vertically and colRepeats times horizontally.
-     * The resulting matrix has dimensions (rowCount x rowRepeats) x (columnCount x colRepeats).
+     * The matrix is tiled rowRepeats times vertically and columnRepeats times horizontally.
+     * The resulting matrix has dimensions (rowCount x rowRepeats) x (columnCount x columnRepeats).
      * The original matrix is not modified.
      *
      * <p>This operation is similar to MATLAB's repeatMatrix function. The entire matrix pattern
@@ -1119,12 +1119,12 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * }</pre>
      *
      * @param rowRepeats number of times to repeat the matrix in the row direction (must be &gt;= 1)
-     * @param colRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
-     * @return a new matrix with this matrix tiled, with dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
-     * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
+     * @param columnRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
+     * @return a new matrix with this matrix tiled, with dimensions (rowCount x rowRepeats) x (columnCount x columnRepeats)
+     * @throws IllegalArgumentException if rowRepeats &lt; 1 or columnRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatMatrix.html">MATLAB repeatMatrix</a>
      */
-    public abstract X repeatMatrix(int rowRepeats, int colRepeats);
+    public abstract X repeatMatrix(int rowRepeats, int columnRepeats);
 
     /**
      * Flattens this matrix into a one-dimensional list.

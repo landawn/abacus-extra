@@ -613,33 +613,33 @@ public class ByteMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flippedHorizontally() {
+    public void test_flipHorizontally() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix flipped = m.flippedHorizontally();
+        ByteMatrix flipped = m.flipHorizontally();
         assertEquals(2, flipped.get(0, 0));
         assertEquals(1, flipped.get(0, 1));
     }
 
     @Test
-    public void test_flippedVertically() {
+    public void test_flipVertically() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix flipped = m.flippedVertically();
+        ByteMatrix flipped = m.flipVertically();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(4, flipped.get(0, 1));
     }
 
     @Test
-    public void test_flipHorizontally() {
+    public void test_flipInPlaceHorizontally() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(2, m.get(0, 0));
         assertEquals(1, m.get(0, 1));
     }
 
     @Test
-    public void test_flipVertically() {
+    public void test_flipInPlaceVertically() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(3, m.get(0, 0));
         assertEquals(4, m.get(0, 1));
     }

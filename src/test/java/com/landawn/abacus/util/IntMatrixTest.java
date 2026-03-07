@@ -743,7 +743,7 @@ public class IntMatrixTest extends TestBase {
     @Test
     public void testReverseH() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(3, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(1, m.get(0, 2));
@@ -755,7 +755,7 @@ public class IntMatrixTest extends TestBase {
     @Test
     public void testReverseV() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(5, m.get(0, 0));
         assertEquals(6, m.get(0, 1));
         assertEquals(3, m.get(1, 0));
@@ -766,7 +766,7 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testFlipH() {
-        IntMatrix flipped = matrix.flippedHorizontally();
+        IntMatrix flipped = matrix.flipHorizontally();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(2, flipped.get(0, 1));
         assertEquals(1, flipped.get(0, 2));
@@ -777,7 +777,7 @@ public class IntMatrixTest extends TestBase {
 
     @Test
     public void testFlipV() {
-        IntMatrix flipped = matrix.flippedVertically();
+        IntMatrix flipped = matrix.flipVertically();
         assertEquals(7, flipped.get(0, 0));
         assertEquals(8, flipped.get(0, 1));
         assertEquals(9, flipped.get(0, 2));

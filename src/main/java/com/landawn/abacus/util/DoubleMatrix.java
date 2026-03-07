@@ -1598,12 +1598,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}});
-     * matrix.flipHorizontally();   // matrix is now [[3.0, 2.0, 1.0]]
+     * matrix.flipInPlaceHorizontally();   // matrix is now [[3.0, 2.0, 1.0]]
      * }</pre>
      *
-     * @see #flippedHorizontally()
+     * @see #flipHorizontally()
      */
-    public void flipHorizontally() {
+    public void flipInPlaceHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1616,12 +1616,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0}, {2.0}, {3.0}});
-     * matrix.flipVertically();   // matrix is now [[3.0], [2.0], [1.0]]
+     * matrix.flipInPlaceVertically();   // matrix is now [[3.0], [2.0], [1.0]]
      * }</pre>
      *
-     * @see #flippedVertically()
+     * @see #flipVertically()
      */
-    public void flipVertically() {
+    public void flipInPlaceVertically() {
         for (int j = 0; j < columnCount; j++) {
             double tmp = 0;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1634,39 +1634,39 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns a new matrix that is a horizontal flip of this matrix (columns in reversed order within each row).
-     * The original matrix is not modified. This is a non-mutating version of {@link #flipHorizontally()}.
+     * The original matrix is not modified. This is a non-mutating version of {@link #flipInPlaceHorizontally()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}});
-     * DoubleMatrix flipped = matrix.flippedHorizontally();   // returns [[3.0, 2.0, 1.0]], original unchanged
+     * DoubleMatrix flipped = matrix.flipHorizontally();   // returns [[3.0, 2.0, 1.0]], original unchanged
      * }</pre>
      *
      * @return a new matrix that is a horizontal flip of this matrix (columns in reversed order within each row)
-     * @see #flipHorizontally()
+     * @see #flipInPlaceHorizontally()
      */
-    public DoubleMatrix flippedHorizontally() {
+    public DoubleMatrix flipHorizontally() {
         final DoubleMatrix res = this.copy();
-        res.flipHorizontally();
+        res.flipInPlaceHorizontally();
         return res;
     }
 
     /**
      * Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
-     * The original matrix is not modified. This is a non-mutating version of {@link #flipVertically()}.
+     * The original matrix is not modified. This is a non-mutating version of {@link #flipInPlaceVertically()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0}, {2.0}, {3.0}});
-     * DoubleMatrix flipped = matrix.flippedVertically();   // returns [[3.0], [2.0], [1.0]], original unchanged
+     * DoubleMatrix flipped = matrix.flipVertically();   // returns [[3.0], [2.0], [1.0]], original unchanged
      * }</pre>
      *
      * @return a new matrix that is a vertical flip of this matrix (rows in reversed order)
-     * @see #flipVertically()
+     * @see #flipInPlaceVertically()
      */
-    public DoubleMatrix flippedVertically() {
+    public DoubleMatrix flipVertically() {
         final DoubleMatrix res = this.copy();
-        res.flipVertically();
+        res.flipInPlaceVertically();
         return res;
     }
 
@@ -1884,7 +1884,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Repeats elements of the matrix in both row and column directions.
-     * Each element is repeated {@code rowRepeats} times vertically and {@code colRepeats} times horizontally.
+     * Each element is repeated {@code rowRepeats} times vertically and {@code columnRepeats} times horizontally.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1897,31 +1897,31 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param rowRepeats the number of times to repeat each element in the row direction
-     * @param colRepeats the number of times to repeat each element in the column direction
+     * @param columnRepeats the number of times to repeat each element in the column direction
      * @return a new matrix with repeated elements
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public DoubleMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public DoubleMatrix repeatElements(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final double[][] c = new double[rowCount * rowRepeats][columnCount * colRepeats];
+        final double[][] c = new double[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
             final double[] aa = a[i];
             final double[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < columnCount; j++) {
-                N.copy(Array.repeat(aa[j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(aa[j], columnRepeats), 0, fr, j * columnRepeats, columnRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1934,7 +1934,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Repeats the entire matrix in both row and column directions.
-     * The matrix is tiled {@code rowRepeats} times vertically and {@code colRepeats} times horizontally.
+     * The matrix is tiled {@code rowRepeats} times vertically and {@code columnRepeats} times horizontally.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1947,27 +1947,27 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param rowRepeats the number of times to repeat the matrix in the row direction
-     * @param colRepeats the number of times to repeat the matrix in the column direction
+     * @param columnRepeats the number of times to repeat the matrix in the column direction
      * @return a new matrix with the tiled pattern
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      * @see IntMatrix#repeatMatrix(int, int)
      */
     @Override
-    public DoubleMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public DoubleMatrix repeatMatrix(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final double[][] c = new double[rowCount * rowRepeats][columnCount * colRepeats];
+        final double[][] c = new double[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < colRepeats; j++) {
+            for (int j = 0; j < columnRepeats; j++) {
                 N.copy(a[i], 0, c[i], j * columnCount, columnCount);
             }
         }
@@ -2313,6 +2313,48 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         }
 
         return new LongMatrix(c);
+    }
+
+    /**
+     * Converts this double matrix to a float matrix.
+     * Each double value is narrowed to float by casting.
+     *
+     * <p><b>Warning:</b> This is a narrowing conversion that may lose precision.
+     * Double values that cannot be exactly represented as float will be rounded
+     * to the nearest float value. Values outside the float range will result in
+     * positive or negative infinity.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleMatrix doubleMatrix = DoubleMatrix.of(new double[][] {{1.5, 2.5}, {3.0, 4.0}});
+     * FloatMatrix floatMatrix = doubleMatrix.toFloatMatrix();
+     * // Result: [[1.5f, 2.5f],
+     * //          [3.0f, 4.0f]]
+     * }</pre>
+     *
+     * @return a new {@code FloatMatrix} with values converted from double to float
+     */
+    public FloatMatrix toFloatMatrix() {
+        final float[][] c = new float[rowCount][columnCount];
+
+        if (rowCount <= columnCount) {
+            for (int i = 0; i < rowCount; i++) {
+                final double[] aa = a[i];
+                final float[] cc = c[i];
+
+                for (int j = 0; j < columnCount; j++) {
+                    cc[j] = (float) aa[j];
+                }
+            }
+        } else {
+            for (int j = 0; j < columnCount; j++) {
+                for (int i = 0; i < rowCount; i++) {
+                    c[i][j] = (float) a[i][j];
+                }
+            }
+        }
+
+        return new FloatMatrix(c);
     }
 
     /**

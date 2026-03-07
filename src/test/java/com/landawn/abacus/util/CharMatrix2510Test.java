@@ -769,7 +769,7 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testReverseH() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals('c', m.get(0, 0));
         assertEquals('b', m.get(0, 1));
         assertEquals('a', m.get(0, 2));
@@ -778,7 +778,7 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testReverseV() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals('c', m.get(0, 0));
         assertEquals('d', m.get(0, 1));
         assertEquals('a', m.get(1, 0));
@@ -788,7 +788,7 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testFlipH() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        CharMatrix flipped = m.flippedHorizontally();
+        CharMatrix flipped = m.flipHorizontally();
         assertEquals('c', flipped.get(0, 0));
         assertEquals('b', flipped.get(0, 1));
         assertEquals('a', flipped.get(0, 2));
@@ -798,7 +798,7 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testFlipV() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        CharMatrix flipped = m.flippedVertically();
+        CharMatrix flipped = m.flipVertically();
         assertEquals('c', flipped.get(0, 0));
         assertEquals('d', flipped.get(0, 1));
         assertEquals('a', flipped.get(1, 0));

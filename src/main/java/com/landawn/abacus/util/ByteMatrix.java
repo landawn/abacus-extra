@@ -1432,18 +1432,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Reverses the order of elements in each row horizontally in-place.
-     * This modifies the matrix directly. For a non-destructive version, use {@link #flippedHorizontally()}.
+     * This modifies the matrix directly. For a non-destructive version, use {@link #flipHorizontally()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.flipHorizontally();
+     * matrix.flipInPlaceHorizontally();
      * // matrix is now: [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flippedHorizontally()
+     * @see #flipHorizontally()
      */
-    public void flipHorizontally() {
+    public void flipInPlaceHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1451,18 +1451,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Reverses the order of rows in the matrix (vertical flip in-place).
-     * This modifies the matrix directly. For a non-destructive version, use {@link #flippedVertically()}.
+     * This modifies the matrix directly. For a non-destructive version, use {@link #flipVertically()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}, {5, 6}});
-     * matrix.flipVertically();
+     * matrix.flipInPlaceVertically();
      * // matrix is now: [[5, 6], [3, 4], [1, 2]]
      * }</pre>
      *
-     * @see #flippedVertically()
+     * @see #flipVertically()
      */
-    public void flipVertically() {
+    public void flipInPlaceVertically() {
         for (int j = 0; j < columnCount; j++) {
             byte tmp = 0;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1480,20 +1480,20 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteMatrix flipped = matrix.flippedHorizontally();
+     * ByteMatrix flipped = matrix.flipHorizontally();
      * // flipped is: [[3, 2, 1], [6, 5, 4]]
      * // original matrix is unchanged
      * }</pre>
      *
      * @return a new ByteMatrix that is a horizontal flip of this matrix (each row reversed)
-     * @see #flipHorizontally()
-     * @see #flippedVertically()
-     * @see IntMatrix#flippedHorizontally()
+     * @see #flipInPlaceHorizontally()
+     * @see #flipVertically()
+     * @see IntMatrix#flipHorizontally()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public ByteMatrix flippedHorizontally() {
+    public ByteMatrix flipHorizontally() {
         final ByteMatrix res = this.copy();
-        res.flipHorizontally();
+        res.flipInPlaceHorizontally();
         return res;
     }
 
@@ -1504,20 +1504,20 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteMatrix flipped = matrix.flippedVertically();
+     * ByteMatrix flipped = matrix.flipVertically();
      * // flipped is: [[4, 5, 6], [1, 2, 3]]
      * // original matrix is unchanged
      * }</pre>
      *
      * @return a new ByteMatrix that is a vertical flip of this matrix (rows in reversed order)
-     * @see #flipVertically()
-     * @see #flippedHorizontally()
-     * @see IntMatrix#flippedVertically()
+     * @see #flipInPlaceVertically()
+     * @see #flipHorizontally()
+     * @see IntMatrix#flipVertically()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public ByteMatrix flippedVertically() {
+    public ByteMatrix flipVertically() {
         final ByteMatrix res = this.copy();
-        res.flipVertically();
+        res.flipInPlaceVertically();
         return res;
     }
 
@@ -1762,7 +1762,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Creates a new matrix by repeating each element multiple times.
-     * Each element is repeated rowRepeats times vertically and colRepeats times horizontally.
+     * Each element is repeated rowRepeats times vertically and columnRepeats times horizontally.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1775,31 +1775,31 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param rowRepeats number of times to repeat each element vertically
-     * @param colRepeats number of times to repeat each element horizontally
+     * @param columnRepeats number of times to repeat each element horizontally
      * @return a new matrix with repeated elements
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public ByteMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public ByteMatrix repeatElements(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final byte[][] c = new byte[rowCount * rowRepeats][columnCount * colRepeats];
+        final byte[][] c = new byte[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
             final byte[] aa = a[i];
             final byte[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < columnCount; j++) {
-                N.copy(Array.repeat(aa[j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(aa[j], columnRepeats), 0, fr, j * columnRepeats, columnRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1812,7 +1812,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Creates a new matrix by repeating the entire matrix multiple times.
-     * The matrix is tiled rowRepeats times vertically and colRepeats times horizontally.
+     * The matrix is tiled rowRepeats times vertically and columnRepeats times horizontally.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1825,27 +1825,27 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param rowRepeats number of times to repeat the matrix vertically
-     * @param colRepeats number of times to repeat the matrix horizontally
+     * @param columnRepeats number of times to repeat the matrix horizontally
      * @return a new matrix with the original matrix repeated
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      * @see IntMatrix#repeatMatrix(int, int)
      */
     @Override
-    public ByteMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public ByteMatrix repeatMatrix(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final byte[][] c = new byte[rowCount * rowRepeats][columnCount * colRepeats];
+        final byte[][] c = new byte[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < colRepeats; j++) {
+            for (int j = 0; j < columnRepeats; j++) {
                 N.copy(a[i], 0, c[i], j * columnCount, columnCount);
             }
         }

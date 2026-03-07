@@ -761,7 +761,7 @@ public class MatrixTest extends TestBase {
     public void testReverseH() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
-        matrix.flipHorizontally();
+        matrix.flipInPlaceHorizontally();
         Assertions.assertEquals(3, matrix.get(0, 0));
         Assertions.assertEquals(2, matrix.get(0, 1));
         Assertions.assertEquals(1, matrix.get(0, 2));
@@ -772,7 +772,7 @@ public class MatrixTest extends TestBase {
     public void testReverseV() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
 
-        matrix.flipVertically();
+        matrix.flipInPlaceVertically();
         Assertions.assertEquals(5, matrix.get(0, 0));
         Assertions.assertEquals(6, matrix.get(0, 1));
         Assertions.assertEquals(3, matrix.get(1, 0));
@@ -783,7 +783,7 @@ public class MatrixTest extends TestBase {
     public void testFlipH() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
-        Matrix<Integer> flipped = matrix.flippedHorizontally();
+        Matrix<Integer> flipped = matrix.flipHorizontally();
         Assertions.assertEquals(3, flipped.get(0, 0));
         Assertions.assertEquals(2, flipped.get(0, 1));
         Assertions.assertEquals(1, flipped.get(0, 2));
@@ -797,7 +797,7 @@ public class MatrixTest extends TestBase {
     public void testFlipV() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
 
-        Matrix<Integer> flipped = matrix.flippedVertically();
+        Matrix<Integer> flipped = matrix.flipVertically();
         Assertions.assertEquals(5, flipped.get(0, 0));
         Assertions.assertEquals(6, flipped.get(0, 1));
         Assertions.assertEquals(3, flipped.get(1, 0));

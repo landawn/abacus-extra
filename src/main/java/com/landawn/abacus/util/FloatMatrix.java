@@ -1433,17 +1433,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
-     * This method modifies the matrix directly. For a non-destructive version, use {@link #flippedHorizontally()}.
+     * This method modifies the matrix directly. For a non-destructive version, use {@link #flipHorizontally()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}});
-     * matrix.flipHorizontally();   // [[1.0f, 2.0f, 3.0f]] becomes [[3.0f, 2.0f, 1.0f]]
+     * matrix.flipInPlaceHorizontally();   // [[1.0f, 2.0f, 3.0f]] becomes [[3.0f, 2.0f, 1.0f]]
      * }</pre>
      *
-     * @see #flippedHorizontally()
+     * @see #flipHorizontally()
      */
-    public void flipHorizontally() {
+    public void flipInPlaceHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1451,17 +1451,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Reverses the order of rows in the matrix (vertical flip in-place).
-     * This method modifies the matrix directly. For a non-destructive version, use {@link #flippedVertically()}.
+     * This method modifies the matrix directly. For a non-destructive version, use {@link #flipVertically()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f}, {2.0f}, {3.0f}});
-     * matrix.flipVertically();   // [[1.0f], [2.0f], [3.0f]] becomes [[3.0f], [2.0f], [1.0f]]
+     * matrix.flipInPlaceVertically();   // [[1.0f], [2.0f], [3.0f]] becomes [[3.0f], [2.0f], [1.0f]]
      * }</pre>
      *
-     * @see #flippedVertically()
+     * @see #flipVertically()
      */
-    public void flipVertically() {
+    public void flipInPlaceVertically() {
         for (int j = 0; j < columnCount; j++) {
             float tmp = 0;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1479,16 +1479,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
-     * FloatMatrix flipped = matrix.flippedHorizontally();   // Returns [[3.0f, 2.0f, 1.0f], [6.0f, 5.0f, 4.0f]]
+     * FloatMatrix flipped = matrix.flipHorizontally();   // Returns [[3.0f, 2.0f, 1.0f], [6.0f, 5.0f, 4.0f]]
      * // original matrix is unchanged
      * }</pre>
      *
      * @return a new FloatMatrix with each row reversed
-     * @see #flipHorizontally() for an in-place version
+     * @see #flipInPlaceHorizontally() for an in-place version
      */
-    public FloatMatrix flippedHorizontally() {
+    public FloatMatrix flipHorizontally() {
         final FloatMatrix res = this.copy();
-        res.flipHorizontally();
+        res.flipInPlaceHorizontally();
         return res;
     }
 
@@ -1499,16 +1499,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}, {5.0f, 6.0f}});
-     * FloatMatrix flipped = matrix.flippedVertically();   // Returns [[5.0f, 6.0f], [3.0f, 4.0f], [1.0f, 2.0f]]
+     * FloatMatrix flipped = matrix.flipVertically();   // Returns [[5.0f, 6.0f], [3.0f, 4.0f], [1.0f, 2.0f]]
      * // original matrix is unchanged
      * }</pre>
      *
      * @return a new matrix that is a vertical flip of this matrix (rows in reversed order)
-     * @see #flipVertically() for an in-place version
+     * @see #flipInPlaceVertically() for an in-place version
      */
-    public FloatMatrix flippedVertically() {
+    public FloatMatrix flipVertically() {
         final FloatMatrix res = this.copy();
-        res.flipVertically();
+        res.flipInPlaceVertically();
         return res;
     }
 
@@ -1718,7 +1718,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Repeats elements in both row and column directions.
-     * Each element is repeated to form a block of size rowRepeats x colRepeats.
+     * Each element is repeated to form a block of size rowRepeats x columnRepeats.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1729,31 +1729,31 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * }</pre>
      * 
      * @param rowRepeats number of times to repeat each element in row direction
-     * @param colRepeats number of times to repeat each element in column direction
+     * @param columnRepeats number of times to repeat each element in column direction
      * @return a new FloatMatrix with repeated elements
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public FloatMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public FloatMatrix repeatElements(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final float[][] result = new float[rowCount * rowRepeats][columnCount * colRepeats];
+        final float[][] result = new float[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
             final float[] sourceRow = a[i];
             final float[] firstRepeatedRow = result[i * rowRepeats];
 
             for (int j = 0; j < columnCount; j++) {
-                N.copy(Array.repeat(sourceRow[j], colRepeats), 0, firstRepeatedRow, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(sourceRow[j], columnRepeats), 0, firstRepeatedRow, j * columnRepeats, columnRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1766,7 +1766,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Repeats the entire matrix in a tiled pattern.
-     * The matrix is repeated as a whole rowRepeats times vertically and colRepeats times horizontally.
+     * The matrix is repeated as a whole rowRepeats times vertically and columnRepeats times horizontally.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1779,27 +1779,27 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * }</pre>
      * 
      * @param rowRepeats number of times to repeat the matrix vertically
-     * @param colRepeats number of times to repeat the matrix horizontally
+     * @param columnRepeats number of times to repeat the matrix horizontally
      * @return a new FloatMatrix with the tiled pattern
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      * @see IntMatrix#repeatMatrix(int, int)
      */
     @Override
-    public FloatMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public FloatMatrix repeatMatrix(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final float[][] result = new float[rowCount * rowRepeats][columnCount * colRepeats];
+        final float[][] result = new float[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < colRepeats; j++) {
+            for (int j = 0; j < columnRepeats; j++) {
                 N.copy(a[i], 0, result[i], j * columnCount, columnCount);
             }
         }
@@ -2133,6 +2133,47 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
 
         return new IntMatrix(c);
+    }
+
+    /**
+     * Converts this float matrix to a long matrix.
+     * Each float value is narrowed to long by casting, which truncates toward zero.
+     *
+     * <p><b>Warning:</b> This is a narrowing conversion that may lose information.
+     * The fractional part is discarded, and values outside the long range
+     * may overflow.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatMatrix floatMatrix = FloatMatrix.of(new float[][] {{1.9f, 2.1f}, {3.5f, 4.0f}});
+     * LongMatrix longMatrix = floatMatrix.toLongMatrix();
+     * // Result: [[1, 2],
+     * //          [3, 4]]
+     * }</pre>
+     *
+     * @return a new {@code LongMatrix} with values converted from float to long
+     */
+    public LongMatrix toLongMatrix() {
+        final long[][] c = new long[rowCount][columnCount];
+
+        if (rowCount <= columnCount) {
+            for (int i = 0; i < rowCount; i++) {
+                final float[] aa = a[i];
+                final long[] cc = c[i];
+
+                for (int j = 0; j < columnCount; j++) {
+                    cc[j] = (long) aa[j];
+                }
+            }
+        } else {
+            for (int j = 0; j < columnCount; j++) {
+                for (int i = 0; i < rowCount; i++) {
+                    c[i][j] = (long) a[i][j];
+                }
+            }
+        }
+
+        return new LongMatrix(c);
     }
 
     /**

@@ -1559,19 +1559,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
-     * This operation modifies the matrix directly. For a non-destructive version, use {@link #flippedHorizontally()}.
+     * This operation modifies the matrix directly. For a non-destructive version, use {@link #flipHorizontally()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.flipHorizontally();
+     * matrix.flipInPlaceHorizontally();
      * // matrix is now [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flippedHorizontally()
-     * @see #flipVertically()
+     * @see #flipHorizontally()
+     * @see #flipInPlaceVertically()
      */
-    public void flipHorizontally() {
+    public void flipInPlaceHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1579,19 +1579,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Reverses the order of rows in the matrix (vertical flip in-place).
-     * This operation modifies the matrix directly by reversing the row order. For a non-destructive version, use {@link #flippedVertically()}.
+     * This operation modifies the matrix directly by reversing the row order. For a non-destructive version, use {@link #flipVertically()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.flipVertically();
+     * matrix.flipInPlaceVertically();
      * // matrix is now [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
      * }</pre>
      *
-     * @see #flippedVertically()
-     * @see #flipHorizontally()
+     * @see #flipVertically()
+     * @see #flipInPlaceHorizontally()
      */
-    public void flipVertically() {
+    public void flipInPlaceVertically() {
         for (int j = 0; j < columnCount; j++) {
             long tmp = 0;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1609,19 +1609,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongMatrix flipped = matrix.flippedHorizontally();
+     * LongMatrix flipped = matrix.flipHorizontally();
      * // Result: [[3, 2, 1],
      * //          [6, 5, 4]]
      * }</pre>
      *
      * @return a new matrix with each row reversed
-     * @see #flipHorizontally()
-     * @see #flippedVertically()
+     * @see #flipInPlaceHorizontally()
+     * @see #flipVertically()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public LongMatrix flippedHorizontally() {
+    public LongMatrix flipHorizontally() {
         final LongMatrix res = this.copy();
-        res.flipHorizontally();
+        res.flipInPlaceHorizontally();
         return res;
     }
 
@@ -1632,19 +1632,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongMatrix flipped = matrix.flippedVertically();
+     * LongMatrix flipped = matrix.flipVertically();
      * // Result: [[4, 5, 6],
      * //          [1, 2, 3]]
      * }</pre>
      *
      * @return a new matrix with rows in reversed order
-     * @see #flipVertically()
-     * @see #flippedHorizontally()
+     * @see #flipInPlaceVertically()
+     * @see #flipHorizontally()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public LongMatrix flippedVertically() {
+    public LongMatrix flipVertically() {
         final LongMatrix res = this.copy();
-        res.flipVertically();
+        res.flipInPlaceVertically();
         return res;
     }
 
@@ -1862,7 +1862,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Repeats elements in the matrix by the specified factors in both row and column directions.
-     * Each element is repeated {@code rowRepeats} times in the row direction and {@code colRepeats} 
+     * Each element is repeated {@code rowRepeats} times in the row direction and {@code columnRepeats} 
      * times in the column direction.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1876,31 +1876,31 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @param rowRepeats the number of times to repeat each element in the row direction
-     * @param colRepeats the number of times to repeat each element in the column direction
+     * @param columnRepeats the number of times to repeat each element in the column direction
      * @return a new matrix with repeated elements
-     * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
+     * @throws IllegalArgumentException if {@code rowRepeats} or {@code columnRepeats} is less than or equal to 0
      * @see IntMatrix#repeatElements(int, int)
      */
     @Override
-    public LongMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public LongMatrix repeatElements(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final long[][] c = new long[rowCount * rowRepeats][columnCount * colRepeats];
+        final long[][] c = new long[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
             final long[] aa = a[i];
             final long[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < columnCount; j++) {
-                N.copy(Array.repeat(aa[j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(aa[j], columnRepeats), 0, fr, j * columnRepeats, columnRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1913,7 +1913,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Repeats the entire matrix as a tile pattern by the specified factors in both row and column directions.
-     * The whole matrix is repeated {@code rowRepeats} times in the row direction and {@code colRepeats} 
+     * The whole matrix is repeated {@code rowRepeats} times in the row direction and {@code columnRepeats} 
      * times in the column direction.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1927,27 +1927,27 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @param rowRepeats the number of times to repeat the matrix in the row direction
-     * @param colRepeats the number of times to repeat the matrix in the column direction
+     * @param columnRepeats the number of times to repeat the matrix in the column direction
      * @return a new matrix with the original matrix repeated as tiles
-     * @throws IllegalArgumentException if {@code rowRepeats} or {@code colRepeats} is less than or equal to 0
+     * @throws IllegalArgumentException if {@code rowRepeats} or {@code columnRepeats} is less than or equal to 0
      * @see IntMatrix#repeatMatrix(int, int)
      */
     @Override
-    public LongMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public LongMatrix repeatMatrix(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final long[][] c = new long[rowCount * rowRepeats][columnCount * colRepeats];
+        final long[][] c = new long[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < colRepeats; j++) {
+            for (int j = 0; j < columnRepeats; j++) {
                 N.copy(a[i], 0, c[i], j * columnCount, columnCount);
             }
         }
@@ -2233,10 +2233,51 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Converts this long matrix to a float matrix.
-     * Each long value is cast to a float value.
+     * Converts this long matrix to an int matrix.
+     * Each long value is narrowed to int by casting, which truncates toward zero.
      *
-     * <p><b>Warning:</b> Precision loss may occur for large long values. The float type has only 24 bits
+     * <p><b>Warning:</b> This is a narrowing conversion that may lose information.
+     * Values outside the int range ({@code Integer.MIN_VALUE} to {@code Integer.MAX_VALUE})
+     * will overflow.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongMatrix longMatrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
+     * IntMatrix intMatrix = longMatrix.toIntMatrix();
+     * // Result: [[1, 2],
+     * //          [3, 4]]
+     * }</pre>
+     *
+     * @return a new {@code IntMatrix} with values converted from long to int
+     */
+    public IntMatrix toIntMatrix() {
+        final int[][] c = new int[rowCount][columnCount];
+
+        if (rowCount <= columnCount) {
+            for (int i = 0; i < rowCount; i++) {
+                final long[] aa = a[i];
+                final int[] cc = c[i];
+
+                for (int j = 0; j < columnCount; j++) {
+                    cc[j] = (int) aa[j];
+                }
+            }
+        } else {
+            for (int j = 0; j < columnCount; j++) {
+                for (int i = 0; i < rowCount; i++) {
+                    c[i][j] = (int) a[i][j];
+                }
+            }
+        }
+
+        return new IntMatrix(c);
+    }
+
+    /**
+     * Converts this long matrix to a float matrix.
+     * Each long value is converted to a float value.
+     *
+     * <p><b>Warning:</b> This conversion may lose precision. The float type has only 24 bits
      * of precision in its mantissa, so long values with absolute values greater than 2^24 (16,777,216)
      * may not be represented exactly. For example, {@code 16777217L} becomes {@code 16777216.0f}.
      *

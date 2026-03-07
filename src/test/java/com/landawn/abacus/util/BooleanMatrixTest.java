@@ -560,7 +560,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        matrix.flipHorizontally();
+        matrix.flipInPlaceHorizontally();
         assertFalse(matrix.get(0, 0));
         assertTrue(matrix.get(0, 1));
     }
@@ -570,7 +570,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        matrix.flipVertically();
+        matrix.flipInPlaceVertically();
         assertFalse(matrix.get(0, 0));
         assertTrue(matrix.get(1, 0));
     }
@@ -580,7 +580,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        BooleanMatrix flipped = matrix.flippedHorizontally();
+        BooleanMatrix flipped = matrix.flipHorizontally();
         assertFalse(flipped.get(0, 0));
         assertTrue(flipped.get(0, 1));
 
@@ -593,7 +593,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        BooleanMatrix flipped = matrix.flippedVertically();
+        BooleanMatrix flipped = matrix.flipVertically();
         assertFalse(flipped.get(0, 0));
         assertTrue(flipped.get(1, 0));
 

@@ -1850,13 +1850,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.flipHorizontally();
+     * matrix.flipInPlaceHorizontally();
      * // Matrix is now: [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flippedHorizontally()
+     * @see #flipHorizontally()
      */
-    public void flipHorizontally() {
+    public void flipInPlaceHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1870,13 +1870,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
-     * matrix.flipVertically();
+     * matrix.flipInPlaceVertically();
      * // Matrix is now: [[5, 6], [3, 4], [1, 2]]
      * }</pre>
      *
-     * @see #flippedVertically()
+     * @see #flipVertically()
      */
-    public void flipVertically() {
+    public void flipInPlaceVertically() {
         for (int j = 0; j < columnCount; j++) {
             T tmp = null;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1895,19 +1895,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * Matrix<Integer> flipped = matrix.flippedHorizontally();
+     * Matrix<Integer> flipped = matrix.flipHorizontally();
      * // Result: {{3, 2, 1}, {6, 5, 4}}
      * }</pre>
      *
      * @return a new horizontally flipped matrix
-     * @see #flipHorizontally()
-     * @see #flippedVertically()
-     * @see IntMatrix#flippedHorizontally()
+     * @see #flipInPlaceHorizontally()
+     * @see #flipVertically()
+     * @see IntMatrix#flipHorizontally()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public Matrix<T> flippedHorizontally() {
+    public Matrix<T> flipHorizontally() {
         final Matrix<T> res = this.copy();
-        res.flipHorizontally();
+        res.flipInPlaceHorizontally();
         return res;
     }
 
@@ -1919,19 +1919,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
-     * Matrix<Integer> flipped = matrix.flippedVertically();
+     * Matrix<Integer> flipped = matrix.flipVertically();
      * // Result: {{5, 6}, {3, 4}, {1, 2}}
      * }</pre>
      *
      * @return a new vertically flipped matrix
-     * @see #flipVertically()
-     * @see #flippedHorizontally()
-     * @see IntMatrix#flippedVertically()
+     * @see #flipInPlaceVertically()
+     * @see #flipHorizontally()
+     * @see IntMatrix#flipVertically()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public Matrix<T> flippedVertically() {
+    public Matrix<T> flipVertically() {
         final Matrix<T> res = this.copy();
-        res.flipVertically();
+        res.flipInPlaceVertically();
         return res;
     }
 
@@ -2167,7 +2167,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Repeats each element in the matrix by the specified number of times in both directions.
-     * Each element is expanded into a block of rowRepeats×colRepeats identical elements.
+     * Each element is expanded into a block of rowRepeats×columnRepeats identical elements.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2177,27 +2177,27 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param rowRepeats number of times to repeat each element in the row direction (must be &gt;= 1)
-     * @param colRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
-     * @return a new matrix with repeated elements, dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
-     * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
+     * @param columnRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
+     * @return a new matrix with repeated elements, dimensions (rowCount x rowRepeats) x (columnCount x columnRepeats)
+     * @throws IllegalArgumentException if rowRepeats &lt; 1 or columnRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatElements.html">MATLAB repeatElements</a>
      */
     @Override
-    public Matrix<T> repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public Matrix<T> repeatElements(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         final T[][] c = N.newArray(arrayType, rowCount * rowRepeats);
 
         for (int i = 0, len = c.length; i < len; i++) {
-            c[i] = N.newArray(elementType, columnCount * colRepeats);
+            c[i] = N.newArray(elementType, columnCount * columnRepeats);
         }
 
         for (int i = 0; i < rowCount; i++) {
@@ -2205,8 +2205,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             final T[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < columnCount; j++) {
-                // N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
-                N.fill(fr, j * colRepeats, j * colRepeats + colRepeats, aa[j]);
+                // N.copy(Array.repeat(a[i][j], columnRepeats), 0, fr, j * columnRepeats, columnRepeats);
+                N.fill(fr, j * columnRepeats, j * columnRepeats + columnRepeats, aa[j]);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -2219,7 +2219,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Repeats the entire matrix as a tile pattern by the specified number of times.
-     * The matrix is repeated as a whole block rowRepeats times vertically and colRepeats times horizontally.
+     * The matrix is repeated as a whole block rowRepeats times vertically and columnRepeats times horizontally.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2229,31 +2229,31 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param rowRepeats number of times to repeat the matrix in the row direction (must be &gt;= 1)
-     * @param colRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
-     * @return a new matrix with the original matrix repeated, dimensions (rowCount x rowRepeats) x (columnCount x colRepeats)
-     * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
+     * @param columnRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
+     * @return a new matrix with the original matrix repeated, dimensions (rowCount x rowRepeats) x (columnCount x columnRepeats)
+     * @throws IllegalArgumentException if rowRepeats &lt; 1 or columnRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repeatMatrix.html">MATLAB repeatMatrix</a>
      */
     @Override
-    public Matrix<T> repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public Matrix<T> repeatMatrix(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         final T[][] c = N.newArray(arrayType, rowCount * rowRepeats);
 
         for (int i = 0, len = c.length; i < len; i++) {
-            c[i] = N.newArray(elementType, columnCount * colRepeats);
+            c[i] = N.newArray(elementType, columnCount * columnRepeats);
         }
 
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < colRepeats; j++) {
+            for (int j = 0; j < columnRepeats; j++) {
                 N.copy(a[i], 0, c[i], j * columnCount, columnCount);
             }
         }

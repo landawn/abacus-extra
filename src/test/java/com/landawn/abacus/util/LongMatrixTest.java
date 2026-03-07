@@ -676,7 +676,7 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        matrix.flipHorizontally();
+        matrix.flipInPlaceHorizontally();
         Assertions.assertEquals(3L, matrix.get(0, 0));
         Assertions.assertEquals(2L, matrix.get(0, 1));
         Assertions.assertEquals(1L, matrix.get(0, 2));
@@ -688,7 +688,7 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        matrix.flipVertically();
+        matrix.flipInPlaceVertically();
         Assertions.assertEquals(5L, matrix.get(0, 0));
         Assertions.assertEquals(6L, matrix.get(0, 1));
         Assertions.assertEquals(3L, matrix.get(1, 0));
@@ -700,7 +700,7 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        LongMatrix flipped = matrix.flippedHorizontally();
+        LongMatrix flipped = matrix.flipHorizontally();
         Assertions.assertEquals(3L, flipped.get(0, 0));
         Assertions.assertEquals(1L, flipped.get(0, 2));
         Assertions.assertEquals(1L, matrix.get(0, 0)); // original unchanged
@@ -711,7 +711,7 @@ public class LongMatrixTest extends TestBase {
         long[][] a = { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } };
         LongMatrix matrix = LongMatrix.of(a);
 
-        LongMatrix flipped = matrix.flippedVertically();
+        LongMatrix flipped = matrix.flipVertically();
         Assertions.assertEquals(5L, flipped.get(0, 0));
         Assertions.assertEquals(1L, flipped.get(2, 0));
         Assertions.assertEquals(1L, matrix.get(0, 0)); // original unchanged

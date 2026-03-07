@@ -838,27 +838,27 @@ public class IntMatrix2512Test extends TestBase {
     // ============ Reverse and Flip Tests ============
 
     @Test
-    public void test_flipHorizontally() {
+    public void test_flipInPlaceHorizontally() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(3, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(1, m.get(0, 2));
     }
 
     @Test
-    public void test_flipVertically() {
+    public void test_flipInPlaceVertically() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(5, m.get(0, 0));
         assertEquals(3, m.get(1, 0));
         assertEquals(1, m.get(2, 0));
     }
 
     @Test
-    public void test_flippedHorizontally() {
+    public void test_flipHorizontally() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        IntMatrix flipped = m.flippedHorizontally();
+        IntMatrix flipped = m.flipHorizontally();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(2, flipped.get(0, 1));
         assertEquals(1, flipped.get(0, 2));
@@ -867,9 +867,9 @@ public class IntMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flippedVertically() {
+    public void test_flipVertically() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        IntMatrix flipped = m.flippedVertically();
+        IntMatrix flipped = m.flipVertically();
         assertEquals(5, flipped.get(0, 0));
         assertEquals(3, flipped.get(1, 0));
         assertEquals(1, flipped.get(2, 0));

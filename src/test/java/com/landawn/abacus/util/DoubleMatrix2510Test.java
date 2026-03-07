@@ -753,7 +753,7 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testReverseH() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertEquals(2.0, m.get(0, 0));
         assertEquals(1.0, m.get(0, 1));
         assertEquals(4.0, m.get(1, 0));
@@ -763,7 +763,7 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testReverseV() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertEquals(3.0, m.get(0, 0));
         assertEquals(4.0, m.get(0, 1));
         assertEquals(1.0, m.get(1, 0));
@@ -773,7 +773,7 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testFlipH() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        DoubleMatrix flipped = m.flippedHorizontally();
+        DoubleMatrix flipped = m.flipHorizontally();
         assertEquals(2.0, flipped.get(0, 0));
         assertEquals(1.0, flipped.get(0, 1));
         assertEquals(1.0, m.get(0, 0));
@@ -782,7 +782,7 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testFlipV() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        DoubleMatrix flipped = m.flippedVertically();
+        DoubleMatrix flipped = m.flipVertically();
         assertEquals(3.0, flipped.get(0, 0));
         assertEquals(4.0, flipped.get(0, 1));
         assertEquals(1.0, m.get(0, 0));

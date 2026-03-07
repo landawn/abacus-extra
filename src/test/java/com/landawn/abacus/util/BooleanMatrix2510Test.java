@@ -703,7 +703,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testReverseH() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        m.flipHorizontally();
+        m.flipInPlaceHorizontally();
         assertTrue(m.get(0, 2));
         assertFalse(m.get(0, 1));
         assertTrue(m.get(0, 0));
@@ -712,7 +712,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testReverseV() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        m.flipVertically();
+        m.flipInPlaceVertically();
         assertFalse(m.get(0, 0));
         assertTrue(m.get(0, 1));
         assertTrue(m.get(1, 0));
@@ -722,7 +722,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testFlipH() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        BooleanMatrix flipped = m.flippedHorizontally();
+        BooleanMatrix flipped = m.flipHorizontally();
         assertTrue(flipped.get(0, 2));
         assertFalse(flipped.get(0, 1));
         assertTrue(flipped.get(0, 0));
@@ -732,7 +732,7 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testFlipV() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix flipped = m.flippedVertically();
+        BooleanMatrix flipped = m.flipVertically();
         assertFalse(flipped.get(0, 0));
         assertTrue(flipped.get(0, 1));
         assertTrue(flipped.get(1, 0));

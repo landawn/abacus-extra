@@ -1453,19 +1453,19 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * This modifies the current matrix; each row is reversed left-to-right.
      *
      * <p>This is an in-place operation that modifies the current matrix.
-     * For a non-destructive version that returns a new matrix, use {@link #flippedHorizontally()}.</p>
+     * For a non-destructive version that returns a new matrix, use {@link #flipHorizontally()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, true, false}, {false, true, true}});
-     * matrix.flipHorizontally();
+     * matrix.flipInPlaceHorizontally();
      * // matrix is now [[false, true, true], [true, true, false]]
      * }</pre>
      *
-     * @see #flippedHorizontally()
-     * @see #flipVertically()
+     * @see #flipHorizontally()
+     * @see #flipInPlaceVertically()
      */
-    public void flipHorizontally() {
+    public void flipInPlaceHorizontally() {
         for (int i = 0; i < rowCount; i++) {
             N.reverse(a[i]);
         }
@@ -1477,19 +1477,19 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * while the order of elements within each row remains unchanged.
      *
      * <p>This is an in-place operation that modifies the current matrix.
-     * For a non-destructive version that returns a new matrix, use {@link #flippedVertically()}.</p>
+     * For a non-destructive version that returns a new matrix, use {@link #flipVertically()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {true, true}, {false, true}});
-     * matrix.flipVertically();
+     * matrix.flipInPlaceVertically();
      * // matrix is now [[false, true], [true, true], [true, false]]
      * }</pre>
      *
-     * @see #flippedVertically()
-     * @see #flipHorizontally()
+     * @see #flipVertically()
+     * @see #flipInPlaceHorizontally()
      */
-    public void flipVertically() {
+    public void flipInPlaceVertically() {
         for (int j = 0; j < columnCount; j++) {
             boolean tmp = false;
             for (int l = 0, h = rowCount - 1; l < h;) {
@@ -1508,18 +1508,18 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {true, true, false}});
-     * BooleanMatrix flipped = matrix.flippedHorizontally();
+     * BooleanMatrix flipped = matrix.flipHorizontally();
      * // flipped is: {{false, false, true}, {false, true, true}}
      * }</pre>
      *
      * @return a new BooleanMatrix with each row reversed
-     * @see #flipHorizontally()
-     * @see #flippedVertically()
+     * @see #flipInPlaceHorizontally()
+     * @see #flipVertically()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public BooleanMatrix flippedHorizontally() {
+    public BooleanMatrix flipHorizontally() {
         final BooleanMatrix res = this.copy();
-        res.flipHorizontally();
+        res.flipInPlaceHorizontally();
         return res;
     }
 
@@ -1531,18 +1531,18 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {true, true, false}});
-     * BooleanMatrix flipped = matrix.flippedVertically();
+     * BooleanMatrix flipped = matrix.flipVertically();
      * // flipped is: {{true, true, false}, {true, false, false}}
      * }</pre>
      *
      * @return a new BooleanMatrix with rows reversed
-     * @see #flipVertically()
-     * @see #flippedHorizontally()
+     * @see #flipInPlaceVertically()
+     * @see #flipHorizontally()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public BooleanMatrix flippedVertically() {
+    public BooleanMatrix flipVertically() {
         final BooleanMatrix res = this.copy();
-        res.flipVertically();
+        res.flipInPlaceVertically();
         return res;
     }
 
@@ -1764,7 +1764,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Repeats each element in the matrix the specified number of times in both dimensions.
-     * Each element is expanded into a rowRepeats x colRepeats block.
+     * Each element is expanded into a rowRepeats x columnRepeats block.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1776,30 +1776,30 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param rowRepeats number of times to repeat each element vertically
-     * @param colRepeats number of times to repeat each element horizontally
-     * @return a new BooleanMatrix with dimensions (rowCount*rowRepeats x columnCount*colRepeats)
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @param columnRepeats number of times to repeat each element horizontally
+     * @return a new BooleanMatrix with dimensions (rowCount*rowRepeats x columnCount*columnRepeats)
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      */
     @Override
-    public BooleanMatrix repeatElements(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public BooleanMatrix repeatElements(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final boolean[][] c = new boolean[rowCount * rowRepeats][columnCount * colRepeats];
+        final boolean[][] c = new boolean[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
             final boolean[] aa = a[i];
             final boolean[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < columnCount; j++) {
-                N.copy(Array.repeat(aa[j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(aa[j], columnRepeats), 0, fr, j * columnRepeats, columnRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1812,7 +1812,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Repeats the entire matrix the specified number of times in both dimensions.
-     * The matrix is tiled rowRepeats times vertically and colRepeats times horizontally.
+     * The matrix is tiled rowRepeats times vertically and columnRepeats times horizontally.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1824,26 +1824,26 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param rowRepeats number of times to repeat the matrix vertically
-     * @param colRepeats number of times to repeat the matrix horizontally
-     * @return a new BooleanMatrix with dimensions (rowCount*rowRepeats x columnCount*colRepeats)
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @param columnRepeats number of times to repeat the matrix horizontally
+     * @return a new BooleanMatrix with dimensions (rowCount*rowRepeats x columnCount*columnRepeats)
+     * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      */
     @Override
-    public BooleanMatrix repeatMatrix(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
+    public BooleanMatrix repeatMatrix(final int rowRepeats, final int columnRepeats) throws IllegalArgumentException {
+        N.checkArgument(rowRepeats > 0 && columnRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, columnRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Result row count overflow: " + rowCount + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
-        if ((long) columnCount * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
+        if ((long) columnCount * columnRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result column count overflow: " + columnCount + " * " + columnRepeats + " exceeds Integer.MAX_VALUE");
         }
 
-        final boolean[][] c = new boolean[rowCount * rowRepeats][columnCount * colRepeats];
+        final boolean[][] c = new boolean[rowCount * rowRepeats][columnCount * columnRepeats];
 
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < colRepeats; j++) {
+            for (int j = 0; j < columnRepeats; j++) {
                 N.copy(a[i], 0, c[i], j * columnCount, columnCount);
             }
         }
