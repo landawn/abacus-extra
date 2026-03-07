@@ -1264,7 +1264,7 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testForEach_biConsumer() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         final int[] count = { 0 };
-        m.forEach((i, j) -> count[0]++);
+        m.forEachIndices((i, j) -> count[0]++);
         assertEquals(4, count[0]);
     }
 
@@ -1272,7 +1272,7 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testForEach_biObjConsumer() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         final int[] count = { 0 };
-        m.forEach((i, j, matrix) -> count[0]++);
+        m.forEachIndices((i, j, matrix) -> count[0]++);
         assertEquals(4, count[0]);
     }
 

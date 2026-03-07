@@ -246,7 +246,7 @@ public class Matrices2512Test extends TestBase {
     public void test_run_withRowsAndCols_iteratesAllPositions() {
         AtomicInteger count = new AtomicInteger(0);
 
-        Matrices.forEachIndex(3, 4, (i, j) -> {
+        Matrices.forEachIndices(3, 4, (i, j) -> {
             count.incrementAndGet();
         }, false);
 
@@ -257,7 +257,7 @@ public class Matrices2512Test extends TestBase {
     public void test_run_withRowsAndCols_passesCorrectIndices() {
         final int[][] visited = new int[2][3];
 
-        Matrices.forEachIndex(2, 3, (i, j) -> {
+        Matrices.forEachIndices(2, 3, (i, j) -> {
             visited[i][j] = 1;
         }, false);
 
@@ -273,7 +273,7 @@ public class Matrices2512Test extends TestBase {
     public void test_run_withRowsAndCols_parallel() {
         AtomicInteger count = new AtomicInteger(0);
 
-        Matrices.forEachIndex(10, 10, (i, j) -> {
+        Matrices.forEachIndices(10, 10, (i, j) -> {
             count.incrementAndGet();
         }, true);
 
@@ -284,7 +284,7 @@ public class Matrices2512Test extends TestBase {
     public void test_run_withRange_iteratesCorrectPositions() {
         final int[][] visited = new int[5][5];
 
-        Matrices.forEachIndex(1, 3, 1, 4, (i, j) -> {
+        Matrices.forEachIndices(1, 3, 1, 4, (i, j) -> {
             visited[i][j] = 1;
         }, false);
 
@@ -578,7 +578,7 @@ public class Matrices2512Test extends TestBase {
     public void test_run_withZeroRows() {
         AtomicInteger count = new AtomicInteger(0);
 
-        Matrices.forEachIndex(0, 5, (i, j) -> {
+        Matrices.forEachIndices(0, 5, (i, j) -> {
             count.incrementAndGet();
         }, false);
 
@@ -589,7 +589,7 @@ public class Matrices2512Test extends TestBase {
     public void test_run_withZeroCols() {
         AtomicInteger count = new AtomicInteger(0);
 
-        Matrices.forEachIndex(5, 0, (i, j) -> {
+        Matrices.forEachIndices(5, 0, (i, j) -> {
             count.incrementAndGet();
         }, false);
 

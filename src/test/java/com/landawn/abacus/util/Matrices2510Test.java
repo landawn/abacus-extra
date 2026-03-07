@@ -335,7 +335,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_basic() {
         List<String> positions = new ArrayList<>();
-        Matrices.forEachIndex(2, 3, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndices(2, 3, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(6, positions.size());
         assertTrue(positions.contains("0,0"));
         assertTrue(positions.contains("1,2"));
@@ -344,21 +344,21 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_zeroRows() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrices.forEachIndex(0, 3, (i, j) -> counter.incrementAndGet(), false);
+        Matrices.forEachIndices(0, 3, (i, j) -> counter.incrementAndGet(), false);
         assertEquals(0, counter.get());
     }
 
     @Test
     public void testRun_intBiConsumer_zeroCols() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrices.forEachIndex(3, 0, (i, j) -> counter.incrementAndGet(), false);
+        Matrices.forEachIndices(3, 0, (i, j) -> counter.incrementAndGet(), false);
         assertEquals(0, counter.get());
     }
 
     @Test
     public void testRun_intBiConsumer_singleElement() {
         List<String> positions = new ArrayList<>();
-        Matrices.forEachIndex(1, 1, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndices(1, 1, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(1, positions.size());
         assertEquals("0,0", positions.get(0));
     }
@@ -366,7 +366,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange() {
         List<String> positions = new ArrayList<>();
-        Matrices.forEachIndex(1, 3, 2, 5, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndices(1, 3, 2, 5, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(6, positions.size()); // 2 rows * 3 columnCount
         assertTrue(positions.contains("1,2"));
         assertTrue(positions.contains("2,4"));
@@ -377,14 +377,14 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_emptyRange() {
         AtomicInteger counter = new AtomicInteger(0);
-        Matrices.forEachIndex(2, 2, 3, 3, (i, j) -> counter.incrementAndGet(), false);
+        Matrices.forEachIndices(2, 2, 3, 3, (i, j) -> counter.incrementAndGet(), false);
         assertEquals(0, counter.get());
     }
 
     @Test
     public void testRun_intBiConsumer_withRange_invalidRowRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrices.forEachIndex(5, 3, 0, 2, (i, j) -> {
+            Matrices.forEachIndices(5, 3, 0, 2, (i, j) -> {
             }, false);
         });
     }
@@ -392,7 +392,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_invalidColRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrices.forEachIndex(0, 2, 5, 3, (i, j) -> {
+            Matrices.forEachIndices(0, 2, 5, 3, (i, j) -> {
             }, false);
         });
     }
@@ -400,7 +400,7 @@ public class Matrices2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_negativeIndex() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrices.forEachIndex(-1, 2, 0, 2, (i, j) -> {
+            Matrices.forEachIndices(-1, 2, 0, 2, (i, j) -> {
             }, false);
         });
     }

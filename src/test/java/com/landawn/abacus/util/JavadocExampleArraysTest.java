@@ -76,10 +76,10 @@ public class JavadocExampleArraysTest {
     }
 
     @Test
-    public void testClassJavadoc_totalCountOfElements3D() {
+    public void testClassJavadoc_elementCount3D() {
         // Line 152-153: 2x3x4 cube => 24 total elements
         int[][][] cube = new int[2][3][4];
-        long totalElements = Arrays.totalCountOfElements(cube);
+        long totalElements = Arrays.elementCount(cube);
         assertEquals(24, totalElements);
     }
 
@@ -354,21 +354,21 @@ public class JavadocExampleArraysTest {
     }
 
     // ========================
-    // boolean totalCountOfElements / minSubArrayLength / maxSubArrayLength
+    // boolean elementCount / minSubArrayLength / maxSubArrayLength
     // ========================
 
     @Test
     public void testBooleanTotalCountOfElements2D() {
         // Line 2833-2835
         boolean[][] array = { { true, false, true }, null, { false, true, false } };
-        assertEquals(6, Arrays.totalCountOfElements(array));
+        assertEquals(6, Arrays.elementCount(array));
     }
 
     @Test
     public void testBooleanTotalCountOfElements3D() {
         // Line 2861-2863
         boolean[][][] array = { { { true, false }, { true } }, { { false, true, false } } };
-        assertEquals(6, Arrays.totalCountOfElements(array));
+        assertEquals(6, Arrays.elementCount(array));
     }
 
     @Test
@@ -461,21 +461,21 @@ public class JavadocExampleArraysTest {
     }
 
     // ========================
-    // byte totalCountOfElements / minSubArrayLength / maxSubArrayLength
+    // byte elementCount / minSubArrayLength / maxSubArrayLength
     // ========================
 
     @Test
     public void testByteTotalCountOfElements2D() {
         // Line 5451-5452: {{1,2,3}, null, {4,5}} => 5
         byte[][] array = { { 1, 2, 3 }, null, { 4, 5 } };
-        assertEquals(5, Arrays.totalCountOfElements(array));
+        assertEquals(5, Arrays.elementCount(array));
     }
 
     @Test
     public void testByteTotalCountOfElements3D() {
         // Line 5478-5479: {{{1,2},{3}},{{4,5,6}}} => 6
         byte[][][] array = { { { 1, 2 }, { 3 } }, { { 4, 5, 6 } } };
-        assertEquals(6, Arrays.totalCountOfElements(array));
+        assertEquals(6, Arrays.elementCount(array));
     }
 
     @Test
@@ -569,21 +569,21 @@ public class JavadocExampleArraysTest {
     }
 
     // ========================
-    // int totalCountOfElements / minSubArrayLength / maxSubArrayLength
+    // int elementCount / minSubArrayLength / maxSubArrayLength
     // ========================
 
     @Test
     public void testIntTotalCountOfElements2D() {
         // Line 8020-8022: {{1,2},{3,4,5},null,{}} => 5
         int[][] a = { { 1, 2 }, { 3, 4, 5 }, null, {} };
-        assertEquals(5, Arrays.totalCountOfElements(a));
+        assertEquals(5, Arrays.elementCount(a));
     }
 
     @Test
     public void testIntTotalCountOfElements3D() {
         // Line 8048-8050: {{{1},{2,3}},null,{{4,5,6}}} => 6
         int[][][] a = { { { 1 }, { 2, 3 } }, null, { { 4, 5, 6 } } };
-        assertEquals(6, Arrays.totalCountOfElements(a));
+        assertEquals(6, Arrays.elementCount(a));
     }
 
     @Test

@@ -230,8 +230,8 @@ class MatricesTest extends TestBase {
     @Test
     public void testRunWithNullCommand() {
         assertThrows(IllegalArgumentException.class, () -> Matrices.runWithParallelMode(ParallelMode.FORCE_OFF, (Throwables.Runnable<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachIndex(2, 3, (Throwables.IntBiConsumer<RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachIndex(0, 2, 0, 2, (Throwables.IntBiConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachIndices(2, 3, (Throwables.IntBiConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachIndices(0, 2, 0, 2, (Throwables.IntBiConsumer<RuntimeException>) null, false));
     }
 
     @SuppressWarnings("unchecked")
@@ -247,7 +247,7 @@ class MatricesTest extends TestBase {
     public void testRunWithRowsColsAndCommand() throws Exception {
         // Test sequential execution
         int[][] result = new int[2][3];
-        Matrices.forEachIndex(2, 3, (i, j) -> result[i][j] = i * 10 + j, false);
+        Matrices.forEachIndices(2, 3, (i, j) -> result[i][j] = i * 10 + j, false);
 
         assertEquals(0, result[0][0]);
         assertEquals(1, result[0][1]);
@@ -258,7 +258,7 @@ class MatricesTest extends TestBase {
 
         // Test parallel execution
         int[][] parallelResult = new int[2][3];
-        Matrices.forEachIndex(2, 3, (i, j) -> parallelResult[i][j] = i * 10 + j, true);
+        Matrices.forEachIndices(2, 3, (i, j) -> parallelResult[i][j] = i * 10 + j, true);
 
         assertEquals(0, parallelResult[0][0]);
         assertEquals(1, parallelResult[0][1]);
@@ -272,7 +272,7 @@ class MatricesTest extends TestBase {
     public void testRunWithIndicesAndCommand() throws Exception {
         // Test with subregion
         int[][] result = new int[4][4];
-        Matrices.forEachIndex(1, 3, 1, 3, (i, j) -> result[i][j] = i * 10 + j, false);
+        Matrices.forEachIndices(1, 3, 1, 3, (i, j) -> result[i][j] = i * 10 + j, false);
 
         assertEquals(0, result[0][0]); // Not touched
         assertEquals(11, result[1][1]);
@@ -282,7 +282,7 @@ class MatricesTest extends TestBase {
         assertEquals(0, result[3][3]); // Not touched
 
         // Test with invalid indices
-        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.forEachIndex(2, 1, 0, 2, (i, j) -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.forEachIndices(2, 1, 0, 2, (i, j) -> {
         }, false));
     }
 

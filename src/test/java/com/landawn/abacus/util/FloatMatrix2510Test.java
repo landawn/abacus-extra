@@ -1191,7 +1191,7 @@ public class FloatMatrix2510Test extends TestBase {
     public void testForEach_biConsumer() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         final int[] count = { 0 };
-        m.forEach((i, j) -> count[0]++);
+        m.forEachIndices((i, j) -> count[0]++);
         assertEquals(4, count[0]);
     }
 
@@ -1199,7 +1199,7 @@ public class FloatMatrix2510Test extends TestBase {
     public void testForEach_biObjConsumer() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         final int[] count = { 0 };
-        m.forEach((i, j, matrix) -> count[0]++);
+        m.forEachIndices((i, j, matrix) -> count[0]++);
         assertEquals(4, count[0]);
     }
 

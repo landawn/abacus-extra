@@ -689,26 +689,26 @@ public class Arrays2511Test extends TestBase {
         assertArrayEquals(new char[] { 'x', 'y' }, result[0]);
     }
 
-    // ============ Arrays.totalCountOfElements Tests ============
+    // ============ Arrays.elementCount Tests ============
 
     @Test
     public void testTotalCountOfElements_boolean_2D() {
         boolean[][] arr = { { true, false }, { true }, { false, true, false } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
         assertEquals(6L, count);
     }
 
     @Test
     public void testTotalCountOfElements_boolean_2D_withNulls() {
         boolean[][] arr = { { true }, null, { false, false } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
         assertEquals(3L, count);
     }
 
     @Test
     public void testTotalCountOfElements_boolean_3D() {
         boolean[][][] arr = { { { true, false }, { true } }, { { false } } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
         assertEquals(4L, count);
     }
 
@@ -1123,9 +1123,9 @@ public class Arrays2511Test extends TestBase {
     }
 
     @Test
-    public void testFF_totalCountOfElements() {
+    public void testFF_elementCount() {
         Object[][] arr = { { "a", "b" }, { "c" }, { "d", "e", "f" } };
-        long count = Arrays.ff.totalCountOfElements(arr);
+        long count = Arrays.ff.elementCount(arr);
         assertEquals(6L, count);
     }
 
@@ -1359,9 +1359,9 @@ public class Arrays2511Test extends TestBase {
     }
 
     @Test
-    public void testFFF_totalCountOfElements() {
+    public void testFFF_elementCount() {
         Object[][][] arr = { { { "a", "b" }, { "c" } }, { { "d", "e", "f" } } };
-        long count = Arrays.fff.totalCountOfElements(arr);
+        long count = Arrays.fff.elementCount(arr);
         assertEquals(6L, count);
     }
 

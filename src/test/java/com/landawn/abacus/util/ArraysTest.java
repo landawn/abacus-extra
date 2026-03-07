@@ -4038,31 +4038,31 @@ public class ArraysTest extends TestBase {
         public void testTotalCountOfElements() {
             // Test normal array
             Object[][] array = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            long total = ff.totalCountOfElements(array);
+            long total = ff.elementCount(array);
             Assertions.assertEquals(6, total);
 
             // Test empty array
             Object[][] emptyArray = {};
-            Assertions.assertEquals(0, ff.totalCountOfElements(emptyArray));
+            Assertions.assertEquals(0, ff.elementCount(emptyArray));
 
             // Test null array
             Object[][] nullArray = null;
-            Assertions.assertEquals(0, ff.totalCountOfElements(nullArray));
+            Assertions.assertEquals(0, ff.elementCount(nullArray));
 
             // Test array with all nulls
             Object[][] isAllNulls = { null, null, null };
-            Assertions.assertEquals(0, ff.totalCountOfElements(isAllNulls));
+            Assertions.assertEquals(0, ff.elementCount(isAllNulls));
 
             // Test array with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, {}, { 3, 4, 5 } };
-            Assertions.assertEquals(5, ff.totalCountOfElements(withEmpty));
+            Assertions.assertEquals(5, ff.elementCount(withEmpty));
 
             // Test large array
             Object[][] largeArray = new Object[1000][];
             for (int i = 0; i < 1000; i++) {
                 largeArray[i] = new Object[10];
             }
-            Assertions.assertEquals(10000, ff.totalCountOfElements(largeArray));
+            Assertions.assertEquals(10000, ff.elementCount(largeArray));
         }
 
         @Test
@@ -4751,27 +4751,27 @@ public class ArraysTest extends TestBase {
         public void testTotalCountOfElements() {
             // Test with regular array
             Object[][][] array = { { { 1, 2 }, { 3 } }, null, { { 4, 5, 6 } } };
-            long count = fff.totalCountOfElements(array);
+            long count = fff.elementCount(array);
             Assertions.assertEquals(6, count);
 
             // Test with empty array
             Object[][][] emptyArray = new Object[0][][];
-            long emptyCount = fff.totalCountOfElements(emptyArray);
+            long emptyCount = fff.elementCount(emptyArray);
             Assertions.assertEquals(0, emptyCount);
 
             // Test with all null/empty elements
             Object[][][] nullArray = { null, { null, {} }, { {} } };
-            long nullCount = fff.totalCountOfElements(nullArray);
+            long nullCount = fff.elementCount(nullArray);
             Assertions.assertEquals(0, nullCount);
 
             // Test with mixed elements
             Object[][][] mixedArray = { { { 1, 2, 3 } }, { {} }, { { 4 } }, null, { { 5, 6, 7, 8 } } };
-            long mixedCount = fff.totalCountOfElements(mixedArray);
+            long mixedCount = fff.elementCount(mixedArray);
             Assertions.assertEquals(8, mixedCount);
 
             // Test with jagged array
             Object[][][] jaggedArray = { { { 1 }, { 2, 3 }, { 4, 5, 6 } }, { { 7, 8 } }, { { 9, 10, 11, 12 } } };
-            long jaggedCount = fff.totalCountOfElements(jaggedArray);
+            long jaggedCount = fff.elementCount(jaggedArray);
             Assertions.assertEquals(12, jaggedCount);
         }
 
@@ -4848,8 +4848,8 @@ public class ArraysTest extends TestBase {
                 }
             }
 
-            // Test totalCountOfElements
-            long count = fff.totalCountOfElements(largeArr);
+            // Test elementCount
+            long count = fff.elementCount(largeArr);
             Assertions.assertEquals(1000, count);
 
             // Test flatten

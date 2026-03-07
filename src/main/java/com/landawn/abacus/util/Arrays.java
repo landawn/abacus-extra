@@ -150,7 +150,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * int[] flattened3D = Arrays.flatten(cube);   // 24 elements
  *
  * // Calculate total elements across dimensions
- * long totalElements = Arrays.totalCountOfElements(cube);   // 24
+ * long totalElements = Arrays.elementCount(cube);   // 24
  *
  * // For 2D arrays - get min/max sub-array lengths
  * int[][] matrix2D = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
@@ -2144,7 +2144,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_BOOLEAN_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final boolean[] result = new boolean[count];
         int from = 0;
@@ -2183,7 +2183,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_BOOLEAN_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final boolean[] c = new boolean[count];
         int from = 0;
@@ -2831,14 +2831,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {true}, {false, true, false}};
-     * long count = Arrays.totalCountOfElements(arr);
+     * long count = Arrays.elementCount(arr);
      * // Result: 6
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
      */
-    public static long totalCountOfElements(final boolean[][] a) {
+    public static long elementCount(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -2859,14 +2859,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] arr = {{{true, false}, {true}}, {{false}, {true, false}}};
-     * long count = Arrays.totalCountOfElements(arr);
+     * long count = Arrays.elementCount(arr);
      * // Result: 6
      * }</pre>
      *
      * @param a the three-dimensional boolean array (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
      */
-    public static long totalCountOfElements(final boolean[][][] a) {
+    public static long elementCount(final boolean[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -3470,7 +3470,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_CHAR_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final char[] result = new char[count];
         int from = 0;
@@ -3509,7 +3509,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_CHAR_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final char[] result = new char[count];
         int from = 0;
@@ -4170,14 +4170,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c'}, null};
-     * long count = Arrays.totalCountOfElements(array);
+     * long count = Arrays.elementCount(array);
      * // count is 3
      * }</pre>
      *
      * @param a the two-dimensional character array to count (can be {@code null}).
      * @return the total number of character elements in the array.
      */
-    public static long totalCountOfElements(final char[][] a) {
+    public static long elementCount(final char[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -4198,14 +4198,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'a'}, {'b', 'c'}}, null, {{'d'}}};
-     * long count = Arrays.totalCountOfElements(array);
+     * long count = Arrays.elementCount(array);
      * // count is 4
      * }</pre>
      *
      * @param a the three-dimensional character array to count (can be {@code null}).
      * @return the total number of character elements in the array.
      */
-    public static long totalCountOfElements(final char[][][] a) {
+    public static long elementCount(final char[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -4735,7 +4735,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_BYTE_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final byte[] result = new byte[count];
         int from = 0;
@@ -4774,7 +4774,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_BYTE_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final byte[] result = new byte[count];
         int from = 0;
@@ -5449,13 +5449,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2, 3}, null, {4, 5}};
-     * long count = Arrays.totalCountOfElements(array);   // returns 5
+     * long count = Arrays.elementCount(array);   // returns 5
      * }</pre>
      *
      * @param a the two-dimensional byte array (can be {@code null}).
      * @return the total count of all elements across all sub-arrays.
      */
-    public static long totalCountOfElements(final byte[][] a) {
+    public static long elementCount(final byte[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -5476,13 +5476,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] array = {{{1, 2}, {3}}, {{4, 5, 6}}};
-     * long count = Arrays.totalCountOfElements(array);   // returns 6
+     * long count = Arrays.elementCount(array);   // returns 6
      * }</pre>
      *
      * @param a the three-dimensional byte array (can be {@code null}).
      * @return the total count of all elements across all sub-arrays.
      */
-    public static long totalCountOfElements(final byte[][][] a) {
+    public static long elementCount(final byte[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -6076,7 +6076,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_SHORT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final short[] result = new short[count];
         int from = 0;
@@ -6115,7 +6115,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_SHORT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final short[] result = new short[count];
         int from = 0;
@@ -6713,14 +6713,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, null, {6, 7, 8, 9}};
-     * long count = Arrays.totalCountOfElements(array);
+     * long count = Arrays.elementCount(array);
      * // count will be 9 (3 + 2 + 0 + 4)
      * }</pre>
      *
      * @param a the two-dimensional array to count elements in (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
      */
-    public static long totalCountOfElements(final short[][] a) {
+    public static long elementCount(final short[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -6741,14 +6741,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] cube = {{{1, 2}, {3, 4, 5}}, null, {{6, 7}}};
-     * long count = Arrays.totalCountOfElements(cube);
+     * long count = Arrays.elementCount(cube);
      * // count will be 7 (2 + 3 + 0 + 2)
      * }</pre>
      *
      * @param a the three-dimensional array to count elements in (can be {@code null}).
      * @return the total number of elements across all sub-arrays, or 0 if array is {@code null}/empty.
      */
-    public static long totalCountOfElements(final short[][][] a) {
+    public static long elementCount(final short[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -7371,7 +7371,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_INT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final int[] result = new int[count];
         int from = 0;
@@ -7413,7 +7413,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_INT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final int[] result = new int[count];
         int from = 0;
@@ -8018,14 +8018,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2}, {3, 4, 5}, null, {}};
-     * long count = Arrays.totalCountOfElements(a);
+     * long count = Arrays.elementCount(a);
      * // count will be 5
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null}).
      * @return the total count of integer elements.
      */
-    public static long totalCountOfElements(final int[][] a) {
+    public static long elementCount(final int[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -8046,14 +8046,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] a = {{{1}, {2, 3}}, null, {{4, 5, 6}}};
-     * long count = Arrays.totalCountOfElements(a);
+     * long count = Arrays.elementCount(a);
      * // count will be 6
      * }</pre>
      *
      * @param a the three-dimensional integer array (can be {@code null}).
      * @return the total count of integer elements.
      */
-    public static long totalCountOfElements(final int[][][] a) {
+    public static long elementCount(final int[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -8658,7 +8658,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_LONG_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final long[] result = new long[count];
         int from = 0;
@@ -8696,7 +8696,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_LONG_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final long[] result = new long[count];
         int from = 0;
@@ -9293,14 +9293,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1, 2}, {3, 4, 5}, null};
-     * long count = totalCountOfElements(array);
+     * long count = elementCount(array);
      * // count is 5
      * }</pre>
      *
      * @param a the two-dimensional array to inspect (can be {@code null}).
      * @return the total count of long elements.
      */
-    public static long totalCountOfElements(final long[][] a) {
+    public static long elementCount(final long[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -9320,14 +9320,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1}, {2, 3}}, null, {{4, 5, 6}}};
-     * long count = totalCountOfElements(array);
+     * long count = elementCount(array);
      * // count is 6
      * }</pre>
      *
      * @param a the three-dimensional array to inspect (can be {@code null}).
      * @return the total count of long elements.
      */
-    public static long totalCountOfElements(final long[][][] a) {
+    public static long elementCount(final long[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -9929,7 +9929,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_FLOAT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final float[] result = new float[count];
         int from = 0;
@@ -9968,7 +9968,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_FLOAT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final float[] result = new float[count];
         int from = 0;
@@ -10569,13 +10569,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f}, {2.0f, 3.0f}, null};
-     * long count = Arrays.totalCountOfElements(matrix);   // count is 3
+     * long count = Arrays.elementCount(matrix);   // count is 3
      * }</pre>
      *
      * @param a the two-dimensional array to count elements in.
      * @return the total count of elements.
      */
-    public static long totalCountOfElements(final float[][] a) {
+    public static long elementCount(final float[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -10596,13 +10596,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] cube = {{{1.0f}}, {{2.0f, 3.0f}, null}, null};
-     * long count = Arrays.totalCountOfElements(cube);   // count is 3
+     * long count = Arrays.elementCount(cube);   // count is 3
      * }</pre>
      *
      * @param a the three-dimensional array to count elements in.
      * @return the total count of elements.
      */
-    public static long totalCountOfElements(final float[][][] a) {
+    public static long elementCount(final float[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -11208,7 +11208,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_DOUBLE_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final double[] result = new double[count];
         int from = 0;
@@ -11247,7 +11247,7 @@ public sealed class Arrays permits Arrays.f {
             return N.EMPTY_DOUBLE_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(totalCountOfElements(a));
+        final int count = Numbers.toIntExact(elementCount(a));
 
         final double[] result = new double[count];
         int from = 0;
@@ -11849,14 +11849,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] matrix = {{1, 2}, {3, 4, 5}, null, {}};
-     * long count = Arrays.totalCountOfElements(matrix);
+     * long count = Arrays.elementCount(matrix);
      * // count is 5
      * }</pre>
      *
      * @param a the two-dimensional array.
      * @return the total count of elements.
      */
-    public static long totalCountOfElements(final double[][] a) {
+    public static long elementCount(final double[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -11876,14 +11876,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] cube = {{{1}, {2, 3}}, null, {{4}}};
-     * long count = Arrays.totalCountOfElements(cube);
+     * long count = Arrays.elementCount(cube);
      * // count is 4
      * }</pre>
      *
      * @param a the three-dimensional array.
      * @return the total count of elements.
      */
-    public static long totalCountOfElements(final double[][][] a) {
+    public static long elementCount(final double[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -14921,7 +14921,7 @@ public sealed class Arrays permits Arrays.f {
         public static <T> T[] flatten(final T[][] a) throws IllegalArgumentException {
             N.checkArgNotNull(a, "The input array must not be null");
 
-            final int count = Numbers.toIntExact(totalCountOfElements(a));
+            final int count = Numbers.toIntExact(elementCount(a));
 
             final Class<T> componentType = (Class<T>) a.getClass().getComponentType().getComponentType();
             final T[] c = N.newArray(componentType, count);
@@ -15827,14 +15827,14 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * long total = ff.totalCountOfElements(array);
+         * long total = ff.elementCount(array);
          * // total is 6 (3 + 2 + 0 + 1)
          * }</pre>
          * 
          * @param a the two-dimensional array to count elements in. can be {@code null}.
          * @return the total number of elements across all sub-arrays, or 0 if the array is {@code null}.
          */
-        public static long totalCountOfElements(final Object[][] a) {
+        public static long elementCount(final Object[][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }
@@ -16135,7 +16135,7 @@ public sealed class Arrays permits Arrays.f {
         public static <T> T[] flatten(final T[][][] a) throws IllegalArgumentException {
             N.checkArgNotNull(a, "The input array must not be null");
 
-            final int count = Numbers.toIntExact(totalCountOfElements(a));
+            final int count = Numbers.toIntExact(elementCount(a));
 
             final Class<T> componentType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
             final T[] c = N.newArray(componentType, count);
@@ -16947,14 +16947,14 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Object[][][] array = {{{1, 2}, {3}}, null, {{4, 5, 6}}};
-         * long count = fff.totalCountOfElements(array);
+         * long count = fff.elementCount(array);
          * // count is 6 (elements: 1, 2, 3, 4, 5, 6)
          * }</pre>
          *
          * @param a the three-dimensional array to count elements in.
          * @return the total number of element slots across all dimensions.
          */
-        public static long totalCountOfElements(final Object[][][] a) {
+        public static long elementCount(final Object[][][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }

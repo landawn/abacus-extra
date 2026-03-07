@@ -1778,118 +1778,118 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for totalCountOfElements methods
+    // Tests for elementCount methods
     // ============================================
 
     @Test
     public void testTotalCountOfElements_Boolean2D() {
         boolean[][] a = { { true, false }, { true }, { true, false, true } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(6, result);
     }
 
     @Test
     public void testTotalCountOfElements_Boolean3D() {
         boolean[][][] a = { { { true, false }, { true } }, { { false } } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(4, result);
     }
 
     @Test
     public void testTotalCountOfElements_Char2D() {
         char[][] a = { { 'a', 'b' }, { 'c' }, { 'd', 'e', 'f' } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(6, result);
     }
 
     @Test
     public void testTotalCountOfElements_Char3D() {
         char[][][] a = { { { 'a', 'b' }, { 'c' } }, { { 'd' } } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(4, result);
     }
 
     @Test
     public void testTotalCountOfElements_Byte2D() {
         byte[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(6, result);
     }
 
     @Test
     public void testTotalCountOfElements_Byte3D() {
         byte[][][] a = { { { 1, 2 }, { 3 } }, { { 4 } } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(4, result);
     }
 
     @Test
     public void testTotalCountOfElements_Short2D() {
         short[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(6, result);
     }
 
     @Test
     public void testTotalCountOfElements_Short3D() {
         short[][][] a = { { { 1, 2 }, { 3 } }, { { 4 } } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(4, result);
     }
 
     @Test
     public void testTotalCountOfElements_Int2D() {
         int[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(6, result);
     }
 
     @Test
     public void testTotalCountOfElements_Int3D() {
         int[][][] a = { { { 1, 2 }, { 3 } }, { { 4 } } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(4, result);
     }
 
     @Test
     public void testTotalCountOfElements_Long2D() {
         long[][] a = { { 1L, 2L }, { 3L }, { 4L, 5L, 6L } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(6, result);
     }
 
     @Test
     public void testTotalCountOfElements_Long3D() {
         long[][][] a = { { { 1L, 2L }, { 3L } }, { { 4L } } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(4, result);
     }
 
     @Test
     public void testTotalCountOfElements_Float2D() {
         float[][] a = { { 1.0f, 2.0f }, { 3.0f }, { 4.0f, 5.0f, 6.0f } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(6, result);
     }
 
     @Test
     public void testTotalCountOfElements_Float3D() {
         float[][][] a = { { { 1.0f, 2.0f }, { 3.0f } }, { { 4.0f } } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(4, result);
     }
 
     @Test
     public void testTotalCountOfElements_Double2D() {
         double[][] a = { { 1.0, 2.0 }, { 3.0 }, { 4.0, 5.0, 6.0 } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(6, result);
     }
 
     @Test
     public void testTotalCountOfElements_Double3D() {
         double[][][] a = { { { 1.0, 2.0 }, { 3.0 } }, { { 4.0 } } };
-        long result = Arrays.totalCountOfElements(a);
+        long result = Arrays.elementCount(a);
         assertEquals(4, result);
     }
 

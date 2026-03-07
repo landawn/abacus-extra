@@ -29,7 +29,7 @@ import com.landawn.abacus.TestBase;
  * Comprehensive unit tests for Arrays utility class.
  * This class provides extensive array manipulation methods for primitive and object arrays.
  * Tests cover println, mapToObj, mapToLong, mapToDouble, mapToInt, updateAll, replaceIf,
- * reshape, flatten, applyOnFlattened, zip, totalCountOfElements, minSubArrayLength, maxSubArrayLength methods.
+ * reshape, flatten, applyOnFlattened, zip, elementCount, minSubArrayLength, maxSubArrayLength methods.
  */
 @Tag("2512")
 public class Arrays2512Test extends TestBase {
@@ -698,45 +698,45 @@ public class Arrays2512Test extends TestBase {
     }
 
     // ============================================
-    // Tests for totalCountOfElements(boolean[][])
+    // Tests for elementCount(boolean[][])
     // ============================================
 
     @Test
-    public void test_totalCountOfElements_booleanArray2D() {
+    public void test_elementCount_booleanArray2D() {
         boolean[][] arr = { { true, false }, { true, false, true } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
 
         assertEquals(5, count);
     }
 
     @Test
-    public void test_totalCountOfElements_booleanArray2DNull() {
-        long count = Arrays.totalCountOfElements((boolean[][]) null);
+    public void test_elementCount_booleanArray2DNull() {
+        long count = Arrays.elementCount((boolean[][]) null);
         assertEquals(0, count);
     }
 
     @Test
-    public void test_totalCountOfElements_booleanArray2DEmpty() {
+    public void test_elementCount_booleanArray2DEmpty() {
         boolean[][] arr = {};
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
         assertEquals(0, count);
     }
 
     // ============================================
-    // Tests for totalCountOfElements(boolean[][][])
+    // Tests for elementCount(boolean[][][])
     // ============================================
 
     @Test
-    public void test_totalCountOfElements_booleanArray3D() {
+    public void test_elementCount_booleanArray3D() {
         boolean[][][] arr = { { { true, false }, { true } } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
 
         assertEquals(3, count);
     }
 
     @Test
-    public void test_totalCountOfElements_booleanArray3DNull() {
-        long count = Arrays.totalCountOfElements((boolean[][][]) null);
+    public void test_elementCount_booleanArray3DNull() {
+        long count = Arrays.elementCount((boolean[][][]) null);
         assertEquals(0, count);
     }
 
@@ -838,9 +838,9 @@ public class Arrays2512Test extends TestBase {
     }
 
     @Test
-    public void test_totalCountOfElements_charArray2D() {
+    public void test_elementCount_charArray2D() {
         char[][] arr = { { 'a', 'b' }, { 'c', 'd', 'e' } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
 
         assertEquals(5, count);
     }

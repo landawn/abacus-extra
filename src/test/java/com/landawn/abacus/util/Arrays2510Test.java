@@ -19,7 +19,7 @@ import com.landawn.abacus.TestBase;
  * - Array transformations (reshape, flatten, zip)
  * - In-place operations (updateAll, replaceIf)
  * - Type conversions (toBoolean, toByte, toChar, etc.)
- * - Statistical operations (totalCountOfElements, minSubArrayLength, maxSubArrayLength)
+ * - Statistical operations (elementCount, minSubArrayLength, maxSubArrayLength)
  */
 @Tag("2510")
 public class Arrays2510Test extends TestBase {
@@ -2297,41 +2297,41 @@ public class Arrays2510Test extends TestBase {
     }
 
     // ============================================
-    // Tests for totalCountOfElements methods
+    // Tests for elementCount methods
     // ============================================
 
     @Test
     public void testTotalCountOfElements_2D_Boolean() {
         boolean[][] arr = { { true, false }, { true, false, true } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
         assertEquals(5L, count);
     }
 
     @Test
     public void testTotalCountOfElements_2D_Boolean_null() {
         boolean[][] arr = null;
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
         assertEquals(0L, count);
     }
 
     @Test
     public void testTotalCountOfElements_3D_Boolean() {
         boolean[][][] arr = { { { true, false }, { true } }, { { false } } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
         assertEquals(4L, count);
     }
 
     @Test
     public void testTotalCountOfElements_2D_Int() {
         int[][] arr = { { 1, 2, 3 }, { 4, 5 } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
         assertEquals(5L, count);
     }
 
     @Test
     public void testTotalCountOfElements_3D_Double() {
         double[][][] arr = { { { 1.0, 2.0 }, { 3.0 } }, { { 4.0, 5.0 } } };
-        long count = Arrays.totalCountOfElements(arr);
+        long count = Arrays.elementCount(arr);
         assertEquals(5L, count);
     }
 

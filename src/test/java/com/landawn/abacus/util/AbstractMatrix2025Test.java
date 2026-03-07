@@ -523,7 +523,7 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         List<String> positions = new ArrayList<>();
 
-        m.forEach((i, j) -> positions.add(i + "," + j));
+        m.forEachIndices((i, j) -> positions.add(i + "," + j));
 
         assertEquals(4, positions.size());
         assertEquals("0,0", positions.get(0));
@@ -537,7 +537,7 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         List<String> positions = new ArrayList<>();
 
-        m.forEach(1, 3, 1, 3, (i, j) -> positions.add(i + "," + j));
+        m.forEachIndices(1, 3, 1, 3, (i, j) -> positions.add(i + "," + j));
 
         assertEquals(4, positions.size());
         assertEquals("1,1", positions.get(0));
@@ -549,9 +549,9 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testForEach_withRange_outOfBounds() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(-1, 2, 0, 2, (i, j) -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEachIndices(-1, 2, 0, 2, (i, j) -> {
         }));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 3, 0, 2, (i, j) -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEachIndices(0, 3, 0, 2, (i, j) -> {
         }));
     }
 
@@ -560,7 +560,7 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         List<Integer> values = new ArrayList<>();
 
-        m.forEach((i, j, matrix) -> values.add(matrix.get(i, j)));
+        m.forEachIndices((i, j, matrix) -> values.add(matrix.get(i, j)));
 
         assertEquals(4, values.size());
         assertEquals(1, values.get(0).intValue());
@@ -574,7 +574,7 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         List<Integer> values = new ArrayList<>();
 
-        m.forEach(1, 3, 1, 3, (i, j, matrix) -> values.add(matrix.get(i, j)));
+        m.forEachIndices(1, 3, 1, 3, (i, j, matrix) -> values.add(matrix.get(i, j)));
 
         assertEquals(4, values.size());
         assertEquals(5, values.get(0).intValue());
@@ -1052,7 +1052,7 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix empty = IntMatrix.empty();
         List<String> positions = new ArrayList<>();
 
-        empty.forEach((i, j) -> positions.add(i + "," + j));
+        empty.forEachIndices((i, j) -> positions.add(i + "," + j));
 
         assertTrue(positions.isEmpty());
     }
@@ -1062,7 +1062,7 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         List<String> positions = new ArrayList<>();
 
-        m.forEach(1, 1, 0, 2, (i, j) -> positions.add(i + "," + j));
+        m.forEachIndices(1, 1, 0, 2, (i, j) -> positions.add(i + "," + j));
 
         assertTrue(positions.isEmpty());
     }
@@ -1072,7 +1072,7 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix empty = IntMatrix.empty();
         List<Integer> values = new ArrayList<>();
 
-        empty.forEach((i, j, matrix) -> values.add(matrix.get(i, j)));
+        empty.forEachIndices((i, j, matrix) -> values.add(matrix.get(i, j)));
 
         assertTrue(values.isEmpty());
     }
@@ -1082,7 +1082,7 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         List<Integer> values = new ArrayList<>();
 
-        m.forEach(0, 0, 1, 1, (i, j, matrix) -> values.add(matrix.get(i, j)));
+        m.forEachIndices(0, 0, 1, 1, (i, j, matrix) -> values.add(matrix.get(i, j)));
 
         assertTrue(values.isEmpty());
     }

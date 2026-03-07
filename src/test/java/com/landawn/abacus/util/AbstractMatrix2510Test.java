@@ -797,7 +797,7 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testForEach_biConsumer() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         AtomicInteger count = new AtomicInteger(0);
-        m.forEach((i, j) -> count.incrementAndGet());
+        m.forEachIndices((i, j) -> count.incrementAndGet());
         assertEquals(4, count.get());
     }
 
@@ -805,16 +805,16 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testForEach_biConsumer_withRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         AtomicInteger count = new AtomicInteger(0);
-        m.forEach(1, 3, 1, 3, (i, j) -> count.incrementAndGet());
+        m.forEachIndices(1, 3, 1, 3, (i, j) -> count.incrementAndGet());
         assertEquals(4, count.get());
     }
 
     @Test
     public void testForEach_biConsumer_outOfBounds() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(-1, 2, 0, 2, (i, j) -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEachIndices(-1, 2, 0, 2, (i, j) -> {
         }));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 3, 0, 2, (i, j) -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEachIndices(0, 3, 0, 2, (i, j) -> {
         }));
     }
 
@@ -822,7 +822,7 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testForEach_withMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         AtomicInteger sum = new AtomicInteger(0);
-        m.forEach((i, j, matrix) -> sum.addAndGet(matrix.get(i, j)));
+        m.forEachIndices((i, j, matrix) -> sum.addAndGet(matrix.get(i, j)));
         assertEquals(10, sum.get());
     }
 
@@ -830,7 +830,7 @@ public class AbstractMatrix2510Test extends TestBase {
     public void testForEach_withMatrix_withRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         AtomicInteger sum = new AtomicInteger(0);
-        m.forEach(1, 3, 1, 3, (i, j, matrix) -> sum.addAndGet(matrix.get(i, j)));
+        m.forEachIndices(1, 3, 1, 3, (i, j, matrix) -> sum.addAndGet(matrix.get(i, j)));
         assertEquals(28, sum.get()); // 5 + 6 + 8 + 9
     }
 
