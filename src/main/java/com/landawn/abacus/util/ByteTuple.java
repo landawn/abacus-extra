@@ -281,7 +281,11 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * ByteTuple.ByteTuple1 single = ByteTuple.copyOf(new byte[]{(byte) 42});
      * }</pre>
      *
-     * @param <TP> the specific ByteTuple subtype to return
+     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
+     * or to the base tuple type.</p>
+     *
+     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of byte values (must have length 0-9), may be {@code null}
      * @return a ByteTuple of appropriate size containing the array values, or an empty ByteTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements

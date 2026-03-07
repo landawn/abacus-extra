@@ -857,12 +857,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * The diagonal array length must exactly match the number of rows.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -876,12 +875,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
     public void setMainDiagonal(final double[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
-        final double[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
+        N.checkArgument(N.len(mainDiagonal) == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, N.len(mainDiagonal));
 
         for (int i = 0; i < rowCount; i++) {
-            a[i][i] = diagonal[i]; // NOSONAR
+            a[i][i] = mainDiagonal[i];
         }
     }
 
@@ -941,11 +939,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
-     * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -959,12 +957,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
     public void setAntiDiagonal(final double[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
-        final double[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
+        N.checkArgument(N.len(antiDiagonal) == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, N.len(antiDiagonal));
 
         for (int i = 0; i < rowCount; i++) {
-            a[i][columnCount - i - 1] = diagonal[i];
+            a[i][columnCount - i - 1] = antiDiagonal[i];
         }
     }
 
@@ -2193,7 +2190,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final double[][] result = new double[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherData[k][j];
 
-        Matrices.forEachMultiplyIndex(this, other, multiplyAction);
+        Matrices.forEachMultiplyIndices(this, other, multiplyAction);
 
         return new DoubleMatrix(result);
     }

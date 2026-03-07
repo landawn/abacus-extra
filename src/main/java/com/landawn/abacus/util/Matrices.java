@@ -810,7 +810,7 @@ public final class Matrices {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] result = new int[matrixA.rowCount][matrixB.columnCount];
-     * Matrices.forEachMultiplyIndex(matrixA, matrixB, (i, j, k) -> {
+     * Matrices.forEachMultiplyIndices(matrixA, matrixB, (i, j, k) -> {
      *     result[i][j] += matrixA.get(i, k) * matrixB.get(k, j);
      * });
      * }</pre>
@@ -820,9 +820,9 @@ public final class Matrices {
      * @param b the second matrix (right operand), must not be {@code null}
      * @param action the accumulator function called for each (i, j, k) triple in the multiplication, must not be {@code null}
      * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}, if matrix dimensions are incompatible ({@code a.columnCount != b.rowCount}), or if {@code action} is {@code null}
-     * @see #forEachMultiplyIndex(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer, boolean)
+     * @see #forEachMultiplyIndices(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer, boolean)
      */
-    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void forEachMultiplyIndex(final X a, final X b,
+    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void forEachMultiplyIndices(final X a, final X b,
             final Throwables.IntTriConsumer<RuntimeException> action) throws IllegalArgumentException {
         N.checkArgNotNull(a, "a");
         N.checkArgNotNull(b, "b");
@@ -832,7 +832,7 @@ public final class Matrices {
                 "Matrix dimensions incompatible for multiplication: a is {}x{}, b is {}x{} (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
                 b.rowCount, b.columnCount);
 
-        forEachMultiplyIndex(a, b, action, Matrices.isParallelizable(a, saturatedMultiply(a.elementCount, b.columnCount)));
+        forEachMultiplyIndices(a, b, action, Matrices.isParallelizable(a, saturatedMultiply(a.elementCount, b.columnCount)));
     }
 
     /**
@@ -840,7 +840,7 @@ public final class Matrices {
      * control over parallel execution.
      *
      * <p>This method provides the same iteration functionality as
-     * {@link #forEachMultiplyIndex(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer)} but with
+     * {@link #forEachMultiplyIndices(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer)} but with
      * explicit control over whether to use parallel processing. The iteration strategy is
      * automatically optimized based on the matrix dimensions to minimize cache misses and
      * maximize performance.</p>
@@ -855,7 +855,7 @@ public final class Matrices {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] result = new double[a.rowCount][b.columnCount];
-     * Matrices.forEachMultiplyIndex(a, b, (i, j, k) ->
+     * Matrices.forEachMultiplyIndices(a, b, (i, j, k) ->
      *     result[i][j] += a.get(i, k) * b.get(k, j), true);
      * }</pre>
      *
@@ -865,9 +865,9 @@ public final class Matrices {
      * @param action the accumulator function called for each (i, j, k) triple in the multiplication, must not be {@code null}
      * @param inParallel {@code true} to force parallel execution; {@code false} for sequential execution
      * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}, if matrix dimensions are incompatible ({@code a.columnCount != b.rowCount}), or if {@code action} is {@code null}
-     * @see #forEachMultiplyIndex(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer)
+     * @see #forEachMultiplyIndices(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer)
      */
-    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void forEachMultiplyIndex(final X a, final X b,
+    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void forEachMultiplyIndices(final X a, final X b,
             final Throwables.IntTriConsumer<RuntimeException> action, // NOSONAR
             final boolean inParallel) throws IllegalArgumentException {
         N.checkArgNotNull(a, "a");

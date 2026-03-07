@@ -280,7 +280,11 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * BooleanTuple.BooleanTuple1 single = BooleanTuple.copyOf(new boolean[]{true});
      * }</pre>
      *
-     * @param <TP> the specific BooleanTuple subtype to return
+     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
+     * or to the base tuple type.</p>
+     *
+     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of boolean values (must have length 0-9), may be {@code null}
      * @return a BooleanTuple of appropriate size containing the array values, or an empty BooleanTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements

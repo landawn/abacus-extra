@@ -266,7 +266,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple1 single = IntTuple.copyOf(new int[]{42});
      * }</pre>
      *
-     * @param <TP> the specific IntTuple subtype to return
+     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
+     * or to the base tuple type.</p>
+     *
+     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of int values (must have length 0-9), may be {@code null}
      * @return an IntTuple of appropriate size containing the array values, or an empty IntTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements

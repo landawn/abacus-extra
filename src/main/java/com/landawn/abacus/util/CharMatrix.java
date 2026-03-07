@@ -809,17 +809,15 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @param mainDiagonal the new values for the main diagonal; must have length equal to rowCount
-     * @throws NullPointerException if {@code mainDiagonal} is {@code null}
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
     public void setMainDiagonal(final char[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
-        final char[] diagonal = mainDiagonal;
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
+        N.checkArgument(N.len(mainDiagonal) == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, N.len(mainDiagonal));
 
         for (int i = 0; i < rowCount; i++) {
-            a[i][i] = diagonal[i]; // NOSONAR
+            a[i][i] = mainDiagonal[i];
         }
     }
 
@@ -881,10 +879,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
-     * a length equal to the number of rows in the matrix.
+     * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
-     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -896,17 +894,15 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
-     * @throws NullPointerException if {@code antiDiagonal} is {@code null}
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
     public void setAntiDiagonal(final char[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
-        final char[] diagonal = antiDiagonal;
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
+        N.checkArgument(N.len(antiDiagonal) == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, N.len(antiDiagonal));
 
         for (int i = 0; i < rowCount; i++) {
-            a[i][columnCount - i - 1] = diagonal[i];
+            a[i][columnCount - i - 1] = antiDiagonal[i];
         }
     }
 
@@ -2067,7 +2063,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         final char[][] result = new char[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += (char) (a[i][k] * otherArray[k][j]);
 
-        Matrices.forEachMultiplyIndex(this, other, cmd);
+        Matrices.forEachMultiplyIndices(this, other, cmd);
 
         return new CharMatrix(result);
     }

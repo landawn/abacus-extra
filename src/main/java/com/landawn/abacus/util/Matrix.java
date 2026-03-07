@@ -894,11 +894,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the main diagonal elements (left-up to right-down).
-     * The matrix must be square (same number of rows and columns).
-     * The diagonal array must have exactly as many elements as the matrix dimension.
+     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
+     * exactly as many elements as the matrix has rows.
      *
-     * <p>This method modifies the matrix in-place.</p>
+     * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -908,17 +908,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Matrix is now: {{10,2,3},{4,20,6},{7,8,30}}
      * }</pre>
      *
-     * @param mainDiagonal the new diagonal values (must not be null and must have exactly {@code rowCount} elements)
+     * @param mainDiagonal the new values for the main diagonal; must have length equal to rowCount
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
-     * @throws IllegalArgumentException if {@code mainDiagonal} is {@code null} or its length does not equal rowCount
+     * @throws IllegalArgumentException if mainDiagonal array length does not equal rowCount
      */
     public void setMainDiagonal(final T[] mainDiagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(mainDiagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, mainDiagonal.length);
+        N.checkArgument(N.len(mainDiagonal) == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, N.len(mainDiagonal));
 
         for (int i = 0; i < rowCount; i++) {
             ensureRowCanStore(i, mainDiagonal[i]);
-            a[i][i] = mainDiagonal[i]; // NOSONAR
+            a[i][i] = mainDiagonal[i];
         }
     }
 
@@ -986,28 +986,28 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the anti-diagonal elements (upper-right to lower-left).
-     * The matrix must be square (same number of rows and columns).
-     * The diagonal array must have exactly as many elements as the matrix dimension.
-     * The first element goes to the top-right corner, the last to the bottom-left corner.
+     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
+     * exactly as many elements as the matrix has rows.
      *
-     * <p>This method modifies the matrix in-place.</p>
+     * <p>This method sets the anti-diagonal (secondary diagonal) elements from
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][] {{1,2,3},{4,5,6},{7,8,9}});
      * m.setAntiDiagonal(new Integer[] {10, 20, 30});
-     * // Anti-diagonal is now [10, 20, 30] from top-right to bottom-left
+     * // Anti-diagonal is now [10, 20, 30]
      * // Matrix is now: {{1,2,10},{4,20,6},{30,8,9}}
      * }</pre>
      *
-     * @param antiDiagonal the new anti-diagonal values (must not be null and must have exactly {@code rowCount} elements)
+     * @param antiDiagonal the new values for the anti-diagonal; must have length equal to rowCount
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
-     * @throws IllegalArgumentException if antiDiagonal array does not have exactly {@code rowCount} elements
+     * @throws IllegalArgumentException if antiDiagonal array length does not equal rowCount
      */
     public void setAntiDiagonal(final T[] antiDiagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(antiDiagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, antiDiagonal.length);
+        N.checkArgument(N.len(antiDiagonal) == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, N.len(antiDiagonal));
 
         for (int i = 0; i < rowCount; i++) {
             ensureRowCanStore(i, antiDiagonal[i]);

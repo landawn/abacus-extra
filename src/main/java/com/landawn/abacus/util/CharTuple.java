@@ -272,7 +272,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * CharTuple.CharTuple1 single = CharTuple.copyOf(new char[]{'X'});
      * }</pre>
      *
-     * @param <TP> the specific CharTuple subtype to return
+     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
+     * or to the base tuple type.</p>
+     *
+     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of char values (must have length 0-9), may be {@code null}
      * @return a CharTuple of appropriate size containing the array values, or an empty CharTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
