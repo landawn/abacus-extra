@@ -2095,6 +2095,47 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
+     * Converts this float matrix to an int matrix.
+     * Each float value is narrowed to int by casting, which truncates toward zero.
+     *
+     * <p><b>Warning:</b> This is a narrowing conversion that may lose information.
+     * The fractional part is discarded, and values outside the int range
+     * ({@code Integer.MIN_VALUE} to {@code Integer.MAX_VALUE}) will overflow.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatMatrix floatMatrix = FloatMatrix.of(new float[][] {{1.9f, 2.1f}, {3.5f, 4.0f}});
+     * IntMatrix intMatrix = floatMatrix.toIntMatrix();
+     * // Result: [[1, 2],
+     * //          [3, 4]]
+     * }</pre>
+     *
+     * @return a new {@code IntMatrix} with values converted from float to int
+     */
+    public IntMatrix toIntMatrix() {
+        final int[][] c = new int[rowCount][columnCount];
+
+        if (rowCount <= columnCount) {
+            for (int i = 0; i < rowCount; i++) {
+                final float[] aa = a[i];
+                final int[] cc = c[i];
+
+                for (int j = 0; j < columnCount; j++) {
+                    cc[j] = (int) aa[j];
+                }
+            }
+        } else {
+            for (int j = 0; j < columnCount; j++) {
+                for (int i = 0; i < rowCount; i++) {
+                    c[i][j] = (int) a[i][j];
+                }
+            }
+        }
+
+        return new IntMatrix(c);
+    }
+
+    /**
      * Performs element-wise operation on two matrices using the provided binary operator.
      * The matrices must have the same dimensions.
      *

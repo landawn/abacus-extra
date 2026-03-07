@@ -2234,6 +2234,88 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
+     * Converts this double matrix to an int matrix.
+     * Each double value is narrowed to int by casting, which truncates toward zero.
+     *
+     * <p><b>Warning:</b> This is a narrowing conversion that may lose information.
+     * The fractional part is discarded, and values outside the int range
+     * ({@code Integer.MIN_VALUE} to {@code Integer.MAX_VALUE}) will overflow.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleMatrix doubleMatrix = DoubleMatrix.of(new double[][] {{1.9, 2.1}, {3.5, 4.0}});
+     * IntMatrix intMatrix = doubleMatrix.toIntMatrix();
+     * // Result: [[1, 2],
+     * //          [3, 4]]
+     * }</pre>
+     *
+     * @return a new {@code IntMatrix} with values converted from double to int
+     */
+    public IntMatrix toIntMatrix() {
+        final int[][] c = new int[rowCount][columnCount];
+
+        if (rowCount <= columnCount) {
+            for (int i = 0; i < rowCount; i++) {
+                final double[] aa = a[i];
+                final int[] cc = c[i];
+
+                for (int j = 0; j < columnCount; j++) {
+                    cc[j] = (int) aa[j];
+                }
+            }
+        } else {
+            for (int j = 0; j < columnCount; j++) {
+                for (int i = 0; i < rowCount; i++) {
+                    c[i][j] = (int) a[i][j];
+                }
+            }
+        }
+
+        return new IntMatrix(c);
+    }
+
+    /**
+     * Converts this double matrix to a long matrix.
+     * Each double value is narrowed to long by casting, which truncates toward zero.
+     *
+     * <p><b>Warning:</b> This is a narrowing conversion that may lose information.
+     * The fractional part is discarded, and values outside the long range
+     * may overflow.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleMatrix doubleMatrix = DoubleMatrix.of(new double[][] {{1.9, 2.1}, {3.5, 4.0}});
+     * LongMatrix longMatrix = doubleMatrix.toLongMatrix();
+     * // Result: [[1, 2],
+     * //          [3, 4]]
+     * }</pre>
+     *
+     * @return a new {@code LongMatrix} with values converted from double to long
+     */
+    public LongMatrix toLongMatrix() {
+        final long[][] c = new long[rowCount][columnCount];
+
+        if (rowCount <= columnCount) {
+            for (int i = 0; i < rowCount; i++) {
+                final double[] aa = a[i];
+                final long[] cc = c[i];
+
+                for (int j = 0; j < columnCount; j++) {
+                    cc[j] = (long) aa[j];
+                }
+            }
+        } else {
+            for (int j = 0; j < columnCount; j++) {
+                for (int i = 0; i < rowCount; i++) {
+                    c[i][j] = (long) a[i][j];
+                }
+            }
+        }
+
+        return new LongMatrix(c);
+    }
+
+    /**
      * Applies a binary operation element-wise to this matrix and another matrix.
      * The matrices must have the same dimensions. The original matrices are not modified.
      * Each pair of corresponding elements from the two matrices is combined using the zip function,
@@ -2311,29 +2393,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns a stream of all elements in this matrix, traversed horizontally (left to right, top to bottom).
-     *
-     * <p>This method is useful for processing all matrix elements sequentially. The returned
-     * stream can be used with all standard DoubleStream operations including sum, average, filter, map, etc.</p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double sum = matrix.streamHorizontal().sum();           // Returns 10.0 (1.0 + 2.0 + 3.0 + 4.0)
-     * double[] array = matrix.streamHorizontal().toArray();   // Returns [1.0, 2.0, 3.0, 4.0]
-     * }</pre>
-     *
-     * @return a DoubleStream of all matrix elements in row-major order, or an empty stream if the matrix is empty
-     */
-    @Override
-    public DoubleStream streamHorizontal() {
-        return streamHorizontal(0, rowCount);
-    }
-
-    /**
      * Returns a stream of elements from the main diagonal (upper-left to lower-right).
      * The matrix must be square (same number of rows and columns).
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
@@ -2388,7 +2450,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Returns a stream of elements from the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (same number of rows and columns).
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
@@ -2440,6 +2502,26 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                 return toIndex - cursor; // NOSONAR
             }
         });
+    }
+
+    /**
+     * Returns a stream of all elements in this matrix, traversed horizontally (left to right, top to bottom).
+     *
+     * <p>This method is useful for processing all matrix elements sequentially. The returned
+     * stream can be used with all standard DoubleStream operations including sum, average, filter, map, etc.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
+     * double sum = matrix.streamHorizontal().sum();           // Returns 10.0 (1.0 + 2.0 + 3.0 + 4.0)
+     * double[] array = matrix.streamHorizontal().toArray();   // Returns [1.0, 2.0, 3.0, 4.0]
+     * }</pre>
+     *
+     * @return a DoubleStream of all matrix elements in row-major order, or an empty stream if the matrix is empty
+     */
+    @Override
+    public DoubleStream streamHorizontal() {
+        return streamHorizontal(0, rowCount);
     }
 
     /**
