@@ -419,14 +419,14 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        double[] row = m.row(0);
+        double[] row = m.rowRef(0);
         assertArrayEquals(new double[] { 1.0, 2.0 }, row, 0.0);
     }
 
     @Test
     public void test_row_invalidIndex() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(5));
     }
 
     @Test
@@ -446,7 +446,7 @@ public class DoubleMatrix2512Test extends TestBase {
     public void test_setRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         m.setRow(0, new double[] { 9.0, 8.0 });
-        assertArrayEquals(new double[] { 9.0, 8.0 }, m.row(0), 0.0);
+        assertArrayEquals(new double[] { 9.0, 8.0 }, m.rowRef(0), 0.0);
     }
 
     @Test
@@ -486,8 +486,8 @@ public class DoubleMatrix2512Test extends TestBase {
     public void test_updateRow() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         m.updateRow(0, x -> x * 2);
-        assertArrayEquals(new double[] { 2.0, 4.0 }, m.row(0), 0.0);
-        assertArrayEquals(new double[] { 3.0, 4.0 }, m.row(1), 0.0);
+        assertArrayEquals(new double[] { 2.0, 4.0 }, m.rowRef(0), 0.0);
+        assertArrayEquals(new double[] { 3.0, 4.0 }, m.rowRef(1), 0.0);
     }
 
     @Test
@@ -801,9 +801,9 @@ public class DoubleMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flipH() {
+    public void test_flippedH() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
-        DoubleMatrix flipped = m.flipH();
+        DoubleMatrix flipped = m.flippedH();
         assertEquals(3.0, flipped.get(0, 0), 0.0);
         assertEquals(2.0, flipped.get(0, 1), 0.0);
         assertEquals(1.0, flipped.get(0, 2), 0.0);
@@ -812,9 +812,9 @@ public class DoubleMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flipV() {
+    public void test_flippedV() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } });
-        DoubleMatrix flipped = m.flipV();
+        DoubleMatrix flipped = m.flippedV();
         assertEquals(5.0, flipped.get(0, 0), 0.0);
         assertEquals(3.0, flipped.get(1, 0), 0.0);
         assertEquals(1.0, flipped.get(2, 0), 0.0);
@@ -1107,44 +1107,44 @@ public class DoubleMatrix2512Test extends TestBase {
     // ============ Stream Tests ============
 
     @Test
-    public void test_streamH() {
+    public void test_streamHorizontal() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        double sum = m.streamH().sum();
+        double sum = m.streamHorizontal().sum();
         assertEquals(10.0, sum, 0.0);
     }
 
     @Test
     public void test_streamH_byRowIndex() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        double sum = m.streamH(0).sum();
+        double sum = m.streamHorizontal(0).sum();
         assertEquals(3.0, sum, 0.0);
     }
 
     @Test
     public void test_streamH_withRange() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } });
-        double sum = m.streamH(1, 3).sum();
+        double sum = m.streamHorizontal(1, 3).sum();
         assertEquals(18.0, sum, 0.0);
     }
 
     @Test
-    public void test_streamV() {
+    public void test_streamVertical() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        double sum = m.streamV().sum();
+        double sum = m.streamVertical().sum();
         assertEquals(10.0, sum, 0.0);
     }
 
     @Test
     public void test_streamV_byColumnIndex() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        double sum = m.streamV(0).sum();
+        double sum = m.streamVertical(0).sum();
         assertEquals(4.0, sum, 0.0);
     }
 
     @Test
     public void test_streamV_withRange() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
-        double sum = m.streamV(1, 3).sum();
+        double sum = m.streamVertical(1, 3).sum();
         assertEquals(16.0, sum, 0.0);
     }
 

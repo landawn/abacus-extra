@@ -446,15 +446,15 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, m.row(0), DELTA);
-        assertArrayEquals(new float[] { 4.0f, 5.0f, 6.0f }, m.row(1), DELTA);
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, m.rowRef(0), DELTA);
+        assertArrayEquals(new float[] { 4.0f, 5.0f, 6.0f }, m.rowRef(1), DELTA);
     }
 
     @Test
     public void testRow_outOfBounds() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(2));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(2));
     }
 
     @Test
@@ -476,8 +476,8 @@ public class FloatMatrix2025Test extends TestBase {
     public void testSetRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         m.setRow(0, new float[] { 10.5f, 20.5f });
-        assertArrayEquals(new float[] { 10.5f, 20.5f }, m.row(0), DELTA);
-        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.row(1), DELTA); // unchanged
+        assertArrayEquals(new float[] { 10.5f, 20.5f }, m.rowRef(0), DELTA);
+        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.rowRef(1), DELTA); // unchanged
     }
 
     @Test
@@ -506,8 +506,8 @@ public class FloatMatrix2025Test extends TestBase {
     public void testUpdateRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         m.updateRow(0, x -> x * 2.0f);
-        assertArrayEquals(new float[] { 2.0f, 4.0f }, m.row(0), DELTA);
-        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.row(1), DELTA); // unchanged
+        assertArrayEquals(new float[] { 2.0f, 4.0f }, m.rowRef(0), DELTA);
+        assertArrayEquals(new float[] { 3.0f, 4.0f }, m.rowRef(1), DELTA); // unchanged
     }
 
     @Test
@@ -908,7 +908,7 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testFlipH() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        FloatMatrix flipped = m.flipH();
+        FloatMatrix flipped = m.flippedH();
         assertEquals(3.0f, flipped.get(0, 0), DELTA);
         assertEquals(2.0f, flipped.get(0, 1), DELTA);
         assertEquals(1.0f, flipped.get(0, 2), DELTA);
@@ -920,7 +920,7 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testFlipV() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f }, { 5.0f, 6.0f } });
-        FloatMatrix flipped = m.flipV();
+        FloatMatrix flipped = m.flippedV();
         assertEquals(5.0f, flipped.get(0, 0), DELTA);
         assertEquals(3.0f, flipped.get(1, 0), DELTA);
         assertEquals(1.0f, flipped.get(2, 0), DELTA);
@@ -1434,85 +1434,85 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testStreamH() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        float[] all = m.streamH().toArray();
+        float[] all = m.streamHorizontal().toArray();
         assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f }, all, DELTA);
     }
 
     @Test
     public void testStreamH_empty() {
         FloatMatrix empty = FloatMatrix.empty();
-        assertEquals(0, empty.streamH().toArray().length);
+        assertEquals(0, empty.streamHorizontal().toArray().length);
     }
 
     @Test
     public void testStreamH_withRow() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        float[] row1 = m.streamH(1).toArray();
+        float[] row1 = m.streamHorizontal(1).toArray();
         assertArrayEquals(new float[] { 4.0f, 5.0f, 6.0f }, row1, DELTA);
     }
 
     @Test
     public void testStreamH_withRow_outOfBounds() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(2));
     }
 
     @Test
     public void testStreamH_withRange() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
-        float[] rows = m.streamH(1, 3).toArray();
+        float[] rows = m.streamHorizontal(1, 3).toArray();
         assertArrayEquals(new float[] { 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f }, rows, DELTA);
     }
 
     @Test
     public void testStreamH_withRange_outOfBounds() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(-1, 2));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(0, 3));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(2, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(0, 3));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(2, 1));
     }
 
     @Test
     public void testStreamV() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        float[] all = m.streamV().toArray();
+        float[] all = m.streamVertical().toArray();
         assertArrayEquals(new float[] { 1.0f, 4.0f, 2.0f, 5.0f, 3.0f, 6.0f }, all, DELTA);
     }
 
     @Test
     public void testStreamV_empty() {
         FloatMatrix empty = FloatMatrix.empty();
-        assertEquals(0, empty.streamV().toArray().length);
+        assertEquals(0, empty.streamVertical().toArray().length);
     }
 
     @Test
     public void testStreamV_withColumn() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        float[] col1 = m.streamV(1).toArray();
+        float[] col1 = m.streamVertical(1).toArray();
         assertArrayEquals(new float[] { 2.0f, 5.0f }, col1, DELTA);
     }
 
     @Test
     public void testStreamV_withColumn_outOfBounds() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(2));
     }
 
     @Test
     public void testStreamV_withRange() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
-        float[] columnCount = m.streamV(1, 3).toArray();
+        float[] columnCount = m.streamVertical(1, 3).toArray();
         assertArrayEquals(new float[] { 2.0f, 5.0f, 8.0f, 3.0f, 6.0f, 9.0f }, columnCount, DELTA);
     }
 
     @Test
     public void testStreamV_withRange_outOfBounds() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(-1, 2));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(0, 3));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(2, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(0, 3));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(2, 1));
     }
 
     @Test
@@ -1699,28 +1699,28 @@ public class FloatMatrix2025Test extends TestBase {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
 
         // Test sum
-        double totalSum = m.streamH().sum();
+        double totalSum = m.streamHorizontal().sum();
         assertEquals(45.0, totalSum, DELTA); // 1+2+3+4+5+6+7+8+9 = 45
 
         // Test sum of specific row
-        double row1Sum = m.streamH(1).sum();
+        double row1Sum = m.streamHorizontal(1).sum();
         assertEquals(15.0, row1Sum, DELTA); // 4+5+6 = 15
 
         // Test sum of specific column
-        double col0Sum = m.streamV(0).sum();
+        double col0Sum = m.streamVertical(0).sum();
         assertEquals(12.0, col0Sum, DELTA); // 1+4+7 = 12
 
         // Test min/max
-        OptionalFloat min = m.streamH().min();
+        OptionalFloat min = m.streamHorizontal().min();
         assertTrue(min.isPresent());
         assertEquals(1.0f, min.get(), DELTA);
 
-        OptionalFloat max = m.streamH().max();
+        OptionalFloat max = m.streamHorizontal().max();
         assertTrue(max.isPresent());
         assertEquals(9.0f, max.get(), DELTA);
 
         // Test average
-        OptionalDouble avg = m.streamH().average();
+        OptionalDouble avg = m.streamHorizontal().average();
         assertTrue(avg.isPresent());
         assertEquals(5.0, avg.get(), DELTA);
 

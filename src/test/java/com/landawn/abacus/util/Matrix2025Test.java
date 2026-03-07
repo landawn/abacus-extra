@@ -320,15 +320,15 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        assertArrayEquals(new String[] { "A", "B", "C" }, m.row(0));
-        assertArrayEquals(new String[] { "D", "E", "F" }, m.row(1));
+        assertArrayEquals(new String[] { "A", "B", "C" }, m.rowRef(0));
+        assertArrayEquals(new String[] { "D", "E", "F" }, m.rowRef(1));
     }
 
     @Test
     public void testRow_outOfBounds() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(2));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(2));
     }
 
     @Test
@@ -350,8 +350,8 @@ public class Matrix2025Test extends TestBase {
     public void testSetRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setRow(0, new String[] { "X", "Y" });
-        assertArrayEquals(new String[] { "X", "Y" }, m.row(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.row(1)); // unchanged
+        assertArrayEquals(new String[] { "X", "Y" }, m.rowRef(0));
+        assertArrayEquals(new String[] { "C", "D" }, m.rowRef(1)); // unchanged
     }
 
     @Test
@@ -380,8 +380,8 @@ public class Matrix2025Test extends TestBase {
     public void testUpdateRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.updateRow(0, x -> x + "1");
-        assertArrayEquals(new String[] { "A1", "B1" }, m.row(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.row(1)); // unchanged
+        assertArrayEquals(new String[] { "A1", "B1" }, m.rowRef(0));
+        assertArrayEquals(new String[] { "C", "D" }, m.rowRef(1)); // unchanged
     }
 
     @Test
@@ -838,7 +838,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testFlipH() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        Matrix<String> flipped = m.flipH();
+        Matrix<String> flipped = m.flippedH();
         assertEquals("C", flipped.get(0, 0));
         assertEquals("B", flipped.get(0, 1));
         assertEquals("A", flipped.get(0, 2));
@@ -850,7 +850,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testFlipV() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" }, { "E", "F" } });
-        Matrix<String> flipped = m.flipV();
+        Matrix<String> flipped = m.flippedV();
         assertEquals("E", flipped.get(0, 0));
         assertEquals("C", flipped.get(1, 0));
         assertEquals("A", flipped.get(2, 0));
@@ -1196,7 +1196,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamH() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        List<String> all = m.streamH().toList();
+        List<String> all = m.streamHorizontal().toList();
         assertEquals(6, all.size());
         assertEquals("A", all.get(0));
         assertEquals("B", all.get(1));
@@ -1207,13 +1207,13 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamH_empty() {
         Matrix<String> empty = Matrix.of(new String[0][0]);
-        assertEquals(0, empty.streamH().count());
+        assertEquals(0, empty.streamHorizontal().count());
     }
 
     @Test
     public void testStreamH_withRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        List<String> row1 = m.streamH(1).toList();
+        List<String> row1 = m.streamHorizontal(1).toList();
         assertEquals(3, row1.size());
         assertEquals("D", row1.get(0));
         assertEquals("E", row1.get(1));
@@ -1223,29 +1223,29 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamH_withRow_outOfBounds() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(2));
     }
 
     @Test
     public void testStreamH_withRange() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-        List<String> rows = m.streamH(1, 3).toList();
+        List<String> rows = m.streamHorizontal(1, 3).toList();
         assertEquals(6, rows.size());
     }
 
     @Test
     public void testStreamH_withRange_outOfBounds() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(-1, 2));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(0, 3));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(2, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(0, 3));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(2, 1));
     }
 
     @Test
     public void testStreamV() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        List<String> all = m.streamV().toList();
+        List<String> all = m.streamVertical().toList();
         assertEquals(6, all.size());
         assertEquals("A", all.get(0));
         assertEquals("D", all.get(1));
@@ -1255,13 +1255,13 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamV_empty() {
         Matrix<String> empty = Matrix.of(new String[0][0]);
-        assertEquals(0, empty.streamV().count());
+        assertEquals(0, empty.streamVertical().count());
     }
 
     @Test
     public void testStreamV_withColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        List<String> col1 = m.streamV(1).toList();
+        List<String> col1 = m.streamVertical(1).toList();
         assertEquals(2, col1.size());
         assertEquals("B", col1.get(0));
         assertEquals("E", col1.get(1));
@@ -1270,23 +1270,23 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamV_withColumn_outOfBounds() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(2));
     }
 
     @Test
     public void testStreamV_withRange() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-        List<String> columnCount = m.streamV(1, 3).toList();
+        List<String> columnCount = m.streamVertical(1, 3).toList();
         assertEquals(6, columnCount.size());
     }
 
     @Test
     public void testStreamV_withRange_outOfBounds() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(-1, 2));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(0, 3));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(2, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(0, 3));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(2, 1));
     }
 
     @Test
@@ -1804,7 +1804,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamH_singleRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" } });
-        List<String> result = m.streamH(0).toList();
+        List<String> result = m.streamHorizontal(0).toList();
         assertEquals(3, result.size());
         assertEquals("A", result.get(0));
         assertEquals("C", result.get(2));
@@ -1813,7 +1813,7 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamV_singleColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "A" }, { "B" }, { "C" } });
-        List<String> result = m.streamV(0).toList();
+        List<String> result = m.streamVertical(0).toList();
         assertEquals(3, result.size());
         assertEquals("A", result.get(0));
         assertEquals("C", result.get(2));

@@ -143,6 +143,21 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
+     * Returns the number of elements in this ImmutableIntArray.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3});
+     * int len = array.length();   // returns 3
+     * }</pre>
+     *
+     * @return the number of elements in this array
+     */
+    public int length() {
+        return length;
+    }
+
+    /**
      * Returns {@code true} if this ImmutableIntArray contains the specified value.
      *
      * <p>This method performs a linear search through the array, checking each element

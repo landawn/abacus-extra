@@ -233,13 +233,13 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] row = matrix.row(0);
+        double[] row = matrix.rowRef(0);
         assertEquals(2, row.length);
         assertEquals(1.0, row[0]);
         assertEquals(2.0, row[1]);
 
-        assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.row(2));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowRef(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowRef(2));
     }
 
     @Test
@@ -644,7 +644,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix flipped = matrix.flipH();
+        DoubleMatrix flipped = matrix.flippedH();
         assertEquals(2.0, flipped.get(0, 0));
         assertEquals(1.0, flipped.get(0, 1));
 
@@ -657,7 +657,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        DoubleMatrix flipped = matrix.flipV();
+        DoubleMatrix flipped = matrix.flippedV();
         assertEquals(3.0, flipped.get(0, 0));
         assertEquals(1.0, flipped.get(1, 0));
 
@@ -906,7 +906,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] elements = matrix.streamH().toArray();
+        double[] elements = matrix.streamHorizontal().toArray();
         assertEquals(4, elements.length);
         assertEquals(1.0, elements[0]);
         assertEquals(2.0, elements[1]);
@@ -944,7 +944,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] row = matrix.streamH(1).toArray();
+        double[] row = matrix.streamHorizontal(1).toArray();
         assertEquals(2, row.length);
         assertEquals(3.0, row[0]);
         assertEquals(4.0, row[1]);
@@ -955,12 +955,12 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] elements = matrix.streamH(1, 3).toArray();
+        double[] elements = matrix.streamHorizontal(1, 3).toArray();
         assertEquals(4, elements.length);
         assertEquals(3.0, elements[0]);
         assertEquals(4.0, elements[1]);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamH(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamHorizontal(-1, 2));
     }
 
     @Test
@@ -968,7 +968,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] elements = matrix.streamV().toArray();
+        double[] elements = matrix.streamVertical().toArray();
         assertEquals(4, elements.length);
         assertEquals(1.0, elements[0]);
         assertEquals(3.0, elements[1]);
@@ -981,7 +981,7 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] col = matrix.streamV(1).toArray();
+        double[] col = matrix.streamVertical(1).toArray();
         assertEquals(2, col.length);
         assertEquals(2.0, col[0]);
         assertEquals(4.0, col[1]);
@@ -992,10 +992,10 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        double[] elements = matrix.streamV(1, 3).toArray();
+        double[] elements = matrix.streamVertical(1, 3).toArray();
         assertEquals(4, elements.length);
 
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamV(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamVertical(-1, 2));
     }
 
     @Test
@@ -1128,26 +1128,26 @@ public class DoubleMatrixTest extends TestBase {
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
         // Test sum operation on streams
-        double totalSum = matrix.streamH().sum();
+        double totalSum = matrix.streamHorizontal().sum();
         assertEquals(45.0, totalSum, 0.0001); // 1+2+3+4+5+6+7+8+9 = 45
 
         // Test sum of specific row
-        double row1Sum = matrix.streamH(1).sum();
+        double row1Sum = matrix.streamHorizontal(1).sum();
         assertEquals(15.0, row1Sum, 0.0001); // 4+5+6 = 15
 
         // Test sum of specific column
-        double col0Sum = matrix.streamV(0).sum();
+        double col0Sum = matrix.streamVertical(0).sum();
         assertEquals(12.0, col0Sum, 0.0001); // 1+4+7 = 12
 
         // Test min/max on streams
-        double min = matrix.streamH().min().orElse(0.0);
+        double min = matrix.streamHorizontal().min().orElse(0.0);
         assertEquals(1.0, min, 0.0001);
 
-        double max = matrix.streamH().max().orElse(0.0);
+        double max = matrix.streamHorizontal().max().orElse(0.0);
         assertEquals(9.0, max, 0.0001);
 
         // Test average
-        double avg = matrix.streamH().average().orElse(0.0);
+        double avg = matrix.streamHorizontal().average().orElse(0.0);
         assertEquals(5.0, avg, 0.0001);
 
         // Test statistical operations on diagonal
@@ -1359,7 +1359,7 @@ public class DoubleMatrixTest extends TestBase {
         assertEquals(30.0, largeSum.get(9, 9), 0.0001); // 10.0 + 20.0 = 30.0
 
         // Test that sum of all elements is correct
-        double totalSum = largeSum.streamH().sum();
+        double totalSum = largeSum.streamHorizontal().sum();
         double expected = 3 * (1 + 2 + 3 + /* ... */ +100) * 0.1; // 3 * 5050 * 0.1 = 1515.0
         assertEquals(1515.0, totalSum, 0.1);
     }

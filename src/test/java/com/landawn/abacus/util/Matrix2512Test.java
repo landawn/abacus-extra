@@ -272,14 +272,14 @@ public class Matrix2512Test extends TestBase {
     public void test_row_returnsCorrectRow() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        String[] row = m.row(1);
+        String[] row = m.rowRef(1);
         assertArrayEquals(new String[] { "d", "e", "f" }, row);
     }
 
     @Test
     public void test_row_outOfBounds_throwsException() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b" } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(5));
     }
 
     @Test
@@ -695,7 +695,7 @@ public class Matrix2512Test extends TestBase {
     public void test_flipH_createsNewHorizontallyFlipped() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> flipped = m.flipH();
+        Matrix<String> flipped = m.flippedH();
         assertEquals("c", flipped.get(0, 0));
         assertEquals("a", m.get(0, 0)); // original unchanged
     }
@@ -704,7 +704,7 @@ public class Matrix2512Test extends TestBase {
     public void test_flipV_createsNewVerticallyFlipped() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        Matrix<String> flipped = m.flipV();
+        Matrix<String> flipped = m.flippedV();
         assertEquals("c", flipped.get(0, 0));
         assertEquals("a", m.get(0, 0)); // original unchanged
     }
@@ -915,7 +915,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamH_streamsAllElements() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        List<String> result = m.streamH().toList();
+        List<String> result = m.streamHorizontal().toList();
         assertEquals(Arrays.asList("a", "b", "c", "d"), result);
     }
 
@@ -923,7 +923,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamH_withRowIndex() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        List<String> result = m.streamH(1).toList();
+        List<String> result = m.streamHorizontal(1).toList();
         assertEquals(Arrays.asList("d", "e", "f"), result);
     }
 
@@ -931,7 +931,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamH_withRowRange() {
         String[][] arr = { { "a", "b" }, { "c", "d" }, { "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        List<String> result = m.streamH(1, 3).toList();
+        List<String> result = m.streamHorizontal(1, 3).toList();
         assertEquals(Arrays.asList("c", "d", "e", "f"), result);
     }
 
@@ -939,7 +939,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamV_streamsAllElementsVertically() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        List<String> result = m.streamV().toList();
+        List<String> result = m.streamVertical().toList();
         assertEquals(Arrays.asList("a", "c", "b", "d"), result);
     }
 
@@ -947,7 +947,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamV_withColumnIndex() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        List<String> result = m.streamV(1).toList();
+        List<String> result = m.streamVertical(1).toList();
         assertEquals(Arrays.asList("b", "e"), result);
     }
 
@@ -955,7 +955,7 @@ public class Matrix2512Test extends TestBase {
     public void test_streamV_withColumnRange() {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
-        List<String> result = m.streamV(1, 3).toList();
+        List<String> result = m.streamVertical(1, 3).toList();
         assertEquals(Arrays.asList("b", "e", "c", "f"), result);
     }
 

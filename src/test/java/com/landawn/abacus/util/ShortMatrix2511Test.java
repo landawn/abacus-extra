@@ -129,7 +129,7 @@ public class ShortMatrix2511Test extends TestBase {
         ShortMatrix m = ShortMatrix.random(5);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertNotNull(m.row(0));
+        assertNotNull(m.rowRef(0));
     }
 
     @Test
@@ -161,7 +161,7 @@ public class ShortMatrix2511Test extends TestBase {
         ShortMatrix m = ShortMatrix.range((short) 0, (short) 5);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new short[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new short[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
     }
 
     @Test
@@ -169,7 +169,7 @@ public class ShortMatrix2511Test extends TestBase {
         ShortMatrix m = ShortMatrix.range((short) 0, (short) 10, (short) 2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new short[] { 0, 2, 4, 6, 8 }, m.row(0));
+        assertArrayEquals(new short[] { 0, 2, 4, 6, 8 }, m.rowRef(0));
     }
 
     @Test
@@ -177,7 +177,7 @@ public class ShortMatrix2511Test extends TestBase {
         ShortMatrix m = ShortMatrix.range((short) 10, (short) 0, (short) -2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new short[] { 10, 8, 6, 4, 2 }, m.row(0));
+        assertArrayEquals(new short[] { 10, 8, 6, 4, 2 }, m.rowRef(0));
     }
 
     @Test
@@ -185,7 +185,7 @@ public class ShortMatrix2511Test extends TestBase {
         ShortMatrix m = ShortMatrix.rangeClosed((short) 0, (short) 4);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new short[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new short[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
     }
 
     @Test
@@ -193,7 +193,7 @@ public class ShortMatrix2511Test extends TestBase {
         ShortMatrix m = ShortMatrix.rangeClosed((short) 0, (short) 10, (short) 2);
         assertEquals(1, m.rowCount());
         assertEquals(6, m.columnCount());
-        assertArrayEquals(new short[] { 0, 2, 4, 6, 8, 10 }, m.row(0));
+        assertArrayEquals(new short[] { 0, 2, 4, 6, 8, 10 }, m.rowRef(0));
     }
 
     @Test
@@ -345,15 +345,15 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testRow() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertArrayEquals(new short[] { 1, 2, 3 }, m.row(0));
-        assertArrayEquals(new short[] { 4, 5, 6 }, m.row(1));
+        assertArrayEquals(new short[] { 1, 2, 3 }, m.rowRef(0));
+        assertArrayEquals(new short[] { 4, 5, 6 }, m.rowRef(1));
     }
 
     @Test
     public void testRow_invalidIndex() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(1));
     }
 
     @Test
@@ -375,7 +375,7 @@ public class ShortMatrix2511Test extends TestBase {
     public void testSetRow() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(0, new short[] { 10, 20 });
-        assertArrayEquals(new short[] { 10, 20 }, m.row(0));
+        assertArrayEquals(new short[] { 10, 20 }, m.rowRef(0));
         assertEquals((short) 3, m.get(1, 0));
     }
 
@@ -404,8 +404,8 @@ public class ShortMatrix2511Test extends TestBase {
     public void testUpdateRow() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
         m.updateRow(0, x -> (short) (x * 2));
-        assertArrayEquals(new short[] { 2, 4 }, m.row(0));
-        assertArrayEquals(new short[] { 3, 4 }, m.row(1));
+        assertArrayEquals(new short[] { 2, 4 }, m.rowRef(0));
+        assertArrayEquals(new short[] { 3, 4 }, m.rowRef(1));
     }
 
     @Test
@@ -705,7 +705,7 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testFlipH() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        ShortMatrix flipped = m.flipH();
+        ShortMatrix flipped = m.flippedH();
         assertEquals((short) 3, flipped.get(0, 0));
         assertEquals((short) 1, flipped.get(0, 2));
         // Original unchanged
@@ -715,7 +715,7 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testFlipV() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        ShortMatrix flipped = m.flipV();
+        ShortMatrix flipped = m.flippedV();
         assertEquals((short) 3, flipped.get(0, 0));
         assertEquals((short) 1, flipped.get(1, 0));
         // Original unchanged
@@ -1001,42 +1001,42 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testStreamH() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        short[] all = m.streamH().toArray();
+        short[] all = m.streamHorizontal().toArray();
         assertArrayEquals(new short[] { 1, 2, 3, 4, 5, 6 }, all);
     }
 
     @Test
     public void testStreamH_singleRow() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        short[] row1 = m.streamH(1).toArray();
+        short[] row1 = m.streamHorizontal(1).toArray();
         assertArrayEquals(new short[] { 4, 5, 6 }, row1);
     }
 
     @Test
     public void testStreamH_rowRange() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        short[] rows = m.streamH(1, 3).toArray();
+        short[] rows = m.streamHorizontal(1, 3).toArray();
         assertArrayEquals(new short[] { 3, 4, 5, 6 }, rows);
     }
 
     @Test
     public void testStreamV() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        short[] all = m.streamV().toArray();
+        short[] all = m.streamVertical().toArray();
         assertArrayEquals(new short[] { 1, 4, 2, 5, 3, 6 }, all);
     }
 
     @Test
     public void testStreamV_singleColumn() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        short[] col1 = m.streamV(1).toArray();
+        short[] col1 = m.streamVertical(1).toArray();
         assertArrayEquals(new short[] { 2, 5 }, col1);
     }
 
     @Test
     public void testStreamV_columnRange() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        short[] columnCount = m.streamV(0, 2).toArray();
+        short[] columnCount = m.streamVertical(0, 2).toArray();
         assertArrayEquals(new short[] { 1, 4, 2, 5 }, columnCount);
     }
 

@@ -267,14 +267,14 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        byte[] row0 = matrix.row(0);
+        byte[] row0 = matrix.rowRef(0);
         Assertions.assertArrayEquals(new byte[] { 1, 2, 3 }, row0);
 
-        byte[] row1 = matrix.row(1);
+        byte[] row1 = matrix.rowRef(1);
         Assertions.assertArrayEquals(new byte[] { 4, 5, 6 }, row1);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.row(2));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowRef(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowRef(2));
     }
 
     @Test
@@ -298,7 +298,7 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(a);
 
         matrix.setRow(0, new byte[] { 7, 8, 9 });
-        Assertions.assertArrayEquals(new byte[] { 7, 8, 9 }, matrix.row(0));
+        Assertions.assertArrayEquals(new byte[] { 7, 8, 9 }, matrix.rowRef(0));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.setRow(0, new byte[] { 1, 2 }));
     }
@@ -320,7 +320,7 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(a);
 
         matrix.updateRow(0, b -> (byte) (b * 2));
-        Assertions.assertArrayEquals(new byte[] { 2, 4, 6 }, matrix.row(0));
+        Assertions.assertArrayEquals(new byte[] { 2, 4, 6 }, matrix.rowRef(0));
     }
 
     @Test
@@ -671,7 +671,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        ByteMatrix flipped = matrix.flipH();
+        ByteMatrix flipped = matrix.flippedH();
         Assertions.assertEquals(3, flipped.get(0, 0));
         Assertions.assertEquals(1, flipped.get(0, 2));
         Assertions.assertEquals(1, matrix.get(0, 0)); // original unchanged
@@ -682,7 +682,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        ByteMatrix flipped = matrix.flipV();
+        ByteMatrix flipped = matrix.flippedV();
         Assertions.assertEquals(5, flipped.get(0, 0));
         Assertions.assertEquals(1, flipped.get(2, 0));
         Assertions.assertEquals(1, matrix.get(0, 0)); // original unchanged
@@ -1043,11 +1043,11 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        byte[] all = matrix.streamH().toArray();
+        byte[] all = matrix.streamHorizontal().toArray();
         Assertions.assertArrayEquals(new byte[] { 1, 2, 3, 4, 5, 6 }, all);
 
         ByteMatrix empty = ByteMatrix.empty();
-        Assertions.assertTrue(empty.streamH().toList().isEmpty());
+        Assertions.assertTrue(empty.streamHorizontal().toList().isEmpty());
     }
 
     @Test
@@ -1055,7 +1055,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        byte[] row1 = matrix.streamH(1).toArray();
+        byte[] row1 = matrix.streamHorizontal(1).toArray();
         Assertions.assertArrayEquals(new byte[] { 4, 5, 6 }, row1);
     }
 
@@ -1064,11 +1064,11 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        byte[] range = matrix.streamH(1, 3).toArray();
+        byte[] range = matrix.streamHorizontal(1, 3).toArray();
         Assertions.assertArrayEquals(new byte[] { 3, 4, 5, 6 }, range);
 
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamH(-1, 2));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamH(0, 4));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamHorizontal(-1, 2));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamHorizontal(0, 4));
     }
 
     @Test
@@ -1076,7 +1076,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        byte[] all = matrix.streamV().toArray();
+        byte[] all = matrix.streamVertical().toArray();
         Assertions.assertArrayEquals(new byte[] { 1, 4, 2, 5, 3, 6 }, all);
     }
 
@@ -1085,7 +1085,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        byte[] col1 = matrix.streamV(1).toArray();
+        byte[] col1 = matrix.streamVertical(1).toArray();
         Assertions.assertArrayEquals(new byte[] { 2, 5 }, col1);
     }
 
@@ -1094,7 +1094,7 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        byte[] range = matrix.streamV(1, 3).toArray();
+        byte[] range = matrix.streamVertical(1, 3).toArray();
         Assertions.assertArrayEquals(new byte[] { 2, 5, 3, 6 }, range);
     }
 

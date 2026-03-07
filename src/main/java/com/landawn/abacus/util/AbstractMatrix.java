@@ -115,8 +115,8 @@ import com.landawn.abacus.util.stream.Stream;
  * <p><b>Core Matrix Operations Categories:</b>
  * <ul>
  *   <li><b>Dimensional Operations:</b> {@code rowCount}, {@code columnCount}, {@code elementCount}, {@code isEmpty()}</li>
- *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code row()}, {@code column()}</li>
- *   <li><b>Stream Operations:</b> {@code streamH()}, {@code streamV()}, {@code streamR()}, {@code streamC()}, {@code streamMainDiagonal()}, {@code streamAntiDiagonal()}</li>
+ *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code rowRef()}, {@code column()}</li>
+ *   <li><b>Stream Operations:</b> {@code streamHorizontal()}, {@code streamVertical()}, {@code streamR()}, {@code streamC()}, {@code streamMainDiagonal()}, {@code streamAntiDiagonal()}</li>
  *   <li><b>Transformation Operations:</b> {@code transpose()}, {@code rotate()}, {@code flip()}, {@code reshape()}</li>
  *   <li><b>Mathematical Operations:</b> Element-wise arithmetic, linear algebra, statistical functions</li>
  *   <li><b>Utility Operations:</b> {@code copy()}, {@code clone()}, {@code toArray()}, {@code toString()}</li>
@@ -132,14 +132,14 @@ import com.landawn.abacus.util.stream.Stream;
  * // Basic matrix operations
  * IntMatrix transposed = intMatrix.transpose();   // 3x2 matrix from 2x3
  * IntMatrix rotated = intMatrix.rotate90();   // 90-degree rotation
- * IntMatrix flipped = intMatrix.flipH();   // Horizontal flip
+ * IntMatrix flipped = intMatrix.flippedH();   // Horizontal flip
  *
  * // Stream-based processing
- * intMatrix.streamH()                            // Stream all elements
+ * intMatrix.streamHorizontal()                            // Stream all elements
  *     .filter(x -> x > 0)
  *     .sum();
  *
- * intMatrix.streamV()                           // Stream by columns (column-major order)
+ * intMatrix.streamVertical()                           // Stream by columns (column-major order)
  *     .forEach(value -> System.out.println(value));
  *
  * // Mathematical operations (type-specific)
@@ -153,7 +153,7 @@ import com.landawn.abacus.util.stream.Stream;
  * // Complex stream operations with multiple access patterns
  * DoubleMatrix analyticsMatrix = DoubleMatrix.of(new double[][] {{1.0, 3.0, 5.0}, {2.0, 4.0, 8.0}});
  * int rowIndex = 0;
- * double[] row = analyticsMatrix.row(rowIndex);
+ * double[] row = analyticsMatrix.rowRef(rowIndex);
  * double mean = java.util.stream.DoubleStream.of(row).average().orElse(0.0);
  * double variance = java.util.stream.DoubleStream.of(row)
  *     .map(x -> Math.pow(x - mean, 2))
@@ -175,7 +175,7 @@ import com.landawn.abacus.util.stream.Stream;
  *
  * Matrix<Double> input = Matrix.of(new Double[][] {{2.0, 4.0}, {6.0, 8.0}});
  * Matrix<Double> normalized = Matrix.of(Matrices.newMatrixArray(input.rowCount(), input.columnCount(), Double.class));
- * input.pointsC().forEach(colStream -> {
+ * input.pointsColumn().forEach(colStream -> {
  *     List<Point> colPoints = colStream.toList();
  *     double max = colPoints.stream()
  *         .mapToDouble(p -> input.get(p.rowIndex(), p.columnIndex()))
@@ -653,7 +653,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * int[] row0 = matrix.row(0);  // Returns [1, 2, 3] (direct reference)
+     * int[] row0 = matrix.rowRef(0);  // Returns [1, 2, 3] (direct reference)
      * row0[0] = 99;                // Also changes matrix element at (0, 0) to 99
      * }</pre>
      *
@@ -661,7 +661,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return the specified row array (direct reference to internal storage)
      * @throws IllegalArgumentException if rowIndex is out of bounds
      */
-    public abstract A row(int rowIndex) throws IllegalArgumentException;
+    public abstract A rowRef(int rowIndex) throws IllegalArgumentException;
 
     /**
      * Returns a defensive copy of the specified row.
@@ -1155,10 +1155,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * }</pre>
      *
      * @param <E> the type of exception that the operation might throw
-     * @param op the operation to apply to the flattened array (receives array type A, not A[])
+     * @param action the operation to apply to the flattened array (receives array type A, not A[])
      * @throws E if the operation throws an exception
      */
-    public abstract <E extends Exception> void applyOnFlattened(Throwables.Consumer<? super A, E> op) throws E;
+    public abstract <E extends Exception> void applyOnFlattened(Throwables.Consumer<? super A, E> action) throws E;
 
     /**
      * Performs the specified action for each element position in the matrix.
@@ -1520,32 +1520,32 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of all points in the matrix in row-major order (horizontal traversal).
      * Points are generated row by row from left to right, top to bottom.
      *
-     * <p>H = Horizontal. This is equivalent to calling {@code pointsH(0, rowCount)}.</p>
+     * <p>H = Horizontal. This is equivalent to calling {@code pointsHorizontal(0, rowCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * Stream<Point> allPoints = matrix.pointsH();
+     * Stream<Point> allPoints = matrix.pointsHorizontal();
      * // Points in order: (0,0), (0,1), (1,0), (1,1)
      * allPoints.forEach(p -> System.out.println("Point: " + p));
      * }</pre>
      *
      * @return a stream of all {@link Point} objects in row-major order
      */
-    public Stream<Point> pointsH() {
-        return pointsH(0, rowCount);
+    public Stream<Point> pointsHorizontal() {
+        return pointsHorizontal(0, rowCount);
     }
 
     /**
      * Returns a stream of points for a specific row in horizontal order (left to right).
      *
-     * <p>This is equivalent to calling {@code pointsH(rowIndex, rowIndex + 1)}.</p>
+     * <p>This is equivalent to calling {@code pointsHorizontal(rowIndex, rowIndex + 1)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
-     * Stream<Point> row1Points = matrix.pointsH(1);   // All points in row 1
+     * Stream<Point> row1Points = matrix.pointsHorizontal(1);   // All points in row 1
      * // For a 3-column matrix: (1,0), (1,1), (1,2)
      * }</pre>
      *
@@ -1553,8 +1553,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of {@link Point} objects for all columns in the specified row
      * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
-    public Stream<Point> pointsH(final int rowIndex) {
-        return pointsH(rowIndex, rowIndex + 1);
+    public Stream<Point> pointsHorizontal(final int rowIndex) {
+        return pointsHorizontal(rowIndex, rowIndex + 1);
     }
 
     /**
@@ -1566,7 +1566,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
      * // Get points from rows 1 and 2 (indices 1 and 2, not including 3)
-     * Stream<Point> points = matrix.pointsH(1, 3);
+     * Stream<Point> points = matrix.pointsHorizontal(1, 3);
      * // For a 2-column matrix: (1,0), (1,1), (2,0), (2,1)
      * }</pre>
      *
@@ -1576,7 +1576,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @SuppressWarnings("resource")
-    public Stream<Point> pointsH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public Stream<Point> pointsHorizontal(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         return IntStream.range(fromRowIndex, toRowIndex)
@@ -1587,32 +1587,32 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of all points in the matrix in column-major order (vertical traversal).
      * Points are generated column by column from top to bottom, left to right.
      *
-     * <p>V = Vertical. This is equivalent to calling {@code pointsV(0, columnCount)}.</p>
+     * <p>V = Vertical. This is equivalent to calling {@code pointsVertical(0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * Stream<Point> columnOrder = matrix.pointsV();
+     * Stream<Point> columnOrder = matrix.pointsVertical();
      * // Points in order: (0,0), (1,0), (0,1), (1,1)
      * // For a 2×3 matrix, order would be: (0,0), (1,0), (0,1), (1,1), (0,2), (1,2)
      * }</pre>
      *
      * @return a stream of all {@link Point} objects in column-major order
      */
-    public Stream<Point> pointsV() {
-        return pointsV(0, columnCount);
+    public Stream<Point> pointsVertical() {
+        return pointsVertical(0, columnCount);
     }
 
     /**
      * Returns a stream of points for a specific column in vertical order (top to bottom).
      *
-     * <p>This is equivalent to calling {@code pointsV(columnIndex, columnIndex + 1)}.</p>
+     * <p>This is equivalent to calling {@code pointsVertical(columnIndex, columnIndex + 1)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
-     * Stream<Point> col2Points = matrix.pointsV(2);   // All points in column 2
+     * Stream<Point> col2Points = matrix.pointsVertical(2);   // All points in column 2
      * // For a 3-row matrix: (0,2), (1,2), (2,2)
      * }</pre>
      *
@@ -1620,8 +1620,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of {@link Point} objects for all rows in the specified column
      * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
-    public Stream<Point> pointsV(final int columnIndex) {
-        return pointsV(columnIndex, columnIndex + 1);
+    public Stream<Point> pointsVertical(final int columnIndex) {
+        return pointsVertical(columnIndex, columnIndex + 1);
     }
 
     /**
@@ -1633,7 +1633,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
      * // Get points from columns 1 through 3 (indices 1, 2, 3, not including 4)
-     * Stream<Point> points = matrix.pointsV(1, 4);
+     * Stream<Point> points = matrix.pointsVertical(1, 4);
      * // For a 2-row matrix: (0,1), (1,1), (0,2), (1,2), (0,3), (1,3)
      * }</pre>
      *
@@ -1643,7 +1643,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
     @SuppressWarnings("resource")
-    public Stream<Point> pointsV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public Stream<Point> pointsVertical(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         return IntStream.range(fromColumnIndex, toColumnIndex)
@@ -1654,26 +1654,26 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of streams where each inner stream represents a row of points.
      * This allows for row-by-row processing of matrix positions.
      *
-     * <p>R = Row. This is equivalent to calling {@code pointsR(0, rowCount)}.</p>
+     * <p>R = Row. This is equivalent to calling {@code pointsRow(0, rowCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
-     * matrix.pointsR().forEach(rowStream -> {
+     * matrix.pointsRow().forEach(rowStream -> {
      *     rowStream.forEach(point -> System.out.println("Point: " + point));
      * });
      *
      * // Collect each row's points separately
-     * List<List<Point>> rowsOfPoints = matrix.pointsR()
+     * List<List<Point>> rowsOfPoints = matrix.pointsRow()
      *     .map(Stream::toList)
      *     .toList();
      * }</pre>
      *
      * @return a stream of streams, where each inner stream contains {@link Point} objects for one row
      */
-    public Stream<Stream<Point>> pointsR() {
-        return pointsR(0, rowCount);
+    public Stream<Stream<Point>> pointsRow() {
+        return pointsRow(0, rowCount);
     }
 
     /**
@@ -1685,7 +1685,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
      * // Process rows 1 and 2 separately
-     * matrix.pointsR(1, 3).forEach(rowStream -> {
+     * matrix.pointsRow(1, 3).forEach(rowStream -> {
      *     List<Point> rowPoints = rowStream.toList();
      *     // Process each row's points
      * });
@@ -1697,7 +1697,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @SuppressWarnings("resource")
-    public Stream<Stream<Point>> pointsR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public Stream<Stream<Point>> pointsRow(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         return IntStream.range(fromRowIndex, toRowIndex)
@@ -1708,26 +1708,26 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of streams where each inner stream represents a column of points.
      * This allows for column-by-column processing of matrix positions.
      *
-     * <p>C = Column. This is equivalent to calling {@code pointsC(0, columnCount)}.</p>
+     * <p>C = Column. This is equivalent to calling {@code pointsColumn(0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
-     * matrix.pointsC().forEach(colStream -> {
+     * matrix.pointsColumn().forEach(colStream -> {
      *     colStream.forEach(point -> System.out.println("Point: " + point));
      * });
      *
      * // Collect each column's points separately
-     * List<List<Point>> columnsOfPoints = matrix.pointsC()
+     * List<List<Point>> columnsOfPoints = matrix.pointsColumn()
      *     .map(Stream::toList)
      *     .toList();
      * }</pre>
      *
      * @return a stream of streams, where each inner stream contains {@link Point} objects for one column
      */
-    public Stream<Stream<Point>> pointsC() {
-        return pointsC(0, columnCount);
+    public Stream<Stream<Point>> pointsColumn() {
+        return pointsColumn(0, columnCount);
     }
 
     /**
@@ -1739,7 +1739,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
      * // Process columns 2 through 4 separately
-     * matrix.pointsC(2, 5).forEach(colStream -> {
+     * matrix.pointsColumn(2, 5).forEach(colStream -> {
      *     List<Point> colPoints = colStream.toList();
      *     // Process each column's points
      * });
@@ -1751,7 +1751,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
     @SuppressWarnings("resource")
-    public Stream<Stream<Point>> pointsC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public Stream<Stream<Point>> pointsColumn(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         return IntStream.range(fromColumnIndex, toColumnIndex)
@@ -1805,13 +1805,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntStream elements = matrix.streamH();   // Stream of: 1, 2, 3, 4
+     * IntStream elements = matrix.streamHorizontal();   // Stream of: 1, 2, 3, 4
      * int sum = elements.sum();                // 10
      * }</pre>
      *
      * @return a stream of all elements in row-major order
      */
-    public abstract ES streamH();
+    public abstract ES streamHorizontal();
 
     /**
      * Returns a stream of elements from a specific row.
@@ -1820,7 +1820,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream row1 = matrix.streamH(1);   // Stream of: 4, 5, 6
+     * IntStream row1 = matrix.streamHorizontal(1);   // Stream of: 4, 5, 6
      * int max = row1.max().orElse(0);       // 6
      * }</pre>
      *
@@ -1828,7 +1828,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of elements in the specified row
      * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
-    public abstract ES streamH(final int rowIndex);
+    public abstract ES streamHorizontal(final int rowIndex);
 
     /**
      * Returns a stream of elements from a range of rows in row-major order.
@@ -1837,7 +1837,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}, {5, 6}});
-     * IntStream rows1and2 = matrix.streamH(1, 3);   // Stream of: 3, 4, 5, 6
+     * IntStream rows1and2 = matrix.streamHorizontal(1, 3);   // Stream of: 3, 4, 5, 6
      * long count = rows1and2.count();               // 4
      * }</pre>
      *
@@ -1846,7 +1846,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of elements in the specified row range
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
-    public abstract ES streamH(final int fromRowIndex, final int toRowIndex);
+    public abstract ES streamHorizontal(final int fromRowIndex, final int toRowIndex);
 
     /**
      * Returns a stream of all elements in column-major order (vertical traversal).
@@ -1857,13 +1857,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntStream elements = matrix.streamV();   // Stream of: 1, 3, 2, 4
+     * IntStream elements = matrix.streamVertical();   // Stream of: 1, 3, 2, 4
      * int sum = elements.sum();                // 10
      * }</pre>
      *
      * @return a stream of all elements in column-major order
      */
-    public abstract ES streamV();
+    public abstract ES streamVertical();
 
     /**
      * Returns a stream of elements from a specific column.
@@ -1872,7 +1872,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream col1 = matrix.streamV(1);   // Stream of: 2, 5
+     * IntStream col1 = matrix.streamVertical(1);   // Stream of: 2, 5
      * int min = col1.min().orElse(0);       // 2
      * }</pre>
      *
@@ -1880,7 +1880,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of elements in the specified column
      * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
-    public abstract ES streamV(final int columnIndex);
+    public abstract ES streamVertical(final int columnIndex);
 
     /**
      * Returns a stream of elements from a range of columns in column-major order.
@@ -1889,7 +1889,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream cols1and2 = matrix.streamV(1, 3);   // Stream of: 2, 5, 3, 6
+     * IntStream cols1and2 = matrix.streamVertical(1, 3);   // Stream of: 2, 5, 3, 6
      * double avg = cols1and2.average().orElse(0);   // 4.0
      * }</pre>
      *
@@ -1898,7 +1898,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of elements in the specified column range
      * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
-    public abstract ES streamV(final int fromColumnIndex, final int toColumnIndex);
+    public abstract ES streamVertical(final int fromColumnIndex, final int toColumnIndex);
 
     /**
      * Returns a stream of row streams.

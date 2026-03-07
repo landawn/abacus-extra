@@ -486,17 +486,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code matrix.row(i).clone()}.</p>
+     * copy, use {@code matrix.rowRef(i).clone()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * String[] rowData = matrix.row(0);
+     * String[] rowData = matrix.rowRef(0);
      * rowData[0] = "X";  // This modifies the matrix directly
      * // Matrix is now: [["X", "B"], ["C", "D"]]
      *
      * // Use clone() if you need an independent copy
-     * String[] rowCopy = matrix.row(1).clone();
+     * String[] rowCopy = matrix.rowRef(1).clone();
      * rowCopy[0] = "Y";  // Does not affect the matrix
      * }</pre>
      *
@@ -505,7 +505,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if rowIndex is negative or greater than or equal to the number of rows
      */
     @Override
-    public T[] row(final int rowIndex) throws IllegalArgumentException {
+    public T[] rowRef(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         final T[] row = a[rowIndex];
@@ -703,7 +703,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Returns a copy of the specified column as a new array.
      *
-     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowRef(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.</p>
      *
@@ -1835,7 +1835,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Matrix is now: [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flipH()
+     * @see #flippedH()
      */
     public void reverseH() {
         for (int i = 0; i < rowCount; i++) {
@@ -1855,7 +1855,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Matrix is now: [[5, 6], [3, 4], [1, 2]]
      * }</pre>
      *
-     * @see #flipV()
+     * @see #flippedV()
      */
     public void reverseV() {
         for (int j = 0; j < columnCount; j++) {
@@ -1876,17 +1876,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * Matrix<Integer> flipped = matrix.flipH();
+     * Matrix<Integer> flipped = matrix.flippedH();
      * // Result: {{3, 2, 1}, {6, 5, 4}}
      * }</pre>
      *
      * @return a new horizontally flipped matrix
      * @see #reverseH()
-     * @see #flipV()
-     * @see IntMatrix#flipH()
+     * @see #flippedV()
+     * @see IntMatrix#flippedH()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public Matrix<T> flipH() {
+    public Matrix<T> flippedH() {
         final Matrix<T> res = this.copy();
         res.reverseH();
         return res;
@@ -1900,17 +1900,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
-     * Matrix<Integer> flipped = matrix.flipV();
+     * Matrix<Integer> flipped = matrix.flippedV();
      * // Result: {{5, 6}, {3, 4}, {1, 2}}
      * }</pre>
      *
      * @return a new vertically flipped matrix
      * @see #reverseV()
-     * @see #flipH()
-     * @see IntMatrix#flipV()
+     * @see #flippedH()
+     * @see IntMatrix#flippedV()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public Matrix<T> flipV() {
+    public Matrix<T> flippedV() {
         final Matrix<T> res = this.copy();
         res.reverseV();
         return res;
@@ -2289,13 +2289,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param op the operation to apply to the flattened array
+     * @param action the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      * @see ff#applyOnFlattened(Object[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super T[], E> op) throws E {
-        ff.applyOnFlattened(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super T[], E> action) throws E {
+        ff.applyOnFlattened(a, action);
     }
 
     /**
@@ -2653,15 +2653,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Stream<Integer> stream = matrix.streamH();           // Stream of [1, 2, 3, 4]
-     * Object[] array = matrix.streamH().toArray();         // Returns [1, 2, 3, 4]
+     * Stream<Integer> stream = matrix.streamHorizontal();           // Stream of [1, 2, 3, 4]
+     * Object[] array = matrix.streamHorizontal().toArray();         // Returns [1, 2, 3, 4]
      * }</pre>
      *
      * @return a Stream of all elements in row-major order, or an empty stream if the matrix is empty
      */
     @Override
-    public Stream<T> streamH() {
-        return streamH(0, rowCount);
+    public Stream<T> streamHorizontal() {
+        return streamHorizontal(0, rowCount);
     }
 
     /**
@@ -2671,8 +2671,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Integer> row1 = matrix.streamH(1);               // Stream of [4, 5, 6]
-     * Object[] firstRow = matrix.streamH(0).toArray();        // Returns [1, 2, 3]
+     * Stream<Integer> row1 = matrix.streamHorizontal(1);               // Stream of [4, 5, 6]
+     * Object[] firstRow = matrix.streamHorizontal(0).toArray();        // Returns [1, 2, 3]
      * }</pre>
      *
      * @param rowIndex the index of the row to stream
@@ -2680,8 +2680,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IndexOutOfBoundsException if rowIndex is out of bounds
      */
     @Override
-    public Stream<T> streamH(final int rowIndex) {
-        return streamH(rowIndex, rowIndex + 1);
+    public Stream<T> streamHorizontal(final int rowIndex) {
+        return streamHorizontal(rowIndex, rowIndex + 1);
     }
 
     /**
@@ -2691,8 +2691,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
-     * Stream<Integer> rows = matrix.streamH(1, 3);           // Stream of [3, 4, 5, 6]
-     * Object[] subArray = matrix.streamH(0, 2).toArray();    // Returns [1, 2, 3, 4]
+     * Stream<Integer> rows = matrix.streamHorizontal(1, 3);           // Stream of [3, 4, 5, 6]
+     * Object[] subArray = matrix.streamHorizontal(0, 2).toArray();    // Returns [1, 2, 3, 4]
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive)
@@ -2701,7 +2701,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
-    public Stream<T> streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public Stream<T> streamHorizontal(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         if (isEmpty()) {
@@ -2783,16 +2783,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Stream<Integer> stream = matrix.streamV();              // Stream of [1, 3, 2, 4]
-     * Object[] colMajor = matrix.streamV().toArray();         // Returns [1, 3, 2, 4]
+     * Stream<Integer> stream = matrix.streamVertical();              // Stream of [1, 3, 2, 4]
+     * Object[] colMajor = matrix.streamVertical().toArray();         // Returns [1, 3, 2, 4]
      * }</pre>
      *
      * @return a Stream of all elements in column-major order, or an empty stream if the matrix is empty
      */
     @Override
     @Beta
-    public Stream<T> streamV() {
-        return streamV(0, columnCount);
+    public Stream<T> streamVertical() {
+        return streamVertical(0, columnCount);
     }
 
     /**
@@ -2802,8 +2802,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Integer> col1 = matrix.streamV(1);                // Stream of [2, 5, 8]
-     * Object[] secondCol = matrix.streamV(1).toArray();        // Returns [2, 5, 8]
+     * Stream<Integer> col1 = matrix.streamVertical(1);                // Stream of [2, 5, 8]
+     * Object[] secondCol = matrix.streamVertical(1).toArray();        // Returns [2, 5, 8]
      * }</pre>
      *
      * @param columnIndex the index of the column to stream
@@ -2811,8 +2811,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IndexOutOfBoundsException if columnIndex is out of bounds
      */
     @Override
-    public Stream<T> streamV(final int columnIndex) {
-        return streamV(columnIndex, columnIndex + 1);
+    public Stream<T> streamVertical(final int columnIndex) {
+        return streamVertical(columnIndex, columnIndex + 1);
     }
 
     /**
@@ -2822,8 +2822,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * Stream<Integer> cols = matrix.streamV(1, 3);            // Stream of [2, 5, 3, 6]
-     * Object[] colMajor = matrix.streamV(0, 2).toArray();     // Returns [1, 4, 2, 5]
+     * Stream<Integer> cols = matrix.streamVertical(1, 3);            // Stream of [2, 5, 3, 6]
+     * Object[] colMajor = matrix.streamVertical(0, 2).toArray();     // Returns [1, 4, 2, 5]
      * }</pre>
      *
      * @param fromColumnIndex the starting column index (inclusive)
@@ -2833,7 +2833,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Beta
     @Override
-    public Stream<T> streamV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public Stream<T> streamVertical(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         if (isEmpty()) {

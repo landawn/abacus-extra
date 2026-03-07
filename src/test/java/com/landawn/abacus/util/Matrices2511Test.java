@@ -554,7 +554,7 @@ public class Matrices2511Test extends TestBase {
         IntMatrix b = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
 
         final AtomicInteger callCount = new AtomicInteger(0);
-        Matrices.forEachMultiplyIndices(a, b, (i, j, v) -> {
+        Matrices.forEachCartesianIndices(a, b, (i, j, v) -> {
             callCount.incrementAndGet();
         });
 
@@ -567,7 +567,7 @@ public class Matrices2511Test extends TestBase {
         IntMatrix b = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
 
         final AtomicInteger callCount = new AtomicInteger(0);
-        Matrices.forEachMultiplyIndices(a, b, (i, j, v) -> {
+        Matrices.forEachCartesianIndices(a, b, (i, j, v) -> {
             callCount.incrementAndGet();
         });
 
@@ -581,7 +581,7 @@ public class Matrices2511Test extends TestBase {
         IntMatrix b = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
 
         final AtomicInteger callCount = new AtomicInteger(0);
-        Matrices.forEachMultiplyIndices(a, b, (i, j, v) -> {
+        Matrices.forEachCartesianIndices(a, b, (i, j, v) -> {
             callCount.incrementAndGet();
         }, true);
 

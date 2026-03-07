@@ -234,7 +234,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 5);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
     }
 
     @Test
@@ -242,7 +242,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.rowRef(0));
     }
 
     @Test
@@ -257,7 +257,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 4);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
     }
 
     @Test
@@ -265,7 +265,7 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(6, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.rowRef(0));
     }
 
     @Test
@@ -474,14 +474,14 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        int[] row = m.row(0);
+        int[] row = m.rowRef(0);
         assertArrayEquals(new int[] { 1, 2 }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(5));
     }
 
     @Test
@@ -501,7 +501,7 @@ public class IntMatrix2512Test extends TestBase {
     public void test_setRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(0, new int[] { 9, 8 });
-        assertArrayEquals(new int[] { 9, 8 }, m.row(0));
+        assertArrayEquals(new int[] { 9, 8 }, m.rowRef(0));
     }
 
     @Test
@@ -541,8 +541,8 @@ public class IntMatrix2512Test extends TestBase {
     public void test_updateRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.updateRow(0, x -> x * 2);
-        assertArrayEquals(new int[] { 2, 4 }, m.row(0));
-        assertArrayEquals(new int[] { 3, 4 }, m.row(1));
+        assertArrayEquals(new int[] { 2, 4 }, m.rowRef(0));
+        assertArrayEquals(new int[] { 3, 4 }, m.rowRef(1));
     }
 
     @Test
@@ -856,9 +856,9 @@ public class IntMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flipH() {
+    public void test_flippedH() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        IntMatrix flipped = m.flipH();
+        IntMatrix flipped = m.flippedH();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(2, flipped.get(0, 1));
         assertEquals(1, flipped.get(0, 2));
@@ -867,9 +867,9 @@ public class IntMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flipV() {
+    public void test_flippedV() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        IntMatrix flipped = m.flipV();
+        IntMatrix flipped = m.flippedV();
         assertEquals(5, flipped.get(0, 0));
         assertEquals(3, flipped.get(1, 0));
         assertEquals(1, flipped.get(2, 0));
@@ -1195,44 +1195,44 @@ public class IntMatrix2512Test extends TestBase {
     // ============ Stream Tests ============
 
     @Test
-    public void test_streamH() {
+    public void test_streamHorizontal() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        long sum = m.streamH().sum();
+        long sum = m.streamHorizontal().sum();
         assertEquals(10L, sum);
     }
 
     @Test
     public void test_streamH_byRowIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        long sum = m.streamH(0).sum();
+        long sum = m.streamHorizontal(0).sum();
         assertEquals(3L, sum);
     }
 
     @Test
     public void test_streamH_withRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        long sum = m.streamH(1, 3).sum();
+        long sum = m.streamHorizontal(1, 3).sum();
         assertEquals(18L, sum);
     }
 
     @Test
-    public void test_streamV() {
+    public void test_streamVertical() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        long sum = m.streamV().sum();
+        long sum = m.streamVertical().sum();
         assertEquals(10L, sum);
     }
 
     @Test
     public void test_streamV_byColumnIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        long sum = m.streamV(0).sum();
+        long sum = m.streamVertical(0).sum();
         assertEquals(4L, sum);
     }
 
     @Test
     public void test_streamV_withRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        long sum = m.streamV(1, 3).sum();
+        long sum = m.streamVertical(1, 3).sum();
         assertEquals(16L, sum);
     }
 

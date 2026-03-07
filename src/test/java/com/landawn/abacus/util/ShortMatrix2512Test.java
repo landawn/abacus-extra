@@ -323,14 +323,14 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_row_returnsCorrectRow() {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        short[] row = m.row(1);
+        short[] row = m.rowRef(1);
         assertArrayEquals(new short[] { 4, 5, 6 }, row);
     }
 
     @Test
     public void test_row_outOfBounds_throwsException() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(5));
     }
 
     @Test
@@ -672,7 +672,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_flipH_createsNewHorizontallyFlipped() {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        ShortMatrix flipped = m.flipH();
+        ShortMatrix flipped = m.flippedH();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(1, m.get(0, 0)); // original unchanged
     }
@@ -681,7 +681,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_flipV_createsNewVerticallyFlipped() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        ShortMatrix flipped = m.flipV();
+        ShortMatrix flipped = m.flippedV();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(1, m.get(0, 0)); // original unchanged
     }
@@ -1009,7 +1009,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_streamH_streamsAllElements() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        short[] result = m.streamH().toArray();
+        short[] result = m.streamHorizontal().toArray();
         assertArrayEquals(new short[] { 1, 2, 3, 4 }, result);
     }
 
@@ -1017,7 +1017,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_streamH_withRowIndex() {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        short[] result = m.streamH(1).toArray();
+        short[] result = m.streamHorizontal(1).toArray();
         assertArrayEquals(new short[] { 4, 5, 6 }, result);
     }
 
@@ -1025,7 +1025,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_streamH_withRowRange() {
         short[][] arr = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        short[] result = m.streamH(1, 3).toArray();
+        short[] result = m.streamHorizontal(1, 3).toArray();
         assertArrayEquals(new short[] { 3, 4, 5, 6 }, result);
     }
 
@@ -1033,7 +1033,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_streamV_streamsAllElementsVertically() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        short[] result = m.streamV().toArray();
+        short[] result = m.streamVertical().toArray();
         assertArrayEquals(new short[] { 1, 3, 2, 4 }, result);
     }
 
@@ -1041,7 +1041,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_streamV_withColumnIndex() {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        short[] result = m.streamV(1).toArray();
+        short[] result = m.streamVertical(1).toArray();
         assertArrayEquals(new short[] { 2, 5 }, result);
     }
 
@@ -1049,7 +1049,7 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_streamV_withColumnRange() {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
-        short[] result = m.streamV(1, 3).toArray();
+        short[] result = m.streamVertical(1, 3).toArray();
         assertArrayEquals(new short[] { 2, 5, 3, 6 }, result);
     }
 

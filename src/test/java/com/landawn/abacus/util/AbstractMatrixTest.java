@@ -408,7 +408,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsH() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<Sheet.Point> points = matrix.pointsH().collect(Collectors.toList());
+        List<Sheet.Point> points = matrix.pointsHorizontal().collect(Collectors.toList());
 
         Assertions.assertEquals(4, points.size());
         Assertions.assertEquals(Sheet.Point.of(0, 0), points.get(0));
@@ -420,7 +420,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsHRow() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<Sheet.Point> points = matrix.pointsH(1).collect(Collectors.toList());
+        List<Sheet.Point> points = matrix.pointsHorizontal(1).collect(Collectors.toList());
 
         Assertions.assertEquals(3, points.size());
         Assertions.assertEquals(Sheet.Point.of(1, 0), points.get(0));
@@ -431,7 +431,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsHRange() {
         IntMatrix matrix = createTestMatrix();
-        List<Sheet.Point> points = matrix.pointsH(1, 3).collect(Collectors.toList());
+        List<Sheet.Point> points = matrix.pointsHorizontal(1, 3).collect(Collectors.toList());
 
         Assertions.assertEquals(6, points.size());
         Assertions.assertEquals(Sheet.Point.of(1, 0), points.get(0));
@@ -441,7 +441,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsV() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<Sheet.Point> points = matrix.pointsV().collect(Collectors.toList());
+        List<Sheet.Point> points = matrix.pointsVertical().collect(Collectors.toList());
 
         Assertions.assertEquals(4, points.size());
         Assertions.assertEquals(Sheet.Point.of(0, 0), points.get(0));
@@ -453,7 +453,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsVColumn() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<Sheet.Point> points = matrix.pointsV(1).collect(Collectors.toList());
+        List<Sheet.Point> points = matrix.pointsVertical(1).collect(Collectors.toList());
 
         Assertions.assertEquals(2, points.size());
         Assertions.assertEquals(Sheet.Point.of(0, 1), points.get(0));
@@ -463,7 +463,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsVRange() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<Sheet.Point> points = matrix.pointsV(1, 3).collect(Collectors.toList());
+        List<Sheet.Point> points = matrix.pointsVertical(1, 3).collect(Collectors.toList());
 
         Assertions.assertEquals(4, points.size());
         Assertions.assertEquals(Sheet.Point.of(0, 1), points.get(0));
@@ -473,7 +473,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsR() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Sheet.Point>> rows = matrix.pointsR().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> rows = matrix.pointsRow().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(2, rows.size());
         Assertions.assertEquals(3, rows.get(0).size());
@@ -484,7 +484,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsRRange() {
         IntMatrix matrix = createTestMatrix();
-        List<List<Sheet.Point>> rows = matrix.pointsR(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> rows = matrix.pointsRow(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(2, rows.size());
         Assertions.assertEquals(3, rows.get(0).size());
@@ -494,7 +494,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsC() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Sheet.Point>> columnCount = matrix.pointsC().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> columnCount = matrix.pointsColumn().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(3, columnCount.size());
         Assertions.assertEquals(2, columnCount.get(0).size());
@@ -505,7 +505,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsCRange() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Sheet.Point>> columnCount = matrix.pointsC(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> columnCount = matrix.pointsColumn(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
         Assertions.assertEquals(2, columnCount.size());
         Assertions.assertEquals(2, columnCount.get(0).size());
@@ -537,7 +537,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamH() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<Integer> elements = matrix.streamH().boxed().collect(Collectors.toList());
+        List<Integer> elements = matrix.streamHorizontal().boxed().collect(Collectors.toList());
 
         Assertions.assertEquals(6, elements.size());
         Assertions.assertEquals(1, elements.get(0));
@@ -547,7 +547,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamHRow() {
         IntMatrix matrix = createTestMatrix();
-        List<Integer> row = matrix.streamH(1).boxed().collect(Collectors.toList());
+        List<Integer> row = matrix.streamHorizontal(1).boxed().collect(Collectors.toList());
 
         Assertions.assertEquals(3, row.size());
         Assertions.assertEquals(4, row.get(0));
@@ -558,7 +558,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamHRange() {
         IntMatrix matrix = createTestMatrix();
-        List<Integer> rows = matrix.streamH(1, 3).boxed().collect(Collectors.toList());
+        List<Integer> rows = matrix.streamHorizontal(1, 3).boxed().collect(Collectors.toList());
 
         Assertions.assertEquals(6, rows.size());
         Assertions.assertEquals(4, rows.get(0));
@@ -568,7 +568,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamV() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<Integer> elements = matrix.streamV().boxed().collect(Collectors.toList());
+        List<Integer> elements = matrix.streamVertical().boxed().collect(Collectors.toList());
 
         Assertions.assertEquals(6, elements.size());
         Assertions.assertEquals(1, elements.get(0));
@@ -579,7 +579,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamVColumn() {
         IntMatrix matrix = createTestMatrix();
-        List<Integer> col = matrix.streamV(1).boxed().collect(Collectors.toList());
+        List<Integer> col = matrix.streamVertical(1).boxed().collect(Collectors.toList());
 
         Assertions.assertEquals(3, col.size());
         Assertions.assertEquals(2, col.get(0));
@@ -590,7 +590,7 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamVRange() {
         IntMatrix matrix = createTestMatrix();
-        List<Integer> columnCount = matrix.streamV(1, 3).boxed().collect(Collectors.toList());
+        List<Integer> columnCount = matrix.streamVertical(1, 3).boxed().collect(Collectors.toList());
 
         Assertions.assertEquals(6, columnCount.size());
         Assertions.assertEquals(2, columnCount.get(0));
@@ -721,7 +721,7 @@ public class AbstractMatrixTest extends TestBase {
         IntList flatList = empty.flatten();
         Assertions.assertTrue(flatList.isEmpty());
 
-        List<Integer> streamList = empty.streamH().boxed().collect(Collectors.toList());
+        List<Integer> streamList = empty.streamHorizontal().boxed().collect(Collectors.toList());
         Assertions.assertTrue(streamList.isEmpty());
     }
 

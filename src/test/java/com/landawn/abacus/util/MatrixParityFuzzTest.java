@@ -39,8 +39,8 @@ public class MatrixParityFuzzTest extends TestBase {
             assertEquals(intMatrix.elementCount(), genericMatrix.elementCount());
             assertEquals(intMatrix.isEmpty(), genericMatrix.isEmpty());
 
-            assertArrayEquals(intMatrix.streamH().toArray(), toIntArray(genericMatrix.streamH().toList()));
-            assertArrayEquals(intMatrix.streamV().toArray(), toIntArray(genericMatrix.streamV().toList()));
+            assertArrayEquals(intMatrix.streamHorizontal().toArray(), toIntArray(genericMatrix.streamHorizontal().toList()));
+            assertArrayEquals(intMatrix.streamVertical().toArray(), toIntArray(genericMatrix.streamVertical().toList()));
 
             final List<int[]> intRows = intMatrix.streamR().map(IntStream::toArray).toList();
             final List<int[]> genericRows = genericMatrix.streamR().map(row -> toIntArray(row.toList())).toList();
@@ -60,8 +60,8 @@ public class MatrixParityFuzzTest extends TestBase {
             assertTransformParity(intMatrix::rotate90, genericMatrix::rotate90);
             assertMatrixEquals(intMatrix.rotate180(), genericMatrix.rotate180());
             assertTransformParity(intMatrix::rotate270, genericMatrix::rotate270);
-            assertMatrixEquals(intMatrix.flipH(), genericMatrix.flipH());
-            assertMatrixEquals(intMatrix.flipV(), genericMatrix.flipV());
+            assertMatrixEquals(intMatrix.flippedH(), genericMatrix.flippedH());
+            assertMatrixEquals(intMatrix.flippedV(), genericMatrix.flippedV());
 
             final int rowRepeats = random.nextInt(3) + 1;
             final int colRepeats = random.nextInt(3) + 1;

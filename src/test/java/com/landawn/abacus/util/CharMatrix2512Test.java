@@ -310,14 +310,14 @@ public class CharMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        char[] row = m.row(0);
+        char[] row = m.rowRef(0);
         assertArrayEquals(new char[] { 'a', 'b', 'c' }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(5));
     }
 
     @Test
@@ -613,17 +613,17 @@ public class CharMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flipH() {
+    public void test_flippedH() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        CharMatrix flipped = m.flipH();
+        CharMatrix flipped = m.flippedH();
         assertEquals('b', flipped.get(0, 0));
         assertEquals('a', flipped.get(0, 1));
     }
 
     @Test
-    public void test_flipV() {
+    public void test_flippedV() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        CharMatrix flipped = m.flipV();
+        CharMatrix flipped = m.flippedV();
         assertEquals('c', flipped.get(0, 0));
         assertEquals('d', flipped.get(0, 1));
     }
@@ -859,44 +859,44 @@ public class CharMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_streamH() {
+    public void test_streamHorizontal() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        char[] elements = m.streamH().toArray();
+        char[] elements = m.streamHorizontal().toArray();
         assertArrayEquals(new char[] { 'a', 'b', 'c', 'd' }, elements);
     }
 
     @Test
     public void test_streamH_singleRow() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        char[] row = m.streamH(1).toArray();
+        char[] row = m.streamHorizontal(1).toArray();
         assertArrayEquals(new char[] { 'c', 'd' }, row);
     }
 
     @Test
     public void test_streamH_rowRange() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } });
-        char[] elements = m.streamH(1, 3).toArray();
+        char[] elements = m.streamHorizontal(1, 3).toArray();
         assertArrayEquals(new char[] { 'c', 'd', 'e', 'f' }, elements);
     }
 
     @Test
-    public void test_streamV() {
+    public void test_streamVertical() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        char[] elements = m.streamV().toArray();
+        char[] elements = m.streamVertical().toArray();
         assertArrayEquals(new char[] { 'a', 'c', 'b', 'd' }, elements);
     }
 
     @Test
     public void test_streamV_singleColumn() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        char[] col = m.streamV(0).toArray();
+        char[] col = m.streamVertical(0).toArray();
         assertArrayEquals(new char[] { 'a', 'c' }, col);
     }
 
     @Test
     public void test_streamV_columnRange() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        char[] elements = m.streamV(1, 3).toArray();
+        char[] elements = m.streamVertical(1, 3).toArray();
         assertArrayEquals(new char[] { 'b', 'e', 'c', 'f' }, elements);
     }
 

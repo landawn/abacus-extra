@@ -342,12 +342,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param startInclusive the starting value (inclusive)
      * @param endExclusive the ending value (exclusive)
-     * @param by the step size (must not be zero; can be positive or negative)
+     * @param step the step size (must not be zero; can be positive or negative)
      * @return a new 1×n IntMatrix with values incremented by the step size
-     * @throws IllegalArgumentException if {@code by} is zero
+     * @throws IllegalArgumentException if {@code step} is zero
      */
-    public static IntMatrix range(final int startInclusive, final int endExclusive, final int by) {
-        return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive, by) });
+    public static IntMatrix range(final int startInclusive, final int endExclusive, final int step) {
+        return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive, step) });
     }
 
     /**
@@ -385,12 +385,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param startInclusive the starting value (inclusive)
      * @param endInclusive the ending value (inclusive, if reachable by stepping)
-     * @param by the step size (must not be zero; can be positive or negative)
+     * @param step the step size (must not be zero; can be positive or negative)
      * @return a new 1×n IntMatrix with values incremented by the step size
-     * @throws IllegalArgumentException if {@code by} is zero
+     * @throws IllegalArgumentException if {@code step} is zero
      */
-    public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive, final int by) {
-        return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
+    public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive, final int step) {
+        return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive, step) });
     }
 
     /**
@@ -695,12 +695,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.rowRef(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * int[] firstRow = matrix.row(0);   // Returns [1, 2, 3]
+     * int[] firstRow = matrix.rowRef(0);   // Returns [1, 2, 3]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 10;  // matrix now has 10 at position (0,0)
@@ -711,7 +711,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public int[] row(final int rowIndex) throws IllegalArgumentException {
+    public int[] rowRef(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -735,7 +735,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Returns a copy of the specified column as a new int array.
      *
-     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowRef(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -1633,7 +1633,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * This modifies the current matrix; each row is reversed left-to-right.
      *
      * <p>This is an in-place operation that modifies the current matrix.
-     * For a non-destructive version that returns a new matrix, use {@link #flipH()}.</p>
+     * For a non-destructive version that returns a new matrix, use {@link #flippedH()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1642,7 +1642,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // matrix is now [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flipH()
+     * @see #flippedH()
      * @see #reverseV()
      */
     public void reverseH() {
@@ -1657,7 +1657,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * while the order of elements within each row remains unchanged.
      *
      * <p>This is an in-place operation that modifies the current matrix.
-     * For a non-destructive version that returns a new matrix, use {@link #flipV()}.</p>
+     * For a non-destructive version that returns a new matrix, use {@link #flippedV()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1666,7 +1666,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // matrix is now [[5, 6], [3, 4], [1, 2]]
      * }</pre>
      *
-     * @see #flipV()
+     * @see #flippedV()
      * @see #reverseH()
      */
     public void reverseV() {
@@ -1688,16 +1688,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntMatrix flipped = matrix.flipH();
+     * IntMatrix flipped = matrix.flippedH();
      * // flipped is: [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
      * @return a new IntMatrix with each row reversed
      * @see #reverseH()
-     * @see #flipV()
+     * @see #flippedV()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public IntMatrix flipH() {
+    public IntMatrix flippedH() {
         final IntMatrix res = this.copy();
         res.reverseH();
         return res;
@@ -1711,16 +1711,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntMatrix flipped = matrix.flipV();
+     * IntMatrix flipped = matrix.flippedV();
      * // flipped is: [[4, 5, 6], [1, 2, 3]]
      * }</pre>
      *
      * @return a new IntMatrix with rows reversed
      * @see #reverseV()
-     * @see #flipH()
+     * @see #flippedH()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public IntMatrix flipV() {
+    public IntMatrix flippedV() {
         final IntMatrix res = this.copy();
         res.reverseV();
         return res;
@@ -2080,13 +2080,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param op the operation to apply to each row array
+     * @param action the operation to apply to each row array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(int[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super int[], E> op) throws E {
-        Arrays.applyOnFlattened(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super int[], E> action) throws E {
+        Arrays.applyOnFlattened(a, action);
     }
 
     /**
@@ -2258,7 +2258,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[][] result = new int[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherData[k][j];
 
-        Matrices.forEachMultiplyIndices(this, other, multiplyAction);
+        Matrices.forEachCartesianIndices(this, other, multiplyAction);
 
         return new IntMatrix(result);
     }
@@ -2576,16 +2576,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntStream stream = matrix.streamH();        // Stream of [1, 2, 3, 4]
-     * int sum = matrix.streamH().sum();           // Returns 10
-     * int[] array = matrix.streamH().toArray();   // Returns [1, 2, 3, 4]
+     * IntStream stream = matrix.streamHorizontal();        // Stream of [1, 2, 3, 4]
+     * int sum = matrix.streamHorizontal().sum();           // Returns 10
+     * int[] array = matrix.streamHorizontal().toArray();   // Returns [1, 2, 3, 4]
      * }</pre>
      *
      * @return an IntStream of all elements in row-major order, or an empty stream if the matrix is empty
      */
     @Override
-    public IntStream streamH() {
-        return streamH(0, rowCount);
+    public IntStream streamHorizontal() {
+        return streamHorizontal(0, rowCount);
     }
 
     /**
@@ -2599,9 +2599,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream rowStream = matrix.streamH(0);        // Stream of [1, 2, 3]
-     * int rowSum = matrix.streamH(1).sum();           // Returns 15 (sum of second row)
-     * int[] firstRow = matrix.streamH(0).toArray();   // Returns [1, 2, 3]
+     * IntStream rowStream = matrix.streamHorizontal(0);        // Stream of [1, 2, 3]
+     * int rowSum = matrix.streamHorizontal(1).sum();           // Returns 15 (sum of second row)
+     * int[] firstRow = matrix.streamHorizontal(0).toArray();   // Returns [1, 2, 3]
      * }</pre>
      * 
      * @param rowIndex the index of the row to stream (0-based)
@@ -2609,8 +2609,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public IntStream streamH(final int rowIndex) {
-        return streamH(rowIndex, rowIndex + 1);
+    public IntStream streamHorizontal(final int rowIndex) {
+        return streamHorizontal(rowIndex, rowIndex + 1);
     }
 
     /**
@@ -2625,8 +2625,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}, {5, 6}});
-     * IntStream stream = matrix.streamH(1, 3);         // Stream rows 1 and 2: [3, 4, 5, 6]
-     * int[] subset = matrix.streamH(0, 2).toArray();   // Returns [1, 2, 3, 4]
+     * IntStream stream = matrix.streamHorizontal(1, 3);         // Stream rows 1 and 2: [3, 4, 5, 6]
+     * int[] subset = matrix.streamHorizontal(0, 2).toArray();   // Returns [1, 2, 3, 4]
      * }</pre>
      * 
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -2635,7 +2635,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
-    public IntStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public IntStream streamHorizontal(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         if (isEmpty()) {
@@ -2712,21 +2712,21 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p>This method is marked as @Beta, indicating it may be subject to change
      * in future versions. It provides an alternative way to iterate through matrix
-     * elements compared to the row-major order of {@link #streamH()}.</p>
+     * elements compared to the row-major order of {@link #streamHorizontal()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntStream stream = matrix.streamV();           // Stream of [1, 3, 2, 4]
-     * int[] colMajor = matrix.streamV().toArray();   // Returns [1, 3, 2, 4]
+     * IntStream stream = matrix.streamVertical();           // Stream of [1, 3, 2, 4]
+     * int[] colMajor = matrix.streamVertical().toArray();   // Returns [1, 3, 2, 4]
      * }</pre>
      *
      * @return an IntStream of all elements in column-major order, or an empty stream if the matrix is empty
      */
     @Override
     @Beta
-    public IntStream streamV() {
-        return streamV(0, columnCount);
+    public IntStream streamVertical() {
+        return streamVertical(0, columnCount);
     }
 
     /**
@@ -2739,9 +2739,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream colStream = matrix.streamV(1);         // Stream of [2, 5]
-     * int colSum = matrix.streamV(0).sum();            // Returns 5 (sum of first column)
-     * int[] secondCol = matrix.streamV(1).toArray();   // Returns [2, 5]
+     * IntStream colStream = matrix.streamVertical(1);         // Stream of [2, 5]
+     * int colSum = matrix.streamVertical(0).sum();            // Returns 5 (sum of first column)
+     * int[] secondCol = matrix.streamVertical(1).toArray();   // Returns [2, 5]
      * }</pre>
      * 
      * @param columnIndex the index of the column to stream (0-based)
@@ -2749,8 +2749,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
     @Override
-    public IntStream streamV(final int columnIndex) {
-        return streamV(columnIndex, columnIndex + 1);
+    public IntStream streamVertical(final int columnIndex) {
+        return streamVertical(columnIndex, columnIndex + 1);
     }
 
     /**
@@ -2764,8 +2764,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream stream = matrix.streamV(1, 3);         // Stream columns 1 and 2: [2, 5, 3, 6]
-     * int[] subset = matrix.streamV(0, 2).toArray();   // Returns [1, 4, 2, 5]
+     * IntStream stream = matrix.streamVertical(1, 3);         // Stream columns 1 and 2: [2, 5, 3, 6]
+     * int[] subset = matrix.streamVertical(0, 2).toArray();   // Returns [1, 4, 2, 5]
      * }</pre>
      * 
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
@@ -2777,7 +2777,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     @Beta
-    public IntStream streamV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public IntStream streamVertical(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         if (isEmpty()) {
@@ -3091,7 +3091,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * matrix.forEach(value -> values.add(value));
      * // values now contains [1, 2, 3, 4]
      *
-     * // Calculate sum using forEach (though streamH().sum() is preferable)
+     * // Calculate sum using forEach (though streamHorizontal().sum() is preferable)
      * int[] sum = {0};
      * matrix.forEach(value -> sum[0] += value);
      * // sum[0] is now 10

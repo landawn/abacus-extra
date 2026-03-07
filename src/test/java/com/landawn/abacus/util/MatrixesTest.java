@@ -365,7 +365,7 @@ class MatricesTest extends TestBase {
 
         int[][] result = new int[2][2];
 
-        Matrices.forEachMultiplyIndices(a, b, (i, j, k) -> {
+        Matrices.forEachCartesianIndices(a, b, (i, j, k) -> {
             result[i][j] += a.get(i, k) * b.get(k, j);
         });
 
@@ -377,18 +377,18 @@ class MatricesTest extends TestBase {
 
         // Test with incompatible dimensions
         IntMatrix c = IntMatrix.of(new int[][] { { 1, 2, 3 } });
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachMultiplyIndices(a, c, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(a, c, (i, j, k) -> {
         }));
 
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachMultiplyIndices(null, b, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(null, b, (i, j, k) -> {
         }));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachMultiplyIndices(a, null, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(a, null, (i, j, k) -> {
         }));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachMultiplyIndices(a, b, (Throwables.IntTriConsumer<RuntimeException>) null));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachMultiplyIndices(a, b, (Throwables.IntTriConsumer<RuntimeException>) null, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachMultiplyIndices(null, b, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(a, b, (Throwables.IntTriConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(a, b, (Throwables.IntTriConsumer<RuntimeException>) null, false));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(null, b, (i, j, k) -> {
         }, false));
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachMultiplyIndices(a, null, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(a, null, (i, j, k) -> {
         }, false));
     }
 
@@ -399,13 +399,13 @@ class MatricesTest extends TestBase {
 
         // Test sequential
         int[][] seqResult = new int[2][2];
-        Matrices.forEachMultiplyIndices(a, b, (i, j, k) -> {
+        Matrices.forEachCartesianIndices(a, b, (i, j, k) -> {
             seqResult[i][j] += a.get(i, k) * b.get(k, j);
         }, false);
 
         // Test parallel
         int[][] parResult = new int[2][2];
-        Matrices.forEachMultiplyIndices(a, b, (i, j, k) -> {
+        Matrices.forEachCartesianIndices(a, b, (i, j, k) -> {
             parResult[i][j] += a.get(i, k) * b.get(k, j);
         }, true);
 

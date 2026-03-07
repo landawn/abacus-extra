@@ -310,14 +310,14 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        byte[] row = m.row(0);
+        byte[] row = m.rowRef(0);
         assertArrayEquals(new byte[] { 1, 2, 3 }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(5));
     }
 
     @Test
@@ -613,17 +613,17 @@ public class ByteMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flipH() {
+    public void test_flippedH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix flipped = m.flipH();
+        ByteMatrix flipped = m.flippedH();
         assertEquals(2, flipped.get(0, 0));
         assertEquals(1, flipped.get(0, 1));
     }
 
     @Test
-    public void test_flipV() {
+    public void test_flippedV() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        ByteMatrix flipped = m.flipV();
+        ByteMatrix flipped = m.flippedV();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(4, flipped.get(0, 1));
     }
@@ -859,44 +859,44 @@ public class ByteMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_streamH() {
+    public void test_streamHorizontal() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        byte[] elements = m.streamH().toArray();
+        byte[] elements = m.streamHorizontal().toArray();
         assertArrayEquals(new byte[] { 1, 2, 3, 4 }, elements);
     }
 
     @Test
     public void test_streamH_singleRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        byte[] row = m.streamH(1).toArray();
+        byte[] row = m.streamHorizontal(1).toArray();
         assertArrayEquals(new byte[] { 3, 4 }, row);
     }
 
     @Test
     public void test_streamH_rowRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        byte[] elements = m.streamH(1, 3).toArray();
+        byte[] elements = m.streamHorizontal(1, 3).toArray();
         assertArrayEquals(new byte[] { 3, 4, 5, 6 }, elements);
     }
 
     @Test
-    public void test_streamV() {
+    public void test_streamVertical() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        byte[] elements = m.streamV().toArray();
+        byte[] elements = m.streamVertical().toArray();
         assertArrayEquals(new byte[] { 1, 3, 2, 4 }, elements);
     }
 
     @Test
     public void test_streamV_singleColumn() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        byte[] col = m.streamV(0).toArray();
+        byte[] col = m.streamVertical(0).toArray();
         assertArrayEquals(new byte[] { 1, 3 }, col);
     }
 
     @Test
     public void test_streamV_columnRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        byte[] elements = m.streamV(1, 3).toArray();
+        byte[] elements = m.streamVertical(1, 3).toArray();
         assertArrayEquals(new byte[] { 2, 5, 3, 6 }, elements);
     }
 

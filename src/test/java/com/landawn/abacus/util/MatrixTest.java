@@ -239,7 +239,7 @@ public class MatrixTest extends TestBase {
         Integer[][] data = { { 1, 2, 3 }, { 4, 5, 6 } };
         Matrix<Integer> matrix = Matrix.of(data);
 
-        Integer[] row = matrix.row(0);
+        Integer[] row = matrix.rowRef(0);
         Assertions.assertArrayEquals(new Integer[] { 1, 2, 3 }, row);
 
         row[0] = 10; // This modifies the matrix
@@ -249,7 +249,7 @@ public class MatrixTest extends TestBase {
     @Test
     public void testRowOnObjectMatrixDoesNotNarrowInternalStorage() {
         Matrix<Object> matrix = Matrix.of(new Object[][] { { "a" } });
-        Object[] row = matrix.row(0);
+        Object[] row = matrix.rowRef(0);
 
         Assertions.assertEquals(Object.class, row.getClass().getComponentType());
 
@@ -262,11 +262,11 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 } });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.row(-1);
+            matrix.rowRef(-1);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.row(2);
+            matrix.rowRef(2);
         });
     }
 
@@ -301,7 +301,7 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(data);
 
         matrix.setRow(0, new Integer[] { 7, 8, 9 });
-        Assertions.assertArrayEquals(new Integer[] { 7, 8, 9 }, matrix.row(0));
+        Assertions.assertArrayEquals(new Integer[] { 7, 8, 9 }, matrix.rowRef(0));
     }
 
     @Test
@@ -336,8 +336,8 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
         matrix.updateRow(0, x -> x * 2);
-        Assertions.assertArrayEquals(new Integer[] { 2, 4, 6 }, matrix.row(0));
-        Assertions.assertArrayEquals(new Integer[] { 4, 5, 6 }, matrix.row(1));
+        Assertions.assertArrayEquals(new Integer[] { 2, 4, 6 }, matrix.rowRef(0));
+        Assertions.assertArrayEquals(new Integer[] { 4, 5, 6 }, matrix.rowRef(1));
     }
 
     @Test
@@ -783,7 +783,7 @@ public class MatrixTest extends TestBase {
     public void testFlipH() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
-        Matrix<Integer> flipped = matrix.flipH();
+        Matrix<Integer> flipped = matrix.flippedH();
         Assertions.assertEquals(3, flipped.get(0, 0));
         Assertions.assertEquals(2, flipped.get(0, 1));
         Assertions.assertEquals(1, flipped.get(0, 2));
@@ -797,7 +797,7 @@ public class MatrixTest extends TestBase {
     public void testFlipV() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
 
-        Matrix<Integer> flipped = matrix.flipV();
+        Matrix<Integer> flipped = matrix.flippedV();
         Assertions.assertEquals(5, flipped.get(0, 0));
         Assertions.assertEquals(6, flipped.get(0, 1));
         Assertions.assertEquals(3, flipped.get(1, 0));
@@ -1066,7 +1066,7 @@ public class MatrixTest extends TestBase {
     public void testStreamH() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
 
-        List<Integer> elements = matrix.streamH().toList();
+        List<Integer> elements = matrix.streamHorizontal().toList();
         Assertions.assertEquals(Arrays.asList(1, 2, 3, 4), elements);
     }
 
@@ -1074,7 +1074,7 @@ public class MatrixTest extends TestBase {
     public void testStreamHRow() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        List<Integer> row1 = matrix.streamH(1).toList();
+        List<Integer> row1 = matrix.streamHorizontal(1).toList();
         Assertions.assertEquals(Arrays.asList(4, 5, 6), row1);
     }
 
@@ -1082,7 +1082,7 @@ public class MatrixTest extends TestBase {
     public void testStreamHRange() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
 
-        List<Integer> rows = matrix.streamH(1, 3).toList();
+        List<Integer> rows = matrix.streamHorizontal(1, 3).toList();
         Assertions.assertEquals(Arrays.asList(3, 4, 5, 6), rows);
     }
 
@@ -1090,7 +1090,7 @@ public class MatrixTest extends TestBase {
     public void testStreamV() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
 
-        List<Integer> elements = matrix.streamV().toList();
+        List<Integer> elements = matrix.streamVertical().toList();
         Assertions.assertEquals(Arrays.asList(1, 3, 2, 4), elements);
     }
 
@@ -1098,7 +1098,7 @@ public class MatrixTest extends TestBase {
     public void testStreamVColumn() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
 
-        List<Integer> col1 = matrix.streamV(1).toList();
+        List<Integer> col1 = matrix.streamVertical(1).toList();
         Assertions.assertEquals(Arrays.asList(2, 5, 8), col1);
     }
 
@@ -1106,7 +1106,7 @@ public class MatrixTest extends TestBase {
     public void testStreamVRange() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
-        List<Integer> columnCount = matrix.streamV(1, 3).toList();
+        List<Integer> columnCount = matrix.streamVertical(1, 3).toList();
         Assertions.assertEquals(Arrays.asList(2, 5, 3, 6), columnCount);
     }
 
@@ -1311,7 +1311,7 @@ public class MatrixTest extends TestBase {
     @Test
     public void testStreamAdvance() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        var stream = matrix.streamH();
+        var stream = matrix.streamHorizontal();
         var iterator = stream.iterator();
 
         if (iterator instanceof ObjIteratorEx) {
@@ -1325,7 +1325,7 @@ public class MatrixTest extends TestBase {
     @Test
     public void testStreamToArray() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-        var stream = matrix.streamH(0, 2);
+        var stream = matrix.streamHorizontal(0, 2);
         var iterator = stream.iterator();
 
         if (iterator instanceof ObjIteratorEx) {
@@ -1370,7 +1370,7 @@ public class MatrixTest extends TestBase {
     public void testRepeatSupportsWiderGenericTypeAfterRowView() {
         Matrix<Number> matrix = Matrix.repeat(1, 1, 1);
 
-        Number[] row = matrix.row(0);
+        Number[] row = matrix.rowRef(0);
         Assertions.assertEquals(Integer.class, row.getClass().getComponentType());
 
         matrix.set(0, 0, 2.5d);
@@ -1382,7 +1382,7 @@ public class MatrixTest extends TestBase {
         Number[] mainDiag = new Integer[] { 1 };
         Matrix<Number> matrix = Matrix.mainDiagonal(mainDiag);
 
-        Number[] row = matrix.row(0);
+        Number[] row = matrix.rowRef(0);
         Assertions.assertEquals(Integer.class, row.getClass().getComponentType());
 
         matrix.set(0, 0, 2.5d);
@@ -1392,7 +1392,7 @@ public class MatrixTest extends TestBase {
     @Test
     public void testTransformsStillWorkAfterWideningElementTypeAtRuntime() {
         Matrix<Number> matrix = Matrix.repeat(1, 2, 1);
-        matrix.row(0);
+        matrix.rowRef(0);
         matrix.set(0, 1, 2.5d);
 
         Matrix<Number> transposed = matrix.transpose();
@@ -1405,8 +1405,8 @@ public class MatrixTest extends TestBase {
     @Test
     public void testSetRowAndSetColumnWidenStorageWhenNeeded() {
         Matrix<Number> matrix = Matrix.repeat(2, 2, 1);
-        matrix.row(0);
-        matrix.row(1);
+        matrix.rowRef(0);
+        matrix.rowRef(1);
 
         matrix.setRow(0, new Number[] { 1.5d, 2.5d });
         matrix.setColumn(1, new Number[] { 3.5d, 4.5d });
@@ -1419,7 +1419,7 @@ public class MatrixTest extends TestBase {
     @Test
     public void testFillWidenStorageWhenNeeded() {
         Matrix<Number> matrix = Matrix.repeat(1, 2, 1);
-        matrix.row(0);
+        matrix.rowRef(0);
 
         matrix.fill(2.5d);
         Assertions.assertEquals(2.5d, matrix.get(0, 0).doubleValue(), 0.000001d);
@@ -1454,19 +1454,19 @@ public class MatrixTest extends TestBase {
 
         Matrix<String> copied = matrix.copy();
         Assertions.assertEquals(String.class, copied.componentType());
-        Assertions.assertEquals(String.class, copied.row(0).getClass().getComponentType());
+        Assertions.assertEquals(String.class, copied.rowRef(0).getClass().getComponentType());
 
         Matrix<String> transposed = matrix.transpose();
         Assertions.assertEquals(String.class, transposed.componentType());
-        Assertions.assertEquals(String.class, transposed.row(0).getClass().getComponentType());
+        Assertions.assertEquals(String.class, transposed.rowRef(0).getClass().getComponentType());
 
         Matrix<String> reshaped = matrix.reshape(2, 1);
         Assertions.assertEquals(String.class, reshaped.componentType());
-        Assertions.assertEquals(String.class, reshaped.row(0).getClass().getComponentType());
+        Assertions.assertEquals(String.class, reshaped.rowRef(0).getClass().getComponentType());
 
         Matrix<String> repeated = matrix.repeatElements(2, 2);
         Assertions.assertEquals(String.class, repeated.componentType());
-        Assertions.assertEquals(String.class, repeated.row(0).getClass().getComponentType());
+        Assertions.assertEquals(String.class, repeated.rowRef(0).getClass().getComponentType());
     }
 
     @Test
@@ -1476,13 +1476,13 @@ public class MatrixTest extends TestBase {
 
         Matrix<Integer> vstacked = top.vstack(bottom);
         Assertions.assertEquals(Integer.class, vstacked.componentType());
-        Assertions.assertEquals(Integer.class, vstacked.row(0).getClass().getComponentType());
+        Assertions.assertEquals(Integer.class, vstacked.rowRef(0).getClass().getComponentType());
         vstacked.set(0, 0, 3);
         Assertions.assertEquals(3, vstacked.get(0, 0));
 
         Matrix<Integer> hstacked = top.hstack(bottom);
         Assertions.assertEquals(Integer.class, hstacked.componentType());
-        Assertions.assertEquals(Integer.class, hstacked.row(0).getClass().getComponentType());
+        Assertions.assertEquals(Integer.class, hstacked.rowRef(0).getClass().getComponentType());
         hstacked.set(0, 3, 4);
         Assertions.assertEquals(4, hstacked.get(0, 3));
     }

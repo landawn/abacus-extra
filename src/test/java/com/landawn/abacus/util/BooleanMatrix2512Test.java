@@ -285,14 +285,14 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_row() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        boolean[] row = m.row(0);
+        boolean[] row = m.rowRef(0);
         assertArrayEquals(new boolean[] { true, false, true }, row);
     }
 
     @Test
     public void test_row_invalidIndex() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(5));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(5));
     }
 
     @Test
@@ -588,17 +588,17 @@ public class BooleanMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_flipH() {
+    public void test_flippedH() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix flipped = m.flipH();
+        BooleanMatrix flipped = m.flippedH();
         assertFalse(flipped.get(0, 0));
         assertTrue(flipped.get(0, 1));
     }
 
     @Test
-    public void test_flipV() {
+    public void test_flippedV() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        BooleanMatrix flipped = m.flipV();
+        BooleanMatrix flipped = m.flippedV();
         assertFalse(flipped.get(0, 0));
         assertTrue(flipped.get(0, 1));
     }
@@ -777,9 +777,9 @@ public class BooleanMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_streamH() {
+    public void test_streamHorizontal() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        List<Boolean> elements = m.streamH().toList();
+        List<Boolean> elements = m.streamHorizontal().toList();
         assertEquals(4, elements.size());
         assertTrue(elements.get(0));
         assertFalse(elements.get(1));
@@ -788,7 +788,7 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_streamH_singleRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        List<Boolean> row = m.streamH(1).toList();
+        List<Boolean> row = m.streamHorizontal(1).toList();
         assertEquals(2, row.size());
         assertFalse(row.get(0));
         assertTrue(row.get(1));
@@ -797,14 +797,14 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_streamH_rowRange() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
-        List<Boolean> elements = m.streamH(1, 3).toList();
+        List<Boolean> elements = m.streamHorizontal(1, 3).toList();
         assertEquals(4, elements.size());
     }
 
     @Test
-    public void test_streamV() {
+    public void test_streamVertical() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        List<Boolean> elements = m.streamV().toList();
+        List<Boolean> elements = m.streamVertical().toList();
         assertEquals(4, elements.size());
         assertTrue(elements.get(0));
         assertFalse(elements.get(1));
@@ -813,7 +813,7 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_streamV_singleColumn() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        List<Boolean> col = m.streamV(0).toList();
+        List<Boolean> col = m.streamVertical(0).toList();
         assertEquals(2, col.size());
         assertTrue(col.get(0));
         assertFalse(col.get(1));
@@ -822,7 +822,7 @@ public class BooleanMatrix2512Test extends TestBase {
     @Test
     public void test_streamV_columnRange() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        List<Boolean> elements = m.streamV(1, 3).toList();
+        List<Boolean> elements = m.streamVertical(1, 3).toList();
         assertEquals(4, elements.size());
     }
 

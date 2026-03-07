@@ -501,7 +501,7 @@ public class Matrices2512Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix result = IntMatrix.of(new int[2][2]);
 
-        Matrices.forEachMultiplyIndices(m1, m2, (i, j, k) -> {
+        Matrices.forEachCartesianIndices(m1, m2, (i, j, k) -> {
             result.a[i][j] += m1.a[i][k] * m2.a[k][j];
         });
 
@@ -517,7 +517,7 @@ public class Matrices2512Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
         IntMatrix result = IntMatrix.of(new int[1][1]);
 
-        Matrices.forEachMultiplyIndices(m1, m2, (i, j, k) -> {
+        Matrices.forEachCartesianIndices(m1, m2, (i, j, k) -> {
             result.a[i][j] += m1.a[i][k] * m2.a[k][j];
         });
 
@@ -529,7 +529,7 @@ public class Matrices2512Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } }); // 1x2
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3, 4, 5 } }); // 1x3 (incompatible)
 
-        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachMultiplyIndices(m1, m2, (i, j, k) -> {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(m1, m2, (i, j, k) -> {
         }));
     }
 

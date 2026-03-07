@@ -454,9 +454,9 @@ public class JavadocExampleMatrixTest {
     @Test
     public void testDoubleMatrixFlipH() {
         // DoubleMatrix.java: DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}});
-        // DoubleMatrix flipped = matrix.flipH();   // returns [[3.0, 2.0, 1.0]], original unchanged
+        // DoubleMatrix flipped = matrix.flippedH();   // returns [[3.0, 2.0, 1.0]], original unchanged
         DoubleMatrix matrix = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 } });
-        DoubleMatrix flipped = matrix.flipH();
+        DoubleMatrix flipped = matrix.flippedH();
         assertEquals(3.0, flipped.get(0, 0));
         assertEquals(2.0, flipped.get(0, 1));
         assertEquals(1.0, flipped.get(0, 2));
@@ -467,9 +467,9 @@ public class JavadocExampleMatrixTest {
     @Test
     public void testDoubleMatrixFlipV() {
         // DoubleMatrix.java: DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0}, {2.0}, {3.0}});
-        // DoubleMatrix flipped = matrix.flipV();   // returns [[3.0], [2.0], [1.0]], original unchanged
+        // DoubleMatrix flipped = matrix.flippedV();   // returns [[3.0], [2.0], [1.0]], original unchanged
         DoubleMatrix matrix = DoubleMatrix.of(new double[][] { { 1.0 }, { 2.0 }, { 3.0 } });
-        DoubleMatrix flipped = matrix.flipV();
+        DoubleMatrix flipped = matrix.flippedV();
         assertEquals(3.0, flipped.get(0, 0));
         assertEquals(2.0, flipped.get(1, 0));
         assertEquals(1.0, flipped.get(2, 0));

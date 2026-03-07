@@ -218,12 +218,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param startInclusive the starting value (inclusive)
      * @param endExclusive the ending value (exclusive)
-     * @param by the step size (must not be zero; can be positive or negative)
+     * @param step the step size (must not be zero; can be positive or negative)
      * @return a new 1×n ByteMatrix with values incremented by the step size
-     * @throws IllegalArgumentException if {@code by} is zero
+     * @throws IllegalArgumentException if {@code step} is zero
      */
-    public static ByteMatrix range(final byte startInclusive, final byte endExclusive, final byte by) {
-        return new ByteMatrix(new byte[][] { Array.range(startInclusive, endExclusive, by) });
+    public static ByteMatrix range(final byte startInclusive, final byte endExclusive, final byte step) {
+        return new ByteMatrix(new byte[][] { Array.range(startInclusive, endExclusive, step) });
     }
 
     /**
@@ -259,12 +259,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param startInclusive the starting value (inclusive)
      * @param endInclusive the ending value (inclusive, if reachable by stepping)
-     * @param by the step size (must not be zero; can be positive or negative)
+     * @param step the step size (must not be zero; can be positive or negative)
      * @return a new 1×n ByteMatrix with values incremented by the step size
-     * @throws IllegalArgumentException if {@code by} is zero
+     * @throws IllegalArgumentException if {@code step} is zero
      */
-    public static ByteMatrix rangeClosed(final byte startInclusive, final byte endInclusive, final byte by) {
-        return new ByteMatrix(new byte[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
+    public static ByteMatrix rangeClosed(final byte startInclusive, final byte endInclusive, final byte step) {
+        return new ByteMatrix(new byte[][] { Array.rangeClosed(startInclusive, endInclusive, step) });
     }
 
     /**
@@ -575,12 +575,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.rowRef(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * byte[] firstRow = matrix.row(0);   // Returns [1, 2, 3]
+     * byte[] firstRow = matrix.rowRef(0);   // Returns [1, 2, 3]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99;  // matrix now has 99 at position (0,0)
@@ -591,7 +591,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public byte[] row(final int rowIndex) throws IllegalArgumentException {
+    public byte[] rowRef(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -615,7 +615,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Returns a copy of the specified column as a new byte array.
      *
-     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowRef(int)}, this method always returns a new array copy since
      * columns are not stored contiguously. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -1431,7 +1431,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Reverses the order of elements in each row horizontally in-place.
-     * This modifies the matrix directly. For a non-destructive version, use {@link #flipH()}.
+     * This modifies the matrix directly. For a non-destructive version, use {@link #flippedH()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1440,7 +1440,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // matrix is now: [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flipH()
+     * @see #flippedH()
      */
     public void reverseH() {
         for (int i = 0; i < rowCount; i++) {
@@ -1450,7 +1450,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Reverses the order of rows in the matrix (vertical flip in-place).
-     * This modifies the matrix directly. For a non-destructive version, use {@link #flipV()}.
+     * This modifies the matrix directly. For a non-destructive version, use {@link #flippedV()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1459,7 +1459,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // matrix is now: [[5, 6], [3, 4], [1, 2]]
      * }</pre>
      *
-     * @see #flipV()
+     * @see #flippedV()
      */
     public void reverseV() {
         for (int j = 0; j < columnCount; j++) {
@@ -1479,18 +1479,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteMatrix flipped = matrix.flipH();
+     * ByteMatrix flipped = matrix.flippedH();
      * // flipped is: [[3, 2, 1], [6, 5, 4]]
      * // original matrix is unchanged
      * }</pre>
      *
      * @return a new ByteMatrix that is a horizontal flip of this matrix (each row reversed)
      * @see #reverseH()
-     * @see #flipV()
-     * @see IntMatrix#flipH()
+     * @see #flippedV()
+     * @see IntMatrix#flippedH()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public ByteMatrix flipH() {
+    public ByteMatrix flippedH() {
         final ByteMatrix res = this.copy();
         res.reverseH();
         return res;
@@ -1503,18 +1503,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteMatrix flipped = matrix.flipV();
+     * ByteMatrix flipped = matrix.flippedV();
      * // flipped is: [[4, 5, 6], [1, 2, 3]]
      * // original matrix is unchanged
      * }</pre>
      *
      * @return a new ByteMatrix that is a vertical flip of this matrix (rows in reversed order)
      * @see #reverseV()
-     * @see #flipH()
-     * @see IntMatrix#flipV()
+     * @see #flippedH()
+     * @see IntMatrix#flippedV()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
-    public ByteMatrix flipV() {
+    public ByteMatrix flippedV() {
         final ByteMatrix res = this.copy();
         res.reverseV();
         return res;
@@ -1873,7 +1873,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @return a new ByteList containing all elements in row-major order
      * @throws IllegalStateException if the matrix is too large to flatten (rowCount * columnCount &gt; Integer.MAX_VALUE)
-     * @see #streamH()
+     * @see #streamHorizontal()
      */
     @Override
     public ByteList flatten() {
@@ -1913,13 +1913,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation
-     * @param op the operation to apply to each row's internal array
+     * @param action the operation to apply to each row's internal array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(byte[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super byte[], E> op) throws E {
-        Arrays.applyOnFlattened(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super byte[], E> action) throws E {
+        Arrays.applyOnFlattened(a, action);
     }
 
     /**
@@ -2098,7 +2098,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         final byte[][] result = new byte[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherArray[k][j];
 
-        Matrices.forEachMultiplyIndices(this, other, multiplyAction);
+        Matrices.forEachCartesianIndices(this, other, multiplyAction);
 
         return new ByteMatrix(result);
     }
@@ -2117,7 +2117,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * Matrix<Byte> boxed = primitive.boxed();
      *
      * // Now you can use methods that work with generic types
-     * Stream<Byte> stream = boxed.streamH();
+     * Stream<Byte> stream = boxed.streamHorizontal();
      * boxed.set(0, 0, null);   // Can use null values
      * }</pre>
      *
@@ -2485,17 +2485,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteStream stream = matrix.streamH();
+     * ByteStream stream = matrix.streamHorizontal();
      * // stream contains: [1, 2, 3, 4, 5, 6]
      * }</pre>
      *
      * @return a ByteStream of all matrix elements in row-major order
-     * @see #streamV()
+     * @see #streamVertical()
      * @see #streamR()
      */
     @Override
-    public ByteStream streamH() {
-        return streamH(0, rowCount);
+    public ByteStream streamHorizontal() {
+        return streamHorizontal(0, rowCount);
     }
 
     /**
@@ -2504,7 +2504,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteStream row = matrix.streamH(1);
+     * ByteStream row = matrix.streamHorizontal(1);
      * // row contains: [4, 5, 6]
      * }</pre>
      *
@@ -2513,8 +2513,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IndexOutOfBoundsException if rowIndex is out of bounds
      */
     @Override
-    public ByteStream streamH(final int rowIndex) {
-        return streamH(rowIndex, rowIndex + 1);
+    public ByteStream streamHorizontal(final int rowIndex) {
+        return streamHorizontal(rowIndex, rowIndex + 1);
     }
 
     /**
@@ -2523,7 +2523,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}, {5, 6}});
-     * ByteStream stream = matrix.streamH(0, 2);
+     * ByteStream stream = matrix.streamHorizontal(0, 2);
      * // stream contains: [1, 2, 3, 4]
      * }</pre>
      *
@@ -2533,7 +2533,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IndexOutOfBoundsException if the indices are out of bounds
      */
     @Override
-    public ByteStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public ByteStream streamHorizontal(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         if (isEmpty()) {
@@ -2617,18 +2617,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteStream stream = matrix.streamV();
+     * ByteStream stream = matrix.streamVertical();
      * // stream contains: [1, 4, 2, 5, 3, 6]
      * }</pre>
      *
      * @return a ByteStream of all matrix elements in column-major order
-     * @see #streamH()
+     * @see #streamHorizontal()
      * @see #streamC()
      */
     @Override
     @Beta
-    public ByteStream streamV() {
-        return streamV(0, columnCount);
+    public ByteStream streamVertical() {
+        return streamVertical(0, columnCount);
     }
 
     /**
@@ -2637,7 +2637,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteStream column = matrix.streamV(1);
+     * ByteStream column = matrix.streamVertical(1);
      * // column contains: [2, 5]
      * }</pre>
      *
@@ -2646,8 +2646,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IndexOutOfBoundsException if columnIndex is out of bounds
      */
     @Override
-    public ByteStream streamV(final int columnIndex) {
-        return streamV(columnIndex, columnIndex + 1);
+    public ByteStream streamVertical(final int columnIndex) {
+        return streamVertical(columnIndex, columnIndex + 1);
     }
 
     /**
@@ -2656,7 +2656,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteStream stream = matrix.streamV(1, 3);
+     * ByteStream stream = matrix.streamVertical(1, 3);
      * // stream contains: [2, 5, 3, 6]
      * }</pre>
      *
@@ -2667,7 +2667,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     @Override
     @Beta
-    public ByteStream streamV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public ByteStream streamVertical(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         if (isEmpty()) {
@@ -2760,7 +2760,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @return a Stream of ByteStream, one for each row in the matrix
      * @see #streamC()
-     * @see #streamH()
+     * @see #streamHorizontal()
      */
     @Override
     public Stream<ByteStream> streamR() {
@@ -2846,7 +2846,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @return a Stream of ByteStream, one for each column in the matrix
      * @see #streamR()
-     * @see #streamV()
+     * @see #streamVertical()
      */
     @Override
     @Beta

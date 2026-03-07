@@ -222,7 +222,7 @@ public class IntMatrix2510Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 5);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
     }
 
     @Test
@@ -230,7 +230,7 @@ public class IntMatrix2510Test extends TestBase {
         IntMatrix m = IntMatrix.range(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8 }, m.rowRef(0));
     }
 
     @Test
@@ -238,7 +238,7 @@ public class IntMatrix2510Test extends TestBase {
         IntMatrix m = IntMatrix.range(10, 0, -2);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 10, 8, 6, 4, 2 }, m.row(0));
+        assertArrayEquals(new int[] { 10, 8, 6, 4, 2 }, m.rowRef(0));
     }
 
     @Test
@@ -246,7 +246,7 @@ public class IntMatrix2510Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 4);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
-        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 1, 2, 3, 4 }, m.rowRef(0));
     }
 
     @Test
@@ -254,7 +254,7 @@ public class IntMatrix2510Test extends TestBase {
         IntMatrix m = IntMatrix.rangeClosed(0, 10, 2);
         assertEquals(1, m.rowCount());
         assertEquals(6, m.columnCount());
-        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.row(0));
+        assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 }, m.rowRef(0));
     }
 
     @Test
@@ -464,15 +464,15 @@ public class IntMatrix2510Test extends TestBase {
     @Test
     public void testRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertArrayEquals(new int[] { 1, 2, 3 }, m.row(0));
-        assertArrayEquals(new int[] { 4, 5, 6 }, m.row(1));
+        assertArrayEquals(new int[] { 1, 2, 3 }, m.rowRef(0));
+        assertArrayEquals(new int[] { 4, 5, 6 }, m.rowRef(1));
     }
 
     @Test
     public void testRow_outOfBounds() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(2));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(2));
     }
 
     @Test
@@ -494,8 +494,8 @@ public class IntMatrix2510Test extends TestBase {
     public void testSetRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(0, new int[] { 10, 20 });
-        assertArrayEquals(new int[] { 10, 20 }, m.row(0));
-        assertArrayEquals(new int[] { 3, 4 }, m.row(1)); // unchanged
+        assertArrayEquals(new int[] { 10, 20 }, m.rowRef(0));
+        assertArrayEquals(new int[] { 3, 4 }, m.rowRef(1)); // unchanged
     }
 
     @Test
@@ -524,8 +524,8 @@ public class IntMatrix2510Test extends TestBase {
     public void testUpdateRow() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.updateRow(0, x -> x * 2);
-        assertArrayEquals(new int[] { 2, 4 }, m.row(0));
-        assertArrayEquals(new int[] { 3, 4 }, m.row(1)); // unchanged
+        assertArrayEquals(new int[] { 2, 4 }, m.rowRef(0));
+        assertArrayEquals(new int[] { 3, 4 }, m.rowRef(1)); // unchanged
     }
 
     @Test
@@ -897,7 +897,7 @@ public class IntMatrix2510Test extends TestBase {
     @Test
     public void testFlipH() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        IntMatrix flipped = m.flipH();
+        IntMatrix flipped = m.flippedH();
         assertEquals(3, flipped.get(0, 0));
         assertEquals(2, flipped.get(0, 1));
         assertEquals(1, flipped.get(0, 2));
@@ -909,7 +909,7 @@ public class IntMatrix2510Test extends TestBase {
     @Test
     public void testFlipV() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        IntMatrix flipped = m.flipV();
+        IntMatrix flipped = m.flippedV();
         assertEquals(5, flipped.get(0, 0));
         assertEquals(3, flipped.get(1, 0));
         assertEquals(1, flipped.get(2, 0));
@@ -1292,57 +1292,57 @@ public class IntMatrix2510Test extends TestBase {
     @Test
     public void testStreamH() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        int[] all = m.streamH().toArray();
+        int[] all = m.streamHorizontal().toArray();
         assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6 }, all);
     }
 
     @Test
     public void testStreamH_withRowIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        int[] row1 = m.streamH(1).toArray();
+        int[] row1 = m.streamHorizontal(1).toArray();
         assertArrayEquals(new int[] { 4, 5, 6 }, row1);
     }
 
     @Test
     public void testStreamH_withRowRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        int[] rows = m.streamH(1, 3).toArray();
+        int[] rows = m.streamHorizontal(1, 3).toArray();
         assertArrayEquals(new int[] { 4, 5, 6, 7, 8, 9 }, rows);
     }
 
     @Test
     public void testStreamH_outOfBounds() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(-1, 1));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamH(0, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(-1, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamHorizontal(0, 2));
     }
 
     @Test
     public void testStreamV() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        int[] all = m.streamV().toArray();
+        int[] all = m.streamVertical().toArray();
         assertArrayEquals(new int[] { 1, 4, 2, 5, 3, 6 }, all);
     }
 
     @Test
     public void testStreamV_withColumnIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        int[] col1 = m.streamV(1).toArray();
+        int[] col1 = m.streamVertical(1).toArray();
         assertArrayEquals(new int[] { 2, 5 }, col1);
     }
 
     @Test
     public void testStreamV_withColumnRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        int[] columnCount = m.streamV(1, 3).toArray();
+        int[] columnCount = m.streamVertical(1, 3).toArray();
         assertArrayEquals(new int[] { 2, 5, 3, 6 }, columnCount);
     }
 
     @Test
     public void testStreamV_outOfBounds() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(-1, 1));
-        assertThrows(IndexOutOfBoundsException.class, () -> m.streamV(0, 3));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(-1, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.streamVertical(0, 3));
     }
 
     // ============ Stream of Streams Tests ============
@@ -1370,7 +1370,7 @@ public class IntMatrix2510Test extends TestBase {
     @Test
     public void testPointsH() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<Point> points = m.pointsH().toList();
+        List<Point> points = m.pointsHorizontal().toList();
         assertEquals(4, points.size());
         assertEquals(Point.of(0, 0), points.get(0));
         assertEquals(Point.of(0, 1), points.get(1));
@@ -1381,7 +1381,7 @@ public class IntMatrix2510Test extends TestBase {
     @Test
     public void testPointsV() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<Point> points = m.pointsV().toList();
+        List<Point> points = m.pointsVertical().toList();
         assertEquals(4, points.size());
         assertEquals(Point.of(0, 0), points.get(0));
         assertEquals(Point.of(1, 0), points.get(1));

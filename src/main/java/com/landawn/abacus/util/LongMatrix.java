@@ -257,12 +257,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param startInclusive the starting value (inclusive)
      * @param endExclusive the ending value (exclusive)
-     * @param by the step size (must not be zero; can be positive or negative)
+     * @param step the step size (must not be zero; can be positive or negative)
      * @return a new 1×n LongMatrix with values incremented by the step size
-     * @throws IllegalArgumentException if {@code by} is zero
+     * @throws IllegalArgumentException if {@code step} is zero
      */
-    public static LongMatrix range(final long startInclusive, final long endExclusive, final long by) {
-        return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive, by) });
+    public static LongMatrix range(final long startInclusive, final long endExclusive, final long step) {
+        return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive, step) });
     }
 
     /**
@@ -300,12 +300,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param startInclusive the starting value (inclusive)
      * @param endInclusive the ending value (inclusive, if reachable by stepping)
-     * @param by the step size (must not be zero; can be positive or negative)
+     * @param step the step size (must not be zero; can be positive or negative)
      * @return a new 1×n LongMatrix with values incremented by the step size
-     * @throws IllegalArgumentException if {@code by} is zero
+     * @throws IllegalArgumentException if {@code step} is zero
      */
-    public static LongMatrix rangeClosed(final long startInclusive, final long endInclusive, final long by) {
-        return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
+    public static LongMatrix rangeClosed(final long startInclusive, final long endInclusive, final long step) {
+        return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive, step) });
     }
 
     /**
@@ -616,12 +616,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.rowRef(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * long[] firstRow = matrix.row(0);   // Returns [1L, 2L, 3L]
+     * long[] firstRow = matrix.rowRef(0);   // Returns [1L, 2L, 3L]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99L;  // matrix now has 99L at position (0,0)
@@ -632,7 +632,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public long[] row(final int rowIndex) throws IllegalArgumentException {
+    public long[] rowRef(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -656,7 +656,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Returns a copy of the specified column as a new long array.
      *
-     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowRef(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -1558,7 +1558,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
-     * This operation modifies the matrix directly. For a non-destructive version, use {@link #flipH()}.
+     * This operation modifies the matrix directly. For a non-destructive version, use {@link #flippedH()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1567,7 +1567,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // matrix is now [[3, 2, 1], [6, 5, 4]]
      * }</pre>
      *
-     * @see #flipH()
+     * @see #flippedH()
      * @see #reverseV()
      */
     public void reverseH() {
@@ -1578,7 +1578,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Reverses the order of rows in the matrix (vertical flip in-place).
-     * This operation modifies the matrix directly by reversing the row order. For a non-destructive version, use {@link #flipV()}.
+     * This operation modifies the matrix directly by reversing the row order. For a non-destructive version, use {@link #flippedV()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1587,7 +1587,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // matrix is now [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
      * }</pre>
      *
-     * @see #flipV()
+     * @see #flippedV()
      * @see #reverseH()
      */
     public void reverseV() {
@@ -1608,17 +1608,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongMatrix flipped = matrix.flipH();
+     * LongMatrix flipped = matrix.flippedH();
      * // Result: [[3, 2, 1],
      * //          [6, 5, 4]]
      * }</pre>
      *
      * @return a new matrix with each row reversed
      * @see #reverseH()
-     * @see #flipV()
+     * @see #flippedV()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public LongMatrix flipH() {
+    public LongMatrix flippedH() {
         final LongMatrix res = this.copy();
         res.reverseH();
         return res;
@@ -1631,17 +1631,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongMatrix flipped = matrix.flipV();
+     * LongMatrix flipped = matrix.flippedV();
      * // Result: [[4, 5, 6],
      * //          [1, 2, 3]]
      * }</pre>
      *
      * @return a new matrix with rows in reversed order
      * @see #reverseV()
-     * @see #flipH()
+     * @see #flippedH()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public LongMatrix flipV() {
+    public LongMatrix flippedV() {
         final LongMatrix res = this.copy();
         res.reverseV();
         return res;
@@ -2004,13 +2004,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param op the operation to apply to each row array
+     * @param action the operation to apply to each row array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(long[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super long[], E> op) throws E {
-        Arrays.applyOnFlattened(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super long[], E> action) throws E {
+        Arrays.applyOnFlattened(a, action);
     }
 
     /**
@@ -2184,7 +2184,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         final long[][] result = new long[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * otherArray[k][j];
 
-        Matrices.forEachMultiplyIndices(this, other, cmd);
+        Matrices.forEachCartesianIndices(this, other, cmd);
 
         return new LongMatrix(result);
     }
@@ -2508,16 +2508,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongStream stream = matrix.streamH();
+     * LongStream stream = matrix.streamHorizontal();
      * // Stream contains: 1, 2, 3, 4, 5, 6
-     * long sum = matrix.streamH().sum();   // Returns 21
+     * long sum = matrix.streamHorizontal().sum();   // Returns 21
      * }</pre>
      *
      * @return a stream of all matrix elements in row-major order, or an empty stream if the matrix is empty
      */
     @Override
-    public LongStream streamH() {
-        return streamH(0, rowCount);
+    public LongStream streamHorizontal() {
+        return streamHorizontal(0, rowCount);
     }
 
     /**
@@ -2531,9 +2531,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongStream row = matrix.streamH(1);
+     * LongStream row = matrix.streamHorizontal(1);
      * // Stream contains: 4, 5, 6
-     * long rowSum = matrix.streamH(1).sum();   // Returns 15
+     * long rowSum = matrix.streamHorizontal(1).sum();   // Returns 15
      * }</pre>
      *
      * @param rowIndex the index of the row to stream (0-based)
@@ -2541,8 +2541,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public LongStream streamH(final int rowIndex) {
-        return streamH(rowIndex, rowIndex + 1);
+    public LongStream streamHorizontal(final int rowIndex) {
+        return streamHorizontal(rowIndex, rowIndex + 1);
     }
 
     /**
@@ -2557,9 +2557,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}, {5, 6}});
-     * LongStream stream = matrix.streamH(1, 3);
+     * LongStream stream = matrix.streamHorizontal(1, 3);
      * // Stream contains: 3, 4, 5, 6
-     * long[] subset = matrix.streamH(0, 2).toArray();   // Returns [1, 2, 3, 4]
+     * long[] subset = matrix.streamHorizontal(0, 2).toArray();   // Returns [1, 2, 3, 4]
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -2568,7 +2568,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
-    public LongStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public LongStream streamHorizontal(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         if (isEmpty()) {
@@ -2646,7 +2646,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongStream stream = matrix.streamV();
+     * LongStream stream = matrix.streamVertical();
      * // Stream contains: 1, 4, 2, 5, 3, 6
      * }</pre>
      *
@@ -2654,8 +2654,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     @Beta
-    public LongStream streamV() {
-        return streamV(0, columnCount);
+    public LongStream streamVertical() {
+        return streamVertical(0, columnCount);
     }
 
     /**
@@ -2664,7 +2664,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongStream column = matrix.streamV(1);
+     * LongStream column = matrix.streamVertical(1);
      * // Stream contains: 2, 5
      * }</pre>
      *
@@ -2673,8 +2673,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IndexOutOfBoundsException if the column index is out of bounds
      */
     @Override
-    public LongStream streamV(final int columnIndex) {
-        return streamV(columnIndex, columnIndex + 1);
+    public LongStream streamVertical(final int columnIndex) {
+        return streamVertical(columnIndex, columnIndex + 1);
     }
 
     /**
@@ -2684,7 +2684,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongStream stream = matrix.streamV(1, 3);
+     * LongStream stream = matrix.streamVertical(1, 3);
      * // Stream contains: 2, 5, 3, 6
      * }</pre>
      *
@@ -2695,7 +2695,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     @Beta
-    public LongStream streamV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public LongStream streamVertical(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         if (isEmpty()) {

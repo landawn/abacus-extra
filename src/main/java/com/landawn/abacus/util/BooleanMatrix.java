@@ -488,12 +488,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
+     * copy, use {@code Arrays.copyOf(matrix.rowRef(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {false, true, false}});
-     * boolean[] firstRow = matrix.row(0);   // Returns [true, false, false]
+     * boolean[] firstRow = matrix.rowRef(0);   // Returns [true, false, false]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = false;  // matrix now has false at position (0,0)
@@ -504,7 +504,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public boolean[] row(final int rowIndex) throws IllegalArgumentException {
+    public boolean[] rowRef(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
@@ -528,7 +528,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Returns a copy of the specified column as a new boolean array.
      *
-     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * <p>Unlike {@link #rowRef(int)}, this method always returns a new array copy since
      * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
@@ -1452,7 +1452,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * This modifies the current matrix; each row is reversed left-to-right.
      *
      * <p>This is an in-place operation that modifies the current matrix.
-     * For a non-destructive version that returns a new matrix, use {@link #flipH()}.</p>
+     * For a non-destructive version that returns a new matrix, use {@link #flippedH()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1461,7 +1461,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // matrix is now [[false, true, true], [true, true, false]]
      * }</pre>
      *
-     * @see #flipH()
+     * @see #flippedH()
      * @see #reverseV()
      */
     public void reverseH() {
@@ -1476,7 +1476,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * while the order of elements within each row remains unchanged.
      *
      * <p>This is an in-place operation that modifies the current matrix.
-     * For a non-destructive version that returns a new matrix, use {@link #flipV()}.</p>
+     * For a non-destructive version that returns a new matrix, use {@link #flippedV()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1485,7 +1485,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // matrix is now [[false, true], [true, true], [true, false]]
      * }</pre>
      *
-     * @see #flipV()
+     * @see #flippedV()
      * @see #reverseH()
      */
     public void reverseV() {
@@ -1507,16 +1507,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {true, true, false}});
-     * BooleanMatrix flipped = matrix.flipH();
+     * BooleanMatrix flipped = matrix.flippedH();
      * // flipped is: {{false, false, true}, {false, true, true}}
      * }</pre>
      *
      * @return a new BooleanMatrix with each row reversed
      * @see #reverseH()
-     * @see #flipV()
+     * @see #flippedV()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public BooleanMatrix flipH() {
+    public BooleanMatrix flippedH() {
         final BooleanMatrix res = this.copy();
         res.reverseH();
         return res;
@@ -1530,16 +1530,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {true, true, false}});
-     * BooleanMatrix flipped = matrix.flipV();
+     * BooleanMatrix flipped = matrix.flippedV();
      * // flipped is: {{true, true, false}, {true, false, false}}
      * }</pre>
      *
      * @return a new BooleanMatrix with rows reversed
      * @see #reverseV()
-     * @see #flipH()
+     * @see #flippedH()
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
-    public BooleanMatrix flipV() {
+    public BooleanMatrix flippedV() {
         final BooleanMatrix res = this.copy();
         res.reverseV();
         return res;
@@ -1896,13 +1896,185 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param op the operation to apply to each row array
+     * @param action the operation to apply to each row array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(boolean[][], Throwables.Consumer)
      */
     @Override
-    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super boolean[], E> op) throws E {
-        Arrays.applyOnFlattened(a, op);
+    public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super boolean[], E> action) throws E {
+        Arrays.applyOnFlattened(a, action);
+    }
+
+    /**
+     * Performs element-wise logical AND of this matrix with another matrix.
+     * The matrices must have the same dimensions.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix a = BooleanMatrix.of(new boolean[][] {{true, false}, {true, true}});
+     * BooleanMatrix b = BooleanMatrix.of(new boolean[][] {{true, true}, {false, true}});
+     * BooleanMatrix result = a.and(b);   // Result: [[true, false], [false, true]]
+     * }</pre>
+     *
+     * @param other the matrix to AND with this matrix
+     * @return a new BooleanMatrix containing the element-wise logical AND
+     * @throws IllegalArgumentException if the matrices have different dimensions
+     */
+    public BooleanMatrix and(final BooleanMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
+        N.checkArgument(Matrices.isSameShape(this, other), "Cannot AND matrices with different shapes: this is {}x{} but other is {}x{}", rowCount, columnCount,
+                other.rowCount, other.columnCount);
+
+        final boolean[][] otherData = other.a;
+        final boolean[][] result = new boolean[rowCount][columnCount];
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = a[i][j] && otherData[i][j];
+
+        Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
+
+        return BooleanMatrix.of(result);
+    }
+
+    /**
+     * Performs element-wise logical OR of this matrix with another matrix.
+     * The matrices must have the same dimensions.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix a = BooleanMatrix.of(new boolean[][] {{true, false}, {false, false}});
+     * BooleanMatrix b = BooleanMatrix.of(new boolean[][] {{false, true}, {false, true}});
+     * BooleanMatrix result = a.or(b);   // Result: [[true, true], [false, true]]
+     * }</pre>
+     *
+     * @param other the matrix to OR with this matrix
+     * @return a new BooleanMatrix containing the element-wise logical OR
+     * @throws IllegalArgumentException if the matrices have different dimensions
+     */
+    public BooleanMatrix or(final BooleanMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
+        N.checkArgument(Matrices.isSameShape(this, other), "Cannot OR matrices with different shapes: this is {}x{} but other is {}x{}", rowCount, columnCount,
+                other.rowCount, other.columnCount);
+
+        final boolean[][] otherData = other.a;
+        final boolean[][] result = new boolean[rowCount][columnCount];
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = a[i][j] || otherData[i][j];
+
+        Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
+
+        return BooleanMatrix.of(result);
+    }
+
+    /**
+     * Performs element-wise logical XOR of this matrix with another matrix.
+     * The matrices must have the same dimensions.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix a = BooleanMatrix.of(new boolean[][] {{true, false}, {true, true}});
+     * BooleanMatrix b = BooleanMatrix.of(new boolean[][] {{true, true}, {false, true}});
+     * BooleanMatrix result = a.xor(b);   // Result: [[false, true], [true, false]]
+     * }</pre>
+     *
+     * @param other the matrix to XOR with this matrix
+     * @return a new BooleanMatrix containing the element-wise logical XOR
+     * @throws IllegalArgumentException if the matrices have different dimensions
+     */
+    public BooleanMatrix xor(final BooleanMatrix other) throws IllegalArgumentException {
+        N.checkArgNotNull(other, "other");
+        N.checkArgument(Matrices.isSameShape(this, other), "Cannot XOR matrices with different shapes: this is {}x{} but other is {}x{}", rowCount, columnCount,
+                other.rowCount, other.columnCount);
+
+        final boolean[][] otherData = other.a;
+        final boolean[][] result = new boolean[rowCount][columnCount];
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = a[i][j] ^ otherData[i][j];
+
+        Matrices.forEachIndex(rowCount, columnCount, elementAction, Matrices.isParallelizable(this));
+
+        return BooleanMatrix.of(result);
+    }
+
+    /**
+     * Counts the number of {@code true} elements in this matrix.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, true}, {false, true, false}});
+     * int count = matrix.countTrue();   // Returns 3
+     * }</pre>
+     *
+     * @return the number of {@code true} elements in this matrix
+     */
+    public int countTrue() {
+        int count = 0;
+
+        for (int i = 0; i < rowCount; i++) {
+            final boolean[] row = a[i];
+
+            for (int j = 0; j < columnCount; j++) {
+                if (row[j]) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Returns {@code true} if all elements in this matrix are {@code true}.
+     * Returns {@code true} for an empty matrix (vacuous truth).
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix allTrue = BooleanMatrix.of(new boolean[][] {{true, true}, {true, true}});
+     * allTrue.all();   // Returns true
+     *
+     * BooleanMatrix mixed = BooleanMatrix.of(new boolean[][] {{true, false}, {true, true}});
+     * mixed.all();     // Returns false
+     * }</pre>
+     *
+     * @return {@code true} if every element is {@code true}, or if the matrix is empty
+     */
+    public boolean all() {
+        for (int i = 0; i < rowCount; i++) {
+            final boolean[] row = a[i];
+
+            for (int j = 0; j < columnCount; j++) {
+                if (!row[j]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns {@code true} if any element in this matrix is {@code true}.
+     * Returns {@code false} for an empty matrix.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix allFalse = BooleanMatrix.of(new boolean[][] {{false, false}, {false, false}});
+     * allFalse.any();   // Returns false
+     *
+     * BooleanMatrix mixed = BooleanMatrix.of(new boolean[][] {{false, true}, {false, false}});
+     * mixed.any();      // Returns true
+     * }</pre>
+     *
+     * @return {@code true} if at least one element is {@code true}
+     */
+    public boolean any() {
+        for (int i = 0; i < rowCount; i++) {
+            final boolean[] row = a[i];
+
+            for (int j = 0; j < columnCount; j++) {
+                if (row[j]) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -2011,7 +2183,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Matrix<Boolean> boxed = primitive.boxed();
      *
      * // Now you can use methods that work with generic types
-     * Stream<Boolean> stream = boxed.streamH();
+     * Stream<Boolean> stream = boxed.streamHorizontal();
      * boxed.set(0, 0, null);   // Can use null values
      * }</pre>
      *
@@ -2291,20 +2463,20 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * Stream<Boolean> stream = matrix.streamH();   // Stream of [true, false, false, true]
+     * Stream<Boolean> stream = matrix.streamHorizontal();   // Stream of [true, false, false, true]
      * 
      * // Count true values
-     * long trueCount = matrix.streamH().filter(b -> b).count();   // Returns 2
+     * long trueCount = matrix.streamHorizontal().filter(b -> b).count();   // Returns 2
      * 
      * // Convert to list
-     * List<Boolean> list = matrix.streamH().toList();   // [true, false, false, true]
+     * List<Boolean> list = matrix.streamHorizontal().toList();   // [true, false, false, true]
      * }</pre>
      * 
      * @return a Stream&lt;Boolean&gt; of all elements in row-major order, or an empty stream if the matrix is empty
      */
     @Override
-    public Stream<Boolean> streamH() {
-        return streamH(0, rowCount);
+    public Stream<Boolean> streamHorizontal() {
+        return streamHorizontal(0, rowCount);
     }
 
     /**
@@ -2320,10 +2492,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {true, false, true},
      *     {false, true, false}
      * });
-     * Stream<Boolean> firstRow = matrix.streamH(0);   // Stream of [true, false, true]
+     * Stream<Boolean> firstRow = matrix.streamHorizontal(0);   // Stream of [true, false, true]
      * 
      * // Check if any value in the second row is true
-     * boolean hasTrue = matrix.streamH(1).anyMatch(b -> b);   // Returns true
+     * boolean hasTrue = matrix.streamHorizontal(1).anyMatch(b -> b);   // Returns true
      * }</pre>
      * 
      * @param rowIndex the index of the row to stream (0-based)
@@ -2331,8 +2503,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
-    public Stream<Boolean> streamH(final int rowIndex) {
-        return streamH(rowIndex, rowIndex + 1);
+    public Stream<Boolean> streamHorizontal(final int rowIndex) {
+        return streamHorizontal(rowIndex, rowIndex + 1);
     }
 
     /**
@@ -2351,10 +2523,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true},
      *     {true, true}
      * });
-     * Stream<Boolean> middleRows = matrix.streamH(1, 3);   // Stream rows 1 and 2: [false, true, true, true]
+     * Stream<Boolean> middleRows = matrix.streamHorizontal(1, 3);   // Stream rows 1 and 2: [false, true, true, true]
      * 
      * // Process subset of rows
-     * int[] subset = matrix.streamH(0, 2)
+     * int[] subset = matrix.streamHorizontal(0, 2)
      *     .mapToInt(b -> b ? 1 : 0)
      *     .toArray();   // [1, 0, 0, 1]
      * }</pre>
@@ -2365,7 +2537,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
-    public Stream<Boolean> streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public Stream<Boolean> streamHorizontal(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         if (isEmpty()) {
@@ -2446,23 +2618,23 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p>This method is marked as @Beta, indicating it may be subject to change
      * in future versions. It provides an alternative way to iterate through matrix
-     * elements compared to the row-major order of streamH().</p>
+     * elements compared to the row-major order of streamHorizontal().</p>
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * Stream<Boolean> stream = matrix.streamV();   // Stream of [true, false, false, true]
+     * Stream<Boolean> stream = matrix.streamVertical();   // Stream of [true, false, false, true]
      * 
      * // Process in column order
-     * List<Boolean> colMajor = matrix.streamV().toList();   // [true, false, false, true]
+     * List<Boolean> colMajor = matrix.streamVertical().toList();   // [true, false, false, true]
      * }</pre>
      * 
      * @return a Stream&lt;Boolean&gt; of all elements in column-major order, or an empty stream if the matrix is empty
      */
     @Override
     @Beta
-    public Stream<Boolean> streamV() {
-        return streamV(0, columnCount);
+    public Stream<Boolean> streamVertical() {
+        return streamVertical(0, columnCount);
     }
 
     /**
@@ -2478,10 +2650,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {true, false, true},
      *     {true, true, false}
      * });
-     * Stream<Boolean> firstCol = matrix.streamV(0);   // Stream of [true, true]
+     * Stream<Boolean> firstCol = matrix.streamVertical(0);   // Stream of [true, true]
      * 
      * // Check if all values in a column are true
-     * boolean allTrue = matrix.streamV(0).allMatch(b -> b);   // Returns true
+     * boolean allTrue = matrix.streamVertical(0).allMatch(b -> b);   // Returns true
      * }</pre>
      * 
      * @param columnIndex the index of the column to stream (0-based)
@@ -2489,8 +2661,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
     @Override
-    public Stream<Boolean> streamV(final int columnIndex) {
-        return streamV(columnIndex, columnIndex + 1);
+    public Stream<Boolean> streamVertical(final int columnIndex) {
+        return streamVertical(columnIndex, columnIndex + 1);
     }
 
     /**
@@ -2507,10 +2679,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {true, false, true},
      *     {false, true, false}
      * });
-     * Stream<Boolean> lastTwoCols = matrix.streamV(1, 3);   // Stream columns 1 and 2: [false, true, true, false]
+     * Stream<Boolean> lastTwoCols = matrix.streamVertical(1, 3);   // Stream columns 1 and 2: [false, true, true, false]
      * 
      * // Count true values in column subset
-     * long trueCount = matrix.streamV(0, 2).filter(b -> b).count();
+     * long trueCount = matrix.streamVertical(0, 2).filter(b -> b).count();
      * }</pre>
      * 
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
@@ -2522,7 +2694,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     @Beta
-    public Stream<Boolean> streamV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public Stream<Boolean> streamVertical(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         if (isEmpty()) {

@@ -569,23 +569,23 @@ public class ByteMatrix2511Test extends TestBase {
     public void testRow() {
         byte[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix m = ByteMatrix.of(arr);
-        byte[] row0 = m.row(0);
+        byte[] row0 = m.rowRef(0);
         assertArrayEquals(new byte[] { 1, 2, 3 }, row0);
-        byte[] row1 = m.row(1);
+        byte[] row1 = m.rowRef(1);
         assertArrayEquals(new byte[] { 4, 5, 6 }, row1);
     }
 
     @Test
     public void testRow_invalidIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> m.row(1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(-1));
+        assertThrows(IllegalArgumentException.class, () -> m.rowRef(1));
     }
 
     @Test
     public void testRow_singleRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 } });
-        assertArrayEquals(new byte[] { 1, 2, 3 }, m.row(0));
+        assertArrayEquals(new byte[] { 1, 2, 3 }, m.rowRef(0));
     }
 
     @Test
@@ -615,8 +615,8 @@ public class ByteMatrix2511Test extends TestBase {
     public void testSetRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0, 0 }, { 0, 0, 0 } });
         m.setRow(0, new byte[] { 1, 2, 3 });
-        assertArrayEquals(new byte[] { 1, 2, 3 }, m.row(0));
-        assertArrayEquals(new byte[] { 0, 0, 0 }, m.row(1));
+        assertArrayEquals(new byte[] { 1, 2, 3 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 0, 0, 0 }, m.rowRef(1));
     }
 
     @Test
@@ -657,17 +657,17 @@ public class ByteMatrix2511Test extends TestBase {
     public void testUpdateRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 0, 0, 0 } });
         m.updateRow(0, val -> (byte) (val * 2));
-        assertArrayEquals(new byte[] { 2, 4, 6 }, m.row(0));
-        assertArrayEquals(new byte[] { 0, 0, 0 }, m.row(1));
+        assertArrayEquals(new byte[] { 2, 4, 6 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 0, 0, 0 }, m.rowRef(1));
     }
 
     @Test
     public void testUpdateRow_multipleRows() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
         m.updateRow(1, val -> (byte) (val + 10));
-        assertArrayEquals(new byte[] { 1, 2 }, m.row(0));
-        assertArrayEquals(new byte[] { 13, 14 }, m.row(1));
-        assertArrayEquals(new byte[] { 5, 6 }, m.row(2));
+        assertArrayEquals(new byte[] { 1, 2 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 13, 14 }, m.rowRef(1));
+        assertArrayEquals(new byte[] { 5, 6 }, m.rowRef(2));
     }
 
     @Test
@@ -682,8 +682,8 @@ public class ByteMatrix2511Test extends TestBase {
     public void testUpdateColumn_multipleColumns() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         m.updateColumn(2, val -> (byte) (val + 10));
-        assertArrayEquals(new byte[] { 1, 2, 13 }, m.row(0));
-        assertArrayEquals(new byte[] { 4, 5, 16 }, m.row(1));
+        assertArrayEquals(new byte[] { 1, 2, 13 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 4, 5, 16 }, m.rowRef(1));
     }
 
     // ============ Diagonal Access Tests ============
@@ -1087,15 +1087,15 @@ public class ByteMatrix2511Test extends TestBase {
     public void testReverseH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         m.reverseH();
-        assertArrayEquals(new byte[] { 3, 2, 1 }, m.row(0));
-        assertArrayEquals(new byte[] { 6, 5, 4 }, m.row(1));
+        assertArrayEquals(new byte[] { 3, 2, 1 }, m.rowRef(0));
+        assertArrayEquals(new byte[] { 6, 5, 4 }, m.rowRef(1));
     }
 
     @Test
     public void testReverseH_singleRow() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 } });
         m.reverseH();
-        assertArrayEquals(new byte[] { 3, 2, 1 }, m.row(0));
+        assertArrayEquals(new byte[] { 3, 2, 1 }, m.rowRef(0));
     }
 
     @Test
@@ -1116,18 +1116,18 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testFlipH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        ByteMatrix flipped = m.flipH();
+        ByteMatrix flipped = m.flippedH();
         assertEquals(2, flipped.rowCount());
         assertEquals(3, flipped.columnCount());
-        assertArrayEquals(new byte[] { 3, 2, 1 }, flipped.row(0));
-        assertArrayEquals(new byte[] { 6, 5, 4 }, flipped.row(1));
+        assertArrayEquals(new byte[] { 3, 2, 1 }, flipped.rowRef(0));
+        assertArrayEquals(new byte[] { 6, 5, 4 }, flipped.rowRef(1));
         assertNotSame(m, flipped);
     }
 
     @Test
     public void testFlipV() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        ByteMatrix flipped = m.flipV();
+        ByteMatrix flipped = m.flippedV();
         assertEquals(3, flipped.rowCount());
         assertEquals(2, flipped.columnCount());
         assertArrayEquals(new byte[] { 5, 3, 1 }, flipped.columnCopy(0));
@@ -1370,7 +1370,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testStreamH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        List<Byte> elements = m.streamH().boxed().toList();
+        List<Byte> elements = m.streamHorizontal().boxed().toList();
         assertEquals(4, elements.size());
         assertEquals(1, elements.get(0).byteValue());
         assertEquals(2, elements.get(1).byteValue());
@@ -1379,7 +1379,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testStreamH_withRowIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        List<Byte> row = m.streamH(1).boxed().toList();
+        List<Byte> row = m.streamHorizontal(1).boxed().toList();
         assertEquals(2, row.size());
         assertEquals(3, row.get(0).byteValue());
         assertEquals(4, row.get(1).byteValue());
@@ -1388,7 +1388,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testStreamH_withRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-        List<Byte> elements = m.streamH(1, 3).boxed().toList();
+        List<Byte> elements = m.streamHorizontal(1, 3).boxed().toList();
         assertEquals(4, elements.size());
         assertEquals(3, elements.get(0).byteValue());
         assertEquals(4, elements.get(1).byteValue());
@@ -1397,7 +1397,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testStreamV() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        List<Byte> elements = m.streamV().boxed().toList();
+        List<Byte> elements = m.streamVertical().boxed().toList();
         assertEquals(4, elements.size());
         assertEquals(1, elements.get(0).byteValue());
         assertEquals(3, elements.get(1).byteValue());
@@ -1406,7 +1406,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testStreamV_withColumnIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        List<Byte> col = m.streamV(1).boxed().toList();
+        List<Byte> col = m.streamVertical(1).boxed().toList();
         assertEquals(2, col.size());
         assertEquals(2, col.get(0).byteValue());
         assertEquals(4, col.get(1).byteValue());
@@ -1415,7 +1415,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testStreamV_withRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<Byte> elements = m.streamV(1, 3).boxed().toList();
+        List<Byte> elements = m.streamVertical(1, 3).boxed().toList();
         assertEquals(4, elements.size());
         assertEquals(2, elements.get(0).byteValue());
         assertEquals(5, elements.get(1).byteValue());
@@ -1456,7 +1456,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testPointsH() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        List<Point> points = m.pointsH().toList();
+        List<Point> points = m.pointsHorizontal().toList();
         assertEquals(4, points.size());
         assertEquals(0, points.get(0).rowIndex());
         assertEquals(0, points.get(0).columnIndex());
@@ -1465,7 +1465,7 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testPointsV() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        List<Point> points = m.pointsV().toList();
+        List<Point> points = m.pointsVertical().toList();
         assertEquals(4, points.size());
         assertEquals(0, points.get(0).rowIndex());
         assertEquals(0, points.get(0).columnIndex());

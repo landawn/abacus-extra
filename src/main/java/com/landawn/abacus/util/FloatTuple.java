@@ -432,7 +432,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * double avgPair = pair.average();   // 1.5
      * }</pre>
      *
-     * @return the average of all float values in this tuple
+     * @return the average of all float values in this tuple, as a {@code double} for precision
+     *         (unlike {@link #sum()} which returns {@code float}, the average is computed in
+     *         double precision to minimize rounding errors)
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {

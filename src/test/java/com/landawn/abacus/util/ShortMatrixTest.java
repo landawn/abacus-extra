@@ -304,15 +304,15 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testRow() {
-        short[] row0 = matrix.row(0);
+        short[] row0 = matrix.rowRef(0);
         assertArrayEquals(new short[] { 1, 2, 3 }, row0);
 
-        short[] row1 = matrix.row(1);
+        short[] row1 = matrix.rowRef(1);
         assertArrayEquals(new short[] { 4, 5, 6 }, row1);
 
         // Test bounds
-        assertThrows(IllegalArgumentException.class, () -> matrix.row(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.row(3));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowRef(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowRef(3));
     }
 
     @Test
@@ -332,7 +332,7 @@ public class ShortMatrixTest extends TestBase {
     public void testSetRow() {
         ShortMatrix m = matrix.copy();
         m.setRow(0, new short[] { 10, 20, 30 });
-        assertArrayEquals(new short[] { 10, 20, 30 }, m.row(0));
+        assertArrayEquals(new short[] { 10, 20, 30 }, m.rowRef(0));
 
         // Test wrong size
         assertThrows(IllegalArgumentException.class, () -> m.setRow(0, new short[] { 1, 2 }));
@@ -352,7 +352,7 @@ public class ShortMatrixTest extends TestBase {
     public void testUpdateRow() {
         ShortMatrix m = matrix.copy();
         m.updateRow(0, x -> (short) (x * 2));
-        assertArrayEquals(new short[] { 2, 4, 6 }, m.row(0));
+        assertArrayEquals(new short[] { 2, 4, 6 }, m.rowRef(0));
     }
 
     @Test
@@ -683,7 +683,7 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testFlipH() {
-        ShortMatrix flipped = matrix.flipH();
+        ShortMatrix flipped = matrix.flippedH();
         assertEquals((short) 3, flipped.get(0, 0));
         assertEquals((short) 2, flipped.get(0, 1));
         assertEquals((short) 1, flipped.get(0, 2));
@@ -694,7 +694,7 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testFlipV() {
-        ShortMatrix flipped = matrix.flipV();
+        ShortMatrix flipped = matrix.flippedV();
         assertEquals((short) 7, flipped.get(0, 0));
         assertEquals((short) 8, flipped.get(0, 1));
         assertEquals((short) 9, flipped.get(0, 2));
@@ -1029,62 +1029,62 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testStreamH() {
-        short[] all = matrix.streamH().toArray();
+        short[] all = matrix.streamHorizontal().toArray();
         assertArrayEquals(new short[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, all);
 
         // Test empty matrix
-        assertTrue(emptyMatrix.streamH().toArray().length == 0);
+        assertTrue(emptyMatrix.streamHorizontal().toArray().length == 0);
     }
 
     @Test
     public void testStreamHRow() {
-        short[] row1 = matrix.streamH(1).toArray();
+        short[] row1 = matrix.streamHorizontal(1).toArray();
         assertArrayEquals(new short[] { 4, 5, 6 }, row1);
 
         // Test bounds
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamH(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamH(3));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamHorizontal(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamHorizontal(3));
     }
 
     @Test
     public void testStreamHRange() {
-        short[] rows = matrix.streamH(1, 3).toArray();
+        short[] rows = matrix.streamHorizontal(1, 3).toArray();
         assertArrayEquals(new short[] { 4, 5, 6, 7, 8, 9 }, rows);
 
         // Test bounds
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamH(-1, 2));
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamH(0, 4));
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamH(2, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamHorizontal(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamHorizontal(0, 4));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamHorizontal(2, 1));
     }
 
     @Test
     public void testStreamV() {
-        short[] all = matrix.streamV().toArray();
+        short[] all = matrix.streamVertical().toArray();
         assertArrayEquals(new short[] { 1, 4, 7, 2, 5, 8, 3, 6, 9 }, all);
 
         // Test empty matrix
-        assertTrue(emptyMatrix.streamV().toArray().length == 0);
+        assertTrue(emptyMatrix.streamVertical().toArray().length == 0);
     }
 
     @Test
     public void testStreamVColumn() {
-        short[] col1 = matrix.streamV(1).toArray();
+        short[] col1 = matrix.streamVertical(1).toArray();
         assertArrayEquals(new short[] { 2, 5, 8 }, col1);
 
         // Test bounds
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamV(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamV(3));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamVertical(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamVertical(3));
     }
 
     @Test
     public void testStreamVRange() {
-        short[] columnCount = matrix.streamV(1, 3).toArray();
+        short[] columnCount = matrix.streamVertical(1, 3).toArray();
         assertArrayEquals(new short[] { 2, 5, 8, 3, 6, 9 }, columnCount);
 
         // Test bounds
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamV(-1, 2));
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamV(0, 4));
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamV(2, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamVertical(-1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamVertical(0, 4));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamVertical(2, 1));
     }
 
     @Test
@@ -1138,7 +1138,7 @@ public class ShortMatrixTest extends TestBase {
     @Test
     public void testLength() {
         // This is a protected method, test indirectly through row operations
-        short[] row = matrix.row(0);
+        short[] row = matrix.rowRef(0);
         assertEquals(3, row.length);
     }
 
@@ -1220,8 +1220,8 @@ public class ShortMatrixTest extends TestBase {
 
     @Test
     public void testIteratorNoSuchElement() {
-        // Test streamH iterator
-        ShortStream stream = matrix.streamH(0, 1);
+        // Test streamHorizontal iterator
+        ShortStream stream = matrix.streamHorizontal(0, 1);
         stream.toArray(); // Consume all
         assertThrows(IllegalStateException.class, () -> stream.iterator().next());
 

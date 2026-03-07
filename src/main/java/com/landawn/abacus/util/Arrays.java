@@ -2219,19 +2219,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional boolean array to operate on (can be {@code null}).
-     * @param op the operation to apply to the flattened array (must not be {@code null}).
+     * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #flatten(boolean[][]) for just flattening without applying operations
      * @see #applyOnFlattened(boolean[][][], Throwables.Consumer) for three-dimensional arrays
      */
-    public static <E extends Exception> void applyOnFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final boolean[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -2257,17 +2257,17 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional boolean array to operate on (can be {@code null} or empty).
-     * @param op the operation to apply to the flattened array (must not be {@code null}).
+     * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
-    public static <E extends Exception> void applyOnFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final boolean[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -3548,19 +3548,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operation may throw.
      * @param a the two-dimensional character array to operate on (can be {@code null}).
-     * @param op the consumer operation to apply to the flattened array (must not be {@code null}).
+     * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(char[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(char[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final char[][] a, final Throwables.Consumer<? super char[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final char[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -3586,19 +3586,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operation may throw.
      * @param a the three-dimensional character array to operate on (can be {@code null}).
-     * @param op the consumer operation to apply to the flattened array (must not be {@code null}).
+     * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(char[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(char[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final char[][][] a, final Throwables.Consumer<? super char[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final char[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -4811,19 +4811,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional byte array to operate on (can be {@code null}).
-     * @param op the operation to apply to the flattened array (must not be {@code null}).
+     * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(byte[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(byte[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final byte[][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final byte[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -4849,19 +4849,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional byte array to operate on (can be {@code null} or empty).
-     * @param op the operation to apply to the flattened array (must not be {@code null}).
+     * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(byte[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(byte[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final byte[][][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final byte[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -6151,19 +6151,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the operation may throw.
      * @param a the two-dimensional array to operate on (can be {@code null}).
-     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(short[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(short[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final short[][] a, final Throwables.Consumer<? super short[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final short[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -6186,19 +6186,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the operation may throw.
      * @param a the three-dimensional array to operate on (can be {@code null}).
-     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(short[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(short[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final short[][][] a, final Throwables.Consumer<? super short[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final short[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -7453,19 +7453,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operation may throw.
      * @param a the two-dimensional array to process (can be {@code null}).
-     * @param op the operation to apply to the flattened array (must not be {@code null}).
+     * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(int[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(int[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final int[][] a, final Throwables.Consumer<? super int[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final int[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -7493,19 +7493,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operation may throw.
      * @param a the three-dimensional array to process.
-     * @param op the operation to apply to the flattened array (must not be {@code null}).
+     * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(int[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(int[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final int[][][] a, final Throwables.Consumer<? super int[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final int[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -8732,19 +8732,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operation may throw.
      * @param a the two-dimensional array to operate on (can be {@code null}).
-     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(long[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(long[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final long[][] a, final Throwables.Consumer<? super long[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final long[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -8768,19 +8768,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operation may throw.
      * @param a the three-dimensional array to operate on (can be {@code null}).
-     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(long[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(long[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final long[][][] a, final Throwables.Consumer<? super long[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final long[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -10005,19 +10005,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the operation.
      * @param a the two-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(float[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(float[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final float[][] a, final Throwables.Consumer<? super float[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final float[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -10042,19 +10042,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the operation.
      * @param a the three-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(float[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(float[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final float[][][] a, final Throwables.Consumer<? super float[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final float[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -11285,19 +11285,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(double[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(double[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final double[][] a, final Throwables.Consumer<? super double[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final double[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -11323,19 +11323,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array (must not be {@code null}).
+     * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #applyOnFlattened(double[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(double[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final double[][][] a, final Throwables.Consumer<? super double[], E> op) throws E {
+    public static <E extends Exception> void applyOnFlattened(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         final double[] tmp = flatten(a);
 
-        op.accept(tmp);
+        action.accept(tmp);
 
         int idx = 0;
 
@@ -14957,17 +14957,17 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operation.
          * @param a the two-dimensional array to operate on (can be {@code null}). The operation modifies this array in-place.
-         * @param op the consumer that operates on the flattened array (must not be {@code null}).
+         * @param action the consumer that operates on the flattened array (must not be {@code null}).
          * @throws E if the operation throws an exception.
          */
-        public static <T, E extends Exception> void applyOnFlattened(final T[][] a, final Throwables.Consumer<? super T[], E> op) throws E {
+        public static <T, E extends Exception> void applyOnFlattened(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E {
             if (N.isEmpty(a)) {
                 return;
             }
 
             final T[] tmp = flatten(a);
 
-            op.accept(tmp);
+            action.accept(tmp);
 
             int idx = 0;
 
@@ -16179,17 +16179,17 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operation.
          * @param a the three-dimensional array to operate on. Modified in-place.
-         * @param op the consumer operation to apply to the flattened array (must not be {@code null}).
+         * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
          * @throws E if the operation throws an exception.
          */
-        public static <T, E extends Exception> void applyOnFlattened(final T[][][] a, final Throwables.Consumer<? super T[], E> op) throws E {
+        public static <T, E extends Exception> void applyOnFlattened(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E {
             if (N.isEmpty(a)) {
                 return;
             }
 
             final T[] tmp = flatten(a);
 
-            op.accept(tmp);
+            action.accept(tmp);
 
             int idx = 0;
 
