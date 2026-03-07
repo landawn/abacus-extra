@@ -336,13 +336,13 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
      *
-     * int[] subArray = array.copyOfRange(1, 4);
+     * int[] subArray = array.subArray(1, 4);
      * // subArray contains {20, 30, 40} with length 3
      *
-     * int[] first3 = array.copyOfRange(0, 3);
+     * int[] first3 = array.subArray(0, 3);
      * // first3 contains {10, 20, 30}
      *
-     * int[] empty = array.copyOfRange(2, 2);
+     * int[] empty = array.subArray(2, 2);
      * // empty is an empty array with length 0
      * }</pre>
      *
@@ -353,7 +353,7 @@ public final class ImmutableIntArray implements Immutable {
      *                                   or {@code fromIndex > toIndex}
      * @see java.util.Arrays#copyOfRange(int[], int, int)
      */
-    public int[] copyOfRange(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
+    public int[] subArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
 
         return N.copyOfRange(elements, fromIndex, toIndex);

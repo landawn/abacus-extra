@@ -1246,20 +1246,21 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // Result: [[0, 0, 0], [0, 1, 2], [0, 3, 4]]
      * }</pre>
      *
-     * @param targetRowIndex the target row index in this matrix (0-based, must be 0 &lt;= targetRowIndex &lt;= rowCount)
-     * @param targetColumnIndex the target column index in this matrix (0-based, must be 0 &lt;= targetColumnIndex &lt;= columnCount)
+     * @param targetStartRowIndex the target row index in this matrix (0-based, must be 0 &lt;= targetStartRowIndex &lt;= rowCount)
+     * @param targetStartColumnIndex the target column index in this matrix (0-based, must be 0 &lt;= targetStartColumnIndex &lt;= columnCount)
      * @param b the source array to copy values from
-     * @throws IllegalArgumentException if targetRowIndex &lt; 0 or &gt; rowCount, or if targetColumnIndex &lt; 0 or &gt; columnCount
+     * @throws IllegalArgumentException if targetStartRowIndex &lt; 0 or &gt; rowCount, or if targetStartColumnIndex &lt; 0 or &gt; columnCount
      */
-    public void copyFrom(final int targetRowIndex, final int targetColumnIndex, final long[][] b) throws IllegalArgumentException {
+    public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final long[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
-        N.checkArgument(targetRowIndex >= 0 && targetRowIndex <= rowCount, "targetRowIndex({}) must be between 0 and rows({})", targetRowIndex, rowCount);
-        N.checkArgument(targetColumnIndex >= 0 && targetColumnIndex <= columnCount, "targetColumnIndex({}) must be between 0 and columnCount({})", targetColumnIndex,
-                columnCount);
+        N.checkArgument(targetStartRowIndex >= 0 && targetStartRowIndex <= rowCount, "targetStartRowIndex({}) must be between 0 and rows({})",
+                targetStartRowIndex, rowCount);
+        N.checkArgument(targetStartColumnIndex >= 0 && targetStartColumnIndex <= columnCount,
+                "targetStartColumnIndex({}) must be between 0 and columnCount({})", targetStartColumnIndex, columnCount);
 
-        for (int i = 0, minLen = N.min(rowCount - targetRowIndex, b.length); i < minLen; i++) {
+        for (int i = 0, minLen = N.min(rowCount - targetStartRowIndex, b.length); i < minLen; i++) {
             if (b[i] != null) {
-                N.copy(b[i], 0, a[i + targetRowIndex], targetColumnIndex, N.min(b[i].length, columnCount - targetColumnIndex));
+                N.copy(b[i], 0, a[i + targetStartRowIndex], targetStartColumnIndex, N.min(b[i].length, columnCount - targetStartColumnIndex));
             }
         }
     }

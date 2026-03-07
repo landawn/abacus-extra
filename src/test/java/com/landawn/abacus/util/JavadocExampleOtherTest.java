@@ -374,18 +374,18 @@ public class JavadocExampleOtherTest {
     }
 
     @Test
-    public void testImmutableIntArrayCopyOfRange() {
-        // From copyOfRange() Javadoc
+    public void testImmutableIntArraySubArray() {
+        // From subArray() Javadoc
         ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 10, 20, 30, 40, 50 });
 
-        int[] subArray = array.copyOfRange(1, 4);
+        int[] subArray = array.subArray(1, 4);
         assertArrayEquals(new int[] { 20, 30, 40 }, subArray); // {20, 30, 40} with length 3
         assertEquals(3, subArray.length);
 
-        int[] first3 = array.copyOfRange(0, 3);
+        int[] first3 = array.subArray(0, 3);
         assertArrayEquals(new int[] { 10, 20, 30 }, first3);
 
-        int[] empty = array.copyOfRange(2, 2);
+        int[] empty = array.subArray(2, 2);
         assertEquals(0, empty.length); // empty array with length 0
     }
 

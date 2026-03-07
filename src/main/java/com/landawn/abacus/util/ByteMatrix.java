@@ -1125,20 +1125,21 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // Matrix is now: [[0, 0, 0], [0, 1, 2], [0, 3, 4]]
      * }</pre>
      *
-     * @param targetRowIndex the target row index in this matrix
-     * @param targetColumnIndex the target column index in this matrix
+     * @param targetStartRowIndex the target row index in this matrix
+     * @param targetStartColumnIndex the target column index in this matrix
      * @param b the source array to copy values from
      * @throws IllegalArgumentException if the target indices are negative or exceed matrix dimensions
      */
-    public void copyFrom(final int targetRowIndex, final int targetColumnIndex, final byte[][] b) throws IllegalArgumentException {
+    public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final byte[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
-        N.checkArgument(targetRowIndex >= 0 && targetRowIndex <= rowCount, "targetRowIndex({}) must be between 0 and rowCount({})", targetRowIndex, rowCount);
-        N.checkArgument(targetColumnIndex >= 0 && targetColumnIndex <= columnCount, "targetColumnIndex({}) must be between 0 and columnCount({})", targetColumnIndex,
-                columnCount);
+        N.checkArgument(targetStartRowIndex >= 0 && targetStartRowIndex <= rowCount, "targetStartRowIndex({}) must be between 0 and rowCount({})",
+                targetStartRowIndex, rowCount);
+        N.checkArgument(targetStartColumnIndex >= 0 && targetStartColumnIndex <= columnCount,
+                "targetStartColumnIndex({}) must be between 0 and columnCount({})", targetStartColumnIndex, columnCount);
 
-        for (int i = 0, minLen = N.min(rowCount - targetRowIndex, b.length); i < minLen; i++) {
+        for (int i = 0, minLen = N.min(rowCount - targetStartRowIndex, b.length); i < minLen; i++) {
             if (b[i] != null) {
-                N.copy(b[i], 0, a[i + targetRowIndex], targetColumnIndex, N.min(b[i].length, columnCount - targetColumnIndex));
+                N.copy(b[i], 0, a[i + targetStartRowIndex], targetStartColumnIndex, N.min(b[i].length, columnCount - targetStartColumnIndex));
             }
         }
     }
