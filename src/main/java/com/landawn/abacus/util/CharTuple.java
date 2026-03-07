@@ -1157,16 +1157,25 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given action to both elements of this tuple.
-         * 
+         * <p>
+         * This method executes the provided bi-consumer action with both tuple elements as arguments.
+         * It is useful for performing operations that require access to both values simultaneously,
+         * such as logging, comparison, or updating external state based on the pair of values.
+         * </p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple2 tuple = CharTuple.of('A', 'B');
          * tuple.accept((a, b) -> System.out.println(a + " and " + b));   // prints "A and B"
+         *
+         * // Using with external state
+         * List<String> results = new ArrayList<>();
+         * tuple.accept((a, b) -> results.add("" + a + b));
          * }</pre>
-         * 
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed on both elements
-         * @throws E if the action throws an exception
+         *
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the bi-consumer action to be performed on both elements, must not be {@code null}
+         * @throws E if the action throws an exception during execution
          */
         public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws E {
             action.accept(_1, _2);
@@ -1174,18 +1183,24 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given function to both elements of this tuple and returns the result.
-         * 
+         * <p>
+         * This method transforms both tuple elements into a single result value by applying
+         * the provided bi-function. It enables functional-style processing of the tuple's
+         * values, such as combining them or computing derived values.
+         * </p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple2 tuple = CharTuple.of('A', 'B');
          * String result = tuple.map((a, b) -> "" + a + b);   // "AB"
+         * boolean areAdjacent = tuple.map((a, b) -> Math.abs(a - b) == 1);   // true
          * }</pre>
-         * 
-         * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
-         * @param mapper the mapping function to apply to both elements
-         * @return the result of applying the mapping function
-         * @throws E if the mapper throws an exception
+         *
+         * @param <U> the type of the result returned by the mapper function
+         * @param <E> the type of exception that may be thrown by the mapper
+         * @param mapper the bi-function to apply to both elements, must not be {@code null}
+         * @return the result of applying the mapping function to both elements
+         * @throws E if the mapper throws an exception during execution
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws E {
@@ -1195,17 +1210,28 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if it matches the given predicate,
          * otherwise returns an empty Optional.
-         * 
+         * <p>
+         * This method evaluates the provided bi-predicate against both tuple elements.
+         * If the predicate returns {@code true}, the tuple is wrapped in an Optional;
+         * otherwise, an empty Optional is returned. This enables conditional processing
+         * and chaining of operations based on the tuple's values.
+         * </p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple2 tuple = CharTuple.of('A', 'B');
          * u.Optional<CharTuple.CharTuple2> result = tuple.filter((a, b) -> a < b);   // Optional containing the tuple
+         * u.Optional<CharTuple.CharTuple2> empty = tuple.filter((a, b) -> a > b);    // Optional.empty()
+         *
+         * // Chaining with ifPresent
+         * tuple.filter((a, b) -> a != b)
+         *      .ifPresent(t -> System.out.println("Values are different"));
          * }</pre>
-         * 
-         * @param <E> the type of exception that may be thrown
-         * @param predicate the predicate to test both elements
-         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
-         * @throws E if the predicate throws an exception
+         *
+         * @param <E> the type of exception that may be thrown by the predicate
+         * @param predicate the bi-predicate to test both elements, must not be {@code null}
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @throws E if the predicate throws an exception during evaluation
          */
         public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1419,16 +1445,26 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given action to all three elements of this tuple.
-         * 
+         * <p>
+         * This method executes the provided tri-consumer action with all three tuple elements as arguments.
+         * It is useful for performing operations that require access to all three values simultaneously,
+         * such as logging, complex validation, or updating external state based on the triple of values.
+         * </p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
          * tuple.accept((a, b, c) -> System.out.println(a + ", " + b + ", " + c));
+         *
+         * // Checking ordering
+         * tuple.accept((a, b, c) -> {
+         *     if (a < b && b < c) System.out.println("Ascending order");
+         * });
          * }</pre>
-         * 
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed on all three elements
-         * @throws E if the action throws an exception
+         *
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the tri-consumer action to be performed on all three elements, must not be {@code null}
+         * @throws E if the action throws an exception during execution
          */
         public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
@@ -1436,18 +1472,24 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given function to all three elements of this tuple and returns the result.
-         * 
+         * <p>
+         * This method transforms all three tuple elements into a single result value by applying
+         * the provided tri-function. It enables functional-style processing of the tuple's
+         * values, such as combining them, computing aggregate values, or creating derived objects.
+         * </p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
          * String result = tuple.map((a, b, c) -> "" + a + b + c);   // "ABC"
+         * int sum = tuple.map((a, b, c) -> a + b + c);   // 198
          * }</pre>
-         * 
-         * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
-         * @param mapper the mapping function to apply to all three elements
-         * @return the result of applying the mapping function
-         * @throws E if the mapper throws an exception
+         *
+         * @param <U> the type of the result returned by the mapper function
+         * @param <E> the type of exception that may be thrown by the mapper
+         * @param mapper the tri-function to apply to all three elements, must not be {@code null}
+         * @return the result of applying the mapping function to all three elements
+         * @throws E if the mapper throws an exception during execution
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws E {
@@ -1457,17 +1499,28 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if it matches the given predicate,
          * otherwise returns an empty Optional.
-         * 
+         * <p>
+         * This method evaluates the provided tri-predicate against all three tuple elements.
+         * If the predicate returns {@code true}, the tuple is wrapped in an Optional;
+         * otherwise, an empty Optional is returned. This enables conditional processing
+         * and chaining of operations based on the tuple's values.
+         * </p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
          * u.Optional<CharTuple.CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
+         * u.Optional<CharTuple.CharTuple3> empty = tuple.filter((a, b, c) -> a > b);             // Optional.empty()
+         *
+         * // Chaining operations
+         * tuple.filter((a, b, c) -> a < c)
+         *      .ifPresent(t -> System.out.println("First is less than third"));
          * }</pre>
-         * 
-         * @param <E> the type of exception that may be thrown
-         * @param predicate the predicate to test all three elements
-         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
-         * @throws E if the predicate throws an exception
+         *
+         * @param <E> the type of exception that may be thrown by the predicate
+         * @param predicate the tri-predicate to test all three elements, must not be {@code null}
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @throws E if the predicate throws an exception during evaluation
          */
         public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();

@@ -74,7 +74,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix safeMat = new DoubleMatrix(safeCopy);
      *
      * DoubleMatrix empty = new DoubleMatrix(null);
-     * // empty.rowCount() returns 0, empty.columnCount returns 0
+     * // empty.rowCount() returns 0, empty.columnCount() returns 0
      * }</pre>
      *
      * @param a the two-dimensional double array to wrap, or null for an empty matrix
@@ -164,6 +164,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Creates a DoubleMatrix from a two-dimensional long array by converting long values to double.
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
+     *
+     * <p><b>Note:</b> Long values with more than 53 significant bits may lose precision when
+     * converted to double, since double has a 52-bit mantissa. For example,
+     * {@code Long.MAX_VALUE} (9223372036854775807) cannot be represented exactly as a double.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -371,15 +375,18 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
      * (or the maximum length if both are provided).
      *
+     * <p><b>Note:</b> The anti-diagonal is written first, then the main diagonal. If both diagonals
+     * share a position (which happens for odd-sized matrices at the center element), the main diagonal
+     * value takes precedence.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.diagonals(new double[] { 1.0, 2.0, 3.0 }, new double[] { 4.0, 5.0, 6.0 });
      * // Creates 3x3 matrix with both diagonals set
-     * // Resulting matrix: 
-     * //   {1.0, 0, 4.0},
-     * //   {0, 2.0, 0},
-     * //   {6.0, 0, 3.0}
-     * 
+     * // Resulting matrix:
+     * //   {1.0, 0.0, 4.0},
+     * //   {0.0, 2.0, 0.0},
+     * //   {6.0, 0.0, 3.0}
      * }</pre>
      *
      * @param mainDiagonal the array of main diagonal elements (can be null or empty)
@@ -1360,6 +1367,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
      * DoubleMatrix sub = matrix.copy(0, 2, 1, 3);   // Copy rows 0-1, columns 1-2
+     * // sub is [[2.0, 3.0], [5.0, 6.0]]
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)

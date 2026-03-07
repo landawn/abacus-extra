@@ -2214,7 +2214,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {false, true}};
-     * applyOnFlattened(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });   // Flips all elements
+     * Arrays.applyOnFlattened(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });   // Flips all elements
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -2333,7 +2333,7 @@ public sealed class Arrays permits Arrays.f {
      * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true};
      * boolean[] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
-     * // result: {true, true, true, false} (using true for missing b elements)
+     * // result: {true, true, true, true} (using true for missing b elements)
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
@@ -2831,7 +2831,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {true}, {false, true, false}};
-     * long count = totalCountOfElements(arr);
+     * long count = Arrays.totalCountOfElements(arr);
      * // Result: 6
      * }</pre>
      *
@@ -2859,7 +2859,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] arr = {{{true, false}, {true}}, {{false}, {true, false}}};
-     * long count = totalCountOfElements(arr);
+     * long count = Arrays.totalCountOfElements(arr);
      * // Result: 6
      * }</pre>
      *
@@ -2897,7 +2897,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
-     * int minLen = minSubArrayLength(arr);
+     * int minLen = Arrays.minSubArrayLength(arr);
      * // Result: 1
      * }</pre>
      *
@@ -2925,7 +2925,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
-     * int maxLen = maxSubArrayLength(arr);
+     * int maxLen = Arrays.maxSubArrayLength(arr);
      * // Result: 3
      * }</pre>
      *
@@ -3534,7 +3534,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array,
      * and then copies the modified elements back into the original two-dimensional array.
      * This allows for applying one-dimensional array operations (like sorting) across a two-dimensional structure.
      * The operation is performed in-place on the original two-dimensional array.
@@ -4032,7 +4032,7 @@ public sealed class Arrays permits Arrays.f {
      * char[][][] a = {{{'A', 'B'}, {'C', 'D'}}, {{'E', 'F'}}};
      * char[][][] b = {{{'1', '2'}, {'3', '4'}}, {{'5', '6'}, {'7', '8'}}, {{'9'}}};
      * char[][][] result = Arrays.zip(a, b, 'A', '0', (x, y) -> (char) (x + y - 'A'));
-     * // result: result: {{{'1', '3'}, {'5', '7'}}, {{'9', ';'}, {'7', '8'}}, {{'9'}}}
+     * // result: {{{'1', '3'}, {'5', '7'}}, {{'9', ';'}, {'7', '8'}}, {{'9'}}}
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
@@ -4547,7 +4547,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3};
-     * updateAll(arr, b -> (byte)(b * b));
+     * Arrays.updateAll(arr, b -> (byte)(b * b));
      * // arr is now: [1, 4, 9]
      * }</pre>
      *
@@ -4630,7 +4630,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3, 2, 4};
-     * replaceIf(arr, b -> b == 2, (byte)10);
+     * Arrays.replaceIf(arr, b -> b == 2, (byte)10);
      * // arr is now: [1, 10, 3, 10, 4]
      * }</pre>
      *
@@ -4805,7 +4805,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] arr = {{3, 1}, {4, 2}};
-     * applyOnFlattened(arr, t -> java.util.Arrays.sort(t));   // Sorts all elements
+     * Arrays.applyOnFlattened(arr, t -> java.util.Arrays.sort(t));   // Sorts all elements
      * // arr becomes: {{1, 2}, {3, 4}}
      * }</pre>
      *
@@ -5407,7 +5407,7 @@ public sealed class Arrays permits Arrays.f {
      * byte[][][] b = {{{11, 12}, {13, 14}}};
      * byte[][][] c = {{{21, 22}}};
      * byte[][][] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte) (x + y + z));
-     * // result: {{{33, 36}, {33, 34}}}}
+     * // result: {{{33, 36}, {33, 34}}}
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
@@ -5449,7 +5449,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2, 3}, null, {4, 5}};
-     * long count = totalCountOfElements(array);   // returns 5
+     * long count = Arrays.totalCountOfElements(array);   // returns 5
      * }</pre>
      *
      * @param a the two-dimensional byte array (can be {@code null}).
@@ -5476,7 +5476,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] array = {{{1, 2}, {3}}, {{4, 5, 6}}};
-     * long count = totalCountOfElements(array);   // returns 6
+     * long count = Arrays.totalCountOfElements(array);   // returns 6
      * }</pre>
      *
      * @param a the three-dimensional byte array (can be {@code null}).
@@ -5514,7 +5514,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen = minSubArrayLength(array);   // returns 2
+     * int minLen = Arrays.minSubArrayLength(array);   // returns 2
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null}).
@@ -5542,7 +5542,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2}, null, {3, 4, 5, 6}};
-     * int maxLen = maxSubArrayLength(array);   // returns 4
+     * int maxLen = Arrays.maxSubArrayLength(array);   // returns 4
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null}).
@@ -5824,7 +5824,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3};
-     * updateAll(array, x -> (short)(x * x));   // array becomes [1, 4, 9]
+     * Arrays.updateAll(array, x -> (short)(x * x));   // array becomes [1, 4, 9]
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5850,7 +5850,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2}, {3, 4}};
-     * updateAll(array, x -> (short)(x + 10));   // array becomes {{11, 12}, {13, 14}}
+     * Arrays.updateAll(array, x -> (short)(x + 10));   // array becomes {{11, 12}, {13, 14}}
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5876,7 +5876,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * updateAll(array, x -> (short)(x * 2));   // all elements doubled
+     * Arrays.updateAll(array, x -> (short)(x * 2));   // all elements doubled
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5904,7 +5904,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
-     * replaceIf(array, x -> x > 3, (short)0);   // array becomes [1, 2, 3, 0, 0]
+     * Arrays.replaceIf(array, x -> x > 3, (short)0);   // array becomes [1, 2, 3, 0, 0]
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -5934,7 +5934,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2}, {3, 4}};
-     * replaceIf(array, x -> x % 2 == 0, (short)0);   // array becomes {{1, 0}, {3, 0}}
+     * Arrays.replaceIf(array, x -> x % 2 == 0, (short)0);   // array becomes {{1, 0}, {3, 0}}
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -5962,7 +5962,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * replaceIf(array, x -> x < 3, (short)10);   // replaces 1 and 2 with 10
+     * Arrays.replaceIf(array, x -> x < 3, (short)10);   // replaces 1 and 2 with 10
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -6146,7 +6146,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{3, 1}, {4, 2}};
-     * applyOnFlattened(array, t -> java.util.Arrays.sort(t));   // sorts all elements across sub-arrays
+     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));   // sorts all elements across sub-arrays
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -6181,7 +6181,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{5, 2}}, {{3, 1}}};
-     * applyOnFlattened(array, t -> java.util.Arrays.sort(t));   // sorts all elements across all sub-arrays
+     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));   // sorts all elements across all sub-arrays
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -6671,7 +6671,7 @@ public sealed class Arrays permits Arrays.f {
      * short[][][] b = {{{11, 12}, {13, 14}}};
      * short[][][] c = {{{21, 22}}};
      * short[][][] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short) (x + y + z));
-     * // result: {{{33, 36}, {33, 34}}}}
+     * // result: {{{33, 36}, {33, 34}}}
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
@@ -6713,7 +6713,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, null, {6, 7, 8, 9}};
-     * long count = totalCountOfElements(array);
+     * long count = Arrays.totalCountOfElements(array);
      * // count will be 9 (3 + 2 + 0 + 4)
      * }</pre>
      *
@@ -6779,7 +6779,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen = minSubArrayLength(array);
+     * int minLen = Arrays.minSubArrayLength(array);
      * // minLen will be 2
      * }</pre>
      *
@@ -6807,7 +6807,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int maxLen = maxSubArrayLength(array);
+     * int maxLen = Arrays.maxSubArrayLength(array);
      * // maxLen will be 4
      * }</pre>
      *
@@ -7976,7 +7976,7 @@ public sealed class Arrays permits Arrays.f {
      * int[][][] b = {{{11, 12}, {13, 14}}};
      * int[][][] c = {{{21, 22}}};
      * int[][][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
-     * // result: {{{33, 36}, {33, 34}}}}
+     * // result: {{{33, 36}, {33, 34}}}
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
@@ -8018,7 +8018,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2}, {3, 4, 5}, null, {}};
-     * long count = totalCountOfElements(a);
+     * long count = Arrays.totalCountOfElements(a);
      * // count will be 5
      * }</pre>
      *
@@ -8046,7 +8046,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] a = {{{1}, {2, 3}}, null, {{4, 5, 6}}};
-     * long count = totalCountOfElements(a);
+     * long count = Arrays.totalCountOfElements(a);
      * // count will be 6
      * }</pre>
      *
@@ -8084,7 +8084,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2, 3}, {4, 5}, null, {6}};
-     * int minLen = minSubArrayLength(a);
+     * int minLen = Arrays.minSubArrayLength(a);
      * // minLen will be 0
      * }</pre>
      *
@@ -8112,7 +8112,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1}, {2, 3}, null, {4, 5, 6}};
-     * int maxLen = maxSubArrayLength(a);
+     * int maxLen = Arrays.maxSubArrayLength(a);
      * // maxLen will be 3
      * }</pre>
      *
@@ -10441,10 +10441,10 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * float[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * float[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
-     * float[][][] result = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
+     * float[][][] result = Arrays.zip(a, b, 0f, 10f, (x, y) -> x + y);
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -11722,10 +11722,10 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * double[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * double[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
-     * double[][][] result = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
+     * double[][][] result = Arrays.zip(a, b, 0.0, 10.0, (x, y) -> x + y);
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).

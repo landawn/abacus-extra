@@ -312,12 +312,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Creates a 1-row IntMatrix with values from startInclusive to endExclusive.
-     * The values are generated with a step of 1. If {@code startInclusive >= endExclusive}, an empty matrix is returned.
+     * The values are generated with a step of 1. If {@code startInclusive >= endExclusive}, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.range(0, 5);   // Creates [[0, 1, 2, 3, 4]]
-     * IntMatrix empty = IntMatrix.range(5, 0);    // Creates an empty matrix
+     * IntMatrix empty = IntMatrix.range(5, 0);    // Creates a 1x0 matrix (1 row, 0 columns)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -331,13 +331,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a 1-row IntMatrix with values from startInclusive to endExclusive with the specified step.
      * The step size can be positive (for ascending sequences) or negative (for descending sequences).
-     * If the step would not reach endExclusive from startInclusive, an empty matrix is returned.
+     * If the step would not reach endExclusive from startInclusive, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.range(0, 10, 2);   // Creates [[0, 2, 4, 6, 8]]
      * IntMatrix desc = IntMatrix.range(10, 0, -2);    // Creates [[10, 8, 6, 4, 2]]
-     * IntMatrix empty = IntMatrix.range(0, 10, -1);   // Creates an empty matrix (step is wrong direction)
+     * IntMatrix empty = IntMatrix.range(0, 10, -1);   // Creates a 1x0 matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -353,13 +353,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a 1-row IntMatrix with values from startInclusive to endInclusive.
      * This method includes the end value, unlike {@link #range(int, int)}.
-     * If {@code startInclusive > endInclusive}, an empty matrix is returned.
+     * If {@code startInclusive > endInclusive}, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.rangeClosed(0, 4);   // Creates [[0, 1, 2, 3, 4]]
      * IntMatrix single = IntMatrix.rangeClosed(5, 5);   // Creates [[5]]
-     * IntMatrix empty = IntMatrix.rangeClosed(5, 0);    // Creates an empty matrix
+     * IntMatrix empty = IntMatrix.rangeClosed(5, 0);    // Creates a 1x0 matrix (1 row, 0 columns)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -374,7 +374,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Creates a 1-row IntMatrix with values from startInclusive to endInclusive with the specified step.
      * The step size can be positive (for ascending sequences) or negative (for descending sequences).
      * The end value is included only if it is reachable by stepping from start. If the step would not
-     * reach endInclusive from startInclusive, an empty matrix is returned.
+     * reach endInclusive from startInclusive, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1118,9 +1118,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * IntMatrix matrix = IntMatrix.of(new int[][] {{-1, 2, -3}, {4, -5, 6}});
      * matrix.replaceIf(x -> x < 0, 0);   // Replaces all negative values with 0
      * // matrix is now [[0, 2, 0], [4, 0, 6]]
-     *
-     * matrix.replaceIf(x -> x % 2 == 0, 1);   // Replaces all even values with 1
-     * // matrix is now [[0, 1, 0], [1, 0, 1]]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw
@@ -2324,14 +2321,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Converts this int matrix to a float matrix.
-     * Each int value is converted to float.
-     * 
+     * Each int value is widened to float.
+     *
+     * <p><b>Warning:</b> Precision loss may occur for large int values. The float type has only 24 bits
+     * of precision in its mantissa, so int values with absolute values greater than 2^24 (16,777,216)
+     * may not be represented exactly.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix intMatrix = IntMatrix.of(new int[][] {{1, 2}});
      * FloatMatrix floatMatrix = intMatrix.toFloatMatrix();
      * }</pre>
-     * 
+     *
      * @return a new FloatMatrix with converted values
      */
     public FloatMatrix toFloatMatrix() {
@@ -3165,9 +3166,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Prints the matrix to standard output in a formatted manner.
+     * Prints the matrix to standard output in a formatted manner and returns the formatted string.
      * Each row is printed on a separate line with elements separated by commas
-     * and enclosed in square brackets. The entire matrix is also enclosed in brackets.
+     * and enclosed in square brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

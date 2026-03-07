@@ -227,12 +227,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Creates a 1-row LongMatrix with values from startInclusive to endExclusive.
-     * The values are generated with a step of 1. If {@code startInclusive >= endExclusive}, an empty matrix is returned.
+     * The values are generated with a step of 1. If {@code startInclusive >= endExclusive}, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.range(0L, 5L);   // Creates [[0, 1, 2, 3, 4]]
-     * LongMatrix empty = LongMatrix.range(5L, 0L);    // Creates an empty matrix
+     * LongMatrix empty = LongMatrix.range(5L, 0L);    // Creates a 1x0 matrix (1 row, 0 columns)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -246,13 +246,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Creates a 1-row LongMatrix with values from startInclusive to endExclusive with the specified step.
      * The step size can be positive (for ascending sequences) or negative (for descending sequences).
-     * If the step would not reach endExclusive from startInclusive, an empty matrix is returned.
+     * If the step would not reach endExclusive from startInclusive, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.range(0L, 10L, 2L);   // Creates [[0, 2, 4, 6, 8]]
      * LongMatrix desc = LongMatrix.range(10L, 0L, -2L);    // Creates [[10, 8, 6, 4, 2]]
-     * LongMatrix empty = LongMatrix.range(0L, 10L, -1L);   // Creates an empty matrix (step is wrong direction)
+     * LongMatrix empty = LongMatrix.range(0L, 10L, -1L);   // Creates a 1x0 matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -268,13 +268,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Creates a 1-row LongMatrix with values from startInclusive to endInclusive.
      * This method includes the end value, unlike {@link #range(long, long)}.
-     * If {@code startInclusive > endInclusive}, an empty matrix is returned.
+     * If {@code startInclusive > endInclusive}, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.rangeClosed(0L, 4L);   // Creates [[0, 1, 2, 3, 4]]
      * LongMatrix single = LongMatrix.rangeClosed(5L, 5L);   // Creates [[5]]
-     * LongMatrix empty = LongMatrix.rangeClosed(5L, 0L);    // Creates an empty matrix
+     * LongMatrix empty = LongMatrix.rangeClosed(5L, 0L);    // Creates a 1x0 matrix (1 row, 0 columns)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -289,7 +289,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Creates a 1-row LongMatrix with values from startInclusive to endInclusive with the specified step.
      * The step size can be positive (for ascending sequences) or negative (for descending sequences).
      * The end value is included only if it is reachable by stepping from start. If the step would not
-     * reach endInclusive from startInclusive, an empty matrix is returned.
+     * reach endInclusive from startInclusive, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1039,9 +1039,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * LongMatrix matrix = LongMatrix.of(new long[][] {{-1L, 2L, -3L}, {4L, -5L, 6L}});
      * matrix.replaceIf(x -> x < 0, 0L);   // Replaces all negative values with 0
      * // matrix is now [[0L, 2L, 0L], [4L, 0L, 6L]]
-     *
-     * matrix.replaceIf(x -> x % 2 == 0, 1L);   // Replaces all even values with 1
-     * // matrix is now [[0L, 1L, 0L], [1L, 0L, 1L]]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw
@@ -1576,6 +1573,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @see #flipH()
+     * @see #reverseV()
      */
     public void reverseH() {
         for (int i = 0; i < rowCount; i++) {
@@ -1595,6 +1593,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @see #flipV()
+     * @see #reverseH()
      */
     public void reverseV() {
         for (int j = 0; j < columnCount; j++) {
@@ -1622,8 +1621,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a new matrix with each row reversed
      * @see #reverseH()
      * @see #flipV()
-     * @see IntMatrix#flipH()
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public LongMatrix flipH() {
         final LongMatrix res = this.copy();
@@ -1646,8 +1644,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a new matrix with rows in reversed order
      * @see #reverseV()
      * @see #flipH()
-     * @see IntMatrix#flipV()
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public LongMatrix flipV() {
         final LongMatrix res = this.copy();
@@ -2214,6 +2211,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @return a new {@code Matrix<Long>} containing boxed values
+     * @see #unbox(Matrix)
      */
     public Matrix<Long> boxed() {
         final Long[][] c = new Long[rowCount][columnCount];
@@ -3038,8 +3036,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Prints the matrix to the standard output.
-     * The matrix is formatted with rows on separate lines and elements separated by spaces.
+     * Prints the matrix to standard output in a formatted manner and returns the formatted string.
+     * Each row is printed on a separate line with elements separated by commas
+     * and enclosed in square brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

@@ -187,12 +187,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Creates a 1-row ShortMatrix with values from startInclusive to endExclusive.
-     * The values are generated with a step of 1. If {@code startInclusive >= endExclusive}, an empty matrix is returned.
+     * The values are generated with a step of 1. If {@code startInclusive >= endExclusive}, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.range((short) 0, (short) 5);   // Creates [[0, 1, 2, 3, 4]]
-     * ShortMatrix empty = ShortMatrix.range((short) 5, (short) 0);    // Creates an empty matrix
+     * ShortMatrix empty = ShortMatrix.range((short) 5, (short) 0);    // Creates a 1x0 matrix (1 row, 0 columns)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -206,13 +206,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Creates a 1-row ShortMatrix with values from startInclusive to endExclusive with the specified step.
      * The step size can be positive (for ascending sequences) or negative (for descending sequences).
-     * If the step would not reach endExclusive from startInclusive, an empty matrix is returned.
+     * If the step would not reach endExclusive from startInclusive, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.range((short) 0, (short) 10, (short) 2);   // Creates [[0, 2, 4, 6, 8]]
      * ShortMatrix desc = ShortMatrix.range((short) 10, (short) 0, (short) -2);    // Creates [[10, 8, 6, 4, 2]]
-     * ShortMatrix empty = ShortMatrix.range((short) 0, (short) 10, (short) -1);   // Creates an empty matrix (step is wrong direction)
+     * ShortMatrix empty = ShortMatrix.range((short) 0, (short) 10, (short) -1);   // Creates a 1x0 matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -228,13 +228,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Creates a 1-row ShortMatrix with values from startInclusive to endInclusive.
      * This method includes the end value, unlike {@link #range(short, short)}.
-     * If {@code startInclusive > endInclusive}, an empty matrix is returned.
+     * If {@code startInclusive > endInclusive}, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.rangeClosed((short) 0, (short) 4);   // Creates [[0, 1, 2, 3, 4]]
      * ShortMatrix single = ShortMatrix.rangeClosed((short) 5, (short) 5);   // Creates [[5]]
-     * ShortMatrix empty = ShortMatrix.rangeClosed((short) 5, (short) 0);    // Creates an empty matrix
+     * ShortMatrix empty = ShortMatrix.rangeClosed((short) 5, (short) 0);    // Creates a 1x0 matrix (1 row, 0 columns)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -249,7 +249,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * Creates a 1-row ShortMatrix with values from startInclusive to endInclusive with the specified step.
      * The step size can be positive (for ascending sequences) or negative (for descending sequences).
      * The end value is included only if it is reachable by stepping from start. If the step would not
-     * reach endInclusive from startInclusive, an empty matrix is returned.
+     * reach endInclusive from startInclusive, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -313,6 +313,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
      * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
      * (or the maximum length if both are provided).
+     * When both diagonals are provided and they overlap (at the center element of odd-sized matrices),
+     * the main diagonal value takes precedence.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1873,21 +1875,22 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Applies an operation to each row array of the underlying two-dimensional array.
+     * Flattens all elements of this matrix into a single one-dimensional array, applies the given
+     * operation to that flattened array, and then copies the modified elements back into the matrix.
      *
-     * <p>This method iterates through each row and passes the internal row array (not a copy) to the operation.
-     * Any modifications made to the row arrays by the operation will directly affect the matrix.
-     * This method is useful for performing in-place operations on rows, such as sorting.</p>
+     * <p>This enables operations that need a global view of all matrix elements (e.g., sorting all
+     * elements across the entire matrix). The operation receives a temporary flattened copy; after
+     * the operation completes, the modified values are written back into the matrix row by row.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][] {{3, 1, 2}, {6, 4, 5}});
-     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));
-     * // matrix is now [[1, 2, 3], [4, 5, 6]]
+     * ShortMatrix matrix = ShortMatrix.of(new short[][] {{5, 3}, {4, 1}});
+     * matrix.applyOnFlattened(arr -> java.util.Arrays.sort(arr));
+     * // matrix is now [[1, 3], [4, 5]] (all elements sorted globally, then placed back row by row)
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param op the operation to apply to each row array
+     * @param op the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(short[][], Throwables.Consumer)
      */

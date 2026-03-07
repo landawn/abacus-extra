@@ -54,6 +54,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(short)}, {@link #of(short, short)}, etc.,
      * to create tuple instances.
+     * </p>
      */
     protected ShortTuple() {
     }
@@ -1061,12 +1062,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given bi-consumer on the two elements.
+         * Performs the given bi-consumer action on the two elements of this tuple.
+         * <p>
+         * This method applies the specified bi-consumer to both elements simultaneously,
+         * allowing operations that need to work with both values together. The action is
+         * executed for its side effects only.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
          * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
+         * // Prints: 3 + 5 = 8
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1079,11 +1086,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Applies the given bi-function to the two elements and returns the result.
+         * <p>
+         * This method transforms both elements of the tuple into a single result value
+         * of type {@code U}. The mapper function receives both elements as parameters and
+         * can perform any calculation or transformation on them.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
          * int product = pair.map((a, b) -> a * b);   // 15
+         *
+         * String desc = pair.map((a, b) -> a + " and " + b);   // "3 and 5"
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1100,11 +1114,20 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method evaluates the given bi-predicate against both elements of the tuple.
+         * If the predicate returns {@code true}, returns an Optional containing this tuple.
+         * If it returns {@code false}, returns an empty Optional.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
-         * u.Optional<ShortTuple.ShortTuple2> result = pair.filter((a, b) -> a < b);   // Optional containing the pair
+         * u.Optional<ShortTuple.ShortTuple2> result = pair.filter((a, b) -> a < b);
+         * // Returns: Optional containing the pair (since 3 < 5)
+         *
+         * u.Optional<ShortTuple.ShortTuple2> empty = pair.filter((a, b) -> a > b);
+         * // Returns: Optional.empty() (since 3 is not > 5)
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1295,12 +1318,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given tri-consumer on the three elements.
+         * Performs the given tri-consumer action on the three elements of this tuple.
+         * <p>
+         * This method applies the specified tri-consumer to all three elements simultaneously,
+         * allowing operations that need to work with all values together. The action is
+         * executed for its side effects only.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
          * triple.accept((a, b, c) -> System.out.println(a + " + " + b + " + " + c + " = " + (a + b + c)));
+         * // Prints: 2 + 3 + 5 = 10
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1313,11 +1342,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Applies the given tri-function to the three elements and returns the result.
+         * <p>
+         * This method transforms all three elements of the tuple into a single result value
+         * of type {@code U}. The mapper function receives all three elements as parameters and
+         * can perform any calculation or transformation on them.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
          * int product = triple.map((a, b, c) -> a * b * c);   // 30
+         *
+         * String desc = triple.map((a, b, c) -> a + ", " + b + ", " + c);   // "2, 3, 5"
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1334,11 +1370,20 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method evaluates the given tri-predicate against all three elements of the tuple.
+         * If the predicate returns {@code true}, returns an Optional containing this tuple.
+         * If it returns {@code false}, returns an empty Optional.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
-         * u.Optional<ShortTuple.ShortTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the triple
+         * u.Optional<ShortTuple.ShortTuple3> result = triple.filter((a, b, c) -> a < b && b < c);
+         * // Returns: Optional containing the triple (since 2 < 3 < 5)
+         *
+         * u.Optional<ShortTuple.ShortTuple3> empty = triple.filter((a, b, c) -> a + b + c > 20);
+         * // Returns: Optional.empty() (since 2 + 3 + 5 = 10 is not > 20)
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw

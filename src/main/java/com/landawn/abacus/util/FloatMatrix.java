@@ -106,6 +106,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Creates a FloatMatrix from a two-dimensional int array by converting int values to float.
      * Each int value is converted to its equivalent float representation.
      *
+     * <p><b>Note:</b> Int values with more than 24 significant bits may lose precision when
+     * converted to float, since float has a 23-bit mantissa. For example,
+     * {@code Integer.MAX_VALUE} (2147483647) cannot be represented exactly as a float.</p>
+     *
      * <p><b>Requirements:</b></p>
      * <ul>
      *   <li>All rows must have the same length as the first row (rectangular array required)</li>
@@ -240,8 +244,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //  [0.0, 0.0, 3.0]]
      * }</pre>
      *
-     * @param mainDiagonal the array of main diagonal elements
-     * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
+     * @param mainDiagonal the array of main diagonal elements, or null/empty for an empty matrix
+     * @return a square matrix with the specified main diagonal, or an empty matrix if input is null or empty
      */
     public static FloatMatrix mainDiagonal(final float[] mainDiagonal) {
         return diagonals(mainDiagonal, null);
@@ -261,8 +265,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //  [3.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param antiDiagonal the array of anti-diagonal elements
-     * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
+     * @param antiDiagonal the array of anti-diagonal elements, or null/empty for an empty matrix
+     * @return a square matrix with the specified anti-diagonal, or an empty matrix if input is null or empty
      */
     public static FloatMatrix antiDiagonal(final float[] antiDiagonal) {
         return diagonals(null, antiDiagonal);
@@ -274,6 +278,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
      * (or the maximum length if both are provided).
      *
+     * <p><b>Note:</b> The anti-diagonal is written first, then the main diagonal. If both diagonals
+     * share a position (which happens for odd-sized matrices at the center element), the main diagonal
+     * value takes precedence.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.diagonals(new float[] {1.0f, 2.0f, 3.0f}, new float[] {4.0f, 5.0f, 6.0f});
@@ -282,7 +290,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //   {1.0, 0.0, 4.0},
      * //   {0.0, 2.0, 0.0},
      * //   {6.0, 0.0, 3.0}
-     *
      * }</pre>
      *
      * @param mainDiagonal the array of main diagonal elements (can be null or empty)
@@ -616,6 +623,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param rowIndex the index of the row to set (0-based)
      * @param row the array of values to copy into the row; must have length equal to the number of columns
+     * @throws NullPointerException if {@code row} is {@code null}
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final float[] row) throws IllegalArgumentException {
@@ -642,6 +650,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to copy into the column; must have length equal to the number of rows
+     * @throws NullPointerException if {@code column} is {@code null}
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      * @throws ArrayIndexOutOfBoundsException if the underlying wrapped array has been externally modified into a non-rectangular shape
      */
@@ -2001,7 +2010,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * The resulting matrix has dimensions (this.rowCount × other.columnCount).
      *
      * <p>This operation uses standard matrix multiplication where each element (i,j) in the result
-     * is computed as the dot product of row i from this matrix and column j from the other matrix.</p>
+     * is computed as the dot product of row i from this matrix and column j from the other matrix.
+     * Since float has limited precision (~7 decimal digits), accumulated rounding errors may occur
+     * for large matrices. Consider using {@link #toDoubleMatrix()} for higher precision if needed.</p>
      *
      * <p>For large matrices, this operation may be parallelized automatically for better performance.</p>
      *
@@ -2069,14 +2080,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Converts this float matrix to a double matrix.
-     * Each float value is converted to double precision.
-     * 
+     * Each float value is widened to double precision without loss of information,
+     * since every float value can be represented exactly as a double.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix floatMatrix = FloatMatrix.of(new float[][] {{1.5f, 2.5f}});
      * DoubleMatrix doubleMatrix = floatMatrix.toDoubleMatrix();
+     * // doubleMatrix contains {{1.5, 2.5}}
      * }</pre>
-     * 
+     *
      * @return a new DoubleMatrix with converted values
      */
     public DoubleMatrix toDoubleMatrix() {

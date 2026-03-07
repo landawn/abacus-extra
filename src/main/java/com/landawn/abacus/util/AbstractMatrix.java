@@ -174,7 +174,7 @@ import com.landawn.abacus.util.stream.Stream;
  * }
  *
  * Matrix<Double> input = Matrix.of(new Double[][] {{2.0, 4.0}, {6.0, 8.0}});
- * Matrix<Double> normalized = Matrix.of(Matrices.newArray(input.rowCount(), input.columnCount(), Double.class));
+ * Matrix<Double> normalized = Matrix.of(Matrices.newMatrixArray(input.rowCount(), input.columnCount(), Double.class));
  * input.pointsC().forEach(colStream -> {
  *     List<Point> colPoints = colStream.toList();
  *     double max = colPoints.stream()
@@ -650,6 +650,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns the specified row as a direct view backed by internal storage.
      * Changes to the returned array will modify this matrix.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
+     * int[] row0 = matrix.row(0);  // Returns [1, 2, 3] (direct reference)
+     * row0[0] = 99;                // Also changes matrix element at (0, 0) to 99
+     * }</pre>
+     *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return the specified row array (direct reference to internal storage)
      * @throws IllegalArgumentException if rowIndex is out of bounds
@@ -660,6 +667,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a defensive copy of the specified row.
      * Changes to the returned array do not affect this matrix.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
+     * int[] rowCopy = matrix.rowCopy(0);  // Returns [1, 2, 3] (independent copy)
+     * rowCopy[0] = 99;                    // Does NOT affect the original matrix
+     * }</pre>
+     *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return a new array containing the values from the specified row
      * @throws IllegalArgumentException if rowIndex is out of bounds
@@ -669,6 +683,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Returns a defensive copy of the specified column.
      * Changes to the returned array do not affect this matrix.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
+     * int[] colCopy = matrix.columnCopy(1);  // Returns [2, 5] (independent copy)
+     * colCopy[0] = 99;                       // Does NOT affect the original matrix
+     * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
      * @return a new array containing the values from the specified column

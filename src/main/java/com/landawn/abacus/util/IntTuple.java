@@ -1057,12 +1057,20 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Performs the given bi-consumer on the two elements.
+         * Performs the given bi-consumer action on the two elements of this tuple.
+         * <p>
+         * This is a convenience method that passes both elements (_1 and _2) to the
+         * provided bi-consumer action. It's useful for operations that need to process
+         * both values together.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple2 tuple = IntTuple.of(3, 4);
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
+         *
+         * IntTuple.IntTuple2 coordinates = IntTuple.of(10, 20);
+         * coordinates.accept((x, y) -> System.out.println("Point at (" + x + ", " + y + ")"));
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1075,17 +1083,25 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Applies the given bi-function to the two elements and returns the result.
+         * <p>
+         * This method transforms the pair of int values into a single value of type U
+         * using the provided mapper function. The mapper receives both _1 and _2 as arguments
+         * and can return any type, including primitive wrapper types, objects, or null.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple2 tuple = IntTuple.of(3, 4);
          * int product = tuple.map((a, b) -> a * b);   // 12
+         *
+         * IntTuple.IntTuple2 dimensions = IntTuple.of(5, 10);
+         * String desc = dimensions.map((w, h) -> w + "x" + h);  // "5x10"
          * }</pre>
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements
-         * @return the result of applying the mapper function
+         * @return the result of applying the mapper function, may be {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1096,16 +1112,24 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method tests the two elements using the provided bi-predicate. If the predicate
+         * returns {@code true}, an Optional containing this tuple is returned. Otherwise, an
+         * empty Optional is returned. This is useful for conditional processing in functional chains.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple2 tuple = IntTuple.of(3, 4);
          * u.Optional<IntTuple.IntTuple2> result = tuple.filter((a, b) -> a + b > 5);   // Optional containing the pair
+         *
+         * IntTuple.IntTuple2 small = IntTuple.of(1, 2);
+         * u.Optional<IntTuple.IntTuple2> empty = small.filter((a, b) -> a + b > 10);  // Empty Optional
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements
-         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
@@ -1291,12 +1315,20 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Performs the given tri-consumer on the three elements.
+         * Performs the given tri-consumer action on the three elements of this tuple.
+         * <p>
+         * This is a convenience method that passes all three elements (_1, _2, and _3) to the
+         * provided tri-consumer action. It's useful for operations that need to process
+         * all three values together.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
+         *
+         * IntTuple.IntTuple3 rgb = IntTuple.of(255, 128, 64);
+         * rgb.accept((r, g, b) -> System.out.println("RGB(" + r + ", " + g + ", " + b + ")"));
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1309,17 +1341,26 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Applies the given tri-function to the three elements and returns the result.
+         * <p>
+         * This method transforms the three int values into a single value of type U
+         * using the provided mapper function. The mapper receives all three elements
+         * (_1, _2, and _3) as arguments and can return any type, including primitive
+         * wrapper types, objects, or null.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
          * int product = tuple.map((a, b, c) -> a * b * c);   // 6
+         *
+         * IntTuple.IntTuple3 dimensions = IntTuple.of(10, 20, 30);
+         * String formatted = dimensions.map((x, y, z) -> x + "x" + y + "x" + z);  // "10x20x30"
          * }</pre>
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements
-         * @return the result of applying the mapper function
+         * @return the result of applying the mapper function, may be {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1330,16 +1371,24 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method tests the three elements using the provided tri-predicate. If the predicate
+         * returns {@code true}, an Optional containing this tuple is returned. Otherwise, an
+         * empty Optional is returned. This is useful for conditional processing in functional chains.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
          * u.Optional<IntTuple.IntTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the triple
+         *
+         * IntTuple.IntTuple3 descending = IntTuple.of(3, 2, 1);
+         * u.Optional<IntTuple.IntTuple3> empty = descending.filter((a, b, c) -> a < b && b < c);  // Empty Optional
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements
-         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws E {

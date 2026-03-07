@@ -207,13 +207,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Creates a 1-row ByteMatrix containing a range of byte values with a specified step.
      * The step size can be positive (for ascending sequences) or negative (for descending sequences).
-     * If the step would not reach endExclusive from startInclusive, an empty matrix is returned.
+     * If the step would not reach endExclusive from startInclusive, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix range = ByteMatrix.range((byte)0, (byte)10, (byte)2);    // Creates [[0, 2, 4, 6, 8]]
      * ByteMatrix desc = ByteMatrix.range((byte)10, (byte)0, (byte)-2);    // Creates [[10, 8, 6, 4, 2]]
-     * ByteMatrix empty = ByteMatrix.range((byte)0, (byte)10, (byte)-1);   // Creates an empty matrix (step is wrong direction)
+     * ByteMatrix empty = ByteMatrix.range((byte)0, (byte)10, (byte)-1);   // Creates a 1x0 matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -248,7 +248,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * Creates a 1-row ByteMatrix containing a closed range of byte values with a specified step.
      * The step size can be positive (for ascending sequences) or negative (for descending sequences).
      * The end value is included only if it is reachable by stepping from start. If the step would not
-     * reach endInclusive from startInclusive, an empty matrix is returned.
+     * reach endInclusive from startInclusive, a 1×0 matrix is returned.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
