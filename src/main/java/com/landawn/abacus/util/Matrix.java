@@ -2305,7 +2305,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that the operation may throw
      * @param action the operation to apply to the flattened array
      * @throws E if the operation throws an exception
-     * @see Arrays#applyOnFlattened(Object[][], Throwables.Consumer)
+     * @see Arrays.ff#applyOnFlattened(Object[][], Throwables.Consumer)
      */
     @Override
     public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super T[], E> action) throws E {
