@@ -467,6 +467,8 @@ public final class Matrices {
      */
     public static <E extends Exception> void forEachIndices(final int rowCount, final int columnCount, final Throwables.IntBiConsumer<E> cmd,
             final boolean inParallel) throws E {
+        N.checkArgument(rowCount >= 0, "rowCount cannot be negative: {}", rowCount);
+        N.checkArgument(columnCount >= 0, "columnCount cannot be negative: {}", columnCount);
         N.checkArgNotNull(cmd, "cmd");
 
         forEachIndices(0, rowCount, 0, columnCount, cmd, inParallel);
