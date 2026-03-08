@@ -302,7 +302,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
      * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
-     * If both diagonals are provided, they must have the same length.
      * When both diagonals are provided and they overlap (at the center element of odd-sized matrices),
      * the main diagonal value takes precedence.
      *
@@ -773,7 +772,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *

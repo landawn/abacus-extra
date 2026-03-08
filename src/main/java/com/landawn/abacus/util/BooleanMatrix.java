@@ -212,16 +212,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to false. If both arrays are provided, they must have the same length.
      * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
-     * If both diagonals are provided, they must have the same length.
+     * When both diagonals are provided and they overlap (at the center element of odd-sized matrices),
+     * the main diagonal value takes precedence.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.diagonals(new boolean[] {true, true, true}, new boolean[] {false, false, false});
+     * BooleanMatrix matrix = BooleanMatrix.diagonals(new boolean[] {true, true, true}, new boolean[] {true, false, true});
      * // Creates 3x3 matrix with both diagonals set
-     * // Resulting matrix:
-     * //   {true, false, false},
+     * // Resulting matrix (main diagonal takes precedence at center):
+     * //   {true, false, true},
      * //   {false, true, false},
-     * //   {false, false, true}
+     * //   {true, false, true}
      *
      * }</pre>
      *
@@ -677,7 +678,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns a copy of the main diagonal elements (left-upper to right-down).
+     * Returns a copy of the main diagonal elements (left-up to right-down).
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -709,7 +710,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -1876,18 +1877,22 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Applies an operation to each row array of the matrix.
-     * This method provides direct access to the internal row arrays for batch operations.
+     * Flattens all elements of this matrix into a single one-dimensional array, applies the given
+     * operation to that flattened array, and then copies the modified elements back into the matrix.
+     *
+     * <p>This enables operations that need a global view of all matrix elements (e.g., sorting all
+     * elements across the entire matrix). The operation receives a temporary flattened copy; after
+     * the operation completes, the modified values are written back into the matrix row by row.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * matrix.applyOnFlattened(row -> java.util.Arrays.fill(row, true));   // Sets each row to all true
-     * // Each row is now all true
+     * matrix.applyOnFlattened(arr -> java.util.Arrays.fill(arr, true));
+     * // matrix is now [[true, true], [true, true]] (all elements set globally, then placed back row by row)
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param action the operation to apply to each row array
+     * @param action the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(boolean[][], Throwables.Consumer)
      */

@@ -71,10 +71,10 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * <p><b>Performance:</b> This method delegates to {@code Arrays.println()} and {@code Arrays.toString()}
+     * <p><b>Performance:</b> This method delegates to {@code N.println()} and {@code N.toString()}
      * for the actual formatting and printing operations.</p>
      *
      * @param a the one-dimensional object array to print (can be {@code null}).
@@ -130,7 +130,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the two-dimensional object array to print (can be {@code null}).
@@ -183,7 +183,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
@@ -2762,7 +2762,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the one-dimensional boolean array to print (can be {@code null}).
@@ -2817,7 +2817,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the two-dimensional boolean array to print (can be {@code null}).
@@ -2914,7 +2914,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
@@ -4101,7 +4101,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the one-dimensional character array to print (can be {@code null}).
@@ -4156,7 +4156,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the two-dimensional character array to print (can be {@code null}).
@@ -4253,7 +4253,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
@@ -5378,7 +5378,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the one-dimensional byte array to print (can be {@code null}).
@@ -5433,7 +5433,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the two-dimensional byte array to print (can be {@code null}).
@@ -5530,7 +5530,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
@@ -6644,7 +6644,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the one-dimensional short array to print (can be {@code null}).
@@ -6699,7 +6699,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the two-dimensional short array to print (can be {@code null}).
@@ -6796,7 +6796,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
@@ -7949,7 +7949,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the one-dimensional integer array to print (can be {@code null}).
@@ -8004,7 +8004,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      * 
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      * 
      * @param a the two-dimensional integer array to print (can be {@code null}).
@@ -8101,7 +8101,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
@@ -9223,7 +9223,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the one-dimensional long array to print (can be {@code null}).
@@ -9278,7 +9278,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the two-dimensional long array to print (can be {@code null}).
@@ -9375,7 +9375,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
@@ -10496,7 +10496,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the one-dimensional float array to print (can be {@code null}).
@@ -10551,7 +10551,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the two-dimensional float array to print (can be {@code null}).
@@ -10648,7 +10648,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
@@ -11779,7 +11779,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the one-dimensional double array to print (can be {@code null}).
@@ -11834,7 +11834,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the two-dimensional double array to print (can be {@code null}).
@@ -11931,7 +11931,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
@@ -12546,7 +12546,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts an array of chars to an array of integers by casting.
+     * Converts an array of chars to an array of integers by widening each char value.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

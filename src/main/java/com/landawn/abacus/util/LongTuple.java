@@ -37,6 +37,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(long)}, {@link #of(long, long)}, etc.,
      * to create tuple instances.
+     * </p>
      */
     protected LongTuple() {
     }

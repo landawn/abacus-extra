@@ -363,7 +363,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
      * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
-     * If both diagonals are provided, they must have the same length.
      *
      * <p><b>Note:</b> The anti-diagonal is written first, then the main diagonal. If both diagonals
      * share a position (which happens for odd-sized matrices at the center element), the main diagonal
@@ -479,6 +478,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param point the point containing row and column indices (must not be null)
      * @return the double element at the specified point
+     * @throws IllegalArgumentException if {@code point} is {@code null}
      * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #get(int, int)
      */
@@ -520,6 +520,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param point the point containing row and column indices (must not be null)
      * @param val the new double value to set at the specified point
+     * @throws IllegalArgumentException if {@code point} is {@code null}
      * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #set(int, int, double)
      */
@@ -847,7 +848,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -1775,7 +1776,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Creates the transpose of this matrix by swapping rows and columns.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
+     * matrix has dimensions swapped (rowCount × columnCount becomes columnCount × rowCount).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1789,7 +1790,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rows
+     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rowCount
      */
     @Override
     public DoubleMatrix transpose() {
@@ -2001,21 +2002,22 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Applies an operation to each row array of the underlying two-dimensional array in-place.
-     * The operation receives a reference to each row as a double array and can modify it directly.
+     * Flattens all elements of this matrix into a single one-dimensional array, applies the given
+     * operation to that flattened array, and then copies the modified elements back into the matrix.
      *
-     * <p><b>Note:</b> This provides direct access to the internal row arrays, so modifications
-     * will affect the matrix.
+     * <p>This enables operations that need a global view of all matrix elements (e.g., sorting all
+     * elements across the entire matrix). The operation receives a temporary flattened copy; after
+     * the operation completes, the modified values are written back into the matrix row by row.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{3.0, 1.0, 2.0}, {6.0, 4.0, 5.0}});
-     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));   // Sort each row in-place
-     * // Matrix becomes [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{5.0, 3.0}, {4.0, 1.0}});
+     * matrix.applyOnFlattened(arr -> java.util.Arrays.sort(arr));
+     * // matrix is now [[1.0, 3.0], [4.0, 5.0]] (all elements sorted globally, then placed back row by row)
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param action the operation to apply to each row array
+     * @param action the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(double[][], Throwables.Consumer)
      */

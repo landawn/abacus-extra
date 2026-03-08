@@ -93,7 +93,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates an IntMatrix from a two-dimensional char array by converting each {@code char} to its numeric value.
+     * Creates an IntMatrix from a two-dimensional char array by widening each {@code char} to its {@code int} code point value.
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
@@ -427,7 +427,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
      * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
-     * If both diagonals are provided, they must have the same length.
+     * When both diagonals are provided and they overlap (at the center element of odd-sized matrices),
+     * the main diagonal value takes precedence.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -905,7 +906,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -2060,18 +2061,22 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Applies an operation to each row array of the matrix.
-     * This method provides direct access to the internal row arrays for batch operations.
+     * Flattens all elements of this matrix into a single one-dimensional array, applies the given
+     * operation to that flattened array, and then copies the modified elements back into the matrix.
+     *
+     * <p>This enables operations that need a global view of all matrix elements (e.g., sorting all
+     * elements across the entire matrix). The operation receives a temporary flattened copy; after
+     * the operation completes, the modified values are written back into the matrix row by row.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][] {{3, 1, 2}, {6, 4, 5}});
-     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));
-     * // Matrix becomes: [[1, 2, 3], [4, 5, 6]]
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{5, 3}, {4, 1}});
+     * matrix.applyOnFlattened(arr -> java.util.Arrays.sort(arr));
+     * // matrix is now [[1, 3], [4, 5]] (all elements sorted globally, then placed back row by row)
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param action the operation to apply to each row array
+     * @param action the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(int[][], Throwables.Consumer)
      */

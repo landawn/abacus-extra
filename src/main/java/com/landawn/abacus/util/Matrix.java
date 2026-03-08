@@ -904,7 +904,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -2305,7 +2305,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that the operation may throw
      * @param action the operation to apply to the flattened array
      * @throws E if the operation throws an exception
-     * @see ff#applyOnFlattened(Object[][], Throwables.Consumer)
+     * @see Arrays#applyOnFlattened(Object[][], Throwables.Consumer)
      */
     @Override
     public <E extends Exception> void applyOnFlattened(final Throwables.Consumer<? super T[], E> action) throws E {
@@ -2546,7 +2546,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Returns a stream of elements on the main diagonal (left-upper to right-down).
+     * Returns a stream of elements on the main diagonal (left-up to right-down).
      * The matrix must be square (same number of rows and columns).
      *
      * <p><b>Usage Examples:</b></p>

@@ -344,7 +344,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
      * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
-     * If both diagonals are provided, they must have the same length.
+     * When both diagonals are provided and they overlap (at the center element of odd-sized matrices),
+     * the main diagonal value takes precedence.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -825,7 +826,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -1981,21 +1982,22 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Applies an operation to each row array of the underlying two-dimensional array.
-     * This method iterates through each row and passes the internal row array (not a copy) to the operation.
-     * Any modifications made to the row arrays by the operation will directly affect the matrix.
+     * Flattens all elements of this matrix into a single one-dimensional array, applies the given
+     * operation to that flattened array, and then copies the modified elements back into the matrix.
      *
-     * <p>This method is useful for performing in-place operations on rows, such as sorting.</p>
+     * <p>This enables operations that need a global view of all matrix elements (e.g., sorting all
+     * elements across the entire matrix). The operation receives a temporary flattened copy; after
+     * the operation completes, the modified values are written back into the matrix row by row.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][] {{3, 1, 2}, {6, 4, 5}});
-     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));
-     * // matrix is now [[1, 2, 3], [4, 5, 6]]
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{5, 3}, {4, 1}});
+     * matrix.applyOnFlattened(arr -> java.util.Arrays.sort(arr));
+     * // matrix is now [[1, 3], [4, 5]] (all elements sorted globally, then placed back row by row)
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param action the operation to apply to each row array
+     * @param action the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(long[][], Throwables.Consumer)
      */

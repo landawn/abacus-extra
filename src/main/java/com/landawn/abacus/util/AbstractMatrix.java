@@ -35,7 +35,7 @@ import com.landawn.abacus.util.stream.Stream;
  *
  * <p>Some methods intentionally expose live storage for performance-sensitive code, notably
  * {@link #backingArray()}, {@link #rowView(int)}, and {@link #applyOnFlattened(Throwables.Consumer)}.
- * Prefer {@link #copy()}, {@link #toArray()}, or {@link #rowCopy(int)} when callers must not observe or
+ * Prefer {@link #copy()}, {@link #flatten()}, or {@link #rowCopy(int)} when callers must not observe or
  * mutate the backing array.</p>
  *
  * @param <A> the array type used for internal row storage (for example {@code int[]}, {@code double[]}, or {@code Object[]})
@@ -1254,7 +1254,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
      * Stream<Point> row1Points = matrix.pointsHorizontal(1);   // All points in row 1
-     * // For a 3-column matrix: (1,0), (1,1), (1,2)
+     * // For this 5-column matrix: (1,0), (1,1), (1,2), (1,3), (1,4)
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -1275,7 +1275,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * // Get points from rows 1 and 2 (indices 1 and 2, not including 3)
      * Stream<Point> points = matrix.pointsHorizontal(1, 3);
-     * // For a 2-column matrix: (1,0), (1,1), (2,0), (2,1)
+     * // For this 5-column matrix: (1,0), (1,1), (1,2), (1,3), (1,4), (2,0), (2,1), (2,2), (2,3), (2,4)
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1342,7 +1342,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * // Get points from columns 1 through 3 (indices 1, 2, 3, not including 4)
      * Stream<Point> points = matrix.pointsVertical(1, 4);
-     * // For a 2-row matrix: (0,1), (1,1), (0,2), (1,2), (0,3), (1,3)
+     * // For this 3-row matrix: (0,1), (1,1), (2,1), (0,2), (1,2), (2,2), (0,3), (1,3), (2,3)
      * }</pre>
      *
      * @param fromColumnIndex the starting column index (inclusive, 0-based)

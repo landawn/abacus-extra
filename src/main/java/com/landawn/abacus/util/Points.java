@@ -27,7 +27,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
 public final class Points {
 
     private Points() {
-        // singleton.
+        // utility class.
     }
 
     /**
@@ -53,7 +53,7 @@ public final class Points {
          * Instantiates a new xy.
          */
         private xy() {
-            // singleton.
+            // utility class.
         }
 
         /**
@@ -943,7 +943,7 @@ public final class Points {
          * Instantiates a new xyz.
          */
         private xyz() {
-            // singleton.
+            // utility class.
         }
 
         /**

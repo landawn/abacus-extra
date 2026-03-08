@@ -369,7 +369,7 @@ public final class ImmutableIntArray implements Immutable {
      * System.out.println(hash1 == hash2);   // prints: true (equal arrays have same hash)
      *
      * ImmutableIntArray array3 = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 4});
-     * System.out.println(hash1 == array3.hashCode());   // prints: false (different arrays)
+     * System.out.println(hash1 == array3.hashCode());   // likely prints: false (different content often yields different hashes, but not guaranteed)
      * }</pre>
      *
      * @return a hash code value for this ImmutableIntArray based on its contents

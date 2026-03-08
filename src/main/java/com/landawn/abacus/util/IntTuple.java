@@ -37,6 +37,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(int)}, {@link #of(int, int)}, etc.,
      * to create tuple instances.
+     * </p>
      */
     protected IntTuple() {
     }

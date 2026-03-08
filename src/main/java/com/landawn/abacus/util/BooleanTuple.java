@@ -21,7 +21,7 @@ import com.landawn.abacus.util.stream.Stream;
 /**
  * Base class for immutable tuples of primitive {@code boolean} values.
  *
- * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
+ * <p>The nested tuple types in this class provide fixed-arity carriers together with
  * functional helper methods.</p>
  *
  * @param <TP> the specific BooleanTuple subtype

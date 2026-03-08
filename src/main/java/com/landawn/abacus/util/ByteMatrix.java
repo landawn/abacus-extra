@@ -301,7 +301,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
      * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
-     * If both diagonals are provided, they must have the same length.
+     * When both diagonals are provided and they overlap (at the center element of odd-sized matrices),
+     * the main diagonal value takes precedence.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -750,7 +751,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a copy of the main diagonal elements from left-upper to right-down.
+     * Returns a copy of the main diagonal elements from left-up to right-down.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -777,7 +778,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -1097,7 +1098,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param b the source array to copy values from
-     * @see #fill(int, int, byte[][])
+     * @see #copyFrom(int, int, byte[][])
      */
     public void copyFrom(final byte[][] b) {
         copyFrom(0, 0, b);
@@ -1883,28 +1884,22 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Applies an operation to each row's internal array using a flattened operation approach.
-     * This method is designed for specialized operations that need to work directly with
-     * the underlying row arrays for performance-critical scenarios.
+     * Flattens all elements of this matrix into a single one-dimensional array, applies the given
+     * operation to that flattened array, and then copies the modified elements back into the matrix.
      *
-     * <p>The operation is applied to each row array sequentially. The consumer receives
-     * the actual internal arrays, not copies, allowing for efficient in-place modifications.
-     *
-     * <p><b>Warning:</b> The operation receives direct references to the internal arrays.
-     * Modifying these arrays will change the matrix. Use with caution.
+     * <p>This enables operations that need a global view of all matrix elements (e.g., sorting all
+     * elements across the entire matrix). The operation receives a temporary flattened copy; after
+     * the operation completes, the modified values are written back into the matrix row by row.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * matrix.applyOnFlattened(row -> {
-     *     // Process each row array directly
-     *     java.util.Arrays.sort(row);
-     * });
-     * // Matrix rows are now sorted
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{5, 3}, {4, 1}});
+     * matrix.applyOnFlattened(arr -> java.util.Arrays.sort(arr));
+     * // matrix is now [[1, 3], [4, 5]] (all elements sorted globally, then placed back row by row)
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation
-     * @param action the operation to apply to each row's internal array
+     * @param action the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(byte[][], Throwables.Consumer)
      */

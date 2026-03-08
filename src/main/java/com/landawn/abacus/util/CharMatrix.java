@@ -297,7 +297,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero (the null character '\u0000'). If both arrays are provided, they must have the same length.
      * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
-     * If both diagonals are provided, they must have the same length.
+     * When both diagonals are provided and they overlap (at the center element of odd-sized matrices),
+     * the main diagonal value takes precedence.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -783,7 +784,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -1754,8 +1755,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //          ['a', 'a', 'a', 'b', 'b', 'b']]
      * }</pre>
      *
-     * @param rowRepeats number of times to repeat each row
-     * @param columnRepeats number of times to repeat each column
+     * @param rowRepeats the number of times to repeat each element in the row direction
+     * @param columnRepeats the number of times to repeat each element in the column direction
      * @return a new CharMatrix with repeated elements
      * @throws IllegalArgumentException if rowRepeats or columnRepeats is not positive
      * @see IntMatrix#repeatElements(int, int)
@@ -1872,22 +1873,22 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Applies an operation to each row array of the matrix.
-     * The operation receives the internal row arrays directly and can modify them.
-     * This is useful for bulk operations that need to work with complete rows.
+     * Flattens all elements of this matrix into a single one-dimensional array, applies the given
+     * operation to that flattened array, and then copies the modified elements back into the matrix.
      *
-     * <p><b>Note:</b> The operation receives references to internal arrays.
-     * Any modifications will directly affect the matrix.
+     * <p>This enables operations that need a global view of all matrix elements (e.g., sorting all
+     * elements across the entire matrix). The operation receives a temporary flattened copy; after
+     * the operation completes, the modified values are written back into the matrix row by row.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.applyOnFlattened(row -> java.util.Arrays.sort(row));
-     * // Each row is now sorted
+     * CharMatrix matrix = CharMatrix.of(new char[][] {{'d', 'b'}, {'c', 'a'}});
+     * matrix.applyOnFlattened(arr -> java.util.Arrays.sort(arr));
+     * // matrix is now [['a', 'b'], ['c', 'd']] (all elements sorted globally, then placed back row by row)
      * }</pre>
      *
      * @param <E> the exception type that the operation may throw
-     * @param action the operation to perform on each row array
+     * @param action the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      * @see Arrays#applyOnFlattened(char[][], Throwables.Consumer)
      */
