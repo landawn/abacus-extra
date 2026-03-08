@@ -258,7 +258,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
+     * Creates a square matrix from the specified main diagonal elements (upper-left to lower-right).
      * All other elements are set to zero. The resulting matrix has dimensions n×n where n is the length
      * of the diagonal array.
      *
@@ -751,7 +751,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a copy of the main diagonal elements from left-up to right-down.
+     * Returns a copy of the main diagonal elements from upper-left to lower-right.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -778,7 +778,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
+     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -805,7 +805,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all elements on the main diagonal (left-up to right-down) by applying the given operator.
+     * Updates all elements on the main diagonal (upper-left to lower-right) by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -2349,7 +2349,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a stream of elements on the main diagonal (left-up to right-down).
+     * Returns a stream of elements on the main diagonal (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount) for this operation.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -3151,4 +3151,3 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return N.deepToString(a);
     }
 }
-

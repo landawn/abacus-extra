@@ -848,7 +848,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
+     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -3180,4 +3180,3 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return N.deepToString(a);
     }
 }
-

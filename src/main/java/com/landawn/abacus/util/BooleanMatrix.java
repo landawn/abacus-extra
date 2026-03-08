@@ -167,7 +167,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
+     * Creates a square matrix from the specified main diagonal elements (upper-left to lower-right).
      * All other elements are set to false.
      *
      * <p><b>Usage Examples:</b></p>
@@ -678,7 +678,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns a copy of the main diagonal elements (left-up to right-down).
+     * Returns a copy of the main diagonal elements (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -710,7 +710,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
+     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -741,7 +741,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
+     * Updates the values on the main diagonal (upper-left to lower-right) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2314,7 +2314,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns a stream of Boolean values from the main diagonal (left-up to right-down).
+     * Returns a stream of Boolean values from the main diagonal (upper-left to lower-right).
      * The matrix must be square (same number of rows and columns).
      * 
      * <p>This method streams the diagonal elements starting from position (0,0) and
@@ -3238,4 +3238,3 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return N.deepToString(a);
     }
 }
-

@@ -85,4 +85,3 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
         return Optional.of((TP) this);
     }
 }
-

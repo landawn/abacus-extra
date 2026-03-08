@@ -32,11 +32,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     protected volatile boolean[] elements;
 
     /**
-     * Constructor for subclasses.
-     * <p>
-     * This constructor is protected to prevent direct instantiation of the abstract class.
-     * Subclasses should use this constructor to initialize their instances.
-     * </p>
+     * Protected constructor for subclass instantiation. This constructor is not intended for direct use.
+     * Use the static factory methods such as {@link #of(boolean)} to create tuple instances.
      */
     protected BooleanTuple() {
     }
@@ -2147,4 +2144,3 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
 }
-

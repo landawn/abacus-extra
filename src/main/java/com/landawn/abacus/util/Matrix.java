@@ -165,10 +165,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Creates a square diagonal matrix with the given values on the main diagonal (left-up to right-down).
+     * Creates a square diagonal matrix with the given values on the main diagonal (upper-left to lower-right).
      * All other elements are null. The matrix dimension is determined by the length of the diagonal array.
      *
-     * <p>LU2RD stands for Left-Up to Right-Down diagonal. The resulting matrix is always square
+     * <p>LU2RD stands for Upper-Left to Lower-Right diagonal. The resulting matrix is always square
      * with size n×n where n is the length of the diagonal array.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -231,7 +231,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Creates a square matrix with values on both diagonals.
-     * The main diagonal runs from left-up to right-down, and the anti-diagonal
+     * The main diagonal runs from upper-left to lower-right, and the anti-diagonal
      * runs from upper-right to lower-left. If diagonals intersect (odd dimension),
      * the main diagonal value takes precedence. At least one diagonal must be non-null,
      * and two non-empty diagonals must have the same length.
@@ -877,7 +877,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Gets the main diagonal elements (left-up to right-down).
+     * Gets the main diagonal elements (upper-left to lower-right).
      * The matrix must be square (same number of rows and columns).
      * Returns a new array containing the diagonal values, modifications to which
      * will not affect the matrix.
@@ -904,7 +904,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
+     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -933,7 +933,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Updates the main diagonal elements (left-up to right-down) by applying the given operator.
+     * Updates the main diagonal elements (upper-left to lower-right) by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * Each diagonal element is replaced by the result of the operator.
      * The matrix is modified in-place.
@@ -2546,7 +2546,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Returns a stream of elements on the main diagonal (left-up to right-down).
+     * Returns a stream of elements on the main diagonal (upper-left to lower-right).
      * The matrix must be square (same number of rows and columns).
      *
      * <p><b>Usage Examples:</b></p>
@@ -3414,4 +3414,3 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         return N.deepToString(a);
     }
 }
-

@@ -54,7 +54,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @param _1 the float value to wrap in a tuple
-     * @return a new FloatTuple.FloatTuple1 containing the provided value
+     * @return a new FloatTuple.FloatTuple1 containing the specified value
      */
     public static FloatTuple1 of(final float _1) {
         return new FloatTuple1(_1);
@@ -72,7 +72,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @param _1 the first float value
      * @param _2 the second float value
-     * @return a new FloatTuple.FloatTuple2 containing the provided values
+     * @return a new FloatTuple.FloatTuple2 containing the specified values
      */
     public static FloatTuple2 of(final float _1, final float _2) {
         return new FloatTuple2(_1, _2);
@@ -90,7 +90,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _1 the first float value
      * @param _2 the second float value
      * @param _3 the third float value
-     * @return a new FloatTuple.FloatTuple3 containing the provided values
+     * @return a new FloatTuple.FloatTuple3 containing the specified values
      */
     public static FloatTuple3 of(final float _1, final float _2, final float _3) {
         return new FloatTuple3(_1, _2, _3);
@@ -109,7 +109,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _2 the second float value
      * @param _3 the third float value
      * @param _4 the fourth float value
-     * @return a new FloatTuple.FloatTuple4 containing the provided values
+     * @return a new FloatTuple.FloatTuple4 containing the specified values
      */
     public static FloatTuple4 of(final float _1, final float _2, final float _3, final float _4) {
         return new FloatTuple4(_1, _2, _3, _4);
@@ -129,7 +129,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _3 the third float value
      * @param _4 the fourth float value
      * @param _5 the fifth float value
-     * @return a new FloatTuple.FloatTuple5 containing the provided values
+     * @return a new FloatTuple.FloatTuple5 containing the specified values
      */
     public static FloatTuple5 of(final float _1, final float _2, final float _3, final float _4, final float _5) {
         return new FloatTuple5(_1, _2, _3, _4, _5);
@@ -150,7 +150,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _4 the fourth float value
      * @param _5 the fifth float value
      * @param _6 the sixth float value
-     * @return a new FloatTuple.FloatTuple6 containing the provided values
+     * @return a new FloatTuple.FloatTuple6 containing the specified values
      */
     public static FloatTuple6 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6) {
         return new FloatTuple6(_1, _2, _3, _4, _5, _6);
@@ -172,7 +172,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _5 the fifth float value
      * @param _6 the sixth float value
      * @param _7 the seventh float value
-     * @return a new FloatTuple.FloatTuple7 containing the provided values
+     * @return a new FloatTuple.FloatTuple7 containing the specified values
      */
     public static FloatTuple7 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7) {
         return new FloatTuple7(_1, _2, _3, _4, _5, _6, _7);
@@ -195,7 +195,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _6 the sixth float value
      * @param _7 the seventh float value
      * @param _8 the eighth float value
-     * @return a new FloatTuple.FloatTuple8 containing the provided values
+     * @return a new FloatTuple.FloatTuple8 containing the specified values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more float values
      */
     @Deprecated
@@ -222,7 +222,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _7 the seventh float value
      * @param _8 the eighth float value
      * @param _9 the ninth float value
-     * @return a new FloatTuple.FloatTuple9 containing the provided values
+     * @return a new FloatTuple.FloatTuple9 containing the specified values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more float values
      */
     @Deprecated
@@ -2632,4 +2632,3 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
 }
-

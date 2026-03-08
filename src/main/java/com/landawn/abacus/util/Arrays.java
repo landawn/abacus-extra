@@ -12574,7 +12574,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a two-dimensional array of chars to a two-dimensional array of integers by casting.
+     * Converts a two-dimensional array of chars to a two-dimensional array of integers by widening.
      * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
@@ -12604,7 +12604,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a three-dimensional array of chars to a three-dimensional array of integers by casting.
+     * Converts a three-dimensional array of chars to a three-dimensional array of integers by widening.
      * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
@@ -16852,4 +16852,3 @@ public sealed class Arrays permits Arrays.f {
         }
     }
 }
-

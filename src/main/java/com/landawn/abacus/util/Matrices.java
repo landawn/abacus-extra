@@ -192,7 +192,7 @@ public final class Matrices {
      * // Returns true only if settings allow and count >= 8192
      * }</pre>
      *
-     * @param x the matrix being evaluated (reserved for future extensibility, currently not used in the decision logic)
+     * @param x the matrix being evaluated (not used in the parallelization decision, but validated for non-null)
      * @param count the number of elements to process; typically the total element count or a subset being operated on
      * @return {@code true} if parallel processing should be used; {@code false} for sequential processing
      * @throws IllegalArgumentException if {@code x} is {@code null}
@@ -3154,4 +3154,3 @@ public final class Matrices {
         N.checkArgument(isSameShape(c), "Cannot zip matrices with different shapes");
     }
 }
-

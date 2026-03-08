@@ -250,7 +250,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
+     * Creates a square matrix from the specified main diagonal elements (upper-left to lower-right).
      * All other elements (off-diagonal) are set to zero (the null character '\u0000'). The matrix size is n×n where n is the length
      * of the diagonal array. The main diagonal runs from top-left to bottom-right.
      *
@@ -757,7 +757,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a copy of the main diagonal elements (left-up to right-down).
+     * Returns a copy of the main diagonal elements (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -784,7 +784,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
+     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -813,7 +813,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
+     * Updates the values on the main diagonal (upper-left to lower-right) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2294,7 +2294,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a stream of elements on the diagonal from left-up to right-down.
+     * Returns a stream of elements on the diagonal from upper-left to lower-right.
      * The matrix must be square (same number of rows and columns).
      * 
      * <p><b>Usage Examples:</b></p>
@@ -3056,4 +3056,3 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return N.deepToString(a);
     }
 }
-

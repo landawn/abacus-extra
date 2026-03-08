@@ -49,9 +49,6 @@ public final class Points {
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class xy { // NOSONAR
 
-        /**
-         * Instantiates a new xy.
-         */
         private xy() {
             // utility class.
         }
@@ -939,9 +936,6 @@ public final class Points {
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class xyz { // NOSONAR
 
-        /**
-         * Instantiates a new xyz.
-         */
         private xyz() {
             // utility class.
         }
@@ -1869,4 +1863,3 @@ public final class Points {
         }
     }
 }
-

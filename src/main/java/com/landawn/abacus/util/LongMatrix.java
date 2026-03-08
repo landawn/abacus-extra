@@ -826,7 +826,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
+     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -3176,4 +3176,3 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return N.deepToString(a);
     }
 }
-

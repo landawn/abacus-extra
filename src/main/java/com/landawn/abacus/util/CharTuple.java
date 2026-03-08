@@ -34,11 +34,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     protected volatile char[] elements;
 
     /**
-     * Constructor for subclasses.
-     * <p>
-     * This constructor is protected to prevent direct instantiation of the abstract class.
-     * Subclasses should use this constructor to initialize their instances.
-     * </p>
+     * Protected constructor for subclass instantiation. This constructor is not intended for direct use.
+     * Use the static factory methods such as {@link #of(char)} to create tuple instances.
      */
     protected CharTuple() {
     }
@@ -2926,4 +2923,3 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
 }
-

@@ -1177,11 +1177,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Returns a stream of points along the main diagonal (left-up to right-down).
+     * Returns a stream of points along the main diagonal (upper-left to lower-right).
      * The main diagonal consists of elements where row index equals column index.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
-     * <p>LU2RD = Left-Up to Right-Down diagonal.</p>
+     * <p>LU2RD = Upper-Left to Lower-Right diagonal.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1201,11 +1201,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Returns a stream of points along the anti-diagonal (right-up to left-down).
+     * Returns a stream of points along the anti-diagonal (upper-right to lower-left).
      * The anti-diagonal consists of elements where row index + column index equals (columnCount - 1).
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
-     * <p>RU2LD = Right-Up to Left-Down diagonal.</p>
+     * <p>RU2LD = Upper-Right to Lower-Left diagonal.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1467,11 +1467,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Returns a stream of elements along the main diagonal (left-up to right-down).
+     * Returns a stream of elements along the main diagonal (upper-left to lower-right).
      * The main diagonal consists of elements where row index equals column index.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
-     * <p>LU2RD = Left-Up to Right-Down diagonal.</p>
+     * <p>LU2RD = Upper-Left to Lower-Right diagonal.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1486,11 +1486,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public abstract ES streamMainDiagonal();
 
     /**
-     * Returns a stream of elements along the anti-diagonal (right-up to left-down).
+     * Returns a stream of elements along the anti-diagonal (upper-right to lower-left).
      * The anti-diagonal consists of elements where row index + column index equals (columnCount - 1).
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
-     * <p>RU2LD = Right-Up to Left-Down diagonal.</p>
+     * <p>RU2LD = Upper-Right to Lower-Left diagonal.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1825,4 +1825,3 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
 }
-

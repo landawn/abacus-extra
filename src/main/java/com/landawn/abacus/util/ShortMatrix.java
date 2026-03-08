@@ -259,8 +259,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
-     * All other elements are set to zero.
+     * Creates a square matrix from the specified main diagonal elements (upper-left to lower-right).
+     * All other elements are set to zero. The resulting matrix has dimensions n×n where n is the length
+     * of the diagonal array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -280,7 +281,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Creates a square matrix from the specified anti-diagonal elements (upper-right to lower-left).
-     * All other elements are set to zero.
+     * All other elements are set to zero. The matrix size is n×n where n is the length
+     * of the diagonal array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -349,7 +351,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Converts a boxed {@code Matrix<Short>} to a primitive {@code ShortMatrix}.
-     * This method unboxes all {@code Short} wrapper objects to primitive {@code short} values for more efficient
+     * Null values in the input matrix are converted to {@code 0}.
+     *
+     * <p>This method unboxes all {@code Short} wrapper objects to primitive {@code short} values for more efficient
      * storage and operations. This is particularly beneficial when working with large matrices, as primitive
      * arrays have less memory overhead and better cache locality than arrays of wrapper objects.
      *
@@ -745,7 +749,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns a copy of the main diagonal elements (left-up to right-down).
+     * Returns a copy of the main diagonal elements (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -772,7 +776,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the elements on the main diagonal from left-up to right-down (main diagonal).
+     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -799,7 +803,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Updates all elements on the main diagonal from left-up to right-down by applying the given operator.
+     * Updates all elements on the main diagonal from upper-left to lower-right by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -2307,7 +2311,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns a stream of elements on the main diagonal from left-up to right-down.
+     * Returns a stream of elements on the main diagonal from upper-left to lower-right.
      *
      * <p>The matrix must be square (same number of rows and columns). The stream contains elements
      * at positions (0,0), (1,1), (2,2), ..., (n-1,n-1) where n is the matrix dimension.
@@ -2322,7 +2326,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Stream contains: 1, 5, 9
      * }</pre>
      *
-     * @return a ShortStream of diagonal elements from left-up to right-down
+     * @return a ShortStream of diagonal elements from upper-left to lower-right
      * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     @Override
@@ -3086,4 +3090,3 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return N.deepToString(a);
     }
 }
-

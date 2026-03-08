@@ -2627,4 +2627,3 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
 }
-
