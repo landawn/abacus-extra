@@ -21,33 +21,12 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.DoubleStream;
 
 /**
- * Abstract base class for immutable tuple implementations that hold primitive double values.
- * <p>
- * This class provides common functionality for double-based tuples of various sizes (0 to 9 elements).
- * DoubleTuple is designed to be a lightweight, type-safe container for multiple double values
- * that can be used as a composite key, return multiple values from a method, or group related
- * double values together. All double tuple implementations extend this class and are immutable by design.
- * </p>
+ * Base class for immutable tuples of primitive {@code double} values.
  *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Creating tuples
- * DoubleTuple.DoubleTuple1 single = DoubleTuple.of(3.14);
- * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
- * DoubleTuple.DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
+ * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
+ * functional helper methods.</p>
  *
- * // Using statistical operations
- * double min = triple.min();   // 1.0
- * double max = triple.max();   // 3.0
- * double avg = triple.average();   // 2.0
- *
- * // Using functional operations
- * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
- * double product = triple.map((a, b, c) -> a * b * c);   // 6.0
- * }</pre>
- *
- * @param <TP> The specific DoubleTuple subtype for fluent method chaining
- * @see PrimitiveTuple
+ * @param <TP> the specific DoubleTuple subtype
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
@@ -2650,3 +2629,4 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
 }
+

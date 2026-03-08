@@ -18,30 +18,18 @@ import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.stream.IntStream;
 
 /**
- * An immutable wrapper for primitive int arrays that provides a read-only view of the underlying array.
- * This class is useful when you need to expose an int array without allowing modifications,
- * preventing accidental mutations through this wrapper. For thread-safe publication, prefer {@link #copyOf(int[])} or ensure the backing array is not modified externally.
- * 
- * <p>This class provides two factory methods:</p>
- * <ul>
- *   <li>{@link #unsafeWrap(int[])} - Creates an unsafe wrapper around the provided array (no copy)</li>
- *   <li>{@link #copyOf(int[])} - Creates a wrapper around a defensive copy of the array</li>
- * </ul>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * int[] data = {1, 2, 3, 4, 5};
- * ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
- * int value = immutable.get(2);   // returns 3
- * }</pre>
- * 
+ * Read-only wrapper around an {@code int[]}.
+ *
+ * <p>{@link #unsafeWrap(int[])} keeps the supplied array as backing storage, while
+ * {@link #copyOf(int[])} makes a defensive copy. Use {@code copyOf} when the source array may be modified
+ * elsewhere.</p>
  */
 @Beta
 public final class ImmutableIntArray implements Immutable {
     private final int length;
 
     /**
-     * The underlying int array storage. This field is private to ensure immutability.
+     * Backing storage for this wrapper.
      */
     private final int[] elements;
 
@@ -452,3 +440,4 @@ public final class ImmutableIntArray implements Immutable {
         return N.toString(elements);
     }
 }
+

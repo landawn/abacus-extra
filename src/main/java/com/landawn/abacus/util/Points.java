@@ -19,34 +19,10 @@ package com.landawn.abacus.util;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- * Utility class containing point classes for two-dimensional and three-dimensional coordinate systems.
- * This class provides immutable point implementations with value storage for various coordinate
- * types and use cases in geometric computations, matrix operations, and spatial data structures.
+ * Namespace for small immutable point records used by matrix and geometry helpers.
  *
- * <p>The Points class contains:</p>
- * <ul>
- *   <li>{@code xy} - two-dimensional coordinate point implementations with associated values (x, y, v)</li>
- *   <li>{@code xyz} - three-dimensional coordinate point implementations with associated values (x, y, z, v)</li>
- * </ul>
- *
- * <p>Both nested classes provide point implementations for different primitive types
- * (byte, int, long, double) to optimize memory usage and performance for specific use cases.</p>
- *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Create a two-dimensional integer point with value
- * Points.xy.IntIntPoint point2D = Points.xy.IntIntPoint.of(10, 20, 100);
- * int x = point2D.x();      // 10
- * int y = point2D.y();      // 20
- * int value = point2D.v();  // 100
- *
- * // Create a three-dimensional integer point with value
- * Points.xyz.IntIntPoint point3D = Points.xyz.IntIntPoint.of(10, 20, 30, 100);
- * int x3 = point3D.x();     // 10
- * int y3 = point3D.y();     // 20
- * int z3 = point3D.z();     // 30
- * int value3 = point3D.v(); // 100
- * }</pre>
+ * <p>{@link xy} contains two-dimensional point/value records and {@link xyz} contains three-dimensional
+ * variants, each specialized for several primitive coordinate and value types.</p>
  */
 public final class Points {
 
@@ -1893,3 +1869,4 @@ public final class Points {
         }
     }
 }
+

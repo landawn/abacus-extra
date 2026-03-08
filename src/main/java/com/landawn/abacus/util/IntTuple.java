@@ -21,29 +21,12 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.IntStream;
 
 /**
- * Abstract base class for immutable tuple implementations that hold primitive int values.
- * <p>
- * This class provides common functionality for int-based tuples of various sizes (0 to 9 elements).
- * IntTuple is designed to be a lightweight, type-safe container for multiple int values
- * that can be used as a composite key, return multiple values from a method, or group related
- * int values together. All int tuple implementations extend this class and are immutable by design.
- * </p>
+ * Base class for immutable tuples of primitive {@code int} values.
  *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Creating tuples
- * IntTuple.IntTuple1 single = IntTuple.of(42);
- * IntTuple.IntTuple2 pair = IntTuple.of(1, 2);
- * IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
- *
- * // Using statistical operations
- * int min = triple.min();         // 1
- * int max = triple.max();         // 3
- * double avg = triple.average();  // 2.0
- * }</pre>
+ * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
+ * functional helper methods.</p>
  *
  * @param <TP> the specific IntTuple subtype
- * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
@@ -2604,3 +2587,4 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
 }
+

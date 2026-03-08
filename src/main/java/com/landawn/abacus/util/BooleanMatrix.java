@@ -26,21 +26,11 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Matrix implementation for primitive {@code boolean} values.
+ * Matrix implementation backed by a {@code boolean[][]}.
  *
- * <p>This class is backed by a {@code boolean[][]} and provides matrix-style operations such as
- * indexing, traversal, reshaping, transformation, and conversion while avoiding boxing overhead.
- * Factory methods and constructors wrap the provided array directly unless explicitly documented otherwise.</p>
- *
- * @see AbstractMatrix
- * @see ByteMatrix
- * @see CharMatrix
- * @see ShortMatrix
- * @see IntMatrix
- * @see LongMatrix
- * @see FloatMatrix
- * @see DoubleMatrix
- * @see Matrix
+ * <p>It provides boolean-specific accessors and transformations while sharing the common matrix operations
+ * defined by {@link AbstractMatrix}. Construction and factory methods typically wrap the supplied array
+ * directly unless their documentation states otherwise.</p>
  */
 public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, Stream<Boolean>, Stream<Stream<Boolean>>, BooleanMatrix> {
 
@@ -221,8 +211,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to false. If both arrays are provided, they must have the same length.
-     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
-     * (or the maximum length if both are provided).
+     * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
+     * If both diagonals are provided, they must have the same length.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3243,3 +3233,4 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return N.deepToString(a);
     }
 }
+

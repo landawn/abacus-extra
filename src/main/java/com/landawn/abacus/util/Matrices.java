@@ -25,29 +25,10 @@ import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Utility class providing static methods for matrix operations, parallel processing control,
- * and matrix manipulation functions. This class serves as a central point for matrix-related
- * utilities including shape validation, element-wise operations, and matrix transformations.
- * 
- * <p>The class supports parallel processing for large matrices and provides various utility
- * methods for working with different matrix types (ByteMatrix, IntMatrix, LongMatrix, 
- * DoubleMatrix, and generic Matrix).</p>
- * 
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Check if two matrices have the same shape
- * boolean same = Matrices.isSameShape(matrixA, matrixB);
- * 
- * // Enable parallel processing
- * Matrices.setParallelMode(ParallelMode.FORCE_ON);
- * 
- * // Zip two matrices with a custom function
- * IntMatrix result = Matrices.zip(matrix1, matrix2, (a, b) -> a + b);
- * }</pre>
- * 
- * @see AbstractMatrix
- * @see Matrix
- * @see ParallelMode
+ * Utility methods shared by the matrix implementations in this package.
+ *
+ * <p>This class owns the thread-local parallel-execution setting and provides helpers for shape checks,
+ * index traversal, matrix-array allocation, and zipping compatible matrices.</p>
  */
 public final class Matrices {
 
@@ -3173,3 +3154,4 @@ public final class Matrices {
         N.checkArgument(isSameShape(c), "Cannot zip matrices with different shapes");
     }
 }
+

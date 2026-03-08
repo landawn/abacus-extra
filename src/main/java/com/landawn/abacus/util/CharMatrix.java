@@ -28,21 +28,11 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Matrix implementation for primitive {@code char} values.
+ * Matrix implementation backed by a {@code char[][]}.
  *
- * <p>This class is backed by a {@code char[][]} and provides matrix operations such as
- * indexing, mutation, reshaping, transformation, and streaming over rows, columns, and diagonals.
- * The provided input array is wrapped directly unless a method documents defensive copying.</p>
- *
- * @see AbstractMatrix
- * @see BooleanMatrix
- * @see ByteMatrix
- * @see ShortMatrix
- * @see IntMatrix
- * @see LongMatrix
- * @see FloatMatrix
- * @see DoubleMatrix
- * @see Matrix
+ * <p>It provides char-specific accessors and transformations while sharing the common matrix operations
+ * defined by {@link AbstractMatrix}. Construction and factory methods typically wrap the supplied array
+ * directly unless their documentation states otherwise.</p>
  */
 public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStream, Stream<CharStream>, CharMatrix> {
 
@@ -306,8 +296,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero (the null character '\u0000'). If both arrays are provided, they must have the same length.
-     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
-     * (or the maximum length if both are provided).
+     * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
+     * If both diagonals are provided, they must have the same length.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3065,3 +3055,4 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return N.deepToString(a);
     }
 }
+

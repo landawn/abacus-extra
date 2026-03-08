@@ -28,21 +28,11 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Matrix implementation for primitive {@code int} values.
+ * Matrix implementation backed by a {@code int[][]}.
  *
- * <p>This class is backed by a {@code int[][]} and provides a rich set of matrix operations,
- * including indexing, mutation, reshaping, transformation, diagonal utilities, and stream-based traversal.
- * Construction and factory methods typically wrap the provided array directly to avoid copy overhead.</p>
- *
- * @see AbstractMatrix
- * @see BooleanMatrix
- * @see ByteMatrix
- * @see CharMatrix
- * @see ShortMatrix
- * @see LongMatrix
- * @see FloatMatrix
- * @see DoubleMatrix
- * @see Matrix
+ * <p>It provides int-specific accessors and transformations while sharing the common matrix operations
+ * defined by {@link AbstractMatrix}. Construction and factory methods typically wrap the supplied array
+ * directly unless their documentation states otherwise.</p>
  */
 public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, Stream<IntStream>, IntMatrix> {
 
@@ -103,7 +93,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates an IntMatrix from a two-dimensional char array by converting char values to int (using their ASCII/Unicode values).
+     * Creates an IntMatrix from a two-dimensional char array by converting each {@code char} to its numeric value.
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
@@ -436,8 +426,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
-     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
-     * (or the maximum length if both are provided).
+     * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
+     * If both diagonals are provided, they must have the same length.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3284,3 +3274,4 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return N.deepToString(a);
     }
 }
+

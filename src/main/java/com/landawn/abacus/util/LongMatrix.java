@@ -28,21 +28,11 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Matrix implementation for primitive {@code long} values.
+ * Matrix implementation backed by a {@code long[][]}.
  *
- * <p>This class stores data in a {@code long[][]} and provides matrix operations such as
- * element access, update, transformation, reshaping, and stream traversal.
- * For performance, input arrays are wrapped directly unless an API contract states otherwise.</p>
- *
- * @see AbstractMatrix
- * @see BooleanMatrix
- * @see ByteMatrix
- * @see CharMatrix
- * @see ShortMatrix
- * @see IntMatrix
- * @see FloatMatrix
- * @see DoubleMatrix
- * @see Matrix
+ * <p>It provides long-specific accessors and transformations while sharing the common matrix operations
+ * defined by {@link AbstractMatrix}. Construction and factory methods typically wrap the supplied array
+ * directly unless their documentation states otherwise.</p>
  */
 public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStream, Stream<LongStream>, LongMatrix> {
 
@@ -353,8 +343,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
-     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
-     * (or the maximum length if both are provided).
+     * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
+     * If both diagonals are provided, they must have the same length.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3184,3 +3174,4 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return N.deepToString(a);
     }
 }
+

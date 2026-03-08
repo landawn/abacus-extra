@@ -21,29 +21,12 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ShortStream;
 
 /**
- * Abstract base class for immutable tuple implementations that hold primitive short values.
- * <p>
- * This class provides common functionality for short-based tuples of various sizes (0 to 9 elements).
- * ShortTuple is designed to be a lightweight, type-safe container for multiple short values
- * that can be used as a composite key, return multiple values from a method, or group related
- * short values together. All short tuple implementations extend this class and are immutable by design.
- * </p>
+ * Base class for immutable tuples of primitive {@code short} values.
  *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Creating tuples
- * ShortTuple.ShortTuple1 single = ShortTuple.of((short) 42);
- * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 1, (short) 2);
- * ShortTuple.ShortTuple3 triple = ShortTuple.of((short) 1, (short) 2, (short) 3);
- *
- * // Using statistical operations
- * short min = triple.min();         // 1
- * short max = triple.max();         // 3
- * double avg = triple.average();    // 2.0
- * }</pre>
+ * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
+ * functional helper methods.</p>
  *
  * @param <TP> the specific ShortTuple subtype
- * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {
@@ -2607,3 +2590,4 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
 }
+

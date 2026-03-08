@@ -28,21 +28,11 @@ import com.landawn.abacus.util.stream.ShortStream;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Matrix implementation for primitive {@code short} values.
+ * Matrix implementation backed by a {@code short[][]}.
  *
- * <p>This class is backed by a {@code short[][]} and supports matrix operations such as
- * element access, transformation, reshaping, extension, and stream-based traversal.
- * Arrays passed to constructors and factory methods are wrapped directly for performance.</p>
- *
- * @see AbstractMatrix
- * @see BooleanMatrix
- * @see ByteMatrix
- * @see CharMatrix
- * @see IntMatrix
- * @see LongMatrix
- * @see FloatMatrix
- * @see DoubleMatrix
- * @see Matrix
+ * <p>It provides short-specific accessors and transformations while sharing the common matrix operations
+ * defined by {@link AbstractMatrix}. Construction and factory methods typically wrap the supplied array
+ * directly unless their documentation states otherwise.</p>
  */
 public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortStream, Stream<ShortStream>, ShortMatrix> {
 
@@ -311,8 +301,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
-     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
-     * (or the maximum length if both are provided).
+     * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
+     * If both diagonals are provided, they must have the same length.
      * When both diagonals are provided and they overlap (at the center element of odd-sized matrices),
      * the main diagonal value takes precedence.
      *
@@ -3097,3 +3087,4 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return N.deepToString(a);
     }
 }
+

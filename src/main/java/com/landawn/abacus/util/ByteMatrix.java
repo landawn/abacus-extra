@@ -28,21 +28,11 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Matrix implementation for primitive {@code byte} values.
+ * Matrix implementation backed by a {@code byte[][]}.
  *
- * <p>This class is backed by a {@code byte[][]} and provides matrix-style operations including
- * element access, updates, transformations, reshaping, and stream-oriented traversal.
- * Input arrays are wrapped directly for performance unless a method explicitly creates a copy.</p>
- *
- * @see AbstractMatrix
- * @see BooleanMatrix
- * @see CharMatrix
- * @see ShortMatrix
- * @see IntMatrix
- * @see LongMatrix
- * @see FloatMatrix
- * @see DoubleMatrix
- * @see Matrix
+ * <p>It provides byte-specific accessors and transformations while sharing the common matrix operations
+ * defined by {@link AbstractMatrix}. Construction and factory methods typically wrap the supplied array
+ * directly unless their documentation states otherwise.</p>
  */
 public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStream, Stream<ByteStream>, ByteMatrix> {
 
@@ -310,8 +300,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
-     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
-     * (or the maximum length if both are provided).
+     * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
+     * If both diagonals are provided, they must have the same length.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3166,3 +3156,4 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return N.deepToString(a);
     }
 }
+

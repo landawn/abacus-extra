@@ -21,33 +21,12 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ByteStream;
 
 /**
- * Abstract base class for immutable tuple implementations that hold primitive byte values.
- * <p>
- * This class provides common functionality for byte-based tuples of various sizes (0 to 9 elements).
- * ByteTuple is designed to be a lightweight, type-safe container for multiple byte values
- * that can be used as a composite key, return multiple values from a method, or group related
- * byte values together. All byte tuple implementations extend this class and are immutable by design.
- * </p>
+ * Base class for immutable tuples of primitive {@code byte} values.
  *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Creating tuples
- * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 10);
- * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 10, (byte) 20);
- * ByteTuple.ByteTuple3 triple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
- *
- * // Using statistical operations
- * byte min = triple.min();   // 10
- * byte max = triple.max();   // 30
- * double avg = triple.average();   // 20.0
- *
- * // Using functional operations
- * pair.accept((a, b) -> System.out.println(a + " + " + b));
- * int sum = triple.map((a, b, c) -> a + b + c);
- * }</pre>
+ * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
+ * functional helper methods.</p>
  *
  * @param <TP> the specific ByteTuple subtype
- * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
@@ -2980,3 +2959,4 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
 }
+

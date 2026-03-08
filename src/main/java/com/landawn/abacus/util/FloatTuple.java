@@ -21,33 +21,12 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.FloatStream;
 
 /**
- * Abstract base class for immutable tuple implementations that hold primitive float values.
- * <p>
- * This class provides common functionality for float-based tuples of various sizes (0 to 9 elements).
- * FloatTuple is designed to be a lightweight, type-safe container for multiple float values
- * that can be used as a composite key, return multiple values from a method, or group related
- * float values together. All float tuple implementations extend this class and are immutable by design.
- * </p>
+ * Base class for immutable tuples of primitive {@code float} values.
  *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Creating tuples
- * FloatTuple.FloatTuple1 single = FloatTuple.of(3.14f);
- * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
- * FloatTuple.FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+ * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
+ * functional helper methods.</p>
  *
- * // Using statistical operations
- * float min = triple.min();   // 1.0f
- * float max = triple.max();   // 3.0f
- * double avg = triple.average();   // 2.0
- *
- * // Using functional operations
- * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
- * float product = triple.map((a, b, c) -> a * b * c);   // 6.0f
- * }</pre>
- *
- * @param <TP> The specific FloatTuple subtype for fluent method chaining
- * @see PrimitiveTuple
+ * @param <TP> the specific FloatTuple subtype
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
@@ -2653,3 +2632,4 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
 }
+

@@ -21,29 +21,12 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.LongStream;
 
 /**
- * Abstract base class for immutable tuple implementations that hold primitive long values.
- * <p>
- * This class provides common functionality for long-based tuples of various sizes (0 to 9 elements).
- * LongTuple is designed to be a lightweight, type-safe container for multiple long values
- * that can be used as a composite key, return multiple values from a method, or group related
- * long values together. All long tuple implementations extend this class and are immutable by design.
- * </p>
+ * Base class for immutable tuples of primitive {@code long} values.
  *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Creating tuples
- * LongTuple.LongTuple1 single = LongTuple.of(42L);
- * LongTuple.LongTuple2 pair = LongTuple.of(1L, 2L);
- * LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
- *
- * // Using statistical operations
- * long min = triple.min();         // 1
- * long max = triple.max();         // 3
- * double avg = triple.average();   // 2.0
- * }</pre>
+ * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
+ * functional helper methods.</p>
  *
  * @param <TP> the specific LongTuple subtype
- * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP> {
@@ -2643,3 +2626,4 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
 }
+

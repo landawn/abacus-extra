@@ -31,20 +31,11 @@ import com.landawn.abacus.util.stream.Stream;
 /**
  * Generic object matrix backed by a two-dimensional array.
  *
- * <p>This class supports matrix operations such as indexing, transformation, reshaping,
- * zipping/combination, and stream traversal for arbitrary reference types.
- * Unless explicitly documented otherwise, construction and factory methods wrap the provided backing array.</p>
+ * <p>This type provides the same shape, traversal, and transformation operations as the primitive matrix
+ * variants while storing reference values. Construction and factory methods typically wrap the supplied
+ * backing array directly unless their documentation states otherwise.</p>
  *
- * @param <T> the type of elements in this matrix
- * @see AbstractMatrix
- * @see IntMatrix
- * @see DoubleMatrix
- * @see LongMatrix
- * @see FloatMatrix
- * @see ByteMatrix
- * @see ShortMatrix
- * @see CharMatrix
- * @see BooleanMatrix
+ * @param <T> the element type stored in the matrix
  */
 public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Stream<Stream<T>>, Matrix<T>> {
 
@@ -242,7 +233,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a square matrix with values on both diagonals.
      * The main diagonal runs from left-up to right-down, and the anti-diagonal
      * runs from upper-right to lower-left. If diagonals intersect (odd dimension),
-     * the main diagonal value takes precedence. At least one diagonal must be non-null.
+     * the main diagonal value takes precedence. At least one diagonal must be non-null,
+     * and two non-empty diagonals must have the same length.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3422,3 +3414,4 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         return N.deepToString(a);
     }
 }
+

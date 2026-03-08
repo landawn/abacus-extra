@@ -19,29 +19,12 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Abstract base class for immutable tuple implementations that hold primitive boolean values.
- * <p>
- * This class provides common functionality for boolean-based tuples of various sizes (0 to 9 elements).
- * BooleanTuple is designed to be a lightweight, type-safe container for multiple boolean values
- * that can be used as a composite key, return multiple values from a method, or group related
- * boolean flags together. All boolean tuple implementations extend this class and are immutable by design.
- * </p>
+ * Base class for immutable tuples of primitive {@code boolean} values.
  *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Creating tuples
- * BooleanTuple.BooleanTuple1 single = BooleanTuple.of(true);
- * BooleanTuple.BooleanTuple2 pair = BooleanTuple.of(true, false);
- * BooleanTuple.BooleanTuple3 triple = BooleanTuple.of(true, false, true);
- *
- * // Using functional operations
- * pair.accept((a, b) -> System.out.println(a + " AND " + b));
- * boolean result = triple.map((a, b, c) -> a || b || c);
- * u.Optional<BooleanTuple.BooleanTuple2> filtered = pair.filter((a, b) -> a != b);
- * }</pre>
+ * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
+ * functional helper methods.</p>
  *
  * @param <TP> the specific BooleanTuple subtype
- * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
@@ -2164,3 +2147,4 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
 }
+

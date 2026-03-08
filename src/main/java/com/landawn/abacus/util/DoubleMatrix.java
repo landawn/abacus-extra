@@ -28,21 +28,11 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Matrix implementation for primitive {@code double} values.
+ * Matrix implementation backed by a {@code double[][]}.
  *
- * <p>This class stores matrix data in a {@code double[][]} and supports element access,
- * update, transformation, reshaping, aggregation, and stream-oriented traversal operations.
- * For efficiency, construction and factory APIs wrap input arrays directly unless documented otherwise.</p>
- *
- * @see AbstractMatrix
- * @see BooleanMatrix
- * @see ByteMatrix
- * @see CharMatrix
- * @see ShortMatrix
- * @see IntMatrix
- * @see LongMatrix
- * @see FloatMatrix
- * @see Matrix
+ * <p>It provides double-specific accessors and transformations while sharing the common matrix operations
+ * defined by {@link AbstractMatrix}. Construction and factory methods typically wrap the supplied array
+ * directly unless their documentation states otherwise.</p>
  */
 public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, DoubleStream, Stream<DoubleStream>, DoubleMatrix> {
 
@@ -372,8 +362,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero. If both arrays are provided, they must have the same length.
-     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
-     * (or the maximum length if both are provided).
+     * The resulting matrix has dimensions n×n where n is the length of the non-empty diagonal array.
+     * If both diagonals are provided, they must have the same length.
      *
      * <p><b>Note:</b> The anti-diagonal is written first, then the main diagonal. If both diagonals
      * share a position (which happens for odd-sized matrices at the center element), the main diagonal
@@ -3188,3 +3178,4 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return N.deepToString(a);
     }
 }
+

@@ -21,33 +21,12 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.CharStream;
 
 /**
- * Abstract base class for immutable tuple implementations that hold primitive char values.
- * <p>
- * This class provides common functionality for char-based tuples of various sizes (0 to 9 elements).
- * CharTuple is designed to be a lightweight, type-safe container for multiple char values
- * that can be used as a composite key, return multiple values from a method, or group related
- * char values together. All char tuple implementations extend this class and are immutable by design.
- * </p>
+ * Base class for immutable tuples of primitive {@code char} values.
  *
- * <p><b>Usage Examples:</b></p>
- * <pre>{@code
- * // Creating tuples
- * CharTuple.CharTuple1 single = CharTuple.of('A');
- * CharTuple.CharTuple2 pair = CharTuple.of('A', 'B');
- * CharTuple.CharTuple3 triple = CharTuple.of('A', 'B', 'C');
- *
- * // Using statistical operations
- * char min = triple.min();   // 'A'
- * char max = triple.max();   // 'C'
- * double avg = triple.average();   // 66.0 (average of ASCII values)
- *
- * // Using functional operations
- * pair.accept((a, b) -> System.out.println(a + " and " + b));
- * String combined = triple.map((a, b, c) -> "" + a + b + c);
- * }</pre>
+ * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
+ * functional helper methods.</p>
  *
  * @param <TP> the specific CharTuple subtype
- * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
@@ -2947,3 +2926,4 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
 }
+
