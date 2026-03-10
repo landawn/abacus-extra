@@ -2143,7 +2143,7 @@ public class Matrix2511Test extends TestBase {
     public void testForEach_biConsumer() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         final int[] count = { 0 };
-        m.forEachIndices((i, j) -> count[0]++);
+        m.forEachIndex((i, j) -> count[0]++);
         assertEquals(4, count[0]);
     }
 
@@ -2151,7 +2151,7 @@ public class Matrix2511Test extends TestBase {
     public void testForEach_biObjConsumer() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         final int[] count = { 0 };
-        m.forEachIndices((i, j, matrix) -> count[0]++);
+        m.forEachIndex((i, j, matrix) -> count[0]++);
         assertEquals(4, count[0]);
     }
 

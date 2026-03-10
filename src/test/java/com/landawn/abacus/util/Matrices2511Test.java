@@ -369,7 +369,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_grid_sequential() throws Exception {
         int[][] grid = new int[3][4];
-        Matrices.forEachIndices(3, 4, (i, j) -> {
+        Matrices.forEachIndex(3, 4, (i, j) -> {
             grid[i][j] = i * 4 + j;
         }, false);
 
@@ -382,7 +382,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_grid_sequential_verify_all_cells() throws Exception {
         int[][] grid = new int[5][5];
-        Matrices.forEachIndices(5, 5, (i, j) -> {
+        Matrices.forEachIndex(5, 5, (i, j) -> {
             grid[i][j] = 1;
         }, false);
 
@@ -396,7 +396,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_grid_parallel() throws Exception {
         int[][] grid = new int[10][10];
-        Matrices.forEachIndices(10, 10, (i, j) -> {
+        Matrices.forEachIndex(10, 10, (i, j) -> {
             grid[i][j] = 1;
         }, true);
 
@@ -410,7 +410,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_grid_singleRow() throws Exception {
         int[] row = new int[5];
-        Matrices.forEachIndices(1, 5, (i, j) -> {
+        Matrices.forEachIndex(1, 5, (i, j) -> {
             row[j] = j * 2;
         }, false);
 
@@ -420,7 +420,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_grid_singleColumn() throws Exception {
         int[] col = new int[5];
-        Matrices.forEachIndices(5, 1, (i, j) -> {
+        Matrices.forEachIndex(5, 1, (i, j) -> {
             col[i] = i * 3;
         }, false);
 
@@ -430,7 +430,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_grid_emptyGrid() throws Exception {
         final AtomicInteger count = new AtomicInteger(0);
-        Matrices.forEachIndices(0, 0, (i, j) -> {
+        Matrices.forEachIndex(0, 0, (i, j) -> {
             count.incrementAndGet();
         }, false);
         assertEquals(0, count.get());
@@ -441,7 +441,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_region_sequential() throws Exception {
         int[][] grid = new int[10][10];
-        Matrices.forEachIndices(2, 5, 3, 8, (i, j) -> {
+        Matrices.forEachIndex(2, 5, 3, 8, (i, j) -> {
             grid[i][j] = i * 10 + j;
         }, false);
 
@@ -454,7 +454,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_region_parallel() throws Exception {
         int[][] grid = new int[20][20];
-        Matrices.forEachIndices(5, 15, 5, 15, (i, j) -> {
+        Matrices.forEachIndex(5, 15, 5, 15, (i, j) -> {
             grid[i][j] = 1;
         }, true);
 
@@ -471,7 +471,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_region_singleCell() throws Exception {
         int[][] grid = new int[10][10];
-        Matrices.forEachIndices(5, 6, 5, 6, (i, j) -> {
+        Matrices.forEachIndex(5, 6, 5, 6, (i, j) -> {
             grid[i][j] = 42;
         }, false);
 
@@ -483,7 +483,7 @@ public class Matrices2511Test extends TestBase {
     @Test
     public void testRun_region_fullGrid() throws Exception {
         int[][] grid = new int[5][5];
-        Matrices.forEachIndices(0, 5, 0, 5, (i, j) -> {
+        Matrices.forEachIndex(0, 5, 0, 5, (i, j) -> {
             grid[i][j] = 1;
         }, false);
 

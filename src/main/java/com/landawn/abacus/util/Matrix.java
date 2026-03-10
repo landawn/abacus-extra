@@ -1092,7 +1092,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             a[i][j] = updated;
         };
         // Must be sequential because ensureRowCanStore mutates shared matrix metadata/storage.
-        Matrices.forEachIndices(rowCount, columnCount, operation, false);
+        Matrices.forEachIndex(rowCount, columnCount, operation, false);
     }
 
     /**
@@ -1126,7 +1126,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             a[i][j] = updated;
         };
         // Must be sequential because ensureRowCanStore mutates shared matrix metadata/storage.
-        Matrices.forEachIndices(rowCount, columnCount, operation, false);
+        Matrices.forEachIndex(rowCount, columnCount, operation, false);
     }
 
     /**
@@ -1164,7 +1164,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         };
         // Must be sequential because ensureRowCanStore mutates shared matrix metadata/storage.
-        Matrices.forEachIndices(rowCount, columnCount, operation, false);
+        Matrices.forEachIndex(rowCount, columnCount, operation, false);
     }
 
     /**
@@ -1199,7 +1199,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         };
         // Must be sequential because ensureRowCanStore mutates shared matrix metadata/storage.
-        Matrices.forEachIndices(rowCount, columnCount, operation, false);
+        Matrices.forEachIndex(rowCount, columnCount, operation, false);
     }
 
     /**
@@ -1262,7 +1262,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final R[][] result = Matrices.newMatrixArray(rowCount, columnCount, targetElementType);
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -1293,7 +1293,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final boolean[][] result = new boolean[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsBoolean(a[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return BooleanMatrix.of(result);
     }
@@ -1322,7 +1322,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final byte[][] result = new byte[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsByte(a[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return ByteMatrix.of(result);
     }
@@ -1354,7 +1354,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final char[][] result = new char[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsChar(a[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return CharMatrix.of(result);
     }
@@ -1383,7 +1383,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final short[][] result = new short[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsShort(a[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return ShortMatrix.of(result);
     }
@@ -1413,7 +1413,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final int[][] result = new int[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsInt(a[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return IntMatrix.of(result);
     }
@@ -1442,7 +1442,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final long[][] result = new long[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsLong(a[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return LongMatrix.of(result);
     }
@@ -1471,7 +1471,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final float[][] result = new float[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsFloat(a[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return FloatMatrix.of(result);
     }
@@ -1500,7 +1500,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final double[][] result = new double[rowCount][columnCount];
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsDouble(a[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -1563,23 +1563,22 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix.copyFrom(1, 2, patch);   // Start filling at row 1, column 2
      * }</pre>
      *
-     * @param targetStartRowIndex the target row index (0-based, must be between 0 and rowCount inclusive)
-     * @param targetStartColumnIndex the target column index (0-based, must be between 0 and columnCount inclusive)
+     * @param destRowIndex the target row index (0-based, must be between 0 and rowCount inclusive)
+     * @param destColumnIndex the target column index (0-based, must be between 0 and columnCount inclusive)
      * @param b the source two-dimensional array to copy values from (must not be null)
      * @throws IllegalArgumentException if {@code b} is {@code null}, or if the target indices are negative or exceed matrix dimensions
      */
-    public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final T[][] b) throws IllegalArgumentException {
+    public void copyFrom(final int destRowIndex, final int destColumnIndex, final T[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
-        N.checkArgument(targetStartRowIndex >= 0 && targetStartRowIndex <= rowCount, "targetStartRowIndex({}) must be between 0 and rows({})",
-                targetStartRowIndex, rowCount);
-        N.checkArgument(targetStartColumnIndex >= 0 && targetStartColumnIndex <= columnCount,
-                "targetStartColumnIndex({}) must be between 0 and columnCount({})", targetStartColumnIndex, columnCount);
+        N.checkArgument(destRowIndex >= 0 && destRowIndex <= rowCount, "destRowIndex({}) must be between 0 and rows({})", destRowIndex, rowCount);
+        N.checkArgument(destColumnIndex >= 0 && destColumnIndex <= columnCount, "destColumnIndex({}) must be between 0 and columnCount({})", destColumnIndex,
+                columnCount);
 
-        for (int i = 0, minLen = N.min(rowCount - targetStartRowIndex, b.length); i < minLen; i++) {
+        for (int i = 0, minLen = N.min(rowCount - destRowIndex, b.length); i < minLen; i++) {
             if (b[i] != null) {
-                final int copyLen = N.min(b[i].length, columnCount - targetStartColumnIndex);
-                ensureRowCanStoreAny(i + targetStartRowIndex, b[i], copyLen);
-                N.copy(b[i], 0, a[i + targetStartRowIndex], targetStartColumnIndex, copyLen);
+                final int copyLen = N.min(b[i].length, columnCount - destColumnIndex);
+                ensureRowCanStoreAny(i + destRowIndex, b[i], copyLen);
+                N.copy(b[i], 0, a[i + destRowIndex], destColumnIndex, copyLen);
             }
         }
     }
@@ -2464,7 +2463,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -2540,7 +2539,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
 
-        Matrices.forEachIndices(rowCount, columnCount, operation, Matrices.isParallelizable(this));
+        Matrices.forEachIndex(rowCount, columnCount, operation, Matrices.isParallelizable(this));
 
         return Matrix.of(result);
     }
@@ -3193,7 +3192,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);
-            Matrices.forEachIndices(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+            Matrices.forEachIndex(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 final T[] aa = a[i];

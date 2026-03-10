@@ -881,13 +881,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      *
-     * matrix.forEachIndices((i, j) -> {
+     * matrix.forEachIndex((i, j) -> {
      *     System.out.println("Position: (" + i + "," + j + ")");
      * });
      *
      * // Count elements on the main diagonal
      * AtomicInteger diagonalCount = new AtomicInteger(0);
-     * matrix.forEachIndices((i, j) -> {
+     * matrix.forEachIndex((i, j) -> {
      *     if (i == j) diagonalCount.incrementAndGet();
      * });
      * }</pre>
@@ -897,13 +897,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
-    public <E extends Exception> void forEachIndices(final Throwables.IntBiConsumer<E> action) throws E {
+    public <E extends Exception> void forEachIndex(final Throwables.IntBiConsumer<E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (Matrices.isParallelizable(this)) {
             //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> elementAction = action::accept;
-            Matrices.forEachIndices(rowCount, columnCount, elementAction, true);
+            Matrices.forEachIndex(rowCount, columnCount, elementAction, true);
         } else {
             for (int i = 0; i < rowCount; i++) {
                 for (int j = 0; j < columnCount; j++) {
@@ -926,12 +926,12 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
      * // Process only a 2×2 subregion starting at (1,1)
-     * matrix.forEachIndices(1, 3, 1, 3, (i, j) -> {
+     * matrix.forEachIndex(1, 3, 1, 3, (i, j) -> {
      *     System.out.println("Processing element at (" + i + "," + j + ")");
      * });
      *
      * // Process only the first column
-     * matrix.forEachIndices(0, matrix.rowCount(), 0, 1, (i, j) -> {
+     * matrix.forEachIndex(0, matrix.rowCount(), 0, 1, (i, j) -> {
      *     // Process each element in column 0
      * });
      * }</pre>
@@ -946,7 +946,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
-    public <E extends Exception> void forEachIndices(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+    public <E extends Exception> void forEachIndex(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntBiConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
@@ -955,7 +955,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> elementAction = action::accept;
-            Matrices.forEachIndices(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
+            Matrices.forEachIndex(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {
@@ -977,13 +977,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * matrix.forEachIndices((i, j, m) -> {
+     * matrix.forEachIndex((i, j, m) -> {
      *     int value = m.get(i, j);
      *     System.out.println("Value at (" + i + "," + j + ") is " + value);
      * });
      *
      * // Set each element to the sum of its indices
-     * matrix.forEachIndices((i, j, m) -> m.set(i, j, i + j));
+     * matrix.forEachIndex((i, j, m) -> m.set(i, j, i + j));
      * }</pre>
      *
      * @param <E> the type of exception that the action might throw
@@ -991,13 +991,13 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
-    public <E extends Exception> void forEachIndices(final Throwables.BiIntObjConsumer<X, E> action) throws E {
+    public <E extends Exception> void forEachIndex(final Throwables.BiIntObjConsumer<X, E> action) throws E {
         final X matrix = (X) this;
         N.checkArgNotNull(action, "action");
 
         if (Matrices.isParallelizable(this)) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
-            Matrices.forEachIndices(rowCount, columnCount, elementAction, true);
+            Matrices.forEachIndex(rowCount, columnCount, elementAction, true);
         } else {
             for (int i = 0; i < rowCount; i++) {
                 for (int j = 0; j < columnCount; j++) {
@@ -1020,14 +1020,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}});
      *
-     * matrix.forEachIndices(1, 3, 1, 3, (i, j, m) -> {
+     * matrix.forEachIndex(1, 3, 1, 3, (i, j, m) -> {
      *     // Process only the 2×2 subregion with access to matrix
      *     int value = m.get(i, j);
      *     System.out.println("Value at (" + i + "," + j + "): " + value);
      * });
      *
      * // Update subregion based on neighboring values
-     * matrix.forEachIndices(1, matrix.rowCount() - 1, 1, matrix.columnCount() - 1, (i, j, m) -> {
+     * matrix.forEachIndex(1, matrix.rowCount() - 1, 1, matrix.columnCount() - 1, (i, j, m) -> {
      *     int avg = (m.get(i-1, j) + m.get(i+1, j) + m.get(i, j-1) + m.get(i, j+1)) / 4;
      *     m.set(i, j, avg);
      * });
@@ -1043,7 +1043,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
-    public <E extends Exception> void forEachIndices(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+    public <E extends Exception> void forEachIndex(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.BiIntObjConsumer<X, E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
@@ -1053,7 +1053,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
         if (Matrices.isParallelizable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
-            Matrices.forEachIndices(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
+            Matrices.forEachIndex(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {

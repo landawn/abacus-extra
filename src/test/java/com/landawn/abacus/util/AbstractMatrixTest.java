@@ -303,7 +303,7 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix2x3();
         List<String> positions = new ArrayList<>();
 
-        matrix.forEachIndices((i, j) -> positions.add(i + "," + j));
+        matrix.forEachIndex((i, j) -> positions.add(i + "," + j));
 
         Assertions.assertEquals(6, positions.size());
         Assertions.assertTrue(positions.contains("0,0"));
@@ -315,7 +315,7 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix();
         List<String> positions = new ArrayList<>();
 
-        matrix.forEachIndices(1, 3, 1, 3, (i, j) -> positions.add(i + "," + j));
+        matrix.forEachIndex(1, 3, 1, 3, (i, j) -> positions.add(i + "," + j));
 
         Assertions.assertEquals(4, positions.size());
         Assertions.assertTrue(positions.contains("1,1"));
@@ -329,7 +329,7 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix2x3();
         List<Integer> values = new ArrayList<>();
 
-        matrix.forEachIndices((i, j, m) -> values.add(m.get(i, j)));
+        matrix.forEachIndex((i, j, m) -> values.add(m.get(i, j)));
 
         Assertions.assertEquals(6, values.size());
         Assertions.assertEquals(1, values.get(0));
@@ -341,7 +341,7 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix();
         List<Integer> values = new ArrayList<>();
 
-        matrix.forEachIndices(0, 2, 0, 2, (i, j, m) -> values.add(m.get(i, j)));
+        matrix.forEachIndex(0, 2, 0, 2, (i, j, m) -> values.add(m.get(i, j)));
 
         Assertions.assertEquals(4, values.size());
         Assertions.assertEquals(1, values.get(0));
@@ -354,12 +354,12 @@ public class AbstractMatrixTest extends TestBase {
     public void testForEachNullAction() {
         IntMatrix matrix = createTestMatrix();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEachIndices((Throwables.IntBiConsumer<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEachIndex((Throwables.IntBiConsumer<RuntimeException>) null));
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> matrix.forEachIndices(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.IntBiConsumer<RuntimeException>) null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEachIndices((Throwables.BiIntObjConsumer<IntMatrix, RuntimeException>) null));
+                () -> matrix.forEachIndex(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.IntBiConsumer<RuntimeException>) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.forEachIndex((Throwables.BiIntObjConsumer<IntMatrix, RuntimeException>) null));
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> matrix.forEachIndices(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.BiIntObjConsumer<IntMatrix, RuntimeException>) null));
+                () -> matrix.forEachIndex(0, matrix.rowCount(), 0, matrix.columnCount(), (Throwables.BiIntObjConsumer<IntMatrix, RuntimeException>) null));
     }
 
     @Test

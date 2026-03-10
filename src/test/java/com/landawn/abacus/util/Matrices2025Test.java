@@ -235,7 +235,7 @@ public class Matrices2025Test extends TestBase {
     @Test
     public void testRun_rowsAndCols() {
         List<String> positions = new ArrayList<>();
-        Matrices.forEachIndices(2, 3, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndex(2, 3, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(6, positions.size());
         assertTrue(positions.contains("0,0"));
         assertTrue(positions.contains("1,2"));
@@ -245,7 +245,7 @@ public class Matrices2025Test extends TestBase {
     public void testRun_rowsAndCols_parallel() {
         List<String> positions = new ArrayList<>();
         Matrices.setParallelMode(ParallelMode.FORCE_OFF);
-        Matrices.forEachIndices(2, 2, (i, j) -> {
+        Matrices.forEachIndex(2, 2, (i, j) -> {
             synchronized (positions) {
                 positions.add(i + "," + j);
             }
@@ -256,7 +256,7 @@ public class Matrices2025Test extends TestBase {
     @Test
     public void testRun_withRange() {
         List<String> positions = new ArrayList<>();
-        Matrices.forEachIndices(1, 3, 1, 3, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndex(1, 3, 1, 3, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(4, positions.size());
         assertEquals("1,1", positions.get(0));
         assertEquals("1,2", positions.get(1));
@@ -266,7 +266,7 @@ public class Matrices2025Test extends TestBase {
 
     @Test
     public void testRun_withRange_outOfBounds() {
-        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.forEachIndices(-1, 2, 0, 2, (i, j) -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> Matrices.forEachIndex(-1, 2, 0, 2, (i, j) -> {
         }, false));
     }
 
@@ -706,10 +706,10 @@ public class Matrices2025Test extends TestBase {
     @Test
     public void testRun_zeroRowsOrCols() {
         List<String> positions = new ArrayList<>();
-        Matrices.forEachIndices(0, 3, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndex(0, 3, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(0, positions.size());
 
-        Matrices.forEachIndices(3, 0, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndex(3, 0, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(0, positions.size());
     }
 
@@ -719,7 +719,7 @@ public class Matrices2025Test extends TestBase {
     public void testRun_withRange_moreRowsThanCols_sequential() {
         List<String> positions = new ArrayList<>();
         // 5 rows x 2 columnCount - should iterate by columns first
-        Matrices.forEachIndices(0, 5, 0, 2, (i, j) -> positions.add(i + "," + j), false);
+        Matrices.forEachIndex(0, 5, 0, 2, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(10, positions.size());
         // Should start with all rows for first column
         assertEquals("0,0", positions.get(0));
@@ -731,7 +731,7 @@ public class Matrices2025Test extends TestBase {
         List<String> positions = new ArrayList<>();
         Matrices.setParallelMode(ParallelMode.FORCE_OFF);
         // 5 rows x 2 columnCount - parallel should iterate by columns
-        Matrices.forEachIndices(0, 5, 0, 2, (i, j) -> {
+        Matrices.forEachIndex(0, 5, 0, 2, (i, j) -> {
             synchronized (positions) {
                 positions.add(i + "," + j);
             }

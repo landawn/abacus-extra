@@ -75,7 +75,7 @@ public class AbstractMatrix2512Test extends TestBase {
     public void test_forEach_simpleIteration() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         AtomicInteger sum = new AtomicInteger(0);
-        matrix.forEachIndices((i, j) -> sum.addAndGet(matrix.get(i, j)));
+        matrix.forEachIndex((i, j) -> sum.addAndGet(matrix.get(i, j)));
         assertEquals(10, sum.get());
     }
 
@@ -83,7 +83,7 @@ public class AbstractMatrix2512Test extends TestBase {
     public void test_forEach_withMatrix() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         AtomicInteger sum = new AtomicInteger(0);
-        matrix.forEachIndices((i, j, m) -> sum.addAndGet(m.get(i, j)));
+        matrix.forEachIndex((i, j, m) -> sum.addAndGet(m.get(i, j)));
         assertEquals(10, sum.get());
     }
 
@@ -91,7 +91,7 @@ public class AbstractMatrix2512Test extends TestBase {
     public void test_forEach_withRegion() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         AtomicInteger sum = new AtomicInteger(0);
-        matrix.forEachIndices(0, 2, 0, 2, (i, j) -> sum.addAndGet(matrix.get(i, j)));
+        matrix.forEachIndex(0, 2, 0, 2, (i, j) -> sum.addAndGet(matrix.get(i, j)));
         assertEquals(12, sum.get()); // 1+2+4+5
     }
 
@@ -99,7 +99,7 @@ public class AbstractMatrix2512Test extends TestBase {
     public void test_forEach_withRegionAndMatrix() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         AtomicInteger sum = new AtomicInteger(0);
-        matrix.forEachIndices(1, 3, 1, 3, (i, j, m) -> sum.addAndGet(m.get(i, j)));
+        matrix.forEachIndex(1, 3, 1, 3, (i, j, m) -> sum.addAndGet(m.get(i, j)));
         assertEquals(28, sum.get()); // 5+6+8+9
     }
 
@@ -107,7 +107,7 @@ public class AbstractMatrix2512Test extends TestBase {
     public void test_forEach_emptyMatrix() {
         IntMatrix matrix = IntMatrix.of(new int[0][0]);
         AtomicInteger count = new AtomicInteger(0);
-        matrix.forEachIndices((i, j) -> count.incrementAndGet());
+        matrix.forEachIndex((i, j) -> count.incrementAndGet());
         assertEquals(0, count.get());
     }
 
