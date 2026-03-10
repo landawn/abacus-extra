@@ -778,7 +778,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+     * Sets the elements on the main diagonal (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -859,7 +859,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+     * Sets the elements on the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -2056,7 +2056,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * The resulting matrix will have dimensions (this.rowCount x b.columnCount).
      * 
      * <p>This operation is computationally intensive and may be parallelized for large matrices.
-     * Matrix multiplication is not commutative (A*B != B*a).</p>
+     * Matrix multiplication is not commutative (A*B != B*A).</p>
      *
      * <p><b>Important:</b> Byte overflow may occur during multiplication and summation.
      * The internal calculations use int but are cast back to byte for the result matrix.</p>
@@ -2107,6 +2107,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @return a new Matrix&lt;Byte&gt; with the same dimensions and values as this matrix
+     * @see #unbox(Matrix)
      */
     public Matrix<Byte> boxed() {
         final Byte[][] c = new Byte[rowCount][columnCount];

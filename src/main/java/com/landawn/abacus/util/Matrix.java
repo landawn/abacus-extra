@@ -168,7 +168,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a square diagonal matrix with the given values on the main diagonal (upper-left to lower-right).
      * All other elements are null. The matrix dimension is determined by the length of the diagonal array.
      *
-     * <p>LU2RD stands for Upper-Left to Lower-Right diagonal. The resulting matrix is always square
+     * <p>The main diagonal runs from upper-left to lower-right. The resulting matrix is always square
      * with size n×n where n is the length of the diagonal array.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -904,7 +904,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+     * Sets the elements on the main diagonal (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -996,7 +996,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+     * Sets the elements on the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -3313,7 +3313,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // [4, 5, 6]
      * }</pre>
      *
-     * @return the formatted string representation of the matrix
+     * @return the formatted string representation that was printed to standard output
      */
     @Override
     public String println() {

@@ -776,7 +776,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+     * Sets the elements on the main diagonal (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -856,7 +856,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+     * Sets the elements on the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -2080,6 +2080,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * }</pre>
      *
      * @return a new {@code Matrix<Short>} containing boxed values
+     * @see #unbox(Matrix)
      */
     public Matrix<Short> boxed() {
         final Short[][] c = new Short[rowCount][columnCount];

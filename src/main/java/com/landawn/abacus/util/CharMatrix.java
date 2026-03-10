@@ -784,7 +784,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+     * Sets the elements on the main diagonal (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -868,7 +868,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+     * Sets the elements on the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -2072,6 +2072,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @return a new Matrix containing Character objects with the same values and dimensions
+     * @see #unbox(Matrix)
      */
     public Matrix<Character> boxed() {
         final Character[][] c = new Character[rowCount][columnCount];
@@ -2445,7 +2446,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a CharStream of elements from a range of rowCount, traversed horizontally.
+     * Returns a CharStream of elements from a range of rows, traversed horizontally.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

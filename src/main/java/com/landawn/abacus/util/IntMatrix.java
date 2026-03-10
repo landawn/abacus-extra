@@ -28,7 +28,7 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Matrix implementation backed by a {@code int[][]}.
+ * Matrix implementation backed by an {@code int[][]}.
  *
  * <p>It provides int-specific accessors and transformations while sharing the common matrix operations
  * defined by {@link AbstractMatrix}. Construction and factory methods typically wrap the supplied array
@@ -906,7 +906,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+     * Sets the elements on the main diagonal (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -987,7 +987,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+     * Sets the elements on the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *

@@ -542,7 +542,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return the specified row array (direct reference to internal storage)
-     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
     public float[] rowView(final int rowIndex) throws IllegalArgumentException {
@@ -724,7 +724,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a copy of the main diagonal elements (upper-left to lower-right).
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      *
@@ -735,7 +735,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * }</pre>
      *
      * @return a new float array containing the main diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public float[] getMainDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -750,7 +750,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+     * Sets the elements on the main diagonal (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -803,7 +803,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a copy of the anti-diagonal elements (upper-right to lower-left).
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
@@ -815,7 +815,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * }</pre>
      *
      * @return a new float array containing the anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public float[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -830,7 +830,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+     * Sets the elements on the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *

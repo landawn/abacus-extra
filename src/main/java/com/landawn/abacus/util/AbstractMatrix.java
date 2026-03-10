@@ -610,8 +610,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // 4 5 6   =>   6 5 4
      * // 7 8 9        3 2 1
      *
-     * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntMatrix rotated = original.rotate180();   // Dimensions remain 2x3
+     * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * IntMatrix rotated = original.rotate180();   // Dimensions remain 3x3
      * }</pre>
      *
      * @return a new matrix that is this matrix rotated 180 degrees clockwise, with the same dimensions (rowCount x columnCount)
@@ -621,7 +621,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Returns a new matrix that is this matrix rotated 270 degrees clockwise (or equivalently, 90 degrees counter-clockwise).
      * The resulting matrix has dimensions swapped (rows become columns), with the first
-     * column of the result being the first row of the original matrix reading downward.
+     * column of the result being the first row of the original matrix in reverse order.
      * The original matrix is not modified.
      *
      * <p>Rotation formula: element at position (i, j) in the original matrix

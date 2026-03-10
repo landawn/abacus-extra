@@ -640,7 +640,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return the specified row array (direct reference to internal storage)
-     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
     public double[] rowView(final int rowIndex) throws IllegalArgumentException {
@@ -821,7 +821,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns a copy of the main diagonal elements (upper-left to lower-right).
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      * The returned array is a copy; modifications to it will not affect the matrix.
@@ -848,7 +848,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+     * Sets the elements on the main diagonal (upper-left to lower-right).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -901,7 +901,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns a copy of the anti-diagonal elements (upper-right to lower-left).
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * upper-right to lower-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
@@ -914,7 +914,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @return a new double array containing a copy of the anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public double[] getAntiDiagonal() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -929,7 +929,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+     * Sets the elements on the anti-diagonal (upper-right to lower-left).
      * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
@@ -2574,7 +2574,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param rowIndex the index of the row to stream (0-based)
      * @return a DoubleStream of elements in the specified row, from left to right
-     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     @Override
     public DoubleStream streamHorizontal(final int rowIndex) {
@@ -2600,7 +2600,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a DoubleStream of elements in the specified row range, or an empty stream if the matrix is empty
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
     public DoubleStream streamHorizontal(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {

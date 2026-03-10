@@ -1776,7 +1776,7 @@ public final class Matrices {
      * @param <E> the type of exception that the zip function might throw
      * @param a the first matrix, must not be {@code null}
      * @param b the second matrix, must not be {@code null} and must have the same shape as {@code a}
-     * @param c the third matrix, must not be {@code null} and must have the same shape as {@code a}
+     * @param c the third matrix, must not be {@code null} and must have the same shape as {@code a} and {@code b}
      * @param zipFunction the function to combine corresponding elements, takes three ints and returns a Long, must not be {@code null}
      * @return a new {@link LongMatrix} with the combined values, never {@code null}
      * @throws IllegalArgumentException if the matrices have different shapes or if any argument is {@code null}
@@ -1963,7 +1963,7 @@ public final class Matrices {
      * @param <E> the type of exception that the zip function might throw
      * @param a the first matrix, must not be {@code null}
      * @param b the second matrix, must not be {@code null} and must have the same shape as {@code a}
-     * @param c the third matrix, must not be {@code null} and must have the same shape as {@code a}
+     * @param c the third matrix, must not be {@code null} and must have the same shape as {@code a} and {@code b}
      * @param zipFunction the function to combine corresponding elements, takes three ints and returns a Double, must not be {@code null}
      * @return a new {@link DoubleMatrix} with the combined values, never {@code null}
      * @throws IllegalArgumentException if the matrices have different shapes or if any argument is {@code null}

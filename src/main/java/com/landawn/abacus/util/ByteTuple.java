@@ -50,7 +50,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param _1 the byte value to store in the tuple
-     * @return a new ByteTuple.ByteTuple1 containing the specified values
+     * @return a new ByteTuple.ByteTuple1 containing the specified value
      */
     public static ByteTuple1 of(final byte _1) {
         return new ByteTuple1(_1);
