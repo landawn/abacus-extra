@@ -191,17 +191,17 @@ Base class for the matrix types in this package.
   - `action` (`Throwables.Consumer<? super A, E>`) — the operation to apply to the flattened array (receives array type A, not A\[\])
 - **Throws:**
   - `E` — if the operation throws an exception
-##### forEachIndices(...) -> void
-- **Signature:** `public <E extends Exception> void forEachIndices(final Throwables.IntBiConsumer<E> action) throws E`
+##### forEachIndex(...) -> void
+- **Signature:** `public <E extends Exception> void forEachIndex(final Throwables.IntBiConsumer<E> action) throws E`
 - **Summary:** Performs the specified action for each element position in the matrix.
 - **Contract:**
   - <p> This method is useful when you need to access matrix positions without caring about the actual element values, or when the element access logic is handled inside the action.
-  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code IntMatrix matrix = IntMatrix.of(new int\[\]\[\] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}); matrix.forEachIndices((i, j) -> { System.out.println("Position: (" + i + "," + j + ")"); }); // Count elements on the main diagonal AtomicInteger diagonalCount = new AtomicInteger(0); matrix.forEachIndices((i, j) -> { if (i == j) diagonalCount.incrementAndGet(); }); } </pre>
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code IntMatrix matrix = IntMatrix.of(new int\[\]\[\] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}); matrix.forEachIndex((i, j) -> { System.out.println("Position: (" + i + "," + j + ")"); }); // Count elements on the main diagonal AtomicInteger diagonalCount = new AtomicInteger(0); matrix.forEachIndex((i, j) -> { if (i == j) diagonalCount.incrementAndGet(); }); } </pre>
 - **Parameters:**
   - `action` (`Throwables.IntBiConsumer<E>`) — the action to perform for each position, receives (rowIndex, columnIndex)
 - **Throws:**
   - `E` — if the action throws an exception
-- **Signature:** `public <E extends Exception> void forEachIndices(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex, final Throwables.IntBiConsumer<E> action) throws IndexOutOfBoundsException, E`
+- **Signature:** `public <E extends Exception> void forEachIndex(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex, final Throwables.IntBiConsumer<E> action) throws IndexOutOfBoundsException, E`
 - **Summary:** Performs the specified action for each element position in the specified rectangular region of the matrix.
 - **Parameters:**
   - `fromRowIndex` (`int`) — the starting row index (inclusive, 0-based)
@@ -212,7 +212,7 @@ Base class for the matrix types in this package.
 - **Throws:**
   - `java.lang.IndexOutOfBoundsException` — if any index is out of bounds
   - `E` — if the action throws an exception
-- **Signature:** `public <E extends Exception> void forEachIndices(final Throwables.BiIntObjConsumer<X, E> action) throws E`
+- **Signature:** `public <E extends Exception> void forEachIndex(final Throwables.BiIntObjConsumer<X, E> action) throws E`
 - **Summary:** Performs the specified action for each element position in the matrix, providing the matrix itself as a parameter.
 - **Contract:**
   - <p> This variant is useful when the action needs access to matrix elements or methods, allowing you to read/write values or use matrix operations within the action.
@@ -220,7 +220,7 @@ Base class for the matrix types in this package.
   - `action` (`Throwables.BiIntObjConsumer<X, E>`) — the action to perform, receiving (rowIndex, columnIndex, matrix)
 - **Throws:**
   - `E` — if the action throws an exception
-- **Signature:** `public <E extends Exception> void forEachIndices(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex, final Throwables.BiIntObjConsumer<X, E> action) throws IndexOutOfBoundsException, E`
+- **Signature:** `public <E extends Exception> void forEachIndex(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex, final Throwables.BiIntObjConsumer<X, E> action) throws IndexOutOfBoundsException, E`
 - **Summary:** Performs the specified action for each element position in the specified rectangular region, providing the matrix itself.
 - **Parameters:**
   - `fromRowIndex` (`int`) — the starting row index (inclusive, 0-based)
@@ -4404,7 +4404,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
 - **Signature:** `public void setMainDiagonal(final boolean[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+- **Summary:** Sets the elements on the main diagonal (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -4434,7 +4434,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
 - **Signature:** `public void setAntiDiagonal(final boolean[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+- **Summary:** Sets the elements on the anti-diagonal (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -4509,13 +4509,13 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
 - **Summary:** Fills the matrix with values from the provided two-dimensional array, starting from position (0, 0).
 - **Parameters:**
   - `b` (`boolean[][]`) — the two-dimensional boolean array to copy values from; must not be null
-- **Signature:** `public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final boolean[][] b) throws IllegalArgumentException`
+- **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final boolean[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a portion of the matrix with values from the provided two-dimensional array.
 - **Contract:**
   - If the input array extends beyond the matrix boundaries, only the overlapping portion is copied.
 - **Parameters:**
-  - `targetStartRowIndex` (`int`) — the target row index in this matrix (0-based)
-  - `targetStartColumnIndex` (`int`) — the target column index in this matrix (0-based)
+  - `destRowIndex` (`int`) — the target row index in this matrix (0-based)
+  - `destColumnIndex` (`int`) — the target column index in this matrix (0-based)
   - `b` (`boolean[][]`) — the source array to copy values from
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if the target indices are negative or exceed matrix dimensions
@@ -4759,6 +4759,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
 - **Parameters:**
   - (none)
 - **Returns:** a new Matrix &lt; Boolean &gt; with the same dimensions and values as this matrix
+- **See also:** #unbox(Matrix)
 ##### zipWith(...) -> BooleanMatrix
 - **Signature:** `public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws IllegalArgumentException, E`
 - **Summary:** Performs element-wise operation on two matrices using a binary operator.
@@ -5938,7 +5939,7 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
 - **Signature:** `public void setMainDiagonal(final byte[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+- **Summary:** Sets the elements on the main diagonal (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -5968,7 +5969,7 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
 - **Signature:** `public void setAntiDiagonal(final byte[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+- **Summary:** Sets the elements on the anti-diagonal (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -6045,11 +6046,11 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
 - **Parameters:**
   - `b` (`byte[][]`) — the source array to copy values from
 - **See also:** #copyFrom(int, int, byte\[\]\[\])
-- **Signature:** `public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final byte[][] b) throws IllegalArgumentException`
+- **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final byte[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a portion of this matrix with values from another two-dimensional byte array.
 - **Parameters:**
-  - `targetStartRowIndex` (`int`) — the target row index in this matrix
-  - `targetStartColumnIndex` (`int`) — the target column index in this matrix
+  - `destRowIndex` (`int`) — the target row index in this matrix
+  - `destColumnIndex` (`int`) — the target column index in this matrix
   - `b` (`byte[][]`) — the source array to copy values from
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if the target indices are negative or exceed matrix dimensions
@@ -6281,6 +6282,7 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
 - **Parameters:**
   - (none)
 - **Returns:** a new Matrix &lt; Byte &gt; with the same dimensions and values as this matrix
+- **See also:** #unbox(Matrix)
 ##### toIntMatrix(...) -> IntMatrix
 - **Signature:** `public IntMatrix toIntMatrix()`
 - **Summary:** Converts this ByteMatrix to an IntMatrix by widening each byte value to int.
@@ -6485,7 +6487,7 @@ Base class for immutable tuples of primitive {@code byte} values.
 - **Summary:** Creates a ByteTuple.ByteTuple1 containing a single byte value.
 - **Parameters:**
   - `_1` (`byte`) — the byte value to store in the tuple
-- **Returns:** a new ByteTuple.ByteTuple1 containing the specified values
+- **Returns:** a new ByteTuple.ByteTuple1 containing the specified value
 - **Signature:** `public static ByteTuple2 of(final byte _1, final byte _2)`
 - **Summary:** Creates a ByteTuple.ByteTuple2 containing two byte values.
 - **Parameters:**
@@ -7799,7 +7801,7 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
 - **Signature:** `public void setMainDiagonal(final char[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+- **Summary:** Sets the elements on the main diagonal (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -7829,7 +7831,7 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
 - **Signature:** `public void setAntiDiagonal(final char[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+- **Summary:** Sets the elements on the anti-diagonal (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -7910,13 +7912,13 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
   - If the source array is larger, only the portion that fits is copied.
 - **Parameters:**
   - `b` (`char[][]`) — the source array to copy values from (maybe smaller or larger than the matrix)
-- **Signature:** `public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final char[][] b) throws IllegalArgumentException`
+- **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final char[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a portion of the matrix with values from the specified two-dimensional array in-place, starting from a specified position.
 - **Contract:**
   - If the source array extends beyond the matrix bounds from the starting position, only the portion that fits is copied.
 - **Parameters:**
-  - `targetStartRowIndex` (`int`) — the target row index in this matrix (0-based)
-  - `targetStartColumnIndex` (`int`) — the target column index in this matrix (0-based)
+  - `destRowIndex` (`int`) — the target row index in this matrix (0-based)
+  - `destColumnIndex` (`int`) — the target column index in this matrix (0-based)
   - `b` (`char[][]`) — the source array to copy values from
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if the target indices are negative or exceed matrix dimensions
@@ -8140,6 +8142,7 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
 - **Parameters:**
   - (none)
 - **Returns:** a new Matrix containing Character objects with the same values and dimensions
+- **See also:** #unbox(Matrix)
 ##### toIntMatrix(...) -> IntMatrix
 - **Signature:** `public IntMatrix toIntMatrix()`
 - **Summary:** Converts this CharMatrix to an IntMatrix.
@@ -8216,7 +8219,7 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
   - `rowIndex` (`int`) — the index of the row to stream (0-based)
 - **Returns:** a CharStream containing all elements from the specified row
 - **Signature:** `@Override public CharStream streamHorizontal(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
-- **Summary:** Returns a CharStream of elements from a range of rowCount, traversed horizontally.
+- **Summary:** Returns a CharStream of elements from a range of rows, traversed horizontally.
 - **Parameters:**
   - `fromRowIndex` (`int`) — the starting row index (inclusive, 0-based)
   - `toRowIndex` (`int`) — the ending row index (exclusive)
@@ -9555,7 +9558,7 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
   - `rowIndex` (`int`) — the index of the row to retrieve (0-based)
 - **Returns:** the specified row array (direct reference to internal storage)
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if rowIndex &lt; 0 or rowIndex &gt; = rows
+  - `java.lang.IllegalArgumentException` — if rowIndex &lt; 0 or rowIndex &gt; = rowCount
 ##### rowCopy(...) -> double\[\]
 - **Signature:** `@Override public double[] rowCopy(final int rowIndex) throws IllegalArgumentException`
 - **Summary:** Returns a defensive copy of the specified row.
@@ -9612,7 +9615,7 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
 - **Signature:** `public double[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements (upper-left to lower-right).
 - **Contract:**
-  - The matrix must be square (rows == columns) for this operation.
+  - The matrix must be square (rowCount == columnCount) for this operation.
 - **Parameters:**
   - (none)
 - **Returns:** a new double array containing a copy of the main diagonal elements
@@ -9620,7 +9623,7 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
 - **Signature:** `public void setMainDiagonal(final double[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+- **Summary:** Sets the elements on the main diagonal (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -9642,15 +9645,15 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
 - **Signature:** `public double[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the anti-diagonal elements (upper-right to lower-left).
 - **Contract:**
-  - The matrix must be square (rows == columns) for this operation.
+  - The matrix must be square (rowCount == columnCount) for this operation.
 - **Parameters:**
   - (none)
 - **Returns:** a new double array containing a copy of the anti-diagonal elements
 - **Throws:**
-  - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
+  - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
 - **Signature:** `public void setAntiDiagonal(final double[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+- **Summary:** Sets the elements on the anti-diagonal (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -9745,13 +9748,13 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
   - If the source array is larger, only the portion that fits is copied.
 - **Parameters:**
   - `b` (`double[][]`) — the source array to copy values from (maybe smaller or larger than the matrix)
-- **Signature:** `public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final double[][] b) throws IllegalArgumentException`
+- **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final double[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a portion of the matrix with values from the specified two-dimensional array in-place, starting from a specified position.
 - **Contract:**
   - If the source array extends beyond the matrix bounds from the starting position, only the portion that fits is copied.
 - **Parameters:**
-  - `targetStartRowIndex` (`int`) — the target row index in this matrix (0-based)
-  - `targetStartColumnIndex` (`int`) — the target column index in this matrix (0-based)
+  - `destRowIndex` (`int`) — the target row index in this matrix (0-based)
+  - `destColumnIndex` (`int`) — the target column index in this matrix (0-based)
   - `b` (`double[][]`) — the source array to copy values from
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if the target indices are negative or exceed matrix dimensions
@@ -10052,7 +10055,7 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
   - `toRowIndex` (`int`) — the ending row index (exclusive)
 - **Returns:** a DoubleStream of elements in the specified row range, or an empty stream if the matrix is empty
 - **Throws:**
-  - `java.lang.IndexOutOfBoundsException` — if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+  - `java.lang.IndexOutOfBoundsException` — if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
 ##### streamVertical(...) -> DoubleStream
 - **Signature:** `@Override @Beta public DoubleStream streamVertical()`
 - **Summary:** Creates a stream of all elements in the matrix in column-major order.
@@ -11377,7 +11380,7 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
   - `rowIndex` (`int`) — the index of the row to retrieve (0-based)
 - **Returns:** the specified row array (direct reference to internal storage)
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if rowIndex &lt; 0 or rowIndex &gt; = rows
+  - `java.lang.IllegalArgumentException` — if rowIndex &lt; 0 or rowIndex &gt; = rowCount
 ##### rowCopy(...) -> float\[\]
 - **Signature:** `@Override public float[] rowCopy(final int rowIndex) throws IllegalArgumentException`
 - **Summary:** Returns a defensive copy of the specified row.
@@ -11434,15 +11437,15 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
 - **Signature:** `public float[] getMainDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the main diagonal elements (upper-left to lower-right).
 - **Contract:**
-  - The matrix must be square (rows == columns) for this operation.
+  - The matrix must be square (rowCount == columnCount) for this operation.
 - **Parameters:**
   - (none)
 - **Returns:** a new float array containing the main diagonal elements
 - **Throws:**
-  - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
+  - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
 - **Signature:** `public void setMainDiagonal(final float[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+- **Summary:** Sets the elements on the main diagonal (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -11464,15 +11467,15 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
 - **Signature:** `public float[] getAntiDiagonal() throws IllegalStateException`
 - **Summary:** Returns a copy of the anti-diagonal elements (upper-right to lower-left).
 - **Contract:**
-  - The matrix must be square (rows == columns) for this operation.
+  - The matrix must be square (rowCount == columnCount) for this operation.
 - **Parameters:**
   - (none)
 - **Returns:** a new float array containing the anti-diagonal elements
 - **Throws:**
-  - `java.lang.IllegalStateException` — if the matrix is not square (rows != columns)
+  - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
 - **Signature:** `public void setAntiDiagonal(final float[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+- **Summary:** Sets the elements on the anti-diagonal (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -11550,13 +11553,13 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
   - If the source array is larger, only the portion that fits is copied.
 - **Parameters:**
   - `b` (`float[][]`) — the source array to copy values from (maybe smaller or larger than the matrix)
-- **Signature:** `public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final float[][] b) throws IllegalArgumentException`
+- **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final float[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a portion of the matrix with values from the specified two-dimensional array in-place, starting from a specified position.
 - **Contract:**
   - If the source array extends beyond the matrix bounds from the starting position, only the portion that fits is copied.
 - **Parameters:**
-  - `targetStartRowIndex` (`int`) — the target row index in this matrix (0-based)
-  - `targetStartColumnIndex` (`int`) — the target column index in this matrix (0-based)
+  - `destRowIndex` (`int`) — the target row index in this matrix (0-based)
+  - `destColumnIndex` (`int`) — the target column index in this matrix (0-based)
   - `b` (`float[][]`) — the source array to copy values from
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if the target indices are negative or exceed matrix dimensions
@@ -13127,7 +13130,7 @@ Read-only wrapper around an {@code int\[\]} .
 - **Returns:** a string representation of this ImmutableIntArray in the format {@code "\[element1, element2, ...\]"}
 
 ### Class IntMatrix (com.landawn.abacus.util.IntMatrix)
-Matrix implementation backed by a {@code int\[\]\[\]} .
+Matrix implementation backed by an {@code int\[\]\[\]} .
 
 **Thread-safety:** unspecified
 **Nullability:** unspecified
@@ -13415,7 +13418,7 @@ Matrix implementation backed by a {@code int\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
 - **Signature:** `public void setMainDiagonal(final int[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+- **Summary:** Sets the elements on the main diagonal (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -13445,7 +13448,7 @@ Matrix implementation backed by a {@code int\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
 - **Signature:** `public void setAntiDiagonal(final int[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+- **Summary:** Sets the elements on the anti-diagonal (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -13539,14 +13542,14 @@ Matrix implementation backed by a {@code int\[\]\[\]} .
   - If the source array is larger, only the portion that fits is copied.
 - **Parameters:**
   - `b` (`int[][]`) — the two-dimensional array to copy values from
-- **Signature:** `public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final int[][] b) throws IllegalArgumentException`
+- **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final int[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a region of the matrix with values from another two-dimensional array, starting at the specified position.
 - **Parameters:**
-  - `targetStartRowIndex` (`int`) — the target row index in this matrix (0-based, must be 0 &lt; = targetStartRowIndex &lt; = rowCount)
-  - `targetStartColumnIndex` (`int`) — the target column index in this matrix (0-based, must be 0 &lt; = targetStartColumnIndex &lt; = columnCount)
+  - `destRowIndex` (`int`) — the target row index in this matrix (0-based, must be 0 &lt; = destRowIndex &lt; = rowCount)
+  - `destColumnIndex` (`int`) — the target column index in this matrix (0-based, must be 0 &lt; = destColumnIndex &lt; = columnCount)
   - `b` (`int[][]`) — the source array to copy values from
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if targetStartRowIndex &lt; 0 or &gt; rowCount, or if targetStartColumnIndex &lt; 0 or &gt; columnCount
+  - `java.lang.IllegalArgumentException` — if destRowIndex &lt; 0 or &gt; rowCount, or if destColumnIndex &lt; 0 or &gt; columnCount
 ##### copy(...) -> IntMatrix
 - **Signature:** `@Override public IntMatrix copy()`
 - **Summary:** Returns a copy of this matrix.
@@ -15287,7 +15290,7 @@ Matrix implementation backed by a {@code long\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
 - **Signature:** `public void setMainDiagonal(final long[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+- **Summary:** Sets the elements on the main diagonal (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -15317,7 +15320,7 @@ Matrix implementation backed by a {@code long\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
 - **Signature:** `public void setAntiDiagonal(final long[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+- **Summary:** Sets the elements on the anti-diagonal (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -15411,14 +15414,14 @@ Matrix implementation backed by a {@code long\[\]\[\]} .
   - If the source array is larger, only the portion that fits is copied.
 - **Parameters:**
   - `b` (`long[][]`) — the two-dimensional array to copy values from
-- **Signature:** `public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final long[][] b) throws IllegalArgumentException`
+- **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final long[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a region of the matrix with values from another two-dimensional array, starting at the specified position.
 - **Parameters:**
-  - `targetStartRowIndex` (`int`) — the target row index in this matrix (0-based, must be 0 &lt; = targetStartRowIndex &lt; = rowCount)
-  - `targetStartColumnIndex` (`int`) — the target column index in this matrix (0-based, must be 0 &lt; = targetStartColumnIndex &lt; = columnCount)
+  - `destRowIndex` (`int`) — the target row index in this matrix (0-based, must be 0 &lt; = destRowIndex &lt; = rowCount)
+  - `destColumnIndex` (`int`) — the target column index in this matrix (0-based, must be 0 &lt; = destColumnIndex &lt; = columnCount)
   - `b` (`long[][]`) — the source array to copy values from
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if targetStartRowIndex &lt; 0 or &gt; rowCount, or if targetStartColumnIndex &lt; 0 or &gt; columnCount
+  - `java.lang.IllegalArgumentException` — if destRowIndex &lt; 0 or &gt; rowCount, or if destColumnIndex &lt; 0 or &gt; columnCount
 ##### copy(...) -> LongMatrix
 - **Signature:** `@Override public LongMatrix copy()`
 - **Summary:** Returns a copy of this matrix.
@@ -16981,8 +16984,8 @@ Utility methods shared by the matrix implementations in this package.
 - **Throws:**
   - `E` — if the command throws an exception during execution
 - **See also:** #setParallelMode(ParallelMode), #getParallelMode()
-##### forEachIndices(...) -> void
-- **Signature:** `public static <E extends Exception> void forEachIndices(final int rowCount, final int columnCount, final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws E`
+##### forEachIndex(...) -> void
+- **Signature:** `public static <E extends Exception> void forEachIndex(final int rowCount, final int columnCount, final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws E`
 - **Summary:** Executes a command for each position in a matrix grid defined by rows and columns.
 - **Parameters:**
   - `rowCount` (`int`) — the number of rows to iterate over, must be non-negative
@@ -16991,11 +16994,11 @@ Utility methods shared by the matrix implementations in this package.
   - `inParallel` (`boolean`) — {@code true} to execute in parallel; {@code false} for sequential execution
 - **Throws:**
   - `E` — if the command throws an exception during execution
-- **See also:** #forEachIndices(int, int, int, int, Throwables.IntBiConsumer, boolean)
-- **Signature:** `public static <E extends Exception> void forEachIndices(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex, final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E`
+- **See also:** #forEachIndex(int, int, int, int, Throwables.IntBiConsumer, boolean)
+- **Signature:** `public static <E extends Exception> void forEachIndex(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex, final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E`
 - **Summary:** Executes a command for each position in a specified subregion of a matrix grid.
 - **Contract:**
-  - </p> <p> Iteration strategy: </p> <ul> <li> If there are fewer or equal rows than columns, iterates by rows first (row-major order) </li> <li> If there are more rows than columns, iterates by columns first (column-major order) </li> <li> When parallel execution is enabled, the outer loop is parallelized while the inner loop remains sequential </li> </ul> <p> <b> Usage Examples: </b> </p> <pre> {@code // Process a subregion of a matrix int\[\]\[\] result = new int\[10\]\[10\]; Matrices.forEachIndices(2, 5, 3, 8, (i, j) -> result\[i\]\[j\] = i + j, false); } </pre>
+  - </p> <p> Iteration strategy: </p> <ul> <li> If there are fewer or equal rows than columns, iterates by rows first (row-major order) </li> <li> If there are more rows than columns, iterates by columns first (column-major order) </li> <li> When parallel execution is enabled, the outer loop is parallelized while the inner loop remains sequential </li> </ul> <p> <b> Usage Examples: </b> </p> <pre> {@code // Process a subregion of a matrix int\[\]\[\] result = new int\[10\]\[10\]; Matrices.forEachIndex(2, 5, 3, 8, (i, j) -> result\[i\]\[j\] = i + j, false); } </pre>
 - **Parameters:**
   - `fromRowIndex` (`int`) — the starting row index (inclusive), must be non-negative
   - `toRowIndex` (`int`) — the ending row index (exclusive), must be greater than or equal to fromRowIndex
@@ -17493,7 +17496,7 @@ Utility methods shared by the matrix implementations in this package.
 - **Parameters:**
   - `a` (`IntMatrix`) — the first matrix, must not be {@code null}
   - `b` (`IntMatrix`) — the second matrix, must not be {@code null} and must have the same shape as {@code a}
-  - `c` (`IntMatrix`) — the third matrix, must not be {@code null} and must have the same shape as {@code a}
+  - `c` (`IntMatrix`) — the third matrix, must not be {@code null} and must have the same shape as {@code a} and {@code b}
   - `zipFunction` (`Throwables.IntTriFunction<Long, E>`) — the function to combine corresponding elements, takes three ints and returns a Long, must not be {@code null}
 - **Returns:** a new {@link LongMatrix} with the combined values, never {@code null}
 - **Throws:**
@@ -17535,7 +17538,7 @@ Utility methods shared by the matrix implementations in this package.
 - **Parameters:**
   - `a` (`IntMatrix`) — the first matrix, must not be {@code null}
   - `b` (`IntMatrix`) — the second matrix, must not be {@code null} and must have the same shape as {@code a}
-  - `c` (`IntMatrix`) — the third matrix, must not be {@code null} and must have the same shape as {@code a}
+  - `c` (`IntMatrix`) — the third matrix, must not be {@code null} and must have the same shape as {@code a} and {@code b}
   - `zipFunction` (`Throwables.IntTriFunction<Double, E>`) — the function to combine corresponding elements, takes three ints and returns a Double, must not be {@code null}
 - **Returns:** a new {@link DoubleMatrix} with the combined values, never {@code null}
 - **Throws:**
@@ -17828,7 +17831,7 @@ Generic object matrix backed by a two-dimensional array.
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
 - **Signature:** `public void setMainDiagonal(final T[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+- **Summary:** Sets the elements on the main diagonal (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -17858,7 +17861,7 @@ Generic object matrix backed by a two-dimensional array.
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
 - **Signature:** `public void setAntiDiagonal(final T[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+- **Summary:** Sets the elements on the anti-diagonal (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -18001,13 +18004,13 @@ Generic object matrix backed by a two-dimensional array.
   - If the source array is smaller than this matrix, the remaining cells are unchanged.
 - **Parameters:**
   - `b` (`T[][]`) — the source two-dimensional array to copy values from (must not be null)
-- **Signature:** `public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final T[][] b) throws IllegalArgumentException`
+- **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final T[][] b) throws IllegalArgumentException`
 - **Summary:** Copies values into the matrix from another two-dimensional array starting at the specified position.
 - **Contract:**
   - If the source data extends beyond the matrix bounds, it is truncated.
 - **Parameters:**
-  - `targetStartRowIndex` (`int`) — the target row index (0-based, must be between 0 and rowCount inclusive)
-  - `targetStartColumnIndex` (`int`) — the target column index (0-based, must be between 0 and columnCount inclusive)
+  - `destRowIndex` (`int`) — the target row index (0-based, must be between 0 and rowCount inclusive)
+  - `destColumnIndex` (`int`) — the target column index (0-based, must be between 0 and columnCount inclusive)
   - `b` (`T[][]`) — the source two-dimensional array to copy values from (must not be null)
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code b} is {@code null} , or if the target indices are negative or exceed matrix dimensions
@@ -18373,7 +18376,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Prints the matrix to standard output in a formatted manner.
 - **Parameters:**
   - (none)
-- **Returns:** the formatted string representation of the matrix
+- **Returns:** the formatted string representation that was printed to standard output
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
 - **Summary:** Returns a hash code value for this matrix.
@@ -19894,7 +19897,7 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setMainDiagonal(...) -> void
 - **Signature:** `public void setMainDiagonal(final short[] mainDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the main diagonal from upper-left to lower-right (main diagonal).
+- **Summary:** Sets the elements on the main diagonal (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -19924,7 +19927,7 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
 ##### setAntiDiagonal(...) -> void
 - **Signature:** `public void setAntiDiagonal(final short[] antiDiagonal) throws IllegalStateException, IllegalArgumentException`
-- **Summary:** Sets the elements on the anti-diagonal from upper-right to lower-left (anti-diagonal).
+- **Summary:** Sets the elements on the anti-diagonal (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (rowCount == columnCount), and the diagonal array must have exactly as many elements as the matrix has rows.
 - **Parameters:**
@@ -20001,14 +20004,14 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
   - If the source array is larger, only the portion that fits is copied.
 - **Parameters:**
   - `b` (`short[][]`) — the two-dimensional array to copy values from
-- **Signature:** `public void copyFrom(final int targetStartRowIndex, final int targetStartColumnIndex, final short[][] b) throws IllegalArgumentException`
+- **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final short[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a region of the matrix with values from another two-dimensional array, starting at the specified position.
 - **Parameters:**
-  - `targetStartRowIndex` (`int`) — the target row index in this matrix (0-based, must be 0 &lt; = targetStartRowIndex &lt; = rowCount)
-  - `targetStartColumnIndex` (`int`) — the target column index in this matrix (0-based, must be 0 &lt; = targetStartColumnIndex &lt; = columnCount)
+  - `destRowIndex` (`int`) — the target row index in this matrix (0-based, must be 0 &lt; = destRowIndex &lt; = rowCount)
+  - `destColumnIndex` (`int`) — the target column index in this matrix (0-based, must be 0 &lt; = destColumnIndex &lt; = columnCount)
   - `b` (`short[][]`) — the source array to copy values from
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if targetStartRowIndex &lt; 0 or &gt; rowCount, or if targetStartColumnIndex &lt; 0 or &gt; columnCount
+  - `java.lang.IllegalArgumentException` — if destRowIndex &lt; 0 or &gt; rowCount, or if destColumnIndex &lt; 0 or &gt; columnCount
 ##### copy(...) -> ShortMatrix
 - **Signature:** `@Override public ShortMatrix copy()`
 - **Summary:** Returns a copy of this matrix.
@@ -20229,6 +20232,7 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
 - **Parameters:**
   - (none)
 - **Returns:** a new {@code Matrix<Short>} containing boxed values
+- **See also:** #unbox(Matrix)
 ##### toIntMatrix(...) -> IntMatrix
 - **Signature:** `public IntMatrix toIntMatrix()`
 - **Summary:** Converts this short matrix to an int matrix.
