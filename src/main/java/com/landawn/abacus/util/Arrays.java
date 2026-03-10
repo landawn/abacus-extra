@@ -71,10 +71,10 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * <p><b>Performance:</b> This method delegates to {@code Arrays.println()} and {@code Arrays.toString()}
+     * <p><b>Performance:</b> This method delegates to {@code N.println()} and {@code N.toString()}
      * for the actual formatting and printing operations.</p>
      *
      * @param a the one-dimensional object array to print (can be {@code null}).

@@ -93,7 +93,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates an IntMatrix from a two-dimensional char array by widening each {@code char} to its {@code int} code point value.
+     * Creates an IntMatrix from a two-dimensional char array by widening each {@code char} to its {@code int} numeric Unicode value.
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
