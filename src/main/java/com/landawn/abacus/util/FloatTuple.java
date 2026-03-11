@@ -31,15 +31,13 @@ import com.landawn.abacus.util.stream.FloatStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
 
+    /** Lazily initialized backing array holding all tuple elements. */
     protected volatile float[] elements;
 
     /**
      * Protected constructor for subclass instantiation.
-     * <p>
      * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link #of(float)}, {@link #of(float, float)}, etc.,
-     * to create tuple instances.
-     * </p>
+     * such as {@link #of(float)}, {@link #of(float, float)}, etc., to create tuple instances.
      */
     protected FloatTuple() {
     }
@@ -53,7 +51,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * float value = single._1;  // 3.14f
      * }</pre>
      *
-     * @param _1 the float value to wrap in a tuple
+     * @param _1 the float value to store in the tuple
      * @return a new FloatTuple.FloatTuple1 containing the specified value
      */
     public static FloatTuple1 of(final float _1) {
@@ -236,7 +234,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p>
      * The size of the returned tuple depends on the length of the input array.
      * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty FloatTuple.FloatTuple0. For arrays with 1-9 elements, returns
+     * arrays, returns an empty {@code FloatTuple<?>}. For arrays with 1-9 elements, returns
      * the corresponding FloatTuple.FloatTuple1-9 instance.
      * </p>
      *
@@ -246,7 +244,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * float[] values = {1.0f, 2.0f, 3.0f};
      * FloatTuple.FloatTuple3 tuple = FloatTuple.copyOf(values);
      *
-     * // Empty array returns FloatTuple.FloatTuple0
+     * // Empty array returns FloatTuple<?>
      * FloatTuple<?> empty = FloatTuple.copyOf(new float[0]);
      *
      * // Single element
@@ -373,9 +371,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the sum of all elements in this tuple.
+     * Returns the sum of all float values in this tuple.
      * <p>
-     * This method calculates the sum by adding all float elements together.
+     * This method calculates the sum by adding all float values together.
      * For an empty tuple, returns 0.0f.
      * </p>
      *
@@ -411,9 +409,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * double avgPair = pair.average();   // 1.5
      * }</pre>
      *
-     * @return the average of all float values in this tuple, as a {@code double} for precision
-     *         (unlike {@link #sum()} which returns {@code float}, the average is computed in
-     *         double precision to minimize rounding errors)
+     * @return the average of all float values in this tuple as a {@code double}
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -445,8 +441,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * Checks if this tuple contains the specified float value.
      * <p>
      * This method performs a linear search through all elements in the tuple to determine
-     * if any element matches the specified value. Uses {@link N#equals(float, float)} for
-     * comparison to handle NaN and precision correctly. Returns {@code true} if at least one
+     * if any element matches the specified value. Returns {@code true} if at least one
      * element equals the search value, {@code false} otherwise.
      * </p>
      *

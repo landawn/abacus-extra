@@ -92,6 +92,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Creates a DoubleMatrix from a two-dimensional double array.
      *
+     * <p><b>Important:</b> The provided array is used directly without defensive copying.
+     * Changes to the input array are reflected in the returned matrix, and vice versa.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
@@ -435,7 +438,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * Class componentType = matrix.componentType();
+     * Class<?> componentType = matrix.componentType();
      * // componentType is double.class
      * assert componentType == double.class;
      * }</pre>
@@ -1275,7 +1278,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public void copyFrom(final int destRowIndex, final int destColumnIndex, final double[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
-        N.checkArgument(destRowIndex >= 0 && destRowIndex <= rowCount, "destRowIndex({}) must be between 0 and rows({})", destRowIndex, rowCount);
+        N.checkArgument(destRowIndex >= 0 && destRowIndex <= rowCount, "destRowIndex({}) must be between 0 and rowCount({})", destRowIndex, rowCount);
         N.checkArgument(destColumnIndex >= 0 && destColumnIndex <= columnCount, "destColumnIndex({}) must be between 0 and columnCount({})", destColumnIndex,
                 columnCount);
 
@@ -1634,6 +1637,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @return a new matrix that is a horizontal flip of this matrix (columns in reversed order within each row)
      * @see #flipInPlaceHorizontally()
+     * @see #flipVertically()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public DoubleMatrix flipHorizontally() {
         final DoubleMatrix res = this.copy();
@@ -1653,6 +1658,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @return a new matrix that is a vertical flip of this matrix (rows in reversed order)
      * @see #flipInPlaceVertically()
+     * @see #flipHorizontally()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public DoubleMatrix flipVertically() {
         final DoubleMatrix res = this.copy();

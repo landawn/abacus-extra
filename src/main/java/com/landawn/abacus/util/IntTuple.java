@@ -31,18 +31,16 @@ import com.landawn.abacus.util.stream.IntStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
 
+    /** Lazily initialized backing array holding all tuple elements. */
+    protected volatile int[] elements;
+
     /**
      * Protected constructor for subclass instantiation.
-     * <p>
      * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link #of(int)}, {@link #of(int, int)}, etc.,
-     * to create tuple instances.
-     * </p>
+     * such as {@link #of(int)}, {@link #of(int, int)}, etc., to create tuple instances.
      */
     protected IntTuple() {
     }
-
-    protected volatile int[] elements;
 
     /**
      * Creates an IntTuple.IntTuple1 containing a single int value.
@@ -369,7 +367,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the sum of all elements in this tuple as an {@code int}.
+     * Returns the sum of all int values in this tuple as an {@code int}.
      * <p>
      * Note: This method does not check for overflow. If the sum exceeds {@code Integer.MAX_VALUE},
      * the result will wrap around according to standard int arithmetic.
@@ -583,7 +581,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *   <li>They are instances of the exact same class, and</li>
      *   <li>They contain the same int values in the same order</li>
      * </ul>
-     * This method is consistent with {@link #hashCode()}.
+     *
+     * <p>This method is consistent with {@link #hashCode()}.</p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise

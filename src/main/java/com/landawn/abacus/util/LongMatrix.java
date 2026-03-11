@@ -79,6 +79,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Creates a LongMatrix from a two-dimensional long array.
      *
+     * <p><b>Important:</b> The provided array is used directly without defensive copying.
+     * Changes to the input array are reflected in the returned matrix, and vice versa.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
@@ -1244,7 +1247,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public void copyFrom(final int destRowIndex, final int destColumnIndex, final long[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
-        N.checkArgument(destRowIndex >= 0 && destRowIndex <= rowCount, "destRowIndex({}) must be between 0 and rows({})", destRowIndex, rowCount);
+        N.checkArgument(destRowIndex >= 0 && destRowIndex <= rowCount, "destRowIndex({}) must be between 0 and rowCount({})", destRowIndex, rowCount);
         N.checkArgument(destColumnIndex >= 0 && destColumnIndex <= columnCount, "destColumnIndex({}) must be between 0 and columnCount({})", destColumnIndex,
                 columnCount);
 

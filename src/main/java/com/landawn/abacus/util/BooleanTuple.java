@@ -29,11 +29,13 @@ import com.landawn.abacus.util.stream.Stream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
 
+    /** Lazily initialized backing array holding all tuple elements. */
     protected volatile boolean[] elements;
 
     /**
-     * Protected constructor for subclass instantiation. This constructor is not intended for direct use.
-     * Use the static factory methods such as {@link #of(boolean)} to create tuple instances.
+     * Protected constructor for subclass instantiation.
+     * This constructor is not intended for direct use. Use the static factory methods
+     * such as {@link #of(boolean)}, {@link #of(boolean, boolean)}, etc., to create tuple instances.
      */
     protected BooleanTuple() {
     }
@@ -483,7 +485,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *   <li>They are instances of the exact same class, and</li>
      *   <li>They contain the same boolean values in the same order</li>
      * </ul>
-     * This method is consistent with {@link #hashCode()}.
+     *
+     * <p>This method is consistent with {@link #hashCode()}.</p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise

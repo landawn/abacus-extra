@@ -79,6 +79,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Creates a FloatMatrix from a two-dimensional float array.
      *
+     * <p><b>Important:</b> The provided array is used directly without defensive copying.
+     * Changes to the input array are reflected in the returned matrix, and vice versa.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
@@ -339,7 +342,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * Class componentType = matrix.componentType();
+     * Class<?> componentType = matrix.componentType();
      * // componentType is float.class
      * assert componentType == float.class;
      * }</pre>
@@ -1116,7 +1119,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public void copyFrom(final int destRowIndex, final int destColumnIndex, final float[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
-        N.checkArgument(destRowIndex >= 0 && destRowIndex <= rowCount, "destRowIndex({}) must be between 0 and rows({})", destRowIndex, rowCount);
+        N.checkArgument(destRowIndex >= 0 && destRowIndex <= rowCount, "destRowIndex({}) must be between 0 and rowCount({})", destRowIndex, rowCount);
         N.checkArgument(destColumnIndex >= 0 && destColumnIndex <= columnCount, "destColumnIndex({}) must be between 0 and columnCount({})", destColumnIndex,
                 columnCount);
 
@@ -1326,7 +1329,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param toDown number of rows to add below; must be non-negative
      * @param toLeft number of columns to add to the left; must be non-negative
      * @param toRight number of columns to add to the right; must be non-negative
-     * @return a new extended FloatMatrix with dimensions ((toUp+rows+toDown) x (toLeft+columnCount+toRight))
+     * @return a new extended FloatMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any parameter is negative
      */
     public FloatMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
@@ -1368,7 +1371,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param toLeft number of columns to add to the left; must be non-negative
      * @param toRight number of columns to add to the right; must be non-negative
      * @param defaultValueForNewCell the float value to fill all new cells with
-     * @return a new extended FloatMatrix with dimensions ((toUp+rows+toDown) x (toLeft+columnCount+toRight))
+     * @return a new extended FloatMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any padding parameter is negative,
      *         or if the resulting dimensions would exceed Integer.MAX_VALUE
      */
@@ -1475,6 +1478,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @return a new FloatMatrix with each row reversed
      * @see #flipInPlaceHorizontally() for an in-place version
+     * @see #flipVertically()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public FloatMatrix flipHorizontally() {
         final FloatMatrix res = this.copy();
@@ -1495,6 +1500,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @return a new matrix that is a vertical flip of this matrix (rows in reversed order)
      * @see #flipInPlaceVertically() for an in-place version
+     * @see #flipHorizontally()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public FloatMatrix flipVertically() {
         final FloatMatrix res = this.copy();

@@ -256,6 +256,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -292,6 +294,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -327,6 +331,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
+     * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
@@ -363,6 +369,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -399,6 +407,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -434,6 +444,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
+     * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
@@ -470,6 +482,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -506,6 +520,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -541,6 +557,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
+     * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -577,6 +595,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -613,6 +633,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -649,6 +671,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
+     * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
@@ -685,6 +709,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -721,6 +747,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -756,6 +784,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
+     * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
@@ -792,6 +822,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -828,6 +860,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -904,6 +938,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -940,6 +976,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -1189,6 +1227,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each int to double (must not be {@code null}).
      * @return a double array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToDouble(int[][], Throwables.IntToDoubleFunction) for two-dimensional arrays
+     * @see #mapToDouble(int[][][], Throwables.IntToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1221,6 +1261,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each int to double (must not be {@code null}).
      * @return a two-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToDouble(int[], Throwables.IntToDoubleFunction) for one-dimensional arrays
+     * @see #mapToDouble(int[][][], Throwables.IntToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[][] mapToDouble(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1253,6 +1295,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each int to double (must not be {@code null}).
      * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToDouble(int[], Throwables.IntToDoubleFunction) for one-dimensional arrays
+     * @see #mapToDouble(int[][], Throwables.IntToDoubleFunction) for two-dimensional arrays
      */
     public static <E extends Exception> double[][][] mapToDouble(final int[][][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1285,6 +1329,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each long to int (must not be {@code null}).
      * @return an int array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToInt(long[][], Throwables.LongToIntFunction) for two-dimensional arrays
+     * @see #mapToInt(long[][][], Throwables.LongToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[] mapToInt(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1318,6 +1364,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each long to int (must not be {@code null}).
      * @return a two-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToInt(long[], Throwables.LongToIntFunction) for one-dimensional arrays
+     * @see #mapToInt(long[][][], Throwables.LongToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[][] mapToInt(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1351,6 +1399,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each long to int (must not be {@code null}).
      * @return a three-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToInt(long[], Throwables.LongToIntFunction) for one-dimensional arrays
+     * @see #mapToInt(long[][], Throwables.LongToIntFunction) for two-dimensional arrays
      */
     public static <E extends Exception> int[][][] mapToInt(final long[][][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1384,6 +1434,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each long to double (must not be {@code null}).
      * @return a double array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToDouble(long[][], Throwables.LongToDoubleFunction) for two-dimensional arrays
+     * @see #mapToDouble(long[][][], Throwables.LongToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[] mapToDouble(final long[] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1417,6 +1469,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each long to double (must not be {@code null}).
      * @return a two-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToDouble(long[], Throwables.LongToDoubleFunction) for one-dimensional arrays
+     * @see #mapToDouble(long[][][], Throwables.LongToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[][] mapToDouble(final long[][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1449,6 +1503,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each long to double (must not be {@code null}).
      * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToDouble(long[], Throwables.LongToDoubleFunction) for one-dimensional arrays
+     * @see #mapToDouble(long[][], Throwables.LongToDoubleFunction) for two-dimensional arrays
      */
     public static <E extends Exception> double[][][] mapToDouble(final long[][][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1481,6 +1537,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each double to int (must not be {@code null}).
      * @return an int array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToInt(double[][], Throwables.DoubleToIntFunction) for two-dimensional arrays
+     * @see #mapToInt(double[][][], Throwables.DoubleToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[] mapToInt(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1514,6 +1572,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each double to int (must not be {@code null}).
      * @return a two-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToInt(double[], Throwables.DoubleToIntFunction) for one-dimensional arrays
+     * @see #mapToInt(double[][][], Throwables.DoubleToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[][] mapToInt(final double[][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1547,6 +1607,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each double to int (must not be {@code null}).
      * @return a three-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToInt(double[], Throwables.DoubleToIntFunction) for one-dimensional arrays
+     * @see #mapToInt(double[][], Throwables.DoubleToIntFunction) for two-dimensional arrays
      */
     public static <E extends Exception> int[][][] mapToInt(final double[][][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1580,6 +1642,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each double to long (must not be {@code null}).
      * @return a long array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToLong(double[][], Throwables.DoubleToLongFunction) for two-dimensional arrays
+     * @see #mapToLong(double[][][], Throwables.DoubleToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[] mapToLong(final double[] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1613,6 +1677,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each double to long (must not be {@code null}).
      * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToLong(double[], Throwables.DoubleToLongFunction) for one-dimensional arrays
+     * @see #mapToLong(double[][][], Throwables.DoubleToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[][] mapToLong(final double[][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1646,6 +1712,8 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each double to long (must not be {@code null}).
      * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToLong(double[], Throwables.DoubleToLongFunction) for one-dimensional arrays
+     * @see #mapToLong(double[][], Throwables.DoubleToLongFunction) for two-dimensional arrays
      */
     public static <E extends Exception> long[][][] mapToLong(final double[][][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {

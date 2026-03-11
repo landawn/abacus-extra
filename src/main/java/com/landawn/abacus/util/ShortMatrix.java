@@ -379,6 +379,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * which is always {@code short.class} for ShortMatrix.
      * This method is useful for reflection-based code that needs to determine the element type at runtime.</p>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
+     * Class<?> type = matrix.componentType();   // Returns short.class
+     * }</pre>
+     *
      * @return {@code short.class}
      */
     @Override
@@ -1108,7 +1114,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     public void copyFrom(final int destRowIndex, final int destColumnIndex, final short[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
-        N.checkArgument(destRowIndex >= 0 && destRowIndex <= rowCount, "destRowIndex({}) must be between 0 and rows({})", destRowIndex, rowCount);
+        N.checkArgument(destRowIndex >= 0 && destRowIndex <= rowCount, "destRowIndex({}) must be between 0 and rowCount({})", destRowIndex, rowCount);
         N.checkArgument(destColumnIndex >= 0 && destColumnIndex <= columnCount, "destColumnIndex({}) must be between 0 and columnCount({})", destColumnIndex,
                 columnCount);
 
@@ -1468,8 +1474,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return a new matrix with each row reversed
      * @see #flipInPlaceHorizontally()
      * @see #flipVertically()
-     * @see IntMatrix#flipHorizontally()
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public ShortMatrix flipHorizontally() {
         final ShortMatrix res = this.copy();
@@ -1492,8 +1497,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return a new matrix with rows in reversed order
      * @see #flipInPlaceVertically()
      * @see #flipHorizontally()
-     * @see IntMatrix#flipVertically()
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public ShortMatrix flipVertically() {
         final ShortMatrix res = this.copy();

@@ -31,11 +31,13 @@ import com.landawn.abacus.util.stream.ByteStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
 
+    /** Lazily initialized backing array holding all tuple elements. */
     protected volatile byte[] elements;
 
     /**
-     * Protected constructor for subclass instantiation. This constructor is not intended for direct use.
-     * Use the static factory methods such as {@link #of(byte)} to create tuple instances.
+     * Protected constructor for subclass instantiation.
+     * This constructor is not intended for direct use. Use the static factory methods
+     * such as {@link #of(byte)}, {@link #of(byte, byte)}, etc., to create tuple instances.
      */
     protected ByteTuple() {
     }
@@ -397,7 +399,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * int pairSum = pair.sum();   // 150 (exceeds byte range, so returned as int)
      * }</pre>
      *
-     * @return the sum of all byte values in this tuple as an integer
+     * @return the sum of all byte values in this tuple as an {@code int}
      */
     public int sum() {
         return N.sum(elements());
@@ -601,7 +603,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *   <li>They are instances of the exact same class, and</li>
      *   <li>They contain the same byte values in the same order</li>
      * </ul>
-     * This method is consistent with {@link #hashCode()}.
+     *
+     * <p>This method is consistent with {@link #hashCode()}.</p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise

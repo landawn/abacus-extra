@@ -1478,8 +1478,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return a new ByteMatrix that is a horizontal flip of this matrix (each row reversed)
      * @see #flipInPlaceHorizontally()
      * @see #flipVertically()
-     * @see IntMatrix#flipHorizontally()
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public ByteMatrix flipHorizontally() {
         final ByteMatrix res = this.copy();
@@ -1502,8 +1501,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return a new ByteMatrix that is a vertical flip of this matrix (rows in reversed order)
      * @see #flipInPlaceVertically()
      * @see #flipHorizontally()
-     * @see IntMatrix#flipVertically()
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public ByteMatrix flipVertically() {
         final ByteMatrix res = this.copy();

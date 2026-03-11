@@ -190,7 +190,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Formats matrix error message templates that use "{}" placeholders.
+     * Formats matrix error message templates that use {@code "{}"} placeholders.
+     *
+     * @param template the message template containing {@code "{}"} placeholders
+     * @param args the arguments to substitute into the placeholders
+     * @return the formatted message string, or the template itself if no arguments are provided
      */
     protected static String formatMsg(final String template, final Object... args) {
         if (template == null || args == null || args.length == 0) {
@@ -218,6 +222,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>This search considers both super classes and interfaces. If no better common type
      * can be identified, {@link Object} is returned.</p>
+     *
+     * @param left the first type, may be {@code null}
+     * @param right the second type, may be {@code null}
+     * @return the most specific common assignable type, never {@code null}
      */
     protected static Class<?> resolveCommonAssignableType(final Class<?> left, final Class<?> right) {
         if (left == null) {
@@ -1181,7 +1189,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * The main diagonal consists of elements where row index equals column index.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
-     * <p>LU2RD = Upper-Left to Lower-Right diagonal.</p>
+     * <p>The main diagonal runs from the upper-left corner to the lower-right corner.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1205,7 +1213,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * The anti-diagonal consists of elements where row index + column index equals (columnCount - 1).
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
-     * <p>RU2LD = Upper-Right to Lower-Left diagonal.</p>
+     * <p>The anti-diagonal runs from the upper-right corner to the lower-left corner.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1228,7 +1236,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of all points in the matrix in row-major order (horizontal traversal).
      * Points are generated row by row from left to right, top to bottom.
      *
-     * <p>H = Horizontal. This is equivalent to calling {@code pointsHorizontal(0, rowCount)}.</p>
+     * <p>This is equivalent to calling {@code pointsHorizontal(0, rowCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1295,7 +1303,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of all points in the matrix in column-major order (vertical traversal).
      * Points are generated column by column from top to bottom, left to right.
      *
-     * <p>V = Vertical. This is equivalent to calling {@code pointsVertical(0, columnCount)}.</p>
+     * <p>This is equivalent to calling {@code pointsVertical(0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1362,7 +1370,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of streams where each inner stream represents a row of points.
      * This allows for row-by-row processing of matrix positions.
      *
-     * <p>R = Row. This is equivalent to calling {@code pointsRows(0, rowCount)}.</p>
+     * <p>This is equivalent to calling {@code pointsRows(0, rowCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1416,7 +1424,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of streams where each inner stream represents a column of points.
      * This allows for column-by-column processing of matrix positions.
      *
-     * <p>C = Column. This is equivalent to calling {@code pointsColumns(0, columnCount)}.</p>
+     * <p>This is equivalent to calling {@code pointsColumns(0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1471,7 +1479,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * The main diagonal consists of elements where row index equals column index.
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
-     * <p>LU2RD = Upper-Left to Lower-Right diagonal.</p>
+     * <p>The main diagonal runs from the upper-left corner to the lower-right corner.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1490,7 +1498,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * The anti-diagonal consists of elements where row index + column index equals (columnCount - 1).
      * The matrix must be square (rowCount == columnCount) for this operation.
      *
-     * <p>RU2LD = Upper-Right to Lower-Left diagonal.</p>
+     * <p>The anti-diagonal runs from the upper-right corner to the lower-left corner.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1508,7 +1516,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of all elements in row-major order (horizontal traversal).
      * Elements are streamed row by row from left to right, top to bottom.
      *
-     * <p>H = Horizontal.</p>
+     * <p>This is equivalent to calling {@code streamHorizontal(0, rowCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1560,7 +1568,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of all elements in column-major order (vertical traversal).
      * Elements are streamed column by column from top to bottom, left to right.
      *
-     * <p>V = Vertical.</p>
+     * <p>This is equivalent to calling {@code streamVertical(0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1613,7 +1621,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Each element in the outer stream is a stream representing one row of the matrix.
      * This allows for per-row processing using stream operations.
      *
-     * <p>R = Row.</p>
+     * <p>This is equivalent to calling {@code streamRows(0, rowCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1658,7 +1666,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Each element in the outer stream is a stream representing one column of the matrix.
      * This allows for per-column processing using stream operations.
      *
-     * <p>C = Column.</p>
+     * <p>This is equivalent to calling {@code streamColumns(0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

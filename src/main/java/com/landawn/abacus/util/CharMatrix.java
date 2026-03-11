@@ -372,7 +372,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Class componentType = matrix.componentType();
+     * Class<?> componentType = matrix.componentType();
      * // componentType is char.class
      * assert componentType == char.class;
      * }</pre>
@@ -1505,6 +1505,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @return a new CharMatrix with each row reversed
      * @see #flipInPlaceHorizontally() for an in-place version
+     * @see #flipVertically()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public CharMatrix flipHorizontally() {
         final CharMatrix res = this.copy();
@@ -1525,6 +1527,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @return a new matrix that is a vertical flip of this matrix (rows in reversed order)
      * @see #flipInPlaceVertically() for an in-place version
+     * @see #flipHorizontally()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public CharMatrix flipVertically() {
         final CharMatrix res = this.copy();

@@ -31,18 +31,16 @@ import com.landawn.abacus.util.stream.ShortStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {
 
+    /** Lazily initialized backing array holding all tuple elements. */
+    protected volatile short[] elements;
+
     /**
      * Protected constructor for subclass instantiation.
-     * <p>
      * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link #of(short)}, {@link #of(short, short)}, etc.,
-     * to create tuple instances.
-     * </p>
+     * such as {@link #of(short)}, {@link #of(short, short)}, etc., to create tuple instances.
      */
     protected ShortTuple() {
     }
-
-    protected volatile short[] elements;
 
     /**
      * Creates a ShortTuple.ShortTuple1 containing a single short value.
@@ -373,7 +371,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the sum of all elements in this tuple as an {@code int}.
+     * Returns the sum of all short values in this tuple as an {@code int}.
      * <p>
      * While this tuple stores short values, the sum is returned as an {@code int}
      * to prevent overflow when adding multiple short values together.
@@ -587,7 +585,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *   <li>They are instances of the exact same class, and</li>
      *   <li>They contain the same short values in the same order</li>
      * </ul>
-     * This method is consistent with {@link #hashCode()}.
+     *
+     * <p>This method is consistent with {@link #hashCode()}.</p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise

@@ -31,11 +31,13 @@ import com.landawn.abacus.util.stream.CharStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
 
+    /** Lazily initialized backing array holding all tuple elements. */
     protected volatile char[] elements;
 
     /**
-     * Protected constructor for subclass instantiation. This constructor is not intended for direct use.
-     * Use the static factory methods such as {@link #of(char)} to create tuple instances.
+     * Protected constructor for subclass instantiation.
+     * This constructor is not intended for direct use. Use the static factory methods
+     * such as {@link #of(char)}, {@link #of(char, char)}, etc., to create tuple instances.
      */
     protected CharTuple() {
     }

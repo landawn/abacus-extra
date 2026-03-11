@@ -31,18 +31,16 @@ import com.landawn.abacus.util.stream.LongStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP> {
 
+    /** Lazily initialized backing array holding all tuple elements. */
+    protected volatile long[] elements;
+
     /**
      * Protected constructor for subclass instantiation.
-     * <p>
      * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link #of(long)}, {@link #of(long, long)}, etc.,
-     * to create tuple instances.
-     * </p>
+     * such as {@link #of(long)}, {@link #of(long, long)}, etc., to create tuple instances.
      */
     protected LongTuple() {
     }
-
-    protected volatile long[] elements;
 
     /**
      * Creates a LongTuple.LongTuple1 containing a single long value.
@@ -370,7 +368,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the sum of all elements in this tuple as a {@code long}.
+     * Returns the sum of all long values in this tuple as a {@code long}.
      * <p>
      * Note: This method does not check for overflow. If the sum exceeds {@code Long.MAX_VALUE},
      * the result will wrap around according to standard long arithmetic.
@@ -584,7 +582,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *   <li>They are instances of the exact same class, and</li>
      *   <li>They contain the same long values in the same order</li>
      * </ul>
-     * This method is consistent with {@link #hashCode()}.
+     *
+     * <p>This method is consistent with {@link #hashCode()}.</p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise

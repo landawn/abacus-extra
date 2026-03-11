@@ -31,15 +31,13 @@ import com.landawn.abacus.util.stream.DoubleStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
 
+    /** Lazily initialized backing array holding all tuple elements. */
     protected volatile double[] elements;
 
     /**
      * Protected constructor for subclass instantiation.
-     * <p>
      * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link #of(double)}, {@link #of(double, double)}, etc.,
-     * to create tuple instances.
-     * </p>
+     * such as {@link #of(double)}, {@link #of(double, double)}, etc., to create tuple instances.
      */
     protected DoubleTuple() {
     }
@@ -53,7 +51,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double value = single._1;  // 3.14
      * }</pre>
      *
-     * @param _1 the double value to wrap in a tuple
+     * @param _1 the double value to store in the tuple
      * @return a new DoubleTuple.DoubleTuple1 containing the specified value
      */
     public static DoubleTuple1 of(final double _1) {
@@ -236,7 +234,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p>
      * The size of the returned tuple depends on the length of the input array.
      * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty DoubleTuple.DoubleTuple0. For arrays with 1-9 elements, returns
+     * arrays, returns an empty {@code DoubleTuple<?>}. For arrays with 1-9 elements, returns
      * the corresponding DoubleTuple.DoubleTuple1-9 instance.
      * </p>
      *
@@ -246,7 +244,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double[] values = {1.0, 2.0, 3.0};
      * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.copyOf(values);
      *
-     * // Empty array returns DoubleTuple.DoubleTuple0
+     * // Empty array returns DoubleTuple<?>
      * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
      *
      * // Single element
@@ -373,9 +371,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns the sum of all elements in this tuple.
+     * Returns the sum of all double values in this tuple.
      * <p>
-     * This method calculates the sum by adding all double elements together.
+     * This method calculates the sum by adding all double values together.
      * For an empty tuple, returns 0.0.
      * </p>
      *
@@ -443,8 +441,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Checks if this tuple contains the specified double value.
      * <p>
      * This method performs a linear search through all elements in the tuple to determine
-     * if any element matches the specified value. Uses {@link N#equals(double, double)} for
-     * comparison to handle NaN and precision correctly. Returns {@code true} if at least one
+     * if any element matches the specified value. Returns {@code true} if at least one
      * element equals the search value, {@code false} otherwise.
      * </p>
      *
