@@ -21,27 +21,24 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.stream.ByteStream;
 import com.landawn.abacus.util.stream.Collectors;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.LongStream;
 import com.landawn.abacus.util.stream.Stream;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 class MatricesTest extends TestBase {
 
@@ -1108,12 +1105,6 @@ class MatricesTest extends TestBase {
             Matrices.setParallelMode(ParallelMode.AUTO);
             assertEquals(ParallelMode.AUTO, Matrices.getParallelMode());
         }
-
-        @Test
-        public void testSetParallelMode_null() {
-            assertThrows(IllegalArgumentException.class, () -> Matrices.setParallelMode(null));
-        }
-
         // ============ isParallelizable Tests ============
 
         @Test
@@ -1156,15 +1147,6 @@ class MatricesTest extends TestBase {
             assertFalse(result);
         }
 
-        // ============ isSameShape Tests ============
-
-        @Test
-        public void testIsSameShape_twoMatrices_same() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-            assertTrue(Matrices.isSameShape(m1, m2));
-        }
-
         @Test
         public void testIsSameShape_twoMatrices_different() {
             IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
@@ -1184,22 +1166,6 @@ class MatricesTest extends TestBase {
             IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
             IntMatrix m2 = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
             assertFalse(Matrices.isSameShape(m1, m2));
-        }
-
-        @Test
-        public void testIsSameShape_threeMatrices_same() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-            IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } });
-            assertTrue(Matrices.isSameShape(m1, m2, m3));
-        }
-
-        @Test
-        public void testIsSameShape_threeMatrices_different() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-            IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10, 11 } });
-            assertFalse(Matrices.isSameShape(m1, m2, m3));
         }
 
         @Test
@@ -1281,15 +1247,6 @@ class MatricesTest extends TestBase {
                     throw new RuntimeException("test exception");
                 });
             });
-        }
-
-        @Test
-        public void testRun_rowsAndCols() {
-            List<String> positions = new ArrayList<>();
-            Matrices.forEachIndex(2, 3, (i, j) -> positions.add(i + "," + j), false);
-            assertEquals(6, positions.size());
-            assertTrue(positions.contains("0,0"));
-            assertTrue(positions.contains("1,2"));
         }
 
         @Test
@@ -1419,20 +1376,6 @@ class MatricesTest extends TestBase {
             assertEquals(22, result[0][1]);
         }
 
-        // ============ zip Tests for ByteMatrix ============
-
-        @Test
-        public void testZip_byteMatrix_two() {
-            ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-            ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
-            ByteMatrix result = Matrices.zip(m1, m2, (a, b) -> (byte) (a + b));
-
-            assertEquals(6, result.get(0, 0));
-            assertEquals(8, result.get(0, 1));
-            assertEquals(10, result.get(1, 0));
-            assertEquals(12, result.get(1, 1));
-        }
-
         @Test
         public void testZip_byteMatrix_three() {
             ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
@@ -1474,20 +1417,6 @@ class MatricesTest extends TestBase {
 
             assertEquals("4", result.get(0, 0));
             assertEquals("6", result.get(0, 1));
-        }
-
-        // ============ zip Tests for IntMatrix ============
-
-        @Test
-        public void testZip_intMatrix_two() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-            IntMatrix result = Matrices.zip(m1, m2, (a, b) -> a + b);
-
-            assertEquals(6, result.get(0, 0));
-            assertEquals(8, result.get(0, 1));
-            assertEquals(10, result.get(1, 0));
-            assertEquals(12, result.get(1, 1));
         }
 
         @Test
@@ -2291,31 +2220,6 @@ class MatricesTest extends TestBase {
             assertNotNull(result);
             assertEquals(ParallelMode.AUTO, result);
         }
-
-        @Test
-        public void testSetParallelMode_yes() {
-            Matrices.setParallelMode(ParallelMode.FORCE_ON);
-            assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
-        }
-
-        @Test
-        public void testSetParallelMode_no() {
-            Matrices.setParallelMode(ParallelMode.FORCE_OFF);
-            assertEquals(ParallelMode.FORCE_OFF, Matrices.getParallelMode());
-        }
-
-        @Test
-        public void testSetParallelMode_default() {
-            Matrices.setParallelMode(ParallelMode.FORCE_ON);
-            Matrices.setParallelMode(ParallelMode.AUTO);
-            assertEquals(ParallelMode.AUTO, Matrices.getParallelMode());
-        }
-
-        @Test
-        public void testSetParallelMode_nullThrowsException() {
-            assertThrows(IllegalArgumentException.class, () -> Matrices.setParallelMode(null));
-        }
-
         // ============ isParallelizable Tests ============
 
         @Test
@@ -2427,22 +2331,6 @@ class MatricesTest extends TestBase {
         }
 
         @Test
-        public void testIsSameShape_threeMatrices_allSame() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-            IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } });
-            assertTrue(Matrices.isSameShape(m1, m2, m3));
-        }
-
-        @Test
-        public void testIsSameShape_threeMatrices_firstTwoSame() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-            IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10, 11 }, { 12, 13, 14 } });
-            assertFalse(Matrices.isSameShape(m1, m2, m3));
-        }
-
-        @Test
         public void testIsSameShape_threeMatrices_lastTwoDifferent() {
             IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
             IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 }, { 9, 10 } });
@@ -2524,11 +2412,6 @@ class MatricesTest extends TestBase {
         }
 
         @Test
-        public void testNewArray_zeroRows() {
-            assertThrows(IllegalArgumentException.class, () -> Matrices.newMatrixArray(0, 5, Integer.class));
-        }
-
-        @Test
         public void testNewArray_zeroCols() {
             Integer[][] arr = Matrices.newMatrixArray(5, 0, Integer.class);
             assertNotNull(arr);
@@ -2569,18 +2452,6 @@ class MatricesTest extends TestBase {
             });
             assertEquals(ParallelMode.FORCE_ON, Matrices.getParallelMode());
         }
-
-        @Test
-        public void testRun_withParallelMode_restoresOnException() {
-            Matrices.setParallelMode(ParallelMode.AUTO);
-            assertThrows(RuntimeException.class, () -> {
-                Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> {
-                    throw new RuntimeException("Test exception");
-                });
-            });
-            assertEquals(ParallelMode.AUTO, Matrices.getParallelMode());
-        }
-
         // ============ run Tests (IntBiConsumer variants) ============
 
         @Test
@@ -3300,16 +3171,6 @@ class MatricesTest extends TestBase {
             assertEquals("dh", result.get(1, 1));
         }
 
-        // ============ Edge Case Tests ============
-
-        @Test
-        public void testZip_emptyMatrices() {
-            IntMatrix m1 = IntMatrix.empty();
-            IntMatrix m2 = IntMatrix.empty();
-            IntMatrix result = Matrices.zip(m1, m2, (a, b) -> a + b);
-            assertTrue(result.isEmpty());
-        }
-
         @Test
         public void testZip_singleElementMatrices() {
             IntMatrix m1 = IntMatrix.of(new int[][] { { 5 } });
@@ -3410,12 +3271,6 @@ class MatricesTest extends TestBase {
                 Matrices.setParallelMode(original);
             }
         }
-
-        @Test
-        public void testSetParallelMode_null() {
-            assertThrows(IllegalArgumentException.class, () -> Matrices.setParallelMode(null));
-        }
-
         // ============ Parallelable Tests ============
 
         @Test
@@ -3505,15 +3360,6 @@ class MatricesTest extends TestBase {
             }
         }
 
-        // ============ Same Shape Tests ============
-
-        @Test
-        public void testIsSameShape_twoMatrices_same() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 7, 8, 9 }, { 10, 11, 12 } });
-            assertTrue(Matrices.isSameShape(m1, m2));
-        }
-
         @Test
         public void testIsSameShape_twoMatrices_differentRows() {
             IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
@@ -3526,21 +3372,6 @@ class MatricesTest extends TestBase {
             IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
             IntMatrix m2 = IntMatrix.of(new int[][] { { 7, 8 }, { 9, 10 } });
             assertFalse(Matrices.isSameShape(m1, m2));
-        }
-
-        @Test
-        public void testIsSameShape_twoMatrices_singleElement() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 2 } });
-            assertTrue(Matrices.isSameShape(m1, m2));
-        }
-
-        @Test
-        public void testIsSameShape_threeMatrices_same() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-            IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } });
-            assertTrue(Matrices.isSameShape(m1, m2, m3));
         }
 
         @Test
@@ -3563,11 +3394,6 @@ class MatricesTest extends TestBase {
         public void testIsSameShape_collection_empty() {
             List<IntMatrix> matrices = new ArrayList<>();
             assertTrue(Matrices.isSameShape(matrices));
-        }
-
-        @Test
-        public void testIsSameShape_collection_null() {
-            assertTrue(Matrices.isSameShape((List<IntMatrix>) null));
         }
 
         @Test
@@ -4228,14 +4054,6 @@ class MatricesTest extends TestBase {
         }
 
         @Test
-        public void test_isSameShape_withThreeMatrices_allSameShape() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
-            IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } });
-            assertTrue(Matrices.isSameShape(m1, m2, m3));
-        }
-
-        @Test
         public void test_isSameShape_withThreeMatrices_differentShape() {
             IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
             IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
@@ -4663,14 +4481,6 @@ class MatricesTest extends TestBase {
             IntMatrix result = Matrices.zip(m1, m2, (a, b) -> a + b);
 
             assertTrue(result.isEmpty());
-        }
-
-        @Test
-        public void test_isSameShape_withEmptyMatrices() {
-            IntMatrix m1 = IntMatrix.empty();
-            IntMatrix m2 = IntMatrix.empty();
-
-            assertTrue(Matrices.isSameShape(m1, m2));
         }
 
         @Test

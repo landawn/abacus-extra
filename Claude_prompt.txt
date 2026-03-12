@@ -213,7 +213,8 @@ Requirements:
 
 -- ==========================================================
 
-1, Scan all test classes under ./src/test/java and remove duplicate unit tests.
+1, Scan all test classes under ./src/test/java and remove duplicate unit tests. 
+   You may find and reuse the scripts generated before in folder: ./tools. Improve it if needed.
 
 	A duplicate is defined as any test method that:
 	- Tests the same method with identical or equivalent inputs and assertions as another test method, 
@@ -231,8 +232,8 @@ Requirements:
 	- don't modify classes directly under package: com.landawn.abacus. Only modify test classes in its sub-packages.
 	- Once the task is completed. save the scripts used in this tasks. Don't delete them. I may run the same tasks again later. so the scripts could be reused.
 
-2, Consolidate all unit tests under ./src/test/java so that every source class has exactly 
-one corresponding test class.
+2, Consolidate all unit tests under ./src/test/java so that every source class has exactly one corresponding test class.
+   You may find and reuse the scripts generated before in folder: ./tools. Improve it if needed.
 
 	Rules:
 	- For each source class Foo.java, all test methods covering its methods must live in FooTest.java
@@ -247,8 +248,8 @@ one corresponding test class.
 	- don't modify classes directly under package: com.landawn.abacus. Only modify test classes in its sub-packages.
 	- Once the task is completed. save the scripts used in this tasks. Don't delete them. I may run the same tasks again later. so the scripts could be reused.
 
-3, Review every test method under ./src/test/java and ensure each one contains at least 
-one meaningful assertion.
+3, Review every test method under ./src/test/java and ensure each one contains at least one meaningful assertion.
+   You may find and reuse the scripts generated before in folder: ./tools. Improve it if needed.
 
 	Rules:
 	- Any test method with no assertions (i.e. it only invokes code but never verifies output) 
@@ -331,4 +332,5 @@ CONSTRAINTS
   isolation, skip it and leave a TODO comment in the test class explaining why.
 
 
+You may find and reuse the scripts generated before in folder: ./tools. Improve it if needed.
 - Once the task is completed. save the scripts used in this tasks to folder: ./tools with a meaningful unique name. I may run the same tasks again later.

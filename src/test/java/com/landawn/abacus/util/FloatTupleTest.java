@@ -9,15 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.FloatTuple.FloatTuple0;
 import com.landawn.abacus.util.FloatTuple.FloatTuple1;
@@ -29,8 +20,14 @@ import com.landawn.abacus.util.FloatTuple.FloatTuple6;
 import com.landawn.abacus.util.FloatTuple.FloatTuple7;
 import com.landawn.abacus.util.FloatTuple.FloatTuple8;
 import com.landawn.abacus.util.FloatTuple.FloatTuple9;
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.FloatStream;
+import com.landawn.abacus.util.u.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 class FloatTupleTest extends TestBase {
 
@@ -835,13 +832,6 @@ class FloatTupleTest extends TestBase {
         public void testHashCodeTuple1() {
             FloatTuple1 tuple1 = FloatTuple.of(1.0f);
             FloatTuple1 tuple2 = FloatTuple.of(1.0f);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
-        public void testHashCodeTuple2() {
-            FloatTuple2 tuple1 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 tuple2 = FloatTuple.of(1.0f, 2.0f);
             assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
@@ -1914,80 +1904,6 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testOf3() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(1.0f, tuple._1, 0.001f);
-            assertEquals(2.0f, tuple._2, 0.001f);
-            assertEquals(3.0f, tuple._3, 0.001f);
-            assertEquals(3, tuple.arity());
-        }
-
-        @Test
-        public void testOf4() {
-            FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-            assertEquals(1.0f, tuple._1, 0.001f);
-            assertEquals(2.0f, tuple._2, 0.001f);
-            assertEquals(3.0f, tuple._3, 0.001f);
-            assertEquals(4.0f, tuple._4, 0.001f);
-            assertEquals(4, tuple.arity());
-        }
-
-        @Test
-        public void testOf5() {
-            FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-            assertEquals(1.0f, tuple._1, 0.001f);
-            assertEquals(5.0f, tuple._5, 0.001f);
-            assertEquals(5, tuple.arity());
-        }
-
-        @Test
-        public void testOf6() {
-            FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-            assertEquals(1.0f, tuple._1, 0.001f);
-            assertEquals(6.0f, tuple._6, 0.001f);
-            assertEquals(6, tuple.arity());
-        }
-
-        @Test
-        public void testOf7() {
-            FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-            assertEquals(1.0f, tuple._1, 0.001f);
-            assertEquals(7.0f, tuple._7, 0.001f);
-            assertEquals(7, tuple.arity());
-        }
-
-        @Test
-        public void testOf8() {
-            FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-            assertEquals(1.0f, tuple._1, 0.001f);
-            assertEquals(8.0f, tuple._8, 0.001f);
-            assertEquals(8, tuple.arity());
-        }
-
-        @Test
-        public void testOf9() {
-            FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-            assertEquals(1.0f, tuple._1, 0.001f);
-            assertEquals(9.0f, tuple._9, 0.001f);
-            assertEquals(9, tuple.arity());
-        }
-
-        // Create method tests
-        @Test
-        public void testCreateEmpty() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            assertNotNull(tuple);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        public void testCreateNull() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(null);
-            assertNotNull(tuple);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
         public void testCreate1() {
             FloatTuple1 tuple = FloatTuple.copyOf(new float[] { 42.0f });
             assertEquals(42.0f, tuple._1, 0.001f);
@@ -2001,35 +1917,11 @@ class FloatTupleTest extends TestBase {
             assertEquals(2.0f, tuple._2, 0.001f);
         }
 
-        @Test
-        public void testCreate9() {
-            FloatTuple9 tuple = FloatTuple.copyOf(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f });
-            assertEquals(1.0f, tuple._1, 0.001f);
-            assertEquals(9.0f, tuple._9, 0.001f);
-        }
-
-        @Test
-        public void testCreateTooManyElements() {
-            assertThrows(IllegalArgumentException.class, () -> FloatTuple.copyOf(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
-        }
-
         // Min tests
         @Test
         public void testMinTuple1() {
             FloatTuple1 tuple = FloatTuple.of(42.0f);
             assertEquals(42.0f, tuple.min(), 0.001f);
-        }
-
-        @Test
-        public void testMinTuple3() {
-            FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
-            assertEquals(1.0f, tuple.min(), 0.001f);
-        }
-
-        @Test
-        public void testMinTuple0ThrowsException() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.min());
         }
 
         @Test
@@ -2046,21 +1938,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testMaxTuple3() {
-            FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
-            assertEquals(3.0f, tuple.max(), 0.001f);
-        }
-
-        @Test
         public void testMaxTuple7() {
             FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
             assertEquals(7.0f, tuple.max(), 0.001f);
-        }
-
-        @Test
-        public void testMaxTuple0ThrowsException() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.max());
         }
 
         // Median tests
@@ -2089,28 +1969,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testMedianTuple0ThrowsException() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
-        }
-
-        // Sum tests
-        @Test
-        public void testSumTuple0() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            assertEquals(0.0f, tuple.sum(), 0.001f);
-        }
-
-        @Test
         public void testSumTuple1() {
             FloatTuple1 tuple = FloatTuple.of(42.0f);
             assertEquals(42.0f, tuple.sum(), 0.001f);
-        }
-
-        @Test
-        public void testSumTuple3() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(6.0f, tuple.sum(), 0.001f);
         }
 
         @Test
@@ -2133,12 +1994,6 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testAverageTuple3() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(2.0, tuple.average(), 0.001);
-        }
-
-        @Test
         public void testAverageTuple2() {
             FloatTuple2 tuple = FloatTuple.of(10.0f, 20.0f);
             assertEquals(15.0, tuple.average(), 0.001);
@@ -2151,42 +2006,10 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testAverageTuple0ThrowsException() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
-        }
-
-        // Reverse tests
-        @Test
-        public void testReverseTuple0() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            FloatTuple<FloatTuple0> reversed = tuple.reverse();
-            assertNotNull(reversed);
-            assertEquals(0, reversed.arity());
-        }
-
-        @Test
         public void testReverseTuple1() {
             FloatTuple1 tuple = FloatTuple.of(42.0f);
             FloatTuple1 reversed = tuple.reverse();
             assertEquals(42.0f, reversed._1, 0.001f);
-        }
-
-        @Test
-        public void testReverseTuple2() {
-            FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 reversed = tuple.reverse();
-            assertEquals(2.0f, reversed._1, 0.001f);
-            assertEquals(1.0f, reversed._2, 0.001f);
-        }
-
-        @Test
-        public void testReverseTuple3() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 reversed = tuple.reverse();
-            assertEquals(3.0f, reversed._1, 0.001f);
-            assertEquals(2.0f, reversed._2, 0.001f);
-            assertEquals(1.0f, reversed._3, 0.001f);
         }
 
         @Test
@@ -2195,13 +2018,6 @@ class FloatTupleTest extends TestBase {
             FloatTuple9 reversed = tuple.reverse();
             assertEquals(9.0f, reversed._1, 0.001f);
             assertEquals(1.0f, reversed._9, 0.001f);
-        }
-
-        // Contains tests
-        @Test
-        public void testContainsTuple0() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            assertFalse(tuple.contains(1.0f));
         }
 
         @Test
@@ -2217,27 +2033,10 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testContainsTuple3() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertTrue(tuple.contains(1.0f));
-            assertTrue(tuple.contains(2.0f));
-            assertTrue(tuple.contains(3.0f));
-            assertFalse(tuple.contains(4.0f));
-        }
-
-        @Test
         public void testContainsTuple9() {
             FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
             assertTrue(tuple.contains(5.0f));
             assertFalse(tuple.contains(10.0f));
-        }
-
-        // toArray tests
-        @Test
-        public void testToArrayTuple0() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            float[] array = tuple.toArray();
-            assertEquals(0, array.length);
         }
 
         @Test
@@ -2245,13 +2044,6 @@ class FloatTupleTest extends TestBase {
             FloatTuple1 tuple = FloatTuple.of(42.0f);
             float[] array = tuple.toArray();
             assertArrayEquals(new float[] { 42.0f }, array, 0.001f);
-        }
-
-        @Test
-        public void testToArrayTuple3() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            float[] array = tuple.toArray();
-            assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, array, 0.001f);
         }
 
         @Test
@@ -2270,14 +2062,6 @@ class FloatTupleTest extends TestBase {
             float[] array2 = tuple.toArray();
             array1[0] = 999.0f;
             assertEquals(1.0f, array2[0], 0.001f);
-        }
-
-        // toList tests
-        @Test
-        public void testToListTuple0() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            FloatList list = tuple.toList();
-            assertEquals(0, list.size());
         }
 
         @Test
@@ -2336,14 +2120,6 @@ class FloatTupleTest extends TestBase {
             assertEquals(20.0f, collected.get(1), 0.001f);
         }
 
-        // stream tests
-        @Test
-        public void testStreamTuple0() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            FloatStream stream = tuple.stream();
-            assertEquals(0, stream.count());
-        }
-
         @Test
         public void testStreamTuple1() {
             FloatTuple1 tuple = FloatTuple.of(42.0f);
@@ -2380,20 +2156,6 @@ class FloatTupleTest extends TestBase {
             assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
-        @Test
-        public void testHashCodeTuple2() {
-            FloatTuple2 tuple1 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 tuple2 = FloatTuple.of(1.0f, 2.0f);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
-        public void testHashCodeTuple3() {
-            FloatTuple3 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
         // equals tests
         @Test
         public void testEqualsTuple0() {
@@ -2406,20 +2168,6 @@ class FloatTupleTest extends TestBase {
         public void testEqualsTuple1() {
             FloatTuple1 tuple1 = FloatTuple.of(42.0f);
             FloatTuple1 tuple2 = FloatTuple.of(42.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        public void testEqualsTuple2() {
-            FloatTuple2 tuple1 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 tuple2 = FloatTuple.of(1.0f, 2.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        public void testEqualsTuple3() {
-            FloatTuple3 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
             assertEquals(tuple1, tuple2);
         }
 
@@ -2449,23 +2197,10 @@ class FloatTupleTest extends TestBase {
             assertEquals(tuple, tuple);
         }
 
-        // toString tests
-        @Test
-        public void testToStringTuple0() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            assertEquals("()", tuple.toString());
-        }
-
         @Test
         public void testToStringTuple1() {
             FloatTuple1 tuple = FloatTuple.of(42.0f);
             assertEquals("(42.0)", tuple.toString());
-        }
-
-        @Test
-        public void testToStringTuple2() {
-            FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertEquals("(1.0, 2.0)", tuple.toString());
         }
 
         @Test
@@ -2489,13 +2224,6 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple2Map() {
-            FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
-            float result = tuple.map((a, b) -> a * b);
-            assertEquals(12.0f, result, 0.001f);
-        }
-
-        @Test
         public void testTuple2Filter() {
             FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
             assertTrue(tuple.filter((a, b) -> a + b > 5).isPresent());
@@ -2516,13 +2244,6 @@ class FloatTupleTest extends TestBase {
             assertEquals(1.0f, values.get(0), 0.001f);
             assertEquals(2.0f, values.get(1), 0.001f);
             assertEquals(3.0f, values.get(2), 0.001f);
-        }
-
-        @Test
-        public void testTuple3Map() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            float result = tuple.map((a, b, c) -> a * b * c);
-            assertEquals(6.0f, result, 0.001f);
         }
 
         @Test
@@ -3066,13 +2787,6 @@ class FloatTupleTest extends TestBase {
             FloatTuple1 tuple = FloatTuple.of(5.5f);
             assertNotEquals(tuple, null);
         }
-
-        @Test
-        public void testEquals_self() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(tuple, tuple);
-        }
-
         // ============ HashCode Tests ============
 
         @Test
@@ -3081,13 +2795,6 @@ class FloatTupleTest extends TestBase {
             int hash1 = tuple.hashCode();
             int hash2 = tuple.hashCode();
             assertEquals(hash1, hash2);
-        }
-
-        @Test
-        public void testHashCode_equal() {
-            FloatTuple3 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
         @Test
@@ -3152,14 +2859,6 @@ class FloatTupleTest extends TestBase {
             assertFalse(result2.isPresent());
         }
 
-        @Test
-        public void testToOptional() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            Optional<FloatTuple3> opt = tuple.toOptional();
-            assertTrue(opt.isPresent());
-            assertEquals(tuple, opt.get());
-        }
-
         // ============ Arity Tests ============
 
         @Test
@@ -3173,25 +2872,6 @@ class FloatTupleTest extends TestBase {
             FloatTuple1 tuple = FloatTuple.of(1.0f);
             assertEquals(1, tuple.arity());
         }
-
-        @Test
-        public void testArity_tuple2() {
-            FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testArity_tuple3() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(3, tuple.arity());
-        }
-
-        @Test
-        public void testArity_tuple9() {
-            FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-            assertEquals(9, tuple.arity());
-        }
-
     }
 
     @Nested
@@ -3473,12 +3153,6 @@ class FloatTupleTest extends TestBase {
         // ===== FloatTuple2 Tests =====
 
         @Test
-        public void test_FloatTuple2_arity() {
-            FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
         public void test_FloatTuple2_min() {
             FloatTuple2 tuple = FloatTuple.of(3.0f, 1.0f);
             assertEquals(1.0f, tuple.min(), 0.0001f);
@@ -3591,12 +3265,6 @@ class FloatTupleTest extends TestBase {
         }
 
         // ===== FloatTuple3 Tests =====
-
-        @Test
-        public void test_FloatTuple3_arity() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(3, tuple.arity());
-        }
 
         @Test
         public void test_FloatTuple3_min() {
@@ -3767,43 +3435,12 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void test_hashCode_consistency() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            int hash1 = tuple.hashCode();
-            int hash2 = tuple.hashCode();
-            assertEquals(hash1, hash2);
-        }
-
-        @Test
-        public void test_equals_reflexive() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(tuple, tuple);
-        }
-
-        @Test
         public void test_equals_symmetric() {
             FloatTuple3 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
             FloatTuple3 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
             assertEquals(tuple1, tuple2);
             assertEquals(tuple2, tuple1);
         }
-
-        @Test
-        public void test_equals_differentClass() {
-            FloatTuple2 tuple2 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple3 tuple3 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertNotEquals(tuple2, tuple3);
-        }
-
-        @Test
-        public void test_toString_format() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            String str = tuple.toString();
-            assertTrue(str.contains("1.0"));
-            assertTrue(str.contains("2.0"));
-            assertTrue(str.contains("3.0"));
-        }
-
         // ===== Edge Cases =====
 
         @Test

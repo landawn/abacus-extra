@@ -10,6 +10,8 @@ const matchArg = process.argv.slice(2).find((arg) => arg.startsWith("--match="))
 const matchText = matchArg ? matchArg.slice("--match=".length) : "";
 const uniqueFileArg = process.argv.slice(2).find((arg) => arg.startsWith("--unique-file="));
 const uniqueFileText = uniqueFileArg ? uniqueFileArg.slice("--unique-file=".length) : "";
+const scopeArg = process.argv.slice(2).find((arg) => arg.startsWith("--scope="));
+const scope = scopeArg ? scopeArg.slice("--scope=".length) : "all";
 const defaultInclude = /Test\.java$/;
 const defaultExclude = /[\\/]com[\\/]landawn[\\/]abacus[\\/][^\\/]+\.java$/;
 const annotationNames = new Set(["Test", "ParameterizedTest", "RepeatedTest", "TestFactory", "TestTemplate"]);
@@ -289,6 +291,7 @@ function groupByNormalized(methods) {
 function summarize(groups) {
   return groups.map((group) => ({
     normalizedLength: group[0].normalized.length,
+    scope: new Set(group.map((method) => method.filePath)).size > 1 ? "cross-file" : "same-file",
     methods: group.map((method) => ({
       file: path.relative(repoRoot, method.filePath).replace(/\\/g, "/"),
       line: method.startLine,
@@ -299,16 +302,23 @@ function summarize(groups) {
 }
 
 function filterGroups(groups) {
-  if (!matchText) {
-    return groups;
-  }
+  return groups.filter((group) => {
+    const fileCount = new Set(group.map((method) => method.filePath)).size;
+    const groupScope = fileCount > 1 ? "cross-file" : "same-file";
 
-  return groups.filter((group) =>
-    group.some((method) => {
+    if (scope !== "all" && scope !== groupScope) {
+      return false;
+    }
+
+    if (!matchText) {
+      return true;
+    }
+
+    return group.some((method) => {
       const file = path.relative(repoRoot, method.filePath).replace(/\\/g, "/");
       return file.includes(matchText) || method.methodName.includes(matchText);
-    }),
-  );
+    });
+  });
 }
 
 const files = walk(testRoot);
@@ -354,12 +364,17 @@ if (args.has("--summary-by-file")) {
     return a.file.localeCompare(b.file);
   });
 
-  console.log(JSON.stringify({
-    scannedFiles: files.length,
-    scannedMethods: methods.length,
-    duplicateGroupCount: duplicateGroups.length,
-    files: summary,
-  }, null, 2));
+  console.log(JSON.stringify(
+    {
+      scannedFiles: files.length,
+      scannedMethods: methods.length,
+      scope,
+      duplicateGroupCount: duplicateGroups.length,
+      files: summary,
+    },
+    null,
+    2,
+  ));
 } else if (uniqueFileText) {
   const selectedMethods = methods
     .filter((method) => {
@@ -376,9 +391,10 @@ if (args.has("--summary-by-file")) {
 
   console.log(JSON.stringify({
     fileMatch: uniqueFileText,
+    scope,
     methods: selectedMethods.filter((method) => !method.isDuplicate),
     duplicateMethods: selectedMethods.filter((method) => method.isDuplicate),
   }, null, 2));
 } else {
-  console.log(JSON.stringify(report, null, 2));
+  console.log(JSON.stringify({ ...report, scope }, null, 2));
 }

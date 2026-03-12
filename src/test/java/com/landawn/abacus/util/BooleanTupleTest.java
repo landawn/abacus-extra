@@ -9,14 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple0;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple1;
@@ -28,8 +20,13 @@ import com.landawn.abacus.util.BooleanTuple.BooleanTuple6;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple7;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple8;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple9;
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.Stream;
+import com.landawn.abacus.util.u.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 class BooleanTupleTest extends TestBase {
 
@@ -472,14 +469,6 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testReverseTuple2() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            BooleanTuple2 reversed = tuple.reverse();
-            assertEquals(false, reversed._1);
-            assertEquals(true, reversed._2);
-        }
-
-        @Test
         public void testReverseTuple3() {
             BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
             BooleanTuple3 reversed = tuple.reverse();
@@ -496,18 +485,6 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testContainsTuple1True() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertTrue(tuple.contains(true));
-        }
-
-        @Test
-        public void testContainsTuple1False() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertFalse(tuple.contains(false));
-        }
-
-        @Test
         public void testContainsTuple3() {
             BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
             assertTrue(tuple._1);
@@ -521,20 +498,6 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple<BooleanTuple0> tuple = BooleanTuple.copyOf(new boolean[0]);
             boolean[] array = tuple.toArray();
             assertEquals(0, array.length);
-        }
-
-        @Test
-        public void testToArrayTuple1() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            boolean[] array = tuple.toArray();
-            assertArrayEquals(new boolean[] { true }, array);
-        }
-
-        @Test
-        public void testToArrayTuple3() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            boolean[] array = tuple.toArray();
-            assertArrayEquals(new boolean[] { true, false, true }, array);
         }
 
         @Test
@@ -630,20 +593,6 @@ class BooleanTupleTest extends TestBase {
             assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
-        @Test
-        public void testHashCodeTuple2() {
-            BooleanTuple2 tuple1 = BooleanTuple.of(true, false);
-            BooleanTuple2 tuple2 = BooleanTuple.of(true, false);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
-        public void testHashCodeTuple3() {
-            BooleanTuple3 tuple1 = BooleanTuple.of(true, false, true);
-            BooleanTuple3 tuple2 = BooleanTuple.of(true, false, true);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
         // equals tests
         @Test
         public void testEqualsSameObject() {
@@ -725,14 +674,6 @@ class BooleanTupleTest extends TestBase {
             assertEquals(2, result.size());
             assertEquals(Boolean.valueOf(true), result.get(0));
             assertEquals(Boolean.valueOf(false), result.get(1));
-        }
-
-        // Tuple2 special methods - map
-        @Test
-        public void testTuple2Map() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            boolean result = tuple.map((a, b) -> a && b);
-            assertEquals(false, result);
         }
 
         // Tuple2 special methods - filter
@@ -1629,117 +1570,6 @@ class BooleanTupleTest extends TestBase {
     @Nested
     @Tag("2510")
     class BooleanTuple2510Test extends TestBase {
-
-        // ============ Factory Method Tests - BooleanTuple.of() ============
-
-        @Test
-        public void testOf_tuple1() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(1, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple2() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple3() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(3, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple4() {
-            BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(4, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple5() {
-            BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(5, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple6() {
-            BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(false, tuple._6);
-            assertEquals(6, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple7() {
-            BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(false, tuple._6);
-            assertEquals(true, tuple._7);
-            assertEquals(7, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple8() {
-            BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(false, tuple._6);
-            assertEquals(true, tuple._7);
-            assertEquals(false, tuple._8);
-            assertEquals(8, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple9() {
-            BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(false, tuple._6);
-            assertEquals(true, tuple._7);
-            assertEquals(false, tuple._8);
-            assertEquals(true, tuple._9);
-            assertEquals(9, tuple.arity());
-        }
-
         // ============ Factory Method Tests - BooleanTuple.copyOf() ============
 
         @Test
@@ -1754,33 +1584,6 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple<?> tuple = BooleanTuple.copyOf(new boolean[0]);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        public void testCreate_array1() {
-            BooleanTuple1 tuple = BooleanTuple.copyOf(new boolean[] { true });
-            assertNotNull(tuple);
-            assertEquals(1, tuple.arity());
-            assertEquals(true, tuple._1);
-        }
-
-        @Test
-        public void testCreate_array2() {
-            BooleanTuple2 tuple = BooleanTuple.copyOf(new boolean[] { true, false });
-            assertNotNull(tuple);
-            assertEquals(2, tuple.arity());
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-        }
-
-        @Test
-        public void testCreate_array3() {
-            BooleanTuple3 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true });
-            assertNotNull(tuple);
-            assertEquals(3, tuple.arity());
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
         }
 
         @Test
@@ -1818,14 +1621,6 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple9 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true, false, true, false, true, false, true });
             assertEquals(9, tuple.arity());
         }
-
-        @Test
-        public void testCreate_arrayTooLarge() {
-            assertThrows(IllegalArgumentException.class, () -> {
-                BooleanTuple.copyOf(new boolean[10]);
-            });
-        }
-
         // ============ BooleanTuple1 Tests ============
 
         @Test
@@ -1877,13 +1672,6 @@ class BooleanTupleTest extends TestBase {
             assertNotEquals(tuple1, null);
             assertNotEquals(tuple1, "not a tuple");
         }
-
-        @Test
-        public void testTuple1_toString() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertEquals("(true)", tuple.toString());
-        }
-
         // ============ BooleanTuple2 Tests ============
 
         @Test
@@ -1946,14 +1734,6 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple2_filter_matches() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            Optional<BooleanTuple2> result = tuple.filter((a, b) -> a || b);
-            assertTrue(result.isPresent());
-            assertEquals(tuple, result.get());
-        }
-
-        @Test
         public void testTuple2_filter_noMatch() {
             BooleanTuple2 tuple = BooleanTuple.of(false, false);
             Optional<BooleanTuple2> result = tuple.filter((a, b) -> a && b);
@@ -1981,13 +1761,6 @@ class BooleanTupleTest extends TestBase {
             assertNotEquals(tuple1, tuple3);
             assertNotEquals(tuple1, null);
         }
-
-        @Test
-        public void testTuple2_toString() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            assertEquals("(true, false)", tuple.toString());
-        }
-
         // ============ BooleanTuple3 Tests ============
 
         @Test
@@ -2003,13 +1776,6 @@ class BooleanTupleTest extends TestBase {
             assertEquals(false, reversed._1);
             assertEquals(false, reversed._2);
             assertEquals(true, reversed._3);
-        }
-
-        @Test
-        public void testTuple3_contains() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            assertTrue(tuple.contains(true));
-            assertTrue(tuple.contains(false));
         }
 
         @Test
@@ -2044,20 +1810,6 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple3_filter_noMatch() {
-            BooleanTuple3 tuple = BooleanTuple.of(false, false, false);
-            Optional<BooleanTuple3> result = tuple.filter((a, b, c) -> a || b || c);
-            assertFalse(result.isPresent());
-        }
-
-        @Test
-        public void testTuple3_hashCode() {
-            BooleanTuple3 tuple1 = BooleanTuple.of(true, false, true);
-            BooleanTuple3 tuple2 = BooleanTuple.of(true, false, true);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
         public void testTuple3_equals() {
             BooleanTuple3 tuple1 = BooleanTuple.of(true, false, true);
             BooleanTuple3 tuple2 = BooleanTuple.of(true, false, true);
@@ -2067,13 +1819,6 @@ class BooleanTupleTest extends TestBase {
             assertEquals(tuple1, tuple2);
             assertNotEquals(tuple1, tuple3);
         }
-
-        @Test
-        public void testTuple3_toString() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            assertEquals("(true, false, true)", tuple.toString());
-        }
-
         // ============ BooleanTuple4 Tests ============
 
         @Test
@@ -2279,28 +2024,10 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testToList() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            BooleanList list = tuple.toList();
-            assertNotNull(list);
-            assertEquals(3, list.size());
-            assertEquals(true, list.get(0));
-            assertEquals(false, list.get(1));
-            assertEquals(true, list.get(2));
-        }
-
-        @Test
         public void testStream() {
             BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
             long count = tuple.stream().filter(b -> b).count();
             assertEquals(2, count);
-        }
-
-        @Test
-        public void testHashCode_consistency() {
-            BooleanTuple2 tuple1 = BooleanTuple.of(true, false);
-            BooleanTuple2 tuple2 = BooleanTuple.of(true, false);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
         @Test
@@ -2309,13 +2036,6 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple2 tuple2 = BooleanTuple.of(true, false);
             assertEquals(tuple1, tuple2);
             assertEquals(tuple2, tuple1);
-        }
-
-        @Test
-        public void testEquals_differentTypes() {
-            BooleanTuple2 tuple2 = BooleanTuple.of(true, false);
-            BooleanTuple3 tuple3 = BooleanTuple.of(true, false, true);
-            assertNotEquals(tuple2, tuple3);
         }
     }
 
@@ -2327,133 +2047,6 @@ class BooleanTupleTest extends TestBase {
      */
     @Tag("2511")
     class BooleanTuple2511Test extends TestBase {
-
-        // ============ Factory Method Tests - BooleanTuple.of() ============
-
-        @Test
-        public void testOf_tuple1() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(1, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple2() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple3() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(3, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple4() {
-            BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(4, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple5() {
-            BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(5, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple6() {
-            BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(false, tuple._6);
-            assertEquals(6, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple7() {
-            BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(false, tuple._6);
-            assertEquals(true, tuple._7);
-            assertEquals(7, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple8() {
-            BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(false, tuple._6);
-            assertEquals(true, tuple._7);
-            assertEquals(false, tuple._8);
-            assertEquals(8, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple9() {
-            BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-            assertNotNull(tuple);
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-            assertEquals(true, tuple._3);
-            assertEquals(false, tuple._4);
-            assertEquals(true, tuple._5);
-            assertEquals(false, tuple._6);
-            assertEquals(true, tuple._7);
-            assertEquals(false, tuple._8);
-            assertEquals(true, tuple._9);
-            assertEquals(9, tuple.arity());
-        }
-
-        // ============ Factory Method Tests - BooleanTuple.copyOf() ============
-
-        @Test
-        public void testCreate_nullArray() {
-            BooleanTuple<?> tuple = BooleanTuple.copyOf(null);
-            assertNotNull(tuple);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        public void testCreate_emptyArray() {
-            BooleanTuple<?> tuple = BooleanTuple.copyOf(new boolean[0]);
-            assertNotNull(tuple);
-            assertEquals(0, tuple.arity());
-        }
-
         @Test
         public void testCreate_singleElement() {
             BooleanTuple1 tuple = BooleanTuple.copyOf(new boolean[] { true });
@@ -2669,15 +2262,6 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple1_toList() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            BooleanList list = tuple.toList();
-            assertNotNull(list);
-            assertEquals(1, list.size());
-            assertEquals(true, list.get(0));
-        }
-
-        @Test
         public void testTuple2_toList() {
             BooleanTuple2 tuple = BooleanTuple.of(true, false);
             BooleanList list = tuple.toList();
@@ -2834,14 +2418,6 @@ class BooleanTupleTest extends TestBase {
             boolean result = tuple.map((a, b, c) -> a && b && c);
             assertEquals(false, result);
         }
-
-        @Test
-        public void testTuple3_map_or() throws Exception {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            boolean result = tuple.map((a, b, c) -> a || b || c);
-            assertEquals(true, result);
-        }
-
         // ============ BooleanTuple3.filter Tests ============
 
         @Test
@@ -2880,20 +2456,6 @@ class BooleanTupleTest extends TestBase {
         public void testTuple1_hashCode_false() {
             BooleanTuple1 tuple = BooleanTuple.of(false);
             assertEquals(1237, tuple.hashCode());
-        }
-
-        @Test
-        public void testTuple2_hashCode() {
-            BooleanTuple2 tuple1 = BooleanTuple.of(true, false);
-            BooleanTuple2 tuple2 = BooleanTuple.of(true, false);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
-        public void testTuple3_hashCode() {
-            BooleanTuple3 tuple1 = BooleanTuple.of(true, false, true);
-            BooleanTuple3 tuple2 = BooleanTuple.of(true, false, true);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
         @Test
@@ -2990,91 +2552,10 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple1_toString() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertEquals("(true)", tuple.toString());
-        }
-
-        @Test
         public void testTuple1_toString_false() {
             BooleanTuple1 tuple = BooleanTuple.of(false);
             assertEquals("(false)", tuple.toString());
         }
-
-        @Test
-        public void testTuple2_toString() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            assertEquals("(true, false)", tuple.toString());
-        }
-
-        @Test
-        public void testTuple3_toString() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            assertEquals("(true, false, true)", tuple.toString());
-        }
-
-        // ============ Arity Tests ============
-
-        @Test
-        public void testTuple0_arity() {
-            BooleanTuple0 tuple = BooleanTuple.copyOf(new boolean[0]);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        public void testTuple1_arity() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertEquals(1, tuple.arity());
-        }
-
-        @Test
-        public void testTuple2_arity() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testTuple3_arity() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            assertEquals(3, tuple.arity());
-        }
-
-        @Test
-        public void testTuple4_arity() {
-            BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-            assertEquals(4, tuple.arity());
-        }
-
-        @Test
-        public void testTuple5_arity() {
-            BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-            assertEquals(5, tuple.arity());
-        }
-
-        @Test
-        public void testTuple6_arity() {
-            BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-            assertEquals(6, tuple.arity());
-        }
-
-        @Test
-        public void testTuple7_arity() {
-            BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-            assertEquals(7, tuple.arity());
-        }
-
-        @Test
-        public void testTuple8_arity() {
-            BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-            assertEquals(8, tuple.arity());
-        }
-
-        @Test
-        public void testTuple9_arity() {
-            BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-            assertEquals(9, tuple.arity());
-        }
-
         // ============ Edge Cases and Special Tests ============
 
         @Test
@@ -3248,32 +2729,6 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void test_create_arraySize1() {
-            BooleanTuple1 tuple = BooleanTuple.copyOf(new boolean[] { true });
-            assertNotNull(tuple);
-            assertEquals(1, tuple.arity());
-            assertEquals(true, tuple._1);
-        }
-
-        @Test
-        public void test_create_arraySize2() {
-            BooleanTuple2 tuple = BooleanTuple.copyOf(new boolean[] { true, false });
-            assertNotNull(tuple);
-            assertEquals(2, tuple.arity());
-            assertEquals(true, tuple._1);
-            assertEquals(false, tuple._2);
-        }
-
-        @Test
-        public void test_create_arraySize9() {
-            BooleanTuple9 tuple = BooleanTuple.copyOf(new boolean[] { true, false, true, false, true, false, true, false, true });
-            assertNotNull(tuple);
-            assertEquals(9, tuple.arity());
-            assertEquals(true, tuple._1);
-            assertEquals(true, tuple._9);
-        }
-
-        @Test
         public void test_create_arrayTooLarge() {
             assertThrows(IllegalArgumentException.class, () -> {
                 BooleanTuple.copyOf(new boolean[10]);
@@ -3293,21 +2748,6 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple0 tuple = BooleanTuple.copyOf(new boolean[0]);
             BooleanTuple0 reversed = tuple.reverse();
             assertSame(tuple, reversed);
-        }
-
-        @Test
-        public void test_tuple0_contains() {
-            BooleanTuple0 tuple = BooleanTuple.copyOf(new boolean[0]);
-            assertFalse(tuple.contains(true));
-            assertFalse(tuple.contains(false));
-        }
-
-        @Test
-        public void test_tuple0_toArray() {
-            BooleanTuple0 tuple = BooleanTuple.copyOf(new boolean[0]);
-            boolean[] array = tuple.toArray();
-            assertNotNull(array);
-            assertEquals(0, array.length);
         }
 
         @Test
@@ -3334,38 +2774,12 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple0_toString() {
-            BooleanTuple0 tuple = BooleanTuple.copyOf(new boolean[0]);
-            assertEquals("()", tuple.toString());
-        }
-
-        // ============ Tuple1 Tests ============
-
-        @Test
-        public void test_tuple1_arity() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertEquals(1, tuple.arity());
-        }
-
-        @Test
         public void test_tuple1_reverse() {
             BooleanTuple1 tuple = BooleanTuple.of(true);
             BooleanTuple1 reversed = tuple.reverse();
             assertNotNull(reversed);
             assertEquals(true, reversed._1);
             assertNotSame(tuple, reversed);
-        }
-
-        @Test
-        public void test_tuple1_contains_found() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertTrue(tuple.contains(true));
-        }
-
-        @Test
-        public void test_tuple1_contains_notFound() {
-            BooleanTuple1 tuple = BooleanTuple.of(true);
-            assertFalse(tuple.contains(false));
         }
 
         @Test
@@ -3398,13 +2812,6 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple1 tuple = BooleanTuple.of(true);
             long trueCount = tuple.stream().filter(b -> b).count();
             assertEquals(1, trueCount);
-        }
-
-        @Test
-        public void test_tuple1_hashCode() {
-            BooleanTuple1 tuple1 = BooleanTuple.of(true);
-            BooleanTuple1 tuple2 = BooleanTuple.of(true);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
         @Test
@@ -3446,14 +2853,6 @@ class BooleanTupleTest extends TestBase {
             assertEquals("(true)", tuple.toString());
         }
 
-        // ============ Tuple2 Tests ============
-
-        @Test
-        public void test_tuple2_arity() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            assertEquals(2, tuple.arity());
-        }
-
         @Test
         public void test_tuple2_reverse() {
             BooleanTuple2 tuple = BooleanTuple.of(true, false);
@@ -3461,13 +2860,6 @@ class BooleanTupleTest extends TestBase {
             assertNotNull(reversed);
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
-        }
-
-        @Test
-        public void test_tuple2_contains_found() {
-            BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            assertTrue(tuple.contains(true));
-            assertTrue(tuple.contains(false));
         }
 
         @Test
@@ -3567,14 +2959,6 @@ class BooleanTupleTest extends TestBase {
             assertEquals("(true, false)", tuple.toString());
         }
 
-        // ============ Tuple3 Tests ============
-
-        @Test
-        public void test_tuple3_arity() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            assertEquals(3, tuple.arity());
-        }
-
         @Test
         public void test_tuple3_reverse() {
             BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
@@ -3583,13 +2967,6 @@ class BooleanTupleTest extends TestBase {
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
             assertEquals(true, reversed._3);
-        }
-
-        @Test
-        public void test_tuple3_contains() {
-            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            assertTrue(tuple.contains(true));
-            assertTrue(tuple.contains(false));
         }
 
         @Test

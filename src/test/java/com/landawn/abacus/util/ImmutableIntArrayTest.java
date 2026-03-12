@@ -7,19 +7,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import com.landawn.abacus.TestBase;
+import com.landawn.abacus.util.stream.IntStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
+import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import com.landawn.abacus.TestBase;
-import com.landawn.abacus.util.stream.IntStream;
-
-public class ImmutableIntArrayTest extends TestBase {
+class ImmutableIntArrayTest extends TestBase {
 
     @Nested
     /**
@@ -765,28 +762,6 @@ public class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
-        public void testImmutableIntArrayWrapMutability() {
-            // From unsafeWrap() Javadoc: modifying original array affects the wrapper
-            int[] data = new int[] { 10, 20, 30 };
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(data);
-            assertEquals(20, array.get(1));
-
-            data[1] = 99;
-            assertEquals(99, array.get(1)); // "prints: 99 (not recommended!)"
-        }
-
-        @Test
-        public void testImmutableIntArrayCopyOfImmutability() {
-            // From copyOf() Javadoc: modifying original array does NOT affect the copy
-            int[] data = { 10, 20, 30 };
-            ImmutableIntArray array = ImmutableIntArray.copyOf(data);
-            assertEquals(10, array.get(0));
-
-            data[0] = 99;
-            assertEquals(10, array.get(0)); // "still prints: 10"
-        }
-
-        @Test
         public void testImmutableIntArrayIsEmpty() {
             // From isEmpty() Javadoc
             ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
@@ -888,19 +863,6 @@ public class ImmutableIntArrayTest extends TestBase {
             assertFalse(array1.equals(array3)); // prints: false
             assertFalse(array1.equals(new int[] { 1, 2, 3 })); // prints: false (different type)
         }
-
-        @Test
-        public void testImmutableIntArrayToString() {
-            // From toString() Javadoc
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
-            assertEquals("[1, 2, 3]", array.toString());
-
-            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
-            assertEquals("[]", empty.toString());
-
-            ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] { 42 });
-            assertEquals("[42]", single.toString());
-        }
     }
 
     @Nested
@@ -932,19 +894,6 @@ public class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
-        public void testImmutableIntArray_isEmpty() {
-            // From isEmpty Javadoc
-            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
-            assertTrue(empty.isEmpty()); // returns true
-
-            ImmutableIntArray nonEmpty = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
-            assertFalse(nonEmpty.isEmpty()); // returns false
-
-            ImmutableIntArray fromNull = ImmutableIntArray.unsafeWrap(null);
-            assertTrue(fromNull.isEmpty()); // returns true (null becomes empty array)
-        }
-
-        @Test
         public void testImmutableIntArray_length() {
             // From length Javadoc
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
@@ -963,57 +912,12 @@ public class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
-        public void testImmutableIntArray_get() {
-            // From get Javadoc
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 5, 10, 15, 20 });
-            assertEquals(10, array.get(1)); // returns 10
-            assertEquals(5, array.get(0)); // returns 5
-            assertEquals(20, array.get(array.length() - 1)); // returns 20
-        }
-
-        @Test
-        public void testImmutableIntArray_forEach_sum() {
-            // From forEach Javadoc: Accumulate sum
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4, 5 });
-            int[] sum = { 0 };
-            array.forEach(value -> sum[0] += value);
-            assertEquals(15, sum[0]); // prints: 15
-        }
-
-        @Test
-        public void testImmutableIntArray_stream_sum() {
-            // From stream Javadoc
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4, 5 });
-
-            int sum = array.stream().sum(); // returns 15
-            assertEquals(15, sum);
-        }
-
-        @Test
-        public void testImmutableIntArray_stream_max() {
-            // From stream Javadoc
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4, 5 });
-
-            int max = array.stream().max().orElse(0); // returns 5
-            assertEquals(5, max);
-        }
-
-        @Test
         public void testImmutableIntArray_stream_filter() {
             // From stream Javadoc
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4, 5 });
 
             int[] evens = array.stream().filter(x -> x % 2 == 0).toArray(); // returns {2, 4}
             assertArrayEquals(new int[] { 2, 4 }, evens);
-        }
-
-        @Test
-        public void testImmutableIntArray_stream_mapAndSum() {
-            // From stream Javadoc
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4, 5 });
-
-            int sumOfSquares = array.stream().map(x -> x * x).sum(); // returns 55 (1 + 4 + 9 + 16 + 25)
-            assertEquals(55, sumOfSquares);
         }
 
         @Test
@@ -1029,27 +933,6 @@ public class ImmutableIntArrayTest extends TestBase {
 
             int[] empty = array.subArray(2, 2);
             assertEquals(0, empty.length); // empty array with length 0
-        }
-
-        @Test
-        public void testImmutableIntArray_hashCode_equals() {
-            // From hashCode Javadoc
-            ImmutableIntArray array1 = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
-            ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] { 1, 2, 3 });
-
-            assertEquals(array1.hashCode(), array2.hashCode()); // equal arrays have same hash
-        }
-
-        @Test
-        public void testImmutableIntArray_equals() {
-            // From equals Javadoc
-            ImmutableIntArray array1 = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
-            ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] { 1, 2, 3 });
-            ImmutableIntArray array3 = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 4 });
-
-            assertTrue(array1.equals(array2)); // true
-            assertFalse(array1.equals(array3)); // false
-            assertFalse(array1.equals(new int[] { 1, 2, 3 })); // false (different type)
         }
 
         @Test

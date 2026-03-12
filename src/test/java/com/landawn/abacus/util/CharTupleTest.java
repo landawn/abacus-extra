@@ -9,16 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.CharTuple.CharTuple0;
 import com.landawn.abacus.util.CharTuple.CharTuple1;
@@ -30,8 +20,15 @@ import com.landawn.abacus.util.CharTuple.CharTuple6;
 import com.landawn.abacus.util.CharTuple.CharTuple7;
 import com.landawn.abacus.util.CharTuple.CharTuple8;
 import com.landawn.abacus.util.CharTuple.CharTuple9;
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.CharStream;
+import com.landawn.abacus.util.u.Optional;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.List;
+import java.util.NoSuchElementException;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 class CharTupleTest extends TestBase {
 
@@ -1832,36 +1829,6 @@ class CharTupleTest extends TestBase {
     @Nested
     @Tag("2510")
     class CharTuple2510Test extends TestBase {
-
-        // ============ Factory Method Tests - CharTuple.of() ============
-
-        @Test
-        public void testOf_tuple1() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals(1, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple2() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('B', tuple._2);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple3() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('B', tuple._2);
-            assertEquals('C', tuple._3);
-            assertEquals(3, tuple.arity());
-        }
-
         @Test
         public void testOf_tuple4() {
             CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
@@ -1925,23 +1892,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCreate_array1() {
-            CharTuple1 tuple = CharTuple.copyOf(new char[] { 'A' });
-            assertNotNull(tuple);
-            assertEquals(1, tuple.arity());
-            assertEquals('A', tuple._1);
-        }
-
-        @Test
-        public void testCreate_array2() {
-            CharTuple2 tuple = CharTuple.copyOf(new char[] { 'A', 'B' });
-            assertNotNull(tuple);
-            assertEquals(2, tuple.arity());
-            assertEquals('A', tuple._1);
-            assertEquals('B', tuple._2);
-        }
-
-        @Test
         public void testCreate_array3() {
             CharTuple3 tuple = CharTuple.copyOf(new char[] { 'A', 'B', 'C' });
             assertNotNull(tuple);
@@ -1983,14 +1933,6 @@ class CharTupleTest extends TestBase {
             CharTuple9 tuple = CharTuple.copyOf(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' });
             assertEquals(9, tuple.arity());
         }
-
-        @Test
-        public void testCreate_arrayTooLarge() {
-            assertThrows(IllegalArgumentException.class, () -> {
-                CharTuple.copyOf(new char[10]);
-            });
-        }
-
         // ============ CharTuple0 Tests ============
 
         @Test
@@ -2058,24 +2000,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple1_min() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertEquals('A', tuple.min());
-        }
-
-        @Test
-        public void testTuple1_max() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertEquals('A', tuple.max());
-        }
-
-        @Test
-        public void testTuple1_median() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertEquals('A', tuple.median());
-        }
-
-        @Test
         public void testTuple1_sum() {
             CharTuple1 tuple = CharTuple.of('A');
             assertEquals(65, tuple.sum()); // ASCII value of 'A' is 65
@@ -2130,37 +2054,12 @@ class CharTupleTest extends TestBase {
             assertNotEquals(tuple1, null);
             assertNotEquals(tuple1, "not a tuple");
         }
-
-        @Test
-        public void testTuple1_toString() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertEquals("(A)", tuple.toString());
-        }
-
         // ============ CharTuple2 Tests ============
 
         @Test
         public void testTuple2_arity() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
             assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testTuple2_min() {
-            CharTuple2 tuple = CharTuple.of('B', 'A');
-            assertEquals('A', tuple.min());
-        }
-
-        @Test
-        public void testTuple2_max() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals('B', tuple.max());
-        }
-
-        @Test
-        public void testTuple2_median() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals('A', tuple.median());
         }
 
         @Test
@@ -2211,13 +2110,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple2_map() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            String result = tuple.map((a, b) -> "" + a + b);
-            assertEquals("AB", result);
-        }
-
-        @Test
         public void testTuple2_filter_matches() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
             Optional<CharTuple2> result = tuple.filter((a, b) -> a < b);
@@ -2233,13 +2125,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple2_hashCode() {
-            CharTuple2 tuple1 = CharTuple.of('A', 'B');
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
         public void testTuple2_equals() {
             CharTuple2 tuple1 = CharTuple.of('A', 'B');
             CharTuple2 tuple2 = CharTuple.of('A', 'B');
@@ -2249,25 +2134,12 @@ class CharTupleTest extends TestBase {
             assertEquals(tuple1, tuple2);
             assertNotEquals(tuple1, tuple3);
         }
-
-        @Test
-        public void testTuple2_toString() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals("(A, B)", tuple.toString());
-        }
-
         // ============ CharTuple3 Tests ============
 
         @Test
         public void testTuple3_arity() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
             assertEquals(3, tuple.arity());
-        }
-
-        @Test
-        public void testTuple3_min() {
-            CharTuple3 tuple = CharTuple.of('C', 'A', 'B');
-            assertEquals('A', tuple.min());
         }
 
         @Test
@@ -2304,15 +2176,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple3_contains() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertTrue(tuple.contains('A'));
-            assertTrue(tuple.contains('B'));
-            assertTrue(tuple.contains('C'));
-            assertFalse(tuple.contains('D'));
-        }
-
-        @Test
         public void testTuple3_forEach() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
             List<Character> values = new ArrayList<>();
@@ -2330,13 +2193,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple3_map() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            String result = tuple.map((a, b, c) -> "" + a + b + c);
-            assertEquals("ABC", result);
-        }
-
-        @Test
         public void testTuple3_filter_matches() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
             Optional<CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c);
@@ -2351,13 +2207,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple3_hashCode() {
-            CharTuple3 tuple1 = CharTuple.of('A', 'B', 'C');
-            CharTuple3 tuple2 = CharTuple.of('A', 'B', 'C');
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
         public void testTuple3_equals() {
             CharTuple3 tuple1 = CharTuple.of('A', 'B', 'C');
             CharTuple3 tuple2 = CharTuple.of('A', 'B', 'C');
@@ -2367,13 +2216,6 @@ class CharTupleTest extends TestBase {
             assertEquals(tuple1, tuple2);
             assertNotEquals(tuple1, tuple3);
         }
-
-        @Test
-        public void testTuple3_toString() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertEquals("(A, B, C)", tuple.toString());
-        }
-
         // ============ CharTuple4-9 Basic Tests ============
 
         @Test
@@ -2542,20 +2384,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testStream() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            int sum = tuple.stream().sum();
-            assertEquals(198, sum); // 65 + 66 + 67
-        }
-
-        @Test
-        public void testHashCode_consistency() {
-            CharTuple2 tuple1 = CharTuple.of('A', 'B');
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
         public void testEquals_symmetry() {
             CharTuple2 tuple1 = CharTuple.of('A', 'B');
             CharTuple2 tuple2 = CharTuple.of('A', 'B');
@@ -2613,104 +2441,11 @@ class CharTupleTest extends TestBase {
     @Nested
     @Tag("2511")
     class CharTuple2511Test extends TestBase {
-
-        // ============ Factory Method Tests - CharTuple.of() ============
-
-        @Test
-        public void testOf_tuple1() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals(1, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple2() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('B', tuple._2);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple3() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('B', tuple._2);
-            assertEquals('C', tuple._3);
-            assertEquals(3, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple4() {
-            CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('B', tuple._2);
-            assertEquals('C', tuple._3);
-            assertEquals('D', tuple._4);
-            assertEquals(4, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple5() {
-            CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('E', tuple._5);
-            assertEquals(5, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple6() {
-            CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('F', tuple._6);
-            assertEquals(6, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple7() {
-            CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('G', tuple._7);
-            assertEquals(7, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple8() {
-            CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('H', tuple._8);
-            assertEquals(8, tuple.arity());
-        }
-
-        @Test
-        public void testOf_tuple9() {
-            CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-            assertNotNull(tuple);
-            assertEquals('A', tuple._1);
-            assertEquals('I', tuple._9);
-            assertEquals(9, tuple.arity());
-        }
-
         // ============ Create from Array Tests ============
 
         @Test
         public void testCreate_empty() {
             CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertNotNull(tuple);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        public void testCreate_null() {
-            CharTuple0 tuple = CharTuple.copyOf(null);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
@@ -2747,14 +2482,6 @@ class CharTupleTest extends TestBase {
             });
         }
 
-        // ============ Statistics Tests - Min/Max/Median/Sum/Average ============
-
-        @Test
-        public void testMin_empty() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.min());
-        }
-
         @Test
         public void testMin_single() {
             CharTuple1 tuple = CharTuple.of('M');
@@ -2768,12 +2495,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testMax_empty() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.max());
-        }
-
-        @Test
         public void testMax_single() {
             CharTuple1 tuple = CharTuple.of('M');
             assertEquals('M', tuple.max());
@@ -2783,12 +2504,6 @@ class CharTupleTest extends TestBase {
         public void testMax_multiple() {
             CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
             assertEquals('Z', tuple.max());
-        }
-
-        @Test
-        public void testMedian_empty() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
         }
 
         @Test
@@ -2807,30 +2522,6 @@ class CharTupleTest extends TestBase {
         public void testMedian_even() {
             CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
             assertEquals('B', tuple.median()); // Lower middle for even length
-        }
-
-        @Test
-        public void testSum_empty() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertEquals(0, tuple.sum());
-        }
-
-        @Test
-        public void testSum_single() {
-            CharTuple1 tuple = CharTuple.of('A'); // 65
-            assertEquals(65, tuple.sum());
-        }
-
-        @Test
-        public void testSum_multiple() {
-            CharTuple2 tuple = CharTuple.of('A', 'B'); // 65 + 66 = 131
-            assertEquals(131, tuple.sum());
-        }
-
-        @Test
-        public void testAverage_empty() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
         }
 
         @Test
@@ -2856,50 +2547,11 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testReverse_single() {
-            CharTuple1 tuple = CharTuple.of('A');
-            CharTuple1 reversed = tuple.reverse();
-            assertNotNull(reversed);
-            assertEquals('A', reversed._1);
-            assertNotSame(tuple, reversed); // Should be new instance
-        }
-
-        @Test
-        public void testReverse_multiple() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            CharTuple3 reversed = tuple.reverse();
-            assertNotNull(reversed);
-            assertEquals('C', reversed._1);
-            assertEquals('B', reversed._2);
-            assertEquals('A', reversed._3);
-        }
-
-        @Test
         public void testReverse_twoElements() {
             CharTuple2 tuple = CharTuple.of('X', 'Y');
             CharTuple2 reversed = tuple.reverse();
             assertEquals('Y', reversed._1);
             assertEquals('X', reversed._2);
-        }
-
-        // ============ Contains Tests ============
-
-        @Test
-        public void testContains_empty() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertFalse(tuple.contains('A'));
-        }
-
-        @Test
-        public void testContains_single_found() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertTrue(tuple.contains('A'));
-        }
-
-        @Test
-        public void testContains_single_notfound() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertFalse(tuple.contains('B'));
         }
 
         @Test
@@ -2932,21 +2584,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testMap_tuple2() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            String result = tuple.map((a, b) -> "" + a + b);
-            assertEquals("AB", result);
-        }
-
-        @Test
-        public void testFilter_tuple2_passes() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            Optional<CharTuple2> result = tuple.filter((a, b) -> a < b);
-            assertTrue(result.isPresent());
-            assertEquals(tuple, result.get());
-        }
-
-        @Test
         public void testFilter_tuple2_fails() {
             CharTuple2 tuple = CharTuple.of('Z', 'A');
             Optional<CharTuple2> result = tuple.filter((a, b) -> a < b);
@@ -2971,27 +2608,12 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testMap_tuple3() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            String result = tuple.map((a, b, c) -> "" + a + b + c);
-            assertEquals("ABC", result);
-        }
-
-        @Test
         public void testFilter_tuple3_passes() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
             Optional<CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c);
             assertTrue(result.isPresent());
             assertEquals(tuple, result.get());
         }
-
-        @Test
-        public void testFilter_tuple3_fails() {
-            CharTuple3 tuple = CharTuple.of('C', 'B', 'A');
-            Optional<CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c);
-            assertFalse(result.isPresent());
-        }
-
         // ============ ForEach Tests ============
 
         @Test
@@ -3021,30 +2643,6 @@ class CharTupleTest extends TestBase {
             assertEquals('X', visited.get(0));
             assertEquals('Y', visited.get(1));
             assertEquals('Z', visited.get(2));
-        }
-
-        // ============ ToArray Tests ============
-
-        @Test
-        public void testToArray_empty() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            char[] array = tuple.toArray();
-            assertNotNull(array);
-            assertEquals(0, array.length);
-        }
-
-        @Test
-        public void testToArray_single() {
-            CharTuple1 tuple = CharTuple.of('A');
-            char[] array = tuple.toArray();
-            assertArrayEquals(new char[] { 'A' }, array);
-        }
-
-        @Test
-        public void testToArray_multiple() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            char[] array = tuple.toArray();
-            assertArrayEquals(new char[] { 'A', 'B', 'C' }, array);
         }
 
         @Test
@@ -3149,13 +2747,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testHashCode_sameValues() {
-            CharTuple2 tuple1 = CharTuple.of('A', 'B');
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
         public void testHashCode_differentValues() {
             CharTuple2 tuple1 = CharTuple.of('A', 'B');
             CharTuple2 tuple2 = CharTuple.of('X', 'Y');
@@ -3166,52 +2757,6 @@ class CharTupleTest extends TestBase {
         public void testHashCode_empty() {
             CharTuple0 tuple = CharTuple.copyOf(new char[0]);
             assertNotNull(tuple.hashCode());
-        }
-
-        // ============ ToString Tests ============
-
-        @Test
-        public void testToString_empty() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertEquals("()", tuple.toString());
-        }
-
-        @Test
-        public void testToString_single() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertEquals("(A)", tuple.toString());
-        }
-
-        @Test
-        public void testToString_multiple() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertEquals("(A, B, C)", tuple.toString());
-        }
-
-        // ============ Arity Tests ============
-
-        @Test
-        public void testArity_0() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        public void testArity_1() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertEquals(1, tuple.arity());
-        }
-
-        @Test
-        public void testArity_2() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testArity_3() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertEquals(3, tuple.arity());
         }
 
         @Test
@@ -3434,13 +2979,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void test_create_emptyArray() {
-            CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertNotNull(tuple);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
         public void test_create_arraySize1() {
             CharTuple1 tuple = CharTuple.copyOf(new char[] { 'A' });
             assertNotNull(tuple);
@@ -3561,14 +3099,6 @@ class CharTupleTest extends TestBase {
             assertEquals("()", tuple.toString());
         }
 
-        // ============ Tuple1 Tests ============
-
-        @Test
-        public void test_tuple1_arity() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertEquals(1, tuple.arity());
-        }
-
         @Test
         public void test_tuple1_min() {
             CharTuple1 tuple = CharTuple.of('A');
@@ -3606,18 +3136,6 @@ class CharTupleTest extends TestBase {
             assertNotNull(reversed);
             assertEquals('A', reversed._1);
             assertNotSame(tuple, reversed);
-        }
-
-        @Test
-        public void test_tuple1_contains_found() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertTrue(tuple.contains('A'));
-        }
-
-        @Test
-        public void test_tuple1_contains_notFound() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertFalse(tuple.contains('B'));
         }
 
         @Test
@@ -3696,14 +3214,6 @@ class CharTupleTest extends TestBase {
         public void test_tuple1_toString() {
             CharTuple1 tuple = CharTuple.of('A');
             assertEquals("(A)", tuple.toString());
-        }
-
-        // ============ Tuple2 Tests ============
-
-        @Test
-        public void test_tuple2_arity() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals(2, tuple.arity());
         }
 
         @Test
@@ -3811,14 +3321,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple2_filter_match() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            Optional<CharTuple2> result = tuple.filter((a, b) -> a < b);
-            assertTrue(result.isPresent());
-            assertEquals(tuple, result.get());
-        }
-
-        @Test
         public void test_tuple2_filter_noMatch() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
             Optional<CharTuple2> result = tuple.filter((a, b) -> a > b);
@@ -3847,14 +3349,6 @@ class CharTupleTest extends TestBase {
         public void test_tuple2_toString() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
             assertEquals("(A, B)", tuple.toString());
-        }
-
-        // ============ Tuple3 Tests ============
-
-        @Test
-        public void test_tuple3_arity() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertEquals(3, tuple.arity());
         }
 
         @Test
@@ -3930,13 +3424,6 @@ class CharTupleTest extends TestBase {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
             String result = tuple.map((a, b, c) -> "" + a + b + c);
             assertEquals("ABC", result);
-        }
-
-        @Test
-        public void test_tuple3_filter_match() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            Optional<CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c);
-            assertTrue(result.isPresent());
         }
 
         @Test
@@ -4104,12 +3591,6 @@ class CharTupleTest extends TestBase {
                 assertNotNull(tuple);
                 assertEquals(i, tuple.arity());
             }
-        }
-
-        @Test
-        public void test_median_evenCount() {
-            CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-            assertEquals('B', tuple.median()); // Lower middle value
         }
 
         @Test

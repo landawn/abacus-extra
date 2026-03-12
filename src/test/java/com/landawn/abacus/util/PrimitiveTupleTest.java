@@ -19,16 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple1;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
@@ -42,6 +32,13 @@ import com.landawn.abacus.util.IntTuple.IntTuple3;
 import com.landawn.abacus.util.LongTuple.LongTuple2;
 import com.landawn.abacus.util.LongTuple.LongTuple3;
 import com.landawn.abacus.util.u.Optional;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.List;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 class PrimitiveTupleTest extends TestBase {
 
@@ -591,14 +588,6 @@ class PrimitiveTupleTest extends TestBase {
         }
 
         @Test
-        public void testFilter_longTuple2_noMatch() {
-            LongTuple2 tuple = LongTuple.of(100L, 200L);
-            Optional<LongTuple2> result = tuple.filter(t -> t._1 > t._2);
-
-            assertFalse(result.isPresent());
-        }
-
-        @Test
         public void testFilter_doubleTuple2_match() {
             DoubleTuple2 tuple = DoubleTuple.of(3.5, 7.5);
             Optional<DoubleTuple2> result = tuple.filter(t -> t._1 + t._2 > 10.0);
@@ -732,15 +721,6 @@ class PrimitiveTupleTest extends TestBase {
             Optional<Integer> result = tuple.filter(t -> t._1 > 10).map(t -> t._1 + t._2);
 
             assertFalse(result.isPresent());
-        }
-
-        @Test
-        public void testMapThenFilter() {
-            IntTuple2 tuple = IntTuple.of(3, 4);
-            Integer sum = tuple.map(t -> t._1 + t._2);
-            // Note: filter operates on tuple, not mapped result
-            // This test shows map works independently
-            assertEquals(7, sum.intValue());
         }
 
         @Test
@@ -1352,33 +1332,6 @@ class PrimitiveTupleTest extends TestBase {
     @Nested
     @Tag("2511")
     class PrimitiveTuple2511Test extends TestBase {
-
-        // ============ Arity Tests ============
-
-        @Test
-        public void testArity_intTuple2() {
-            IntTuple2 tuple = IntTuple.of(1, 2);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testArity_intTuple3() {
-            IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertEquals(3, tuple.arity());
-        }
-
-        @Test
-        public void testArity_longTuple2() {
-            LongTuple2 tuple = LongTuple.of(1L, 2L);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testArity_longTuple3() {
-            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertEquals(3, tuple.arity());
-        }
-
         @Test
         public void testArity_floatTuple2() {
             FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
@@ -1390,19 +1343,6 @@ class PrimitiveTupleTest extends TestBase {
             FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
             assertEquals(3, tuple.arity());
         }
-
-        @Test
-        public void testArity_doubleTuple2() {
-            DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testArity_doubleTuple3() {
-            DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertEquals(3, tuple.arity());
-        }
-
         // ============ Accept Method Tests - Using Consumer Pattern ============
 
         @Test

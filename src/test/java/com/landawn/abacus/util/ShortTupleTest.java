@@ -8,16 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.ShortTuple.ShortTuple0;
 import com.landawn.abacus.util.ShortTuple.ShortTuple1;
@@ -29,8 +19,15 @@ import com.landawn.abacus.util.ShortTuple.ShortTuple6;
 import com.landawn.abacus.util.ShortTuple.ShortTuple7;
 import com.landawn.abacus.util.ShortTuple.ShortTuple8;
 import com.landawn.abacus.util.ShortTuple.ShortTuple9;
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ShortStream;
+import com.landawn.abacus.util.u.Optional;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.List;
+import java.util.NoSuchElementException;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 class ShortTupleTest extends TestBase {
 
@@ -625,12 +622,6 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testMinTuple3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 3, (short) 1, (short) 2);
-            assertEquals((short) 1, tuple.min());
-        }
-
-        @Test
         public void testMinTuple0ThrowsException() {
             ShortTuple<ShortTuple0> tuple = ShortTuple.copyOf(new short[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.min());
@@ -641,12 +632,6 @@ class ShortTupleTest extends TestBase {
         public void testMaxTuple1() {
             ShortTuple1 tuple = ShortTuple.of((short) 1);
             assertEquals((short) 1, tuple.max());
-        }
-
-        @Test
-        public void testMaxTuple3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 3, (short) 1, (short) 2);
-            assertEquals((short) 3, tuple.max());
         }
 
         @Test
@@ -687,23 +672,11 @@ class ShortTupleTest extends TestBase {
             assertEquals(1, tuple.sum());
         }
 
-        @Test
-        public void testSumTuple3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(6, tuple.sum());
-        }
-
         // Statistical method tests - average
         @Test
         public void testAverageTuple1() {
             ShortTuple1 tuple = ShortTuple.of((short) 1);
             assertEquals(1.0, tuple.average(), 0.001);
-        }
-
-        @Test
-        public void testAverageTuple3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(2.0, tuple.average(), 0.001);
         }
 
         @Test
@@ -719,30 +692,6 @@ class ShortTupleTest extends TestBase {
             ShortTuple<ShortTuple0> reversed = tuple.reverse();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
-        }
-
-        @Test
-        public void testReverseTuple1() {
-            ShortTuple1 tuple = ShortTuple.of((short) 1);
-            ShortTuple1 reversed = tuple.reverse();
-            assertEquals((short) 1, reversed._1);
-        }
-
-        @Test
-        public void testReverseTuple2() {
-            ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple2 reversed = tuple.reverse();
-            assertEquals((short) 2, reversed._1);
-            assertEquals((short) 1, reversed._2);
-        }
-
-        @Test
-        public void testReverseTuple3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 reversed = tuple.reverse();
-            assertEquals((short) 3, reversed._1);
-            assertEquals((short) 2, reversed._2);
-            assertEquals((short) 1, reversed._3);
         }
 
         // Contains tests
@@ -812,14 +761,6 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testToListTuple1() {
-            ShortTuple1 tuple = ShortTuple.of((short) 1);
-            ShortList list = tuple.toList();
-            assertEquals(1, list.size());
-            assertEquals((short) 1, list.get(0));
-        }
-
-        @Test
         public void testToListTuple3() {
             ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
             ShortList list = tuple.toList();
@@ -885,20 +826,6 @@ class ShortTupleTest extends TestBase {
         public void testHashCodeTuple1() {
             ShortTuple1 tuple1 = ShortTuple.of((short) 1);
             ShortTuple1 tuple2 = ShortTuple.of((short) 1);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
-        public void testHashCodeTuple2() {
-            ShortTuple2 tuple1 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 2);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
-        public void testHashCodeTuple3() {
-            ShortTuple3 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3);
             assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
@@ -2108,12 +2035,6 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testMin_tuple1() {
-            ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertEquals((short) 5, tuple.min());
-        }
-
-        @Test
         public void testMin_tuple2() {
             ShortTuple2 tuple = ShortTuple.of((short) 5, (short) 2);
             assertEquals((short) 2, tuple.min());
@@ -2132,12 +2053,6 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testMax_tuple1() {
-            ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertEquals((short) 5, tuple.max());
-        }
-
-        @Test
         public void testMax_tuple2() {
             ShortTuple2 tuple = ShortTuple.of((short) 5, (short) 2);
             assertEquals((short) 5, tuple.max());
@@ -2147,12 +2062,6 @@ class ShortTupleTest extends TestBase {
         public void testMax_tuple3() {
             ShortTuple3 tuple = ShortTuple.of((short) 5, (short) 2, (short) 8);
             assertEquals((short) 8, tuple.max());
-        }
-
-        @Test
-        public void testMedian_tuple1() {
-            ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertEquals((short) 5, tuple.median());
         }
 
         @Test
@@ -2174,21 +2083,9 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testSum_tuple1() {
-            ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertEquals(5, tuple.sum());
-        }
-
-        @Test
         public void testSum_tuple2() {
             ShortTuple2 tuple = ShortTuple.of((short) 5, (short) 2);
             assertEquals(7, tuple.sum());
-        }
-
-        @Test
-        public void testSum_tuple3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(6, tuple.sum());
         }
 
         @Test
@@ -2223,34 +2120,11 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testReverse_tuple2() {
-            ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple2 reversed = tuple.reverse();
-            assertEquals((short) 2, reversed._1);
-            assertEquals((short) 1, reversed._2);
-        }
-
-        @Test
-        public void testReverse_tuple3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 reversed = tuple.reverse();
-            assertEquals((short) 3, reversed._1);
-            assertEquals((short) 2, reversed._2);
-            assertEquals((short) 1, reversed._3);
-        }
-
-        @Test
         public void testReverse_tuple4() {
             ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
             ShortTuple4 reversed = tuple.reverse();
             assertEquals((short) 4, reversed._1);
             assertEquals((short) 1, reversed._4);
-        }
-
-        @Test
-        public void testContains_tuple1_found() {
-            ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertTrue(tuple.contains((short) 1));
         }
 
         @Test
@@ -2383,24 +2257,10 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testHashCode_tuple1() {
-            ShortTuple1 tuple1 = ShortTuple.of((short) 1);
-            ShortTuple1 tuple2 = ShortTuple.of((short) 1);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
         public void testHashCode_tuple1_different() {
             ShortTuple1 tuple1 = ShortTuple.of((short) 1);
             ShortTuple1 tuple2 = ShortTuple.of((short) 2);
             assertNotEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
-        public void testHashCode_tuple2() {
-            ShortTuple2 tuple1 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 2);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
         @Test
@@ -2437,13 +2297,6 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testEquals_tuple2_same() {
-            ShortTuple2 tuple1 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 2);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
         public void testEquals_tuple2_different() {
             ShortTuple2 tuple1 = ShortTuple.of((short) 1, (short) 2);
             ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 3);
@@ -2468,12 +2321,6 @@ class ShortTupleTest extends TestBase {
         public void testToString_tuple1() {
             ShortTuple1 tuple = ShortTuple.of((short) 1);
             assertEquals("(1)", tuple.toString());
-        }
-
-        @Test
-        public void testToString_tuple2() {
-            ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            assertEquals("(1, 2)", tuple.toString());
         }
 
         @Test
@@ -2539,12 +2386,6 @@ class ShortTupleTest extends TestBase {
             ShortTuple3 tuple = ShortTuple.of((short) 2, (short) 3, (short) 5);
             Optional<ShortTuple3> result = tuple.filter((a, b, c) -> a > b);
             assertFalse(result.isPresent());
-        }
-
-        @Test
-        public void testTuple0_arity() {
-            ShortTuple<?> tuple = ShortTuple.copyOf(null);
-            assertEquals(0, tuple.arity());
         }
 
         @Test
@@ -2767,65 +2608,6 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testOf3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(3, tuple.arity());
-            assertEquals((short) 1, tuple._1);
-            assertEquals((short) 2, tuple._2);
-            assertEquals((short) 3, tuple._3);
-        }
-
-        @Test
-        public void testOf4() {
-            ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            assertEquals(4, tuple.arity());
-            assertEquals((short) 1, tuple._1);
-            assertEquals((short) 2, tuple._2);
-            assertEquals((short) 3, tuple._3);
-            assertEquals((short) 4, tuple._4);
-        }
-
-        @Test
-        public void testOf5() {
-            ShortTuple5 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-            assertEquals(5, tuple.arity());
-            assertEquals((short) 1, tuple._1);
-            assertEquals((short) 5, tuple._5);
-        }
-
-        @Test
-        public void testOf6() {
-            ShortTuple6 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-            assertEquals(6, tuple.arity());
-            assertEquals((short) 1, tuple._1);
-            assertEquals((short) 6, tuple._6);
-        }
-
-        @Test
-        public void testOf7() {
-            ShortTuple7 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
-            assertEquals(7, tuple.arity());
-            assertEquals((short) 1, tuple._1);
-            assertEquals((short) 7, tuple._7);
-        }
-
-        @Test
-        public void testOf8() {
-            ShortTuple8 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
-            assertEquals(8, tuple.arity());
-            assertEquals((short) 1, tuple._1);
-            assertEquals((short) 8, tuple._8);
-        }
-
-        @Test
-        public void testOf9() {
-            ShortTuple9 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
-            assertEquals(9, tuple.arity());
-            assertEquals((short) 1, tuple._1);
-            assertEquals((short) 9, tuple._9);
-        }
-
-        @Test
         public void testCreateFromArray() {
             // Empty array
             ShortTuple<?> empty = ShortTuple.copyOf(null);
@@ -2864,19 +2646,6 @@ class ShortTupleTest extends TestBase {
             ShortTuple1 tuple = ShortTuple.of((short) 1);
             assertEquals(1, tuple.arity());
         }
-
-        @Test
-        public void testArity2() {
-            ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            assertEquals(2, tuple.arity());
-        }
-
-        @Test
-        public void testArity3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(3, tuple.arity());
-        }
-
         // ====== Statistics Tests (min, max, median, sum, average) ======
 
         @Test
@@ -3070,38 +2839,11 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testEquals_DifferentTypes() {
-            ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple3 tuple3 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertNotEquals(tuple2, tuple3);
-        }
-
-        @Test
         public void testEquals_Empty() {
             ShortTuple<?> empty1 = ShortTuple.copyOf(null);
             ShortTuple<?> empty2 = ShortTuple.copyOf(new short[0]);
             assertEquals(empty1, empty2);
         }
-
-        // ====== HashCode Tests ======
-
-        @Test
-        public void testHashCode() {
-            ShortTuple3 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-
-            // Equal objects must have equal hash codes
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        }
-
-        @Test
-        public void testHashCode_Consistency() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            int hash1 = tuple.hashCode();
-            int hash2 = tuple.hashCode();
-            assertEquals(hash1, hash2);
-        }
-
         // ====== String Representation Tests ======
 
         @Test
@@ -3852,24 +3594,11 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void test_stream() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            int sum = tuple.stream().sum();
-            assertEquals(6, sum);
-        }
-
-        @Test
         public void test_hashCode_consistency() {
             ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
             int hash1 = tuple.hashCode();
             int hash2 = tuple.hashCode();
             assertEquals(hash1, hash2);
-        }
-
-        @Test
-        public void test_equals_reflexive() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(tuple, tuple);
         }
 
         @Test
@@ -3886,16 +3615,6 @@ class ShortTupleTest extends TestBase {
             ShortTuple3 tuple3 = ShortTuple.of((short) 1, (short) 2, (short) 3);
             assertNotEquals(tuple2, tuple3);
         }
-
-        @Test
-        public void test_toString_format() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            String str = tuple.toString();
-            assertTrue(str.contains("1"));
-            assertTrue(str.contains("2"));
-            assertTrue(str.contains("3"));
-        }
-
         // ===== Edge Cases =====
 
         @Test

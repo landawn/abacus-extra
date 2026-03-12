@@ -21,22 +21,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Arrays.f;
 import com.landawn.abacus.util.Arrays.ff;
 import com.landawn.abacus.util.Arrays.fff;
 import com.landawn.abacus.util.stream.Stream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 class ArraysTest extends TestBase {
 
@@ -756,16 +753,6 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testZipTwoCharArraysDifferentLengths() throws Exception {
-            // Test with first array longer
-            char[] a = { 'A', 'B', 'C', 'D' };
-            char[] b = { 'X', 'Y', 'Z' };
-            char[] result = Arrays.zip(a, b, (x, y) -> (char) (x + y - 'A'));
-            // result: {'X', 'Z', '\'}
-            Assertions.assertArrayEquals(new char[] { 'X', 'Z', '\\' }, result);
-        }
-
-        @Test
         public void testZipTwoCharArraysWithNulls() throws Exception {
             // Test with first array null
             char[] a = null;
@@ -809,17 +796,6 @@ class ArraysTest extends TestBase {
                     throw new Exception("Test exception");
                 });
             });
-        }
-
-        // Tests for zip(char[], char[], char, char, CharBiFunction)
-
-        @Test
-        public void testZipTwoCharArraysWithDefaults() throws Exception {
-            // Test with first array longer
-            char[] a = { 'A', 'B', 'C', 'D' };
-            char[] b = { 'X', 'Y' };
-            char[] result = Arrays.zip(a, b, '?', '!', (x, y) -> (char) (x + y - 'A'));
-            Assertions.assertArrayEquals(new char[] { 'X', 'Z', '#', '$' }, result);
         }
 
         @Test
@@ -916,19 +892,6 @@ class ArraysTest extends TestBase {
             char[] c2 = {};
             char[] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x);
             Assertions.assertArrayEquals(new char[] {}, result2);
-        }
-
-        // Tests for zip(char[], char[], char[], char, char, char, CharTriFunction)
-
-        @Test
-        public void testZipThreeCharArraysWithDefaults() throws Exception {
-            // Test with arrays of different lengths
-            char[] a = { 'A', 'B', 'C', 'D' };
-            char[] b = { 'X', 'Y' };
-            char[] c = { '1', '2', '3' };
-            char[] result = Arrays.zip(a, b, c, '?', '!', '0', (x, y, z) -> (char) (x + y + z - 'A' - '0'));
-            // result: {'Y', '\\', '&', '$'} (using defaults for missing elements)
-            Assertions.assertArrayEquals(new char[] { 'Y', '\\', '&', '$' }, result);
         }
 
         @Test
@@ -1230,10 +1193,6 @@ class ArraysTest extends TestBase {
             char[][][] result = Arrays.zip((char[][][]) null, null, null, '?', '!', '~', (Throwables.CharTernaryOperator<Exception>) (x, y, z) -> x);
             Assertions.assertEquals(0, result.length);
         }
-    }
-
-    @Nested
-    public class ByteArrayTest {
     }
 
     @Nested
@@ -4914,22 +4873,6 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testPrintln_1D_NullArray() {
-            Object[] arr = null;
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-            assertTrue(result.contains("null"));
-        }
-
-        @Test
-        public void testPrintln_1D_EmptyArray() {
-            Object[] arr = {};
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-            assertTrue(result.contains("[]"));
-        }
-
-        @Test
         public void testPrintln_2D_ObjectArray() {
             Object[][] arr = { { "A", "B" }, { "C", "D" } };
             String result = Arrays.println(arr);
@@ -4939,22 +4882,6 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_3D_ObjectArray() {
             Object[][][] arr = { { { "A" } } };
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-        }
-
-        @Test
-        public void testPrintln_1D_BooleanArray() {
-            boolean[] arr = { true, false, true };
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-            assertTrue(result.contains("true"));
-            assertTrue(result.contains("false"));
-        }
-
-        @Test
-        public void testPrintln_2D_BooleanArray() {
-            boolean[][] arr = { { true, false }, { false, true } };
             String result = Arrays.println(arr);
             assertNotNull(result);
         }
@@ -4974,36 +4901,8 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testPrintln_2D_CharArray() {
-            char[][] arr = { { 'a', 'b' }, { 'c', 'd' } };
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-        }
-
-        @Test
-        public void testPrintln_3D_CharArray() {
-            char[][][] arr = { { { 'a', 'b' } } };
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-        }
-
-        @Test
         public void testPrintln_1D_ByteArray() {
             byte[] arr = { 1, 2, 3 };
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-        }
-
-        @Test
-        public void testPrintln_2D_ByteArray() {
-            byte[][] arr = { { 1, 2 }, { 3, 4 } };
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-        }
-
-        @Test
-        public void testPrintln_3D_ByteArray() {
-            byte[][][] arr = { { { 1, 2 } } };
             String result = Arrays.println(arr);
             assertNotNull(result);
         }
@@ -6769,22 +6668,6 @@ class ArraysTest extends TestBase {
             assertEquals(4, result);
         }
 
-        // ============================================
-        // Tests for zip methods - BooleanBinaryOperator
-        // ============================================
-
-        @Test
-        public void testZip_Boolean1D_BinaryOp() {
-            boolean[] a = { true, false, true };
-            boolean[] b = { false, false, true };
-            boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
-
-            assertEquals(3, result.length);
-            assertFalse(result[0]);
-            assertFalse(result[1]);
-            assertTrue(result[2]);
-        }
-
         @Test
         public void testZip_Boolean1D_BinaryOp_WithDefaults() {
             boolean[] a = { true, false };
@@ -6795,18 +6678,6 @@ class ArraysTest extends TestBase {
             assertTrue(result[0]);
             assertFalse(result[1]);
             assertTrue(result[2]);
-        }
-
-        @Test
-        public void testZip_Boolean1D_TernaryOp() {
-            boolean[] a = { true, false };
-            boolean[] b = { false, true };
-            boolean[] c = { true, true };
-            boolean[] result = Arrays.zip(a, b, c, (x, y, z) -> (x || y) && z);
-
-            assertEquals(2, result.length);
-            assertTrue(result[0]);
-            assertTrue(result[1]);
         }
 
         @Test
@@ -8349,13 +8220,6 @@ class ArraysTest extends TestBase {
             assertEquals("YES", result[0]);
             assertEquals("NO", result[1]);
             assertEquals("YES", result[2]);
-        }
-
-        @Test
-        public void testMapToObj_1D_Boolean_null() {
-            boolean[] arr = null;
-            String[] result = Arrays.mapToObj(arr, b -> b ? "YES" : "NO", String.class);
-            assertEquals(0, result.length);
         }
 
         @Test
@@ -10809,17 +10673,6 @@ class ArraysTest extends TestBase {
             assertTrue(Math.abs(1.5 - result[0][0][0]) < 0.01);
         }
 
-        // ============================================
-        // Tests for null handling across methods
-        // ============================================
-
-        @Test
-        public void testNullHandling_mapToObj() {
-            int[] arr = null;
-            String[] result = Arrays.mapToObj(arr, i -> String.valueOf(i), String.class);
-            assertEquals(0, result.length);
-        }
-
         @Test
         public void testNullHandling_flatten() {
             int[][] arr = null;
@@ -10832,18 +10685,6 @@ class ArraysTest extends TestBase {
             int[] arr = null;
             int[][] result = Arrays.reshape(arr, 2);
             assertEquals(0, result.length);
-        }
-
-        @Test
-        public void testNullHandling_updateAll() {
-            int[] arr = null;
-            assertDoesNotThrow(() -> Arrays.updateAll(arr, i -> i * 2));
-        }
-
-        @Test
-        public void testNullHandling_replaceIf() {
-            int[] arr = null;
-            assertDoesNotThrow(() -> Arrays.replaceIf(arr, i -> i > 0, 0));
         }
 
         @Test
@@ -10960,15 +10801,6 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testMapToObj_boolean_2D_valid() {
-            boolean[][] arr = { { true, false }, { false, true } };
-            String[][] result = Arrays.mapToObj(arr, b -> b ? "T" : "F", String.class);
-            assertEquals(2, result.length);
-            assertArrayEquals(new String[] { "T", "F" }, result[0]);
-            assertArrayEquals(new String[] { "F", "T" }, result[1]);
-        }
-
-        @Test
         public void testMapToObj_boolean_3D_null() {
             boolean[][][] arr = null;
             Integer[][][] result = Arrays.mapToObj(arr, b -> b ? 1 : 0, Integer.class);
@@ -10993,13 +10825,6 @@ class ArraysTest extends TestBase {
             char[] arr = null;
             String[] result = Arrays.mapToObj(arr, c -> String.valueOf(c).toUpperCase(), String.class);
             assertEquals(0, result.length);
-        }
-
-        @Test
-        public void testMapToObj_char_1D_valid() {
-            char[] arr = { 'a', 'b', 'c' };
-            String[] result = Arrays.mapToObj(arr, c -> String.valueOf(c).toUpperCase(), String.class);
-            assertArrayEquals(new String[] { "A", "B", "C" }, result);
         }
 
         @Test
@@ -11227,35 +11052,11 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testUpdateAll_boolean_1D_valid() {
-            boolean[] arr = { true, false, true };
-            Arrays.updateAll(arr, b -> !b);
-            assertArrayEquals(new boolean[] { false, true, false }, arr);
-        }
-
-        @Test
-        public void testUpdateAll_boolean_2D_valid() {
-            boolean[][] arr = { { true, false }, { false, true } };
-            Arrays.updateAll(arr, b -> !b);
-            assertArrayEquals(new boolean[] { false, true }, arr[0]);
-            assertArrayEquals(new boolean[] { true, false }, arr[1]);
-        }
-
-        @Test
         public void testUpdateAll_boolean_3D_valid() {
             boolean[][][] arr = { { { true }, { false } } };
             Arrays.updateAll(arr, b -> !b);
             assertFalse(arr[0][0][0]);
             assertTrue(arr[0][1][0]);
-        }
-
-        // ============ Arrays.updateAll Tests (char) ============
-
-        @Test
-        public void testUpdateAll_char_1D_valid() {
-            char[] arr = { 'a', 'b', 'c' };
-            Arrays.updateAll(arr, c -> Character.toUpperCase(c));
-            assertArrayEquals(new char[] { 'A', 'B', 'C' }, arr);
         }
 
         @Test
@@ -11289,15 +11090,6 @@ class ArraysTest extends TestBase {
             assertArrayEquals(new boolean[] { true, true }, arr[0]);
             assertArrayEquals(new boolean[] { true, true }, arr[1]);
         }
-
-        @Test
-        public void testReplaceIf_boolean_3D_valid() {
-            boolean[][][] arr = { { { true, false } } };
-            Arrays.replaceIf(arr, b -> b, false);
-            assertFalse(arr[0][0][0]);
-            assertFalse(arr[0][0][1]);
-        }
-
         // ============ Arrays.replaceIf Tests (char) ============
 
         @Test
@@ -11460,16 +11252,6 @@ class ArraysTest extends TestBase {
             assertTrue(arr[1][0][1]);
         }
 
-        // ============ Arrays.zip Tests (boolean) ============
-
-        @Test
-        public void testZip_boolean_1D_sameLength() {
-            boolean[] a = { true, false, true };
-            boolean[] b = { false, false, true };
-            boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
-            assertArrayEquals(new boolean[] { false, false, true }, result);
-        }
-
         @Test
         public void testZip_boolean_1D_differentLength() {
             boolean[] a = { true, false };
@@ -11548,22 +11330,6 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testTotalCountOfElements_boolean_3D() {
-            boolean[][][] arr = { { { true, false }, { true } }, { { false } } };
-            long count = Arrays.elementCount(arr);
-            assertEquals(4L, count);
-        }
-
-        // ============ Arrays.minSubArrayLength Tests ============
-
-        @Test
-        public void testMinSubArrayLen_boolean_2D() {
-            boolean[][] arr = { { true, false, true }, { false }, { true, false } };
-            int minLen = Arrays.minSubArrayLength(arr);
-            assertEquals(1, minLen);
-        }
-
-        @Test
         public void testMinSubArrayLen_boolean_2D_withNulls() {
             boolean[][] arr = { { true, false }, null, { true } };
             int minLen = Arrays.minSubArrayLength(arr);
@@ -11599,30 +11365,6 @@ class ArraysTest extends TestBase {
             String result = Arrays.println(new boolean[0]);
             assertEquals("[]", result);
         }
-
-        @Test
-        public void testPrintln_boolean_1D_valid() {
-            boolean[] arr = { true, false, true };
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-            assertTrue(result.contains("true"));
-            assertTrue(result.contains("false"));
-        }
-
-        @Test
-        public void testPrintln_boolean_2D_valid() {
-            boolean[][] arr = { { true, false }, { false, true } };
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-        }
-
-        @Test
-        public void testPrintln_boolean_3D_valid() {
-            boolean[][][] arr = { { { true } } };
-            String result = Arrays.println(arr);
-            assertNotNull(result);
-        }
-
         // ============ Inner class f Tests ============
 
         @Test
@@ -12407,18 +12149,6 @@ class ArraysTest extends TestBase {
         public void test_println_booleanArrayEmpty() {
             boolean[] arr = {};
             String result = Arrays.println(arr);
-            assertNotNull(result);
-        }
-
-        // ============================================
-        // Tests for println(boolean[][])
-        // ============================================
-
-        @Test
-        public void test_println_booleanArray2D() {
-            boolean[][] arr = { { true, false }, { false, true } };
-            String result = Arrays.println(arr);
-
             assertNotNull(result);
         }
 

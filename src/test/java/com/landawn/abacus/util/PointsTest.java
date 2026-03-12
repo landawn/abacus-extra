@@ -18,11 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Points.xy;
 import com.landawn.abacus.util.Points.xy.ByteBytePoint;
@@ -46,18 +41,11 @@ import com.landawn.abacus.util.Points.xy.LongIntPoint;
 import com.landawn.abacus.util.Points.xy.LongLongPoint;
 import com.landawn.abacus.util.Points.xy.LongObjPoint;
 import com.landawn.abacus.util.Points.xyz;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 class PointsTest extends TestBase {
-
-    @Test
-    public void testByteBytePoint() {
-        Points.xy.ByteBytePoint point = Points.xy.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 30);
-
-        assertEquals(10, point.x());
-        assertEquals(20, point.y());
-        assertEquals(30, point.v());
-    }
-
     @Test
     public void testByteBytePointEqualsAndHashCode() {
         Points.xy.ByteBytePoint point1 = Points.xy.ByteBytePoint.of((byte) 5, (byte) 10, (byte) 15);
@@ -106,15 +94,6 @@ class PointsTest extends TestBase {
 
         assertEquals(point1.hashCode(), point2.hashCode());
         assertNotEquals(point1.hashCode(), point3.hashCode());
-    }
-
-    @Test
-    public void testIntIntPoint() {
-        Points.xy.IntIntPoint point = Points.xy.IntIntPoint.of(100, 200, 300);
-
-        assertEquals(100, point.x());
-        assertEquals(200, point.y());
-        assertEquals(300, point.v());
     }
 
     @Test
@@ -1751,30 +1730,12 @@ class PointsTest extends TestBase {
             assertNotNull(result);
         }
 
-        // ============================================
-        // Edge case and integration tests
-        // ============================================
-
-        @Test
-        public void testEquals_Null() {
-            xy.IntIntPoint point = xy.IntIntPoint.of(1, 2, 3);
-
-            assertFalse(point.equals(null));
-        }
-
         @Test
         public void testEquals_DifferentType() {
             xy.IntIntPoint point = xy.IntIntPoint.of(1, 2, 3);
             String notAPoint = "not a point";
 
             assertFalse(point.equals(notAPoint));
-        }
-
-        @Test
-        public void testEquals_SameInstance() {
-            xy.IntIntPoint point = xy.IntIntPoint.of(10, 20, 30);
-
-            assertTrue(point.equals(point));
         }
 
         @Test
@@ -1801,15 +1762,6 @@ class PointsTest extends TestBase {
             assertEquals(Double.MAX_VALUE, point1.x(), 0.0001);
             assertEquals(Double.MIN_VALUE, point1.y(), 0.0001);
             assertEquals(0.0, point1.v(), 0.0001);
-        }
-
-        @Test
-        public void testObjPoint_NullValue() {
-            xy.IntObjPoint<String> point = xy.IntObjPoint.of(10, 20, null);
-
-            assertEquals(10, point.x());
-            assertEquals(20, point.y());
-            assertEquals(null, point.v());
         }
 
         @Test
