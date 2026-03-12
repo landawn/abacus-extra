@@ -977,6 +977,18 @@ class LongMatrixTest extends TestBase {
     }
 
     @Test
+    public void testToIntMatrix() {
+        long[][] a = { { 1L, 2L }, { 3L, 4L } };
+        LongMatrix matrix = LongMatrix.of(a);
+
+        IntMatrix intMatrix = matrix.toIntMatrix();
+        assertEquals(2, intMatrix.rowCount());
+        assertEquals(2, intMatrix.columnCount());
+        assertEquals(1, intMatrix.get(0, 0));
+        assertEquals(4, intMatrix.get(1, 1));
+    }
+
+    @Test
     public void testToFloatMatrix() {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
@@ -4927,6 +4939,18 @@ class LongMatrixTest extends TestBase {
         // Note: averageByLong(), averageByDouble() methods don't exist in LongMatrix
 
         // ============ Empty Matrix Tests ============
+
+        @Test
+        public void testElementCount() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
+            assertEquals(6, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_Empty() {
+            LongMatrix m = LongMatrix.empty();
+            assertEquals(0, m.elementCount());
+        }
 
         @Test
         public void testIsEmpty_true() {

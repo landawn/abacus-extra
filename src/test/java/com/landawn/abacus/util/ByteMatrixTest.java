@@ -4044,6 +4044,18 @@ class ByteMatrixTest extends TestBase {
         // ============ Utility Tests (Inherited) ============
 
         @Test
+        public void testElementCount() {
+            ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+            assertEquals(6, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_Empty() {
+            ByteMatrix m = ByteMatrix.empty();
+            assertEquals(0, m.elementCount());
+        }
+
+        @Test
         public void testIsEmpty() {
             ByteMatrix empty = ByteMatrix.empty();
             assertTrue(empty.isEmpty());

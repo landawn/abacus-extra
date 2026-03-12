@@ -4507,6 +4507,18 @@ class DoubleMatrixTest extends TestBase {
         // ============ Inherited Methods Tests ============
 
         @Test
+        public void testElementCount() {
+            DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
+            assertEquals(6, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_Empty() {
+            DoubleMatrix m = DoubleMatrix.empty();
+            assertEquals(0, m.elementCount());
+        }
+
+        @Test
         public void testIsEmpty() {
             DoubleMatrix empty = DoubleMatrix.empty();
             assertTrue(empty.isEmpty());
@@ -4521,6 +4533,34 @@ class DoubleMatrixTest extends TestBase {
             DoubleMatrix m3 = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 } });
             assertTrue(m1.isSameShape(m2));
             assertFalse(m1.isSameShape(m3));
+        }
+
+        @Test
+        public void testAdjacent4Points() {
+            DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+            List<Point> points = m.adjacent4Points(1, 1).toList();
+            assertEquals(4, points.size());
+        }
+
+        @Test
+        public void testAdjacent4Points_Corner() {
+            DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1, 2 }, { 3, 4 } });
+            List<Point> points = m.adjacent4Points(0, 0).toList();
+            assertEquals(2, points.size());
+        }
+
+        @Test
+        public void testAdjacent8Points() {
+            DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+            List<Point> points = m.adjacent8Points(1, 1).toList();
+            assertEquals(8, points.size());
+        }
+
+        @Test
+        public void testAdjacent8Points_Corner() {
+            DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1, 2 }, { 3, 4 } });
+            List<Point> points = m.adjacent8Points(0, 0).toList();
+            assertEquals(3, points.size());
         }
 
         @Test

@@ -1184,6 +1184,52 @@ class LongTupleTest extends TestBase {
             assertEquals(9, LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L).arity());
         }
 
+        // Tests for inherited methods from PrimitiveTuple
+        @Test
+        public void testAcceptConsumer() {
+            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+            List<Long> result = new ArrayList<>();
+            tuple.accept(t -> {
+                result.add(t._1);
+                result.add(t._2);
+                result.add(t._3);
+            });
+            assertEquals(3, result.size());
+            assertEquals(1L, result.get(0));
+            assertEquals(2L, result.get(1));
+            assertEquals(3L, result.get(2));
+        }
+
+        @Test
+        public void testMapFunction() {
+            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+            long result = tuple.map(t -> t._1 + t._2 + t._3);
+            assertEquals(6L, result);
+        }
+
+        @Test
+        public void testFilterPredicate() {
+            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+            var result = tuple.filter(t -> t._1 == 1L);
+            assertTrue(result.isPresent());
+            assertEquals(tuple, result.get());
+        }
+
+        @Test
+        public void testFilterPredicateFalse() {
+            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+            var result = tuple.filter(t -> t._1 == 99L);
+            assertFalse(result.isPresent());
+        }
+
+        @Test
+        public void testToOptional() {
+            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+            var result = tuple.toOptional();
+            assertTrue(result.isPresent());
+            assertEquals(tuple, result.get());
+        }
+
         // Comprehensive tests for Tuple4 through Tuple9
         @Test
         public void testTuple4Operations() {

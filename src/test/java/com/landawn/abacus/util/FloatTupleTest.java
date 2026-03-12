@@ -1014,6 +1014,44 @@ class FloatTupleTest extends TestBase {
             assertEquals(9, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f).arity());
         }
 
+        // Tests for inherited methods from PrimitiveTuple
+        @Test
+        public void testAcceptConsumer() {
+            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+            List<Float> result = new ArrayList<>();
+            tuple.accept(t -> {
+                result.add(t._1);
+                result.add(t._2);
+                result.add(t._3);
+            });
+            assertEquals(3, result.size());
+            assertEquals(1.0f, result.get(0), 0.001f);
+            assertEquals(2.0f, result.get(1), 0.001f);
+            assertEquals(3.0f, result.get(2), 0.001f);
+        }
+
+        @Test
+        public void testMapFunction() {
+            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+            float result = tuple.map(t -> t._1 + t._2 + t._3);
+            assertEquals(6.0f, result, 0.001f);
+        }
+
+        @Test
+        public void testFilterPredicate() {
+            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+            var result = tuple.filter(t -> t._1 == 1.0f);
+            assertTrue(result.isPresent());
+            assertEquals(tuple, result.get());
+        }
+
+        @Test
+        public void testFilterPredicateFalse() {
+            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+            var result = tuple.filter(t -> t._1 == 99.0f);
+            assertFalse(result.isPresent());
+        }
+
         // Comprehensive tests for Tuple4 through Tuple9
         @Test
         public void testTuple4Operations() {

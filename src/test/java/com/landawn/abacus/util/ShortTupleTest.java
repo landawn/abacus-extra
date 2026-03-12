@@ -1064,6 +1064,52 @@ class ShortTupleTest extends TestBase {
             assertEquals(9, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9).arity());
         }
 
+        // Tests for inherited methods from PrimitiveTuple
+        @Test
+        public void testAcceptConsumer() {
+            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+            List<Short> result = new ArrayList<>();
+            tuple.accept(t -> {
+                result.add(t._1);
+                result.add(t._2);
+                result.add(t._3);
+            });
+            assertEquals(3, result.size());
+            assertEquals((short) 1, result.get(0));
+            assertEquals((short) 2, result.get(1));
+            assertEquals((short) 3, result.get(2));
+        }
+
+        @Test
+        public void testMapFunction() {
+            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+            int result = tuple.map(t -> t._1 + t._2 + t._3);
+            assertEquals(6, result);
+        }
+
+        @Test
+        public void testFilterPredicate() {
+            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+            var result = tuple.filter(t -> t._1 == (short) 1);
+            assertTrue(result.isPresent());
+            assertEquals(tuple, result.get());
+        }
+
+        @Test
+        public void testFilterPredicateFalse() {
+            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+            var result = tuple.filter(t -> t._1 == (short) 99);
+            assertFalse(result.isPresent());
+        }
+
+        @Test
+        public void testToOptional() {
+            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+            var result = tuple.toOptional();
+            assertTrue(result.isPresent());
+            assertEquals(tuple, result.get());
+        }
+
         // Comprehensive tests for Tuple4 through Tuple9
         @Test
         public void testTuple4Operations() {

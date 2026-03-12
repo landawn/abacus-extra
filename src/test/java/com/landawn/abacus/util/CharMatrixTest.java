@@ -4022,6 +4022,18 @@ class CharMatrixTest extends TestBase {
         // ============ Utility Tests (Inherited) ============
 
         @Test
+        public void testElementCount() {
+            CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
+            assertEquals(6, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_Empty() {
+            CharMatrix m = CharMatrix.empty();
+            assertEquals(0, m.elementCount());
+        }
+
+        @Test
         public void testIsEmpty() {
             CharMatrix empty = CharMatrix.empty();
             assertTrue(empty.isEmpty());

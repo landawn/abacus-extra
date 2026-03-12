@@ -131,6 +131,109 @@ public class ImmutableIntArrayTest extends TestBase {
         }
 
         // ============================================
+        // Tests for isEmpty() method
+        // ============================================
+
+        @Test
+        public void testIsEmpty_EmptyArray() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[0]);
+            assertTrue(array.isEmpty());
+        }
+
+        @Test
+        public void testIsEmpty_NonEmptyArray() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
+            assertFalse(array.isEmpty());
+        }
+
+        @Test
+        public void testIsEmpty_NullInput() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(null);
+            assertTrue(array.isEmpty());
+        }
+
+        @Test
+        public void testIsEmpty_SingleElement() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
+            assertFalse(array.isEmpty());
+        }
+
+        // ============================================
+        // Tests for length() method
+        // ============================================
+
+        @Test
+        public void testLength_EmptyArray() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[0]);
+
+            assertEquals(0, array.length());
+        }
+
+        @Test
+        public void testLength_SingleElement() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
+
+            assertEquals(1, array.length());
+        }
+
+        @Test
+        public void testLength_MultipleElements() {
+            int[] data = new int[100];
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(data);
+
+            assertEquals(100, array.length());
+        }
+
+        @Test
+        public void testLength_NullInput() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(null);
+
+            assertEquals(0, array.length());
+        }
+
+        // ============================================
+        // Tests for contains() method
+        // ============================================
+
+        @Test
+        public void testContains_ValuePresent() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 10, 20, 30, 40, 50 });
+            assertTrue(array.contains(30));
+            assertTrue(array.contains(10));
+            assertTrue(array.contains(50));
+        }
+
+        @Test
+        public void testContains_ValueAbsent() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 10, 20, 30, 40, 50 });
+            assertFalse(array.contains(99));
+            assertFalse(array.contains(0));
+            assertFalse(array.contains(-1));
+        }
+
+        @Test
+        public void testContains_EmptyArray() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[0]);
+            assertFalse(array.contains(1));
+            assertFalse(array.contains(0));
+        }
+
+        @Test
+        public void testContains_BoundaryValues() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { Integer.MIN_VALUE, 0, Integer.MAX_VALUE });
+            assertTrue(array.contains(Integer.MIN_VALUE));
+            assertTrue(array.contains(0));
+            assertTrue(array.contains(Integer.MAX_VALUE));
+        }
+
+        @Test
+        public void testContains_SingleElement() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
+            assertTrue(array.contains(42));
+            assertFalse(array.contains(43));
+        }
+
+        // ============================================
         // Tests for get() method
         // ============================================
 
@@ -433,10 +536,6 @@ public class ImmutableIntArrayTest extends TestBase {
         }
 
         // ============================================
-        // Tests for copyToArray() method
-        // ============================================
-
-        // ============================================
         // Tests for hashCode() method
         // ============================================
 
@@ -595,39 +694,6 @@ public class ImmutableIntArrayTest extends TestBase {
             assertTrue(result.contains("-1"));
             assertTrue(result.contains("-2"));
             assertTrue(result.contains("-3"));
-        }
-
-        // ============================================
-        // Tests for length field
-        // ============================================
-
-        @Test
-        public void testLength_EmptyArray() {
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[0]);
-
-            assertEquals(0, array.length());
-        }
-
-        @Test
-        public void testLength_SingleElement() {
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
-
-            assertEquals(1, array.length());
-        }
-
-        @Test
-        public void testLength_MultipleElements() {
-            int[] data = new int[100];
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(data);
-
-            assertEquals(100, array.length());
-        }
-
-        @Test
-        public void testLength_NullInput() {
-            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(null);
-
-            assertEquals(0, array.length());
         }
 
         // ============================================

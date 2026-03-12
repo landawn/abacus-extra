@@ -1009,6 +1009,52 @@ class ByteTupleTest extends TestBase {
             assertEquals(9, ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9).arity());
         }
 
+        // Tests for inherited methods from PrimitiveTuple
+        @Test
+        public void testAcceptConsumer() {
+            ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+            List<Byte> result = new ArrayList<>();
+            tuple.accept(t -> {
+                result.add(t._1);
+                result.add(t._2);
+                result.add(t._3);
+            });
+            assertEquals(3, result.size());
+            assertEquals((byte) 1, result.get(0));
+            assertEquals((byte) 2, result.get(1));
+            assertEquals((byte) 3, result.get(2));
+        }
+
+        @Test
+        public void testMapFunction() {
+            ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+            int result = tuple.map(t -> t._1 + t._2 + t._3);
+            assertEquals(6, result);
+        }
+
+        @Test
+        public void testFilterPredicate() {
+            ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+            var result = tuple.filter(t -> t._1 == (byte) 1);
+            assertTrue(result.isPresent());
+            assertEquals(tuple, result.get());
+        }
+
+        @Test
+        public void testFilterPredicateFalse() {
+            ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+            var result = tuple.filter(t -> t._1 == (byte) 99);
+            assertFalse(result.isPresent());
+        }
+
+        @Test
+        public void testToOptional() {
+            ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+            var result = tuple.toOptional();
+            assertTrue(result.isPresent());
+            assertEquals(tuple, result.get());
+        }
+
         // Comprehensive tests for Tuple4 through Tuple9
         @Test
         public void testTuple4Operations() {

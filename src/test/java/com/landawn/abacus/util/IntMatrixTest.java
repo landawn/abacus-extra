@@ -4781,6 +4781,18 @@ class IntMatrixTest extends TestBase {
         // ============ Empty Matrix Tests ============
 
         @Test
+        public void testElementCount() {
+            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+            assertEquals(6, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_Empty() {
+            IntMatrix m = IntMatrix.empty();
+            assertEquals(0, m.elementCount());
+        }
+
+        @Test
         public void testIsEmpty_true() {
             IntMatrix empty = IntMatrix.empty();
             assertTrue(empty.isEmpty());

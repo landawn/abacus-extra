@@ -729,6 +729,67 @@ class BooleanMatrixTest extends TestBase {
         assertEquals(4, count[0]);
     }
 
+    // Tests for countTrue, all, any
+    @Test
+    public void testCountTrue() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
+        assertEquals(3, m.countTrue());
+    }
+
+    @Test
+    public void testCountTrue_AllTrue() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, true }, { true, true } });
+        assertEquals(4, m.countTrue());
+    }
+
+    @Test
+    public void testCountTrue_AllFalse() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false }, { false, false } });
+        assertEquals(0, m.countTrue());
+    }
+
+    @Test
+    public void testCountTrue_Empty() {
+        BooleanMatrix m = BooleanMatrix.empty();
+        assertEquals(0, m.countTrue());
+    }
+
+    @Test
+    public void testAll() {
+        BooleanMatrix allTrue = BooleanMatrix.of(new boolean[][] { { true, true }, { true, true } });
+        assertTrue(allTrue.all());
+    }
+
+    @Test
+    public void testAll_WithFalse() {
+        BooleanMatrix mixed = BooleanMatrix.of(new boolean[][] { { true, false }, { true, true } });
+        assertFalse(mixed.all());
+    }
+
+    @Test
+    public void testAll_Empty() {
+        BooleanMatrix empty = BooleanMatrix.empty();
+        assertTrue(empty.all());
+    }
+
+    @Test
+    public void testAny() {
+        BooleanMatrix mixed = BooleanMatrix.of(new boolean[][] { { false, true }, { false, false } });
+        assertTrue(mixed.any());
+    }
+
+    @Test
+    public void testAny_AllFalse() {
+        BooleanMatrix allFalse = BooleanMatrix.of(new boolean[][] { { false, false }, { false, false } });
+        assertFalse(allFalse.any());
+    }
+
+    @Test
+    public void testAny_Empty() {
+        BooleanMatrix empty = BooleanMatrix.empty();
+        assertFalse(empty.any());
+    }
+
     @Test
     public void testVstack() {
         BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { true, false } });
@@ -3955,6 +4016,18 @@ class BooleanMatrixTest extends TestBase {
         }
 
         // ============ Utility Tests (Inherited) ============
+
+        @Test
+        public void testElementCount() {
+            BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
+            assertEquals(6, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_Empty() {
+            BooleanMatrix m = BooleanMatrix.empty();
+            assertEquals(0, m.elementCount());
+        }
 
         @Test
         public void testIsEmpty() {

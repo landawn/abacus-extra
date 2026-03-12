@@ -806,6 +806,52 @@ class BooleanTupleTest extends TestBase {
             assertEquals(9, BooleanTuple.of(true, false, true, false, true, false, true, false, true).arity());
         }
 
+        // Tests for inherited methods from PrimitiveTuple
+        @Test
+        public void testAcceptConsumer() {
+            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+            List<Boolean> result = new ArrayList<>();
+            tuple.accept(t -> {
+                result.add(t._1);
+                result.add(t._2);
+                result.add(t._3);
+            });
+            assertEquals(3, result.size());
+            assertTrue(result.get(0));
+            assertFalse(result.get(1));
+            assertTrue(result.get(2));
+        }
+
+        @Test
+        public void testMapFunction() {
+            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+            String result = tuple.map(t -> "" + t._1 + t._2 + t._3);
+            assertEquals("truefalsetrue", result);
+        }
+
+        @Test
+        public void testFilterPredicate() {
+            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+            var result = tuple.filter(t -> t._1);
+            assertTrue(result.isPresent());
+            assertEquals(tuple, result.get());
+        }
+
+        @Test
+        public void testFilterPredicateFalse() {
+            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+            var result = tuple.filter(t -> !t._1);
+            assertFalse(result.isPresent());
+        }
+
+        @Test
+        public void testToOptional() {
+            BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+            var result = tuple.toOptional();
+            assertTrue(result.isPresent());
+            assertEquals(tuple, result.get());
+        }
+
         // Comprehensive tests for Tuple4 through Tuple9
         @Test
         public void testTuple4Operations() {

@@ -5087,6 +5087,18 @@ class ShortMatrixTest extends TestBase {
         // ============ Empty Matrix Tests ============
 
         @Test
+        public void testElementCount() {
+            ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+            assertEquals(6, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_Empty() {
+            ShortMatrix m = ShortMatrix.empty();
+            assertEquals(0, m.elementCount());
+        }
+
+        @Test
         public void testIsEmpty_true() {
             ShortMatrix empty = ShortMatrix.empty();
             assertTrue(empty.isEmpty());

@@ -59,6 +59,15 @@ class MatrixTest extends TestBase {
         });
     }
 
+    // Test for empty() factory method
+    @Test
+    public void testEmpty() {
+        Matrix<String> empty = Matrix.empty();
+        assertTrue(empty.isEmpty());
+        assertEquals(0, empty.rowCount());
+        assertEquals(0, empty.columnCount());
+    }
+
     @Test
     public void testOf() {
         Integer[][] data = { { 1, 2 }, { 3, 4 } };
@@ -311,6 +320,24 @@ class MatrixTest extends TestBase {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             matrix.columnCopy(2);
         });
+    }
+
+    // Test for rowCopy method
+    @Test
+    public void testRowCopy() {
+        Integer[][] data = { { 1, 2, 3 }, { 4, 5, 6 } };
+        Matrix<Integer> matrix = Matrix.of(data);
+        Integer[] copy = matrix.rowCopy(0);
+        assertArrayEquals(new Integer[] { 1, 2, 3 }, copy);
+        // Verify it's a copy, not a reference
+        copy[0] = 99;
+        assertEquals(1, matrix.get(0, 0));
+    }
+
+    @Test
+    public void testRowCopy_OutOfBounds() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 } });
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(1));
     }
 
     @Test

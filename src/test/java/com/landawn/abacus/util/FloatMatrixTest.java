@@ -4185,6 +4185,18 @@ class FloatMatrixTest extends TestBase {
         // ============ Inherited Methods Tests ============
 
         @Test
+        public void testElementCount() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
+            assertEquals(6, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_Empty() {
+            FloatMatrix m = FloatMatrix.empty();
+            assertEquals(0, m.elementCount());
+        }
+
+        @Test
         public void testIsEmpty() {
             FloatMatrix empty = FloatMatrix.empty();
             assertTrue(empty.isEmpty());
@@ -4199,6 +4211,34 @@ class FloatMatrixTest extends TestBase {
             FloatMatrix m3 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f } });
             assertTrue(m1.isSameShape(m2));
             assertFalse(m1.isSameShape(m3));
+        }
+
+        @Test
+        public void testAdjacent4Points() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+            List<Point> points = m.adjacent4Points(1, 1).toList();
+            assertEquals(4, points.size());
+        }
+
+        @Test
+        public void testAdjacent4Points_Corner() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            List<Point> points = m.adjacent4Points(0, 0).toList();
+            assertEquals(2, points.size());
+        }
+
+        @Test
+        public void testAdjacent8Points() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+            List<Point> points = m.adjacent8Points(1, 1).toList();
+            assertEquals(8, points.size());
+        }
+
+        @Test
+        public void testAdjacent8Points_Corner() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            List<Point> points = m.adjacent8Points(0, 0).toList();
+            assertEquals(3, points.size());
         }
 
         @Test
