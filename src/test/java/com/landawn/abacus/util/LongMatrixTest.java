@@ -295,6 +295,27 @@ class LongMatrixTest extends TestBase {
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
     }
 
+    // Verify rowCopy returns a defensive row snapshot and enforces row bounds.
+    @Test
+    public void testRowCopy() {
+        long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L } };
+        LongMatrix matrix = LongMatrix.of(a);
+
+        long[] rowCopy = matrix.rowCopy(0);
+        Assertions.assertArrayEquals(new long[] { 1L, 2L, 3L }, rowCopy);
+
+        rowCopy[0] = 99L;
+        Assertions.assertArrayEquals(new long[] { 1L, 2L, 3L }, matrix.rowView(0));
+    }
+
+    @Test
+    public void testRowCopy_InvalidIndex() {
+        LongMatrix matrix = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(2));
+    }
+
     @Test
     public void testColumn() {
         long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L } };

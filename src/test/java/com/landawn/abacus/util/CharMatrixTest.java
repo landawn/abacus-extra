@@ -280,6 +280,27 @@ class CharMatrixTest extends TestBase {
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
     }
 
+    // Verify rowCopy returns a defensive row snapshot and enforces row bounds.
+    @Test
+    public void testRowCopy() {
+        char[][] a = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
+        CharMatrix matrix = CharMatrix.of(a);
+
+        char[] rowCopy = matrix.rowCopy(0);
+        Assertions.assertArrayEquals(new char[] { 'a', 'b', 'c' }, rowCopy);
+
+        rowCopy[0] = 'z';
+        Assertions.assertArrayEquals(new char[] { 'a', 'b', 'c' }, matrix.rowView(0));
+    }
+
+    @Test
+    public void testRowCopy_InvalidIndex() {
+        CharMatrix matrix = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(2));
+    }
+
     @Test
     public void testColumn() {
         char[][] a = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };

@@ -203,6 +203,27 @@ class BooleanMatrixTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
     }
 
+    // Verify rowCopy returns a defensive row snapshot and enforces row bounds.
+    @Test
+    public void testRowCopy() {
+        boolean[][] arr = { { true, false }, { false, true } };
+        BooleanMatrix matrix = BooleanMatrix.of(arr);
+
+        boolean[] rowCopy = matrix.rowCopy(0);
+        assertArrayEquals(new boolean[] { true, false }, rowCopy);
+
+        rowCopy[0] = false;
+        assertArrayEquals(new boolean[] { true, false }, matrix.rowView(0));
+    }
+
+    @Test
+    public void testRowCopy_InvalidIndex() {
+        BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(2));
+    }
+
     @Test
     public void testColumn() {
         boolean[][] arr = { { true, false }, { false, true } };

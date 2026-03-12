@@ -277,6 +277,22 @@ class FloatMatrixTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.rowView(3));
     }
 
+    // Verify rowCopy returns a defensive row snapshot and enforces row bounds.
+    @Test
+    public void testRowCopy() {
+        float[] rowCopy = matrix.rowCopy(0);
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, rowCopy, DELTA);
+
+        rowCopy[0] = 99.0f;
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, matrix.rowView(0), DELTA);
+    }
+
+    @Test
+    public void testRowCopy_InvalidIndex() {
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(3));
+    }
+
     @Test
     public void testColumn() {
         float[] col0 = matrix.columnCopy(0);

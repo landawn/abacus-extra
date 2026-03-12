@@ -302,6 +302,22 @@ class IntMatrixTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.rowView(3));
     }
 
+    // Verify rowCopy returns a defensive row snapshot and enforces row bounds.
+    @Test
+    public void testRowCopy() {
+        int[] rowCopy = matrix.rowCopy(0);
+        assertArrayEquals(new int[] { 1, 2, 3 }, rowCopy);
+
+        rowCopy[0] = 99;
+        assertArrayEquals(new int[] { 1, 2, 3 }, matrix.rowView(0));
+    }
+
+    @Test
+    public void testRowCopy_InvalidIndex() {
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(3));
+    }
+
     @Test
     public void testColumn() {
         int[] col0 = matrix.columnCopy(0);

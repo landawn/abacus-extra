@@ -288,6 +288,27 @@ class ByteMatrixTest extends TestBase {
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
     }
 
+    // Verify rowCopy returns a defensive row snapshot and enforces row bounds.
+    @Test
+    public void testRowCopy() {
+        byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
+        ByteMatrix matrix = ByteMatrix.of(a);
+
+        byte[] rowCopy = matrix.rowCopy(0);
+        Assertions.assertArrayEquals(new byte[] { 1, 2, 3 }, rowCopy);
+
+        rowCopy[0] = 9;
+        Assertions.assertArrayEquals(new byte[] { 1, 2, 3 }, matrix.rowView(0));
+    }
+
+    @Test
+    public void testRowCopy_InvalidIndex() {
+        ByteMatrix matrix = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(-1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(2));
+    }
+
     @Test
     public void testColumn() {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };

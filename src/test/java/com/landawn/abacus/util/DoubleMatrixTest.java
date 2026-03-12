@@ -249,6 +249,27 @@ class DoubleMatrixTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> matrix.rowView(2));
     }
 
+    // Verify rowCopy returns a defensive row snapshot and enforces row bounds.
+    @Test
+    public void testRowCopy() {
+        double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
+        DoubleMatrix matrix = DoubleMatrix.of(arr);
+
+        double[] rowCopy = matrix.rowCopy(0);
+        assertArrayEquals(new double[] { 1.0, 2.0 }, rowCopy, 0.0);
+
+        rowCopy[0] = 99.0;
+        assertArrayEquals(new double[] { 1.0, 2.0 }, matrix.rowView(0), 0.0);
+    }
+
+    @Test
+    public void testRowCopy_InvalidIndex() {
+        DoubleMatrix matrix = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
+
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(-1));
+        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(2));
+    }
+
     @Test
     public void testColumn() {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
