@@ -99,7 +99,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a new 1xsize matrix filled with random char values.
+     * Creates a new {@code 1 x size} matrix filled with random char values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1128,7 +1128,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Top-left 2x2 region is filled: [['a', 'b', 0], ['c', 'd', 0], [0, 0, 0]]
      * }</pre>
      *
-     * @param b the source array to copy values from (maybe smaller or larger than the matrix)
+     * @param b the source array to copy values from (may be smaller or larger than the matrix)
      */
     public void copyFrom(final char[][] b) {
         copyFrom(0, 0, b);
@@ -1265,8 +1265,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //          ['\u0000', '\u0000', '\u0000']]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @return a new CharMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
@@ -1296,8 +1296,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Result: [['a']]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @param defaultValueForNewCell the char value to fill new cells with during extension
      * @return a new CharMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
@@ -2948,7 +2948,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Prints this matrix and returns the printed text.
+     * Prints this matrix to standard output and returns the formatted string.
      *
      * <p>Each row is formatted as {@code [e1, e2, ...]} and rows are separated by
      * {@link #ARRAY_PRINT_SEPARATOR}. If the matrix is empty, {@code []} is printed.

@@ -146,7 +146,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a new 1xsize matrix filled with random long values.
+     * Creates a new {@code 1 x size} matrix filled with random long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -636,9 +636,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Returns a defensive copy of the specified row.
      * Changes to the returned array do not affect this matrix.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
+     * long[] firstRow = matrix.rowCopy(0);   // Returns [1L, 2L, 3L]
+     *
+     * // Modification does NOT affect the matrix (it's a copy)
+     * firstRow[0] = 10L;  // matrix still has 1L at position (0,0)
+     * }</pre>
+     *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return a new long array containing the values from the specified row
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
+     * @see #rowView(int)
      */
     @Override
     public long[] rowCopy(final int rowIndex) throws IllegalArgumentException {
@@ -1366,8 +1376,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @return a new LongMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
@@ -1397,8 +1407,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // Result: [[1]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @param defaultValueForNewCell the long value to fill new cells with during extension
      * @return a new LongMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
@@ -2996,8 +3006,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * the length of a row array. It is part of the template method pattern implementation
      * in the abstract base class.
      *
-     * @param a the array to get the length of
-     * @return the length of the array, or 0 if the array is null
+     * @param a the array to get the length of, may be {@code null}
+     * @return the length of the array, or 0 if the array is {@code null}
      */
     @Override
     protected int length(@SuppressWarnings("hiding") final long[] a) {
@@ -3067,7 +3077,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Prints the matrix to standard output in a formatted manner and returns the formatted string.
+     * Prints this matrix to standard output and returns the formatted string.
      * Each row is printed on a separate line with elements separated by commas
      * and enclosed in square brackets.
      *

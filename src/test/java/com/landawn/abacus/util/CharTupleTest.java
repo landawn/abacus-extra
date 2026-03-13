@@ -9,6 +9,16 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.CharTuple.CharTuple0;
 import com.landawn.abacus.util.CharTuple.CharTuple1;
@@ -20,15 +30,8 @@ import com.landawn.abacus.util.CharTuple.CharTuple6;
 import com.landawn.abacus.util.CharTuple.CharTuple7;
 import com.landawn.abacus.util.CharTuple.CharTuple8;
 import com.landawn.abacus.util.CharTuple.CharTuple9;
-import com.landawn.abacus.util.stream.CharStream;
 import com.landawn.abacus.util.u.Optional;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.List;
-import java.util.NoSuchElementException;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import com.landawn.abacus.util.stream.CharStream;
 
 class CharTupleTest extends TestBase {
 
@@ -3120,13 +3123,13 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple1_sum() {
             CharTuple1 tuple = CharTuple.of('A');
-            assertEquals((int) 'A', tuple.sum());
+            assertEquals('A', tuple.sum());
         }
 
         @Test
         public void test_tuple1_average() {
             CharTuple1 tuple = CharTuple.of('A');
-            assertEquals((double) 'A', tuple.average(), 0.0001);
+            assertEquals('A', tuple.average(), 0.0001);
         }
 
         @Test
@@ -3167,7 +3170,7 @@ class CharTupleTest extends TestBase {
         public void test_tuple1_stream() {
             CharTuple1 tuple = CharTuple.of('A');
             int sum = tuple.stream().sum();
-            assertEquals((int) 'A', sum);
+            assertEquals('A', sum);
         }
 
         @Test
@@ -3237,13 +3240,13 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple2_sum() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals((int) 'A' + (int) 'B', tuple.sum());
+            assertEquals('A' + 'B', tuple.sum());
         }
 
         @Test
         public void test_tuple2_average() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals(((int) 'A' + (int) 'B') / 2.0, tuple.average(), 0.0001);
+            assertEquals(('A' + 'B') / 2.0, tuple.average(), 0.0001);
         }
 
         @Test
@@ -3372,13 +3375,13 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple3_sum() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertEquals((int) 'A' + (int) 'B' + (int) 'C', tuple.sum());
+            assertEquals('A' + 'B' + 'C', tuple.sum());
         }
 
         @Test
         public void test_tuple3_average() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertEquals(((int) 'A' + (int) 'B' + (int) 'C') / 3.0, tuple.average(), 0.0001);
+            assertEquals(('A' + 'B' + 'C') / 3.0, tuple.average(), 0.0001);
         }
 
         @Test
@@ -3554,7 +3557,7 @@ class CharTupleTest extends TestBase {
         public void test_stream_operations() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
             int sum = tuple.stream().sum();
-            assertEquals((int) 'A' + (int) 'B' + (int) 'C', sum);
+            assertEquals('A' + 'B' + 'C', sum);
         }
 
         @Test

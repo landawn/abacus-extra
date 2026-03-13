@@ -94,7 +94,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a new 1xsize matrix filled with random boolean values.
+     * Creates a new {@code 1 x size} matrix filled with random boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1254,8 +1254,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * //          [false, false, false]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @return a new BooleanMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
@@ -1285,8 +1285,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Result: [[true]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @param defaultValueForNewCell the boolean value to fill new cells with during extension
      * @return a new BooleanMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
@@ -3116,7 +3116,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Prints this matrix and returns the printed text.
+     * Prints this matrix to standard output and returns the formatted string.
      *
      * <p>Each row is formatted as {@code [e1, e2, ...]} and rows are separated by
      * {@link #ARRAY_PRINT_SEPARATOR}. If the matrix is empty, {@code []} is printed.

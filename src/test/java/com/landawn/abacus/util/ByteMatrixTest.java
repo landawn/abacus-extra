@@ -9,18 +9,21 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import com.landawn.abacus.TestBase;
-import com.landawn.abacus.util.Sheet.Point;
-import com.landawn.abacus.util.stream.ByteStream;
-import com.landawn.abacus.util.stream.Stream;
-import com.landawn.abacus.util.u.OptionalByte;
+
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import com.landawn.abacus.TestBase;
+import com.landawn.abacus.util.Sheet.Point;
+import com.landawn.abacus.util.u.OptionalByte;
+import com.landawn.abacus.util.stream.ByteStream;
+import com.landawn.abacus.util.stream.Stream;
 
 class ByteMatrixTest extends TestBase {
 
@@ -4168,7 +4171,7 @@ class ByteMatrixTest extends TestBase {
         @Test
         public void testMapToObj_withComplexType() {
             ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-            Matrix<Integer> mapped = m.mapToObj(val -> (int) val * 10, Integer.class);
+            Matrix<Integer> mapped = m.mapToObj(val -> val * 10, Integer.class);
             assertEquals(10, mapped.get(0, 0));
             assertEquals(20, mapped.get(0, 1));
             assertEquals(30, mapped.get(1, 0));
@@ -4605,7 +4608,7 @@ class ByteMatrixTest extends TestBase {
         public void testForEach_withConsumer() {
             ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
             AtomicInteger sum = new AtomicInteger(0);
-            m.forEach(val -> sum.addAndGet((int) val));
+            m.forEach(val -> sum.addAndGet(val));
             assertEquals(10, sum.get()); // 1+2+3+4 = 10
         }
 

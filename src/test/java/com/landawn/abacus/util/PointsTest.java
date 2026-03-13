@@ -18,6 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Points.xy;
 import com.landawn.abacus.util.Points.xy.ByteBytePoint;
@@ -41,9 +46,6 @@ import com.landawn.abacus.util.Points.xy.LongIntPoint;
 import com.landawn.abacus.util.Points.xy.LongLongPoint;
 import com.landawn.abacus.util.Points.xy.LongObjPoint;
 import com.landawn.abacus.util.Points.xyz;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 
 class PointsTest extends TestBase {
     @Test

@@ -1989,7 +1989,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional boolean array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(boolean[][][]) for flattening three-dimensional arrays
      * @see #applyOnFlattened(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
      */
@@ -2028,7 +2028,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional boolean array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(boolean[][]) for flattening two-dimensional arrays
      * @see #applyOnFlattened(boolean[][][], Throwables.Consumer) for performing operations on flattened three-dimensional arrays
      */
@@ -2746,7 +2746,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Finds the minimum length among all sub-arrays in a two-dimensional boolean array.
-     * Returns 0 if the input array is null or empty.
+     * Returns 0 if the input array is {@code null} or empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2774,7 +2774,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Finds the maximum length among all sub-arrays in a two-dimensional boolean array.
-     * Returns 0 if the input array is null or empty.
+     * Returns 0 if the input array is {@code null} or empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3315,7 +3315,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional character array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(char[][][]) for three-dimensional arrays
      * @see #applyOnFlattened(char[][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -3354,7 +3354,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional character array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(char[][]) for two-dimensional arrays
      * @see #applyOnFlattened(char[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -4095,7 +4095,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null}).
-     * @return the minimum length of any sub-array. Returns 0 if the input array is empty or null.
+     * @return the minimum length of any sub-array. Returns 0 if the input array is empty or {@code null}.
      */
     public static int minSubArrayLength(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -4123,7 +4123,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null}).
-     * @return the maximum length of any sub-array. Returns 0 if the input array is empty or null.
+     * @return the maximum length of any sub-array. Returns 0 if the input array is empty or {@code null}.
      */
     public static int maxSubArrayLength(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -4580,7 +4580,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional byte array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(byte[][][]) for three-dimensional arrays
      * @see #applyOnFlattened(byte[][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -4619,7 +4619,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional byte array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(byte[][]) for two-dimensional arrays
      * @see #applyOnFlattened(byte[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -5363,7 +5363,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Finds the minimum length among all sub-arrays in a two-dimensional byte array.
      * Null sub-arrays are treated as having length 0.
-     * Returns 0 if the input array is null or empty.
+     * Returns 0 if the input array is {@code null} or empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5391,7 +5391,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Finds the maximum length among all sub-arrays in a two-dimensional byte array.
      * Null sub-arrays are treated as having length 0.
-     * Returns 0 if the input array is null or empty.
+     * Returns 0 if the input array is {@code null} or empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5921,7 +5921,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(short[][][]) for three-dimensional arrays
      * @see #applyOnFlattened(short[][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -5960,7 +5960,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(short[][]) for two-dimensional arrays
      * @see #applyOnFlattened(short[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -6656,7 +6656,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Finds the maximum length among all sub-arrays in a two-dimensional short array.
-     * Returns 0 if the array is null or empty.
+     * Returns 0 if the array is {@code null} or empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7062,7 +7062,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This method modifies the original two-dimensional array by testing each element in all sub-arrays
      * with the predicate and replacing matching elements with the new value.
-     * If the array is null or empty, the method returns without performing any operation.</p>
+     * If the array is {@code null} or empty, the method returns without performing any operation.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7094,7 +7094,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This method modifies the original three-dimensional array by testing each element in all nested arrays
      * with the predicate and replacing matching elements with the new value.
-     * If the array is null or empty, the method returns without performing any operation.</p>
+     * If the array is {@code null} or empty, the method returns without performing any operation.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7126,7 +7126,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This method creates a new two-dimensional array by dividing the input array into rows of the specified
      * column count. The last row may contain fewer elements if the array length is not evenly
-     * divisible by the column count. If the input array is null or empty, returns an empty two-dimensional array.</p>
+     * divisible by the column count. If the input array is {@code null} or empty, returns an empty two-dimensional array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7163,7 +7163,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This method creates a new three-dimensional array by dividing the input array first into matrices
      * of the specified row and column counts. Each matrix may be incomplete if the array length
-     * is not evenly divisible by rowCount × columnCount. If the input array is null or empty, returns an empty three-dimensional array.</p>
+     * is not evenly divisible by rowCount × columnCount. If the input array is {@code null} or empty, returns an empty three-dimensional array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7216,7 +7216,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(int[][][]) for three-dimensional arrays
      * @see #applyOnFlattened(int[][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -7248,7 +7248,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This method creates a new one-dimensional array containing all elements from the three-dimensional array
      * in depth-first order. Empty sub-arrays at any level are skipped. If the input array
-     * is null or empty, returns an empty array.</p>
+     * is {@code null} or empty, returns an empty array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7258,7 +7258,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(int[][]) for two-dimensional arrays
      * @see #applyOnFlattened(int[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -8503,7 +8503,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(long[][][]) for three-dimensional arrays
      * @see #applyOnFlattened(long[][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -8541,7 +8541,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(long[][]) for two-dimensional arrays
      * @see #applyOnFlattened(long[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
@@ -9774,7 +9774,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(float[][][]) for flattening three-dimensional arrays
      * @see #applyOnFlattened(float[][], Throwables.Consumer) for performing operations on flattened arrays
      */
@@ -9813,7 +9813,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(float[][]) for flattening two-dimensional arrays
      * @see #applyOnFlattened(float[][][], Throwables.Consumer) for performing operations on flattened arrays
      */
@@ -11053,7 +11053,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(double[][][]) for flattening three-dimensional arrays
      * @see #applyOnFlattened(double[][], Throwables.Consumer) for performing operations on flattened arrays
      */
@@ -11092,7 +11092,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(double[][]) for flattening two-dimensional arrays
      * @see #applyOnFlattened(double[][][], Throwables.Consumer) for performing operations on flattened arrays
      */

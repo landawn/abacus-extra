@@ -9,18 +9,21 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import com.landawn.abacus.TestBase;
-import com.landawn.abacus.util.Sheet.Point;
-import com.landawn.abacus.util.stream.CharStream;
-import com.landawn.abacus.util.stream.Stream;
-import com.landawn.abacus.util.u.OptionalChar;
+
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import com.landawn.abacus.TestBase;
+import com.landawn.abacus.util.Sheet.Point;
+import com.landawn.abacus.util.u.OptionalChar;
+import com.landawn.abacus.util.stream.CharStream;
+import com.landawn.abacus.util.stream.Stream;
 
 class CharMatrixTest extends TestBase {
 
@@ -5743,32 +5746,32 @@ class CharMatrixTest extends TestBase {
         public void test_toIntMatrix() {
             CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
             IntMatrix intMatrix = m.toIntMatrix();
-            assertEquals((int) 'a', intMatrix.get(0, 0));
-            assertEquals((int) 'b', intMatrix.get(0, 1));
+            assertEquals('a', intMatrix.get(0, 0));
+            assertEquals('b', intMatrix.get(0, 1));
         }
 
         @Test
         public void test_toLongMatrix() {
             CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
             LongMatrix longMatrix = m.toLongMatrix();
-            assertEquals((long) 'a', longMatrix.get(0, 0));
-            assertEquals((long) 'b', longMatrix.get(0, 1));
+            assertEquals('a', longMatrix.get(0, 0));
+            assertEquals('b', longMatrix.get(0, 1));
         }
 
         @Test
         public void test_toFloatMatrix() {
             CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
             FloatMatrix floatMatrix = m.toFloatMatrix();
-            assertEquals((float) 'a', floatMatrix.get(0, 0));
-            assertEquals((float) 'b', floatMatrix.get(0, 1));
+            assertEquals('a', floatMatrix.get(0, 0));
+            assertEquals('b', floatMatrix.get(0, 1));
         }
 
         @Test
         public void test_toDoubleMatrix() {
             CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
             DoubleMatrix doubleMatrix = m.toDoubleMatrix();
-            assertEquals((double) 'a', doubleMatrix.get(0, 0));
-            assertEquals((double) 'b', doubleMatrix.get(0, 1));
+            assertEquals('a', doubleMatrix.get(0, 0));
+            assertEquals('b', doubleMatrix.get(0, 1));
         }
 
         // ============ ZipWith Tests ============

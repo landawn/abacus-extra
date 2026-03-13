@@ -19,6 +19,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple1;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
@@ -32,13 +42,6 @@ import com.landawn.abacus.util.IntTuple.IntTuple3;
 import com.landawn.abacus.util.LongTuple.LongTuple2;
 import com.landawn.abacus.util.LongTuple.LongTuple3;
 import com.landawn.abacus.util.u.Optional;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.List;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 
 class PrimitiveTupleTest extends TestBase {
 
@@ -1349,7 +1352,7 @@ class PrimitiveTupleTest extends TestBase {
         public void testAccept_intTuple2() throws Exception {
             IntTuple2 tuple = IntTuple.of(10, 20);
             final List<IntTuple2> results = new ArrayList<>();
-            ((PrimitiveTuple<IntTuple2>) tuple).accept(t -> results.add(t));
+            tuple.accept(t -> results.add(t));
             assertEquals(1, results.size());
             assertEquals(tuple, results.get(0));
         }
@@ -1358,7 +1361,7 @@ class PrimitiveTupleTest extends TestBase {
         public void testAccept_intTuple3() throws Exception {
             IntTuple3 tuple = IntTuple.of(1, 2, 3);
             final List<IntTuple3> results = new ArrayList<>();
-            ((PrimitiveTuple<IntTuple3>) tuple).accept(t -> results.add(t));
+            tuple.accept(t -> results.add(t));
             assertEquals(1, results.size());
             assertEquals(tuple, results.get(0));
         }
@@ -1367,7 +1370,7 @@ class PrimitiveTupleTest extends TestBase {
         public void testAccept_floatTuple2() throws Exception {
             FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
             final List<FloatTuple2> results = new ArrayList<>();
-            ((PrimitiveTuple<FloatTuple2>) tuple).accept(t -> results.add(t));
+            tuple.accept(t -> results.add(t));
             assertEquals(1, results.size());
             assertEquals(tuple, results.get(0));
         }
@@ -1376,7 +1379,7 @@ class PrimitiveTupleTest extends TestBase {
         public void testAccept_floatTuple3() throws Exception {
             FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
             final List<FloatTuple3> results = new ArrayList<>();
-            ((PrimitiveTuple<FloatTuple3>) tuple).accept(t -> results.add(t));
+            tuple.accept(t -> results.add(t));
             assertEquals(1, results.size());
             assertEquals(tuple, results.get(0));
         }
@@ -1385,7 +1388,7 @@ class PrimitiveTupleTest extends TestBase {
         public void testAccept_doubleTuple2() throws Exception {
             DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
             final List<DoubleTuple2> results = new ArrayList<>();
-            ((PrimitiveTuple<DoubleTuple2>) tuple).accept(t -> results.add(t));
+            tuple.accept(t -> results.add(t));
             assertEquals(1, results.size());
             assertEquals(tuple, results.get(0));
         }
@@ -1394,7 +1397,7 @@ class PrimitiveTupleTest extends TestBase {
         public void testAccept_doubleTuple3() throws Exception {
             DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
             final List<DoubleTuple3> results = new ArrayList<>();
-            ((PrimitiveTuple<DoubleTuple3>) tuple).accept(t -> results.add(t));
+            tuple.accept(t -> results.add(t));
             assertEquals(1, results.size());
             assertEquals(tuple, results.get(0));
         }

@@ -416,7 +416,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowIndex the row index (0-based)
      * @param columnIndex the column index (0-based)
-     * @return a Nullable containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
+     * @return a {@link Nullable} containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public Nullable<T> above(final int rowIndex, final int columnIndex) {
@@ -438,7 +438,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowIndex the row index (0-based)
      * @param columnIndex the column index (0-based)
-     * @return a Nullable containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
+     * @return a {@link Nullable} containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public Nullable<T> below(final int rowIndex, final int columnIndex) {
@@ -460,7 +460,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowIndex the row index (0-based)
      * @param columnIndex the column index (0-based)
-     * @return a Nullable containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
+     * @return a {@link Nullable} containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public Nullable<T> left(final int rowIndex, final int columnIndex) {
@@ -482,7 +482,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowIndex the row index (0-based)
      * @param columnIndex the column index (0-based)
-     * @return a Nullable containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
+     * @return a {@link Nullable} containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
      * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public Nullable<T> right(final int rowIndex, final int columnIndex) {
@@ -1284,7 +1284,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a boolean for each element
-     * @return a new BooleanMatrix
+     * @return a new {@link BooleanMatrix}
      * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
@@ -1313,7 +1313,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a byte for each element
-     * @return a new ByteMatrix
+     * @return a new {@link ByteMatrix}
      * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
@@ -1345,7 +1345,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a char for each element
-     * @return a new CharMatrix
+     * @return a new {@link CharMatrix}
      * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
@@ -1374,7 +1374,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a short for each element
-     * @return a new ShortMatrix
+     * @return a new {@link ShortMatrix}
      * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
@@ -1404,7 +1404,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns an int for each element
-     * @return a new IntMatrix
+     * @return a new {@link IntMatrix}
      * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
@@ -1433,7 +1433,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a long for each element
-     * @return a new LongMatrix
+     * @return a new {@link LongMatrix}
      * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
@@ -1462,7 +1462,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a float for each element
-     * @return a new FloatMatrix
+     * @return a new {@link FloatMatrix}
      * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
@@ -1491,7 +1491,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <E> the type of exception that might be thrown
      * @param mapper the function that returns a double for each element
-     * @return a new DoubleMatrix
+     * @return a new {@link DoubleMatrix}
      * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
@@ -2553,7 +2553,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Object[] diag = matrix.streamMainDiagonal().toArray();         // Returns [1, 5, 9]
      * }</pre>
      *
-     * @return a stream of diagonal elements from top-left to bottom-right, or an empty stream if the matrix is empty
+     * @return a {@link Stream} of diagonal elements from top-left to bottom-right, or an empty stream if the matrix is empty
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
@@ -2609,7 +2609,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Object[] diag = matrix.streamAntiDiagonal().toArray();         // Returns [3, 5, 7]
      * }</pre>
      *
-     * @return a stream of anti-diagonal elements from top-right to bottom-left, or an empty stream if the matrix is empty
+     * @return a {@link Stream} of anti-diagonal elements from top-right to bottom-left, or an empty stream if the matrix is empty
      * @throws IllegalStateException if the matrix is not square
      */
     @Override
@@ -2668,7 +2668,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Object[] array = matrix.streamHorizontal().toArray();         // Returns [1, 2, 3, 4]
      * }</pre>
      *
-     * @return a Stream of all elements in row-major order, or an empty stream if the matrix is empty
+     * @return a {@link Stream} of all elements in row-major order, or an empty stream if the matrix is empty
      */
     @Override
     public Stream<T> streamHorizontal() {
@@ -2687,7 +2687,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param rowIndex the index of the row to stream
-     * @return a stream of elements from the specified row
+     * @return a {@link Stream} of elements from the specified row
      * @throws IndexOutOfBoundsException if rowIndex is out of bounds
      */
     @Override
@@ -2708,7 +2708,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param fromRowIndex the starting row index (inclusive)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a stream of elements from the specified row range, or an empty stream if the matrix is empty
+     * @return a {@link Stream} of elements from the specified row range, or an empty stream if the matrix is empty
      * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
@@ -2798,7 +2798,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Object[] colMajor = matrix.streamVertical().toArray();         // Returns [1, 3, 2, 4]
      * }</pre>
      *
-     * @return a Stream of all elements in column-major order, or an empty stream if the matrix is empty
+     * @return a {@link Stream} of all elements in column-major order, or an empty stream if the matrix is empty
      */
     @Override
     @Beta
@@ -2818,7 +2818,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param columnIndex the index of the column to stream
-     * @return a stream of elements from the specified column
+     * @return a {@link Stream} of elements from the specified column
      * @throws IndexOutOfBoundsException if columnIndex is out of bounds
      */
     @Override
@@ -2839,7 +2839,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param fromColumnIndex the starting column index (inclusive)
      * @param toColumnIndex the ending column index (exclusive)
-     * @return a stream of elements from the specified column range, or an empty stream if the matrix is empty
+     * @return a {@link Stream} of elements from the specified column range, or an empty stream if the matrix is empty
      * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Beta
@@ -2931,7 +2931,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Outer stream contains 3 inner streams, each with row elements
      * }</pre>
      *
-     * @return a stream of row streams, with one inner stream per row in the matrix
+     * @return a {@link Stream} of row streams, with one inner stream per row in the matrix
      */
     @Override
     public Stream<Stream<T>> streamRows() {
@@ -2952,7 +2952,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param fromRowIndex the starting row index (inclusive)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a stream of row streams for the specified range, with one inner stream per row
+     * @return a {@link Stream} of row streams for the specified range, with one inner stream per row
      * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
@@ -3005,7 +3005,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Outer stream contains 3 inner streams, each with column elements
      * }</pre>
      *
-     * @return a stream of column streams, or an empty stream if the matrix is empty
+     * @return a {@link Stream} of column streams, or an empty stream if the matrix is empty
      */
     @Override
     @Beta
@@ -3027,7 +3027,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param fromColumnIndex the starting column index (inclusive)
      * @param toColumnIndex the ending column index (exclusive)
-     * @return a stream of column streams for the specified range, or an empty stream if the matrix is empty
+     * @return a {@link Stream} of column streams for the specified range, or an empty stream if the matrix is empty
      * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
@@ -3227,7 +3227,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param columnNames the names to assign to each column in the resulting Dataset
-     * @return a Dataset containing the matrix data with the specified column names
+     * @return a {@link com.landawn.abacus.DataSet Dataset} containing the matrix data with the specified column names
      * @throws IllegalArgumentException if {@code columnNames} is {@code null}, or if its size doesn't match the column count
      * @see Dataset
      */
@@ -3276,7 +3276,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param columnNames the collection of column names to use for the Dataset
-     * @return a Dataset containing the matrix data organized vertically
+     * @return a {@link com.landawn.abacus.DataSet Dataset} containing the matrix data organized vertically
      * @throws IllegalArgumentException if {@code columnNames} is {@code null}, or if the number of column names doesn't match the number of rows in the matrix
      * @see Dataset
      * @see RowDataset
@@ -3298,7 +3298,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Prints the matrix to standard output in a formatted manner.
+     * Prints this matrix to standard output and returns the formatted string.
      * Each row is printed on a separate line with elements separated by commas
      * and enclosed in square brackets.
      *

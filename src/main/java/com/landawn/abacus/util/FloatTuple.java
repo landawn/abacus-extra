@@ -756,6 +756,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "()";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             return N.EMPTY_FLOAT_ARRAY;
@@ -908,6 +914,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ")";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -1175,6 +1187,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ")";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -1451,6 +1469,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ")";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -1630,6 +1654,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -1815,6 +1845,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -2006,6 +2042,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -2202,6 +2244,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -2406,6 +2454,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -2616,6 +2670,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
         }
 
+        /**
+         * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a float array containing all elements of this tuple
+         */
         @Override
         protected float[] elements() {
             if (elements == null) {

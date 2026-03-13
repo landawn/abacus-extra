@@ -9,16 +9,19 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import com.landawn.abacus.TestBase;
-import com.landawn.abacus.util.Sheet.Point;
-import com.landawn.abacus.util.stream.Stream;
-import com.landawn.abacus.util.u.OptionalBoolean;
+
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import com.landawn.abacus.TestBase;
+import com.landawn.abacus.util.Sheet.Point;
+import com.landawn.abacus.util.u.OptionalBoolean;
+import com.landawn.abacus.util.stream.Stream;
 
 class BooleanMatrixTest extends TestBase {
 
@@ -4841,7 +4844,7 @@ class BooleanMatrixTest extends TestBase {
         @Test
         public void test_replaceIf_predicate() {
             BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-            m.replaceIf(val -> val == false, true);
+            m.replaceIf(val -> !val, true);
             assertTrue(m.get(0, 0));
             assertTrue(m.get(0, 1));
             assertTrue(m.get(1, 0));

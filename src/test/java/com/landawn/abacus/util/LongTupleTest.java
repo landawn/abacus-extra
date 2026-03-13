@@ -8,6 +8,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicLong;
+
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.LongTuple.LongTuple0;
 import com.landawn.abacus.util.LongTuple.LongTuple1;
@@ -19,15 +29,8 @@ import com.landawn.abacus.util.LongTuple.LongTuple6;
 import com.landawn.abacus.util.LongTuple.LongTuple7;
 import com.landawn.abacus.util.LongTuple.LongTuple8;
 import com.landawn.abacus.util.LongTuple.LongTuple9;
-import com.landawn.abacus.util.stream.LongStream;
 import com.landawn.abacus.util.u.Optional;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.List;
-import java.util.NoSuchElementException;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import com.landawn.abacus.util.stream.LongStream;
 
 class LongTupleTest extends TestBase {
 

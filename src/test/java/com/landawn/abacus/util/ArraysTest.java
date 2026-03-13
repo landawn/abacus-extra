@@ -21,19 +21,22 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Arrays.f;
 import com.landawn.abacus.util.Arrays.ff;
 import com.landawn.abacus.util.Arrays.fff;
 import com.landawn.abacus.util.stream.Stream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 
 class ArraysTest extends TestBase {
 
@@ -9468,7 +9471,7 @@ class ArraysTest extends TestBase {
         public void testFlatten_2D_Boolean_null() {
             boolean[][] arr = null;
             boolean[] result = Arrays.flatten(arr);
-            assertArrayEquals(N.EMPTY_BOOLEAN_ARRAY, result);
+            assertArrayEquals(CommonUtil.EMPTY_BOOLEAN_ARRAY, result);
         }
 
         @Test
@@ -9565,7 +9568,7 @@ class ArraysTest extends TestBase {
         public void testFlatten_2D_Int_null() {
             int[][] arr = null;
             int[] result = Arrays.flatten(arr);
-            assertArrayEquals(N.EMPTY_INT_ARRAY, result);
+            assertArrayEquals(CommonUtil.EMPTY_INT_ARRAY, result);
         }
 
         @Test
@@ -9647,7 +9650,7 @@ class ArraysTest extends TestBase {
         public void testFlatten_2D_Double_null() {
             double[][] arr = null;
             double[] result = Arrays.flatten(arr);
-            assertArrayEquals(N.EMPTY_DOUBLE_ARRAY, result, 0.001);
+            assertArrayEquals(CommonUtil.EMPTY_DOUBLE_ARRAY, result, 0.001);
         }
 
         @Test
@@ -10867,7 +10870,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMapToObj_byte_2D_valid() {
             byte[][] arr = { { 1, 2 }, { 3, 4 } };
-            Integer[][] result = Arrays.mapToObj(arr, b -> (int) b * 2, Integer.class);
+            Integer[][] result = Arrays.mapToObj(arr, b -> b * 2, Integer.class);
             assertEquals(2, result[0][0]);
             assertEquals(4, result[0][1]);
             assertEquals(6, result[1][0]);
@@ -12039,7 +12042,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMapToLong_double_1D() {
             double[] arr = { 1.5, 2.7, 3.9 };
-            long[] result = Arrays.mapToLong(arr, d -> (long) Math.round(d));
+            long[] result = Arrays.mapToLong(arr, d -> Math.round(d));
             assertArrayEquals(new long[] { 2L, 3L, 4L }, result);
         }
 
@@ -12532,7 +12535,7 @@ class ArraysTest extends TestBase {
         @Test
         public void test_replaceIf_booleanArray() {
             boolean[] arr = { true, false, true, false };
-            Arrays.replaceIf(arr, b -> b == true, false);
+            Arrays.replaceIf(arr, b -> b, false);
 
             assertArrayEquals(new boolean[] { false, false, false, false }, arr);
         }

@@ -753,6 +753,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "()";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             return N.EMPTY_LONG_ARRAY;
@@ -906,6 +912,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ")";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             if (elements == null) {
@@ -1169,6 +1181,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ")";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             if (elements == null) {
@@ -1439,6 +1457,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ")";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             if (elements == null) {
@@ -1622,6 +1646,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             if (elements == null) {
@@ -1809,6 +1839,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             if (elements == null) {
@@ -2000,6 +2036,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             if (elements == null) {
@@ -2197,6 +2239,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             if (elements == null) {
@@ -2404,6 +2452,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             if (elements == null) {
@@ -2615,6 +2669,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
         }
 
+        /**
+         * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a long array containing all elements of this tuple
+         */
         @Override
         protected long[] elements() {
             if (elements == null) {

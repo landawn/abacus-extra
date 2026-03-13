@@ -248,7 +248,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a new 1xsize matrix filled with random double values.
+     * Creates a new {@code 1 x size} matrix filled with random double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1253,7 +1253,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Top-left 2x2 region is filled: [[1.0, 2.0, 0.0], [3.0, 4.0, 0.0], [0.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param b the source array to copy values from (maybe smaller or larger than the matrix)
+     * @param b the source array to copy values from (may be smaller or larger than the matrix)
      */
     public void copyFrom(final double[][] b) {
         copyFrom(0, 0, b);
@@ -1400,8 +1400,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * //          [0.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @return a new DoubleMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
@@ -1431,8 +1431,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Result: [[1.0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @param defaultValueForNewCell the double value to fill new cells with during extension
      * @return a new DoubleMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
@@ -3075,19 +3075,19 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Prints the matrix to standard output in a formatted manner.
+     * Prints this matrix to standard output and returns the formatted string.
      * Each row is printed on a separate line with elements separated by commas
      * and enclosed in square brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * matrix.println();
-     * // Output:
+     * String output = matrix.println();
+     * // Prints to stdout and returns:
      * // [1.0, 2.0, 3.0]
      * // [4.0, 5.0, 6.0]
      * }</pre>
-     * 
+     *
      * @return the formatted string representation of the matrix
      */
     @Override

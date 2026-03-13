@@ -756,6 +756,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "()";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             return N.EMPTY_SHORT_ARRAY;
@@ -909,6 +915,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ")";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             if (elements == null) {
@@ -1162,6 +1174,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ")";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             if (elements == null) {
@@ -1418,6 +1436,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ")";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             if (elements == null) {
@@ -1599,6 +1623,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             if (elements == null) {
@@ -1784,6 +1814,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             if (elements == null) {
@@ -1973,6 +2009,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             if (elements == null) {
@@ -2167,6 +2209,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             if (elements == null) {
@@ -2370,6 +2418,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             if (elements == null) {
@@ -2578,6 +2632,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
         }
 
+        /**
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a short array containing all elements of this tuple
+         */
         @Override
         protected short[] elements() {
             if (elements == null) {

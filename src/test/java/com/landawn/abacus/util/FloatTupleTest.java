@@ -9,6 +9,15 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.FloatTuple.FloatTuple0;
 import com.landawn.abacus.util.FloatTuple.FloatTuple1;
@@ -20,14 +29,8 @@ import com.landawn.abacus.util.FloatTuple.FloatTuple6;
 import com.landawn.abacus.util.FloatTuple.FloatTuple7;
 import com.landawn.abacus.util.FloatTuple.FloatTuple8;
 import com.landawn.abacus.util.FloatTuple.FloatTuple9;
-import com.landawn.abacus.util.stream.FloatStream;
 import com.landawn.abacus.util.u.Optional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import com.landawn.abacus.util.stream.FloatStream;
 
 class FloatTupleTest extends TestBase {
 

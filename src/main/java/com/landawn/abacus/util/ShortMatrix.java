@@ -103,7 +103,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a new 1xsize matrix filled with random short values.
+     * Creates a new {@code 1 x size} matrix filled with random short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -598,9 +598,19 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * Returns a defensive copy of the specified row.
      * Changes to the returned array do not affect this matrix.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
+     * short[] firstRow = matrix.rowCopy(0);   // Returns [1, 2, 3]
+     *
+     * // Modification does NOT affect the matrix (it's a copy)
+     * firstRow[0] = 10;  // matrix still has 1 at position (0,0)
+     * }</pre>
+     *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return a new short array containing the values from the specified row
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
+     * @see #rowView(int)
      */
     @Override
     public short[] rowCopy(final int rowIndex) throws IllegalArgumentException {
@@ -1232,8 +1242,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @return a new ShortMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
@@ -1263,8 +1273,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Result: [[1]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @param defaultValueForNewCell the short value to fill new cells with during extension
      * @return a new ShortMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
@@ -2982,7 +2992,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Prints this matrix and returns the printed text.
+     * Prints this matrix to standard output and returns the formatted string.
      *
      * <p>Each row is formatted as {@code [e1, e2, ...]} and rows are separated by
      * {@link #ARRAY_PRINT_SEPARATOR}. If the matrix is empty, {@code []} is printed.

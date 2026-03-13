@@ -231,7 +231,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a new 1xsize matrix filled with random int values.
+     * Creates a new {@code 1 x size} matrix filled with random int values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -401,6 +401,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param mainDiagonal the array of diagonal elements
      * @return a square matrix with the specified main diagonal
+     * @throws IllegalArgumentException if the input is invalid
      */
     public static IntMatrix mainDiagonal(final int[] mainDiagonal) {
         return diagonals(mainDiagonal, null);
@@ -421,6 +422,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param antiDiagonal the array of anti-diagonal elements
      * @return a square matrix with the specified anti-diagonal
+     * @throws IllegalArgumentException if the input is invalid
      */
     public static IntMatrix antiDiagonal(final int[] antiDiagonal) {
         return diagonals(null, antiDiagonal);
@@ -1438,8 +1440,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @return a new IntMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
@@ -1469,8 +1471,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Result: [[1]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @param defaultValueForNewCell the int value to fill new cells with during extension
      * @return a new IntMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
@@ -3160,7 +3162,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Prints the matrix to standard output in a formatted manner and returns the formatted string.
+     * Prints this matrix to standard output and returns the formatted string.
      * Each row is printed on a separate line with elements separated by commas
      * and enclosed in square brackets.
      *

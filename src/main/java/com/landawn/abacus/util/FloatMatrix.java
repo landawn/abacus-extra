@@ -151,7 +151,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a new 1xsize matrix filled with random float values.
+     * Creates a new {@code 1 x size} matrix filled with random float values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1094,7 +1094,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Top-left 2x2 region is filled: [[1.0f, 2.0f, 0.0f], [3.0f, 4.0f, 0.0f], [0.0f, 0.0f, 0.0f]]
      * }</pre>
      *
-     * @param b the source array to copy values from (maybe smaller or larger than the matrix)
+     * @param b the source array to copy values from (may be smaller or larger than the matrix)
      */
     public void copyFrom(final float[][] b) {
         copyFrom(0, 0, b);
@@ -1240,8 +1240,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //          [0.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @return a new FloatMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
@@ -1271,8 +1271,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Result: [[1.0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
      * @param defaultValueForNewCell the float value to fill new cells with during extension
      * @return a new FloatMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
@@ -2394,6 +2394,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param rowIndex the row index (0-based)
      * @return a FloatStream of elements from the specified row
+     * @throws IndexOutOfBoundsException if {@code rowIndex} is out of bounds
      */
     @Override
     public FloatStream streamHorizontal(final int rowIndex) {
@@ -2518,6 +2519,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param columnIndex the column index (0-based)
      * @return a FloatStream of elements from the specified column
+     * @throws IndexOutOfBoundsException if {@code columnIndex} is out of bounds
      */
     @Override
     public FloatStream streamVertical(final int columnIndex) {
@@ -2878,7 +2880,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Prints the matrix to standard output in a formatted manner.
+     * Prints this matrix to standard output and returns the formatted string.
      * Each row is printed on a separate line with elements separated by commas
      * and enclosed in square brackets.
      *
