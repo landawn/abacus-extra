@@ -234,6 +234,170 @@ class CharTupleTest extends TestBase {
         assertEquals(('a' + 'c') / 2.0, average, 0.001);
     }
 
+    // Cover inherited outer-type behavior and large-arity branch combinations missing from the report.
+    @Test
+    public void testInheritedOuterMethodsForCoverage() throws Exception {
+        class DerivedCharTuple extends CharTuple<DerivedCharTuple> {
+            private final char[] values;
+
+            DerivedCharTuple(final char... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedCharTuple reverse() {
+                final char[] reversed = values.clone();
+
+                for (int i = 0, j = reversed.length - 1; i < j; i++, j--) {
+                    final char tmp = reversed[i];
+                    reversed[i] = reversed[j];
+                    reversed[j] = tmp;
+                }
+
+                return new DerivedCharTuple(reversed);
+            }
+
+            @Override
+            public boolean contains(final char valueToFind) {
+                for (final char value : values) {
+                    if (value == valueToFind) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            protected char[] elements() {
+                return values;
+            }
+        }
+
+        final DerivedCharTuple tuple = new DerivedCharTuple('d', 'a', 'c', 'b');
+        final char[] firstArray = tuple.toArray();
+        final char[] secondArray = tuple.toArray();
+        final List<Character> visited = new ArrayList<>();
+
+        tuple.forEach(visited::add);
+
+        assertEquals('a', tuple.min());
+        assertEquals('d', tuple.max());
+        assertEquals('b', tuple.median());
+        assertEquals('d' + 'a' + 'c' + 'b', tuple.sum());
+        assertEquals(('d' + 'a' + 'c' + 'b') / 4.0, tuple.average(), 0.001);
+        assertArrayEquals(new char[] { 'd', 'a', 'c', 'b' }, firstArray);
+        assertArrayEquals(firstArray, secondArray);
+        assertNotSame(firstArray, secondArray);
+        assertEquals(CharList.of('d', 'a', 'c', 'b'), tuple.toList());
+        assertEquals(visited, tuple.stream().boxed().toList());
+        assertEquals(tuple.hashCode(), new DerivedCharTuple('d', 'a', 'c', 'b').hashCode());
+        assertTrue(tuple.equals(tuple));
+        assertTrue(tuple.equals(new DerivedCharTuple('d', 'a', 'c', 'b')));
+        assertFalse(tuple.equals(null));
+        assertFalse(tuple.equals("not a tuple"));
+        assertEquals("[d, a, c, b]", tuple.toString());
+        assertArrayEquals(new char[] { 'b', 'c', 'a', 'd' }, tuple.reverse().toArray());
+    }
+
+    @Test
+    public void testZeroArgConstructorsForCoverage() {
+        final CharTuple1 tuple1 = new CharTuple1();
+        final CharTuple2 tuple2 = new CharTuple2();
+        final CharTuple3 tuple3 = new CharTuple3();
+        final CharTuple4 tuple4 = new CharTuple4();
+        final CharTuple5 tuple5 = new CharTuple5();
+        final CharTuple6 tuple6 = new CharTuple6();
+        final CharTuple7 tuple7 = new CharTuple7();
+        final CharTuple8 tuple8 = new CharTuple8();
+        final CharTuple9 tuple9 = new CharTuple9();
+
+        assertArrayEquals(new char[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new char[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new char[] { 0, 0 }, tuple2.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0 }, tuple3.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0 }, tuple4.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+    }
+
+    @Test
+    public void testLargeArityContainsAndEqualsBranchesForCoverage() {
+        final CharTuple4 tuple4 = CharTuple.of('a', 'b', 'c', 'd');
+        final CharTuple5 tuple5 = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        final CharTuple6 tuple6 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        final CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        final CharTuple8 tuple8 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        final CharTuple9 tuple9 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+
+        assertTrue(tuple4.contains('b'));
+        assertTrue(tuple4.contains('c'));
+        assertTrue(tuple4.contains('d'));
+        assertFalse(tuple4.contains('z'));
+        assertTrue(tuple5.contains('b'));
+        assertTrue(tuple5.contains('c'));
+        assertTrue(tuple5.contains('d'));
+        assertTrue(tuple5.contains('e'));
+        assertFalse(tuple5.contains('z'));
+        assertTrue(tuple6.contains('b'));
+        assertTrue(tuple6.contains('c'));
+        assertTrue(tuple6.contains('d'));
+        assertTrue(tuple6.contains('e'));
+        assertTrue(tuple6.contains('f'));
+        assertFalse(tuple6.contains('z'));
+        assertTrue(tuple7.contains('b'));
+        assertTrue(tuple7.contains('c'));
+        assertTrue(tuple7.contains('d'));
+        assertTrue(tuple7.contains('e'));
+        assertTrue(tuple7.contains('f'));
+        assertTrue(tuple7.contains('g'));
+        assertFalse(tuple7.contains('z'));
+        assertTrue(tuple8.contains('b'));
+        assertTrue(tuple8.contains('c'));
+        assertTrue(tuple8.contains('d'));
+        assertTrue(tuple8.contains('e'));
+        assertTrue(tuple8.contains('f'));
+        assertTrue(tuple8.contains('g'));
+        assertTrue(tuple8.contains('h'));
+        assertFalse(tuple8.contains('z'));
+        assertTrue(tuple9.contains('b'));
+        assertTrue(tuple9.contains('c'));
+        assertTrue(tuple9.contains('d'));
+        assertTrue(tuple9.contains('e'));
+        assertTrue(tuple9.contains('f'));
+        assertTrue(tuple9.contains('g'));
+        assertTrue(tuple9.contains('h'));
+        assertTrue(tuple9.contains('i'));
+        assertFalse(tuple9.contains('z'));
+
+        assertTrue(tuple4.equals(tuple4));
+        assertFalse(tuple4.equals("not a tuple"));
+        assertFalse(tuple4.equals(CharTuple.of('a', 'b', 'c', 'z')));
+        assertTrue(tuple5.equals(tuple5));
+        assertFalse(tuple5.equals("not a tuple"));
+        assertFalse(tuple5.equals(CharTuple.of('a', 'b', 'c', 'd', 'z')));
+        assertTrue(tuple6.equals(tuple6));
+        assertFalse(tuple6.equals("not a tuple"));
+        assertFalse(tuple6.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'z')));
+        assertTrue(tuple7.equals(tuple7));
+        assertFalse(tuple7.equals("not a tuple"));
+        assertFalse(tuple7.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'z')));
+        assertTrue(tuple8.equals(tuple8));
+        assertFalse(tuple8.equals("not a tuple"));
+        assertFalse(tuple8.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'z')));
+        assertTrue(tuple9.equals(tuple9));
+        assertFalse(tuple9.equals("not a tuple"));
+        assertFalse(tuple9.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'z')));
+    }
+
     @Nested
     /**
      * Comprehensive test suite for CharTuple and its nested classes.
@@ -3687,6 +3851,123 @@ class CharTupleTest extends TestBase {
             assertEquals('O', reversed._6);
             assertEquals('M', reversed._7);
         }
+    }
+
+    // Regression tests for the report-driven uncovered tuple branches.
+    @Test
+    public void testCoverageRegression_EmptyTupleBaseMethods() {
+        CharTuple<?> empty = CharTuple.copyOf((char[]) null);
+        assertEquals(CharTuple.copyOf(new char[0]), empty);
+        assertFalse(empty.equals("char"));
+        assertEquals("()", empty.toString());
+        assertEquals(1, empty.hashCode());
+    }
+
+    @Test
+    public void testCoverageRegression_DefaultConstructorsAndCachedArrays() {
+        CharTuple.CharTuple1 tuple1 = new CharTuple.CharTuple1();
+        assertArrayEquals(new char[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new char[] { 0 }, tuple1.toArray());
+
+        CharTuple.CharTuple2 tuple2 = new CharTuple.CharTuple2();
+        assertArrayEquals(new char[] { 0, 0 }, tuple2.toArray());
+        assertArrayEquals(new char[] { 0, 0 }, tuple2.toArray());
+
+        CharTuple.CharTuple3 tuple3 = new CharTuple.CharTuple3();
+        assertArrayEquals(new char[] { 0, 0, 0 }, tuple3.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0 }, tuple3.toArray());
+
+        CharTuple.CharTuple4 tuple4 = new CharTuple.CharTuple4();
+        assertArrayEquals(new char[] { 0, 0, 0, 0 }, tuple4.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0 }, tuple4.toArray());
+
+        CharTuple.CharTuple5 tuple5 = new CharTuple.CharTuple5();
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+
+        CharTuple.CharTuple6 tuple6 = new CharTuple.CharTuple6();
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+
+        CharTuple.CharTuple7 tuple7 = new CharTuple.CharTuple7();
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+
+        CharTuple.CharTuple8 tuple8 = new CharTuple.CharTuple8();
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+
+        CharTuple.CharTuple9 tuple9 = new CharTuple.CharTuple9();
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+        assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityOperations() {
+        CharTuple.CharTuple4 tuple4 = CharTuple.of('i', 'a', 'g', 'c');
+        assertEquals('a', tuple4.min());
+        assertEquals('i', tuple4.max());
+        assertEquals('c', tuple4.median());
+        assertEquals('i' + 'a' + 'g' + 'c', tuple4.sum());
+        assertEquals(((double) 'i' + 'a' + 'g' + 'c') / 4, tuple4.average());
+        assertTrue(tuple4.contains('c'));
+
+        CharTuple.CharTuple5 tuple5 = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        assertTrue(tuple5.contains('e'));
+
+        CharTuple.CharTuple6 tuple6 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k');
+        assertEquals('e', tuple6.median());
+        assertTrue(tuple6.contains('k'));
+
+        CharTuple.CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        assertTrue(tuple7.contains('g'));
+
+        CharTuple.CharTuple8 tuple8 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k', 'm', 'o');
+        assertEquals('g', tuple8.median());
+        assertTrue(tuple8.contains('o'));
+
+        CharTuple.CharTuple9 tuple9 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k', 'm', 'o', 'q');
+        assertEquals('i', tuple9.median());
+        assertTrue(tuple9.contains('q'));
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityEqualsBranches() {
+        CharTuple.CharTuple4 tuple4 = CharTuple.of('a', 'b', 'c', 'd');
+        assertTrue(tuple4.equals(tuple4));
+        assertTrue(tuple4.equals(CharTuple.of('a', 'b', 'c', 'd')));
+        assertFalse(tuple4.equals(CharTuple.of('a', 'b', 'c', 'z')));
+        assertFalse(tuple4.equals("tuple4"));
+
+        CharTuple.CharTuple5 tuple5 = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        assertTrue(tuple5.equals(tuple5));
+        assertTrue(tuple5.equals(CharTuple.of('a', 'b', 'c', 'd', 'e')));
+        assertFalse(tuple5.equals(CharTuple.of('a', 'b', 'c', 'd', 'z')));
+        assertFalse(tuple5.equals("tuple5"));
+
+        CharTuple.CharTuple6 tuple6 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        assertTrue(tuple6.equals(tuple6));
+        assertTrue(tuple6.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f')));
+        assertFalse(tuple6.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'z')));
+        assertFalse(tuple6.equals("tuple6"));
+
+        CharTuple.CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        assertTrue(tuple7.equals(tuple7));
+        assertTrue(tuple7.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g')));
+        assertFalse(tuple7.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'z')));
+        assertFalse(tuple7.equals("tuple7"));
+
+        CharTuple.CharTuple8 tuple8 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        assertTrue(tuple8.equals(tuple8));
+        assertTrue(tuple8.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')));
+        assertFalse(tuple8.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'z')));
+        assertFalse(tuple8.equals("tuple8"));
+
+        CharTuple.CharTuple9 tuple9 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        assertTrue(tuple9.equals(tuple9));
+        assertTrue(tuple9.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')));
+        assertFalse(tuple9.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'z')));
+        assertFalse(tuple9.equals("tuple9"));
     }
 
 }

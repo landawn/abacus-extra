@@ -437,6 +437,140 @@ class LongTupleTest extends TestBase {
         assertSame(elements1, elements2); // Should return same cached array
     }
 
+    // Cover the abstract outer type's inherited implementations directly.
+    @Test
+    public void testLongTupleBaseMethods_InheritedImplementation() {
+        class DerivedLongTuple extends LongTuple<DerivedLongTuple> {
+            private final long[] values;
+
+            DerivedLongTuple(final long... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedLongTuple reverse() {
+                final long[] reversed = new long[values.length];
+
+                for (int i = 0; i < values.length; i++) {
+                    reversed[i] = values[values.length - 1 - i];
+                }
+
+                return new DerivedLongTuple(reversed);
+            }
+
+            @Override
+            public boolean contains(final long valueToFind) {
+                for (final long value : values) {
+                    if (value == valueToFind) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            protected long[] elements() {
+                return values;
+            }
+        }
+
+        final DerivedLongTuple tuple = new DerivedLongTuple(4L, 1L, 3L, 2L);
+        final long[] copy = tuple.toArray();
+        copy[0] = 99L;
+
+        assertEquals(1L, tuple.min());
+        assertEquals(4L, tuple.max());
+        assertEquals(2L, tuple.median());
+        assertEquals(10L, tuple.sum());
+        assertEquals(2.5, tuple.average());
+        assertTrue(tuple.contains(3L));
+        assertFalse(tuple.contains(8L));
+        assertEquals(4L, tuple.toArray()[0]);
+        assertTrue(tuple.equals(new DerivedLongTuple(4L, 1L, 3L, 2L)));
+        assertFalse(tuple.equals(new DerivedLongTuple(4L, 1L, 3L, 9L)));
+        assertFalse(tuple.equals(LongTuple.of(4L, 1L, 3L, 2L)));
+        assertFalse(tuple.equals(null));
+        assertTrue(tuple.toString().contains("4"));
+    }
+
+    // Exercise zero-initialized tuple constructors and cached element materialization.
+    @Test
+    public void testLongTupleDefaultConstructors_ZeroInitialization() {
+        final LongTuple1 tuple1 = new LongTuple1();
+        final LongTuple2 tuple2 = new LongTuple2();
+        final LongTuple3 tuple3 = new LongTuple3();
+        final LongTuple4 tuple4 = new LongTuple4();
+        final LongTuple5 tuple5 = new LongTuple5();
+        final LongTuple6 tuple6 = new LongTuple6();
+        final LongTuple7 tuple7 = new LongTuple7();
+        final LongTuple8 tuple8 = new LongTuple8();
+        final LongTuple9 tuple9 = new LongTuple9();
+
+        assertArrayEquals(new long[] { 0L }, tuple1.toArray());
+        assertArrayEquals(new long[] { 0L }, tuple1.toArray());
+        assertArrayEquals(new long[] { 0L, 0L }, tuple2.toArray());
+        assertArrayEquals(new long[] { 0L, 0L }, tuple2.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L }, tuple3.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L }, tuple3.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L }, tuple4.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L }, tuple4.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L }, tuple5.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L }, tuple5.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L }, tuple6.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L }, tuple6.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple7.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple7.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple8.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple8.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple9.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple9.toArray());
+    }
+
+    // Drive the larger arities through the still-missed contains/equals branches.
+    @Test
+    public void testLongTupleLargerArities_BranchCoverage() {
+        final LongTuple4 tuple4 = LongTuple.of(1L, 2L, 3L, 4L);
+        final LongTuple5 tuple5 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        final LongTuple6 tuple6 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        final LongTuple7 tuple7 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        final LongTuple8 tuple8 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        final LongTuple9 tuple9 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+
+        assertTrue(tuple4.contains(2L));
+        assertTrue(tuple4.contains(3L));
+        assertTrue(tuple5.contains(4L));
+        assertTrue(tuple6.contains(5L));
+        assertTrue(tuple7.contains(6L));
+        assertTrue(tuple8.contains(7L));
+        assertTrue(tuple9.contains(8L));
+        assertFalse(tuple9.contains(10L));
+
+        assertTrue(tuple4.equals(tuple4));
+        assertFalse(tuple4.equals("not a tuple"));
+        assertFalse(tuple4.equals(LongTuple.of(1L, 2L, 3L, 9L)));
+        assertTrue(tuple5.equals(tuple5));
+        assertFalse(tuple5.equals("not a tuple"));
+        assertFalse(tuple5.equals(LongTuple.of(1L, 2L, 3L, 4L, 9L)));
+        assertTrue(tuple6.equals(tuple6));
+        assertFalse(tuple6.equals("not a tuple"));
+        assertFalse(tuple6.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 9L)));
+        assertTrue(tuple7.equals(tuple7));
+        assertFalse(tuple7.equals("not a tuple"));
+        assertFalse(tuple7.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 9L)));
+        assertTrue(tuple8.equals(tuple8));
+        assertFalse(tuple8.equals("not a tuple"));
+        assertFalse(tuple8.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 9L)));
+        assertTrue(tuple9.equals(tuple9));
+        assertFalse(tuple9.equals("not a tuple"));
+        assertFalse(tuple9.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 10L)));
+    }
+
     @Nested
     @SuppressWarnings("deprecation")
     @Tag("2512")
@@ -3851,6 +3985,123 @@ class LongTupleTest extends TestBase {
             long median = tuple.median();
             assertEquals(30L, median);
         }
+    }
+
+    // Regression tests for the report-driven uncovered tuple branches.
+    @Test
+    public void testCoverageRegression_EmptyTupleBaseMethods() {
+        LongTuple<?> empty = LongTuple.copyOf((long[]) null);
+        assertEquals(LongTuple.copyOf(new long[0]), empty);
+        assertFalse(empty.equals("long"));
+        assertEquals("()", empty.toString());
+        assertEquals(1, empty.hashCode());
+    }
+
+    @Test
+    public void testCoverageRegression_DefaultConstructorsAndCachedArrays() {
+        LongTuple.LongTuple1 tuple1 = new LongTuple.LongTuple1();
+        assertArrayEquals(new long[] { 0L }, tuple1.toArray());
+        assertArrayEquals(new long[] { 0L }, tuple1.toArray());
+
+        LongTuple.LongTuple2 tuple2 = new LongTuple.LongTuple2();
+        assertArrayEquals(new long[] { 0L, 0L }, tuple2.toArray());
+        assertArrayEquals(new long[] { 0L, 0L }, tuple2.toArray());
+
+        LongTuple.LongTuple3 tuple3 = new LongTuple.LongTuple3();
+        assertArrayEquals(new long[] { 0L, 0L, 0L }, tuple3.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L }, tuple3.toArray());
+
+        LongTuple.LongTuple4 tuple4 = new LongTuple.LongTuple4();
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L }, tuple4.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L }, tuple4.toArray());
+
+        LongTuple.LongTuple5 tuple5 = new LongTuple.LongTuple5();
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L }, tuple5.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L }, tuple5.toArray());
+
+        LongTuple.LongTuple6 tuple6 = new LongTuple.LongTuple6();
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L }, tuple6.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L }, tuple6.toArray());
+
+        LongTuple.LongTuple7 tuple7 = new LongTuple.LongTuple7();
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple7.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple7.toArray());
+
+        LongTuple.LongTuple8 tuple8 = new LongTuple.LongTuple8();
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple8.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple8.toArray());
+
+        LongTuple.LongTuple9 tuple9 = new LongTuple.LongTuple9();
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple9.toArray());
+        assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple9.toArray());
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityOperations() {
+        LongTuple.LongTuple4 tuple4 = LongTuple.of(9L, 1L, 7L, 3L);
+        assertEquals(1L, tuple4.min());
+        assertEquals(9L, tuple4.max());
+        assertEquals(3L, tuple4.median());
+        assertEquals(20L, tuple4.sum());
+        assertEquals(5.0, tuple4.average());
+        assertTrue(tuple4.contains(3L));
+
+        LongTuple.LongTuple5 tuple5 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        assertTrue(tuple5.contains(5L));
+
+        LongTuple.LongTuple6 tuple6 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L);
+        assertEquals(5L, tuple6.median());
+        assertTrue(tuple6.contains(11L));
+
+        LongTuple.LongTuple7 tuple7 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        assertTrue(tuple7.contains(7L));
+
+        LongTuple.LongTuple8 tuple8 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L, 13L, 15L);
+        assertEquals(7L, tuple8.median());
+        assertTrue(tuple8.contains(15L));
+
+        LongTuple.LongTuple9 tuple9 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L, 13L, 15L, 17L);
+        assertEquals(9L, tuple9.median());
+        assertTrue(tuple9.contains(17L));
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityEqualsBranches() {
+        LongTuple.LongTuple4 tuple4 = LongTuple.of(1L, 2L, 3L, 4L);
+        assertTrue(tuple4.equals(tuple4));
+        assertTrue(tuple4.equals(LongTuple.of(1L, 2L, 3L, 4L)));
+        assertFalse(tuple4.equals(LongTuple.of(1L, 2L, 3L, 9L)));
+        assertFalse(tuple4.equals("tuple4"));
+
+        LongTuple.LongTuple5 tuple5 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        assertTrue(tuple5.equals(tuple5));
+        assertTrue(tuple5.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L)));
+        assertFalse(tuple5.equals(LongTuple.of(1L, 2L, 3L, 4L, 9L)));
+        assertFalse(tuple5.equals("tuple5"));
+
+        LongTuple.LongTuple6 tuple6 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        assertTrue(tuple6.equals(tuple6));
+        assertTrue(tuple6.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L)));
+        assertFalse(tuple6.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 9L)));
+        assertFalse(tuple6.equals("tuple6"));
+
+        LongTuple.LongTuple7 tuple7 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        assertTrue(tuple7.equals(tuple7));
+        assertTrue(tuple7.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L)));
+        assertFalse(tuple7.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 9L)));
+        assertFalse(tuple7.equals("tuple7"));
+
+        LongTuple.LongTuple8 tuple8 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        assertTrue(tuple8.equals(tuple8));
+        assertTrue(tuple8.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L)));
+        assertFalse(tuple8.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 9L)));
+        assertFalse(tuple8.equals("tuple8"));
+
+        LongTuple.LongTuple9 tuple9 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        assertTrue(tuple9.equals(tuple9));
+        assertTrue(tuple9.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L)));
+        assertFalse(tuple9.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 0L)));
+        assertFalse(tuple9.equals("tuple9"));
     }
 
 }

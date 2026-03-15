@@ -438,6 +438,140 @@ class IntTupleTest extends TestBase {
         assertSame(elements1, elements2); // Should return same cached array
     }
 
+    // Cover the abstract outer type's inherited implementations directly.
+    @Test
+    public void testIntTupleBaseMethods_InheritedImplementation() {
+        class DerivedIntTuple extends IntTuple<DerivedIntTuple> {
+            private final int[] values;
+
+            DerivedIntTuple(final int... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedIntTuple reverse() {
+                final int[] reversed = new int[values.length];
+
+                for (int i = 0; i < values.length; i++) {
+                    reversed[i] = values[values.length - 1 - i];
+                }
+
+                return new DerivedIntTuple(reversed);
+            }
+
+            @Override
+            public boolean contains(final int valueToFind) {
+                for (final int value : values) {
+                    if (value == valueToFind) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            protected int[] elements() {
+                return values;
+            }
+        }
+
+        final DerivedIntTuple tuple = new DerivedIntTuple(4, 1, 3, 2);
+        final int[] copy = tuple.toArray();
+        copy[0] = 99;
+
+        assertEquals(1, tuple.min());
+        assertEquals(4, tuple.max());
+        assertEquals(2, tuple.median());
+        assertEquals(10, tuple.sum());
+        assertEquals(2.5, tuple.average());
+        assertTrue(tuple.contains(3));
+        assertFalse(tuple.contains(8));
+        assertEquals(4, tuple.toArray()[0]);
+        assertTrue(tuple.equals(new DerivedIntTuple(4, 1, 3, 2)));
+        assertFalse(tuple.equals(new DerivedIntTuple(4, 1, 3, 9)));
+        assertFalse(tuple.equals(IntTuple.of(4, 1, 3, 2)));
+        assertFalse(tuple.equals(null));
+        assertTrue(tuple.toString().contains("4"));
+    }
+
+    // Exercise zero-initialized tuple constructors and cached element materialization.
+    @Test
+    public void testIntTupleDefaultConstructors_ZeroInitialization() {
+        final IntTuple1 tuple1 = new IntTuple1();
+        final IntTuple2 tuple2 = new IntTuple2();
+        final IntTuple3 tuple3 = new IntTuple3();
+        final IntTuple4 tuple4 = new IntTuple4();
+        final IntTuple5 tuple5 = new IntTuple5();
+        final IntTuple6 tuple6 = new IntTuple6();
+        final IntTuple7 tuple7 = new IntTuple7();
+        final IntTuple8 tuple8 = new IntTuple8();
+        final IntTuple9 tuple9 = new IntTuple9();
+
+        assertArrayEquals(new int[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new int[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new int[] { 0, 0 }, tuple2.toArray());
+        assertArrayEquals(new int[] { 0, 0 }, tuple2.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0 }, tuple3.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0 }, tuple3.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0 }, tuple4.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0 }, tuple4.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+    }
+
+    // Drive the larger arities through the still-missed contains/equals branches.
+    @Test
+    public void testIntTupleLargerArities_BranchCoverage() {
+        final IntTuple4 tuple4 = IntTuple.of(1, 2, 3, 4);
+        final IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);
+        final IntTuple6 tuple6 = IntTuple.of(1, 2, 3, 4, 5, 6);
+        final IntTuple7 tuple7 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        final IntTuple8 tuple8 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        final IntTuple9 tuple9 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+        assertTrue(tuple4.contains(2));
+        assertTrue(tuple4.contains(3));
+        assertTrue(tuple5.contains(4));
+        assertTrue(tuple6.contains(5));
+        assertTrue(tuple7.contains(6));
+        assertTrue(tuple8.contains(7));
+        assertTrue(tuple9.contains(8));
+        assertFalse(tuple9.contains(10));
+
+        assertTrue(tuple4.equals(tuple4));
+        assertFalse(tuple4.equals("not a tuple"));
+        assertFalse(tuple4.equals(IntTuple.of(1, 2, 3, 9)));
+        assertTrue(tuple5.equals(tuple5));
+        assertFalse(tuple5.equals("not a tuple"));
+        assertFalse(tuple5.equals(IntTuple.of(1, 2, 3, 4, 9)));
+        assertTrue(tuple6.equals(tuple6));
+        assertFalse(tuple6.equals("not a tuple"));
+        assertFalse(tuple6.equals(IntTuple.of(1, 2, 3, 4, 5, 9)));
+        assertTrue(tuple7.equals(tuple7));
+        assertFalse(tuple7.equals("not a tuple"));
+        assertFalse(tuple7.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 9)));
+        assertTrue(tuple8.equals(tuple8));
+        assertFalse(tuple8.equals("not a tuple"));
+        assertFalse(tuple8.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 9)));
+        assertTrue(tuple9.equals(tuple9));
+        assertFalse(tuple9.equals("not a tuple"));
+        assertFalse(tuple9.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 10)));
+    }
+
     @Nested
     /**
      * Comprehensive test suite for IntTuple and its nested classes.
@@ -4152,6 +4286,123 @@ class IntTupleTest extends TestBase {
             IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
             assertEquals(6, tuple.stream().sum());
         }
+    }
+
+    // Regression tests for the report-driven uncovered tuple branches.
+    @Test
+    public void testCoverageRegression_EmptyTupleBaseMethods() {
+        IntTuple<?> empty = IntTuple.copyOf((int[]) null);
+        assertEquals(IntTuple.copyOf(new int[0]), empty);
+        assertFalse(empty.equals("int"));
+        assertEquals("()", empty.toString());
+        assertEquals(1, empty.hashCode());
+    }
+
+    @Test
+    public void testCoverageRegression_DefaultConstructorsAndCachedArrays() {
+        IntTuple.IntTuple1 tuple1 = new IntTuple.IntTuple1();
+        assertArrayEquals(new int[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new int[] { 0 }, tuple1.toArray());
+
+        IntTuple.IntTuple2 tuple2 = new IntTuple.IntTuple2();
+        assertArrayEquals(new int[] { 0, 0 }, tuple2.toArray());
+        assertArrayEquals(new int[] { 0, 0 }, tuple2.toArray());
+
+        IntTuple.IntTuple3 tuple3 = new IntTuple.IntTuple3();
+        assertArrayEquals(new int[] { 0, 0, 0 }, tuple3.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0 }, tuple3.toArray());
+
+        IntTuple.IntTuple4 tuple4 = new IntTuple.IntTuple4();
+        assertArrayEquals(new int[] { 0, 0, 0, 0 }, tuple4.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0 }, tuple4.toArray());
+
+        IntTuple.IntTuple5 tuple5 = new IntTuple.IntTuple5();
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+
+        IntTuple.IntTuple6 tuple6 = new IntTuple.IntTuple6();
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+
+        IntTuple.IntTuple7 tuple7 = new IntTuple.IntTuple7();
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+
+        IntTuple.IntTuple8 tuple8 = new IntTuple.IntTuple8();
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+
+        IntTuple.IntTuple9 tuple9 = new IntTuple.IntTuple9();
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityOperations() {
+        IntTuple.IntTuple4 tuple4 = IntTuple.of(9, 1, 7, 3);
+        assertEquals(1, tuple4.min());
+        assertEquals(9, tuple4.max());
+        assertEquals(3, tuple4.median());
+        assertEquals(20, tuple4.sum());
+        assertEquals(5.0, tuple4.average());
+        assertTrue(tuple4.contains(3));
+
+        IntTuple.IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);
+        assertTrue(tuple5.contains(5));
+
+        IntTuple.IntTuple6 tuple6 = IntTuple.of(9, 1, 7, 3, 5, 11);
+        assertEquals(5, tuple6.median());
+        assertTrue(tuple6.contains(11));
+
+        IntTuple.IntTuple7 tuple7 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        assertTrue(tuple7.contains(7));
+
+        IntTuple.IntTuple8 tuple8 = IntTuple.of(9, 1, 7, 3, 5, 11, 13, 15);
+        assertEquals(7, tuple8.median());
+        assertTrue(tuple8.contains(15));
+
+        IntTuple.IntTuple9 tuple9 = IntTuple.of(9, 1, 7, 3, 5, 11, 13, 15, 17);
+        assertEquals(9, tuple9.median());
+        assertTrue(tuple9.contains(17));
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityEqualsBranches() {
+        IntTuple.IntTuple4 tuple4 = IntTuple.of(1, 2, 3, 4);
+        assertTrue(tuple4.equals(tuple4));
+        assertTrue(tuple4.equals(IntTuple.of(1, 2, 3, 4)));
+        assertFalse(tuple4.equals(IntTuple.of(1, 2, 3, 9)));
+        assertFalse(tuple4.equals("tuple4"));
+
+        IntTuple.IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);
+        assertTrue(tuple5.equals(tuple5));
+        assertTrue(tuple5.equals(IntTuple.of(1, 2, 3, 4, 5)));
+        assertFalse(tuple5.equals(IntTuple.of(1, 2, 3, 4, 9)));
+        assertFalse(tuple5.equals("tuple5"));
+
+        IntTuple.IntTuple6 tuple6 = IntTuple.of(1, 2, 3, 4, 5, 6);
+        assertTrue(tuple6.equals(tuple6));
+        assertTrue(tuple6.equals(IntTuple.of(1, 2, 3, 4, 5, 6)));
+        assertFalse(tuple6.equals(IntTuple.of(1, 2, 3, 4, 5, 9)));
+        assertFalse(tuple6.equals("tuple6"));
+
+        IntTuple.IntTuple7 tuple7 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        assertTrue(tuple7.equals(tuple7));
+        assertTrue(tuple7.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7)));
+        assertFalse(tuple7.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 9)));
+        assertFalse(tuple7.equals("tuple7"));
+
+        IntTuple.IntTuple8 tuple8 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        assertTrue(tuple8.equals(tuple8));
+        assertTrue(tuple8.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8)));
+        assertFalse(tuple8.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 9)));
+        assertFalse(tuple8.equals("tuple8"));
+
+        IntTuple.IntTuple9 tuple9 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        assertTrue(tuple9.equals(tuple9));
+        assertTrue(tuple9.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9)));
+        assertFalse(tuple9.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 0)));
+        assertFalse(tuple9.equals("tuple9"));
     }
 
 }

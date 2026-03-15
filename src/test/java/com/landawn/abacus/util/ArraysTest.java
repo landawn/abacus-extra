@@ -206,6 +206,202 @@ class ArraysTest extends TestBase {
         Assertions.assertEquals(20L, out[0][1]);
     }
 
+    // Cover nested empty/null array shape handling and trailing zip branches.
+    @Test
+    public void testMapToObjNestedEmptyInputs_CharAndByte() throws Exception {
+        String[][] mappedChars2d = Arrays.mapToObj((char[][]) null, c -> String.valueOf(c), String.class);
+        Integer[][][] mappedChars3d = Arrays.mapToObj(new char[0][][], c -> (int) c, Integer.class);
+        String[][] mappedBytes2d = Arrays.mapToObj(new byte[0][], b -> "B" + b, String.class);
+        Integer[][][] mappedBytes3d = Arrays.mapToObj((byte[][][]) null, b -> (int) b, Integer.class);
+
+        Assertions.assertEquals(0, mappedChars2d.length);
+        Assertions.assertEquals(String[].class, mappedChars2d.getClass().getComponentType());
+        Assertions.assertEquals(0, mappedChars3d.length);
+        Assertions.assertEquals(Integer[][].class, mappedChars3d.getClass().getComponentType());
+        Assertions.assertEquals(0, mappedBytes2d.length);
+        Assertions.assertEquals(String[].class, mappedBytes2d.getClass().getComponentType());
+        Assertions.assertEquals(0, mappedBytes3d.length);
+        Assertions.assertEquals(Integer[][].class, mappedBytes3d.getClass().getComponentType());
+    }
+
+    @Test
+    public void testZipWithDefaultValuesForTrailingRows_ByteArrays() throws Exception {
+        byte[][] left2d = { { 1, 2 }, { 3 } };
+        byte[][] right2d = { { 10 }, { 20, 30 }, { 40, 50 } };
+
+        byte[][] zipped2d = Arrays.zip(left2d, right2d, (byte) 100, (byte) 0, (x, y) -> (byte) (x + y));
+
+        Assertions.assertArrayEquals(new byte[] { 11, 2 }, zipped2d[0]);
+        Assertions.assertArrayEquals(new byte[] { 23, -126 }, zipped2d[1]);
+        Assertions.assertArrayEquals(new byte[] { -116, -106 }, zipped2d[2]);
+
+        byte[][][] left3d = { { { 1 }, { 2 } } };
+        byte[][][] right3d = { { { 10, 20 } }, { { 30 } } };
+
+        byte[][][] zipped3d = Arrays.zip(left3d, right3d, (byte) 100, (byte) 0, (x, y) -> (byte) (x + y));
+
+        Assertions.assertArrayEquals(new byte[] { 11, 120 }, zipped3d[0][0]);
+        Assertions.assertArrayEquals(new byte[] { 2 }, zipped3d[0][1]);
+        Assertions.assertArrayEquals(new byte[] { -126 }, zipped3d[1][0]);
+    }
+
+    // Exercise nested default-filling overloads that expand to the longest outer shape.
+    @Test
+    public void testZipWithDefaultValuesForTrailingRows_ShortArrays() throws Exception {
+        short[][] left2d = { { 1, 2 }, { 3 } };
+        short[][] right2d = { { 10 }, { 20, 30 }, { 40, 50 } };
+
+        short[][] zipped2d = Arrays.zip(left2d, right2d, (short) 100, (short) 0, (x, y) -> (short) (x + y));
+
+        Assertions.assertArrayEquals(new short[] { 11, 2 }, zipped2d[0]);
+        Assertions.assertArrayEquals(new short[] { 23, 130 }, zipped2d[1]);
+        Assertions.assertArrayEquals(new short[] { 140, 150 }, zipped2d[2]);
+
+        short[][][] left3d = { { { 1 }, { 2 } } };
+        short[][][] right3d = { { { 10, 20 } }, { { 30 } } };
+
+        short[][][] zipped3d = Arrays.zip(left3d, right3d, (short) 100, (short) 0, (x, y) -> (short) (x + y));
+
+        Assertions.assertArrayEquals(new short[] { 11, 120 }, zipped3d[0][0]);
+        Assertions.assertArrayEquals(new short[] { 2 }, zipped3d[0][1]);
+        Assertions.assertArrayEquals(new short[] { 130 }, zipped3d[1][0]);
+
+        short[][] first2d = { { 1 }, { 2, 3 } };
+        short[][] second2d = { { 10, 20 } };
+        short[][] third2d = { { 100 }, { 200, 300 }, { 400 } };
+
+        short[][] zippedTernary2d = Arrays.zip(first2d, second2d, third2d, (short) 1000, (short) 2000, (short) 3000, (x, y, z) -> (short) (x + y + z));
+
+        Assertions.assertArrayEquals(new short[] { 111, 4020 }, zippedTernary2d[0]);
+        Assertions.assertArrayEquals(new short[] { 2202, 2303 }, zippedTernary2d[1]);
+        Assertions.assertArrayEquals(new short[] { 3400 }, zippedTernary2d[2]);
+    }
+
+    @Test
+    public void testZipWithDefaultValuesForTrailingRows_FloatAndDoubleArrays() throws Exception {
+        float[][] leftFloat2d = { { 1f, 2f }, { 3f } };
+        float[][] rightFloat2d = { { 10f }, { 20f, 30f }, { 40f } };
+
+        float[][] zippedFloat2d = Arrays.zip(leftFloat2d, rightFloat2d, 100f, 0f, (x, y) -> x + y);
+
+        Assertions.assertArrayEquals(new float[] { 11f, 2f }, zippedFloat2d[0], 0.0001f);
+        Assertions.assertArrayEquals(new float[] { 23f, 130f }, zippedFloat2d[1], 0.0001f);
+        Assertions.assertArrayEquals(new float[] { 140f }, zippedFloat2d[2], 0.0001f);
+
+        float[][][] leftFloat3d = { { { 1f }, { 2f } } };
+        float[][][] rightFloat3d = { { { 10f, 20f } }, { { 30f } } };
+
+        float[][][] zippedFloat3d = Arrays.zip(leftFloat3d, rightFloat3d, 100f, 0f, (x, y) -> x + y);
+
+        Assertions.assertArrayEquals(new float[] { 11f, 120f }, zippedFloat3d[0][0], 0.0001f);
+        Assertions.assertArrayEquals(new float[] { 2f }, zippedFloat3d[0][1], 0.0001f);
+        Assertions.assertArrayEquals(new float[] { 130f }, zippedFloat3d[1][0], 0.0001f);
+
+        double[][] firstDouble2d = { { 1d }, { 2d, 3d } };
+        double[][] secondDouble2d = { { 10d, 20d } };
+        double[][] thirdDouble2d = { { 100d }, { 200d, 300d }, { 400d } };
+
+        double[][] zippedDoubleTernary2d = Arrays.zip(firstDouble2d, secondDouble2d, thirdDouble2d, 1000d, 2000d, 3000d, (x, y, z) -> x + y + z);
+
+        Assertions.assertArrayEquals(new double[] { 111d, 4020d }, zippedDoubleTernary2d[0], 0.0001d);
+        Assertions.assertArrayEquals(new double[] { 2202d, 2303d }, zippedDoubleTernary2d[1], 0.0001d);
+        Assertions.assertArrayEquals(new double[] { 3400d }, zippedDoubleTernary2d[2], 0.0001d);
+
+        double[][][] leftDouble3d = { { { 1d }, { 2d } } };
+        double[][][] rightDouble3d = { { { 10d, 20d } }, { { 30d } } };
+
+        double[][][] zippedDouble3d = Arrays.zip(leftDouble3d, rightDouble3d, 100d, 0d, (x, y) -> x + y);
+
+        Assertions.assertArrayEquals(new double[] { 11d, 120d }, zippedDouble3d[0][0], 0.0001d);
+        Assertions.assertArrayEquals(new double[] { 2d }, zippedDouble3d[0][1], 0.0001d);
+        Assertions.assertArrayEquals(new double[] { 130d }, zippedDouble3d[1][0], 0.0001d);
+    }
+
+    @Test
+    public void testZipWithDefaultValuesForTrailingBlocks_Int3DArrays() throws Exception {
+        int[][][] first = { { { 1 }, { 2, 3 } } };
+        int[][][] second = { { { 10, 20 } } };
+        int[][][] third = { { { 100 } }, { { 200, 300 } }, { { 400 } } };
+
+        int[][][] zipped = Arrays.zip(first, second, third, 1000, 2000, 3000, (x, y, z) -> x + y + z);
+
+        Assertions.assertArrayEquals(new int[] { 111, 4020 }, zipped[0][0]);
+        Assertions.assertArrayEquals(new int[] { 5002, 5003 }, zipped[0][1]);
+        Assertions.assertArrayEquals(new int[] { 3200, 3300 }, zipped[1][0]);
+        Assertions.assertArrayEquals(new int[] { 3400 }, zipped[2][0]);
+    }
+
+    @Test
+    public void testFlattenSkipsNullAndEmptyNestedCharArrays() {
+        char[][] emptyRows = { null, new char[0], { 'a', 'b' }, { 'c' } };
+        char[][][] nested = { null, new char[0][], { null, new char[0], { 'x', 'y' } }, { { 'z' }, null } };
+
+        Assertions.assertArrayEquals(new char[] { 'a', 'b', 'c' }, Arrays.flatten(emptyRows));
+        Assertions.assertArrayEquals(new char[] { 'x', 'y', 'z' }, Arrays.flatten(nested));
+    }
+
+    @Test
+    public void testZipWithDefaultValuesForTrailingRows_ShortFloatAndDoubleArrays() throws Exception {
+        short[][] shortLeft2d = { { 1, 2 }, { 3 } };
+        short[][] shortRight2d = { { 10 }, { 20, 30 }, { 40 } };
+        short[][] shortZipped2d = Arrays.zip(shortLeft2d, shortRight2d, (short) 100, (short) 1000, (x, y) -> (short) (x - y));
+        Assertions.assertArrayEquals(new short[] { -9, -998 }, shortZipped2d[0]);
+        Assertions.assertArrayEquals(new short[] { -17, 70 }, shortZipped2d[1]);
+        Assertions.assertArrayEquals(new short[] { 60 }, shortZipped2d[2]);
+
+        short[][][] shortLeft3d = { { { 1, 2 } }, { { 3 } } };
+        short[][][] shortRight3d = { { { 10 }, { 20 } }, { { 30, 40 } }, { { 50 } } };
+        short[][][] shortZipped3d = Arrays.zip(shortLeft3d, shortRight3d, (short) 100, (short) 1000, (x, y) -> (short) (x + y));
+        Assertions.assertArrayEquals(new short[] { 11, 1002 }, shortZipped3d[0][0]);
+        Assertions.assertArrayEquals(new short[] { 120 }, shortZipped3d[0][1]);
+        Assertions.assertArrayEquals(new short[] { 33, 140 }, shortZipped3d[1][0]);
+        Assertions.assertArrayEquals(new short[] { 150 }, shortZipped3d[2][0]);
+
+        float[][] floatLeft2d = { { 1.5f }, { 2.5f, 3.5f } };
+        float[][] floatRight2d = { { 10.0f, 20.0f }, { 30.0f } };
+        float[][] floatThird2d = { { 100.0f }, { 200.0f, 300.0f }, { 400.0f } };
+        float[][] floatZipped2d = Arrays.zip(floatLeft2d, floatRight2d, floatThird2d, 1.0f, 2.0f, 3.0f, (x, y, z) -> x + y + z);
+        Assertions.assertArrayEquals(new float[] { 111.5f, 24.0f }, floatZipped2d[0], 0.0001f);
+        Assertions.assertArrayEquals(new float[] { 232.5f, 305.5f }, floatZipped2d[1], 0.0001f);
+        Assertions.assertArrayEquals(new float[] { 403.0f }, floatZipped2d[2], 0.0001f);
+
+        float[][][] floatLeft3d = { { { 1.0f } }, { { 2.0f } } };
+        float[][][] floatRight3d = { { { 10.0f }, { 20.0f } }, { { 30.0f } } };
+        float[][][] floatThird3d = { { { 100.0f } }, { { 200.0f, 300.0f } }, { { 400.0f } } };
+        float[][][] floatZipped3d = Arrays.zip(floatLeft3d, floatRight3d, floatThird3d, 1.0f, 2.0f, 3.0f, (x, y, z) -> x + y + z);
+        Assertions.assertArrayEquals(new float[] { 111.0f }, floatZipped3d[0][0], 0.0001f);
+        Assertions.assertArrayEquals(new float[] { 24.0f }, floatZipped3d[0][1], 0.0001f);
+        Assertions.assertArrayEquals(new float[] { 232.0f, 303.0f }, floatZipped3d[1][0], 0.0001f);
+        Assertions.assertArrayEquals(new float[] { 403.0f }, floatZipped3d[2][0], 0.0001f);
+
+        double[][] doubleLeft2d = { { 1.0, 2.0 }, { 3.0 } };
+        double[][] doubleRight2d = { { 10.0 }, { 20.0, 30.0 }, { 40.0 } };
+        double[][] doubleZipped2d = Arrays.zip(doubleLeft2d, doubleRight2d, 100.0, 1000.0, (x, y) -> x * y);
+        Assertions.assertArrayEquals(new double[] { 10.0, 2000.0 }, doubleZipped2d[0], 0.0001d);
+        Assertions.assertArrayEquals(new double[] { 60.0, 3000.0 }, doubleZipped2d[1], 0.0001d);
+        Assertions.assertArrayEquals(new double[] { 4000.0 }, doubleZipped2d[2], 0.0001d);
+
+        double[][][] doubleLeft3d = { { { 1.0 } }, { { 2.0, 3.0 } } };
+        double[][][] doubleRight3d = { { { 10.0 }, { 20.0 } }, { { 30.0 } } };
+        double[][][] doubleThird3d = { { { 100.0 } }, { { 200.0, 300.0 } }, { { 400.0 } } };
+        double[][][] doubleZipped3d = Arrays.zip(doubleLeft3d, doubleRight3d, doubleThird3d, 1.0, 2.0, 3.0, (x, y, z) -> x + y + z);
+        Assertions.assertArrayEquals(new double[] { 111.0 }, doubleZipped3d[0][0], 0.0001d);
+        Assertions.assertArrayEquals(new double[] { 24.0 }, doubleZipped3d[0][1], 0.0001d);
+        Assertions.assertArrayEquals(new double[] { 232.0, 305.0 }, doubleZipped3d[1][0], 0.0001d);
+        Assertions.assertArrayEquals(new double[] { 403.0 }, doubleZipped3d[2][0], 0.0001d);
+    }
+
+    @Test
+    public void testPrintlnPrimitiveCubes_EmptyInput() {
+        Assertions.assertEquals("[]", Arrays.println(new char[0][][]));
+        Assertions.assertEquals("[]", Arrays.println(new byte[0][][]));
+        Assertions.assertEquals("[]", Arrays.println(new short[0][][]));
+        Assertions.assertEquals("[]", Arrays.println(new int[0][][]));
+        Assertions.assertEquals("[]", Arrays.println(new long[0][][]));
+        Assertions.assertEquals("[]", Arrays.println(new float[0][][]));
+        Assertions.assertEquals("[]", Arrays.println(new double[0][][]));
+    }
+
     @Test
     public void test_001() throws IOException {
 

@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -177,6 +178,11 @@ class MatricesTest extends TestBase {
         // Test multiple elements with different shapes
         IntMatrix differentShape = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         assertFalse(Matrices.isSameShape(CommonUtil.asList(intMatrix1, intMatrix2, differentShape)));
+    }
+
+    @Test
+    public void testIsSameShapeCollectionWithLeadingNull_EdgeCase() {
+        assertFalse(Matrices.isSameShape(Arrays.asList(null, intMatrix1)));
     }
 
     @Test
@@ -347,6 +353,34 @@ class MatricesTest extends TestBase {
         assertTrue(IntStream.of(results).anyMatch(x -> x == 12));
         assertTrue(IntStream.of(results).anyMatch(x -> x == 21));
         assertTrue(IntStream.of(results).anyMatch(x -> x == 22));
+    }
+
+    @Test
+    public void testMapIndicesWrapsCheckedException_EdgeCase() {
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> Matrices.mapIndices(2, 2, (i, j) -> {
+            if (i == 1 && j == 0) {
+                throw new IOException("boom");
+            }
+
+            return i + "," + j;
+        }, false).toList());
+
+        assertNotNull(ex.getCause());
+        assertTrue(ex.getCause() instanceof IOException);
+    }
+
+    @Test
+    public void testMapIndicesToIntWrapsCheckedException_EdgeCase() {
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> Matrices.mapIndicesToInt(2, 2, (i, j) -> {
+            if (i == 0 && j == 1) {
+                throw new IOException("boom");
+            }
+
+            return i + j;
+        }, false).toArray());
+
+        assertNotNull(ex.getCause());
+        assertTrue(ex.getCause() instanceof IOException);
     }
 
     @Test

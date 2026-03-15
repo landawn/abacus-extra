@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +23,9 @@ import org.junit.jupiter.api.Test;
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.u.OptionalByte;
+import com.landawn.abacus.util.stream.ByteIteratorEx;
 import com.landawn.abacus.util.stream.ByteStream;
+import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 class ByteMatrixTest extends TestBase {
@@ -1220,6 +1223,30 @@ class ByteMatrixTest extends TestBase {
     }
 
     @Test
+    public void testForEachWithForcedParallelMode_EdgeCase() throws Exception {
+        ByteMatrix matrix = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<Byte> allValues = new ArrayList<>();
+        List<Byte> regionValues = new ArrayList<>();
+
+        Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> matrix.forEach(e -> {
+            synchronized (allValues) {
+                allValues.add(e);
+            }
+        }));
+
+        Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> matrix.forEach(0, 2, 1, 3, e -> {
+            synchronized (regionValues) {
+                regionValues.add(e);
+            }
+        }));
+
+        Assertions.assertEquals(6, allValues.size());
+        Assertions.assertTrue(allValues.containsAll(List.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6)));
+        Assertions.assertEquals(4, regionValues.size());
+        Assertions.assertTrue(regionValues.containsAll(List.of((byte) 2, (byte) 3, (byte) 5, (byte) 6)));
+    }
+
+    @Test
     public void testForEachNullAction() {
         byte[][] a = { { 1, 2 }, { 3, 4 } };
         ByteMatrix matrix = ByteMatrix.of(a);
@@ -1235,6 +1262,46 @@ class ByteMatrixTest extends TestBase {
 
         assertFalse(matrix.isEmpty());
         org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testStreamRowsAndColumnsIteratorAdvanceAndExhaustion_EdgeCase() {
+        ByteMatrix matrix = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
+        var rowIterator = matrix.streamRows(0, 2).iterator();
+
+        Assertions.assertTrue(rowIterator instanceof ObjIteratorEx);
+
+        ObjIteratorEx<ByteStream> rowEx = (ObjIteratorEx<ByteStream>) rowIterator;
+        rowEx.advance(0);
+        Assertions.assertEquals(2L, rowEx.count());
+        Assertions.assertArrayEquals(new byte[] { 1, 2 }, rowEx.next().toArray());
+        rowEx.advance(10);
+        Assertions.assertEquals(0L, rowEx.count());
+        Assertions.assertThrows(NoSuchElementException.class, rowEx::next);
+
+        var columnIterator = matrix.streamColumns(0, 1).iterator();
+
+        Assertions.assertTrue(columnIterator instanceof ObjIteratorEx);
+
+        ObjIteratorEx<ByteStream> columnEx = (ObjIteratorEx<ByteStream>) columnIterator;
+        ByteStream firstColumn = columnEx.next();
+        var valueIterator = firstColumn.iterator();
+
+        Assertions.assertTrue(valueIterator instanceof ByteIteratorEx);
+
+        ByteIteratorEx byteEx = (ByteIteratorEx) valueIterator;
+        byteEx.advance(0);
+        Assertions.assertEquals(2L, byteEx.count());
+        Assertions.assertEquals((byte) 1, byteEx.nextByte());
+        byteEx.advance(10);
+        Assertions.assertEquals(0L, byteEx.count());
+        Assertions.assertThrows(NoSuchElementException.class, byteEx::nextByte);
+    }
+
+    @Test
+    public void testPrintlnEmptyMatrix_EdgeCase() {
+        Assertions.assertEquals("[]", ByteMatrix.empty().println());
     }
 
     @Test

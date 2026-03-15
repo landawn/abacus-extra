@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -435,6 +436,170 @@ class ShortTupleTest extends TestBase {
         short[] elements1 = tuple.elements();
         short[] elements2 = tuple.elements();
         assertSame(elements1, elements2); // Should return same cached array
+    }
+
+    // Cover inherited outer-type behavior and large-arity branch combinations missing from the report.
+    @Test
+    public void testInheritedOuterMethodsForCoverage() throws Exception {
+        class DerivedShortTuple extends ShortTuple<DerivedShortTuple> {
+            private final short[] values;
+
+            DerivedShortTuple(final short... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedShortTuple reverse() {
+                final short[] reversed = values.clone();
+
+                for (int i = 0, j = reversed.length - 1; i < j; i++, j--) {
+                    final short tmp = reversed[i];
+                    reversed[i] = reversed[j];
+                    reversed[j] = tmp;
+                }
+
+                return new DerivedShortTuple(reversed);
+            }
+
+            @Override
+            public boolean contains(final short valueToFind) {
+                for (final short value : values) {
+                    if (value == valueToFind) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            protected short[] elements() {
+                return values;
+            }
+        }
+
+        final DerivedShortTuple tuple = new DerivedShortTuple((short) 9, (short) 2, (short) 5, (short) 1);
+        final short[] firstArray = tuple.toArray();
+        final short[] secondArray = tuple.toArray();
+        final List<Short> visited = new ArrayList<>();
+
+        tuple.forEach(visited::add);
+
+        assertEquals(1, tuple.min());
+        assertEquals(9, tuple.max());
+        assertEquals(2, tuple.median());
+        assertEquals(17, tuple.sum());
+        assertEquals(4.25, tuple.average());
+        assertArrayEquals(new short[] { 9, 2, 5, 1 }, firstArray);
+        assertArrayEquals(firstArray, secondArray);
+        assertNotSame(firstArray, secondArray);
+        assertEquals(ShortList.of((short) 9, (short) 2, (short) 5, (short) 1), tuple.toList());
+        assertEquals(visited, tuple.stream().boxed().toList());
+        assertEquals(tuple.hashCode(), new DerivedShortTuple((short) 9, (short) 2, (short) 5, (short) 1).hashCode());
+        assertTrue(tuple.equals(tuple));
+        assertTrue(tuple.equals(new DerivedShortTuple((short) 9, (short) 2, (short) 5, (short) 1)));
+        assertFalse(tuple.equals(null));
+        assertFalse(tuple.equals("not a tuple"));
+        assertEquals("[9, 2, 5, 1]", tuple.toString());
+        assertArrayEquals(new short[] { 1, 5, 2, 9 }, tuple.reverse().toArray());
+    }
+
+    @Test
+    public void testZeroArgConstructorsForCoverage() {
+        final ShortTuple1 tuple1 = new ShortTuple1();
+        final ShortTuple2 tuple2 = new ShortTuple2();
+        final ShortTuple3 tuple3 = new ShortTuple3();
+        final ShortTuple4 tuple4 = new ShortTuple4();
+        final ShortTuple5 tuple5 = new ShortTuple5();
+        final ShortTuple6 tuple6 = new ShortTuple6();
+        final ShortTuple7 tuple7 = new ShortTuple7();
+        final ShortTuple8 tuple8 = new ShortTuple8();
+        final ShortTuple9 tuple9 = new ShortTuple9();
+
+        assertArrayEquals(new short[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new short[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new short[] { 0, 0 }, tuple2.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0 }, tuple3.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0 }, tuple4.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+    }
+
+    @Test
+    public void testLargeArityContainsAndEqualsBranchesForCoverage() {
+        final ShortTuple4 tuple4 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
+        final ShortTuple5 tuple5 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
+        final ShortTuple6 tuple6 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
+        final ShortTuple7 tuple7 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
+        final ShortTuple8 tuple8 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
+        final ShortTuple9 tuple9 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
+
+        assertTrue(tuple4.contains((short) 2));
+        assertTrue(tuple4.contains((short) 3));
+        assertTrue(tuple4.contains((short) 4));
+        assertFalse(tuple4.contains((short) 99));
+        assertTrue(tuple5.contains((short) 2));
+        assertTrue(tuple5.contains((short) 3));
+        assertTrue(tuple5.contains((short) 4));
+        assertTrue(tuple5.contains((short) 5));
+        assertFalse(tuple5.contains((short) 99));
+        assertTrue(tuple6.contains((short) 2));
+        assertTrue(tuple6.contains((short) 3));
+        assertTrue(tuple6.contains((short) 4));
+        assertTrue(tuple6.contains((short) 5));
+        assertTrue(tuple6.contains((short) 6));
+        assertFalse(tuple6.contains((short) 99));
+        assertTrue(tuple7.contains((short) 2));
+        assertTrue(tuple7.contains((short) 3));
+        assertTrue(tuple7.contains((short) 4));
+        assertTrue(tuple7.contains((short) 5));
+        assertTrue(tuple7.contains((short) 6));
+        assertTrue(tuple7.contains((short) 7));
+        assertFalse(tuple7.contains((short) 99));
+        assertTrue(tuple8.contains((short) 2));
+        assertTrue(tuple8.contains((short) 3));
+        assertTrue(tuple8.contains((short) 4));
+        assertTrue(tuple8.contains((short) 5));
+        assertTrue(tuple8.contains((short) 6));
+        assertTrue(tuple8.contains((short) 7));
+        assertTrue(tuple8.contains((short) 8));
+        assertFalse(tuple8.contains((short) 99));
+        assertTrue(tuple9.contains((short) 2));
+        assertTrue(tuple9.contains((short) 3));
+        assertTrue(tuple9.contains((short) 4));
+        assertTrue(tuple9.contains((short) 5));
+        assertTrue(tuple9.contains((short) 6));
+        assertTrue(tuple9.contains((short) 7));
+        assertTrue(tuple9.contains((short) 8));
+        assertTrue(tuple9.contains((short) 9));
+        assertFalse(tuple9.contains((short) 99));
+
+        assertTrue(tuple4.equals(tuple4));
+        assertFalse(tuple4.equals("not a tuple"));
+        assertFalse(tuple4.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 9)));
+        assertTrue(tuple5.equals(tuple5));
+        assertFalse(tuple5.equals("not a tuple"));
+        assertFalse(tuple5.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 9)));
+        assertTrue(tuple6.equals(tuple6));
+        assertFalse(tuple6.equals("not a tuple"));
+        assertFalse(tuple6.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 9)));
+        assertTrue(tuple7.equals(tuple7));
+        assertFalse(tuple7.equals("not a tuple"));
+        assertFalse(tuple7.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 9)));
+        assertTrue(tuple8.equals(tuple8));
+        assertFalse(tuple8.equals("not a tuple"));
+        assertFalse(tuple8.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 9)));
+        assertTrue(tuple9.equals(tuple9));
+        assertFalse(tuple9.equals("not a tuple"));
+        assertFalse(tuple9.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 0)));
     }
 
     @Nested
@@ -3682,6 +3847,123 @@ class ShortTupleTest extends TestBase {
             assertEquals(600, sum);
             // Note: sum() returns int (not short) for ShortTuple
         }
+    }
+
+    // Regression tests for the report-driven uncovered tuple branches.
+    @Test
+    public void testCoverageRegression_EmptyTupleBaseMethods() {
+        ShortTuple<?> empty = ShortTuple.copyOf((short[]) null);
+        assertEquals(ShortTuple.copyOf(new short[0]), empty);
+        assertFalse(empty.equals("short"));
+        assertEquals("()", empty.toString());
+        assertEquals(1, empty.hashCode());
+    }
+
+    @Test
+    public void testCoverageRegression_DefaultConstructorsAndCachedArrays() {
+        ShortTuple.ShortTuple1 tuple1 = new ShortTuple.ShortTuple1();
+        assertArrayEquals(new short[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new short[] { 0 }, tuple1.toArray());
+
+        ShortTuple.ShortTuple2 tuple2 = new ShortTuple.ShortTuple2();
+        assertArrayEquals(new short[] { 0, 0 }, tuple2.toArray());
+        assertArrayEquals(new short[] { 0, 0 }, tuple2.toArray());
+
+        ShortTuple.ShortTuple3 tuple3 = new ShortTuple.ShortTuple3();
+        assertArrayEquals(new short[] { 0, 0, 0 }, tuple3.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0 }, tuple3.toArray());
+
+        ShortTuple.ShortTuple4 tuple4 = new ShortTuple.ShortTuple4();
+        assertArrayEquals(new short[] { 0, 0, 0, 0 }, tuple4.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0 }, tuple4.toArray());
+
+        ShortTuple.ShortTuple5 tuple5 = new ShortTuple.ShortTuple5();
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+
+        ShortTuple.ShortTuple6 tuple6 = new ShortTuple.ShortTuple6();
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+
+        ShortTuple.ShortTuple7 tuple7 = new ShortTuple.ShortTuple7();
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+
+        ShortTuple.ShortTuple8 tuple8 = new ShortTuple.ShortTuple8();
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+
+        ShortTuple.ShortTuple9 tuple9 = new ShortTuple.ShortTuple9();
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+        assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityOperations() {
+        ShortTuple.ShortTuple4 tuple4 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3);
+        assertEquals((short) 1, tuple4.min());
+        assertEquals((short) 9, tuple4.max());
+        assertEquals((short) 3, tuple4.median());
+        assertEquals(20, tuple4.sum());
+        assertEquals(5.0, tuple4.average());
+        assertTrue(tuple4.contains((short) 3));
+
+        ShortTuple.ShortTuple5 tuple5 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
+        assertTrue(tuple5.contains((short) 5));
+
+        ShortTuple.ShortTuple6 tuple6 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11);
+        assertEquals((short) 5, tuple6.median());
+        assertTrue(tuple6.contains((short) 11));
+
+        ShortTuple.ShortTuple7 tuple7 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
+        assertTrue(tuple7.contains((short) 7));
+
+        ShortTuple.ShortTuple8 tuple8 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11, (short) 13, (short) 15);
+        assertEquals((short) 7, tuple8.median());
+        assertTrue(tuple8.contains((short) 15));
+
+        ShortTuple.ShortTuple9 tuple9 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11, (short) 13, (short) 15, (short) 17);
+        assertEquals((short) 9, tuple9.median());
+        assertTrue(tuple9.contains((short) 17));
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityEqualsBranches() {
+        ShortTuple.ShortTuple4 tuple4 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
+        assertTrue(tuple4.equals(tuple4));
+        assertTrue(tuple4.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4)));
+        assertFalse(tuple4.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 9)));
+        assertFalse(tuple4.equals("tuple4"));
+
+        ShortTuple.ShortTuple5 tuple5 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
+        assertTrue(tuple5.equals(tuple5));
+        assertTrue(tuple5.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5)));
+        assertFalse(tuple5.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 9)));
+        assertFalse(tuple5.equals("tuple5"));
+
+        ShortTuple.ShortTuple6 tuple6 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
+        assertTrue(tuple6.equals(tuple6));
+        assertTrue(tuple6.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6)));
+        assertFalse(tuple6.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 9)));
+        assertFalse(tuple6.equals("tuple6"));
+
+        ShortTuple.ShortTuple7 tuple7 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
+        assertTrue(tuple7.equals(tuple7));
+        assertTrue(tuple7.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7)));
+        assertFalse(tuple7.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 9)));
+        assertFalse(tuple7.equals("tuple7"));
+
+        ShortTuple.ShortTuple8 tuple8 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
+        assertTrue(tuple8.equals(tuple8));
+        assertTrue(tuple8.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8)));
+        assertFalse(tuple8.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 9)));
+        assertFalse(tuple8.equals("tuple8"));
+
+        ShortTuple.ShortTuple9 tuple9 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
+        assertTrue(tuple9.equals(tuple9));
+        assertTrue(tuple9.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9)));
+        assertFalse(tuple9.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 0)));
+        assertFalse(tuple9.equals("tuple9"));
     }
 
 }

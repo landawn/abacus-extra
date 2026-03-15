@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
@@ -338,6 +339,52 @@ class MatrixTest extends TestBase {
     public void testRowCopy_OutOfBounds() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 } });
         assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(1));
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Test
+    public void testSetRowWithObjectArrayWidening_EdgeCase() {
+        Matrix<Number> matrix = Matrix.diagonals(new Integer[] { 1, 2 }, new Double[] { 3.0, 4.0 });
+        Matrix raw = (Matrix) matrix;
+
+        raw.setRow(0, new Object[] { 1L, 2.5d });
+
+        Number[] row = matrix.rowView(0);
+        Assertions.assertEquals(Number.class, row.getClass().getComponentType());
+        Assertions.assertEquals(1L, row[0]);
+        Assertions.assertEquals(2.5d, row[1].doubleValue());
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Test
+    public void testSetRowSupportsObjectArrayWhenMatrixStorageIsObject_EdgeCase() {
+        Matrix<Number> matrix = Matrix.diagonals(new Integer[] { 1, 2 }, new Double[] { 3.0, 4.0 });
+        Matrix raw = (Matrix) matrix;
+
+        raw.setRow(0, new Object[] { "x", 2 });
+
+        Object[] row = matrix.rowView(0);
+        Assertions.assertTrue(row.getClass().getComponentType().isAssignableFrom(String.class));
+        Assertions.assertTrue(row.getClass().getComponentType().isAssignableFrom(Integer.class));
+        Assertions.assertEquals("x", row[0]);
+        Assertions.assertEquals(2, row[1]);
+    }
+
+    @Test
+    public void testRowAndColumnCopyResolveSpecificArrayTypeFromObjectStorage_EdgeCase() {
+        Matrix<Integer> matrix = Matrix.diagonals(new Integer[] { 1, 2 }, new Integer[] { 3, 4 });
+
+        Object[] row = matrix.rowCopy(0);
+        Object[] column = matrix.columnCopy(0);
+        Object[] rowView = matrix.rowView(0);
+
+        Assertions.assertTrue(row.getClass().getComponentType().isAssignableFrom(Integer.class));
+        Assertions.assertTrue(column.getClass().getComponentType().isAssignableFrom(Integer.class));
+        Assertions.assertTrue(rowView.getClass().getComponentType().isAssignableFrom(Integer.class));
+        Assertions.assertEquals(1, row[0]);
+        Assertions.assertEquals(3, row[1]);
+        Assertions.assertEquals(1, column[0]);
+        Assertions.assertEquals(4, column[1]);
     }
 
     @Test
@@ -1155,6 +1202,25 @@ class MatrixTest extends TestBase {
         Assertions.assertEquals(Arrays.asList(2, 5, 3, 6), columnCount);
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testStreamVerticalIteratorAdvanceAndExhaustion_EdgeCase() {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        var iterator = matrix.streamVertical(0, 2).iterator();
+
+        Assertions.assertTrue(iterator instanceof ObjIteratorEx);
+
+        ObjIteratorEx<Integer> ex = (ObjIteratorEx<Integer>) iterator;
+        ex.advance(0);
+        Assertions.assertEquals(4L, ex.count());
+        ex.advance(3);
+        Assertions.assertEquals(1L, ex.count());
+        Assertions.assertEquals(4, ex.next());
+        ex.advance(10);
+        Assertions.assertEquals(0L, ex.count());
+        Assertions.assertThrows(NoSuchElementException.class, ex::next);
+    }
+
     @Test
     public void testStreamR() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
@@ -1242,6 +1308,21 @@ class MatrixTest extends TestBase {
         matrix.forEach(1, 3, 1, 3, it -> values.add(it));
 
         Assertions.assertEquals(Arrays.asList(5, 6, 8, 9), values);
+    }
+
+    @Test
+    public void testForEachWithForcedParallelMode_EdgeCase() throws Exception {
+        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<Integer> values = java.util.Collections.synchronizedList(new ArrayList<>());
+        List<Integer> regionValues = java.util.Collections.synchronizedList(new ArrayList<>());
+
+        Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> matrix.forEach(values::add));
+        Matrices.runWithParallelMode(ParallelMode.FORCE_ON, () -> matrix.forEach(0, 2, 1, 3, regionValues::add));
+
+        Assertions.assertEquals(6, values.size());
+        Assertions.assertTrue(values.containsAll(Arrays.asList(1, 2, 3, 4, 5, 6)));
+        Assertions.assertEquals(4, regionValues.size());
+        Assertions.assertTrue(regionValues.containsAll(Arrays.asList(2, 3, 5, 6)));
     }
 
     @Test

@@ -236,6 +236,140 @@ class DoubleTupleTest extends TestBase {
         assertEquals(2.0, evenTuple.median(), DELTA);
     }
 
+    // Cover the abstract outer type's inherited implementations directly.
+    @Test
+    public void testDoubleTupleBaseMethods_InheritedImplementation() {
+        class DerivedDoubleTuple extends DoubleTuple<DerivedDoubleTuple> {
+            private final double[] values;
+
+            DerivedDoubleTuple(final double... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedDoubleTuple reverse() {
+                final double[] reversed = new double[values.length];
+
+                for (int i = 0; i < values.length; i++) {
+                    reversed[i] = values[values.length - 1 - i];
+                }
+
+                return new DerivedDoubleTuple(reversed);
+            }
+
+            @Override
+            public boolean contains(final double valueToFind) {
+                for (final double value : values) {
+                    if (Double.compare(value, valueToFind) == 0) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            protected double[] elements() {
+                return values;
+            }
+        }
+
+        final DerivedDoubleTuple tuple = new DerivedDoubleTuple(4.5, 1.5, 3.5, 2.5);
+        final double[] copy = tuple.toArray();
+        copy[0] = 99.5;
+
+        assertEquals(1.5, tuple.min(), DELTA);
+        assertEquals(4.5, tuple.max(), DELTA);
+        assertEquals(2.5, tuple.median(), DELTA);
+        assertEquals(12.0, tuple.sum(), DELTA);
+        assertEquals(3.0, tuple.average(), DELTA);
+        assertTrue(tuple.contains(3.5));
+        assertFalse(tuple.contains(8.5));
+        assertEquals(4.5, tuple.toArray()[0], DELTA);
+        assertTrue(tuple.equals(new DerivedDoubleTuple(4.5, 1.5, 3.5, 2.5)));
+        assertFalse(tuple.equals(new DerivedDoubleTuple(4.5, 1.5, 3.5, 9.5)));
+        assertFalse(tuple.equals(DoubleTuple.of(4.5, 1.5, 3.5, 2.5)));
+        assertFalse(tuple.equals(null));
+        assertTrue(tuple.toString().contains("4.5"));
+    }
+
+    // Exercise zero-initialized tuple constructors and cached element materialization.
+    @Test
+    public void testDoubleTupleDefaultConstructors_ZeroInitialization() {
+        final DoubleTuple1 tuple1 = new DoubleTuple1();
+        final DoubleTuple2 tuple2 = new DoubleTuple2();
+        final DoubleTuple3 tuple3 = new DoubleTuple3();
+        final DoubleTuple4 tuple4 = new DoubleTuple4();
+        final DoubleTuple5 tuple5 = new DoubleTuple5();
+        final DoubleTuple6 tuple6 = new DoubleTuple6();
+        final DoubleTuple7 tuple7 = new DoubleTuple7();
+        final DoubleTuple8 tuple8 = new DoubleTuple8();
+        final DoubleTuple9 tuple9 = new DoubleTuple9();
+
+        assertArrayEquals(new double[] { 0.0 }, tuple1.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0 }, tuple1.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0 }, tuple2.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0 }, tuple2.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0 }, tuple3.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0 }, tuple3.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0 }, tuple4.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0 }, tuple4.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple5.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple5.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple6.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple6.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple7.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple7.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple8.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple8.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple9.toArray(), DELTA);
+        assertArrayEquals(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }, tuple9.toArray(), DELTA);
+    }
+
+    // Drive the larger arities through the still-missed contains/equals branches.
+    @Test
+    public void testDoubleTupleLargerArities_BranchCoverage() {
+        final DoubleTuple4 tuple4 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        final DoubleTuple5 tuple5 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        final DoubleTuple6 tuple6 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        final DoubleTuple7 tuple7 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        final DoubleTuple8 tuple8 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        final DoubleTuple9 tuple9 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+
+        assertTrue(tuple4.contains(2.0));
+        assertTrue(tuple4.contains(3.0));
+        assertTrue(tuple5.contains(4.0));
+        assertTrue(tuple6.contains(5.0));
+        assertTrue(tuple7.contains(6.0));
+        assertTrue(tuple8.contains(7.0));
+        assertTrue(tuple9.contains(8.0));
+        assertFalse(tuple9.contains(10.0));
+
+        assertTrue(tuple4.equals(tuple4));
+        assertFalse(tuple4.equals("not a tuple"));
+        assertFalse(tuple4.equals(DoubleTuple.of(1.0, 2.0, 3.0, 9.0)));
+        assertTrue(tuple5.equals(tuple5));
+        assertFalse(tuple5.equals("not a tuple"));
+        assertFalse(tuple5.equals(DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 9.0)));
+        assertTrue(tuple6.equals(tuple6));
+        assertFalse(tuple6.equals("not a tuple"));
+        assertFalse(tuple6.equals(DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 9.0)));
+        assertTrue(tuple7.equals(tuple7));
+        assertFalse(tuple7.equals("not a tuple"));
+        assertFalse(tuple7.equals(DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 9.0)));
+        assertTrue(tuple8.equals(tuple8));
+        assertFalse(tuple8.equals("not a tuple"));
+        assertFalse(tuple8.equals(DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 9.0)));
+        assertTrue(tuple9.equals(tuple9));
+        assertFalse(tuple9.equals("not a tuple"));
+        assertFalse(tuple9.equals(DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 10.0)));
+    }
+
     @Nested
     /**
      * Comprehensive test suite for DoubleTuple and its nested classes.
@@ -3764,6 +3898,123 @@ class DoubleTupleTest extends TestBase {
             assertEquals(2.0, reversed3._2, 0.001);
             assertEquals(1.0, reversed3._3, 0.001);
         }
+    }
+
+    // Regression tests for the report-driven uncovered tuple branches.
+    @Test
+    public void testCoverageRegression_EmptyTupleBaseMethods() {
+        DoubleTuple<?> empty = DoubleTuple.copyOf((double[]) null);
+        assertEquals(DoubleTuple.copyOf(new double[0]), empty);
+        assertFalse(empty.equals("double"));
+        assertEquals("()", empty.toString());
+        assertEquals(1, empty.hashCode());
+    }
+
+    @Test
+    public void testCoverageRegression_DefaultConstructorsAndCachedArrays() {
+        DoubleTuple.DoubleTuple1 tuple1 = new DoubleTuple.DoubleTuple1();
+        assertArrayEquals(new double[] { 0d }, tuple1.toArray(), 0.0);
+        assertArrayEquals(new double[] { 0d }, tuple1.toArray(), 0.0);
+
+        DoubleTuple.DoubleTuple2 tuple2 = new DoubleTuple.DoubleTuple2();
+        assertArrayEquals(new double[] { 0d, 0d }, tuple2.toArray(), 0.0);
+        assertArrayEquals(new double[] { 0d, 0d }, tuple2.toArray(), 0.0);
+
+        DoubleTuple.DoubleTuple3 tuple3 = new DoubleTuple.DoubleTuple3();
+        assertArrayEquals(new double[] { 0d, 0d, 0d }, tuple3.toArray(), 0.0);
+        assertArrayEquals(new double[] { 0d, 0d, 0d }, tuple3.toArray(), 0.0);
+
+        DoubleTuple.DoubleTuple4 tuple4 = new DoubleTuple.DoubleTuple4();
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d }, tuple4.toArray(), 0.0);
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d }, tuple4.toArray(), 0.0);
+
+        DoubleTuple.DoubleTuple5 tuple5 = new DoubleTuple.DoubleTuple5();
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d }, tuple5.toArray(), 0.0);
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d }, tuple5.toArray(), 0.0);
+
+        DoubleTuple.DoubleTuple6 tuple6 = new DoubleTuple.DoubleTuple6();
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d }, tuple6.toArray(), 0.0);
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d }, tuple6.toArray(), 0.0);
+
+        DoubleTuple.DoubleTuple7 tuple7 = new DoubleTuple.DoubleTuple7();
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple7.toArray(), 0.0);
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple7.toArray(), 0.0);
+
+        DoubleTuple.DoubleTuple8 tuple8 = new DoubleTuple.DoubleTuple8();
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple8.toArray(), 0.0);
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple8.toArray(), 0.0);
+
+        DoubleTuple.DoubleTuple9 tuple9 = new DoubleTuple.DoubleTuple9();
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple9.toArray(), 0.0);
+        assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple9.toArray(), 0.0);
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityOperations() {
+        DoubleTuple.DoubleTuple4 tuple4 = DoubleTuple.of(9d, 1d, 7d, 3d);
+        assertEquals(1d, tuple4.min(), 0.0);
+        assertEquals(9d, tuple4.max(), 0.0);
+        assertEquals(3d, tuple4.median(), 0.0);
+        assertEquals(20d, tuple4.sum(), 0.0);
+        assertEquals(5.0, tuple4.average(), 0.0);
+        assertTrue(tuple4.contains(3d));
+
+        DoubleTuple.DoubleTuple5 tuple5 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d);
+        assertTrue(tuple5.contains(5d));
+
+        DoubleTuple.DoubleTuple6 tuple6 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d);
+        assertEquals(5d, tuple6.median(), 0.0);
+        assertTrue(tuple6.contains(11d));
+
+        DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d);
+        assertTrue(tuple7.contains(7d));
+
+        DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d, 13d, 15d);
+        assertEquals(7d, tuple8.median(), 0.0);
+        assertTrue(tuple8.contains(15d));
+
+        DoubleTuple.DoubleTuple9 tuple9 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d, 13d, 15d, 17d);
+        assertEquals(9d, tuple9.median(), 0.0);
+        assertTrue(tuple9.contains(17d));
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityEqualsBranches() {
+        DoubleTuple.DoubleTuple4 tuple4 = DoubleTuple.of(1d, 2d, 3d, 4d);
+        assertTrue(tuple4.equals(tuple4));
+        assertTrue(tuple4.equals(DoubleTuple.of(1d, 2d, 3d, 4d)));
+        assertFalse(tuple4.equals(DoubleTuple.of(1d, 2d, 3d, 9d)));
+        assertFalse(tuple4.equals("tuple4"));
+
+        DoubleTuple.DoubleTuple5 tuple5 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d);
+        assertTrue(tuple5.equals(tuple5));
+        assertTrue(tuple5.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d)));
+        assertFalse(tuple5.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 9d)));
+        assertFalse(tuple5.equals("tuple5"));
+
+        DoubleTuple.DoubleTuple6 tuple6 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d);
+        assertTrue(tuple6.equals(tuple6));
+        assertTrue(tuple6.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d)));
+        assertFalse(tuple6.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 9d)));
+        assertFalse(tuple6.equals("tuple6"));
+
+        DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d);
+        assertTrue(tuple7.equals(tuple7));
+        assertTrue(tuple7.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d)));
+        assertFalse(tuple7.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 9d)));
+        assertFalse(tuple7.equals("tuple7"));
+
+        DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d);
+        assertTrue(tuple8.equals(tuple8));
+        assertTrue(tuple8.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d)));
+        assertFalse(tuple8.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 9d)));
+        assertFalse(tuple8.equals("tuple8"));
+
+        DoubleTuple.DoubleTuple9 tuple9 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d);
+        assertTrue(tuple9.equals(tuple9));
+        assertTrue(tuple9.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d)));
+        assertFalse(tuple9.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 0d)));
+        assertFalse(tuple9.equals("tuple9"));
     }
 
 }

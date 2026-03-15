@@ -434,6 +434,170 @@ class ByteTupleTest extends TestBase {
         assertSame(elements1, elements2); // Should return same cached array
     }
 
+    // Cover inherited outer-type behavior and large-arity branch combinations missing from the report.
+    @Test
+    public void testInheritedOuterMethodsForCoverage() throws Exception {
+        class DerivedByteTuple extends ByteTuple<DerivedByteTuple> {
+            private final byte[] values;
+
+            DerivedByteTuple(final byte... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedByteTuple reverse() {
+                final byte[] reversed = values.clone();
+
+                for (int i = 0, j = reversed.length - 1; i < j; i++, j--) {
+                    final byte tmp = reversed[i];
+                    reversed[i] = reversed[j];
+                    reversed[j] = tmp;
+                }
+
+                return new DerivedByteTuple(reversed);
+            }
+
+            @Override
+            public boolean contains(final byte valueToFind) {
+                for (final byte value : values) {
+                    if (value == valueToFind) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            protected byte[] elements() {
+                return values;
+            }
+        }
+
+        final DerivedByteTuple tuple = new DerivedByteTuple((byte) 9, (byte) 2, (byte) 5, (byte) 1);
+        final byte[] firstArray = tuple.toArray();
+        final byte[] secondArray = tuple.toArray();
+        final List<Byte> visited = new ArrayList<>();
+
+        tuple.forEach(visited::add);
+
+        assertEquals(1, tuple.min());
+        assertEquals(9, tuple.max());
+        assertEquals(2, tuple.median());
+        assertEquals(17, tuple.sum());
+        assertEquals(4.25, tuple.average());
+        assertArrayEquals(new byte[] { 9, 2, 5, 1 }, firstArray);
+        assertArrayEquals(firstArray, secondArray);
+        assertNotSame(firstArray, secondArray);
+        assertEquals(ByteList.of((byte) 9, (byte) 2, (byte) 5, (byte) 1), tuple.toList());
+        assertEquals(visited, tuple.stream().boxed().toList());
+        assertEquals(tuple.hashCode(), new DerivedByteTuple((byte) 9, (byte) 2, (byte) 5, (byte) 1).hashCode());
+        assertTrue(tuple.equals(tuple));
+        assertTrue(tuple.equals(new DerivedByteTuple((byte) 9, (byte) 2, (byte) 5, (byte) 1)));
+        assertFalse(tuple.equals(null));
+        assertFalse(tuple.equals("not a tuple"));
+        assertEquals("[9, 2, 5, 1]", tuple.toString());
+        assertArrayEquals(new byte[] { 1, 5, 2, 9 }, tuple.reverse().toArray());
+    }
+
+    @Test
+    public void testZeroArgConstructorsForCoverage() {
+        final ByteTuple1 tuple1 = new ByteTuple1();
+        final ByteTuple2 tuple2 = new ByteTuple2();
+        final ByteTuple3 tuple3 = new ByteTuple3();
+        final ByteTuple4 tuple4 = new ByteTuple4();
+        final ByteTuple5 tuple5 = new ByteTuple5();
+        final ByteTuple6 tuple6 = new ByteTuple6();
+        final ByteTuple7 tuple7 = new ByteTuple7();
+        final ByteTuple8 tuple8 = new ByteTuple8();
+        final ByteTuple9 tuple9 = new ByteTuple9();
+
+        assertArrayEquals(new byte[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new byte[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new byte[] { 0, 0 }, tuple2.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0 }, tuple3.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0 }, tuple4.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+    }
+
+    @Test
+    public void testLargeArityContainsAndEqualsBranchesForCoverage() {
+        final ByteTuple4 tuple4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+        final ByteTuple5 tuple5 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+        final ByteTuple6 tuple6 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+        final ByteTuple7 tuple7 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+        final ByteTuple8 tuple8 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+        final ByteTuple9 tuple9 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+
+        assertTrue(tuple4.contains((byte) 2));
+        assertTrue(tuple4.contains((byte) 3));
+        assertTrue(tuple4.contains((byte) 4));
+        assertFalse(tuple4.contains((byte) 99));
+        assertTrue(tuple5.contains((byte) 2));
+        assertTrue(tuple5.contains((byte) 3));
+        assertTrue(tuple5.contains((byte) 4));
+        assertTrue(tuple5.contains((byte) 5));
+        assertFalse(tuple5.contains((byte) 99));
+        assertTrue(tuple6.contains((byte) 2));
+        assertTrue(tuple6.contains((byte) 3));
+        assertTrue(tuple6.contains((byte) 4));
+        assertTrue(tuple6.contains((byte) 5));
+        assertTrue(tuple6.contains((byte) 6));
+        assertFalse(tuple6.contains((byte) 99));
+        assertTrue(tuple7.contains((byte) 2));
+        assertTrue(tuple7.contains((byte) 3));
+        assertTrue(tuple7.contains((byte) 4));
+        assertTrue(tuple7.contains((byte) 5));
+        assertTrue(tuple7.contains((byte) 6));
+        assertTrue(tuple7.contains((byte) 7));
+        assertFalse(tuple7.contains((byte) 99));
+        assertTrue(tuple8.contains((byte) 2));
+        assertTrue(tuple8.contains((byte) 3));
+        assertTrue(tuple8.contains((byte) 4));
+        assertTrue(tuple8.contains((byte) 5));
+        assertTrue(tuple8.contains((byte) 6));
+        assertTrue(tuple8.contains((byte) 7));
+        assertTrue(tuple8.contains((byte) 8));
+        assertFalse(tuple8.contains((byte) 99));
+        assertTrue(tuple9.contains((byte) 2));
+        assertTrue(tuple9.contains((byte) 3));
+        assertTrue(tuple9.contains((byte) 4));
+        assertTrue(tuple9.contains((byte) 5));
+        assertTrue(tuple9.contains((byte) 6));
+        assertTrue(tuple9.contains((byte) 7));
+        assertTrue(tuple9.contains((byte) 8));
+        assertTrue(tuple9.contains((byte) 9));
+        assertFalse(tuple9.contains((byte) 99));
+
+        assertTrue(tuple4.equals(tuple4));
+        assertFalse(tuple4.equals("not a tuple"));
+        assertFalse(tuple4.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 9)));
+        assertTrue(tuple5.equals(tuple5));
+        assertFalse(tuple5.equals("not a tuple"));
+        assertFalse(tuple5.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 9)));
+        assertTrue(tuple6.equals(tuple6));
+        assertFalse(tuple6.equals("not a tuple"));
+        assertFalse(tuple6.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 9)));
+        assertTrue(tuple7.equals(tuple7));
+        assertFalse(tuple7.equals("not a tuple"));
+        assertFalse(tuple7.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 9)));
+        assertTrue(tuple8.equals(tuple8));
+        assertFalse(tuple8.equals("not a tuple"));
+        assertFalse(tuple8.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 9)));
+        assertTrue(tuple9.equals(tuple9));
+        assertFalse(tuple9.equals("not a tuple"));
+        assertFalse(tuple9.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 0)));
+    }
+
     @Nested
     /**
      * Comprehensive test suite for ByteTuple and its nested classes.
@@ -3899,6 +4063,123 @@ class ByteTupleTest extends TestBase {
             assertEquals((byte) 10, t._1);
             assertEquals((byte) 90, t._9);
         }
+    }
+
+    // Regression tests for the report-driven uncovered tuple branches.
+    @Test
+    public void testCoverageRegression_EmptyTupleBaseMethods() {
+        ByteTuple<?> empty = ByteTuple.copyOf((byte[]) null);
+        assertEquals(ByteTuple.copyOf(new byte[0]), empty);
+        assertFalse(empty.equals("byte"));
+        assertEquals("()", empty.toString());
+        assertEquals(1, empty.hashCode());
+    }
+
+    @Test
+    public void testCoverageRegression_DefaultConstructorsAndCachedArrays() {
+        ByteTuple.ByteTuple1 tuple1 = new ByteTuple.ByteTuple1();
+        assertArrayEquals(new byte[] { 0 }, tuple1.toArray());
+        assertArrayEquals(new byte[] { 0 }, tuple1.toArray());
+
+        ByteTuple.ByteTuple2 tuple2 = new ByteTuple.ByteTuple2();
+        assertArrayEquals(new byte[] { 0, 0 }, tuple2.toArray());
+        assertArrayEquals(new byte[] { 0, 0 }, tuple2.toArray());
+
+        ByteTuple.ByteTuple3 tuple3 = new ByteTuple.ByteTuple3();
+        assertArrayEquals(new byte[] { 0, 0, 0 }, tuple3.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0 }, tuple3.toArray());
+
+        ByteTuple.ByteTuple4 tuple4 = new ByteTuple.ByteTuple4();
+        assertArrayEquals(new byte[] { 0, 0, 0, 0 }, tuple4.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0 }, tuple4.toArray());
+
+        ByteTuple.ByteTuple5 tuple5 = new ByteTuple.ByteTuple5();
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
+
+        ByteTuple.ByteTuple6 tuple6 = new ByteTuple.ByteTuple6();
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
+
+        ByteTuple.ByteTuple7 tuple7 = new ByteTuple.ByteTuple7();
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
+
+        ByteTuple.ByteTuple8 tuple8 = new ByteTuple.ByteTuple8();
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
+
+        ByteTuple.ByteTuple9 tuple9 = new ByteTuple.ByteTuple9();
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+        assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityOperations() {
+        ByteTuple.ByteTuple4 tuple4 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3);
+        assertEquals((byte) 1, tuple4.min());
+        assertEquals((byte) 9, tuple4.max());
+        assertEquals((byte) 3, tuple4.median());
+        assertEquals(20, tuple4.sum());
+        assertEquals(5.0, tuple4.average());
+        assertTrue(tuple4.contains((byte) 3));
+
+        ByteTuple.ByteTuple5 tuple5 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+        assertTrue(tuple5.contains((byte) 5));
+
+        ByteTuple.ByteTuple6 tuple6 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11);
+        assertEquals((byte) 5, tuple6.median());
+        assertTrue(tuple6.contains((byte) 11));
+
+        ByteTuple.ByteTuple7 tuple7 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+        assertTrue(tuple7.contains((byte) 7));
+
+        ByteTuple.ByteTuple8 tuple8 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11, (byte) 13, (byte) 15);
+        assertEquals((byte) 7, tuple8.median());
+        assertTrue(tuple8.contains((byte) 15));
+
+        ByteTuple.ByteTuple9 tuple9 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11, (byte) 13, (byte) 15, (byte) 17);
+        assertEquals((byte) 9, tuple9.median());
+        assertTrue(tuple9.contains((byte) 17));
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityEqualsBranches() {
+        ByteTuple.ByteTuple4 tuple4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+        assertTrue(tuple4.equals(tuple4));
+        assertTrue(tuple4.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4)));
+        assertFalse(tuple4.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 9)));
+        assertFalse(tuple4.equals("tuple4"));
+
+        ByteTuple.ByteTuple5 tuple5 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+        assertTrue(tuple5.equals(tuple5));
+        assertTrue(tuple5.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5)));
+        assertFalse(tuple5.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 9)));
+        assertFalse(tuple5.equals("tuple5"));
+
+        ByteTuple.ByteTuple6 tuple6 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+        assertTrue(tuple6.equals(tuple6));
+        assertTrue(tuple6.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6)));
+        assertFalse(tuple6.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 9)));
+        assertFalse(tuple6.equals("tuple6"));
+
+        ByteTuple.ByteTuple7 tuple7 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+        assertTrue(tuple7.equals(tuple7));
+        assertTrue(tuple7.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7)));
+        assertFalse(tuple7.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 9)));
+        assertFalse(tuple7.equals("tuple7"));
+
+        ByteTuple.ByteTuple8 tuple8 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+        assertTrue(tuple8.equals(tuple8));
+        assertTrue(tuple8.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8)));
+        assertFalse(tuple8.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 9)));
+        assertFalse(tuple8.equals("tuple8"));
+
+        ByteTuple.ByteTuple9 tuple9 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+        assertTrue(tuple9.equals(tuple9));
+        assertTrue(tuple9.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9)));
+        assertFalse(tuple9.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 0)));
+        assertFalse(tuple9.equals("tuple9"));
     }
 
 }

@@ -439,6 +439,140 @@ class FloatTupleTest extends TestBase {
         assertSame(elements1, elements2); // Should return same cached array
     }
 
+    // Cover the abstract outer type's inherited implementations directly.
+    @Test
+    public void testFloatTupleBaseMethods_InheritedImplementation() {
+        class DerivedFloatTuple extends FloatTuple<DerivedFloatTuple> {
+            private final float[] values;
+
+            DerivedFloatTuple(final float... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedFloatTuple reverse() {
+                final float[] reversed = new float[values.length];
+
+                for (int i = 0; i < values.length; i++) {
+                    reversed[i] = values[values.length - 1 - i];
+                }
+
+                return new DerivedFloatTuple(reversed);
+            }
+
+            @Override
+            public boolean contains(final float valueToFind) {
+                for (final float value : values) {
+                    if (Float.compare(value, valueToFind) == 0) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            protected float[] elements() {
+                return values;
+            }
+        }
+
+        final DerivedFloatTuple tuple = new DerivedFloatTuple(4.5f, 1.5f, 3.5f, 2.5f);
+        final float[] copy = tuple.toArray();
+        copy[0] = 99.5f;
+
+        assertEquals(1.5f, tuple.min(), DELTA);
+        assertEquals(4.5f, tuple.max(), DELTA);
+        assertEquals(2.5f, tuple.median(), DELTA);
+        assertEquals(12.0f, tuple.sum(), DELTA);
+        assertEquals(3.0, tuple.average(), DELTA);
+        assertTrue(tuple.contains(3.5f));
+        assertFalse(tuple.contains(8.5f));
+        assertEquals(4.5f, tuple.toArray()[0], DELTA);
+        assertTrue(tuple.equals(new DerivedFloatTuple(4.5f, 1.5f, 3.5f, 2.5f)));
+        assertFalse(tuple.equals(new DerivedFloatTuple(4.5f, 1.5f, 3.5f, 9.5f)));
+        assertFalse(tuple.equals(FloatTuple.of(4.5f, 1.5f, 3.5f, 2.5f)));
+        assertFalse(tuple.equals(null));
+        assertTrue(tuple.toString().contains("4.5"));
+    }
+
+    // Exercise zero-initialized tuple constructors and cached element materialization.
+    @Test
+    public void testFloatTupleDefaultConstructors_ZeroInitialization() {
+        final FloatTuple1 tuple1 = new FloatTuple1();
+        final FloatTuple2 tuple2 = new FloatTuple2();
+        final FloatTuple3 tuple3 = new FloatTuple3();
+        final FloatTuple4 tuple4 = new FloatTuple4();
+        final FloatTuple5 tuple5 = new FloatTuple5();
+        final FloatTuple6 tuple6 = new FloatTuple6();
+        final FloatTuple7 tuple7 = new FloatTuple7();
+        final FloatTuple8 tuple8 = new FloatTuple8();
+        final FloatTuple9 tuple9 = new FloatTuple9();
+
+        assertArrayEquals(new float[] { 0.0f }, tuple1.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f }, tuple1.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f }, tuple2.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f }, tuple2.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f }, tuple3.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f }, tuple3.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f }, tuple4.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f }, tuple4.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple5.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple5.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple6.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple6.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple7.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple7.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple8.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple8.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple9.toArray(), DELTA);
+        assertArrayEquals(new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }, tuple9.toArray(), DELTA);
+    }
+
+    // Drive the larger arities through the still-missed contains/equals branches.
+    @Test
+    public void testFloatTupleLargerArities_BranchCoverage() {
+        final FloatTuple4 tuple4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+        final FloatTuple5 tuple5 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
+        final FloatTuple6 tuple6 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+        final FloatTuple7 tuple7 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
+        final FloatTuple8 tuple8 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
+        final FloatTuple9 tuple9 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
+
+        assertTrue(tuple4.contains(2.0f));
+        assertTrue(tuple4.contains(3.0f));
+        assertTrue(tuple5.contains(4.0f));
+        assertTrue(tuple6.contains(5.0f));
+        assertTrue(tuple7.contains(6.0f));
+        assertTrue(tuple8.contains(7.0f));
+        assertTrue(tuple9.contains(8.0f));
+        assertFalse(tuple9.contains(10.0f));
+
+        assertTrue(tuple4.equals(tuple4));
+        assertFalse(tuple4.equals("not a tuple"));
+        assertFalse(tuple4.equals(FloatTuple.of(1.0f, 2.0f, 3.0f, 9.0f)));
+        assertTrue(tuple5.equals(tuple5));
+        assertFalse(tuple5.equals("not a tuple"));
+        assertFalse(tuple5.equals(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 9.0f)));
+        assertTrue(tuple6.equals(tuple6));
+        assertFalse(tuple6.equals("not a tuple"));
+        assertFalse(tuple6.equals(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 9.0f)));
+        assertTrue(tuple7.equals(tuple7));
+        assertFalse(tuple7.equals("not a tuple"));
+        assertFalse(tuple7.equals(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 9.0f)));
+        assertTrue(tuple8.equals(tuple8));
+        assertFalse(tuple8.equals("not a tuple"));
+        assertFalse(tuple8.equals(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 9.0f)));
+        assertTrue(tuple9.equals(tuple9));
+        assertFalse(tuple9.equals("not a tuple"));
+        assertFalse(tuple9.equals(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 10.0f)));
+    }
+
     @Nested
     /**
      * Comprehensive test suite for FloatTuple and its nested classes.
@@ -3579,6 +3713,123 @@ class FloatTupleTest extends TestBase {
             FloatTuple.FloatTuple2 pair = FloatTuple.of(2.5f, 1.5f);
             assertEquals(1.5f, pair.min(), 0.001f);
         }
+    }
+
+    // Regression tests for the report-driven uncovered tuple branches.
+    @Test
+    public void testCoverageRegression_EmptyTupleBaseMethods() {
+        FloatTuple<?> empty = FloatTuple.copyOf((float[]) null);
+        assertEquals(FloatTuple.copyOf(new float[0]), empty);
+        assertFalse(empty.equals("float"));
+        assertEquals("()", empty.toString());
+        assertEquals(1, empty.hashCode());
+    }
+
+    @Test
+    public void testCoverageRegression_DefaultConstructorsAndCachedArrays() {
+        FloatTuple.FloatTuple1 tuple1 = new FloatTuple.FloatTuple1();
+        assertArrayEquals(new float[] { 0f }, tuple1.toArray(), 0.0f);
+        assertArrayEquals(new float[] { 0f }, tuple1.toArray(), 0.0f);
+
+        FloatTuple.FloatTuple2 tuple2 = new FloatTuple.FloatTuple2();
+        assertArrayEquals(new float[] { 0f, 0f }, tuple2.toArray(), 0.0f);
+        assertArrayEquals(new float[] { 0f, 0f }, tuple2.toArray(), 0.0f);
+
+        FloatTuple.FloatTuple3 tuple3 = new FloatTuple.FloatTuple3();
+        assertArrayEquals(new float[] { 0f, 0f, 0f }, tuple3.toArray(), 0.0f);
+        assertArrayEquals(new float[] { 0f, 0f, 0f }, tuple3.toArray(), 0.0f);
+
+        FloatTuple.FloatTuple4 tuple4 = new FloatTuple.FloatTuple4();
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f }, tuple4.toArray(), 0.0f);
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f }, tuple4.toArray(), 0.0f);
+
+        FloatTuple.FloatTuple5 tuple5 = new FloatTuple.FloatTuple5();
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f }, tuple5.toArray(), 0.0f);
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f }, tuple5.toArray(), 0.0f);
+
+        FloatTuple.FloatTuple6 tuple6 = new FloatTuple.FloatTuple6();
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f }, tuple6.toArray(), 0.0f);
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f }, tuple6.toArray(), 0.0f);
+
+        FloatTuple.FloatTuple7 tuple7 = new FloatTuple.FloatTuple7();
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple7.toArray(), 0.0f);
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple7.toArray(), 0.0f);
+
+        FloatTuple.FloatTuple8 tuple8 = new FloatTuple.FloatTuple8();
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple8.toArray(), 0.0f);
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple8.toArray(), 0.0f);
+
+        FloatTuple.FloatTuple9 tuple9 = new FloatTuple.FloatTuple9();
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple9.toArray(), 0.0f);
+        assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple9.toArray(), 0.0f);
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityOperations() {
+        FloatTuple.FloatTuple4 tuple4 = FloatTuple.of(9f, 1f, 7f, 3f);
+        assertEquals(1f, tuple4.min(), 0.0f);
+        assertEquals(9f, tuple4.max(), 0.0f);
+        assertEquals(3f, tuple4.median(), 0.0f);
+        assertEquals(20f, tuple4.sum(), 0.0f);
+        assertEquals(5.0, tuple4.average());
+        assertTrue(tuple4.contains(3f));
+
+        FloatTuple.FloatTuple5 tuple5 = FloatTuple.of(1f, 2f, 3f, 4f, 5f);
+        assertTrue(tuple5.contains(5f));
+
+        FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f);
+        assertEquals(5f, tuple6.median(), 0.0f);
+        assertTrue(tuple6.contains(11f));
+
+        FloatTuple.FloatTuple7 tuple7 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f);
+        assertTrue(tuple7.contains(7f));
+
+        FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f, 13f, 15f);
+        assertEquals(7f, tuple8.median(), 0.0f);
+        assertTrue(tuple8.contains(15f));
+
+        FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f, 13f, 15f, 17f);
+        assertEquals(9f, tuple9.median(), 0.0f);
+        assertTrue(tuple9.contains(17f));
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityEqualsBranches() {
+        FloatTuple.FloatTuple4 tuple4 = FloatTuple.of(1f, 2f, 3f, 4f);
+        assertTrue(tuple4.equals(tuple4));
+        assertTrue(tuple4.equals(FloatTuple.of(1f, 2f, 3f, 4f)));
+        assertFalse(tuple4.equals(FloatTuple.of(1f, 2f, 3f, 9f)));
+        assertFalse(tuple4.equals("tuple4"));
+
+        FloatTuple.FloatTuple5 tuple5 = FloatTuple.of(1f, 2f, 3f, 4f, 5f);
+        assertTrue(tuple5.equals(tuple5));
+        assertTrue(tuple5.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f)));
+        assertFalse(tuple5.equals(FloatTuple.of(1f, 2f, 3f, 4f, 9f)));
+        assertFalse(tuple5.equals("tuple5"));
+
+        FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f);
+        assertTrue(tuple6.equals(tuple6));
+        assertTrue(tuple6.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f)));
+        assertFalse(tuple6.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 9f)));
+        assertFalse(tuple6.equals("tuple6"));
+
+        FloatTuple.FloatTuple7 tuple7 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f);
+        assertTrue(tuple7.equals(tuple7));
+        assertTrue(tuple7.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f)));
+        assertFalse(tuple7.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 9f)));
+        assertFalse(tuple7.equals("tuple7"));
+
+        FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f);
+        assertTrue(tuple8.equals(tuple8));
+        assertTrue(tuple8.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f)));
+        assertFalse(tuple8.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 9f)));
+        assertFalse(tuple8.equals("tuple8"));
+
+        FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f);
+        assertTrue(tuple9.equals(tuple9));
+        assertTrue(tuple9.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f)));
+        assertFalse(tuple9.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 0f)));
+        assertFalse(tuple9.equals("tuple9"));
     }
 
 }

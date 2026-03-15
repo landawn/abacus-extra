@@ -327,6 +327,135 @@ class BooleanTupleTest extends TestBase {
         assertEquals(2, falseCount);
     }
 
+    // Cover inherited outer-type behavior and large-arity branch combinations missing from the report.
+    @Test
+    public void testInheritedOuterMethodsForCoverage() throws Exception {
+        class DerivedBooleanTuple extends BooleanTuple<DerivedBooleanTuple> {
+            private final boolean[] values;
+
+            DerivedBooleanTuple(final boolean... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedBooleanTuple reverse() {
+                final boolean[] reversed = values.clone();
+
+                for (int i = 0, j = reversed.length - 1; i < j; i++, j--) {
+                    final boolean tmp = reversed[i];
+                    reversed[i] = reversed[j];
+                    reversed[j] = tmp;
+                }
+
+                return new DerivedBooleanTuple(reversed);
+            }
+
+            @Override
+            public boolean contains(final boolean valueToFind) {
+                for (final boolean value : values) {
+                    if (value == valueToFind) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            protected boolean[] elements() {
+                return values;
+            }
+        }
+
+        final DerivedBooleanTuple tuple = new DerivedBooleanTuple(true, false, true);
+        final boolean[] firstArray = tuple.toArray();
+        final boolean[] secondArray = tuple.toArray();
+        final List<Boolean> visited = new ArrayList<>();
+
+        tuple.forEach(visited::add);
+
+        assertArrayEquals(new boolean[] { true, false, true }, firstArray);
+        assertArrayEquals(firstArray, secondArray);
+        assertNotSame(firstArray, secondArray);
+        assertEquals(BooleanList.of(true, false, true), tuple.toList());
+        assertEquals(visited, tuple.stream().toList());
+        assertEquals(tuple.hashCode(), new DerivedBooleanTuple(true, false, true).hashCode());
+        assertTrue(tuple.equals(tuple));
+        assertTrue(tuple.equals(new DerivedBooleanTuple(true, false, true)));
+        assertFalse(tuple.equals(null));
+        assertFalse(tuple.equals("not a tuple"));
+        assertEquals("[true, false, true]", tuple.toString());
+        assertArrayEquals(new boolean[] { true, false, true }, tuple.reverse().toArray());
+    }
+
+    @Test
+    public void testZeroArgConstructorsForCoverage() {
+        final BooleanTuple1 tuple1 = new BooleanTuple1();
+        final BooleanTuple2 tuple2 = new BooleanTuple2();
+        final BooleanTuple3 tuple3 = new BooleanTuple3();
+        final BooleanTuple4 tuple4 = new BooleanTuple4();
+        final BooleanTuple5 tuple5 = new BooleanTuple5();
+        final BooleanTuple6 tuple6 = new BooleanTuple6();
+        final BooleanTuple7 tuple7 = new BooleanTuple7();
+        final BooleanTuple8 tuple8 = new BooleanTuple8();
+        final BooleanTuple9 tuple9 = new BooleanTuple9();
+
+        assertArrayEquals(new boolean[] { false }, tuple1.toArray());
+        assertArrayEquals(new boolean[] { false, false }, tuple2.toArray());
+        assertArrayEquals(new boolean[] { false, false, false }, tuple3.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false }, tuple4.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false }, tuple5.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false }, tuple6.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false, false }, tuple7.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false, false, false }, tuple8.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false, false, false, false }, tuple9.toArray());
+    }
+
+    @Test
+    public void testLargeArityContainsAndEqualsBranchesForCoverage() {
+        assertTrue(BooleanTuple.of(false, true, false, false).contains(true));
+        assertTrue(BooleanTuple.of(false, false, true, false).contains(true));
+        assertTrue(BooleanTuple.of(false, false, false, true).contains(true));
+        assertFalse(BooleanTuple.of(false, false, false, false).contains(true));
+
+        assertTrue(BooleanTuple.of(false, true, false, false, false).contains(true));
+        assertTrue(BooleanTuple.of(false, false, true, false, false).contains(true));
+        assertTrue(BooleanTuple.of(false, false, false, true, false).contains(true));
+        assertTrue(BooleanTuple.of(false, false, false, false, true).contains(true));
+        assertFalse(BooleanTuple.of(false, false, false, false, false).contains(true));
+
+        final BooleanTuple4 tuple4 = BooleanTuple.of(true, false, true, false);
+        final BooleanTuple5 tuple5 = BooleanTuple.of(true, false, true, false, true);
+        final BooleanTuple6 tuple6 = BooleanTuple.of(true, false, true, false, true, false);
+        final BooleanTuple7 tuple7 = BooleanTuple.of(true, false, true, false, true, false, true);
+        final BooleanTuple8 tuple8 = BooleanTuple.of(true, false, true, false, true, false, true, false);
+        final BooleanTuple9 tuple9 = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+
+        assertTrue(tuple4.equals(tuple4));
+        assertFalse(tuple4.equals("not a tuple"));
+        assertFalse(tuple4.equals(BooleanTuple.of(true, false, true, true)));
+        assertTrue(tuple5.equals(tuple5));
+        assertFalse(tuple5.equals("not a tuple"));
+        assertFalse(tuple5.equals(BooleanTuple.of(true, false, true, false, false)));
+        assertTrue(tuple6.equals(tuple6));
+        assertFalse(tuple6.equals("not a tuple"));
+        assertFalse(tuple6.equals(BooleanTuple.of(true, false, true, false, true, true)));
+        assertTrue(tuple7.equals(tuple7));
+        assertFalse(tuple7.equals("not a tuple"));
+        assertFalse(tuple7.equals(BooleanTuple.of(true, false, true, false, true, false, false)));
+        assertTrue(tuple8.equals(tuple8));
+        assertFalse(tuple8.equals("not a tuple"));
+        assertFalse(tuple8.equals(BooleanTuple.of(true, false, true, false, true, false, true, true)));
+        assertTrue(tuple9.equals(tuple9));
+        assertFalse(tuple9.equals("not a tuple"));
+        assertFalse(tuple9.equals(BooleanTuple.of(true, false, true, false, true, false, true, false, false)));
+    }
+
     @Nested
     /**
      * Comprehensive test suite for BooleanTuple and its nested classes.
@@ -3246,6 +3375,121 @@ class BooleanTupleTest extends TestBase {
             Optional<BooleanTuple.BooleanTuple2> filtered = pair.filter((a, b) -> a != b);
             assertTrue(filtered.isPresent());
         }
+    }
+
+    // Regression tests for the report-driven uncovered tuple branches.
+    @Test
+    public void testCoverageRegression_EmptyTupleBaseMethods() {
+        BooleanTuple<?> empty = BooleanTuple.copyOf((boolean[]) null);
+        assertEquals(BooleanTuple.copyOf(new boolean[0]), empty);
+        assertFalse(empty.equals("boolean"));
+        assertEquals("()", empty.toString());
+        assertEquals(1, empty.hashCode());
+    }
+
+    @Test
+    public void testCoverageRegression_DefaultConstructorsAndCachedArrays() {
+        BooleanTuple.BooleanTuple1 tuple1 = new BooleanTuple.BooleanTuple1();
+        assertArrayEquals(new boolean[] { false }, tuple1.toArray());
+        assertArrayEquals(new boolean[] { false }, tuple1.toArray());
+
+        BooleanTuple.BooleanTuple2 tuple2 = new BooleanTuple.BooleanTuple2();
+        assertArrayEquals(new boolean[] { false, false }, tuple2.toArray());
+        assertArrayEquals(new boolean[] { false, false }, tuple2.toArray());
+
+        BooleanTuple.BooleanTuple3 tuple3 = new BooleanTuple.BooleanTuple3();
+        assertArrayEquals(new boolean[] { false, false, false }, tuple3.toArray());
+        assertArrayEquals(new boolean[] { false, false, false }, tuple3.toArray());
+
+        BooleanTuple.BooleanTuple4 tuple4 = new BooleanTuple.BooleanTuple4();
+        assertArrayEquals(new boolean[] { false, false, false, false }, tuple4.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false }, tuple4.toArray());
+
+        BooleanTuple.BooleanTuple5 tuple5 = new BooleanTuple.BooleanTuple5();
+        assertArrayEquals(new boolean[] { false, false, false, false, false }, tuple5.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false }, tuple5.toArray());
+
+        BooleanTuple.BooleanTuple6 tuple6 = new BooleanTuple.BooleanTuple6();
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false }, tuple6.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false }, tuple6.toArray());
+
+        BooleanTuple.BooleanTuple7 tuple7 = new BooleanTuple.BooleanTuple7();
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false, false }, tuple7.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false, false }, tuple7.toArray());
+
+        BooleanTuple.BooleanTuple8 tuple8 = new BooleanTuple.BooleanTuple8();
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false, false, false }, tuple8.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false, false, false }, tuple8.toArray());
+
+        BooleanTuple.BooleanTuple9 tuple9 = new BooleanTuple.BooleanTuple9();
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false, false, false, false }, tuple9.toArray());
+        assertArrayEquals(new boolean[] { false, false, false, false, false, false, false, false, false }, tuple9.toArray());
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityContainsAndHashCode() {
+        BooleanTuple.BooleanTuple4 tuple4 = BooleanTuple.of(false, false, false, true);
+        assertTrue(tuple4.contains(true));
+        assertEquals(BooleanTuple.of(false, false, false, false).hashCode(), new BooleanTuple.BooleanTuple4().hashCode());
+
+        BooleanTuple.BooleanTuple5 tuple5 = BooleanTuple.of(false, false, false, false, true);
+        assertTrue(tuple5.contains(true));
+        assertEquals(BooleanTuple.of(false, false, false, false, false).hashCode(), new BooleanTuple.BooleanTuple5().hashCode());
+
+        BooleanTuple.BooleanTuple6 tuple6 = BooleanTuple.of(false, false, false, false, false, true);
+        assertTrue(tuple6.contains(true));
+        assertEquals(BooleanTuple.of(false, false, false, false, false, false).hashCode(), new BooleanTuple.BooleanTuple6().hashCode());
+
+        BooleanTuple.BooleanTuple7 tuple7 = BooleanTuple.of(false, false, false, false, false, false, true);
+        assertTrue(tuple7.contains(true));
+        assertEquals(BooleanTuple.of(false, false, false, false, false, false, false).hashCode(), new BooleanTuple.BooleanTuple7().hashCode());
+
+        BooleanTuple.BooleanTuple8 tuple8 = BooleanTuple.of(false, false, false, false, false, false, false, true);
+        assertTrue(tuple8.contains(true));
+        assertEquals(BooleanTuple.of(false, false, false, false, false, false, false, false).hashCode(), new BooleanTuple.BooleanTuple8().hashCode());
+
+        BooleanTuple.BooleanTuple9 tuple9 = BooleanTuple.of(false, false, false, false, false, false, false, false, true);
+        assertTrue(tuple9.contains(true));
+        assertEquals(BooleanTuple.of(false, false, false, false, false, false, false, false, false).hashCode(), new BooleanTuple.BooleanTuple9().hashCode());
+    }
+
+    @Test
+    public void testCoverageRegression_HighArityEqualsBranches() {
+        BooleanTuple.BooleanTuple4 tuple4 = BooleanTuple.of(true, false, true, false);
+        assertTrue(tuple4.equals(tuple4));
+        assertTrue(tuple4.equals(BooleanTuple.of(true, false, true, false)));
+        assertFalse(tuple4.equals(BooleanTuple.of(true, false, true, true)));
+        assertFalse(tuple4.equals("tuple4"));
+
+        BooleanTuple.BooleanTuple5 tuple5 = BooleanTuple.of(true, false, true, false, true);
+        assertTrue(tuple5.equals(tuple5));
+        assertTrue(tuple5.equals(BooleanTuple.of(true, false, true, false, true)));
+        assertFalse(tuple5.equals(BooleanTuple.of(true, false, true, false, false)));
+        assertFalse(tuple5.equals("tuple5"));
+
+        BooleanTuple.BooleanTuple6 tuple6 = BooleanTuple.of(true, false, true, false, true, false);
+        assertTrue(tuple6.equals(tuple6));
+        assertTrue(tuple6.equals(BooleanTuple.of(true, false, true, false, true, false)));
+        assertFalse(tuple6.equals(BooleanTuple.of(true, false, true, false, true, true)));
+        assertFalse(tuple6.equals("tuple6"));
+
+        BooleanTuple.BooleanTuple7 tuple7 = BooleanTuple.of(true, false, true, false, true, false, true);
+        assertTrue(tuple7.equals(tuple7));
+        assertTrue(tuple7.equals(BooleanTuple.of(true, false, true, false, true, false, true)));
+        assertFalse(tuple7.equals(BooleanTuple.of(true, false, true, false, true, false, false)));
+        assertFalse(tuple7.equals("tuple7"));
+
+        BooleanTuple.BooleanTuple8 tuple8 = BooleanTuple.of(true, false, true, false, true, false, true, false);
+        assertTrue(tuple8.equals(tuple8));
+        assertTrue(tuple8.equals(BooleanTuple.of(true, false, true, false, true, false, true, false)));
+        assertFalse(tuple8.equals(BooleanTuple.of(true, false, true, false, true, false, true, true)));
+        assertFalse(tuple8.equals("tuple8"));
+
+        BooleanTuple.BooleanTuple9 tuple9 = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+        assertTrue(tuple9.equals(tuple9));
+        assertTrue(tuple9.equals(BooleanTuple.of(true, false, true, false, true, false, true, false, true)));
+        assertFalse(tuple9.equals(BooleanTuple.of(true, false, true, false, true, false, true, false, false)));
+        assertFalse(tuple9.equals("tuple9"));
     }
 
 }
