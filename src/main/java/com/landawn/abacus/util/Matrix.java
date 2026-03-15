@@ -3227,7 +3227,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param columnNames the names to assign to each column in the resulting Dataset
-     * @return a {@link com.landawn.abacus.DataSet Dataset} containing the matrix data with the specified column names
+     * @return a Dataset containing the matrix data with the specified column names
      * @throws IllegalArgumentException if {@code columnNames} is {@code null}, or if its size doesn't match the column count
      * @see Dataset
      */
@@ -3276,7 +3276,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param columnNames the collection of column names to use for the Dataset
-     * @return a {@link com.landawn.abacus.DataSet Dataset} containing the matrix data organized vertically
+     * @return a Dataset containing the matrix data organized vertically
      * @throws IllegalArgumentException if {@code columnNames} is {@code null}, or if the number of column names doesn't match the number of rows in the matrix
      * @see Dataset
      * @see RowDataset

@@ -5907,4 +5907,151 @@ class ByteMatrixTest extends TestBase {
         }
     }
 
+    // === Missing coverage: resize, copyFrom, flipInPlace ===
+
+    @Test
+    public void testResize_expand() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
+        ByteMatrix resized = m.resize(3, 3);
+        assertEquals(3, resized.rowCount());
+        assertEquals(3, resized.columnCount());
+        assertEquals(1, resized.get(0, 0));
+        assertEquals(2, resized.get(0, 1));
+        assertEquals(0, resized.get(0, 2));
+        assertEquals(3, resized.get(1, 0));
+        assertEquals(0, resized.get(2, 0));
+        assertEquals(0, resized.get(2, 2));
+    }
+
+    @Test
+    public void testResize_shrink() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+        ByteMatrix resized = m.resize(2, 2);
+        assertEquals(2, resized.rowCount());
+        assertEquals(2, resized.columnCount());
+        assertEquals(1, resized.get(0, 0));
+        assertEquals(2, resized.get(0, 1));
+        assertEquals(4, resized.get(1, 0));
+        assertEquals(5, resized.get(1, 1));
+    }
+
+    @Test
+    public void testResize_withDefaultValue() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1 } });
+        ByteMatrix resized = m.resize(2, 3, (byte) 99);
+        assertEquals(2, resized.rowCount());
+        assertEquals(3, resized.columnCount());
+        assertEquals(1, resized.get(0, 0));
+        assertEquals(99, resized.get(0, 1));
+        assertEquals(99, resized.get(0, 2));
+        assertEquals(99, resized.get(1, 0));
+        assertEquals(99, resized.get(1, 1));
+        assertEquals(99, resized.get(1, 2));
+    }
+
+    @Test
+    public void testResize_toEmpty() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
+        ByteMatrix resized = m.resize(0, 0);
+        assertEquals(0, resized.rowCount());
+        assertTrue(resized.isEmpty());
+    }
+
+    @Test
+    public void testResize_negativeThrows() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1 } });
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(1, -1));
+    }
+
+    @Test
+    public void testCopyFrom_fullOverwrite() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0 }, { 0, 0 } });
+        m.copyFrom(new byte[][] { { 10, 20 }, { 30, 40 } });
+        assertEquals(10, m.get(0, 0));
+        assertEquals(20, m.get(0, 1));
+        assertEquals(30, m.get(1, 0));
+        assertEquals(40, m.get(1, 1));
+    }
+
+    @Test
+    public void testCopyFrom_partialOverwrite() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } });
+        m.copyFrom(new byte[][] { { 1, 2 }, { 3, 4 } });
+        assertEquals(1, m.get(0, 0));
+        assertEquals(2, m.get(0, 1));
+        assertEquals(0, m.get(0, 2));
+        assertEquals(3, m.get(1, 0));
+        assertEquals(4, m.get(1, 1));
+        assertEquals(0, m.get(2, 0));
+    }
+
+    @Test
+    public void testCopyFrom_withOffset() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } });
+        m.copyFrom(1, 1, new byte[][] { { 5, 6 }, { 7, 8 } });
+        assertEquals(0, m.get(0, 0));
+        assertEquals(0, m.get(1, 0));
+        assertEquals(5, m.get(1, 1));
+        assertEquals(6, m.get(1, 2));
+        assertEquals(7, m.get(2, 1));
+        assertEquals(8, m.get(2, 2));
+    }
+
+    @Test
+    public void testCopyFrom_emptySource() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
+        m.copyFrom(new byte[0][0]);
+        assertEquals(1, m.get(0, 0));
+        assertEquals(4, m.get(1, 1));
+    }
+
+    @Test
+    public void testCopyFrom_negativeIndexThrows() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1 } });
+        assertThrows(IllegalArgumentException.class, () -> m.copyFrom(-1, 0, new byte[][] { { 1 } }));
+        assertThrows(IllegalArgumentException.class, () -> m.copyFrom(0, -1, new byte[][] { { 1 } }));
+    }
+
+    @Test
+    public void testFlipInPlaceHorizontally() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        m.flipInPlaceHorizontally();
+        assertEquals(3, m.get(0, 0));
+        assertEquals(2, m.get(0, 1));
+        assertEquals(1, m.get(0, 2));
+        assertEquals(6, m.get(1, 0));
+        assertEquals(5, m.get(1, 1));
+        assertEquals(4, m.get(1, 2));
+    }
+
+    @Test
+    public void testFlipInPlaceHorizontally_singleColumn() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1 }, { 2 } });
+        m.flipInPlaceHorizontally();
+        assertEquals(1, m.get(0, 0));
+        assertEquals(2, m.get(1, 0));
+    }
+
+    @Test
+    public void testFlipInPlaceVertically() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+        m.flipInPlaceVertically();
+        assertEquals(5, m.get(0, 0));
+        assertEquals(6, m.get(0, 1));
+        assertEquals(3, m.get(1, 0));
+        assertEquals(4, m.get(1, 1));
+        assertEquals(1, m.get(2, 0));
+        assertEquals(2, m.get(2, 1));
+    }
+
+    @Test
+    public void testFlipInPlaceVertically_singleRow() {
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 } });
+        m.flipInPlaceVertically();
+        assertEquals(1, m.get(0, 0));
+        assertEquals(2, m.get(0, 1));
+        assertEquals(3, m.get(0, 2));
+    }
+
 }

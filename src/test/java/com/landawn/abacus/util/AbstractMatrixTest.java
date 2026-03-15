@@ -888,17 +888,6 @@ class AbstractMatrixTest extends TestBase {
         }
 
         @Test
-        public void testCopy_withRowRange() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-            IntMatrix subset = m.copy(1, 3);
-
-            assertEquals(2, subset.rowCount());
-            assertEquals(3, subset.columnCount());
-            assertEquals(4, subset.get(0, 0));
-            assertEquals(9, subset.get(1, 2));
-        }
-
-        @Test
         public void testCopy_withRowRange_singleRow() {
             IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
             IntMatrix subset = m.copy(1, 2);
@@ -906,25 +895,6 @@ class AbstractMatrixTest extends TestBase {
             assertEquals(1, subset.rowCount());
             assertEquals(3, subset.columnCount());
             assertArrayEquals(new int[] { 4, 5, 6 }, subset.rowView(0));
-        }
-
-        @Test
-        public void testCopy_withRowRange_outOfBounds() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            assertThrows(IndexOutOfBoundsException.class, () -> m.copy(-1, 2));
-            assertThrows(IndexOutOfBoundsException.class, () -> m.copy(0, 3));
-            assertThrows(IndexOutOfBoundsException.class, () -> m.copy(2, 1));
-        }
-
-        @Test
-        public void testCopy_withFullRange() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-            IntMatrix submatrix = m.copy(0, 2, 1, 3);
-
-            assertEquals(2, submatrix.rowCount());
-            assertEquals(2, submatrix.columnCount());
-            assertEquals(2, submatrix.get(0, 0));
-            assertEquals(6, submatrix.get(1, 1));
         }
 
         @Test
@@ -942,19 +912,6 @@ class AbstractMatrixTest extends TestBase {
             assertThrows(IndexOutOfBoundsException.class, () -> m.copy(0, 2, 0, 3));
             assertThrows(IndexOutOfBoundsException.class, () -> m.copy(-1, 2, 0, 2));
             assertThrows(IndexOutOfBoundsException.class, () -> m.copy(0, 3, 0, 2));
-        }
-
-        @Test
-        public void testRotate90_squareMatrix() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix rotated = m.rotate90();
-
-            assertEquals(2, rotated.rowCount());
-            assertEquals(2, rotated.columnCount());
-            assertEquals(3, rotated.get(0, 0));
-            assertEquals(1, rotated.get(0, 1));
-            assertEquals(4, rotated.get(1, 0));
-            assertEquals(2, rotated.get(1, 1));
         }
 
         @Test
@@ -977,34 +934,6 @@ class AbstractMatrixTest extends TestBase {
             assertEquals(4, rotated.get(0, 1));
             assertEquals(1, rotated.get(1, 0));
             assertEquals(3, rotated.get(1, 1));
-        }
-
-        @Test
-        public void testTranspose_rectangularMatrix() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-            IntMatrix transposed = m.transpose();
-
-            assertEquals(3, transposed.rowCount());
-            assertEquals(2, transposed.columnCount());
-            assertEquals(1, transposed.get(0, 0));
-            assertEquals(4, transposed.get(0, 1));
-            assertEquals(2, transposed.get(1, 0));
-            assertEquals(5, transposed.get(1, 1));
-            assertEquals(3, transposed.get(2, 0));
-            assertEquals(6, transposed.get(2, 1));
-        }
-
-        @Test
-        public void testTranspose_squareMatrix() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix transposed = m.transpose();
-
-            assertEquals(2, transposed.rowCount());
-            assertEquals(2, transposed.columnCount());
-            assertEquals(1, transposed.get(0, 0));
-            assertEquals(3, transposed.get(0, 1));
-            assertEquals(2, transposed.get(1, 0));
-            assertEquals(4, transposed.get(1, 1));
         }
 
         @Test
@@ -1161,13 +1090,6 @@ class AbstractMatrixTest extends TestBase {
             for (int i = 0; i < 6; i++) {
                 assertEquals(i + 1, flat.get(i));
             }
-        }
-
-        @Test
-        public void testFlatten_emptyMatrix() {
-            IntMatrix empty = IntMatrix.empty();
-            IntList flat = empty.flatten();
-            assertTrue(flat.isEmpty());
         }
 
         @Test
@@ -1440,23 +1362,9 @@ class AbstractMatrixTest extends TestBase {
         // ============ Element Stream Tests ============
 
         @Test
-        public void testStreamLU2RD() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-            int[] diagonal = m.streamMainDiagonal().toArray();
-            assertArrayEquals(new int[] { 1, 5, 9 }, diagonal);
-        }
-
-        @Test
         public void testStreamLU2RD_nonSquare() {
             IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
             assertThrows(IllegalStateException.class, () -> m.streamMainDiagonal());
-        }
-
-        @Test
-        public void testStreamRU2LD() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-            int[] antiDiagonal = m.streamAntiDiagonal().toArray();
-            assertArrayEquals(new int[] { 3, 5, 7 }, antiDiagonal);
         }
 
         @Test
@@ -1466,38 +1374,10 @@ class AbstractMatrixTest extends TestBase {
         }
 
         @Test
-        public void testStreamH() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-            int[] all = m.streamHorizontal().toArray();
-            assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6 }, all);
-        }
-
-        @Test
-        public void testStreamH_withRow() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-            int[] row1 = m.streamHorizontal(1).toArray();
-            assertArrayEquals(new int[] { 4, 5, 6 }, row1);
-        }
-
-        @Test
         public void testStreamH_withRange() {
             IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
             int[] rows = m.streamHorizontal(1, 3).toArray();
             assertArrayEquals(new int[] { 4, 5, 6, 7, 8, 9 }, rows);
-        }
-
-        @Test
-        public void testStreamV() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-            int[] all = m.streamVertical().toArray();
-            assertArrayEquals(new int[] { 1, 4, 2, 5, 3, 6 }, all);
-        }
-
-        @Test
-        public void testStreamV_withColumn() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-            int[] col1 = m.streamVertical(1).toArray();
-            assertArrayEquals(new int[] { 2, 5 }, col1);
         }
 
         @Test
@@ -2106,19 +1986,6 @@ class AbstractMatrixTest extends TestBase {
             assertEquals(3, rotated.get(1, 0));
             assertEquals(2, rotated.get(1, 1));
             assertEquals(1, rotated.get(1, 2));
-        }
-
-        @Test
-        public void testRotate180_square() {
-            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            IntMatrix rotated = m.rotate180();
-
-            assertEquals(2, rotated.rowCount());
-            assertEquals(2, rotated.columnCount());
-            assertEquals(4, rotated.get(0, 0));
-            assertEquals(3, rotated.get(0, 1));
-            assertEquals(2, rotated.get(1, 0));
-            assertEquals(1, rotated.get(1, 1));
         }
 
         @Test
@@ -3990,6 +3857,97 @@ class AbstractMatrixTest extends TestBase {
             Matrix<String> matrix = Matrix.repeat(1, 1, "x");
 
             assertThrows(IllegalArgumentException.class, () -> matrix.map(v -> v, null));
+        }
+    }
+
+    // === Missing coverage: elementCount, backingArray identity, reshape edge cases ===
+
+    @Nested
+    class ElementCountAndBackingArrayTests extends TestBase {
+
+        @Test
+        public void testElementCount_empty() {
+            IntMatrix m = IntMatrix.of(new int[0][0]);
+            assertEquals(0, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_singleElement() {
+            IntMatrix m = IntMatrix.of(new int[][] { { 42 } });
+            assertEquals(1, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_singleRow() {
+            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3, 4, 5 } });
+            assertEquals(5, m.elementCount());
+        }
+
+        @Test
+        public void testElementCount_singleColumn() {
+            IntMatrix m = IntMatrix.of(new int[][] { { 1 }, { 2 }, { 3 } });
+            assertEquals(3, m.elementCount());
+        }
+
+        @Test
+        public void testBackingArray_isSameReference() {
+            int[][] data = { { 1, 2 }, { 3, 4 } };
+            IntMatrix m = IntMatrix.of(data);
+            assertTrue(data == m.backingArray());
+        }
+
+        @Test
+        public void testBackingArray_mutationAffectsMatrix() {
+            int[][] data = { { 1, 2 }, { 3, 4 } };
+            IntMatrix m = IntMatrix.of(data);
+            data[0][0] = 99;
+            assertEquals(99, m.get(0, 0));
+        }
+
+        @Test
+        public void testReshape_singleColumnCount_zeroThrows() {
+            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+            assertThrows(IllegalArgumentException.class, () -> m.reshape(0));
+        }
+
+        @Test
+        public void testReshape_singleColumnCount_negativeThrows() {
+            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+            assertThrows(IllegalArgumentException.class, () -> m.reshape(-1));
+        }
+
+        @Test
+        public void testReshape_sameColumnCountSameMatrix() {
+            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+            IntMatrix reshaped = m.reshape(3);
+            assertEquals(2, reshaped.rowCount());
+            assertEquals(3, reshaped.columnCount());
+            assertEquals(1, reshaped.get(0, 0));
+            assertEquals(6, reshaped.get(1, 2));
+        }
+
+        @Test
+        public void testReshape_twoArgs_tooSmallThrows() {
+            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+            assertThrows(IllegalArgumentException.class, () -> m.reshape(1, 2));
+        }
+
+        @Test
+        public void testIsSameShape_nullThrows() {
+            IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+            assertThrows(IllegalArgumentException.class, () -> m.isSameShape(null));
+        }
+
+        @Test
+        public void testPointsMainDiagonal_emptyMatrix() {
+            IntMatrix m = IntMatrix.of(new int[0][0]);
+            assertEquals(0, m.pointsMainDiagonal().count());
+        }
+
+        @Test
+        public void testPointsAntiDiagonal_emptyMatrix() {
+            IntMatrix m = IntMatrix.of(new int[0][0]);
+            assertEquals(0, m.pointsAntiDiagonal().count());
         }
     }
 

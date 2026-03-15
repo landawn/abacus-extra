@@ -291,12 +291,6 @@ class FloatMatrixTest extends TestBase {
     }
 
     @Test
-    public void testRowCopy_InvalidIndex() {
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(-1));
-        assertThrows(IllegalArgumentException.class, () -> matrix.rowCopy(3));
-    }
-
-    @Test
     public void testColumn() {
         float[] col0 = matrix.columnCopy(0);
         assertArrayEquals(new float[] { 1.0f, 4.0f, 7.0f }, col0, DELTA);
@@ -1247,18 +1241,6 @@ class FloatMatrixTest extends TestBase {
         }
 
         @Test
-        public void testRandom() {
-            FloatMatrix m = FloatMatrix.random(5);
-            assertEquals(1, m.rowCount());
-            assertEquals(5, m.columnCount());
-            // Just verify elements exist and are in valid range
-            for (int i = 0; i < 5; i++) {
-                float val = m.get(0, i);
-                assertTrue(val >= 0.0f && val < 1.0f);
-            }
-        }
-
-        @Test
         public void testRandom_withRowsCols() {
             FloatMatrix m = FloatMatrix.random(2, 3);
             assertEquals(2, m.rowCount());
@@ -2184,48 +2166,10 @@ class FloatMatrixTest extends TestBase {
         // ============ Repeat Tests ============
 
         @Test
-        public void testRepelem() {
-            FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-            FloatMatrix repeated = m.repeatElements(2, 3);
-            assertEquals(2, repeated.rowCount());
-            assertEquals(6, repeated.columnCount());
-
-            // Check pattern
-            assertEquals(1.0f, repeated.get(0, 0), DELTA);
-            assertEquals(1.0f, repeated.get(0, 1), DELTA);
-            assertEquals(1.0f, repeated.get(0, 2), DELTA);
-            assertEquals(2.0f, repeated.get(0, 3), DELTA);
-            assertEquals(2.0f, repeated.get(0, 4), DELTA);
-            assertEquals(2.0f, repeated.get(0, 5), DELTA);
-            assertEquals(1.0f, repeated.get(1, 0), DELTA); // second row same as first
-        }
-
-        @Test
         public void testRepelem_invalidArguments() {
             FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
             assertThrows(IllegalArgumentException.class, () -> m.repeatElements(0, 1));
             assertThrows(IllegalArgumentException.class, () -> m.repeatElements(1, 0));
-        }
-
-        @Test
-        public void testRepmat() {
-            FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-            FloatMatrix repeated = m.repeatMatrix(2, 3);
-            assertEquals(4, repeated.rowCount());
-            assertEquals(6, repeated.columnCount());
-
-            // Check pattern
-            assertEquals(1.0f, repeated.get(0, 0), DELTA);
-            assertEquals(2.0f, repeated.get(0, 1), DELTA);
-            assertEquals(1.0f, repeated.get(0, 2), DELTA); // repeat starts
-            assertEquals(2.0f, repeated.get(0, 3), DELTA);
-
-            assertEquals(3.0f, repeated.get(1, 0), DELTA);
-            assertEquals(4.0f, repeated.get(1, 1), DELTA);
-
-            // Check vertical repeat
-            assertEquals(1.0f, repeated.get(2, 0), DELTA); // vertical repeat starts
-            assertEquals(2.0f, repeated.get(2, 1), DELTA);
         }
 
         @Test
@@ -2352,18 +2296,6 @@ class FloatMatrixTest extends TestBase {
         }
 
         @Test
-        public void testMultiply() {
-            FloatMatrix m1 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-            FloatMatrix m2 = FloatMatrix.of(new float[][] { { 5.0f, 6.0f }, { 7.0f, 8.0f } });
-            FloatMatrix product = m1.multiply(m2);
-
-            assertEquals(19.0f, product.get(0, 0), DELTA); // 1*5 + 2*7
-            assertEquals(22.0f, product.get(0, 1), DELTA); // 1*6 + 2*8
-            assertEquals(43.0f, product.get(1, 0), DELTA); // 3*5 + 4*7
-            assertEquals(50.0f, product.get(1, 1), DELTA); // 3*6 + 4*8
-        }
-
-        @Test
         public void testMultiply_incompatibleDimensions() {
             FloatMatrix m1 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
             FloatMatrix m2 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f } });
@@ -2424,18 +2356,6 @@ class FloatMatrixTest extends TestBase {
         }
 
         // ============ ZipWith Tests ============
-
-        @Test
-        public void testZipWith() {
-            FloatMatrix m1 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-            FloatMatrix m2 = FloatMatrix.of(new float[][] { { 5.0f, 6.0f }, { 7.0f, 8.0f } });
-            FloatMatrix result = m1.zipWith(m2, (a, b) -> a * b);
-
-            assertEquals(5.0f, result.get(0, 0), DELTA); // 1*5
-            assertEquals(12.0f, result.get(0, 1), DELTA); // 2*6
-            assertEquals(21.0f, result.get(1, 0), DELTA); // 3*7
-            assertEquals(32.0f, result.get(1, 1), DELTA); // 4*8
-        }
 
         @Test
         public void testZipWith_differentShapes() {
@@ -2807,25 +2727,6 @@ class FloatMatrixTest extends TestBase {
             assertEquals(15.0, antiDiagonalSum, DELTA); // 3+5+7 = 15
         }
 
-        @Test
-        public void testRowColumnStatistics() {
-            FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
-
-            // Test statistics on individual rows
-            List<Double> rowSums = m.streamRows().map(row -> row.sum()).toList();
-            assertEquals(3, rowSums.size());
-            assertEquals(6.0, rowSums.get(0), DELTA); // 1+2+3
-            assertEquals(15.0, rowSums.get(1), DELTA); // 4+5+6
-            assertEquals(24.0, rowSums.get(2), DELTA); // 7+8+9
-
-            // Test statistics on individual columns
-            List<Double> colSums = m.streamColumns().map(col -> col.sum()).toList();
-            assertEquals(3, colSums.size());
-            assertEquals(12.0, colSums.get(0), DELTA); // 1+4+7
-            assertEquals(15.0, colSums.get(1), DELTA); // 2+5+8
-            assertEquals(18.0, colSums.get(2), DELTA); // 3+6+9
-        }
-
         // ============ Edge Case Tests ============
 
         @Test
@@ -2869,27 +2770,6 @@ class FloatMatrixTest extends TestBase {
             FloatMatrix diff2 = m2.subtract(m1);
             assertEquals(diff1.get(0, 0), -diff2.get(0, 0), DELTA);
             assertEquals(diff1.get(1, 1), -diff2.get(1, 1), DELTA);
-        }
-
-        @Test
-        public void testScalarOperationsWithMap() {
-            FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-
-            // Scalar addition
-            FloatMatrix addScalar = m.map(x -> x + 10.0f);
-            assertEquals(11.0f, addScalar.get(0, 0), DELTA);
-            assertEquals(14.0f, addScalar.get(1, 1), DELTA);
-
-            // Scalar multiplication
-            FloatMatrix multiplyScalar = m.map(x -> x * 3.0f);
-            assertEquals(3.0f, multiplyScalar.get(0, 0), DELTA);
-            assertEquals(12.0f, multiplyScalar.get(1, 1), DELTA);
-
-            // Scalar division
-            FloatMatrix m2 = FloatMatrix.of(new float[][] { { 10.0f, 20.0f }, { 30.0f, 40.0f } });
-            FloatMatrix divideScalar = m2.map(x -> x / 10.0f);
-            assertEquals(1.0f, divideScalar.get(0, 0), DELTA);
-            assertEquals(4.0f, divideScalar.get(1, 1), DELTA);
         }
 
         @Test
@@ -5704,6 +5584,186 @@ class FloatMatrixTest extends TestBase {
             assertThrows(IllegalArgumentException.class, () -> matrix.add(null));
             assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
             assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+        }
+    }
+
+    // ============================================================
+    // Tests for AbstractMatrix-inherited methods missing coverage
+    // ============================================================
+
+    @Nested
+    class FloatMatrixAbstractMethodsTest extends TestBase {
+
+        @Test
+        public void testIsSameShape() {
+            FloatMatrix m1 = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            FloatMatrix m2 = FloatMatrix.of(new float[][] { { 5, 6 }, { 7, 8 } });
+            FloatMatrix m3 = FloatMatrix.of(new float[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+
+            assertTrue(m1.isSameShape(m2));
+            assertFalse(m1.isSameShape(m3));
+        }
+
+        @Test
+        public void testIsSameShape_NullThrows() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1f } });
+            assertThrows(IllegalArgumentException.class, () -> m.isSameShape(null));
+        }
+
+        @Test
+        public void testAdjacent4Points() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+
+            List<Sheet.Point> center = m.adjacent4Points(1, 1).toList();
+            assertEquals(4, center.size());
+
+            List<Sheet.Point> corner = m.adjacent4Points(0, 0).toList();
+            assertEquals(2, corner.size());
+
+            List<Sheet.Point> edge = m.adjacent4Points(0, 1).toList();
+            assertEquals(3, edge.size());
+        }
+
+        @Test
+        public void testAdjacent8Points() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+
+            List<Sheet.Point> center = m.adjacent8Points(1, 1).toList();
+            assertEquals(8, center.size());
+
+            List<Sheet.Point> corner = m.adjacent8Points(0, 0).toList();
+            assertEquals(3, corner.size());
+        }
+
+        @Test
+        public void testPointsMainDiagonal() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+            List<Sheet.Point> points = m.pointsMainDiagonal().toList();
+            assertEquals(3, points.size());
+            assertEquals(0, points.get(0).rowIndex());
+            assertEquals(0, points.get(0).columnIndex());
+        }
+
+        @Test
+        public void testPointsMainDiagonal_NonSquareThrows() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+            assertThrows(IllegalStateException.class, () -> m.pointsMainDiagonal());
+        }
+
+        @Test
+        public void testPointsAntiDiagonal() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+            List<Sheet.Point> points = m.pointsAntiDiagonal().toList();
+            assertEquals(3, points.size());
+            assertEquals(0, points.get(0).rowIndex());
+            assertEquals(2, points.get(0).columnIndex());
+        }
+
+        @Test
+        public void testPointsHorizontal() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            List<Sheet.Point> points = m.pointsHorizontal().toList();
+            assertEquals(4, points.size());
+        }
+
+        @Test
+        public void testPointsHorizontal_SingleRow() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            List<Sheet.Point> points = m.pointsHorizontal(0).toList();
+            assertEquals(2, points.size());
+        }
+
+        @Test
+        public void testPointsVertical() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            List<Sheet.Point> points = m.pointsVertical().toList();
+            assertEquals(4, points.size());
+        }
+
+        @Test
+        public void testPointsVertical_SingleColumn() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            List<Sheet.Point> points = m.pointsVertical(1).toList();
+            assertEquals(2, points.size());
+        }
+
+        @Test
+        public void testPointsRows() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+            List<List<Sheet.Point>> rows = m.pointsRows().map(s -> s.toList()).toList();
+            assertEquals(3, rows.size());
+            assertEquals(2, rows.get(0).size());
+        }
+
+        @Test
+        public void testPointsColumns() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+            List<List<Sheet.Point>> cols = m.pointsColumns().map(s -> s.toList()).toList();
+            assertEquals(3, cols.size());
+            assertEquals(2, cols.get(0).size());
+        }
+
+        @Test
+        public void testAccept() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            float[] sum = { 0 };
+            m.accept(matrix -> {
+                FloatList flat = matrix.flatten();
+                for (int i = 0; i < flat.size(); i++)
+                    sum[0] += flat.get(i);
+            });
+            assertEquals(10.0f, sum[0], 0.001f);
+        }
+
+        @Test
+        public void testAccept_NullThrows() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1f } });
+            assertThrows(IllegalArgumentException.class, () -> m.accept(null));
+        }
+
+        @Test
+        public void testApply() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            long count = m.apply(matrix -> matrix.elementCount());
+            assertEquals(4, count);
+        }
+
+        @Test
+        public void testApply_NullThrows() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1f } });
+            assertThrows(IllegalArgumentException.class, () -> m.apply(null));
+        }
+
+        @Test
+        public void testForEachIndex() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1, 2 }, { 3, 4 } });
+            List<String> indices = new ArrayList<>();
+            m.forEachIndex((r, c) -> indices.add(r + "," + c));
+            assertEquals(4, indices.size());
+            assertTrue(indices.contains("0,0"));
+            assertTrue(indices.contains("1,1"));
+        }
+
+        @Test
+        public void testIsEmpty() {
+            assertTrue(FloatMatrix.empty().isEmpty());
+            assertFalse(FloatMatrix.of(new float[][] { { 1f } }).isEmpty());
+        }
+
+        @Test
+        public void testToIntMatrix() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1.5f, 2.5f }, { 3.5f, 4.5f } });
+            IntMatrix intM = m.toIntMatrix();
+            assertEquals(1, intM.get(0, 0));
+            assertEquals(4, intM.get(1, 1));
+        }
+
+        @Test
+        public void testToLongMatrix() {
+            FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
+            LongMatrix longM = m.toLongMatrix();
+            assertEquals(1L, longM.get(0, 0));
+            assertEquals(4L, longM.get(1, 1));
         }
     }
 

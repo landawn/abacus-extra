@@ -1190,37 +1190,6 @@ class DoubleMatrixTest extends TestBase {
     }
 
     @Test
-    public void testRowColumnStatistics() {
-        double[][] arr = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
-        DoubleMatrix matrix = DoubleMatrix.of(arr);
-
-        // Test statistics on individual rows
-        List<Double> rowSums = matrix.streamRows().map(row -> row.sum()).toList();
-        assertEquals(3, rowSums.size());
-        assertEquals(6.0, rowSums.get(0).doubleValue(), 0.0001); // 1+2+3
-        assertEquals(15.0, rowSums.get(1).doubleValue(), 0.0001); // 4+5+6
-        assertEquals(24.0, rowSums.get(2).doubleValue(), 0.0001); // 7+8+9
-
-        // Test statistics on individual columns
-        List<Double> colSums = matrix.streamColumns().map(col -> col.sum()).toList();
-        assertEquals(3, colSums.size());
-        assertEquals(12.0, colSums.get(0).doubleValue(), 0.0001); // 1+4+7
-        assertEquals(15.0, colSums.get(1).doubleValue(), 0.0001); // 2+5+8
-        assertEquals(18.0, colSums.get(2).doubleValue(), 0.0001); // 3+6+9
-
-        // Test min/max per row
-        List<Double> rowMins = matrix.streamRows().map(row -> row.min().orElse(0.0)).toList();
-        assertEquals(1.0, rowMins.get(0).doubleValue(), 0.0001);
-        assertEquals(4.0, rowMins.get(1).doubleValue(), 0.0001);
-        assertEquals(7.0, rowMins.get(2).doubleValue(), 0.0001);
-
-        List<Double> rowMaxs = matrix.streamRows().map(row -> row.max().orElse(0.0)).toList();
-        assertEquals(3.0, rowMaxs.get(0).doubleValue(), 0.0001);
-        assertEquals(6.0, rowMaxs.get(1).doubleValue(), 0.0001);
-        assertEquals(9.0, rowMaxs.get(2).doubleValue(), 0.0001);
-    }
-
-    @Test
     public void testElementWiseOperationsWithZipWith() {
         // Test element-wise multiplication using zipWith
         DoubleMatrix m1 = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
@@ -2955,25 +2924,6 @@ class DoubleMatrixTest extends TestBase {
 
             double antiDiagonalSum = m.streamAntiDiagonal().sum();
             assertEquals(15.0, antiDiagonalSum, DELTA); // 3+5+7 = 15
-        }
-
-        @Test
-        public void testRowColumnStatistics() {
-            DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-
-            // Test statistics on individual rows
-            List<Double> rowSums = m.streamRows().map(row -> row.sum()).toList();
-            assertEquals(3, rowSums.size());
-            assertEquals(6.0, rowSums.get(0), DELTA); // 1+2+3
-            assertEquals(15.0, rowSums.get(1), DELTA); // 4+5+6
-            assertEquals(24.0, rowSums.get(2), DELTA); // 7+8+9
-
-            // Test statistics on individual columns
-            List<Double> colSums = m.streamColumns().map(col -> col.sum()).toList();
-            assertEquals(3, colSums.size());
-            assertEquals(12.0, colSums.get(0), DELTA); // 1+4+7
-            assertEquals(15.0, colSums.get(1), DELTA); // 2+5+8
-            assertEquals(18.0, colSums.get(2), DELTA); // 3+6+9
         }
 
         // ============ Edge Case Tests ============

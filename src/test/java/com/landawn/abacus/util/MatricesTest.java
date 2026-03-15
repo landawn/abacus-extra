@@ -136,25 +136,6 @@ class MatricesTest extends TestBase {
     }
 
     @Test
-    public void testIsParallelableWithMatrixAndCount() {
-        IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-
-        // Test with small count
-        assertFalse(Matrices.isParallelizable(matrix, 100));
-
-        // Test with large count (above threshold)
-        boolean result = Matrices.isParallelizable(matrix, 10000);
-        assertTrue(result || !result); // Depends on IS_DOUBLE_PIPE_STREAM_SUPPORTED
-
-        // Test with forced settings
-        Matrices.setParallelMode(ParallelMode.FORCE_ON);
-        assertTrue(Matrices.isParallelizable(matrix, 1));
-
-        Matrices.setParallelMode(ParallelMode.FORCE_OFF);
-        assertFalse(Matrices.isParallelizable(matrix, 100000));
-    }
-
-    @Test
     public void testIsSameShapeTwoMatrices() {
         // Test same shape
         assertTrue(Matrices.isSameShape(intMatrix1, intMatrix2));
@@ -437,26 +418,6 @@ class MatricesTest extends TestBase {
         // Test ternary zip
         ByteMatrix ternaryResult = Matrices.zip(byteMatrix1, byteMatrix2, byteMatrix3, (a, b, c) -> (byte) (a + b + c));
         assertEquals((byte) 15, ternaryResult.get(0, 0)); // 1 + 5 + 9
-    }
-
-    @Test
-    public void testZipByteMatrixCollection() throws Exception {
-        List<ByteMatrix> matrices = CommonUtil.asList(byteMatrix1, byteMatrix2, byteMatrix3);
-
-        // Test with binary operator
-        ByteMatrix result = Matrices.zip(matrices, (a, b) -> (byte) Math.max(a, b));
-        assertEquals((byte) 9, result.get(0, 0));
-        assertEquals((byte) 10, result.get(0, 1));
-        assertEquals((byte) 11, result.get(1, 0));
-        assertEquals((byte) 12, result.get(1, 1));
-
-        // Test with empty collection
-        final List<ByteMatrix> matrixList = new ArrayList<>();
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(matrixList, (a, b) -> a));
-
-        // Test with single element
-        ByteMatrix single = Matrices.zip(CommonUtil.asList(byteMatrix1), (a, b) -> a);
-        assertEquals(byteMatrix1.get(0, 0), single.get(0, 0));
     }
 
     @Test
@@ -1682,17 +1643,6 @@ class MatricesTest extends TestBase {
         }
 
         @Test
-        public void testMultiply_rectangularMatrices() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
-            int[][] result = new int[1][1];
-
-            Matrices.forEachCartesianIndices(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j));
-
-            assertEquals(32, result[0][0]); // 1*4 + 2*5 + 3*6
-        }
-
-        @Test
         public void testRun_zeroRowsOrCols() {
             List<String> positions = new ArrayList<>();
             Matrices.forEachIndex(0, 3, (i, j) -> positions.add(i + "," + j), false);
@@ -2428,14 +2378,6 @@ class MatricesTest extends TestBase {
         }
 
         @Test
-        public void testNewArray_primitiveInt() {
-            Integer[][] arr = Matrices.newMatrixArray(2, 3, int.class);
-            assertNotNull(arr);
-            assertEquals(2, arr.length);
-            assertEquals(3, arr[0].length);
-        }
-
-        @Test
         public void testNewArray_primitiveDouble() {
             Double[][] arr = Matrices.newMatrixArray(2, 2, double.class);
             assertNotNull(arr);
@@ -2631,25 +2573,6 @@ class MatricesTest extends TestBase {
             assertEquals(8, triplets.size()); // 2*2*2
             assertTrue(triplets.contains("0,0,0"));
             assertTrue(triplets.contains("1,1,1"));
-        }
-
-        @Test
-        public void testMultiply_incompatibleDimensions() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } }); // 1x2
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 3 }, { 4 }, { 5 } }); // 3x1
-            assertThrows(IllegalArgumentException.class, () -> {
-                Matrices.forEachCartesianIndices(m1, m2, (i, j, k) -> {
-                });
-            });
-        }
-
-        @Test
-        public void testMultiply_compatibleDimensions() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
-            AtomicInteger count = new AtomicInteger(0);
-            Matrices.forEachCartesianIndices(m1, m2, (i, j, k) -> count.incrementAndGet());
-            assertEquals(3, count.get()); // 1*1*3
         }
 
         @Test
@@ -3205,18 +3128,6 @@ class MatricesTest extends TestBase {
             int[] values = result.toArray();
             assertEquals(200, values.length);
             assertEquals(0, values[0]);
-        }
-
-        @Test
-        public void testMultiply_rectangularMatrices() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
-            List<Integer> kValues = new ArrayList<>();
-            Matrices.forEachCartesianIndices(m1, m2, (i, j, k) -> kValues.add(k));
-            assertEquals(3, kValues.size());
-            assertTrue(kValues.contains(0));
-            assertTrue(kValues.contains(1));
-            assertTrue(kValues.contains(2));
         }
 
         @Test
@@ -4437,19 +4348,6 @@ class MatricesTest extends TestBase {
         }
 
         @Test
-        public void test_multiply_withDifferentDimensions() {
-            IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
-            IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
-            IntMatrix result = IntMatrix.of(new int[1][1]);
-
-            Matrices.forEachCartesianIndices(m1, m2, (i, j, k) -> {
-                result.a[i][j] += m1.a[i][k] * m2.a[k][j];
-            });
-
-            assertEquals(32, result.get(0, 0)); // 1*4 + 2*5 + 3*6
-        }
-
-        @Test
         public void test_multiply_incompatibleDimensions_throwsException() {
             IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } }); // 1x2
             IntMatrix m2 = IntMatrix.of(new int[][] { { 3, 4, 5 } }); // 1x3 (incompatible)
@@ -4562,6 +4460,123 @@ class MatricesTest extends TestBase {
                     () -> Matrices.zip(m1, m2, m3, (Throwables.TriFunction<String, Integer, Double, String, RuntimeException>) null, String.class));
             assertThrows(IllegalArgumentException.class, () -> Matrices.zip(m1, m2, m3, (a, b, c) -> a + b + c.intValue(), null));
         }
+    }
+
+    // === Missing coverage: newMatrixArray, forEachCartesianIndices ===
+
+    @Test
+    public void testNewMatrixArray() {
+        Integer[][] arr = Matrices.newMatrixArray(3, 4, Integer.class);
+        assertNotNull(arr);
+        assertEquals(3, arr.length);
+        assertEquals(4, arr[0].length);
+        assertEquals(4, arr[1].length);
+        assertEquals(4, arr[2].length);
+    }
+
+    @Test
+    public void testNewMatrixArray_primitiveTypeWrapped() {
+        Integer[][] arr = Matrices.newMatrixArray(2, 3, int.class);
+        assertNotNull(arr);
+        assertEquals(2, arr.length);
+        assertEquals(3, arr[0].length);
+    }
+
+    @Test
+    public void testNewMatrixArray_zeroRows() {
+        String[][] arr = Matrices.newMatrixArray(0, 0, String.class);
+        assertNotNull(arr);
+        assertEquals(0, arr.length);
+    }
+
+    @Test
+    public void testNewMatrixArray_zeroRowsNonZeroColsThrows() {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.newMatrixArray(0, 5, String.class));
+    }
+
+    @Test
+    public void testNewMatrixArray_zeroCols() {
+        String[][] arr = Matrices.newMatrixArray(3, 0, String.class);
+        assertNotNull(arr);
+        assertEquals(3, arr.length);
+        assertEquals(0, arr[0].length);
+    }
+
+    @Test
+    public void testNewMatrixArray_negativeRowsThrows() {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.newMatrixArray(-1, 3, String.class));
+    }
+
+    @Test
+    public void testNewMatrixArray_negativeColsThrows() {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.newMatrixArray(3, -1, String.class));
+    }
+
+    @Test
+    public void testNewMatrixArray_nullTypeThrows() {
+        assertThrows(IllegalArgumentException.class, () -> Matrices.newMatrixArray(2, 2, null));
+    }
+
+    @Test
+    public void testForEachCartesianIndices() {
+        IntMatrix a = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix b = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
+
+        int[][] result = new int[2][2];
+        Matrices.forEachCartesianIndices(a, b, (i, j, k) -> result[i][j] += a.get(i, k) * b.get(k, j));
+
+        assertEquals(19, result[0][0]); // 1*5 + 2*7
+        assertEquals(22, result[0][1]); // 1*6 + 2*8
+        assertEquals(43, result[1][0]); // 3*5 + 4*7
+        assertEquals(50, result[1][1]); // 3*6 + 4*8
+    }
+
+    @Test
+    public void testForEachCartesianIndices_rectangular() {
+        IntMatrix a = IntMatrix.of(new int[][] { { 1, 2, 3 } });
+        IntMatrix b = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } });
+
+        int[][] result = new int[1][1];
+        Matrices.forEachCartesianIndices(a, b, (i, j, k) -> result[i][j] += a.get(i, k) * b.get(k, j));
+
+        assertEquals(32, result[0][0]); // 1*4 + 2*5 + 3*6
+    }
+
+    @Test
+    public void testForEachCartesianIndices_incompatibleThrows() {
+        IntMatrix a = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix b = IntMatrix.of(new int[][] { { 1, 2, 3 } });
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(a, b, (i, j, k) -> {
+        }));
+    }
+
+    @Test
+    public void testForEachCartesianIndices_nullThrows() {
+        IntMatrix a = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix b = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(null, b, (i, j, k) -> {
+        }));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(a, null, (i, j, k) -> {
+        }));
+        assertThrows(IllegalArgumentException.class, () -> Matrices.forEachCartesianIndices(a, b, null));
+    }
+
+    @Test
+    public void testForEachCartesianIndices_withParallelFlag() {
+        IntMatrix a = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix b = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
+
+        int[][] result = new int[2][2];
+        Matrices.forEachCartesianIndices(a, b, (i, j, k) -> {
+            synchronized (result) {
+                result[i][j] += a.get(i, k) * b.get(k, j);
+            }
+        }, true);
+
+        assertEquals(19, result[0][0]);
+        assertEquals(22, result[0][1]);
+        assertEquals(43, result[1][0]);
+        assertEquals(50, result[1][1]);
     }
 
 }

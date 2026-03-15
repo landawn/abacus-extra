@@ -6345,4 +6345,151 @@ class CharMatrixTest extends TestBase {
         }
     }
 
+    // === Missing coverage: resize, copyFrom, flipInPlace ===
+
+    @Test
+    public void testResize_expand() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
+        CharMatrix resized = m.resize(3, 3);
+        assertEquals(3, resized.rowCount());
+        assertEquals(3, resized.columnCount());
+        assertEquals('a', resized.get(0, 0));
+        assertEquals('b', resized.get(0, 1));
+        assertEquals('\0', resized.get(0, 2));
+        assertEquals('c', resized.get(1, 0));
+        assertEquals('\0', resized.get(2, 0));
+        assertEquals('\0', resized.get(2, 2));
+    }
+
+    @Test
+    public void testResize_shrink() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' }, { 'g', 'h', 'i' } });
+        CharMatrix resized = m.resize(2, 2);
+        assertEquals(2, resized.rowCount());
+        assertEquals(2, resized.columnCount());
+        assertEquals('a', resized.get(0, 0));
+        assertEquals('b', resized.get(0, 1));
+        assertEquals('d', resized.get(1, 0));
+        assertEquals('e', resized.get(1, 1));
+    }
+
+    @Test
+    public void testResize_withDefaultValue() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'x' } });
+        CharMatrix resized = m.resize(2, 3, 'z');
+        assertEquals(2, resized.rowCount());
+        assertEquals(3, resized.columnCount());
+        assertEquals('x', resized.get(0, 0));
+        assertEquals('z', resized.get(0, 1));
+        assertEquals('z', resized.get(0, 2));
+        assertEquals('z', resized.get(1, 0));
+        assertEquals('z', resized.get(1, 1));
+        assertEquals('z', resized.get(1, 2));
+    }
+
+    @Test
+    public void testResize_toEmpty() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
+        CharMatrix resized = m.resize(0, 0);
+        assertEquals(0, resized.rowCount());
+        assertTrue(resized.isEmpty());
+    }
+
+    @Test
+    public void testResize_negativeThrows() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a' } });
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(1, -1));
+    }
+
+    @Test
+    public void testCopyFrom_fullOverwrite() {
+        CharMatrix m = CharMatrix.of(new char[][] { { '\0', '\0' }, { '\0', '\0' } });
+        m.copyFrom(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
+        assertEquals('a', m.get(0, 0));
+        assertEquals('b', m.get(0, 1));
+        assertEquals('c', m.get(1, 0));
+        assertEquals('d', m.get(1, 1));
+    }
+
+    @Test
+    public void testCopyFrom_partialOverwrite() {
+        CharMatrix m = CharMatrix.of(new char[][] { { '\0', '\0', '\0' }, { '\0', '\0', '\0' }, { '\0', '\0', '\0' } });
+        m.copyFrom(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
+        assertEquals('a', m.get(0, 0));
+        assertEquals('b', m.get(0, 1));
+        assertEquals('\0', m.get(0, 2));
+        assertEquals('c', m.get(1, 0));
+        assertEquals('d', m.get(1, 1));
+        assertEquals('\0', m.get(2, 0));
+    }
+
+    @Test
+    public void testCopyFrom_withOffset() {
+        CharMatrix m = CharMatrix.of(new char[][] { { '\0', '\0', '\0' }, { '\0', '\0', '\0' }, { '\0', '\0', '\0' } });
+        m.copyFrom(1, 1, new char[][] { { 'x', 'y' }, { 'z', 'w' } });
+        assertEquals('\0', m.get(0, 0));
+        assertEquals('\0', m.get(1, 0));
+        assertEquals('x', m.get(1, 1));
+        assertEquals('y', m.get(1, 2));
+        assertEquals('z', m.get(2, 1));
+        assertEquals('w', m.get(2, 2));
+    }
+
+    @Test
+    public void testCopyFrom_emptySource() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
+        m.copyFrom(new char[0][0]);
+        assertEquals('a', m.get(0, 0));
+        assertEquals('d', m.get(1, 1));
+    }
+
+    @Test
+    public void testCopyFrom_negativeIndexThrows() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a' } });
+        assertThrows(IllegalArgumentException.class, () -> m.copyFrom(-1, 0, new char[][] { { 'b' } }));
+        assertThrows(IllegalArgumentException.class, () -> m.copyFrom(0, -1, new char[][] { { 'b' } }));
+    }
+
+    @Test
+    public void testFlipInPlaceHorizontally() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
+        m.flipInPlaceHorizontally();
+        assertEquals('c', m.get(0, 0));
+        assertEquals('b', m.get(0, 1));
+        assertEquals('a', m.get(0, 2));
+        assertEquals('f', m.get(1, 0));
+        assertEquals('e', m.get(1, 1));
+        assertEquals('d', m.get(1, 2));
+    }
+
+    @Test
+    public void testFlipInPlaceHorizontally_singleColumn() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a' }, { 'b' } });
+        m.flipInPlaceHorizontally();
+        assertEquals('a', m.get(0, 0));
+        assertEquals('b', m.get(1, 0));
+    }
+
+    @Test
+    public void testFlipInPlaceVertically() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' } });
+        m.flipInPlaceVertically();
+        assertEquals('e', m.get(0, 0));
+        assertEquals('f', m.get(0, 1));
+        assertEquals('c', m.get(1, 0));
+        assertEquals('d', m.get(1, 1));
+        assertEquals('a', m.get(2, 0));
+        assertEquals('b', m.get(2, 1));
+    }
+
+    @Test
+    public void testFlipInPlaceVertically_singleRow() {
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' } });
+        m.flipInPlaceVertically();
+        assertEquals('a', m.get(0, 0));
+        assertEquals('b', m.get(0, 1));
+        assertEquals('c', m.get(0, 2));
+    }
+
 }

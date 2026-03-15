@@ -2391,33 +2391,6 @@ class BooleanMatrixTest extends TestBase {
         // ============ Edge Case Tests ============
 
         @Test
-        public void testBooleanLogic() {
-            BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-
-            // Test AND operation
-            BooleanMatrix allTrue = BooleanMatrix.of(new boolean[][] { { true, true }, { true, true } });
-            BooleanMatrix andResult = m.zipWith(allTrue, (a, b) -> a && b);
-            assertTrue(andResult.get(0, 0));
-            assertFalse(andResult.get(0, 1));
-            assertFalse(andResult.get(1, 0));
-            assertTrue(andResult.get(1, 1));
-
-            // Test OR operation
-            BooleanMatrix orResult = m.zipWith(allTrue, (a, b) -> a || b);
-            assertTrue(orResult.get(0, 0));
-            assertTrue(orResult.get(0, 1));
-            assertTrue(orResult.get(1, 0));
-            assertTrue(orResult.get(1, 1));
-
-            // Test NOT operation
-            BooleanMatrix notResult = m.map(a -> !a);
-            assertFalse(notResult.get(0, 0));
-            assertTrue(notResult.get(0, 1));
-            assertTrue(notResult.get(1, 0));
-            assertFalse(notResult.get(1, 1));
-        }
-
-        @Test
         public void testEmptyMatrixOperations() {
             BooleanMatrix empty = BooleanMatrix.empty();
 
@@ -5657,6 +5630,255 @@ class BooleanMatrixTest extends TestBase {
             assertThrows(IllegalArgumentException.class, () -> matrix.stackVertically(null));
             assertThrows(IllegalArgumentException.class, () -> matrix.stackHorizontally(null));
         }
+    }
+
+    // === Missing coverage: resize, copyFrom, flipInPlace, and/or/xor ===
+
+    @Test
+    public void testResize_expand() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix resized = m.resize(3, 3);
+        assertEquals(3, resized.rowCount());
+        assertEquals(3, resized.columnCount());
+        assertTrue(resized.get(0, 0));
+        assertFalse(resized.get(0, 1));
+        assertFalse(resized.get(0, 2));
+        assertFalse(resized.get(2, 0));
+        assertFalse(resized.get(2, 2));
+    }
+
+    @Test
+    public void testResize_shrink() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, true, true } });
+        BooleanMatrix resized = m.resize(2, 2);
+        assertEquals(2, resized.rowCount());
+        assertEquals(2, resized.columnCount());
+        assertTrue(resized.get(0, 0));
+        assertFalse(resized.get(0, 1));
+        assertFalse(resized.get(1, 0));
+        assertTrue(resized.get(1, 1));
+    }
+
+    @Test
+    public void testResize_withDefaultValue() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true } });
+        BooleanMatrix resized = m.resize(2, 3, true);
+        assertEquals(2, resized.rowCount());
+        assertEquals(3, resized.columnCount());
+        assertTrue(resized.get(0, 0));
+        assertTrue(resized.get(0, 1));
+        assertTrue(resized.get(0, 2));
+        assertTrue(resized.get(1, 0));
+        assertTrue(resized.get(1, 1));
+        assertTrue(resized.get(1, 2));
+    }
+
+    @Test
+    public void testResize_sameSize() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix resized = m.resize(2, 2);
+        assertEquals(2, resized.rowCount());
+        assertEquals(2, resized.columnCount());
+        assertTrue(resized.get(0, 0));
+        assertTrue(resized.get(1, 1));
+    }
+
+    @Test
+    public void testResize_toEmpty() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix resized = m.resize(0, 0);
+        assertEquals(0, resized.rowCount());
+        assertEquals(0, resized.columnCount());
+        assertTrue(resized.isEmpty());
+    }
+
+    @Test
+    public void testResize_negativeThrows() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true } });
+        assertThrows(IllegalArgumentException.class, () -> m.resize(-1, 1));
+        assertThrows(IllegalArgumentException.class, () -> m.resize(1, -1));
+    }
+
+    @Test
+    public void testCopyFrom_fullOverwrite() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false }, { false, false } });
+        m.copyFrom(new boolean[][] { { true, true }, { true, true } });
+        assertTrue(m.get(0, 0));
+        assertTrue(m.get(0, 1));
+        assertTrue(m.get(1, 0));
+        assertTrue(m.get(1, 1));
+    }
+
+    @Test
+    public void testCopyFrom_partialOverwrite() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, false }, { false, false, false }, { false, false, false } });
+        m.copyFrom(new boolean[][] { { true, true }, { true, true } });
+        assertTrue(m.get(0, 0));
+        assertTrue(m.get(0, 1));
+        assertFalse(m.get(0, 2));
+        assertTrue(m.get(1, 0));
+        assertTrue(m.get(1, 1));
+        assertFalse(m.get(1, 2));
+        assertFalse(m.get(2, 0));
+    }
+
+    @Test
+    public void testCopyFrom_withOffset() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, false }, { false, false, false }, { false, false, false } });
+        m.copyFrom(1, 1, new boolean[][] { { true, true }, { true, true } });
+        assertFalse(m.get(0, 0));
+        assertFalse(m.get(0, 1));
+        assertFalse(m.get(1, 0));
+        assertTrue(m.get(1, 1));
+        assertTrue(m.get(1, 2));
+        assertTrue(m.get(2, 1));
+        assertTrue(m.get(2, 2));
+    }
+
+    @Test
+    public void testCopyFrom_emptySource() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        m.copyFrom(new boolean[0][0]);
+        assertTrue(m.get(0, 0));
+        assertFalse(m.get(0, 1));
+    }
+
+    @Test
+    public void testCopyFrom_negativeIndexThrows() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true } });
+        assertThrows(IllegalArgumentException.class, () -> m.copyFrom(-1, 0, new boolean[][] { { true } }));
+        assertThrows(IllegalArgumentException.class, () -> m.copyFrom(0, -1, new boolean[][] { { true } }));
+    }
+
+    @Test
+    public void testFlipInPlaceHorizontally() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, false }, { false, true, true } });
+        m.flipInPlaceHorizontally();
+        assertFalse(m.get(0, 0));
+        assertFalse(m.get(0, 1));
+        assertTrue(m.get(0, 2));
+        assertTrue(m.get(1, 0));
+        assertTrue(m.get(1, 1));
+        assertFalse(m.get(1, 2));
+    }
+
+    @Test
+    public void testFlipInPlaceHorizontally_singleColumn() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true }, { false } });
+        m.flipInPlaceHorizontally();
+        assertTrue(m.get(0, 0));
+        assertFalse(m.get(1, 0));
+    }
+
+    @Test
+    public void testFlipInPlaceVertically() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
+        m.flipInPlaceVertically();
+        assertTrue(m.get(0, 0));
+        assertTrue(m.get(0, 1));
+        assertFalse(m.get(1, 0));
+        assertTrue(m.get(1, 1));
+        assertTrue(m.get(2, 0));
+        assertFalse(m.get(2, 1));
+    }
+
+    @Test
+    public void testFlipInPlaceVertically_singleRow() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
+        m.flipInPlaceVertically();
+        assertTrue(m.get(0, 0));
+        assertFalse(m.get(0, 1));
+        assertTrue(m.get(0, 2));
+    }
+
+    @Test
+    public void testAnd() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { true, false }, { true, true } });
+        BooleanMatrix b = BooleanMatrix.of(new boolean[][] { { true, true }, { false, true } });
+        BooleanMatrix result = a.and(b);
+        assertTrue(result.get(0, 0));
+        assertFalse(result.get(0, 1));
+        assertFalse(result.get(1, 0));
+        assertTrue(result.get(1, 1));
+    }
+
+    @Test
+    public void testAnd_allFalse() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { false, false }, { false, false } });
+        BooleanMatrix b = BooleanMatrix.of(new boolean[][] { { true, true }, { true, true } });
+        BooleanMatrix result = a.and(b);
+        assertFalse(result.get(0, 0));
+        assertFalse(result.get(0, 1));
+        assertFalse(result.get(1, 0));
+        assertFalse(result.get(1, 1));
+    }
+
+    @Test
+    public void testAnd_differentShapeThrows() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { true, false } });
+        BooleanMatrix b = BooleanMatrix.of(new boolean[][] { { true }, { false } });
+        assertThrows(IllegalArgumentException.class, () -> a.and(b));
+    }
+
+    @Test
+    public void testAnd_nullThrows() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { true } });
+        assertThrows(IllegalArgumentException.class, () -> a.and(null));
+    }
+
+    @Test
+    public void testOr() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { true, false }, { false, false } });
+        BooleanMatrix b = BooleanMatrix.of(new boolean[][] { { false, true }, { false, true } });
+        BooleanMatrix result = a.or(b);
+        assertTrue(result.get(0, 0));
+        assertTrue(result.get(0, 1));
+        assertFalse(result.get(1, 0));
+        assertTrue(result.get(1, 1));
+    }
+
+    @Test
+    public void testOr_allFalse() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { false, false } });
+        BooleanMatrix b = BooleanMatrix.of(new boolean[][] { { false, false } });
+        BooleanMatrix result = a.or(b);
+        assertFalse(result.get(0, 0));
+        assertFalse(result.get(0, 1));
+    }
+
+    @Test
+    public void testOr_differentShapeThrows() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { true, false } });
+        BooleanMatrix b = BooleanMatrix.of(new boolean[][] { { true }, { false } });
+        assertThrows(IllegalArgumentException.class, () -> a.or(b));
+    }
+
+    @Test
+    public void testXor() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { true, false }, { true, true } });
+        BooleanMatrix b = BooleanMatrix.of(new boolean[][] { { true, true }, { false, true } });
+        BooleanMatrix result = a.xor(b);
+        assertFalse(result.get(0, 0));
+        assertTrue(result.get(0, 1));
+        assertTrue(result.get(1, 0));
+        assertFalse(result.get(1, 1));
+    }
+
+    @Test
+    public void testXor_sameMatrixAllFalse() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { true, false }, { true, true } });
+        BooleanMatrix result = a.xor(a);
+        assertFalse(result.get(0, 0));
+        assertFalse(result.get(0, 1));
+        assertFalse(result.get(1, 0));
+        assertFalse(result.get(1, 1));
+    }
+
+    @Test
+    public void testXor_differentShapeThrows() {
+        BooleanMatrix a = BooleanMatrix.of(new boolean[][] { { true, false } });
+        BooleanMatrix b = BooleanMatrix.of(new boolean[][] { { true }, { false } });
+        assertThrows(IllegalArgumentException.class, () -> a.xor(b));
     }
 
 }

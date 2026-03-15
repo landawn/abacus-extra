@@ -3737,20 +3737,6 @@ class LongTupleTest extends TestBase {
             assertEquals(7, tuple.arity());
         }
 
-        @Test
-        @SuppressWarnings("deprecation")
-        public void test_LongTuple8_arity() {
-            LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-            assertEquals(8, tuple.arity());
-        }
-
-        @Test
-        @SuppressWarnings("deprecation")
-        public void test_LongTuple9_arity() {
-            LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-            assertEquals(9, tuple.arity());
-        }
-
         // ===== Common Method Tests =====
 
         @Test

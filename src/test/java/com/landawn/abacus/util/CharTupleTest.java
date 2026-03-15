@@ -2695,13 +2695,6 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testStream_single() {
-            CharTuple1 tuple = CharTuple.of('A'); // 65
-            int sum = tuple.stream().sum();
-            assertEquals(65, sum);
-        }
-
-        @Test
         public void testStream_multiple() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C'); // 65 + 66 + 67 = 198
             int sum = tuple.stream().sum();

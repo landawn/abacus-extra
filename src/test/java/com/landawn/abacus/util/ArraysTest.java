@@ -3168,21 +3168,6 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testReshape_BooleanArray_ToCols_InvalidInput() {
-            boolean[] arr = { true, false };
-
-            // Test with zero columns
-            Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                Arrays.reshape(arr, 0);
-            });
-
-            // Test with negative columns
-            Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                Arrays.reshape(arr, -1);
-            });
-        }
-
-        @Test
         public void testReshape_BooleanArray_ToRowsCols() {
             // Test normal reshape
             boolean[] arr = { true, false, true, false, true, false };

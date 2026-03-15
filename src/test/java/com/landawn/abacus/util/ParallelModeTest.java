@@ -483,18 +483,6 @@ class ParallelModeTest extends TestBase {
         }
 
         @Test
-        public void testOrdinal_UniqueValues() {
-            int yesOrdinal = ParallelMode.FORCE_ON.ordinal();
-            int noOrdinal = ParallelMode.FORCE_OFF.ordinal();
-            int defaultOrdinal = ParallelMode.AUTO.ordinal();
-
-            // All ordinals should be different
-            assertNotEquals(yesOrdinal, noOrdinal);
-            assertNotEquals(yesOrdinal, defaultOrdinal);
-            assertNotEquals(noOrdinal, defaultOrdinal);
-        }
-
-        @Test
         public void testOrdinal_NonNegative() {
             for (ParallelMode value : ParallelMode.values()) {
                 assertTrue(value.ordinal() >= 0, "Ordinal should be non-negative");

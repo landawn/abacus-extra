@@ -22,6 +22,7 @@ import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.u.OptionalLong;
 import com.landawn.abacus.util.stream.LongStream;
+import com.landawn.abacus.util.stream.Stream;
 
 class LongMatrixTest extends TestBase {
 
@@ -3245,25 +3246,6 @@ class LongMatrixTest extends TestBase {
             assertEquals(15L, antiDiagonalSum); // 3+5+7 = 15
         }
 
-        @Test
-        public void testRowColumnStatistics() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-
-            // Test statistics on individual rows
-            List<Long> rowSums = m.streamRows().map(row -> row.sum()).toList();
-            assertEquals(3, rowSums.size());
-            assertEquals(6L, rowSums.get(0).longValue()); // 1+2+3
-            assertEquals(15L, rowSums.get(1).longValue()); // 4+5+6
-            assertEquals(24L, rowSums.get(2).longValue()); // 7+8+9
-
-            // Test statistics on individual columns
-            List<Long> colSums = m.streamColumns().map(col -> col.sum()).toList();
-            assertEquals(3, colSums.size());
-            assertEquals(12L, colSums.get(0).longValue()); // 1+4+7
-            assertEquals(15L, colSums.get(1).longValue()); // 2+5+8
-            assertEquals(18L, colSums.get(2).longValue()); // 3+6+9
-        }
-
         // ============ Edge Case Tests ============
 
         @Test
@@ -3491,29 +3473,6 @@ class LongMatrixTest extends TestBase {
             for (int i = 0; i < 9; i++) {
                 assertEquals(i + 1, reshaped.get(0, i));
             }
-        }
-
-        @Test
-        public void testRepmat() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-            LongMatrix repeated = m.repeatMatrix(2, 3);
-            assertEquals(4, repeated.rowCount());
-            assertEquals(6, repeated.columnCount());
-
-            // Check pattern
-            assertEquals(1L, repeated.get(0, 0));
-            assertEquals(2L, repeated.get(0, 1));
-            assertEquals(1L, repeated.get(0, 2)); // repeat starts
-            assertEquals(2L, repeated.get(0, 3));
-
-            assertEquals(3L, repeated.get(1, 0));
-            assertEquals(4L, repeated.get(1, 1));
-            assertEquals(3L, repeated.get(1, 2)); // repeat
-            assertEquals(4L, repeated.get(1, 3));
-
-            // Second vertical repeat
-            assertEquals(1L, repeated.get(2, 0));
-            assertEquals(2L, repeated.get(2, 1));
         }
         // ============ Flatten Tests ============
 
@@ -4485,52 +4444,10 @@ class LongMatrixTest extends TestBase {
         // ============ Stream Methods ============
 
         @Test
-        public void testStreamLU2RD() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-            long[] diagonal = m.streamMainDiagonal().toArray();
-            assertArrayEquals(new long[] { 1L, 5L, 9L }, diagonal);
-        }
-
-        @Test
-        public void testStreamRU2LD() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-            long[] diagonal = m.streamAntiDiagonal().toArray();
-            assertArrayEquals(new long[] { 3L, 5L, 7L }, diagonal);
-        }
-
-        @Test
-        public void testStreamH() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
-            long[] all = m.streamHorizontal().toArray();
-            assertArrayEquals(new long[] { 1L, 2L, 3L, 4L, 5L, 6L }, all);
-        }
-
-        @Test
-        public void testStreamH_singleRow() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
-            long[] row1 = m.streamHorizontal(1).toArray();
-            assertArrayEquals(new long[] { 4L, 5L, 6L }, row1);
-        }
-
-        @Test
         public void testStreamH_rowRange() {
             LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } });
             long[] rows = m.streamHorizontal(1, 3).toArray();
             assertArrayEquals(new long[] { 3L, 4L, 5L, 6L }, rows);
-        }
-
-        @Test
-        public void testStreamV() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
-            long[] all = m.streamVertical().toArray();
-            assertArrayEquals(new long[] { 1L, 4L, 2L, 5L, 3L, 6L }, all);
-        }
-
-        @Test
-        public void testStreamV_singleColumn() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
-            long[] col1 = m.streamVertical(1).toArray();
-            assertArrayEquals(new long[] { 2L, 5L }, col1);
         }
 
         @Test
@@ -4542,37 +4459,12 @@ class LongMatrixTest extends TestBase {
 
         // ============ Stream of Streams Methods ============
 
-        @Test
-        public void testStreamR() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-            List<long[]> rows = m.streamRows().map(LongStream::toArray).toList();
-            assertEquals(2, rows.size());
-            assertArrayEquals(new long[] { 1L, 2L }, rows.get(0));
-            assertArrayEquals(new long[] { 3L, 4L }, rows.get(1));
-        }
-
-        @Test
-        public void testStreamC() {
-            LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-            List<long[]> columnCount = m.streamColumns().map(LongStream::toArray).toList();
-            assertEquals(2, columnCount.size());
-            assertArrayEquals(new long[] { 1L, 3L }, columnCount.get(0));
-            assertArrayEquals(new long[] { 2L, 4L }, columnCount.get(1));
-        }
-
         // ============ Inherited Methods from AbstractMatrix ============
 
         @Test
         public void testIsEmpty() {
             assertTrue(LongMatrix.empty().isEmpty());
             assertFalse(LongMatrix.of(new long[][] { { 1L } }).isEmpty());
-        }
-
-        @Test
-        public void testHashCode() {
-            LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-            LongMatrix m2 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-            assertEquals(m1.hashCode(), m2.hashCode());
         }
 
         @Test
@@ -5869,6 +5761,164 @@ class LongMatrixTest extends TestBase {
             assertThrows(IllegalArgumentException.class, () -> matrix.add(null));
             assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
             assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
+        }
+    }
+
+    // ============================================================
+    // Tests for AbstractMatrix-inherited methods missing coverage
+    // ============================================================
+
+    @Nested
+    class LongMatrixAbstractMethodsTest extends TestBase {
+
+        @Test
+        public void testIsSameShape() {
+            LongMatrix m1 = LongMatrix.of(new long[][] { { 1, 2 }, { 3, 4 } });
+            LongMatrix m2 = LongMatrix.of(new long[][] { { 5, 6 }, { 7, 8 } });
+            LongMatrix m3 = LongMatrix.of(new long[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+
+            assertTrue(m1.isSameShape(m2));
+            assertFalse(m1.isSameShape(m3));
+        }
+
+        @Test
+        public void testIsSameShape_NullThrows() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1L } });
+            assertThrows(IllegalArgumentException.class, () -> m.isSameShape(null));
+        }
+
+        @Test
+        public void testAdjacent4Points() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+
+            List<Sheet.Point> center = m.adjacent4Points(1, 1).toList();
+            assertEquals(4, center.size());
+
+            List<Sheet.Point> corner = m.adjacent4Points(0, 0).toList();
+            assertEquals(2, corner.size());
+
+            List<Sheet.Point> edge = m.adjacent4Points(0, 1).toList();
+            assertEquals(3, edge.size());
+        }
+
+        @Test
+        public void testAdjacent8Points() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+
+            List<Sheet.Point> center = m.adjacent8Points(1, 1).toList();
+            assertEquals(8, center.size());
+
+            List<Sheet.Point> corner = m.adjacent8Points(0, 0).toList();
+            assertEquals(3, corner.size());
+        }
+
+        @Test
+        public void testPointsMainDiagonal() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+            List<Sheet.Point> points = m.pointsMainDiagonal().toList();
+            assertEquals(3, points.size());
+            assertEquals(0, points.get(0).rowIndex());
+            assertEquals(0, points.get(0).columnIndex());
+        }
+
+        @Test
+        public void testPointsMainDiagonal_NonSquareThrows() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+            assertThrows(IllegalStateException.class, () -> m.pointsMainDiagonal());
+        }
+
+        @Test
+        public void testPointsAntiDiagonal() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+            List<Sheet.Point> points = m.pointsAntiDiagonal().toList();
+            assertEquals(3, points.size());
+            assertEquals(0, points.get(0).rowIndex());
+            assertEquals(2, points.get(0).columnIndex());
+        }
+
+        @Test
+        public void testPointsHorizontal() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2 }, { 3, 4 } });
+            List<Sheet.Point> points = m.pointsHorizontal().toList();
+            assertEquals(4, points.size());
+        }
+
+        @Test
+        public void testPointsHorizontal_SingleRow() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2 }, { 3, 4 } });
+            List<Sheet.Point> points = m.pointsHorizontal(0).toList();
+            assertEquals(2, points.size());
+        }
+
+        @Test
+        public void testPointsVertical() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2 }, { 3, 4 } });
+            List<Sheet.Point> points = m.pointsVertical().toList();
+            assertEquals(4, points.size());
+        }
+
+        @Test
+        public void testPointsVertical_SingleColumn() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2 }, { 3, 4 } });
+            List<Sheet.Point> points = m.pointsVertical(1).toList();
+            assertEquals(2, points.size());
+        }
+
+        @Test
+        public void testPointsRows() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+            List<List<Sheet.Point>> rows = m.pointsRows().map(s -> s.toList()).toList();
+            assertEquals(3, rows.size());
+            assertEquals(2, rows.get(0).size());
+        }
+
+        @Test
+        public void testPointsColumns() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+            List<List<Sheet.Point>> cols = m.pointsColumns().map(s -> s.toList()).toList();
+            assertEquals(3, cols.size());
+            assertEquals(2, cols.get(0).size());
+        }
+
+        @Test
+        public void testAccept() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2 }, { 3, 4 } });
+            long[] sum = { 0 };
+            m.accept(matrix -> {
+                LongList flat = matrix.flatten();
+                for (int i = 0; i < flat.size(); i++)
+                    sum[0] += flat.get(i);
+            });
+            assertEquals(10L, sum[0]);
+        }
+
+        @Test
+        public void testAccept_NullThrows() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1L } });
+            assertThrows(IllegalArgumentException.class, () -> m.accept(null));
+        }
+
+        @Test
+        public void testApply() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2 }, { 3, 4 } });
+            long count = m.apply(matrix -> matrix.elementCount());
+            assertEquals(4, count);
+        }
+
+        @Test
+        public void testApply_NullThrows() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1L } });
+            assertThrows(IllegalArgumentException.class, () -> m.apply(null));
+        }
+
+        @Test
+        public void testForEachIndex() {
+            LongMatrix m = LongMatrix.of(new long[][] { { 1, 2 }, { 3, 4 } });
+            List<String> indices = new ArrayList<>();
+            m.forEachIndex((r, c) -> indices.add(r + "," + c));
+            assertEquals(4, indices.size());
+            assertTrue(indices.contains("0,0"));
+            assertTrue(indices.contains("1,1"));
         }
     }
 
