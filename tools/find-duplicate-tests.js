@@ -12,6 +12,7 @@ const uniqueFileArg = process.argv.slice(2).find((arg) => arg.startsWith("--uniq
 const uniqueFileText = uniqueFileArg ? uniqueFileArg.slice("--unique-file=".length) : "";
 const scopeArg = process.argv.slice(2).find((arg) => arg.startsWith("--scope="));
 const scope = scopeArg ? scopeArg.slice("--scope=".length) : "all";
+const excludeTypeVariants = args.has("--exclude-type-variants");
 const defaultInclude = /Test\.java$/;
 const defaultExclude = /[\\/]com[\\/]landawn[\\/]abacus[\\/][^\\/]+\.java$/;
 const annotationNames = new Set(["Test", "ParameterizedTest", "RepeatedTest", "TestFactory", "TestTemplate"]);
@@ -301,12 +302,55 @@ function summarize(groups) {
   }));
 }
 
+// Detect cross-file groups where each file is a type-specific test class
+// (e.g., FloatMatrixTest, IntMatrixTest) — these test the same method pattern
+// on different types and are NOT true duplicates.
+function isTypeVariantGroup(group) {
+  const files = new Set(group.map((method) => method.filePath));
+  if (files.size <= 1) {
+    return false;
+  }
+
+  // Extract base class names (e.g., "FloatMatrix" from "FloatMatrixTest.java")
+  const baseNames = [...files].map((filePath) => {
+    const fileName = path.basename(filePath, ".java");
+    return fileName.replace(/Test$/, "");
+  });
+
+  // Check if all base names share a common suffix (e.g., "Matrix")
+  // and differ only by a type prefix (e.g., "Float", "Int", "Short")
+  const typePrefixes = ["Boolean", "Byte", "Char", "Double", "Float", "Int", "Long", "Short"];
+  const suffixes = baseNames.map((name) => {
+    for (const prefix of typePrefixes) {
+      if (name.startsWith(prefix)) {
+        return name.slice(prefix.length);
+      }
+    }
+    return null;
+  });
+
+  // If all have a type prefix and the same suffix, it's a type-variant group
+  if (suffixes.every((s) => s !== null)) {
+    const uniqueSuffixes = new Set(suffixes);
+    if (uniqueSuffixes.size === 1) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function filterGroups(groups) {
   return groups.filter((group) => {
     const fileCount = new Set(group.map((method) => method.filePath)).size;
     const groupScope = fileCount > 1 ? "cross-file" : "same-file";
 
     if (scope !== "all" && scope !== groupScope) {
+      return false;
+    }
+
+    // Filter out type-variant groups when --exclude-type-variants is set
+    if (excludeTypeVariants && isTypeVariantGroup(group)) {
       return false;
     }
 

@@ -4604,14 +4604,6 @@ class ByteMatrixTest extends TestBase {
             assertEquals(10, sum.get());
         }
 
-        @Test
-        public void testForEach_withConsumer() {
-            ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-            AtomicInteger sum = new AtomicInteger(0);
-            m.forEach(val -> sum.addAndGet(val));
-            assertEquals(10, sum.get()); // 1+2+3+4 = 10
-        }
-
         // ============ Utility Tests ============
 
         @Test

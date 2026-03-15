@@ -48,6 +48,7 @@ import com.landawn.abacus.util.Points.xy.LongObjPoint;
 import com.landawn.abacus.util.Points.xyz;
 
 class PointsTest extends TestBase {
+
     @Test
     public void testByteBytePointEqualsAndHashCode() {
         Points.xy.ByteBytePoint point1 = Points.xy.ByteBytePoint.of((byte) 5, (byte) 10, (byte) 15);

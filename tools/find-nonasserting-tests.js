@@ -6,6 +6,9 @@ const path = require("path");
 const repoRoot = process.cwd();
 const testRoot = path.join(repoRoot, "src", "test", "java");
 const testAnnotations = new Set(["Test", "ParameterizedTest", "RepeatedTest", "TestFactory", "TestTemplate"]);
+const args = new Set(process.argv.slice(2));
+// Exclude test classes directly under com.landawn.abacus (not in sub-packages)
+const excludeRootPackage = /[\\/]com[\\/]landawn[\\/]abacus[\\/][^\\/]+\.java$/;
 
 function walk(dir, files = []) {
   if (!fs.existsSync(dir)) {
@@ -166,6 +169,10 @@ const report = {
 
 for (const filePath of walk(testRoot)) {
   const relativePath = path.relative(repoRoot, filePath).replace(/\\/g, "/");
+  // Skip classes directly under com.landawn.abacus (not in sub-packages)
+  if (excludeRootPackage.test(filePath)) {
+    continue;
+  }
   const raw = fs.readFileSync(filePath, "utf8").replace(/\r\n/g, "\n");
 
   for (const test of extractTests(relativePath, raw)) {

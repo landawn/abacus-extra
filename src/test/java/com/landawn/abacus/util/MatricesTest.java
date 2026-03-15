@@ -451,7 +451,8 @@ class MatricesTest extends TestBase {
         assertEquals((byte) 12, result.get(1, 1));
 
         // Test with empty collection
-        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(new ArrayList<ByteMatrix>(), (a, b) -> a));
+        final List<ByteMatrix> matrixList = new ArrayList<>();
+        assertThrows(IllegalArgumentException.class, () -> Matrices.zip(matrixList, (a, b) -> a));
 
         // Test with single element
         ByteMatrix single = Matrices.zip(CommonUtil.asList(byteMatrix1), (a, b) -> a);

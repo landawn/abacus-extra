@@ -12533,14 +12533,6 @@ class ArraysTest extends TestBase {
         // ============================================
 
         @Test
-        public void test_replaceIf_booleanArray() {
-            boolean[] arr = { true, false, true, false };
-            Arrays.replaceIf(arr, b -> b, false);
-
-            assertArrayEquals(new boolean[] { false, false, false, false }, arr);
-        }
-
-        @Test
         public void test_replaceIf_booleanArrayNull() {
             assertDoesNotThrow(() -> Arrays.replaceIf((boolean[]) null, b -> true, false));
         }
