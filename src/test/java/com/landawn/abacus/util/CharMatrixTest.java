@@ -6492,4 +6492,53 @@ class CharMatrixTest extends TestBase {
         assertEquals('c', m.get(0, 2));
     }
 
+    // --- Bug fix tests ---
+
+    @Test
+    public void testMultiply_noIntermediateCharCast() {
+        // Bug fix: CharMatrix.multiply() had an unnecessary (char) cast on each intermediate
+        // product, inconsistent with ByteMatrix and ShortMatrix. The fix removes it.
+        // Verify that matrix multiplication still produces correct results.
+        CharMatrix a = CharMatrix.of(new char[][] { { 2, 3 }, { 4, 5 } });
+        CharMatrix b = CharMatrix.of(new char[][] { { 1, 2 }, { 3, 4 } });
+
+        CharMatrix product = a.multiply(b);
+
+        // product[0][0] = 2*1 + 3*3 = 11
+        // product[0][1] = 2*2 + 3*4 = 16
+        // product[1][0] = 4*1 + 5*3 = 19
+        // product[1][1] = 4*2 + 5*4 = 28
+        assertEquals(11, product.get(0, 0));
+        assertEquals(16, product.get(0, 1));
+        assertEquals(19, product.get(1, 0));
+        assertEquals(28, product.get(1, 1));
+    }
+
+    @Test
+    public void testMultiply_largeValuesOverflow() {
+        // Test with larger char values to verify behavior with values that overflow char range
+        // during intermediate multiplication. The result should be the same whether or not
+        // intermediate values are truncated, due to modular arithmetic.
+        CharMatrix a = CharMatrix.of(new char[][] { { 300, 300 } });
+        CharMatrix b = CharMatrix.of(new char[][] { { 300 }, { 300 } });
+
+        CharMatrix product = a.multiply(b);
+
+        // 300*300 + 300*300 = 180000
+        // (char) 180000 = 180000 % 65536 = 49928 -- but wait, let's compute step by step
+        // Due to char truncation on +=:
+        // step k=0: result[0][0] = (char)(0 + 300*300) = (char)(90000) = (char)(90000 % 65536) = 24464
+        // step k=1: result[0][0] = (char)(24464 + 300*300) = (char)(24464 + 90000) = (char)(114464) = (char)(114464 % 65536) = 48928
+        // Without intermediate cast, same result due to modular arithmetic
+        assertEquals((char) (300 * 300 + 300 * 300), product.get(0, 0));
+    }
+
+    @Test
+    public void testMultiply_dimensionMismatchThrows() {
+        CharMatrix a = CharMatrix.of(new char[][] { { 'a', 'b', 'c' } });
+        CharMatrix b = CharMatrix.of(new char[][] { { 'x', 'y' } });
+
+        assertThrows(IllegalArgumentException.class, () -> a.multiply(b));
+    }
+
 }

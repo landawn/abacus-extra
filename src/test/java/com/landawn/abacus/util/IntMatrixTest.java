@@ -5880,4 +5880,37 @@ class IntMatrixTest extends TestBase {
         }
     }
 
+    // --- Bug fix tests ---
+
+    @Test
+    public void testSetColumn_throwsConsistentExceptions() {
+        // Bug fix: IntMatrix.setColumn() had extra 'ArrayIndexOutOfBoundsException' in throws
+        // declaration, inconsistent with all other matrix classes. Verify it throws
+        // IllegalArgumentException for invalid inputs, consistent with the other matrix classes.
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+
+        // Out-of-bounds column index should throw IllegalArgumentException
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(-1, new int[] { 10, 20 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(3, new int[] { 10, 20 }));
+
+        // Column length mismatch should throw IllegalArgumentException
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(0, new int[] { 10, 20, 30 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(0, new int[] { 10 }));
+    }
+
+    @Test
+    public void testSetColumn_validInput() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+
+        m.setColumn(1, new int[] { 20, 50 });
+
+        assertEquals(20, m.get(0, 1));
+        assertEquals(50, m.get(1, 1));
+        // Other columns unchanged
+        assertEquals(1, m.get(0, 0));
+        assertEquals(3, m.get(0, 2));
+        assertEquals(4, m.get(1, 0));
+        assertEquals(6, m.get(1, 2));
+    }
+
 }

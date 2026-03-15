@@ -5881,4 +5881,37 @@ class BooleanMatrixTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> a.xor(b));
     }
 
+    // --- Bug fix tests ---
+
+    @Test
+    public void testUpdateAntiDiagonal_throwsIllegalStateExceptionForNonSquare() {
+        // Bug fix: updateAntiDiagonal was missing 'throws IllegalStateException' declaration.
+        // Verify it throws IllegalStateException for non-square matrices, consistent with updateMainDiagonal.
+        BooleanMatrix nonSquare = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
+
+        assertThrows(IllegalStateException.class, () -> nonSquare.updateAntiDiagonal(v -> !v));
+        assertThrows(IllegalStateException.class, () -> nonSquare.updateMainDiagonal(v -> !v));
+    }
+
+    @Test
+    public void testUpdateAntiDiagonal_squareMatrix() {
+        // Verify updateAntiDiagonal works correctly on a square matrix.
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, false, true } });
+
+        m.updateAntiDiagonal(v -> !v);
+
+        // Anti-diagonal positions: (0,2), (1,1), (2,0)
+        assertFalse(m.get(0, 2)); // was true, negated
+        assertFalse(m.get(1, 1)); // was true, negated
+        assertFalse(m.get(2, 0)); // was true, negated
+
+        // Non-anti-diagonal positions should be unchanged
+        assertTrue(m.get(0, 0));
+        assertFalse(m.get(0, 1));
+        assertFalse(m.get(1, 0));
+        assertFalse(m.get(1, 2));
+        assertFalse(m.get(2, 1));
+        assertTrue(m.get(2, 2));
+    }
+
 }

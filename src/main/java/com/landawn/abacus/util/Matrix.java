@@ -877,7 +877,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Gets the main diagonal elements (upper-left to lower-right).
+     * Returns the main diagonal elements (upper-left to lower-right).
      * The matrix must be square (same number of rows and columns).
      * Returns a new array containing the diagonal values, modifications to which
      * will not affect the matrix.
@@ -968,7 +968,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Gets the anti-diagonal elements (upper-right to lower-left).
+     * Returns the anti-diagonal elements (upper-right to lower-left).
      * The matrix must be square (same number of rows and columns).
      * Returns a new array containing the anti-diagonal values.
      * The first element is from the top-right corner, the last from the bottom-left corner.

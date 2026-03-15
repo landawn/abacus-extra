@@ -805,7 +805,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      * @throws ArrayIndexOutOfBoundsException if any row in this matrix has insufficient length for {@code columnIndex}
      */
-    public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+    public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
         N.checkArgument(column.length == rowCount, MSG_COLUMN_LENGTH_MISMATCH, rowCount, column.length);
 
@@ -951,6 +951,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateMainDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
@@ -1033,6 +1034,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each anti-diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAntiDiagonal(final Throwables.IntUnaryOperator<E> operator) throws IllegalStateException, E {
@@ -1061,6 +1063,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each element; receives the current element value
      *             and returns the new value
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntUnaryOperator<E> operator) throws E {
@@ -1090,6 +1093,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator that receives row index and column index (0-based) and returns
      *             the new value for that position
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Integer, E> operator) throws E {
@@ -1116,6 +1120,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param predicate the condition to test each element; elements for which this returns
      *                  {@code true} will be replaced
      * @param newValue the value to use for replacing matching elements
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
@@ -1146,6 +1151,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param predicate the condition that tests row index and column index (0-based); elements
      *                  at positions for which this returns {@code true} will be replaced
      * @param newValue the value to use for replacing matching elements
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final int newValue) throws E {
@@ -1175,6 +1181,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param mapper the function to apply to each element; receives the current element value
      *             and returns the transformed value
      * @return a new IntMatrix with transformed values
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      * @see #updateAll(Throwables.IntUnaryOperator)
      */
@@ -1202,6 +1209,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param <E> the type of exception that the function may throw
      * @param mapper the function to convert int values to long
      * @return a new LongMatrix with converted values
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> LongMatrix mapToLong(final Throwables.IntToLongFunction<E> mapper) throws E {
@@ -1228,6 +1236,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param <E> the type of exception that the function may throw
      * @param mapper the function to convert int values to double
      * @return a new DoubleMatrix with converted values
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <E extends Exception> DoubleMatrix mapToDouble(final Throwables.IntToDoubleFunction<E> mapper) throws E {
@@ -1256,6 +1265,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param mapper the function to convert int values to type T
      * @param targetElementType the Class object for type T
      * @return a new Matrix containing the converted values
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
@@ -3104,6 +3114,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param <E> the type of exception that the action may throw
      * @param action the action to be performed for each element; receives each element value
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      * @see #forEach(int, int, int, int, Throwables.IntConsumer)
      */
@@ -3139,6 +3150,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param toColumnIndex the ending column index (exclusive)
      * @param action the action to be performed for each element in the sub-matrix
      * @throws IndexOutOfBoundsException if any index is out of bounds
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,

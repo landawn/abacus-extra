@@ -2056,7 +2056,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
         final char[][] otherArray = other.a;
         final char[][] result = new char[rowCount][other.columnCount];
-        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += (char) (a[i][k] * otherArray[k][j]);
+        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * otherArray[k][j];
 
         Matrices.forEachCartesianIndices(this, other, cmd);
 

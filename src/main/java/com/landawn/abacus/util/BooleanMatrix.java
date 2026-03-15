@@ -758,6 +758,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateMainDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws IllegalStateException, E {
@@ -852,9 +853,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each anti-diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if operator is null
      * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAntiDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E {
+    public <E extends Exception> void updateAntiDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws IllegalStateException, E {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgNotNull(operator, "operator");
 
@@ -884,6 +886,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator to apply to each element; receives the current element value
      *             and returns the new value
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.BooleanUnaryOperator<E> operator) throws E {
@@ -914,6 +917,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the operator may throw
      * @param operator the operator that receives row index and column index (0-based) and returns
      *             the new value for that position
+     * @throws IllegalArgumentException if {@code operator} is {@code null}
      * @throws E if the operator throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Boolean, E> operator) throws E {
@@ -945,6 +949,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param predicate the condition to test each element; elements for which this returns
      *                  {@code true} will be replaced
      * @param newValue the value to use for replacing matching elements
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
@@ -976,6 +981,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param predicate the condition that tests row index and column index (0-based); elements
      *                  at positions for which this returns {@code true} will be replaced
      * @param newValue the value to use for replacing matching elements
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final boolean newValue) throws E {
@@ -1006,6 +1012,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param mapper the function to apply to each element; receives the current element value
      *             and returns the transformed value
      * @return a new BooleanMatrix with transformed values
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      * @see #updateAll(Throwables.BooleanUnaryOperator)
      */
@@ -1041,6 +1048,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param mapper the function to convert boolean values to type T
      * @param targetElementType the Class object for type T
      * @return a new Matrix containing the converted values
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the function throws an exception
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.BooleanFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
@@ -1090,6 +1098,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param b the two-dimensional boolean array to copy values from; must not be null
+     * @throws IllegalArgumentException if {@code b} is {@code null}
      */
     public void copyFrom(final boolean[][] b) {
         copyFrom(0, 0, b);
@@ -1110,8 +1119,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param destRowIndex the target row index in this matrix (0-based)
      * @param destColumnIndex the target column index in this matrix (0-based)
-     * @param b the source array to copy values from
-     * @throws IllegalArgumentException if the target indices are negative or exceed matrix dimensions
+     * @param b the source array to copy values from; must not be null
+     * @throws IllegalArgumentException if {@code b} is {@code null}, or if the target indices are negative or exceed matrix dimensions
      */
     public void copyFrom(final int destRowIndex, final int destColumnIndex, final boolean[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, "b");
@@ -1913,7 +1922,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param other the matrix to AND with this matrix
      * @return a new BooleanMatrix containing the element-wise logical AND
-     * @throws IllegalArgumentException if the matrices have different dimensions
+     * @throws IllegalArgumentException if {@code other} is {@code null} or the matrices have different dimensions
      */
     public BooleanMatrix and(final BooleanMatrix other) throws IllegalArgumentException {
         N.checkArgNotNull(other, "other");
@@ -1942,7 +1951,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param other the matrix to OR with this matrix
      * @return a new BooleanMatrix containing the element-wise logical OR
-     * @throws IllegalArgumentException if the matrices have different dimensions
+     * @throws IllegalArgumentException if {@code other} is {@code null} or the matrices have different dimensions
      */
     public BooleanMatrix or(final BooleanMatrix other) throws IllegalArgumentException {
         N.checkArgNotNull(other, "other");
@@ -1971,7 +1980,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param other the matrix to XOR with this matrix
      * @return a new BooleanMatrix containing the element-wise logical XOR
-     * @throws IllegalArgumentException if the matrices have different dimensions
+     * @throws IllegalArgumentException if {@code other} is {@code null} or the matrices have different dimensions
      */
     public BooleanMatrix xor(final BooleanMatrix other) throws IllegalArgumentException {
         N.checkArgNotNull(other, "other");
@@ -2097,7 +2106,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param other the matrix to stack below this matrix (must have the same column count)
      * @return a new BooleanMatrix with dimensions (this.rowCount + other.rowCount) x this.columnCount
-     * @throws IllegalArgumentException if {@code this.columnCount != other.columnCount}
+     * @throws IllegalArgumentException if {@code other} is {@code null} or {@code this.columnCount != other.columnCount}
      * @see #stackHorizontally(BooleanMatrix)
      */
     public BooleanMatrix stackVertically(final BooleanMatrix other) throws IllegalArgumentException {
@@ -2144,7 +2153,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param other the matrix to stack to the right of this matrix (must have the same row count)
      * @return a new BooleanMatrix with dimensions this.rowCount x (this.columnCount + other.columnCount)
-     * @throws IllegalArgumentException if {@code this.rowCount != other.rowCount}
+     * @throws IllegalArgumentException if {@code other} is {@code null} or {@code this.rowCount != other.rowCount}
      * @see #stackVertically(BooleanMatrix)
      */
     public BooleanMatrix stackHorizontally(final BooleanMatrix other) throws IllegalArgumentException {
@@ -2240,7 +2249,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *                    element from this matrix as first argument and element from matrixB
      *                    as second argument
      * @return a new BooleanMatrix with the results of the element-wise operation
-     * @throws IllegalArgumentException if the matrices have different dimensions (shape mismatch)
+     * @throws IllegalArgumentException if the matrices have different dimensions (shape mismatch),
+     *         or if {@code zipFunction} is {@code null}
      * @throws E if the zip function throws an exception
      * @see #zipWith(BooleanMatrix, BooleanMatrix, Throwables.BooleanTernaryOperator)
      */
@@ -2292,7 +2302,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *                    element from this matrix as first argument, element from matrixB as
      *                    second argument, and element from matrixC as third argument
      * @return a new BooleanMatrix with the results of the element-wise operation
-     * @throws IllegalArgumentException if any matrices have different dimensions (shape mismatch)
+     * @throws IllegalArgumentException if any matrices have different dimensions (shape mismatch),
+     *         or if {@code zipFunction} is {@code null}
      * @throws E if the zip function throws an exception
      * @see #zipWith(BooleanMatrix, Throwables.BooleanBinaryOperator)
      */

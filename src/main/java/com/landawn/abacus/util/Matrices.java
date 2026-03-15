@@ -25,7 +25,7 @@ import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Utility methods shared by the matrix implementations in this package.
+ * Provides utility methods shared by the matrix implementations in this package.
  *
  * <p>This class owns the thread-local parallel-execution setting and provides helpers for shape checks,
  * index traversal, matrix-array allocation, and zipping compatible matrices.</p>

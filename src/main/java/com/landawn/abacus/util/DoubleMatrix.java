@@ -258,6 +258,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param size the number of columns in the new matrix
      * @return a new DoubleMatrix of dimensions 1 x size filled with random values
+     * @throws IllegalArgumentException if {@code size} is negative
      */
     public static DoubleMatrix random(final int size) {
         return random(1, size);
@@ -275,6 +276,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param rowCount the number of rows in the new matrix
      * @param columnCount the number of columns in the new matrix
      * @return a new DoubleMatrix of dimensions rowCount x columnCount filled with random values
+     * @throws IllegalArgumentException if {@code rowCount} or {@code columnCount} is negative
      */
     public static DoubleMatrix random(final int rowCount, final int columnCount) {
         N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
@@ -305,6 +307,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param columnCount the number of columns in the new matrix
      * @param element the double value to fill the matrix with
      * @return a new DoubleMatrix of dimensions rowCount x columnCount filled with the specified element
+     * @throws IllegalArgumentException if {@code rowCount} or {@code columnCount} is negative
      */
     public static DoubleMatrix repeat(final int rowCount, final int columnCount, final double element) {
         N.checkArgument(rowCount >= 0, MSG_NEGATIVE_DIMENSION, "rowCount", rowCount);
@@ -1254,6 +1257,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param b the source array to copy values from (may be smaller or larger than the matrix)
+     * @throws IllegalArgumentException if {@code b} is {@code null}
      */
     public void copyFrom(final double[][] b) {
         copyFrom(0, 0, b);

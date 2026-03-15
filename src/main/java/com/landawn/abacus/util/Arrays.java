@@ -19,7 +19,7 @@ import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- * Utility methods for working with one-, two-, and three-dimensional arrays of primitives and objects.
+ * Provides utility methods for working with one-, two-, and three-dimensional arrays of primitives and objects.
  *
  * <p>This class complements {@link java.util.Arrays} with bulk updates, conditional replacement,
  * reshaping, flattening, zipping, element counting, primitive conversion, and formatted printing.
