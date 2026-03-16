@@ -1,7 +1,7 @@
-# abacus-extra API Index (v3.6.3)
+# abacus-extra API Index (v3.6.5)
 - Build: unknown
 - Java: 17
-- Generated: 2026-03-09
+- Generated: 2026-03-15
 
 ## Packages
 - com.landawn.abacus.util
@@ -420,7 +420,7 @@ Base class for the matrix types in this package.
   - `E` — if the function throws an exception
 
 ### Class Arrays (com.landawn.abacus.util.Arrays)
-Utility methods for working with one-, two-, and three-dimensional arrays of primitives and objects.
+Provides utility methods for working with one-, two-, and three-dimensional arrays of primitives and objects.
 
 **Thread-safety:** unspecified
 **Nullability:** unspecified
@@ -614,6 +614,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(boolean\[\], Throwables.BooleanFunction, Class),for one-dimensional arrays, #mapToObj(boolean\[\]\[\]\[\], Throwables.BooleanFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each boolean element in a three-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -623,6 +624,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(boolean\[\], Throwables.BooleanFunction, Class),for one-dimensional arrays, #mapToObj(boolean\[\]\[\], Throwables.BooleanFunction, Class),for two-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each char element to an object using the provided mapper function.
 - **Parameters:**
@@ -632,6 +634,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** an object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(char\[\]\[\], Throwables.CharFunction, Class),for two-dimensional arrays, #mapToObj(char\[\]\[\]\[\], Throwables.CharFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each char element in a two-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -641,6 +644,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(char\[\], Throwables.CharFunction, Class),for one-dimensional arrays, #mapToObj(char\[\]\[\]\[\], Throwables.CharFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each char element in a three-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -650,6 +654,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(char\[\], Throwables.CharFunction, Class),for one-dimensional arrays, #mapToObj(char\[\]\[\], Throwables.CharFunction, Class),for two-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each byte element to an object using the provided mapper function.
 - **Parameters:**
@@ -659,6 +664,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** an object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(byte\[\]\[\], Throwables.ByteFunction, Class),for two-dimensional arrays, #mapToObj(byte\[\]\[\]\[\], Throwables.ByteFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each byte element in a two-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -668,6 +674,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(byte\[\], Throwables.ByteFunction, Class),for one-dimensional arrays, #mapToObj(byte\[\]\[\]\[\], Throwables.ByteFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each byte element in a three-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -677,6 +684,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(byte\[\], Throwables.ByteFunction, Class),for one-dimensional arrays, #mapToObj(byte\[\]\[\], Throwables.ByteFunction, Class),for two-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each short element to an object using the provided mapper function.
 - **Parameters:**
@@ -686,6 +694,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** an object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(short\[\]\[\], Throwables.ShortFunction, Class),for two-dimensional arrays, #mapToObj(short\[\]\[\]\[\], Throwables.ShortFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each short element in a two-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -695,6 +704,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(short\[\], Throwables.ShortFunction, Class),for one-dimensional arrays, #mapToObj(short\[\]\[\]\[\], Throwables.ShortFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each short element in a three-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -704,6 +714,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(short\[\], Throwables.ShortFunction, Class),for one-dimensional arrays, #mapToObj(short\[\]\[\], Throwables.ShortFunction, Class),for two-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each int element to an object using the provided mapper function.
 - **Parameters:**
@@ -713,6 +724,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** an object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(int\[\]\[\], Throwables.IntFunction, Class),for two-dimensional arrays, #mapToObj(int\[\]\[\]\[\], Throwables.IntFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each int element in a two-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -722,6 +734,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(int\[\], Throwables.IntFunction, Class),for one-dimensional arrays, #mapToObj(int\[\]\[\]\[\], Throwables.IntFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each int element in a three-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -731,6 +744,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(int\[\], Throwables.IntFunction, Class),for one-dimensional arrays, #mapToObj(int\[\]\[\], Throwables.IntFunction, Class),for two-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each long element to an object using the provided mapper function.
 - **Parameters:**
@@ -740,6 +754,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** an object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(long\[\]\[\], Throwables.LongFunction, Class),for two-dimensional arrays, #mapToObj(long\[\]\[\]\[\], Throwables.LongFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each long element in a two-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -749,6 +764,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(long\[\], Throwables.LongFunction, Class),for one-dimensional arrays, #mapToObj(long\[\]\[\]\[\], Throwables.LongFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each long element in a three-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -758,6 +774,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(long\[\], Throwables.LongFunction, Class),for one-dimensional arrays, #mapToObj(long\[\]\[\], Throwables.LongFunction, Class),for two-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each float element to an object using the provided mapper function.
 - **Contract:**
@@ -779,6 +796,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(float\[\], Throwables.FloatFunction, Class),for one-dimensional arrays, #mapToObj(float\[\]\[\]\[\], Throwables.FloatFunction, Class),for three-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each float element in a three-dimensional array to an object using the provided mapper function.
 - **Parameters:**
@@ -788,6 +806,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToObj(float\[\], Throwables.FloatFunction, Class),for one-dimensional arrays, #mapToObj(float\[\]\[\], Throwables.FloatFunction, Class),for two-dimensional arrays
 - **Signature:** `public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E`
 - **Summary:** Maps each element of a double array to an object using the provided mapper function.
 - **Contract:**
@@ -856,6 +875,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a long array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToLong(double\[\]\[\], Throwables.DoubleToLongFunction),for two-dimensional arrays, #mapToLong(double\[\]\[\]\[\], Throwables.DoubleToLongFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> long[][] mapToLong(final double[][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E`
 - **Summary:** Maps a two-dimensional double array to a two-dimensional long array using the provided mapper function.
 - **Parameters:**
@@ -864,6 +884,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToLong(double\[\], Throwables.DoubleToLongFunction),for one-dimensional arrays, #mapToLong(double\[\]\[\]\[\], Throwables.DoubleToLongFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> long[][][] mapToLong(final double[][][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E`
 - **Summary:** Maps a three-dimensional double array to a three-dimensional long array using the provided mapper function.
 - **Parameters:**
@@ -872,6 +893,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToLong(double\[\], Throwables.DoubleToLongFunction),for one-dimensional arrays, #mapToLong(double\[\]\[\], Throwables.DoubleToLongFunction),for two-dimensional arrays
 ##### mapToDouble(...) -> double\[\]
 - **Signature:** `public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E`
 - **Summary:** Maps a one-dimensional int array to a one-dimensional double array using the provided mapper function.
@@ -881,6 +903,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a double array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToDouble(int\[\]\[\], Throwables.IntToDoubleFunction),for two-dimensional arrays, #mapToDouble(int\[\]\[\]\[\], Throwables.IntToDoubleFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> double[][] mapToDouble(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E`
 - **Summary:** Maps a two-dimensional int array to a two-dimensional double array using the provided mapper function.
 - **Parameters:**
@@ -889,6 +912,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToDouble(int\[\], Throwables.IntToDoubleFunction),for one-dimensional arrays, #mapToDouble(int\[\]\[\]\[\], Throwables.IntToDoubleFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> double[][][] mapToDouble(final int[][][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E`
 - **Summary:** Maps a three-dimensional int array to a three-dimensional double array using the provided mapper function.
 - **Parameters:**
@@ -897,6 +921,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToDouble(int\[\], Throwables.IntToDoubleFunction),for one-dimensional arrays, #mapToDouble(int\[\]\[\], Throwables.IntToDoubleFunction),for two-dimensional arrays
 - **Signature:** `public static <E extends Exception> double[] mapToDouble(final long[] a, final Throwables.LongToDoubleFunction<E> mapper) throws E`
 - **Summary:** Maps a one-dimensional long array to a one-dimensional double array using the provided mapper function.
 - **Parameters:**
@@ -905,6 +930,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a double array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToDouble(long\[\]\[\], Throwables.LongToDoubleFunction),for two-dimensional arrays, #mapToDouble(long\[\]\[\]\[\], Throwables.LongToDoubleFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> double[][] mapToDouble(final long[][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E`
 - **Summary:** Maps a two-dimensional long array to a two-dimensional double array using the provided mapper function.
 - **Parameters:**
@@ -913,6 +939,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToDouble(long\[\], Throwables.LongToDoubleFunction),for one-dimensional arrays, #mapToDouble(long\[\]\[\]\[\], Throwables.LongToDoubleFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> double[][][] mapToDouble(final long[][][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E`
 - **Summary:** Maps a three-dimensional long array to a three-dimensional double array using the provided mapper function.
 - **Parameters:**
@@ -921,6 +948,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToDouble(long\[\], Throwables.LongToDoubleFunction),for one-dimensional arrays, #mapToDouble(long\[\]\[\], Throwables.LongToDoubleFunction),for two-dimensional arrays
 ##### mapToInt(...) -> int\[\]
 - **Signature:** `public static <E extends Exception> int[] mapToInt(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws E`
 - **Summary:** Maps a one-dimensional long array to a one-dimensional int array using the provided mapper function.
@@ -930,6 +958,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** an int array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToInt(long\[\]\[\], Throwables.LongToIntFunction),for two-dimensional arrays, #mapToInt(long\[\]\[\]\[\], Throwables.LongToIntFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> int[][] mapToInt(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws E`
 - **Summary:** Maps a two-dimensional long array to a two-dimensional int array using the provided mapper function.
 - **Parameters:**
@@ -938,6 +967,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToInt(long\[\], Throwables.LongToIntFunction),for one-dimensional arrays, #mapToInt(long\[\]\[\]\[\], Throwables.LongToIntFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> int[][][] mapToInt(final long[][][] a, final Throwables.LongToIntFunction<E> mapper) throws E`
 - **Summary:** Maps a three-dimensional long array to a three-dimensional int array using the provided mapper function.
 - **Parameters:**
@@ -946,6 +976,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToInt(long\[\], Throwables.LongToIntFunction),for one-dimensional arrays, #mapToInt(long\[\]\[\], Throwables.LongToIntFunction),for two-dimensional arrays
 - **Signature:** `public static <E extends Exception> int[] mapToInt(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws E`
 - **Summary:** Maps a one-dimensional double array to a one-dimensional int array using the provided mapper function.
 - **Parameters:**
@@ -954,6 +985,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** an int array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToInt(double\[\]\[\], Throwables.DoubleToIntFunction),for two-dimensional arrays, #mapToInt(double\[\]\[\]\[\], Throwables.DoubleToIntFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> int[][] mapToInt(final double[][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E`
 - **Summary:** Maps a two-dimensional double array to a two-dimensional int array using the provided mapper function.
 - **Parameters:**
@@ -962,6 +994,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a two-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToInt(double\[\], Throwables.DoubleToIntFunction),for one-dimensional arrays, #mapToInt(double\[\]\[\]\[\], Throwables.DoubleToIntFunction),for three-dimensional arrays
 - **Signature:** `public static <E extends Exception> int[][][] mapToInt(final double[][][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E`
 - **Summary:** Maps a three-dimensional double array to a three-dimensional int array using the provided mapper function.
 - **Parameters:**
@@ -970,6 +1003,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Returns:** a three-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
 - **Throws:**
   - `E` — if the {@code mapper} function throws an exception.
+- **See also:** #mapToInt(double\[\], Throwables.DoubleToIntFunction),for one-dimensional arrays, #mapToInt(double\[\]\[\], Throwables.DoubleToIntFunction),for two-dimensional arrays
 ##### updateAll(...) -> void
 - **Signature:** `public static <E extends Exception> void updateAll(final boolean[] a, final Throwables.BooleanUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in the one-dimensional boolean array by applying the provided unary operator.
@@ -1290,7 +1324,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Signature:** `public static <E extends Exception> void replaceIf(final int[][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E`
 - **Summary:** Replaces elements in the two-dimensional array that match the given predicate with the specified new value.
 - **Contract:**
-  - If the array is null or empty, the method returns without performing any operation.
+  - If the array is {@code null} or empty, the method returns without performing any operation.
 - **Parameters:**
   - `a` (`int[][]`) — the two-dimensional array to be modified.
   - `predicate` (`Throwables.IntPredicate<E>`) — the predicate to test each element (must not be {@code null} ).
@@ -1301,7 +1335,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Signature:** `public static <E extends Exception> void replaceIf(final int[][][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E`
 - **Summary:** Replaces elements in the three-dimensional array that match the given predicate with the specified new value.
 - **Contract:**
-  - If the array is null or empty, the method returns without performing any operation.
+  - If the array is {@code null} or empty, the method returns without performing any operation.
 - **Parameters:**
   - `a` (`int[][][]`) — the three-dimensional array to be modified.
   - `predicate` (`Throwables.IntPredicate<E>`) — the predicate to test each element (must not be {@code null} ).
@@ -1491,7 +1525,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Summary:** Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
 - **Contract:**
   - The last row may contain fewer elements if the array length is not evenly divisible by the column count.
-  - If the input array is null or empty, returns an empty two-dimensional array.
+  - If the input array is {@code null} or empty, returns an empty two-dimensional array.
 - **Parameters:**
   - `a` (`int[]`) — the one-dimensional array to reshape.
   - `columnCount` (`int`) — the number of columns in each row.
@@ -1502,7 +1536,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Summary:** Reshapes a one-dimensional array into a three-dimensional array with the specified dimensions.
 - **Contract:**
   - Each matrix may be incomplete if the array length is not evenly divisible by rowCount × columnCount.
-  - If the input array is null or empty, returns an empty three-dimensional array.
+  - If the input array is {@code null} or empty, returns an empty three-dimensional array.
 - **Parameters:**
   - `a` (`int[]`) — the one-dimensional array to reshape.
   - `rowCount` (`int`) — the number of rows in each two-dimensional matrix.
@@ -1578,49 +1612,49 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Summary:** Flattens a two-dimensional boolean array into a one-dimensional boolean array.
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(boolean\[\]\[\]\[\]),for flattening three-dimensional arrays, #applyOnFlattened(boolean\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static boolean[] flatten(final boolean[][][] a)`
 - **Summary:** Flattens a three-dimensional boolean array into a one-dimensional boolean array.
 - **Parameters:**
   - `a` (`boolean[][][]`) — the three-dimensional boolean array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(boolean\[\]\[\]),for flattening two-dimensional arrays, #applyOnFlattened(boolean\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened three-dimensional arrays
 - **Signature:** `public static char[] flatten(final char[][] a)`
 - **Summary:** Flattens a two-dimensional character array into a new one-dimensional character array by concatenating all its sub-arrays.
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(char\[\]\[\]\[\]),for three-dimensional arrays, #applyOnFlattened(char\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static char[] flatten(final char[][][] a)`
 - **Summary:** Flattens a three-dimensional character array into a new one-dimensional character array by concatenating all its innermost sub-arrays.
 - **Parameters:**
   - `a` (`char[][][]`) — the three-dimensional character array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(char\[\]\[\]),for two-dimensional arrays, #applyOnFlattened(char\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static byte[] flatten(final byte[][] a)`
 - **Summary:** Flattens a two-dimensional byte array into a one-dimensional byte array.
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(byte\[\]\[\]\[\]),for three-dimensional arrays, #applyOnFlattened(byte\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static byte[] flatten(final byte[][][] a)`
 - **Summary:** Flattens a three-dimensional byte array into a one-dimensional byte array.
 - **Parameters:**
   - `a` (`byte[][][]`) — the three-dimensional byte array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(byte\[\]\[\]),for two-dimensional arrays, #applyOnFlattened(byte\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static short[] flatten(final short[][] a)`
 - **Summary:** Flattens a two-dimensional short array into a one-dimensional array.
 - **Parameters:**
   - `a` (`short[][]`) — the two-dimensional array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(short\[\]\[\]\[\]),for three-dimensional arrays, #applyOnFlattened(short\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static short[] flatten(final short[][][] a)`
 - **Summary:** Flattens a three-dimensional short array into a one-dimensional array.
 - **Parameters:**
   - `a` (`short[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(short\[\]\[\]),for two-dimensional arrays, #applyOnFlattened(short\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static int[] flatten(final int[][] a)`
 - **Summary:** Flattens a two-dimensional array into a one-dimensional array.
@@ -1628,51 +1662,51 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
   - If the input array is null or empty, returns an empty array.
 - **Parameters:**
   - `a` (`int[][]`) — the two-dimensional array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(int\[\]\[\]\[\]),for three-dimensional arrays, #applyOnFlattened(int\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static int[] flatten(final int[][][] a)`
 - **Summary:** Flattens a three-dimensional array into a one-dimensional array.
 - **Contract:**
-  - If the input array is null or empty, returns an empty array.
+  - If the input array is {@code null} or empty, returns an empty array.
 - **Parameters:**
   - `a` (`int[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(int\[\]\[\]),for two-dimensional arrays, #applyOnFlattened(int\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static long[] flatten(final long[][] a)`
 - **Summary:** Flattens a two-dimensional long array into a one-dimensional long array by concatenating its rows.
 - **Parameters:**
   - `a` (`long[][]`) — the two-dimensional array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(long\[\]\[\]\[\]),for three-dimensional arrays, #applyOnFlattened(long\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static long[] flatten(final long[][][] a)`
 - **Summary:** Flattens a three-dimensional long array into a one-dimensional long array by concatenating its elements in order.
 - **Parameters:**
   - `a` (`long[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(long\[\]\[\]),for two-dimensional arrays, #applyOnFlattened(long\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static float[] flatten(final float[][] a)`
 - **Summary:** Flattens a two-dimensional float array into a new one-dimensional float array.
 - **Parameters:**
   - `a` (`float[][]`) — the two-dimensional array to flatten.
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(float\[\]\[\]\[\]),for flattening three-dimensional arrays, #applyOnFlattened(float\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static float[] flatten(final float[][][] a)`
 - **Summary:** Flattens a three-dimensional float array into a new one-dimensional float array.
 - **Parameters:**
   - `a` (`float[][][]`) — the three-dimensional array to flatten.
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(float\[\]\[\]),for flattening two-dimensional arrays, #applyOnFlattened(float\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static double[] flatten(final double[][] a)`
 - **Summary:** Flattens a two-dimensional array into a one-dimensional array by concatenating its rows.
 - **Parameters:**
   - `a` (`double[][]`) — the two-dimensional array to flatten.
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(double\[\]\[\]\[\]),for flattening three-dimensional arrays, #applyOnFlattened(double\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static double[] flatten(final double[][][] a)`
 - **Summary:** Flattens a three-dimensional array into a one-dimensional array by concatenating its elements in order.
 - **Parameters:**
   - `a` (`double[][][]`) — the three-dimensional array to flatten.
-- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
+- **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(double\[\]\[\]),for flattening two-dimensional arrays, #applyOnFlattened(double\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 ##### applyOnFlattened(...) -> void
 - **Signature:** `public static <E extends Exception> void applyOnFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
@@ -3056,7 +3090,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Signature:** `public static int minSubArrayLength(final boolean[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional boolean array.
 - **Contract:**
-  - Returns 0 if the input array is null or empty.
+  - Returns 0 if the input array is {@code null} or empty.
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array (can be {@code null} ).
 - **Returns:** the minimum length of sub-arrays, or 0 if array is empty.
@@ -3064,11 +3098,11 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional character array.
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to inspect (can be {@code null} ).
-- **Returns:** the minimum length of any sub-array. Returns 0 if the input array is empty or null.
+- **Returns:** the minimum length of any sub-array. Returns 0 if the input array is empty or {@code null} .
 - **Signature:** `public static int minSubArrayLength(final byte[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional byte array.
 - **Contract:**
-  - Returns 0 if the input array is null or empty.
+  - Returns 0 if the input array is {@code null} or empty.
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} ).
 - **Returns:** the minimum sub-array length, or 0 if the array is empty.
@@ -3105,7 +3139,7 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Signature:** `public static int maxSubArrayLength(final boolean[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional boolean array.
 - **Contract:**
-  - Returns 0 if the input array is null or empty.
+  - Returns 0 if the input array is {@code null} or empty.
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array (can be {@code null} ).
 - **Returns:** the maximum length of sub-arrays, or 0 if array is empty.
@@ -3113,18 +3147,18 @@ Utility methods for working with one-, two-, and three-dimensional arrays of pri
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional character array.
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to inspect (can be {@code null} ).
-- **Returns:** the maximum length of any sub-array. Returns 0 if the input array is empty or null.
+- **Returns:** the maximum length of any sub-array. Returns 0 if the input array is empty or {@code null} .
 - **Signature:** `public static int maxSubArrayLength(final byte[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional byte array.
 - **Contract:**
-  - Returns 0 if the input array is null or empty.
+  - Returns 0 if the input array is {@code null} or empty.
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} ).
 - **Returns:** the maximum sub-array length, or 0 if the array is empty.
 - **Signature:** `public static int maxSubArrayLength(final short[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional short array.
 - **Contract:**
-  - Returns 0 if the array is null or empty.
+  - Returns 0 if the array is {@code null} or empty.
 - **Parameters:**
   - `a` (`short[][]`) — the two-dimensional array to examine (can be {@code null} ).
 - **Returns:** the maximum length of any sub-array, or 0 if array is {@code null} or empty.
@@ -4198,7 +4232,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
 - **Returns:** a new BooleanMatrix containing the provided data, or an empty BooleanMatrix if input is null or empty
 ##### random(...) -> BooleanMatrix
 - **Signature:** `public static BooleanMatrix random(final int size)`
-- **Summary:** Creates a new 1xsize matrix filled with random boolean values.
+- **Summary:** Creates a new {@code 1 x size} matrix filled with random boolean values.
 - **Parameters:**
   - `size` (`int`) — the number of columns in the new matrix
 - **Returns:** a new BooleanMatrix of dimensions 1 x size filled with random values
@@ -4443,13 +4477,14 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `java.lang.IllegalStateException` — if the matrix is not square (rowCount != columnCount)
   - `java.lang.IllegalArgumentException` — if antiDiagonal array length does not equal rowCount
 ##### updateAntiDiagonal(...) -> void
-- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws E`
+- **Signature:** `public <E extends Exception> void updateAntiDiagonal(final Throwables.BooleanUnaryOperator<E> operator) throws IllegalStateException, E`
 - **Summary:** Updates the values on the anti-diagonal (upper-right to lower-left) by applying the specified operator.
 - **Contract:**
   - The matrix must be square.
 - **Parameters:**
   - `operator` (`Throwables.BooleanUnaryOperator<E>`) — the operator to apply to each anti-diagonal element; receives current element value and returns new value
 - **Throws:**
+  - `java.lang.IllegalStateException` — if the matrix is not square
   - `E` — if the operator throws an exception
 ##### updateAll(...) -> void
 - **Signature:** `public <E extends Exception> void updateAll(final Throwables.BooleanUnaryOperator<E> operator) throws E`
@@ -4516,9 +4551,9 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
 - **Parameters:**
   - `destRowIndex` (`int`) — the target row index in this matrix (0-based)
   - `destColumnIndex` (`int`) — the target column index in this matrix (0-based)
-  - `b` (`boolean[][]`) — the source array to copy values from
+  - `b` (`boolean[][]`) — the source array to copy values from; must not be null
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if the target indices are negative or exceed matrix dimensions
+  - `java.lang.IllegalArgumentException` — if {@code b} is {@code null} , or if the target indices are negative or exceed matrix dimensions
 ##### copy(...) -> BooleanMatrix
 - **Signature:** `@Override public BooleanMatrix copy()`
 - **Summary:** Returns a copy of this matrix.
@@ -4550,8 +4585,8 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with false.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
 - **Returns:** a new BooleanMatrix with the specified dimensions
 - **Signature:** `public BooleanMatrix resize(final int newRowCount, final int newColumnCount, final boolean defaultValueForNewCell) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
@@ -4559,8 +4594,8 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
   - `defaultValueForNewCell` (`boolean`) — the boolean value to fill new cells with during extension
 - **Returns:** a new BooleanMatrix with the specified dimensions
 - **Throws:**
@@ -4686,7 +4721,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `other` (`BooleanMatrix`) — the matrix to AND with this matrix
 - **Returns:** a new BooleanMatrix containing the element-wise logical AND
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if the matrices have different dimensions
+  - `java.lang.IllegalArgumentException` — if {@code other} is {@code null} or the matrices have different dimensions
 ##### or(...) -> BooleanMatrix
 - **Signature:** `public BooleanMatrix or(final BooleanMatrix other) throws IllegalArgumentException`
 - **Summary:** Performs element-wise logical OR of this matrix with another matrix.
@@ -4696,7 +4731,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `other` (`BooleanMatrix`) — the matrix to OR with this matrix
 - **Returns:** a new BooleanMatrix containing the element-wise logical OR
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if the matrices have different dimensions
+  - `java.lang.IllegalArgumentException` — if {@code other} is {@code null} or the matrices have different dimensions
 ##### xor(...) -> BooleanMatrix
 - **Signature:** `public BooleanMatrix xor(final BooleanMatrix other) throws IllegalArgumentException`
 - **Summary:** Performs element-wise logical XOR of this matrix with another matrix.
@@ -4706,7 +4741,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `other` (`BooleanMatrix`) — the matrix to XOR with this matrix
 - **Returns:** a new BooleanMatrix containing the element-wise logical XOR
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if the matrices have different dimensions
+  - `java.lang.IllegalArgumentException` — if {@code other} is {@code null} or the matrices have different dimensions
 ##### countTrue(...) -> int
 - **Signature:** `public int countTrue()`
 - **Summary:** Counts the number of {@code true} elements in this matrix.
@@ -4738,7 +4773,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `other` (`BooleanMatrix`) — the matrix to stack below this matrix (must have the same column count)
 - **Returns:** a new BooleanMatrix with dimensions (this.rowCount + other.rowCount) x this.columnCount
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code this.columnCount != other.columnCount}
+  - `java.lang.IllegalArgumentException` — if {@code other} is {@code null} or {@code this.columnCount != other.columnCount}
 - **See also:** #stackHorizontally(BooleanMatrix)
 ##### stackHorizontally(...) -> BooleanMatrix
 - **Signature:** `public BooleanMatrix stackHorizontally(final BooleanMatrix other) throws IllegalArgumentException`
@@ -4749,7 +4784,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `other` (`BooleanMatrix`) — the matrix to stack to the right of this matrix (must have the same row count)
 - **Returns:** a new BooleanMatrix with dimensions this.rowCount x (this.columnCount + other.columnCount)
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code this.rowCount != other.rowCount}
+  - `java.lang.IllegalArgumentException` — if {@code other} is {@code null} or {@code this.rowCount != other.rowCount}
 - **See also:** #stackVertically(BooleanMatrix)
 ##### boxed(...) -> Matrix<Boolean>
 - **Signature:** `public Matrix<Boolean> boxed()`
@@ -4770,7 +4805,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `zipFunction` (`Throwables.BooleanBinaryOperator<E>`) — the binary operator to apply to corresponding elements; receives element from this matrix as first argument and element from matrixB as second argument
 - **Returns:** a new BooleanMatrix with the results of the element-wise operation
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if the matrices have different dimensions (shape mismatch)
+  - `java.lang.IllegalArgumentException` — if the matrices have different dimensions (shape mismatch), or if {@code zipFunction} is {@code null}
   - `E` — if the zip function throws an exception
 - **See also:** #zipWith(BooleanMatrix, BooleanMatrix, Throwables.BooleanTernaryOperator)
 - **Signature:** `public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final BooleanMatrix matrixC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws IllegalArgumentException, E`
@@ -4784,7 +4819,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `zipFunction` (`Throwables.BooleanTernaryOperator<E>`) — the ternary operator to apply to corresponding elements; receives element from this matrix as first argument, element from matrixB as second argument, and element from matrixC as third argument
 - **Returns:** a new BooleanMatrix with the results of the element-wise operation
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any matrices have different dimensions (shape mismatch)
+  - `java.lang.IllegalArgumentException` — if any matrices have different dimensions (shape mismatch), or if {@code zipFunction} is {@code null}
   - `E` — if the zip function throws an exception
 - **See also:** #zipWith(BooleanMatrix, Throwables.BooleanBinaryOperator)
 ##### streamMainDiagonal(...) -> Stream<Boolean>
@@ -4905,7 +4940,7 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `E` — if the action throws an exception
 ##### println(...) -> String
 - **Signature:** `@Override public String println()`
-- **Summary:** Prints this matrix and returns the printed text.
+- **Summary:** Prints this matrix to standard output and returns the formatted string.
 - **Contract:**
   - If the matrix is empty, {@code \[\]} is printed.
 - **Parameters:**
@@ -5087,7 +5122,7 @@ Base class for immutable tuples of primitive {@code boolean} values.
 - **Signature:** `@Override public boolean equals(final Object obj)`
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Contract:**
-  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same boolean values in the same order </li> </ul> This method is consistent with {@link #hashCode()} .
+  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same boolean values in the same order </li> </ul> <p> This method is consistent with {@link #hashCode()} .
 - **Parameters:**
   - `obj` (`Object`) — the object to be compared for equality with this tuple
 - **Returns:** {@code true} if the specified object is equal to this tuple, {@code false} otherwise
@@ -5700,7 +5735,7 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
 - **Returns:** a new ByteMatrix containing the provided data, or an empty ByteMatrix if input is null or empty
 ##### random(...) -> ByteMatrix
 - **Signature:** `public static ByteMatrix random(final int size)`
-- **Summary:** Creates a new 1xsize matrix filled with random byte values.
+- **Summary:** Creates a new {@code 1 x size} matrix filled with random byte values.
 - **Parameters:**
   - `size` (`int`) — the number of columns in the new matrix
 - **Returns:** a new ByteMatrix of dimensions 1 x size filled with random values
@@ -6085,8 +6120,8 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
 - **Returns:** a new ByteMatrix with the specified dimensions
 - **Signature:** `public ByteMatrix resize(final int newRowCount, final int newColumnCount, final byte defaultValueForNewCell) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
@@ -6094,8 +6129,8 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
   - `defaultValueForNewCell` (`byte`) — the byte value to fill new cells with during extension
 - **Returns:** a new ByteMatrix with the specified dimensions
 - **Throws:**
@@ -6138,14 +6173,14 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
 - **Parameters:**
   - (none)
 - **Returns:** a new ByteMatrix that is a horizontal flip of this matrix (each row reversed)
-- **See also:** #flipInPlaceHorizontally(), #flipVertically(), IntMatrix#flipHorizontally(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1,</a>
+- **See also:** #flipInPlaceHorizontally(), #flipVertically(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### flipVertically(...) -> ByteMatrix
 - **Signature:** `public ByteMatrix flipVertically()`
 - **Summary:** Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
 - **Parameters:**
   - (none)
 - **Returns:** a new ByteMatrix that is a vertical flip of this matrix (rows in reversed order)
-- **See also:** #flipInPlaceVertically(), #flipHorizontally(), IntMatrix#flipVertically(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1,</a>
+- **See also:** #flipInPlaceVertically(), #flipHorizontally(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### rotate90(...) -> ByteMatrix
 - **Signature:** `@Override public ByteMatrix rotate90()`
 - **Summary:** Returns a new matrix that is this matrix rotated 90 degrees clockwise.
@@ -6440,7 +6475,7 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
   - `E` — if the action throws an exception
 ##### println(...) -> String
 - **Signature:** `@Override public String println()`
-- **Summary:** Prints this matrix and returns the printed text.
+- **Summary:** Prints this matrix to standard output and returns the formatted string.
 - **Contract:**
   - If the matrix is empty, {@code \[\]} is printed.
 - **Parameters:**
@@ -6602,7 +6637,7 @@ Base class for immutable tuples of primitive {@code byte} values.
   - The result is returned as an int to prevent overflow issues that could occur if the sum exceeds the byte range (-128 to 127).
 - **Parameters:**
   - (none)
-- **Returns:** the sum of all byte values in this tuple as an integer
+- **Returns:** the sum of all byte values in this tuple as an {@code int}
 ##### average(...) -> double
 - **Signature:** `public double average()`
 - **Summary:** Returns the average of all byte values in this tuple as a double.
@@ -6660,7 +6695,7 @@ Base class for immutable tuples of primitive {@code byte} values.
 - **Signature:** `@Override public boolean equals(final Object obj)`
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Contract:**
-  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same byte values in the same order </li> </ul> This method is consistent with {@link #hashCode()} .
+  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same byte values in the same order </li> </ul> <p> This method is consistent with {@link #hashCode()} .
 - **Parameters:**
   - `obj` (`Object`) — the object to be compared for equality with this tuple
 - **Returns:** {@code true} if the specified object is equal to this tuple, {@code false} otherwise
@@ -7567,7 +7602,7 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
 - **Returns:** a new CharMatrix containing the provided data, or an empty CharMatrix if input is null or empty
 ##### random(...) -> CharMatrix
 - **Signature:** `public static CharMatrix random(final int size)`
-- **Summary:** Creates a new 1xsize matrix filled with random char values.
+- **Summary:** Creates a new {@code 1 x size} matrix filled with random char values.
 - **Parameters:**
   - `size` (`int`) — the number of columns in the new matrix
 - **Returns:** a new CharMatrix of dimensions 1 x size filled with random values
@@ -7911,7 +7946,7 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
   - If the source array is smaller than the matrix, only the overlapping region is filled.
   - If the source array is larger, only the portion that fits is copied.
 - **Parameters:**
-  - `b` (`char[][]`) — the source array to copy values from (maybe smaller or larger than the matrix)
+  - `b` (`char[][]`) — the source array to copy values from (may be smaller or larger than the matrix)
 - **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final char[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a portion of the matrix with values from the specified two-dimensional array in-place, starting from a specified position.
 - **Contract:**
@@ -7953,8 +7988,8 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with ' '.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
 - **Returns:** a new CharMatrix with the specified dimensions
 - **Signature:** `public CharMatrix resize(final int newRowCount, final int newColumnCount, final char defaultValueForNewCell) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
@@ -7962,8 +7997,8 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
   - `defaultValueForNewCell` (`char`) — the char value to fill new cells with during extension
 - **Returns:** a new CharMatrix with the specified dimensions
 - **Throws:**
@@ -8006,14 +8041,14 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
 - **Parameters:**
   - (none)
 - **Returns:** a new CharMatrix with each row reversed
-- **See also:** #flipInPlaceHorizontally(),for an in-place version
+- **See also:** #flipInPlaceHorizontally(),for an in-place version, #flipVertically(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### flipVertically(...) -> CharMatrix
 - **Signature:** `public CharMatrix flipVertically()`
 - **Summary:** Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
 - **Parameters:**
   - (none)
 - **Returns:** a new matrix that is a vertical flip of this matrix (rows in reversed order)
-- **See also:** #flipInPlaceVertically(),for an in-place version
+- **See also:** #flipInPlaceVertically(),for an in-place version, #flipHorizontally(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### rotate90(...) -> CharMatrix
 - **Signature:** `@Override public CharMatrix rotate90()`
 - **Summary:** Returns a new matrix that is this matrix rotated 90 degrees clockwise.
@@ -8293,7 +8328,7 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
   - `E` — if the action throws an exception
 ##### println(...) -> String
 - **Signature:** `@Override public String println()`
-- **Summary:** Prints this matrix and returns the printed text.
+- **Summary:** Prints this matrix to standard output and returns the formatted string.
 - **Contract:**
   - If the matrix is empty, {@code \[\]} is printed.
 - **Parameters:**
@@ -9419,7 +9454,7 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
 - **Returns:** a new DoubleMatrix with converted values, or an empty DoubleMatrix if input is null or empty
 ##### random(...) -> DoubleMatrix
 - **Signature:** `public static DoubleMatrix random(final int size)`
-- **Summary:** Creates a new 1xsize matrix filled with random double values.
+- **Summary:** Creates a new {@code 1 x size} matrix filled with random double values.
 - **Parameters:**
   - `size` (`int`) — the number of columns in the new matrix
 - **Returns:** a new DoubleMatrix of dimensions 1 x size filled with random values
@@ -9747,7 +9782,7 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
   - If the source array is smaller than the matrix, only the overlapping region is filled.
   - If the source array is larger, only the portion that fits is copied.
 - **Parameters:**
-  - `b` (`double[][]`) — the source array to copy values from (maybe smaller or larger than the matrix)
+  - `b` (`double[][]`) — the source array to copy values from (may be smaller or larger than the matrix)
 - **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final double[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a portion of the matrix with values from the specified two-dimensional array in-place, starting from a specified position.
 - **Contract:**
@@ -9789,8 +9824,8 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.0.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
 - **Returns:** a new DoubleMatrix with the specified dimensions
 - **Signature:** `public DoubleMatrix resize(final int newRowCount, final int newColumnCount, final double defaultValueForNewCell) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
@@ -9798,8 +9833,8 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
   - `defaultValueForNewCell` (`double`) — the double value to fill new cells with during extension
 - **Returns:** a new DoubleMatrix with the specified dimensions
 - **Throws:**
@@ -9842,14 +9877,14 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
 - **Parameters:**
   - (none)
 - **Returns:** a new matrix that is a horizontal flip of this matrix (columns in reversed order within each row)
-- **See also:** #flipInPlaceHorizontally()
+- **See also:** #flipInPlaceHorizontally(), #flipVertically(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### flipVertically(...) -> DoubleMatrix
 - **Signature:** `public DoubleMatrix flipVertically()`
 - **Summary:** Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
 - **Parameters:**
   - (none)
 - **Returns:** a new matrix that is a vertical flip of this matrix (rows in reversed order)
-- **See also:** #flipInPlaceVertically()
+- **See also:** #flipInPlaceVertically(), #flipHorizontally(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### rotate90(...) -> DoubleMatrix
 - **Signature:** `@Override public DoubleMatrix rotate90()`
 - **Summary:** Returns a new matrix that is this matrix rotated 90 degrees clockwise.
@@ -10123,7 +10158,7 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
   - `E` — if the action throws an exception
 ##### println(...) -> String
 - **Signature:** `@Override public String println()`
-- **Summary:** Prints the matrix to standard output in a formatted manner.
+- **Summary:** Prints this matrix to standard output and returns the formatted string.
 - **Parameters:**
   - (none)
 - **Returns:** the formatted string representation of the matrix
@@ -10162,7 +10197,7 @@ Base class for immutable tuples of primitive {@code double} values.
 - **Signature:** `public static DoubleTuple1 of(final double _1)`
 - **Summary:** Creates a DoubleTuple.DoubleTuple1 containing a single double value.
 - **Parameters:**
-  - `_1` (`double`) — the double value to wrap in a tuple
+  - `_1` (`double`) — the double value to store in the tuple
 - **Returns:** a new DoubleTuple.DoubleTuple1 containing the specified value
 - **Signature:** `public static DoubleTuple2 of(final double _1, final double _2)`
 - **Summary:** Creates a DoubleTuple.DoubleTuple2 containing two double values.
@@ -10273,7 +10308,7 @@ Base class for immutable tuples of primitive {@code double} values.
 - **Returns:** the median double element in this tuple
 ##### sum(...) -> double
 - **Signature:** `public double sum()`
-- **Summary:** Returns the sum of all elements in this tuple.
+- **Summary:** Returns the sum of all double values in this tuple.
 - **Parameters:**
   - (none)
 - **Returns:** the sum of all double values in this tuple
@@ -11238,7 +11273,7 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
 - **Returns:** a new FloatMatrix with converted values, or an empty FloatMatrix if input is null or empty
 ##### random(...) -> FloatMatrix
 - **Signature:** `public static FloatMatrix random(final int size)`
-- **Summary:** Creates a new 1xsize matrix filled with random float values.
+- **Summary:** Creates a new {@code 1 x size} matrix filled with random float values.
 - **Parameters:**
   - `size` (`int`) — the number of columns in the new matrix
 - **Returns:** a new FloatMatrix of dimensions 1 x size filled with random values
@@ -11552,7 +11587,7 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
   - If the source array is smaller than the matrix, only the overlapping region is filled.
   - If the source array is larger, only the portion that fits is copied.
 - **Parameters:**
-  - `b` (`float[][]`) — the source array to copy values from (maybe smaller or larger than the matrix)
+  - `b` (`float[][]`) — the source array to copy values from (may be smaller or larger than the matrix)
 - **Signature:** `public void copyFrom(final int destRowIndex, final int destColumnIndex, final float[][] b) throws IllegalArgumentException`
 - **Summary:** Fills a portion of the matrix with values from the specified two-dimensional array in-place, starting from a specified position.
 - **Contract:**
@@ -11594,8 +11629,8 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.0f.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
 - **Returns:** a new FloatMatrix with the specified dimensions
 - **Signature:** `public FloatMatrix resize(final int newRowCount, final int newColumnCount, final float defaultValueForNewCell) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
@@ -11603,8 +11638,8 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
   - `defaultValueForNewCell` (`float`) — the float value to fill new cells with during extension
 - **Returns:** a new FloatMatrix with the specified dimensions
 - **Throws:**
@@ -11617,7 +11652,7 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
   - `toDown` (`int`) — number of rows to add below; must be non-negative
   - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
   - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-- **Returns:** a new extended FloatMatrix with dimensions ((toUp+rows+toDown) x (toLeft+columnCount+toRight))
+- **Returns:** a new extended FloatMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
 - **Signature:** `public FloatMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final float defaultValueForNewCell) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by extending this matrix in all four directions with padding.
 - **Parameters:**
@@ -11626,7 +11661,7 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
   - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
   - `toRight` (`int`) — number of columns to add to the right; must be non-negative
   - `defaultValueForNewCell` (`float`) — the float value to fill all new cells with
-- **Returns:** a new extended FloatMatrix with dimensions ((toUp+rows+toDown) x (toLeft+columnCount+toRight))
+- **Returns:** a new extended FloatMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would exceed Integer.MAX_VALUE
 ##### flipInPlaceHorizontally(...) -> void
@@ -11647,14 +11682,14 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
 - **Parameters:**
   - (none)
 - **Returns:** a new FloatMatrix with each row reversed
-- **See also:** #flipInPlaceHorizontally(),for an in-place version
+- **See also:** #flipInPlaceHorizontally(),for an in-place version, #flipVertically(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### flipVertically(...) -> FloatMatrix
 - **Signature:** `public FloatMatrix flipVertically()`
 - **Summary:** Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
 - **Parameters:**
   - (none)
 - **Returns:** a new matrix that is a vertical flip of this matrix (rows in reversed order)
-- **See also:** #flipInPlaceVertically(),for an in-place version
+- **See also:** #flipInPlaceVertically(),for an in-place version, #flipHorizontally(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### rotate90(...) -> FloatMatrix
 - **Signature:** `@Override public FloatMatrix rotate90()`
 - **Summary:** Returns a new matrix that is this matrix rotated 90 degrees clockwise.
@@ -11926,7 +11961,7 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
   - `E` — if the action throws an exception
 ##### println(...) -> String
 - **Signature:** `@Override public String println()`
-- **Summary:** Prints the matrix to standard output in a formatted manner.
+- **Summary:** Prints this matrix to standard output and returns the formatted string.
 - **Parameters:**
   - (none)
 - **Returns:** the formatted string representation of the matrix
@@ -11965,7 +12000,7 @@ Base class for immutable tuples of primitive {@code float} values.
 - **Signature:** `public static FloatTuple1 of(final float _1)`
 - **Summary:** Creates a FloatTuple.FloatTuple1 containing a single float value.
 - **Parameters:**
-  - `_1` (`float`) — the float value to wrap in a tuple
+  - `_1` (`float`) — the float value to store in the tuple
 - **Returns:** a new FloatTuple.FloatTuple1 containing the specified value
 - **Signature:** `public static FloatTuple2 of(final float _1, final float _2)`
 - **Summary:** Creates a FloatTuple.FloatTuple2 containing two float values.
@@ -12076,7 +12111,7 @@ Base class for immutable tuples of primitive {@code float} values.
 - **Returns:** the median float element in this tuple
 ##### sum(...) -> float
 - **Signature:** `public float sum()`
-- **Summary:** Returns the sum of all elements in this tuple.
+- **Summary:** Returns the sum of all float values in this tuple.
 - **Parameters:**
   - (none)
 - **Returns:** the sum of all float values in this tuple
@@ -12087,7 +12122,7 @@ Base class for immutable tuples of primitive {@code float} values.
   - The result is always returned as a double to preserve precision, even when the average is a whole number.
 - **Parameters:**
   - (none)
-- **Returns:** the average of all float values in this tuple, as a {@code double} for precision (unlike {@link #sum()} which returns {@code float} , the average is computed in double precision to minimize rounding errors)
+- **Returns:** the average of all float values in this tuple as a {@code double}
 ##### reverse(...) -> TP
 - **Signature:** `public abstract TP reverse()`
 - **Summary:** Returns a new tuple with the elements in reverse order.
@@ -13153,7 +13188,7 @@ Matrix implementation backed by an {@code int\[\]\[\]} .
 - **Returns:** a new IntMatrix containing the provided data, or an empty IntMatrix if input is null or empty
 ##### from(...) -> IntMatrix
 - **Signature:** `public static IntMatrix from(final char[]... a)`
-- **Summary:** Creates an IntMatrix from a two-dimensional char array by widening each {@code char} to its {@code int} code point value.
+- **Summary:** Creates an IntMatrix from a two-dimensional char array by widening each {@code char} to its {@code int} numeric Unicode value.
 - **Contract:**
   - <p> All rows must have the same length as the first row (rectangular array required).
 - **Parameters:**
@@ -13175,7 +13210,7 @@ Matrix implementation backed by an {@code int\[\]\[\]} .
 - **Returns:** a new IntMatrix with converted values, or an empty IntMatrix if input is null or empty
 ##### random(...) -> IntMatrix
 - **Signature:** `public static IntMatrix random(final int size)`
-- **Summary:** Creates a new 1xsize matrix filled with random int values.
+- **Summary:** Creates a new {@code 1 x size} matrix filled with random int values.
 - **Parameters:**
   - `size` (`int`) — the number of columns in the new matrix
 - **Returns:** a new IntMatrix of dimensions 1 x size filled with random values
@@ -13380,7 +13415,7 @@ Matrix implementation backed by an {@code int\[\]\[\]} .
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowIndex is out of bounds or row length does not match column count
 ##### setColumn(...) -> void
-- **Signature:** `public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException, ArrayIndexOutOfBoundsException`
+- **Signature:** `public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException`
 - **Summary:** Sets the values of the specified column by copying from the provided array.
 - **Contract:**
   - The source array must have exactly the same length as the number of rows in the matrix.
@@ -13389,7 +13424,6 @@ Matrix implementation backed by an {@code int\[\]\[\]} .
   - `column` (`int[]`) — the array of values to copy into the column; must have length equal to the number of rows
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if columnIndex is out of bounds or column length does not match row count
-  - `java.lang.ArrayIndexOutOfBoundsException` — if any row in this matrix has insufficient length for {@code columnIndex}
 ##### updateRow(...) -> void
 - **Signature:** `public <E extends Exception> void updateRow(final int rowIndex, final Throwables.IntUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in a row in-place by applying the specified operator to each element.
@@ -13581,8 +13615,8 @@ Matrix implementation backed by an {@code int\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
 - **Returns:** a new IntMatrix with the specified dimensions
 - **Signature:** `public IntMatrix resize(final int newRowCount, final int newColumnCount, final int defaultValueForNewCell) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
@@ -13590,8 +13624,8 @@ Matrix implementation backed by an {@code int\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
   - `defaultValueForNewCell` (`int`) — the int value to fill new cells with during extension
 - **Returns:** a new IntMatrix with the specified dimensions
 - **Throws:**
@@ -13924,7 +13958,7 @@ Matrix implementation backed by an {@code int\[\]\[\]} .
   - `E` — if the action throws an exception
 ##### println(...) -> String
 - **Signature:** `@Override public String println()`
-- **Summary:** Prints the matrix to standard output in a formatted manner and returns the formatted string.
+- **Summary:** Prints this matrix to standard output and returns the formatted string.
 - **Parameters:**
   - (none)
 - **Returns:** the formatted string representation of the matrix
@@ -14075,7 +14109,7 @@ Base class for immutable tuples of primitive {@code int} values.
 - **Returns:** the median int value in this tuple
 ##### sum(...) -> int
 - **Signature:** `public int sum()`
-- **Summary:** Returns the sum of all elements in this tuple as an {@code int} .
+- **Summary:** Returns the sum of all int values in this tuple as an {@code int} .
 - **Contract:**
   - If the sum exceeds {@code Integer.MAX_VALUE} , the result will wrap around according to standard int arithmetic.
 - **Parameters:**
@@ -14138,7 +14172,7 @@ Base class for immutable tuples of primitive {@code int} values.
 - **Signature:** `@Override public boolean equals(final Object obj)`
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Contract:**
-  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same int values in the same order </li> </ul> This method is consistent with {@link #hashCode()} .
+  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same int values in the same order </li> </ul> <p> This method is consistent with {@link #hashCode()} .
 - **Parameters:**
   - `obj` (`Object`) — the object to be compared for equality with this tuple
 - **Returns:** {@code true} if the specified object is equal to this tuple, {@code false} otherwise
@@ -15046,7 +15080,7 @@ Matrix implementation backed by a {@code long\[\]\[\]} .
 - **Returns:** a new LongMatrix with converted values, or an empty LongMatrix if input is null or empty
 ##### random(...) -> LongMatrix
 - **Signature:** `public static LongMatrix random(final int size)`
-- **Summary:** Creates a new 1xsize matrix filled with random long values.
+- **Summary:** Creates a new {@code 1 x size} matrix filled with random long values.
 - **Parameters:**
   - `size` (`int`) — the number of columns in the new matrix
 - **Returns:** a new LongMatrix of dimensions 1 x size filled with random values
@@ -15234,6 +15268,7 @@ Matrix implementation backed by a {@code long\[\]\[\]} .
 - **Returns:** a new long array containing the values from the specified row
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowIndex &lt; 0 or rowIndex &gt; = rowCount
+- **See also:** #rowView(int)
 ##### columnCopy(...) -> long\[\]
 - **Signature:** `@Override public long[] columnCopy(final int columnIndex) throws IllegalArgumentException`
 - **Summary:** Returns a copy of the specified column as a new long array.
@@ -15453,8 +15488,8 @@ Matrix implementation backed by a {@code long\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0L.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
 - **Returns:** a new LongMatrix with the specified dimensions
 - **Signature:** `public LongMatrix resize(final int newRowCount, final int newColumnCount, final long defaultValueForNewCell) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
@@ -15462,8 +15497,8 @@ Matrix implementation backed by a {@code long\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
   - `defaultValueForNewCell` (`long`) — the long value to fill new cells with during extension
 - **Returns:** a new LongMatrix with the specified dimensions
 - **Throws:**
@@ -15790,7 +15825,7 @@ Matrix implementation backed by a {@code long\[\]\[\]} .
   - `E` — if the action throws an exception
 ##### println(...) -> String
 - **Signature:** `@Override public String println()`
-- **Summary:** Prints the matrix to standard output in a formatted manner and returns the formatted string.
+- **Summary:** Prints this matrix to standard output and returns the formatted string.
 - **Parameters:**
   - (none)
 - **Returns:** the formatted string representation of the matrix
@@ -15940,7 +15975,7 @@ Base class for immutable tuples of primitive {@code long} values.
 - **Returns:** the median long value in this tuple
 ##### sum(...) -> long
 - **Signature:** `public long sum()`
-- **Summary:** Returns the sum of all elements in this tuple as a {@code long} .
+- **Summary:** Returns the sum of all long values in this tuple as a {@code long} .
 - **Contract:**
   - If the sum exceeds {@code Long.MAX_VALUE} , the result will wrap around according to standard long arithmetic.
 - **Parameters:**
@@ -16003,7 +16038,7 @@ Base class for immutable tuples of primitive {@code long} values.
 - **Signature:** `@Override public boolean equals(final Object obj)`
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Contract:**
-  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same long values in the same order </li> </ul> This method is consistent with {@link #hashCode()} .
+  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same long values in the same order </li> </ul> <p> This method is consistent with {@link #hashCode()} .
 - **Parameters:**
   - `obj` (`Object`) — the object to be compared for equality with this tuple
 - **Returns:** {@code true} if the specified object is equal to this tuple, {@code false} otherwise
@@ -16883,7 +16918,7 @@ A tuple containing exactly nine long values.
 - **Returns:** a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8, _9)"
 
 ### Class Matrices (com.landawn.abacus.util.Matrices)
-Utility methods shared by the matrix implementations in this package.
+Provides utility methods shared by the matrix implementations in this package.
 
 **Thread-safety:** unspecified
 **Nullability:** unspecified
@@ -17725,7 +17760,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Parameters:**
   - `rowIndex` (`int`) — the row index (0-based)
   - `columnIndex` (`int`) — the column index (0-based)
-- **Returns:** a Nullable containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
+- **Returns:** a {@link Nullable} containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
 ##### below(...) -> Nullable<T>
 - **Signature:** `public Nullable<T> below(final int rowIndex, final int columnIndex)`
 - **Summary:** Returns the element directly below the specified position, if it exists.
@@ -17735,7 +17770,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Parameters:**
   - `rowIndex` (`int`) — the row index (0-based)
   - `columnIndex` (`int`) — the column index (0-based)
-- **Returns:** a Nullable containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
+- **Returns:** a {@link Nullable} containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
 ##### left(...) -> Nullable<T>
 - **Signature:** `public Nullable<T> left(final int rowIndex, final int columnIndex)`
 - **Summary:** Returns the element directly to the left of the specified position, if it exists.
@@ -17745,7 +17780,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Parameters:**
   - `rowIndex` (`int`) — the row index (0-based)
   - `columnIndex` (`int`) — the column index (0-based)
-- **Returns:** a Nullable containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
+- **Returns:** a {@link Nullable} containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
 ##### right(...) -> Nullable<T>
 - **Signature:** `public Nullable<T> right(final int rowIndex, final int columnIndex)`
 - **Summary:** Returns the element directly to the right of the specified position, if it exists.
@@ -17755,7 +17790,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Parameters:**
   - `rowIndex` (`int`) — the row index (0-based)
   - `columnIndex` (`int`) — the column index (0-based)
-- **Returns:** a Nullable containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
+- **Returns:** a {@link Nullable} containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
 ##### rowView(...) -> T\[\]
 - **Signature:** `@Override public T[] rowView(final int rowIndex) throws IllegalArgumentException`
 - **Summary:** Returns the specified row as an array.
@@ -17821,7 +17856,7 @@ Generic object matrix backed by a two-dimensional array.
   - `E` — if the operator throws an exception
 ##### getMainDiagonal(...) -> T\[\]
 - **Signature:** `public T[] getMainDiagonal() throws IllegalStateException`
-- **Summary:** Gets the main diagonal elements (upper-left to lower-right).
+- **Summary:** Returns the main diagonal elements (upper-left to lower-right).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
 - **Parameters:**
@@ -17851,7 +17886,7 @@ Generic object matrix backed by a two-dimensional array.
   - `E` — if the operator throws an exception
 ##### getAntiDiagonal(...) -> T\[\]
 - **Signature:** `public T[] getAntiDiagonal() throws IllegalStateException`
-- **Summary:** Gets the anti-diagonal elements (upper-right to lower-left).
+- **Summary:** Returns the anti-diagonal elements (upper-right to lower-left).
 - **Contract:**
   - The matrix must be square (same number of rows and columns).
 - **Parameters:**
@@ -17932,7 +17967,7 @@ Generic object matrix backed by a two-dimensional array.
   - <p> <b> Usage Examples: </b> </p> <pre> {@code Matrix<String> matrix = Matrix.of(new String\[\]\[\] {{"a", null}, {null, "b"}}); // Check for null values BooleanMatrix nullMask = matrix.mapToBoolean(x -> x == null); Matrix<Integer> numMatrix = Matrix.of(new Integer\[\]\[\] {{1, -2}, {3, -4}}); // Check if numbers are positive BooleanMatrix positive = numMatrix.mapToBoolean(x -> x > 0); } </pre>
 - **Parameters:**
   - `mapper` (`Throwables.ToBooleanFunction<? super T, E>`) — the function that returns a boolean for each element
-- **Returns:** a new BooleanMatrix
+- **Returns:** a new {@link BooleanMatrix}
 - **Throws:**
   - `E` — if the function throws an exception
 ##### mapToByte(...) -> ByteMatrix
@@ -17940,7 +17975,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Creates a byte matrix by applying a byte-valued function to each element.
 - **Parameters:**
   - `mapper` (`Throwables.ToByteFunction<? super T, E>`) — the function that returns a byte for each element
-- **Returns:** a new ByteMatrix
+- **Returns:** a new {@link ByteMatrix}
 - **Throws:**
   - `E` — if the function throws an exception
 ##### mapToChar(...) -> CharMatrix
@@ -17948,7 +17983,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Creates a char matrix by applying a char-valued function to each element.
 - **Parameters:**
   - `mapper` (`Throwables.ToCharFunction<? super T, E>`) — the function that returns a char for each element
-- **Returns:** a new CharMatrix
+- **Returns:** a new {@link CharMatrix}
 - **Throws:**
   - `E` — if the function throws an exception
 ##### mapToShort(...) -> ShortMatrix
@@ -17956,7 +17991,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Creates a short matrix by applying a short-valued function to each element.
 - **Parameters:**
   - `mapper` (`Throwables.ToShortFunction<? super T, E>`) — the function that returns a short for each element
-- **Returns:** a new ShortMatrix
+- **Returns:** a new {@link ShortMatrix}
 - **Throws:**
   - `E` — if the function throws an exception
 ##### mapToInt(...) -> IntMatrix
@@ -17964,7 +17999,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Creates an int matrix by applying an int-valued function to each element.
 - **Parameters:**
   - `mapper` (`Throwables.ToIntFunction<? super T, E>`) — the function that returns an int for each element
-- **Returns:** a new IntMatrix
+- **Returns:** a new {@link IntMatrix}
 - **Throws:**
   - `E` — if the function throws an exception
 ##### mapToLong(...) -> LongMatrix
@@ -17972,7 +18007,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Creates a long matrix by applying a long-valued function to each element.
 - **Parameters:**
   - `mapper` (`Throwables.ToLongFunction<? super T, E>`) — the function that returns a long for each element
-- **Returns:** a new LongMatrix
+- **Returns:** a new {@link LongMatrix}
 - **Throws:**
   - `E` — if the function throws an exception
 ##### mapToFloat(...) -> FloatMatrix
@@ -17980,7 +18015,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Creates a float matrix by applying a float-valued function to each element.
 - **Parameters:**
   - `mapper` (`Throwables.ToFloatFunction<? super T, E>`) — the function that returns a float for each element
-- **Returns:** a new FloatMatrix
+- **Returns:** a new {@link FloatMatrix}
 - **Throws:**
   - `E` — if the function throws an exception
 ##### mapToDouble(...) -> DoubleMatrix
@@ -17988,7 +18023,7 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Creates a double matrix by applying a double-valued function to each element.
 - **Parameters:**
   - `mapper` (`Throwables.ToDoubleFunction<? super T, E>`) — the function that returns a double for each element
-- **Returns:** a new DoubleMatrix
+- **Returns:** a new {@link DoubleMatrix}
 - **Throws:**
   - `E` — if the function throws an exception
 ##### fill(...) -> void
@@ -18098,14 +18133,14 @@ Generic object matrix backed by a two-dimensional array.
 - **Parameters:**
   - (none)
 - **Returns:** a new horizontally flipped matrix
-- **See also:** #flipInPlaceHorizontally(), #flipVertically(), IntMatrix#flipHorizontally(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1,</a>
+- **See also:** #flipInPlaceHorizontally(), #flipVertically(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### flipVertically(...) -> Matrix<T>
 - **Signature:** `public Matrix<T> flipVertically()`
 - **Summary:** Creates a vertically flipped copy of this matrix.
 - **Parameters:**
   - (none)
 - **Returns:** a new vertically flipped matrix
-- **See also:** #flipInPlaceVertically(), #flipHorizontally(), IntMatrix#flipVertically(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1,</a>
+- **See also:** #flipInPlaceVertically(), #flipHorizontally(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### rotate90(...) -> Matrix<T>
 - **Signature:** `@Override public Matrix<T> rotate90()`
 - **Summary:** Returns a new matrix that is this matrix rotated 90 degrees clockwise.
@@ -18250,7 +18285,7 @@ Generic object matrix backed by a two-dimensional array.
   - The matrix must be square (same number of rows and columns).
 - **Parameters:**
   - (none)
-- **Returns:** a stream of diagonal elements from top-left to bottom-right, or an empty stream if the matrix is empty
+- **Returns:** a {@link Stream} of diagonal elements from top-left to bottom-right, or an empty stream if the matrix is empty
 ##### streamAntiDiagonal(...) -> Stream<T>
 - **Signature:** `@Override public Stream<T> streamAntiDiagonal()`
 - **Summary:** Returns a stream of elements on the anti-diagonal (upper-right to lower-left).
@@ -18258,24 +18293,24 @@ Generic object matrix backed by a two-dimensional array.
   - The matrix must be square (same number of rows and columns).
 - **Parameters:**
   - (none)
-- **Returns:** a stream of anti-diagonal elements from top-right to bottom-left, or an empty stream if the matrix is empty
+- **Returns:** a {@link Stream} of anti-diagonal elements from top-right to bottom-left, or an empty stream if the matrix is empty
 ##### streamHorizontal(...) -> Stream<T>
 - **Signature:** `@Override public Stream<T> streamHorizontal()`
 - **Summary:** Returns a stream of all elements in row-major order (horizontal).
 - **Parameters:**
   - (none)
-- **Returns:** a Stream of all elements in row-major order, or an empty stream if the matrix is empty
+- **Returns:** a {@link Stream} of all elements in row-major order, or an empty stream if the matrix is empty
 - **Signature:** `@Override public Stream<T> streamHorizontal(final int rowIndex)`
 - **Summary:** Returns a stream of elements from a single row.
 - **Parameters:**
   - `rowIndex` (`int`) — the index of the row to stream
-- **Returns:** a stream of elements from the specified row
+- **Returns:** a {@link Stream} of elements from the specified row
 - **Signature:** `@Override public Stream<T> streamHorizontal(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Returns a stream of elements from a range of rows in row-major order.
 - **Parameters:**
   - `fromRowIndex` (`int`) — the starting row index (inclusive)
   - `toRowIndex` (`int`) — the ending row index (exclusive)
-- **Returns:** a stream of elements from the specified row range, or an empty stream if the matrix is empty
+- **Returns:** a {@link Stream} of elements from the specified row range, or an empty stream if the matrix is empty
 - **Throws:**
   - `java.lang.IndexOutOfBoundsException` — if indices are out of bounds
 ##### streamVertical(...) -> Stream<T>
@@ -18283,18 +18318,18 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Returns a stream of all elements in column-major order (vertical).
 - **Parameters:**
   - (none)
-- **Returns:** a Stream of all elements in column-major order, or an empty stream if the matrix is empty
+- **Returns:** a {@link Stream} of all elements in column-major order, or an empty stream if the matrix is empty
 - **Signature:** `@Override public Stream<T> streamVertical(final int columnIndex)`
 - **Summary:** Returns a stream of elements from a single column.
 - **Parameters:**
   - `columnIndex` (`int`) — the index of the column to stream
-- **Returns:** a stream of elements from the specified column
+- **Returns:** a {@link Stream} of elements from the specified column
 - **Signature:** `@Beta @Override public Stream<T> streamVertical(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException`
 - **Summary:** Returns a stream of elements from a range of columns in column-major order.
 - **Parameters:**
   - `fromColumnIndex` (`int`) — the starting column index (inclusive)
   - `toColumnIndex` (`int`) — the ending column index (exclusive)
-- **Returns:** a stream of elements from the specified column range, or an empty stream if the matrix is empty
+- **Returns:** a {@link Stream} of elements from the specified column range, or an empty stream if the matrix is empty
 - **Throws:**
   - `java.lang.IndexOutOfBoundsException` — if indices are out of bounds
 ##### streamRows(...) -> Stream<Stream<T>>
@@ -18302,13 +18337,13 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Returns a stream of streams, where each inner stream represents a row.
 - **Parameters:**
   - (none)
-- **Returns:** a stream of row streams, with one inner stream per row in the matrix
+- **Returns:** a {@link Stream} of row streams, with one inner stream per row in the matrix
 - **Signature:** `@Override public Stream<Stream<T>> streamRows(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException`
 - **Summary:** Returns a stream of streams for a range of rows.
 - **Parameters:**
   - `fromRowIndex` (`int`) — the starting row index (inclusive)
   - `toRowIndex` (`int`) — the ending row index (exclusive)
-- **Returns:** a stream of row streams for the specified range, with one inner stream per row
+- **Returns:** a {@link Stream} of row streams for the specified range, with one inner stream per row
 - **Throws:**
   - `java.lang.IndexOutOfBoundsException` — if indices are out of bounds
 ##### streamColumns(...) -> Stream<Stream<T>>
@@ -18316,13 +18351,13 @@ Generic object matrix backed by a two-dimensional array.
 - **Summary:** Returns a stream of streams, where each inner stream represents a column.
 - **Parameters:**
   - (none)
-- **Returns:** a stream of column streams, or an empty stream if the matrix is empty
+- **Returns:** a {@link Stream} of column streams, or an empty stream if the matrix is empty
 - **Signature:** `@Override @Beta public Stream<Stream<T>> streamColumns(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException`
 - **Summary:** Returns a stream of streams for a range of columns.
 - **Parameters:**
   - `fromColumnIndex` (`int`) — the starting column index (inclusive)
   - `toColumnIndex` (`int`) — the ending column index (exclusive)
-- **Returns:** a stream of column streams for the specified range, or an empty stream if the matrix is empty
+- **Returns:** a {@link Stream} of column streams for the specified range, or an empty stream if the matrix is empty
 - **Throws:**
   - `java.lang.IndexOutOfBoundsException` — if indices are out of bounds
 ##### forEach(...) -> void
@@ -18373,7 +18408,7 @@ Generic object matrix backed by a two-dimensional array.
 - **See also:** Dataset, RowDataset
 ##### println(...) -> String
 - **Signature:** `@Override public String println()`
-- **Summary:** Prints the matrix to standard output in a formatted manner.
+- **Summary:** Prints this matrix to standard output and returns the formatted string.
 - **Parameters:**
   - (none)
 - **Returns:** the formatted string representation that was printed to standard output
@@ -19654,7 +19689,7 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
 - **Returns:** a new ShortMatrix containing the provided data, or an empty ShortMatrix if input is null or empty
 ##### random(...) -> ShortMatrix
 - **Signature:** `public static ShortMatrix random(final int size)`
-- **Summary:** Creates a new 1xsize matrix filled with random short values.
+- **Summary:** Creates a new {@code 1 x size} matrix filled with random short values.
 - **Parameters:**
   - `size` (`int`) — the number of columns in the new matrix
 - **Returns:** a new ShortMatrix of dimensions 1 x size filled with random values
@@ -19841,6 +19876,7 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
 - **Returns:** a new short array containing the values from the specified row
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if rowIndex &lt; 0 or rowIndex &gt; = rowCount
+- **See also:** #rowView(int)
 ##### columnCopy(...) -> short\[\]
 - **Signature:** `@Override public short[] columnCopy(final int columnIndex) throws IllegalArgumentException`
 - **Summary:** Returns a copy of the specified column as a new short array.
@@ -20043,8 +20079,8 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
 - **Returns:** a new ShortMatrix with the specified dimensions
 - **Signature:** `public ShortMatrix resize(final int newRowCount, final int newColumnCount, final short defaultValueForNewCell) throws IllegalArgumentException`
 - **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
@@ -20052,8 +20088,8 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
   - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
   - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
+  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
   - `defaultValueForNewCell` (`short`) — the short value to fill new cells with during extension
 - **Returns:** a new ShortMatrix with the specified dimensions
 - **Throws:**
@@ -20096,14 +20132,14 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
 - **Parameters:**
   - (none)
 - **Returns:** a new matrix with each row reversed
-- **See also:** #flipInPlaceHorizontally(), #flipVertically(), IntMatrix#flipHorizontally(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1,</a>
+- **See also:** #flipInPlaceHorizontally(), #flipVertically(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### flipVertically(...) -> ShortMatrix
 - **Signature:** `public ShortMatrix flipVertically()`
 - **Summary:** Returns a new matrix that is a vertical flip of this matrix (rows in reversed order).
 - **Parameters:**
   - (none)
 - **Returns:** a new matrix with rows in reversed order
-- **See also:** #flipInPlaceVertically(), #flipHorizontally(), IntMatrix#flipVertically(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1,</a>
+- **See also:** #flipInPlaceVertically(), #flipHorizontally(), <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">,MATLAB flip function,</a>
 ##### rotate90(...) -> ShortMatrix
 - **Signature:** `@Override public ShortMatrix rotate90()`
 - **Summary:** Returns a new matrix that is this matrix rotated 90 degrees clockwise.
@@ -20382,7 +20418,7 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
   - `E` — if the action throws an exception
 ##### println(...) -> String
 - **Signature:** `@Override public String println()`
-- **Summary:** Prints this matrix and returns the printed text.
+- **Summary:** Prints this matrix to standard output and returns the formatted string.
 - **Contract:**
   - If the matrix is empty, {@code \[\]} is printed.
 - **Parameters:**
@@ -20535,7 +20571,7 @@ Base class for immutable tuples of primitive {@code short} values.
 - **Returns:** the median short value in this tuple
 ##### sum(...) -> int
 - **Signature:** `public int sum()`
-- **Summary:** Returns the sum of all elements in this tuple as an {@code int} .
+- **Summary:** Returns the sum of all short values in this tuple as an {@code int} .
 - **Contract:**
   - <p> While this tuple stores short values, the sum is returned as an {@code int} to prevent overflow when adding multiple short values together.
 - **Parameters:**
@@ -20598,7 +20634,7 @@ Base class for immutable tuples of primitive {@code short} values.
 - **Signature:** `@Override public boolean equals(final Object obj)`
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Contract:**
-  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same short values in the same order </li> </ul> This method is consistent with {@link #hashCode()} .
+  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same short values in the same order </li> </ul> <p> This method is consistent with {@link #hashCode()} .
 - **Parameters:**
   - `obj` (`Object`) — the object to be compared for equality with this tuple
 - **Returns:** {@code true} if the specified object is equal to this tuple, {@code false} otherwise
