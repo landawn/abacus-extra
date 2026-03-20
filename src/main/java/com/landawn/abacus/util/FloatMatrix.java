@@ -2887,7 +2887,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
-     * matrix.println();
+     * matrix.printAndReturn();
      * // Output:
      * // [1.0, 2.0, 3.0]
      * // [4.0, 5.0, 6.0]
@@ -2896,7 +2896,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return the formatted string representation of the matrix
      */
     @Override
-    public String println() {
+    public String printAndReturn() {
         if (a.length == 0) {
             return N.println("[]");
         } else {

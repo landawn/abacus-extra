@@ -1223,7 +1223,7 @@ class CharMatrixTest extends TestBase {
         CharMatrix matrix = CharMatrix.of(a);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
     }
 
     @Test
@@ -3918,7 +3918,7 @@ class CharMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.contains("a"));
             assertTrue(result.contains("d"));
@@ -5040,7 +5040,7 @@ class CharMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.contains("a"));
         }

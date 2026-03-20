@@ -1261,7 +1261,7 @@ class ByteMatrixTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(a);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
     }
 
     @SuppressWarnings("unchecked")
@@ -1301,7 +1301,7 @@ class ByteMatrixTest extends TestBase {
 
     @Test
     public void testPrintlnEmptyMatrix_EdgeCase() {
-        Assertions.assertEquals("[]", ByteMatrix.empty().println());
+        Assertions.assertEquals("[]", ByteMatrix.empty().printAndReturn());
     }
 
     @Test
@@ -3848,7 +3848,7 @@ class ByteMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.contains("1"));
             assertTrue(result.contains("4"));
@@ -4717,7 +4717,7 @@ class ByteMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.contains("1"));
         }

@@ -1395,7 +1395,7 @@ class MatrixTest extends TestBase {
     public void testPrintln() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
     }
 
     @Test
@@ -2614,12 +2614,12 @@ class MatrixTest extends TestBase {
         @Test
         public void testExtend_directional() {
             Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-            m.println();
+            m.printAndReturn();
             Matrix<String> extended = m.extend(1, 1, 2, 2);
             assertEquals(5, extended.rowCount()); // 1 + 3 + 1
             assertEquals(7, extended.columnCount()); // 2 + 3 + 2
 
-            extended.println();
+            extended.printAndReturn();
 
             // Original values at offset position
             assertEquals("A", extended.get(1, 2));
@@ -5566,7 +5566,7 @@ class MatrixTest extends TestBase {
         @Test
         public void testPrintln_integers() {
             Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-            String output = m.println();
+            String output = m.printAndReturn();
             assertNotNull(output);
             assertTrue(output.contains("1"));
             assertTrue(output.contains("4"));
@@ -6773,7 +6773,7 @@ class MatrixTest extends TestBase {
         public void test_println_returnsString() {
             String[][] arr = { { "a", "b" }, { "c", "d" } };
             Matrix<String> m = new Matrix<>(arr);
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }

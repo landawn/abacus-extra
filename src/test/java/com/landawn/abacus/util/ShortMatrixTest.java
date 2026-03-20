@@ -5511,9 +5511,9 @@ class ShortMatrixTest extends TestBase {
         public void test_rotate90_rotatesClockwise() {
             short[][] arr = { { 1, 2 }, { 3, 4 } };
             ShortMatrix m = new ShortMatrix(arr);
-            m.println();
+            m.printAndReturn();
             ShortMatrix rotated = m.rotate90();
-            rotated.println();
+            rotated.printAndReturn();
             assertEquals(2, rotated.rowCount());
             assertEquals(2, rotated.columnCount());
             assertEquals(3, rotated.get(0, 0));
@@ -5537,9 +5537,9 @@ class ShortMatrixTest extends TestBase {
         public void test_rotate270_rotatesCounterClockwise() {
             short[][] arr = { { 1, 2 }, { 3, 4 } };
             ShortMatrix m = new ShortMatrix(arr);
-            m.println();
+            m.printAndReturn();
             ShortMatrix rotated = m.rotate270();
-            rotated.println();
+            rotated.printAndReturn();
             assertEquals(2, rotated.get(0, 0));
             assertEquals(4, rotated.get(0, 1));
             assertEquals(1, rotated.get(1, 0));
@@ -5921,7 +5921,7 @@ class ShortMatrixTest extends TestBase {
         public void test_println_returnsString() {
             short[][] arr = { { 1, 2 }, { 3, 4 } };
             ShortMatrix m = new ShortMatrix(arr);
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }

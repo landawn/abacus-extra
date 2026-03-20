@@ -1058,7 +1058,7 @@ class BooleanMatrixTest extends TestBase {
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
     }
 
     @Test
@@ -2494,14 +2494,14 @@ class BooleanMatrixTest extends TestBase {
         public void testPrintln() {
             BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
         }
 
         @Test
         public void testPrintln_empty() {
             BooleanMatrix empty = BooleanMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
         }
 
         // ============ Additional Edge Cases ============
@@ -3718,7 +3718,7 @@ class BooleanMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.contains("true"));
             assertTrue(result.contains("false"));
@@ -4466,7 +4466,7 @@ class BooleanMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.contains("true"));
         }

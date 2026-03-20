@@ -1113,7 +1113,7 @@ class DoubleMatrixTest extends TestBase {
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
     }
 
     @Test
@@ -2846,11 +2846,11 @@ class DoubleMatrixTest extends TestBase {
         public void testPrintln() {
             DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
 
             DoubleMatrix empty = DoubleMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
         }
 
         @Test
@@ -4474,14 +4474,14 @@ class DoubleMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_empty() {
             DoubleMatrix m = DoubleMatrix.empty();
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
         }
     }
@@ -5692,9 +5692,9 @@ class DoubleMatrixTest extends TestBase {
         // ============ Utility Tests ============
 
         @Test
-        public void test_println() {
+        public void test_printAndReturn() {
             DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }

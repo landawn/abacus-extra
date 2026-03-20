@@ -3181,7 +3181,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.println();
+     * matrix.printAndReturn();
      * // Output:
      * // [1, 2, 3]
      * // [4, 5, 6]
@@ -3190,7 +3190,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return the formatted string representation of the matrix
      */
     @Override
-    public String println() {
+    public String printAndReturn() {
         if (a.length == 0) {
             return N.println("[]");
         } else {

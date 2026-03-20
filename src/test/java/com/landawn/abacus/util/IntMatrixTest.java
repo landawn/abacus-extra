@@ -2527,11 +2527,11 @@ class IntMatrixTest extends TestBase {
         public void testPrintln() {
             IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
 
             IntMatrix empty = IntMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
         }
 
         @Test
@@ -4979,9 +4979,9 @@ class IntMatrixTest extends TestBase {
         // ============ Utility Tests ============
 
         @Test
-        public void test_println() {
+        public void test_printAndReturn() {
             IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }

@@ -1252,7 +1252,7 @@ class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
     }
 
     @Test
@@ -3166,11 +3166,11 @@ class LongMatrixTest extends TestBase {
         public void testPrintln() {
             LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
 
             LongMatrix empty = LongMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
         }
 
         @Test
@@ -5692,9 +5692,9 @@ class LongMatrixTest extends TestBase {
         // ============ Utility Tests ============
 
         @Test
-        public void test_println() {
+        public void test_printAndReturn() {
             LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }

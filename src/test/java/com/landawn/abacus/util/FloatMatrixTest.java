@@ -1080,8 +1080,8 @@ class FloatMatrixTest extends TestBase {
         assertFalse(matrix.isEmpty());
         assertTrue(emptyMatrix.isEmpty());
         org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> {
-            matrix.println();
-            emptyMatrix.println();
+            matrix.printAndReturn();
+            emptyMatrix.printAndReturn();
         });
     }
 
@@ -2644,11 +2644,11 @@ class FloatMatrixTest extends TestBase {
         public void testPrintln() {
             FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
 
             FloatMatrix empty = FloatMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
         }
 
         @Test
@@ -4006,14 +4006,14 @@ class FloatMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_empty() {
             FloatMatrix m = FloatMatrix.empty();
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
         }
     }
@@ -5177,9 +5177,9 @@ class FloatMatrixTest extends TestBase {
         // ============ Utility Tests ============
 
         @Test
-        public void test_println() {
+        public void test_printAndReturn() {
             FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-            String result = m.println();
+            String result = m.printAndReturn();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }

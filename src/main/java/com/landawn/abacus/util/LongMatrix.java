@@ -3084,7 +3084,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.println();
+     * matrix.printAndReturn();
      * // Output:
      * // [1, 2, 3]
      * // [4, 5, 6]
@@ -3093,7 +3093,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return the formatted string representation of the matrix
      */
     @Override
-    public String println() {
+    public String printAndReturn() {
         if (a.length == 0) {
             return N.println("[]");
         } else {

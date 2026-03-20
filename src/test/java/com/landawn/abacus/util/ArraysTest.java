@@ -71,7 +71,7 @@ class ArraysTest extends TestBase {
             final int[][][] a = Arrays.reshape(Array.rangeClosed(1, 9), 2, 3);
             final int[][][] b = Arrays.reshape(Array.repeat(0, 9), 3, 2);
             final int[][][] c = Arrays.zip(a, b, -1, -1, (p1, p2) -> p1 + p2);
-            Arrays.println(c);
+            Arrays.printAndReturn(c);
             assertEquals(2, c.length);
             assertArrayEquals(new int[][] { { 1, 2, 2 }, { 4, 5, 5 }, { -1, -1 } }, c[0]);
             assertArrayEquals(new int[][] { { 7, 8, 8 }, { -1 } }, c[1]);
@@ -101,17 +101,17 @@ class ArraysTest extends TestBase {
             final int[][][] d = Arrays.reshape(a, 3, 2);
             final int[][][] e = Arrays.reshape(a, 2, 3);
             final int[][][] f = Arrays.reshape(a, 3, 3);
-            Arrays.println(a);
+            Arrays.printAndReturn(a);
             N.println(Strings.repeat('-', 80));
-            Arrays.println(b);
+            Arrays.printAndReturn(b);
             N.println(Strings.repeat('-', 80));
-            Arrays.println(c);
+            Arrays.printAndReturn(c);
             N.println(Strings.repeat('-', 80));
-            Arrays.println(d);
+            Arrays.printAndReturn(d);
             N.println(Strings.repeat('-', 80));
-            Arrays.println(e);
+            Arrays.printAndReturn(e);
             N.println(Strings.repeat('-', 80));
-            Arrays.println(f);
+            Arrays.printAndReturn(f);
 
             assertArrayEquals(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 }, { 7, 8 }, { 9 } }, b);
             assertArrayEquals(new int[][][] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } }, { { 9 } } }, c);
@@ -393,13 +393,13 @@ class ArraysTest extends TestBase {
 
     @Test
     public void testPrintlnPrimitiveCubes_EmptyInput() {
-        Assertions.assertEquals("[]", Arrays.println(new char[0][][]));
-        Assertions.assertEquals("[]", Arrays.println(new byte[0][][]));
-        Assertions.assertEquals("[]", Arrays.println(new short[0][][]));
-        Assertions.assertEquals("[]", Arrays.println(new int[0][][]));
-        Assertions.assertEquals("[]", Arrays.println(new long[0][][]));
-        Assertions.assertEquals("[]", Arrays.println(new float[0][][]));
-        Assertions.assertEquals("[]", Arrays.println(new double[0][][]));
+        Assertions.assertEquals("[]", Arrays.printAndReturn(new char[0][][]));
+        Assertions.assertEquals("[]", Arrays.printAndReturn(new byte[0][][]));
+        Assertions.assertEquals("[]", Arrays.printAndReturn(new short[0][][]));
+        Assertions.assertEquals("[]", Arrays.printAndReturn(new int[0][][]));
+        Assertions.assertEquals("[]", Arrays.printAndReturn(new long[0][][]));
+        Assertions.assertEquals("[]", Arrays.printAndReturn(new float[0][][]));
+        Assertions.assertEquals("[]", Arrays.printAndReturn(new double[0][][]));
     }
 
     @Test
@@ -3167,24 +3167,24 @@ class ArraysTest extends TestBase {
         public void testPrintln_ObjectArray() {
             // Test with normal array
             Object[] arr = { "Hello", "World", 123 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             Assertions.assertTrue(result.contains("Hello"));
             Assertions.assertTrue(result.contains("World"));
             Assertions.assertTrue(result.contains("123"));
 
             // Test with empty array
             Object[] emptyArr = {};
-            String emptyResult = Arrays.println(emptyArr);
+            String emptyResult = Arrays.printAndReturn(emptyArr);
             Assertions.assertEquals("[]", emptyResult.trim());
 
             // Test with null array
             Object[] nullArr = null;
-            String nullResult = Arrays.println(nullArr);
+            String nullResult = Arrays.printAndReturn(nullArr);
             Assertions.assertEquals("null", nullResult.trim());
 
             // Test with array containing nulls
             Object[] nullsArr = { "test", null, 42 };
-            String nullsResult = Arrays.println(nullsArr);
+            String nullsResult = Arrays.printAndReturn(nullsArr);
             Assertions.assertTrue(nullsResult.contains("test"));
             Assertions.assertTrue(nullsResult.contains("null"));
             Assertions.assertTrue(nullsResult.contains("42"));
@@ -3194,12 +3194,12 @@ class ArraysTest extends TestBase {
         public void testPrintln_Object2DArray() {
             // Test with normal two-dimensional array
             Object[][] arr = { { "A", "B" }, { "C", "D" } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             Assertions.assertNotNull(result);
 
             // Test with null two-dimensional array
             Object[][] nullArr = null;
-            String nullResult = Arrays.println(nullArr);
+            String nullResult = Arrays.printAndReturn(nullArr);
             Assertions.assertNotNull(nullResult);
         }
 
@@ -3207,12 +3207,12 @@ class ArraysTest extends TestBase {
         public void testPrintln_Object3DArray() {
             // Test with normal three-dimensional array
             Object[][][] arr = { { { "A", "B" } }, { { "C", "D" } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             Assertions.assertNotNull(result);
 
             // Test with null three-dimensional array
             Object[][][] nullArr = null;
-            String nullResult = Arrays.println(nullArr);
+            String nullResult = Arrays.printAndReturn(nullArr);
             Assertions.assertNotNull(nullResult);
         }
 
@@ -4871,7 +4871,7 @@ class ArraysTest extends TestBase {
             Integer[][][] b = { { { 10, 20 } } };
             Integer[][][] c = { { {}, { 100 } } };
             Integer[][][] result = fff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
-            Arrays.println(result);
+            Arrays.printAndReturn(result);
             Assertions.assertEquals(1, result.length);
             Assertions.assertEquals(11, result[0][0][0]);
             Assertions.assertEquals(20, result[0][0][1]);
@@ -5050,7 +5050,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_ObjectArray() {
             Object[] arr = { "Hello", "World", 123 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
             assertTrue(result.contains("Hello"));
             assertTrue(result.contains("World"));
@@ -5059,140 +5059,140 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_2D_ObjectArray() {
             Object[][] arr = { { "A", "B" }, { "C", "D" } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_ObjectArray() {
             Object[][][] arr = { { { "A" } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_BooleanArray() {
             boolean[][][] arr = { { { true, false } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_1D_CharArray() {
             char[] arr = { 'a', 'b', 'c' };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_1D_ByteArray() {
             byte[] arr = { 1, 2, 3 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_1D_ShortArray() {
             short[] arr = { 1, 2, 3 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_ShortArray() {
             short[][] arr = { { 1, 2 }, { 3, 4 } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_ShortArray() {
             short[][][] arr = { { { 1, 2 } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_1D_IntArray() {
             int[] arr = { 1, 2, 3 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_IntArray() {
             int[][] arr = { { 1, 2 }, { 3, 4 } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_IntArray() {
             int[][][] arr = { { { 1, 2 } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_1D_LongArray() {
             long[] arr = { 1L, 2L, 3L };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_LongArray() {
             long[][] arr = { { 1L, 2L }, { 3L, 4L } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_LongArray() {
             long[][][] arr = { { { 1L, 2L } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_1D_FloatArray() {
             float[] arr = { 1.0f, 2.0f, 3.0f };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_FloatArray() {
             float[][] arr = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_FloatArray() {
             float[][][] arr = { { { 1.0f, 2.0f } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_1D_DoubleArray() {
             double[] arr = { 1.0, 2.0, 3.0 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_DoubleArray() {
             double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_DoubleArray() {
             double[][][] arr = { { { 1.0, 2.0 } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -8123,7 +8123,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_ObjectArray_normal() {
             Object[] arr = { "Hello", "World", 123, 45.6 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
             assertTrue(result.contains("Hello"));
             assertTrue(result.contains("World"));
@@ -8133,7 +8133,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_ObjectArray_null() {
             Object[] arr = null;
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
             assertTrue(result.contains("null"));
         }
@@ -8141,7 +8141,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_ObjectArray_empty() {
             Object[] arr = {};
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
             assertTrue(result.contains("[]"));
         }
@@ -8149,14 +8149,14 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_2D_ObjectArray_normal() {
             Object[][] arr = { { "A", "B" }, { "C", "D" }, { "E", "F" } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_ObjectArray_null() {
             Object[][] arr = null;
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
             assertTrue(result.contains("null"));
         }
@@ -8164,21 +8164,21 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_2D_ObjectArray_withNullSubArray() {
             Object[][] arr = { { "A", "B" }, null, { "C" } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_ObjectArray_normal() {
             Object[][][] arr = { { { "A", "B" }, { "C" } }, { { "D" } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_ObjectArray_empty() {
             Object[][][] arr = {};
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -8189,7 +8189,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_BooleanArray_normal() {
             boolean[] arr = { true, false, true, false };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
             assertTrue(result.contains("true"));
             assertTrue(result.contains("false"));
@@ -8198,21 +8198,21 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_BooleanArray_null() {
             boolean[] arr = null;
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_BooleanArray_normal() {
             boolean[][] arr = { { true, false }, { false, true } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_BooleanArray_normal() {
             boolean[][][] arr = { { { true, false }, { true } }, { { false } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -8223,21 +8223,21 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_CharArray_normal() {
             char[] arr = { 'a', 'b', 'c', 'd' };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_CharArray_normal() {
             char[][] arr = { { 'a', 'b' }, { 'c', 'd' } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_CharArray_normal() {
             char[][][] arr = { { { 'a', 'b' } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -8248,21 +8248,21 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_ByteArray_normal() {
             byte[] arr = { 1, 2, 3, 4 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_ByteArray_normal() {
             byte[][] arr = { { 1, 2 }, { 3, 4 } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_ByteArray_normal() {
             byte[][][] arr = { { { 1, 2 } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -8273,21 +8273,21 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_ShortArray_normal() {
             short[] arr = { 10, 20, 30 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_ShortArray_normal() {
             short[][] arr = { { 10, 20 }, { 30, 40 } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_ShortArray_normal() {
             short[][][] arr = { { { 10, 20 } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -8298,21 +8298,21 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_IntArray_normal() {
             int[] arr = { 1, 2, 3, 4, 5 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_IntArray_normal() {
             int[][] arr = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_IntArray_normal() {
             int[][][] arr = { { { 1, 2 }, { 3 } }, { { 4 } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -8323,21 +8323,21 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_LongArray_normal() {
             long[] arr = { 100L, 200L, 300L };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_LongArray_normal() {
             long[][] arr = { { 100L, 200L }, { 300L, 400L } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_LongArray_normal() {
             long[][][] arr = { { { 100L, 200L } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -8348,21 +8348,21 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_FloatArray_normal() {
             float[] arr = { 1.1f, 2.2f, 3.3f };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_FloatArray_normal() {
             float[][] arr = { { 1.1f, 2.2f }, { 3.3f, 4.4f } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_FloatArray_normal() {
             float[][][] arr = { { { 1.1f, 2.2f } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -8373,21 +8373,21 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintln_1D_DoubleArray_normal() {
             double[] arr = { 1.5, 2.5, 3.5 };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_2D_DoubleArray_normal() {
             double[][] arr = { { 1.5, 2.5 }, { 3.5, 4.5 } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_3D_DoubleArray_normal() {
             double[][][] arr = { { { 1.5, 2.5 } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -10891,20 +10891,20 @@ class ArraysTest extends TestBase {
 
         @Test
         public void testPrintln_1D_withNullArray() {
-            String result = Arrays.println((Object[]) null);
+            String result = Arrays.printAndReturn((Object[]) null);
             assertEquals("null", result);
         }
 
         @Test
         public void testPrintln_1D_withEmptyArray() {
-            String result = Arrays.println(new Object[0]);
+            String result = Arrays.printAndReturn(new Object[0]);
             assertEquals("[]", result);
         }
 
         @Test
         public void testPrintln_1D_withValidArray() {
             Object[] arr = { "Hello", 123, "World" };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
             assertTrue(result.contains("Hello"));
             assertTrue(result.contains("123"));
@@ -10913,20 +10913,20 @@ class ArraysTest extends TestBase {
 
         @Test
         public void testPrintln_2D_withNullArray() {
-            String result = Arrays.println((Object[][]) null);
+            String result = Arrays.printAndReturn((Object[][]) null);
             assertEquals("null", result);
         }
 
         @Test
         public void testPrintln_2D_withEmptyArray() {
-            String result = Arrays.println(new Object[0][]);
+            String result = Arrays.printAndReturn(new Object[0][]);
             assertEquals("[]", result);
         }
 
         @Test
         public void testPrintln_2D_withValidArray() {
             Object[][] arr = { { "A", "B" }, { "C", "D" } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
             assertTrue(result.contains("A"));
             assertTrue(result.contains("D"));
@@ -10934,20 +10934,20 @@ class ArraysTest extends TestBase {
 
         @Test
         public void testPrintln_3D_withNullArray() {
-            String result = Arrays.println((Object[][][]) null);
+            String result = Arrays.printAndReturn((Object[][][]) null);
             assertEquals("null", result);
         }
 
         @Test
         public void testPrintln_3D_withEmptyArray() {
-            String result = Arrays.println(new Object[0][][]);
+            String result = Arrays.printAndReturn(new Object[0][][]);
             assertEquals("[]", result);
         }
 
         @Test
         public void testPrintln_3D_withValidArray() {
             Object[][][] arr = { { { "A", "B" }, { "C" } }, { { "D" } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
             assertTrue(result.contains("A"));
             assertTrue(result.contains("D"));
@@ -11540,13 +11540,13 @@ class ArraysTest extends TestBase {
 
         @Test
         public void testPrintln_boolean_1D_null() {
-            String result = Arrays.println((boolean[]) null);
+            String result = Arrays.printAndReturn((boolean[]) null);
             assertEquals("null", result);
         }
 
         @Test
         public void testPrintln_boolean_1D_empty() {
-            String result = Arrays.println(new boolean[0]);
+            String result = Arrays.printAndReturn(new boolean[0]);
             assertEquals("[]", result);
         }
         // ============ Inner class f Tests ============
@@ -12252,7 +12252,7 @@ class ArraysTest extends TestBase {
         @Test
         public void test_println_objectArray() {
             Object[] arr = { "a", "b", "c" };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
 
             assertNotNull(result);
             assertTrue(result.contains("a"));
@@ -12262,14 +12262,14 @@ class ArraysTest extends TestBase {
 
         @Test
         public void test_println_objectArrayNull() {
-            String result = Arrays.println((Object[]) null);
+            String result = Arrays.printAndReturn((Object[]) null);
             assertNotNull(result);
         }
 
         @Test
         public void test_println_objectArrayEmpty() {
             Object[] arr = {};
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
@@ -12280,14 +12280,14 @@ class ArraysTest extends TestBase {
         @Test
         public void test_println_objectArray2D() {
             Object[][] arr = { { "a", "b" }, { "c", "d" } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
 
             assertNotNull(result);
         }
 
         @Test
         public void test_println_objectArray2DNull() {
-            String result = Arrays.println((Object[][]) null);
+            String result = Arrays.printAndReturn((Object[][]) null);
             assertNotNull(result);
         }
 
@@ -12298,14 +12298,14 @@ class ArraysTest extends TestBase {
         @Test
         public void test_println_objectArray3D() {
             Object[][][] arr = { { { "a" } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
 
             assertNotNull(result);
         }
 
         @Test
         public void test_println_objectArray3DNull() {
-            String result = Arrays.println((Object[][][]) null);
+            String result = Arrays.printAndReturn((Object[][][]) null);
             assertNotNull(result);
         }
 
@@ -12316,7 +12316,7 @@ class ArraysTest extends TestBase {
         @Test
         public void test_println_booleanArray() {
             boolean[] arr = { true, false, true };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
 
             assertNotNull(result);
             assertTrue(result.contains("true"));
@@ -12325,20 +12325,20 @@ class ArraysTest extends TestBase {
 
         @Test
         public void test_println_booleanArrayNull() {
-            String result = Arrays.println((boolean[]) null);
+            String result = Arrays.printAndReturn((boolean[]) null);
             assertNotNull(result);
         }
 
         @Test
         public void test_println_booleanArrayEmpty() {
             boolean[] arr = {};
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertNotNull(result);
         }
 
         @Test
         public void test_println_booleanArray2DNull() {
-            String result = Arrays.println((boolean[][]) null);
+            String result = Arrays.printAndReturn((boolean[][]) null);
             assertNotNull(result);
         }
 
@@ -12349,14 +12349,14 @@ class ArraysTest extends TestBase {
         @Test
         public void test_println_booleanArray3D() {
             boolean[][][] arr = { { { true } } };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
 
             assertNotNull(result);
         }
 
         @Test
         public void test_println_booleanArray3DNull() {
-            String result = Arrays.println((boolean[][][]) null);
+            String result = Arrays.printAndReturn((boolean[][][]) null);
             assertNotNull(result);
         }
 
@@ -13675,7 +13675,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testPrintlnObjectArrayNull() {
             // Line 279-280: println((Object[]) null) => "null"
-            String result = Arrays.println((Object[]) null);
+            String result = Arrays.printAndReturn((Object[]) null);
             assertTrue(result.contains("null"));
         }
 
@@ -13683,7 +13683,7 @@ class ArraysTest extends TestBase {
         public void testPrintlnObjectArrayEmpty() {
             // Line 284-285: println(empty Object[]) => "[]"
             Object[] empty = new Object[0];
-            String result = Arrays.println(empty);
+            String result = Arrays.printAndReturn(empty);
             assertTrue(result.contains("[]"));
         }
 
@@ -13691,7 +13691,7 @@ class ArraysTest extends TestBase {
         public void testPrintlnBooleanArray() {
             // Line 2965-2967: println({true,false,true}) => "[true, false, true]"
             boolean[] arr = { true, false, true };
-            String result = Arrays.println(arr);
+            String result = Arrays.printAndReturn(arr);
             assertTrue(result.contains("[true, false, true]"));
         }
 
@@ -13699,7 +13699,7 @@ class ArraysTest extends TestBase {
         public void testPrintlnByteArray() {
             // Line 5581-5583: println({1,2,3,4,5}) => "[1, 2, 3, 4, 5]"
             byte[] array = { 1, 2, 3, 4, 5 };
-            String result = Arrays.println(array);
+            String result = Arrays.printAndReturn(array);
             assertTrue(result.contains("[1, 2, 3, 4, 5]"));
         }
 

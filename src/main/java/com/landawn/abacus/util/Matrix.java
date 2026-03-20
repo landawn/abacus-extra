@@ -3305,7 +3305,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.println();
+     * matrix.printAndReturn();
      * // Output:
      * // [1, 2, 3]
      * // [4, 5, 6]
@@ -3314,7 +3314,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return the formatted string representation that was printed to standard output
      */
     @Override
-    public String println() {
+    public String printAndReturn() {
         if (a.length == 0) {
             return N.println("[]");
         } else {

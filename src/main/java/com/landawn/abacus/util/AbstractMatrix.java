@@ -493,7 +493,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * String output = matrix.println();
+     * String output = matrix.printAndReturn();
      * // Prints to console:
      * // [1, 2]
      * // [3, 4]
@@ -502,7 +502,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @return the formatted string representation of the matrix that was printed to standard output
      */
-    public abstract String println();
+    public abstract String printAndReturn();
 
     /**
      * Returns a copy of this matrix.
@@ -1721,7 +1721,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // Log matrix details
      * matrix.accept(m -> {
      *     System.out.println("Matrix dimensions: " + m.rowCount() + "x" + m.columnCount());
-     *     m.println();
+     *     m.printAndReturn();
      * });
      *
      * // Validate matrix before processing

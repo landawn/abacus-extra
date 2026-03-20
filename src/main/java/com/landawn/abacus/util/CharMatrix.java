@@ -2956,7 +2956,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}});
-     * matrix.println();
+     * matrix.printAndReturn();
      * // Output:
      * // [a, b, c]
      * // [d, e, f]
@@ -2965,7 +2965,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return the formatted string representation of the matrix
      */
     @Override
-    public String println() {
+    public String printAndReturn() {
         if (a.length == 0) {
             return N.println("[]");
         } else {
