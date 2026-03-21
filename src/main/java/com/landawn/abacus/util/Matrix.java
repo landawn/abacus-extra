@@ -526,7 +526,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             final Class<?> resolvedElementType = resolveRowElementType(row);
 
             if (resolvedElementType != Object.class) {
-                final T[] converted = N.newArray((Class<T>) resolvedElementType, row.length);
+                final T[] converted = N.newArray(resolvedElementType, row.length);
                 N.copy(row, 0, converted, 0, row.length);
                 a[rowIndex] = converted;
                 return converted;
@@ -554,7 +554,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             final Class<?> resolvedElementType = resolveRowElementType(row);
 
             if (resolvedElementType != Object.class) {
-                final T[] converted = N.newArray((Class<T>) resolvedElementType, row.length);
+                final T[] converted = N.newArray(resolvedElementType, row.length);
                 N.copy(row, 0, converted, 0, row.length);
                 a[rowIndex] = converted;
                 return N.copyOf(converted, columnCount);
@@ -705,7 +705,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             return values;
         }
 
-        final T[] converted = N.newArray((Class<T>) resolvedElementType, values.length);
+        final T[] converted = N.newArray(resolvedElementType, values.length);
         N.copy(values, 0, converted, 0, values.length);
         return converted;
     }
@@ -1672,43 +1672,109 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Creates a new matrix with the specified dimensions by extending or truncating this matrix.
-     * If the new dimensions are larger, new cells are filled with null values.
-     * If the new dimensions are smaller, the matrix is truncated.
+     * Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount},
+     * anchored at the top-left corner of this matrix. New cells are filled with {@code null}.
+     *
+     * <ul>
+     *   <li><b>If a dimension shrinks</b> — elements beyond the new boundary are discarded
+     *       (excess rows removed from the bottom, excess columns removed from the right).</li>
+     *   <li><b>If a dimension grows</b> — new cells are filled with {@code null}.</li>
+     *   <li><b>Mixed case</b> — each dimension is treated independently, so it is valid
+     *       to grow rows while truncating columns, or vice versa.</li>
+     * </ul>
+     *
+     * <p>The original matrix is never modified; a new matrix is always returned.</p>
+     *
+     * <p><b>Comparison with {@link #extend(int, int, int, int)}:</b>
+     * {@code resize} takes <em>absolute</em> target dimensions and may truncate existing content.
+     * {@code extend} takes <em>relative</em> padding amounts per edge and <em>never truncates</em>.
+     * Use {@code extend} when the entire original content must be preserved.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Matrix<Integer> extended = matrix.resize(3, 3);   // 3x3 matrix with nulls in new cells
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"a", "b", "c"}, {"d", "e", "f"}, {"g", "h", "i"}});
+     *
+     * // Grow: both dimensions larger — new cells filled with null
+     * Matrix<String> grown = matrix.resize(4, 4);
+     * // Result: [["a", "b", "c", null],
+     * //          ["d", "e", "f", null],
+     * //          ["g", "h", "i", null],
+     * //          [null, null, null, null]]
+     *
+     * // Truncate: both dimensions smaller — bottom rows and right columns discarded
+     * Matrix<String> truncated = matrix.resize(2, 2);
+     * // Result: [["a", "b"],
+     * //          ["d", "e"]]
+     *
+     * // Mixed: grow rows, truncate columns
+     * Matrix<String> mixed = matrix.resize(4, 2);
+     * // Result: [["a", "b"],
+     * //          ["d", "e"],
+     * //          ["g", "h"],
+     * //          [null, null]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix
-     * @param newColumnCount the number of columns in the new matrix
-     * @return a new matrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
-     *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+     * @param newRowCount the row count of the returned matrix; must be {@code >= 0}
+     * @param newColumnCount the column count of the returned matrix; must be {@code >= 0}
+     * @return a new Matrix with the specified dimensions
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
+     * @see #resize(int, int, Object)
+     * @see #extend(int, int, int, int)
      */
     public Matrix<T> resize(final int newRowCount, final int newColumnCount) {
         return resize(newRowCount, newColumnCount, null);
     }
 
     /**
-     * Creates a new matrix with the specified dimensions by extending or truncating this matrix.
-     * If the new dimensions are larger, new cells are filled with the specified default value.
-     * If the new dimensions are smaller, the matrix is truncated.
+     * Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount},
+     * anchored at the top-left corner of this matrix. New cells are filled with {@code defaultValueForNewCell}.
+     *
+     * <ul>
+     *   <li><b>If a dimension shrinks</b> — elements beyond the new boundary are discarded
+     *       (excess rows removed from the bottom, excess columns removed from the right).</li>
+     *   <li><b>If a dimension grows</b> — new cells are filled with {@code defaultValueForNewCell}.</li>
+     *   <li><b>Mixed case</b> — each dimension is treated independently, so it is valid
+     *       to grow rows while truncating columns, or vice versa.</li>
+     * </ul>
+     *
+     * <p>The original matrix is never modified; a new matrix is always returned.</p>
+     *
+     * <p><b>Comparison with {@link #extend(int, int, int, int, Object)}:</b>
+     * {@code resize} takes <em>absolute</em> target dimensions and may truncate existing content.
+     * {@code extend} takes <em>relative</em> padding amounts per edge and <em>never truncates</em>.
+     * Use {@code extend} when the entire original content must be preserved.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Matrix<Integer> extended = matrix.resize(3, 3, 0);   // 3x3 matrix with 0s in new cells
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"a", "b", "c"}, {"d", "e", "f"}, {"g", "h", "i"}});
+     *
+     * // Grow: both dimensions larger — new cells filled with "x"
+     * Matrix<String> grown = matrix.resize(4, 4, "x");
+     * // Result: [["a", "b", "c", "x"],
+     * //          ["d", "e", "f", "x"],
+     * //          ["g", "h", "i", "x"],
+     * //          ["x", "x", "x", "x"]]
+     *
+     * // Truncate: both dimensions smaller — bottom rows and right columns discarded
+     * Matrix<String> truncated = matrix.resize(2, 2, "x");
+     * // Result: [["a", "b"],
+     * //          ["d", "e"]]
+     *
+     * // Mixed: grow rows, truncate columns
+     * Matrix<String> mixed = matrix.resize(4, 2, "x");
+     * // Result: [["a", "b"],
+     * //          ["d", "e"],
+     * //          ["g", "h"],
+     * //          ["x", "x"]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix
-     * @param newColumnCount the number of columns in the new matrix
-     * @param defaultValueForNewCell the value to fill new cells with (can be null)
-     * @return a new matrix with the specified dimensions
-     * @throws IllegalArgumentException if newRowCount or newColumnCount is negative,
-     *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+     * @param newRowCount the row count of the returned matrix; must be {@code >= 0}
+     * @param newColumnCount the column count of the returned matrix; must be {@code >= 0}
+     * @param defaultValueForNewCell the value used to fill any newly created cells; may be {@code null}
+     * @return a new Matrix with the specified dimensions
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
+     * @see #resize(int, int)
+     * @see #extend(int, int, int, int, Object)
      */
     public Matrix<T> resize(final int newRowCount, final int newColumnCount, final T defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
@@ -1742,45 +1808,90 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Extends the matrix by adding rows and columns in all directions.
-     * New cells are filled with null values.
+     * Returns a new matrix formed by adding {@code null}-filled padding around every edge of this matrix.
+     * The original content is preserved in its entirety at the interior of the result.
+     *
+     * <p>The result dimensions are:
+     * <ul>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
+     *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
+     * </ul>
+     *
+     * <p><b>Unlike {@link #resize(int, int)}, this method never truncates existing content.</b>
+     * All elements of the original matrix appear unchanged in the result.</p>
+     *
+     * <p><b>Comparison with {@link #resize(int, int)}:</b>
+     * {@code extend} takes <em>relative</em> padding amounts per edge and never truncates.
+     * {@code resize} takes <em>absolute</em> target dimensions and may discard content.
+     * Use {@code resize} when you need exact output dimensions regardless of the original size.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Matrix<Integer> extended = matrix.extend(1, 1, 1, 1);   // Adds 1 row/column on each side
-     * // Result: 4x4 matrix with original in center
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"a", "b"}});
+     *
+     * // Uniform border of 1 cell on every side
+     * Matrix<String> bordered = matrix.extend(1, 1, 1, 1);
+     * // Result: [[null, null, null, null],
+     * //          [null, "a",  "b",  null],
+     * //          [null, null, null, null]]
      * }</pre>
      *
-     * @param toUp number of rows to add at the top (must be non-negative)
-     * @param toDown number of rows to add at the bottom (must be non-negative)
-     * @param toLeft number of columns to add on the left (must be non-negative)
-     * @param toRight number of columns to add on the right (must be non-negative)
-     * @return a new extended matrix with dimensions (toUp + rowCount + toDown) x (toLeft + columnCount + toRight)
-     * @throws IllegalArgumentException if any extension parameter is negative
+     * @param toUp number of rows to add above; must be {@code >= 0}
+     * @param toDown number of rows to add below; must be {@code >= 0}
+     * @param toLeft number of columns to add to the left; must be {@code >= 0}
+     * @param toRight number of columns to add to the right; must be {@code >= 0}
+     * @return a new Matrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
+     * @throws IllegalArgumentException if any padding parameter is negative
+     * @see #extend(int, int, int, int, Object)
+     * @see #resize(int, int)
      */
     public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, null);
     }
 
     /**
-     * Extends the matrix by adding rows and columns in all directions.
-     * New cells are filled with the specified default value.
+     * Returns a new matrix formed by adding {@code defaultValueForNewCell}-filled padding around every edge
+     * of this matrix. The original content is preserved in its entirety at the interior of the result.
+     *
+     * <p>The result dimensions are:
+     * <ul>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
+     *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
+     * </ul>
+     *
+     * <p><b>Unlike {@link #resize(int, int, Object)}, this method never truncates existing content.</b>
+     * All elements of the original matrix appear unchanged in the result.</p>
+     *
+     * <p><b>Typical uses:</b> adding sentinel borders, creating asymmetric margins, or embedding a smaller
+     * matrix into a larger frame (e.g. more padding on one side than another).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
-     * Matrix<Integer> extended = matrix.extend(1, 1, 1, 1, 0);
-     * // Result: 4x4 matrix with original in center, surrounded by 0s
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"a", "b"}});
+     *
+     * // Asymmetric padding: 2 columns on the left, 1 on the right
+     * Matrix<String> padded = matrix.extend(1, 1, 2, 1, "x");
+     * // Result: [["x", "x", "x", "x", "x"],
+     * //          ["x", "x", "a", "b", "x"],
+     * //          ["x", "x", "x", "x", "x"]]
+     *
+     * // Uniform border of 1 cell on every side
+     * Matrix<String> bordered = matrix.extend(1, 1, 1, 1, null);
+     * // Result: [[null, null, null, null],
+     * //          [null, "a",  "b",  null],
+     * //          [null, null, null, null]]
      * }</pre>
      *
-     * @param toUp number of rows to add at the top (must be non-negative)
-     * @param toDown number of rows to add at the bottom (must be non-negative)
-     * @param toLeft number of columns to add on the left (must be non-negative)
-     * @param toRight number of columns to add on the right (must be non-negative)
-     * @param defaultValueForNewCell the value to fill new cells with (can be null)
-     * @return a new extended matrix with dimensions (toUp + rowCount + toDown) x (toLeft + columnCount + toRight)
-     * @throws IllegalArgumentException if any extension parameter is negative
+     * @param toUp number of rows to add above; must be {@code >= 0}
+     * @param toDown number of rows to add below; must be {@code >= 0}
+     * @param toLeft number of columns to add to the left; must be {@code >= 0}
+     * @param toRight number of columns to add to the right; must be {@code >= 0}
+     * @param defaultValueForNewCell the value used to fill all newly added cells; may be {@code null}
+     * @return a new Matrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
+     * @throws IllegalArgumentException if any padding parameter is negative,
+     *         or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+     * @see #extend(int, int, int, int)
+     * @see #resize(int, int, Object)
      */
     public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight, final T defaultValueForNewCell)
             throws IllegalArgumentException {

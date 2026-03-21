@@ -1389,58 +1389,109 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
-     * New cells are filled with {@code 0.0}.
+     * Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount},
+     * anchored at the top-left corner of this matrix. New cells are filled with {@code 0.0}.
      *
-     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-     * If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.0.
+     * <ul>
+     *   <li><b>If a dimension shrinks</b> — elements beyond the new boundary are discarded
+     *       (excess rows removed from the bottom, excess columns removed from the right).</li>
+     *   <li><b>If a dimension grows</b> — new cells are filled with {@code 0.0}.</li>
+     *   <li><b>Mixed case</b> — each dimension is treated independently, so it is valid
+     *       to grow rows while truncating columns, or vice versa.</li>
+     * </ul>
+     *
+     * <p>The original matrix is never modified; a new matrix is always returned.</p>
+     *
+     * <p><b>Comparison with {@link #extend(int, int, int, int)}:</b>
+     * {@code resize} takes <em>absolute</em> target dimensions and may truncate existing content.
+     * {@code extend} takes <em>relative</em> padding amounts per edge and <em>never truncates</em>.
+     * Use {@code extend} when the entire original content must be preserved.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleMatrix extended = matrix.resize(3, 3);
-     * // Result: [[1.0, 2.0, 0.0],
-     * //          [3.0, 4.0, 0.0],
-     * //          [0.0, 0.0, 0.0]]
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
+     *
+     * // Grow: both dimensions larger — new cells filled with 0.0
+     * DoubleMatrix grown = matrix.resize(4, 4);
+     * // Result: [[1.0, 2.0, 3.0, 0.0],
+     * //          [4.0, 5.0, 6.0, 0.0],
+     * //          [7.0, 8.0, 9.0, 0.0],
+     * //          [0.0, 0.0, 0.0, 0.0]]
+     *
+     * // Truncate: both dimensions smaller — bottom rows and right columns discarded
+     * DoubleMatrix truncated = matrix.resize(2, 2);
+     * // Result: [[1.0, 2.0],
+     * //          [4.0, 5.0]]
+     *
+     * // Mixed: grow rows, truncate columns
+     * DoubleMatrix mixed = matrix.resize(4, 2);
+     * // Result: [[1.0, 2.0],
+     * //          [4.0, 5.0],
+     * //          [7.0, 8.0],
+     * //          [0.0, 0.0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+     * @param newRowCount the row count of the returned matrix; must be {@code >= 0}
+     * @param newColumnCount the column count of the returned matrix; must be {@code >= 0}
      * @return a new DoubleMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
+     * @see #resize(int, int, double)
+     * @see #extend(int, int, int, int)
      */
     public DoubleMatrix resize(final int newRowCount, final int newColumnCount) {
         return resize(newRowCount, newColumnCount, 0);
     }
 
     /**
-     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
-     * New cells created during extension are filled with the specified default value.
+     * Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount},
+     * anchored at the top-left corner of this matrix. New cells are filled with {@code defaultValueForNewCell}.
      *
-     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
-     * from the top-left corner. If larger, the existing content is preserved in the top-left
-     * corner and new cells are filled with the specified default value. This method provides
-     * more control over the fill value compared to {@link #resize(int, int)}.
+     * <ul>
+     *   <li><b>If a dimension shrinks</b> — elements beyond the new boundary are discarded
+     *       (excess rows removed from the bottom, excess columns removed from the right).</li>
+     *   <li><b>If a dimension grows</b> — new cells are filled with {@code defaultValueForNewCell}.</li>
+     *   <li><b>Mixed case</b> — each dimension is treated independently, so it is valid
+     *       to grow rows while truncating columns, or vice versa.</li>
+     * </ul>
+     *
+     * <p>The original matrix is never modified; a new matrix is always returned.</p>
+     *
+     * <p><b>Comparison with {@link #extend(int, int, int, int, double)}:</b>
+     * {@code resize} takes <em>absolute</em> target dimensions and may truncate existing content.
+     * {@code extend} takes <em>relative</em> padding amounts per edge and <em>never truncates</em>.
+     * Use {@code extend} when the entire original content must be preserved.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleMatrix extended = matrix.resize(3, 4, 9.0);   // Extend to 3x4, fill new cells with 9.0
-     * // Result: [[1.0, 2.0, 9.0, 9.0],
-     * //          [3.0, 4.0, 9.0, 9.0],
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
+     *
+     * // Grow: both dimensions larger — new cells filled with 9.0
+     * DoubleMatrix grown = matrix.resize(4, 4, 9.0);
+     * // Result: [[1.0, 2.0, 3.0, 9.0],
+     * //          [4.0, 5.0, 6.0, 9.0],
+     * //          [7.0, 8.0, 9.0, 9.0],
      * //          [9.0, 9.0, 9.0, 9.0]]
      *
-     * // Truncate to smaller size
-     * DoubleMatrix truncated = matrix.resize(1, 1, 0.0);   // Keep only top-left element
-     * // Result: [[1.0]]
+     * // Truncate: both dimensions smaller — bottom rows and right columns discarded
+     * DoubleMatrix truncated = matrix.resize(2, 2, 9.0);
+     * // Result: [[1.0, 2.0],
+     * //          [4.0, 5.0]]
+     *
+     * // Mixed: grow rows, truncate columns
+     * DoubleMatrix mixed = matrix.resize(4, 2, 9.0);
+     * // Result: [[1.0, 2.0],
+     * //          [4.0, 5.0],
+     * //          [7.0, 8.0],
+     * //          [9.0, 9.0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-     * @param defaultValueForNewCell the double value to fill new cells with during extension
+     * @param newRowCount the row count of the returned matrix; must be {@code >= 0}
+     * @param newColumnCount the column count of the returned matrix; must be {@code >= 0}
+     * @param defaultValueForNewCell the double value used to fill any newly created cells
      * @return a new DoubleMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
-     *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
+     * @see #resize(int, int)
+     * @see #extend(int, int, int, int, double)
      */
     public DoubleMatrix resize(final int newRowCount, final int newColumnCount, final double defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
@@ -1474,70 +1525,90 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a new matrix by extending this matrix in all four directions.
-     * New cells are filled with {@code 0.0}.
+     * Returns a new matrix formed by adding {@code 0.0}-filled padding around every edge of this matrix.
+     * The original content is preserved in its entirety at the interior of the result.
      *
-     * <p>This method adds padding around the existing matrix, with the original content
-     * positioned according to the specified padding amounts.
+     * <p>The result dimensions are:
+     * <ul>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
+     *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
+     * </ul>
+     *
+     * <p><b>Unlike {@link #resize(int, int)}, this method never truncates existing content.</b>
+     * All elements of the original matrix appear unchanged in the result.</p>
+     *
+     * <p><b>Comparison with {@link #resize(int, int)}:</b>
+     * {@code extend} takes <em>relative</em> padding amounts per edge and never truncates.
+     * {@code resize} takes <em>absolute</em> target dimensions and may discard content.
+     * Use {@code resize} when you need exact output dimensions regardless of the original size.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}});
-     * DoubleMatrix extended = matrix.extend(1, 1, 1, 1);
+     *
+     * // Uniform border of 1 cell on every side
+     * DoubleMatrix bordered = matrix.extend(1, 1, 1, 1);
      * // Result: [[0.0, 0.0, 0.0, 0.0],
      * //          [0.0, 1.0, 2.0, 0.0],
      * //          [0.0, 0.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param toUp number of rows to add above; must be non-negative
-     * @param toDown number of rows to add below; must be non-negative
-     * @param toLeft number of columns to add to the left; must be non-negative
-     * @param toRight number of columns to add to the right; must be non-negative
-     * @return a new extended DoubleMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
-     * @throws IllegalArgumentException if any parameter is negative
+     * @param toUp number of rows to add above; must be {@code >= 0}
+     * @param toDown number of rows to add below; must be {@code >= 0}
+     * @param toLeft number of columns to add to the left; must be {@code >= 0}
+     * @param toRight number of columns to add to the right; must be {@code >= 0}
+     * @return a new DoubleMatrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
+     * @throws IllegalArgumentException if any padding parameter is negative
+     * @see #extend(int, int, int, int, double)
+     * @see #resize(int, int)
      */
     public DoubleMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, 0);
     }
 
     /**
-     * Creates a new matrix by extending this matrix in all four directions with padding.
-     * New cells created during extension are filled with the specified default value.
+     * Returns a new matrix formed by adding {@code defaultValueForNewCell}-filled padding around every edge
+     * of this matrix. The original content is preserved in its entirety at the interior of the result.
      *
-     * <p>This method adds padding around the existing matrix in all four directions
-     * (up, down, left, right). The original matrix content is positioned according to
-     * the padding amounts specified. This is particularly useful for operations like
-     * border padding in image processing or creating margins around data.
-     *
-     * <p>The resulting matrix has dimensions:
+     * <p>The result dimensions are:
      * <ul>
      *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
      *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
      * </ul>
      *
+     * <p><b>Unlike {@link #resize(int, int, double)}, this method never truncates existing content.</b>
+     * All elements of the original matrix appear unchanged in the result.</p>
+     *
+     * <p><b>Typical uses:</b> zero-padding before convolution, adding sentinel borders, or creating
+     * asymmetric margins (e.g. more padding on one side than another).</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}});
-     * DoubleMatrix padded = matrix.extend(1, 1, 2, 2, 9.0);
-     * // Result: [[9.0, 9.0, 9.0, 9.0, 9.0, 9.0],
-     * //          [9.0, 9.0, 1.0, 2.0, 9.0, 9.0],
-     * //          [9.0, 9.0, 9.0, 9.0, 9.0, 9.0]]
      *
-     * // Add border of 0.0 values
+     * // Asymmetric padding: 2 columns on the left, 1 on the right
+     * DoubleMatrix padded = matrix.extend(1, 1, 2, 1, 9.0);
+     * // Result: [[9.0, 9.0, 9.0, 9.0, 9.0],
+     * //          [9.0, 9.0, 1.0, 2.0, 9.0],
+     * //          [9.0, 9.0, 9.0, 9.0, 9.0]]
+     *
+     * // Uniform border of 1 cell on every side
      * DoubleMatrix bordered = matrix.extend(1, 1, 1, 1, 0.0);
      * // Result: [[0.0, 0.0, 0.0, 0.0],
      * //          [0.0, 1.0, 2.0, 0.0],
      * //          [0.0, 0.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param toUp number of rows to add above; must be non-negative
-     * @param toDown number of rows to add below; must be non-negative
-     * @param toLeft number of columns to add to the left; must be non-negative
-     * @param toRight number of columns to add to the right; must be non-negative
-     * @param defaultValueForNewCell the double value to fill all new cells with
-     * @return a new extended DoubleMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+     * @param toUp number of rows to add above; must be {@code >= 0}
+     * @param toDown number of rows to add below; must be {@code >= 0}
+     * @param toLeft number of columns to add to the left; must be {@code >= 0}
+     * @param toRight number of columns to add to the right; must be {@code >= 0}
+     * @param defaultValueForNewCell the double value used to fill all newly added cells
+     * @return a new DoubleMatrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
      * @throws IllegalArgumentException if any padding parameter is negative,
-     *         or if the resulting dimensions would exceed Integer.MAX_VALUE
+     *         or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+     * @see #extend(int, int, int, int)
+     * @see #resize(int, int, double)
      */
     public DoubleMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final double defaultValueForNewCell)
             throws IllegalArgumentException {

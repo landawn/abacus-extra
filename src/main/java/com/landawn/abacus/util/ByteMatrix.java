@@ -1221,58 +1221,104 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
-     * New cells are filled with {@code 0}.
+     * Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount},
+     * anchored at the top-left corner of this matrix. New cells are filled with {@code 0}.
      *
-     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-     * If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.
+     * <ul>
+     *   <li><b>If a dimension shrinks</b> — elements beyond the new boundary are discarded
+     *       (excess rows removed from the bottom, excess columns removed from the right).</li>
+     *   <li><b>If a dimension grows</b> — new cells are filled with {@code 0}.</li>
+     *   <li><b>Mixed case</b> — each dimension is treated independently, so it is valid
+     *       to grow rows while truncating columns, or vice versa.</li>
+     * </ul>
+     *
+     * <p>The original matrix is never modified; a new matrix is always returned.</p>
+     *
+     * <p><b>Comparison with {@link #extend(int, int, int, int)}:</b>
+     * {@code resize} takes <em>absolute</em> target dimensions and may truncate existing content.
+     * {@code extend} takes <em>relative</em> padding amounts per edge and <em>never truncates</em>.
+     * Use {@code extend} when the entire original content must be preserved.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * ByteMatrix extended = matrix.resize(3, 3);
-     * // Result: [[1, 2, 0],
-     * //          [3, 4, 0],
-     * //          [0, 0, 0]]
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     *
+     * // Grow: both dimensions larger — new cells filled with 0
+     * ByteMatrix grown = matrix.resize(4, 4);
+     * // Result: [[1, 2, 3, 0],
+     * //          [4, 5, 6, 0],
+     * //          [7, 8, 9, 0],
+     * //          [0, 0, 0, 0]]
+     *
+     * // Truncate: both dimensions smaller — bottom rows and right columns discarded
+     * ByteMatrix truncated = matrix.resize(2, 2);
+     * // Result: [[1, 2],
+     * //          [4, 5]]
+     *
+     * // Mixed: grow rows, truncate columns
+     * ByteMatrix mixed = matrix.resize(4, 2);
+     * // Result: [[1, 2],
+     * //          [4, 5],
+     * //          [7, 8],
+     * //          [0, 0]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+     * @param newRowCount the row count of the returned matrix; must be {@code >= 0}
+     * @param newColumnCount the column count of the returned matrix; must be {@code >= 0}
      * @return a new ByteMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
+     * @see #resize(int, int, byte)
+     * @see #extend(int, int, int, int)
      */
     public ByteMatrix resize(final int newRowCount, final int newColumnCount) {
         return resize(newRowCount, newColumnCount, BYTE_0);
     }
 
     /**
-     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
-     * New cells created during extension are filled with the specified default value.
+     * Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount},
+     * anchored at the top-left corner of this matrix.
      *
-     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
-     * from the top-left corner. If larger, the existing content is preserved in the top-left
-     * corner and new cells are filled with the specified default value. This method provides
-     * more control over the fill value compared to {@link #resize(int, int)}.
+     * <ul>
+     *   <li><b>If a dimension shrinks</b> — elements beyond the new boundary are discarded.
+     *       {@code defaultValueForNewCell} is <em>not</em> used in this case.</li>
+     *   <li><b>If a dimension grows</b> — new cells are filled with {@code defaultValueForNewCell}.</li>
+     *   <li><b>Mixed case</b> — each dimension is treated independently, so it is valid
+     *       to grow rows while truncating columns, or vice versa.</li>
+     * </ul>
+     *
+     * <p>The original matrix is never modified; a new matrix is always returned.</p>
+     *
+     * <p><b>Comparison with {@link #extend(int, int, int, int, byte)}:</b>
+     * {@code resize} takes <em>absolute</em> target dimensions and may truncate existing content.
+     * {@code extend} takes <em>relative</em> padding amounts per edge and <em>never truncates</em>.
+     * Use {@code extend} when the entire original content must be preserved.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * ByteMatrix extended = matrix.resize(3, 4, (byte) 9);   // Extend to 3x4, fill new cells with 9
-     * // Result: [[1, 2, 9, 9],
-     * //          [3, 4, 9, 9],
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     *
+     * // Grow: fill new cells with 9
+     * ByteMatrix grown = matrix.resize(4, 4, (byte) 9);
+     * // Result: [[1, 2, 3, 9],
+     * //          [4, 5, 6, 9],
+     * //          [7, 8, 9, 9],
      * //          [9, 9, 9, 9]]
      *
-     * // Truncate to smaller size
-     * ByteMatrix truncated = matrix.resize(1, 1, (byte) 0);   // Keep only top-left element
-     * // Result: [[1]]
+     * // Truncate: defaultValueForNewCell is ignored when shrinking
+     * ByteMatrix truncated = matrix.resize(2, 2, (byte) 9);
+     * // Result: [[1, 2],
+     * //          [4, 5]]
      * }</pre>
      *
-     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-     * @param defaultValueForNewCell the byte value to fill new cells with during extension
+     * @param newRowCount the row count of the returned matrix; must be {@code >= 0}
+     * @param newColumnCount the column count of the returned matrix; must be {@code >= 0}
+     * @param defaultValueForNewCell the value used to fill cells that are added when a dimension grows;
+     *        ignored when a dimension shrinks
      * @return a new ByteMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
-     *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+     *         or if {@code (long) newRowCount * newColumnCount} overflows {@code Integer.MAX_VALUE}
+     * @see #resize(int, int)
+     * @see #extend(int, int, int, int, byte)
      */
     public ByteMatrix resize(final int newRowCount, final int newColumnCount, final byte defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
@@ -1306,42 +1352,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new matrix by extending this matrix in all four directions.
+     * Returns a new matrix formed by surrounding this matrix with padding on all four edges.
      * New cells are filled with {@code 0}.
      *
-     * <p>This method adds padding around the existing matrix, with the original content
-     * positioned according to the specified padding amounts.
+     * <p>Unlike {@link #resize(int, int)}, this method <b>never truncates</b>: the entire content
+     * of this matrix is always present in the result. Each parameter specifies how many rows or
+     * columns of padding to add on that edge. The original matrix occupies the interior starting
+     * at row {@code toUp}, column {@code toLeft}.</p>
      *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}});
-     * ByteMatrix extended = matrix.extend(1, 1, 1, 1);
-     * // Result: [[0, 0, 0, 0],
-     * //          [0, 1, 2, 0],
-     * //          [0, 0, 0, 0]]
-     * }</pre>
-     *
-     * @param toUp number of rows to add above; must be non-negative
-     * @param toDown number of rows to add below; must be non-negative
-     * @param toLeft number of columns to add to the left; must be non-negative
-     * @param toRight number of columns to add to the right; must be non-negative
-     * @return a new extended ByteMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
-     * @throws IllegalArgumentException if any parameter is negative
-     */
-    public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
-        return extend(toUp, toDown, toLeft, toRight, BYTE_0);
-    }
-
-    /**
-     * Creates a new matrix by extending this matrix in all four directions with padding.
-     * New cells created during extension are filled with the specified default value.
-     *
-     * <p>This method adds padding around the existing matrix in all four directions
-     * (up, down, left, right). The original matrix content is positioned according to
-     * the padding amounts specified. This is particularly useful for operations like
-     * border padding in image processing or creating margins around data.
-     *
-     * <p>The resulting matrix has dimensions:
+     * <p>Result dimensions:
      * <ul>
      *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
      *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
@@ -1349,27 +1368,79 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}});
-     * ByteMatrix padded = matrix.extend(1, 1, 2, 2, (byte) 9);
-     * // Result: [[9, 9, 9, 9, 9, 9],
-     * //          [9, 9, 1, 2, 9, 9],
-     * //          [9, 9, 9, 9, 9, 9]]
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      *
-     * // Add border of 0 values
-     * ByteMatrix bordered = matrix.extend(1, 1, 1, 1, (byte) 0);
+     * // Uniform 1-cell border of 0
+     * ByteMatrix bordered = matrix.extend(1, 1, 1, 1);
      * // Result: [[0, 0, 0, 0],
      * //          [0, 1, 2, 0],
+     * //          [0, 3, 4, 0],
      * //          [0, 0, 0, 0]]
+     *
+     * // Asymmetric: 2 columns on the left only, no row padding
+     * ByteMatrix shifted = matrix.extend(0, 0, 2, 0);
+     * // Result: [[0, 0, 1, 2],
+     * //          [0, 0, 3, 4]]
      * }</pre>
      *
-     * @param toUp number of rows to add above; must be non-negative
-     * @param toDown number of rows to add below; must be non-negative
-     * @param toLeft number of columns to add to the left; must be non-negative
-     * @param toRight number of columns to add to the right; must be non-negative
-     * @param defaultValueForNewCell the byte value to fill all new cells with
-     * @return a new extended ByteMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+     * @param toUp number of padding rows to add above the original matrix; must be {@code >= 0}
+     * @param toDown number of padding rows to add below the original matrix; must be {@code >= 0}
+     * @param toLeft number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+     * @param toRight number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+     * @return a new ByteMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
+     * @throws IllegalArgumentException if any parameter is negative
+     * @see #extend(int, int, int, int, byte)
+     * @see #resize(int, int)
+     */
+    public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
+        return extend(toUp, toDown, toLeft, toRight, BYTE_0);
+    }
+
+    /**
+     * Returns a new matrix formed by surrounding this matrix with padding on all four edges.
+     * New cells are filled with {@code defaultValueForNewCell}.
+     *
+     * <p>Unlike {@link #resize(int, int, byte)}, this method <b>never truncates</b>: the entire
+     * content of this matrix is always present in the result. Each parameter specifies how many
+     * rows or columns of padding to add on that edge. The original matrix occupies the interior
+     * starting at row {@code toUp}, column {@code toLeft}.</p>
+     *
+     * <p>Result dimensions:
+     * <ul>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
+     *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
+     * </ul>
+     *
+     * <p><b>Typical uses:</b> border padding in image/grid processing, adding margins around
+     * a data region, creating convolution-safe buffers.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
+     *
+     * // Uniform 1-cell border filled with 9
+     * ByteMatrix bordered = matrix.extend(1, 1, 1, 1, (byte) 9);
+     * // Result: [[9, 9, 9, 9],
+     * //          [9, 1, 2, 9],
+     * //          [9, 3, 4, 9],
+     * //          [9, 9, 9, 9]]
+     *
+     * // Asymmetric: 2 columns on the left only, no row padding
+     * ByteMatrix shifted = matrix.extend(0, 0, 2, 0, (byte) 0);
+     * // Result: [[0, 0, 1, 2],
+     * //          [0, 0, 3, 4]]
+     * }</pre>
+     *
+     * @param toUp number of padding rows to add above the original matrix; must be {@code >= 0}
+     * @param toDown number of padding rows to add below the original matrix; must be {@code >= 0}
+     * @param toLeft number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+     * @param toRight number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+     * @param defaultValueForNewCell the value to fill all new padding cells with
+     * @return a new ByteMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
      * @throws IllegalArgumentException if any padding parameter is negative,
-     *         or if the resulting dimensions would exceed Integer.MAX_VALUE
+     *         or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+     * @see #extend(int, int, int, int)
+     * @see #resize(int, int, byte)
      */
     public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final byte defaultValueForNewCell)
             throws IllegalArgumentException {
