@@ -602,6 +602,30 @@ class ShortTupleTest extends TestBase {
         assertFalse(tuple9.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 0)));
     }
 
+    // Cover the remaining higher-arity equality branches reported by JaCoCo.
+    @Test
+    public void testEquals_HigherArityIdentityAndTypeMismatch() {
+        ShortTuple.ShortTuple7 tuple7 = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35);
+        ShortTuple.ShortTuple8 tuple8 = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40);
+        ShortTuple.ShortTuple9 tuple9 = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40,
+                (short) 45);
+
+        assertEquals(tuple7, tuple7);
+        assertEquals(tuple7, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35));
+        assertNotEquals(tuple7, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 36));
+        assertNotEquals(tuple7, "tuple");
+
+        assertEquals(tuple8, tuple8);
+        assertEquals(tuple8, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40));
+        assertNotEquals(tuple8, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 41));
+        assertNotEquals(tuple8, "tuple");
+
+        assertEquals(tuple9, tuple9);
+        assertEquals(tuple9, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40, (short) 45));
+        assertNotEquals(tuple9, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40, (short) 46));
+        assertNotEquals(tuple9, "tuple");
+    }
+
     @Nested
     @SuppressWarnings("deprecation")
     @Tag("2512")

@@ -1395,7 +1395,7 @@ class MatrixTest extends TestBase {
     public void testPrintln() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
     }
 
     @Test
@@ -2614,12 +2614,12 @@ class MatrixTest extends TestBase {
         @Test
         public void testExtend_directional() {
             Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-            m.printAndReturn();
+            m.println();
             Matrix<String> extended = m.extend(1, 1, 2, 2);
             assertEquals(5, extended.rowCount()); // 1 + 3 + 1
             assertEquals(7, extended.columnCount()); // 2 + 3 + 2
 
-            extended.printAndReturn();
+            extended.println();
 
             // Original values at offset position
             assertEquals("A", extended.get(1, 2));
@@ -5566,7 +5566,7 @@ class MatrixTest extends TestBase {
         @Test
         public void testPrintln_integers() {
             Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
-            String output = m.printAndReturn();
+            String output = m.println();
             assertNotNull(output);
             assertTrue(output.contains("1"));
             assertTrue(output.contains("4"));
@@ -6773,7 +6773,7 @@ class MatrixTest extends TestBase {
         public void test_println_returnsString() {
             String[][] arr = { { "a", "b" }, { "c", "d" } };
             Matrix<String> m = new Matrix<>(arr);
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }
@@ -7130,6 +7130,35 @@ class MatrixTest extends TestBase {
         assertEquals("a", m.get(0, 0));
         assertEquals("b", m.get(0, 1));
         assertEquals("c", m.get(0, 2));
+    }
+
+    @Test
+    public void testSetAndSetRow_WidensRowStorageForMixedNumberTypes() {
+        Matrix<Number> matrix = Matrix.<Number> of(new Integer[] { 1, 2 }, new Integer[] { 3, 4 });
+
+        matrix.set(0, 0, 1.5d);
+        matrix.setRow(1, new Number[] { BigDecimal.TEN, 4.5d });
+
+        assertEquals(1.5d, matrix.get(0, 0));
+        assertEquals(BigDecimal.TEN, matrix.get(1, 0));
+        assertEquals(4.5d, matrix.get(1, 1));
+    }
+
+    @Test
+    public void testExtendRepeatAndFlatten_PreservesNulls() {
+        Matrix<String> matrix = Matrix.of(new String[][] { { "a", null } });
+
+        Matrix<String> extended = matrix.extend(0, 1, 1, 1, null);
+        Matrix<String> repeatedElements = matrix.repeatElements(1, 2);
+        Matrix<String> repeatedMatrix = matrix.repeatMatrix(2, 1);
+
+        assertNull(extended.get(0, 0));
+        assertNull(extended.get(0, 2));
+        assertNull(extended.get(1, 1));
+        assertNull(repeatedElements.get(0, 2));
+        assertNull(repeatedElements.get(0, 3));
+        assertNull(repeatedMatrix.get(1, 1));
+        assertEquals(Arrays.asList("a", null), matrix.flatten());
     }
 
 }

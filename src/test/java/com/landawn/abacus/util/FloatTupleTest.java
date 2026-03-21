@@ -573,6 +573,43 @@ class FloatTupleTest extends TestBase {
         assertFalse(tuple9.equals(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 10.0f)));
     }
 
+    // Cover tuple-specific short-circuit branches for the higher arities missed in the report.
+    @Test
+    public void testContains_HigherArityTrailingElements() {
+        FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f);
+        FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f);
+        FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f);
+
+        assertTrue(tuple6.contains(6.5f));
+        assertFalse(tuple6.contains(10.5f));
+        assertTrue(tuple8.contains(8.5f));
+        assertFalse(tuple8.contains(10.5f));
+        assertTrue(tuple9.contains(9.5f));
+        assertFalse(tuple9.contains(10.5f));
+    }
+
+    @Test
+    public void testEquals_HigherArityIdentityAndTypeMismatch() {
+        FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f);
+        FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f);
+        FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f);
+
+        assertEquals(tuple6, tuple6);
+        assertEquals(tuple6, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f));
+        assertNotEquals(tuple6, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 7.5f));
+        assertNotEquals(tuple6, "tuple");
+
+        assertEquals(tuple8, tuple8);
+        assertEquals(tuple8, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f));
+        assertNotEquals(tuple8, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 9.5f));
+        assertNotEquals(tuple8, "tuple");
+
+        assertEquals(tuple9, tuple9);
+        assertEquals(tuple9, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f));
+        assertNotEquals(tuple9, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 10.5f));
+        assertNotEquals(tuple9, "tuple");
+    }
+
     @Nested
     /**
      * Comprehensive test suite for FloatTuple and its nested classes.

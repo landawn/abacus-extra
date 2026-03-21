@@ -398,6 +398,29 @@ class CharTupleTest extends TestBase {
         assertFalse(tuple9.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'z')));
     }
 
+    // Cover the remaining higher-arity equality branches reported by JaCoCo.
+    @Test
+    public void testEquals_HigherArityIdentityAndTypeMismatch() {
+        CharTuple.CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        CharTuple.CharTuple8 tuple8 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        CharTuple.CharTuple9 tuple9 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+
+        assertEquals(tuple7, tuple7);
+        assertEquals(tuple7, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'));
+        assertNotEquals(tuple7, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'x'));
+        assertNotEquals(tuple7, "tuple");
+
+        assertEquals(tuple8, tuple8);
+        assertEquals(tuple8, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'));
+        assertNotEquals(tuple8, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'x'));
+        assertNotEquals(tuple8, "tuple");
+
+        assertEquals(tuple9, tuple9);
+        assertEquals(tuple9, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'));
+        assertNotEquals(tuple9, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'x'));
+        assertNotEquals(tuple9, "tuple");
+    }
+
     @Nested
     /**
      * Comprehensive test suite for CharTuple and its nested classes.

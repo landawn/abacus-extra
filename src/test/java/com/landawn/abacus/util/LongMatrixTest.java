@@ -1252,7 +1252,7 @@ class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
     }
 
     @Test
@@ -3166,11 +3166,11 @@ class LongMatrixTest extends TestBase {
         public void testPrintln() {
             LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
 
             LongMatrix empty = LongMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
         }
 
         @Test
@@ -5692,9 +5692,9 @@ class LongMatrixTest extends TestBase {
         // ============ Utility Tests ============
 
         @Test
-        public void test_printAndReturn() {
+        public void test_println() {
             LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }
@@ -5920,6 +5920,39 @@ class LongMatrixTest extends TestBase {
             assertTrue(indices.contains("0,0"));
             assertTrue(indices.contains("1,1"));
         }
+    }
+
+    @Test
+    public void testExtendRepeatFlattenAndForEach_SubRangeEdgeCase() {
+        LongMatrix matrix = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
+        LongMatrix extended = matrix.extend(1, 0, 1, 0, 8L);
+        LongMatrix repeatedElements = matrix.repeatElements(1, 2);
+        LongMatrix repeatedMatrix = matrix.repeatMatrix(2, 1);
+        List<Long> visited = new ArrayList<>();
+
+        matrix.forEach(0, 2, 1, 2, visited::add);
+
+        assertEquals(8L, extended.get(0, 0));
+        assertArrayEquals(new long[] { 1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L }, repeatedElements.flatten().toArray());
+        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L, 1L, 2L, 3L, 4L }, repeatedMatrix.flatten().toArray());
+        assertArrayEquals(new int[] { 1, 2, 3, 4 }, matrix.toIntMatrix().flatten().toArray());
+        assertEquals(List.of(2L, 4L), visited);
+    }
+
+    @Test
+    public void testStreamHorizontalIteratorAdvanceAndExhaustion_EdgeCase() {
+        LongMatrix matrix = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
+        var iterator = matrix.streamHorizontal(0, 2).iterator();
+
+        assertTrue(iterator instanceof com.landawn.abacus.util.stream.LongIteratorEx);
+
+        com.landawn.abacus.util.stream.LongIteratorEx ex = (com.landawn.abacus.util.stream.LongIteratorEx) iterator;
+        ex.advance(2);
+        assertEquals(2L, ex.count());
+        assertEquals(3L, ex.nextLong());
+        ex.advance(10);
+        assertEquals(0L, ex.count());
+        assertThrows(java.util.NoSuchElementException.class, ex::nextLong);
     }
 
 }

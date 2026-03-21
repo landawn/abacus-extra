@@ -1113,7 +1113,7 @@ class DoubleMatrixTest extends TestBase {
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
     }
 
     @Test
@@ -2846,11 +2846,11 @@ class DoubleMatrixTest extends TestBase {
         public void testPrintln() {
             DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
 
             DoubleMatrix empty = DoubleMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
         }
 
         @Test
@@ -4474,14 +4474,14 @@ class DoubleMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_empty() {
             DoubleMatrix m = DoubleMatrix.empty();
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
         }
     }
@@ -5692,9 +5692,9 @@ class DoubleMatrixTest extends TestBase {
         // ============ Utility Tests ============
 
         @Test
-        public void test_printAndReturn() {
+        public void test_println() {
             DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }
@@ -6185,6 +6185,38 @@ class DoubleMatrixTest extends TestBase {
             assertThrows(IllegalArgumentException.class, () -> matrix.subtract(null));
             assertThrows(IllegalArgumentException.class, () -> matrix.multiply(null));
         }
+    }
+
+    @Test
+    public void testExtendRepeatFlattenAndConversions_EdgeCase() {
+        DoubleMatrix matrix = DoubleMatrix.of(new double[][] { { 1.5d, 2.5d } });
+
+        DoubleMatrix extended = matrix.extend(1, 0, 1, 0, 9.5d);
+        DoubleMatrix repeatedElements = matrix.repeatElements(1, 2);
+        DoubleMatrix repeatedMatrix = matrix.repeatMatrix(2, 1);
+
+        assertEquals(9.5d, extended.get(0, 0));
+        assertArrayEquals(new double[] { 1.5d, 1.5d, 2.5d, 2.5d }, repeatedElements.flatten().toArray(), 0.0001d);
+        assertArrayEquals(new double[] { 1.5d, 2.5d, 1.5d, 2.5d }, repeatedMatrix.flatten().toArray(), 0.0001d);
+        assertArrayEquals(new int[] { 1, 2 }, matrix.toIntMatrix().flatten().toArray());
+        assertArrayEquals(new long[] { 1L, 2L }, matrix.toLongMatrix().flatten().toArray());
+        assertArrayEquals(new float[] { 1.5f, 2.5f }, matrix.toFloatMatrix().flatten().toArray(), 0.0001f);
+    }
+
+    @Test
+    public void testStreamHorizontalIteratorAdvanceAndExhaustion_EdgeCase() {
+        DoubleMatrix matrix = DoubleMatrix.of(new double[][] { { 1d, 2d }, { 3d, 4d } });
+        var iterator = matrix.streamHorizontal(0, 2).iterator();
+
+        assertTrue(iterator instanceof com.landawn.abacus.util.stream.DoubleIteratorEx);
+
+        com.landawn.abacus.util.stream.DoubleIteratorEx ex = (com.landawn.abacus.util.stream.DoubleIteratorEx) iterator;
+        ex.advance(2);
+        assertEquals(2L, ex.count());
+        assertEquals(3d, ex.nextDouble(), 0.0001d);
+        ex.advance(10);
+        assertEquals(0L, ex.count());
+        assertThrows(java.util.NoSuchElementException.class, ex::nextDouble);
     }
 
 }

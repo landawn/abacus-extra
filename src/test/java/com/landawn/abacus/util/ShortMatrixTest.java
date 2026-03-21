@@ -5511,9 +5511,9 @@ class ShortMatrixTest extends TestBase {
         public void test_rotate90_rotatesClockwise() {
             short[][] arr = { { 1, 2 }, { 3, 4 } };
             ShortMatrix m = new ShortMatrix(arr);
-            m.printAndReturn();
+            m.println();
             ShortMatrix rotated = m.rotate90();
-            rotated.printAndReturn();
+            rotated.println();
             assertEquals(2, rotated.rowCount());
             assertEquals(2, rotated.columnCount());
             assertEquals(3, rotated.get(0, 0));
@@ -5537,9 +5537,9 @@ class ShortMatrixTest extends TestBase {
         public void test_rotate270_rotatesCounterClockwise() {
             short[][] arr = { { 1, 2 }, { 3, 4 } };
             ShortMatrix m = new ShortMatrix(arr);
-            m.printAndReturn();
+            m.println();
             ShortMatrix rotated = m.rotate270();
-            rotated.printAndReturn();
+            rotated.println();
             assertEquals(2, rotated.get(0, 0));
             assertEquals(4, rotated.get(0, 1));
             assertEquals(1, rotated.get(1, 0));
@@ -5921,7 +5921,7 @@ class ShortMatrixTest extends TestBase {
         public void test_println_returnsString() {
             short[][] arr = { { 1, 2 }, { 3, 4 } };
             ShortMatrix m = new ShortMatrix(arr);
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }
@@ -6161,6 +6161,67 @@ class ShortMatrixTest extends TestBase {
             assertEquals(1.0, doubleM.get(0, 0), 0.001);
             assertEquals(4.0, doubleM.get(1, 1), 0.001);
         }
+    }
+
+    @Test
+    public void testRotate90_SingleRowEdgeCase() {
+        ShortMatrix matrix = ShortMatrix.of(new short[][] { { 1, 2, 3 } });
+        ShortMatrix rotated = matrix.rotate90();
+
+        assertEquals(3, rotated.rowCount());
+        assertEquals(1, rotated.columnCount());
+        assertEquals((short) 1, rotated.get(0, 0));
+        assertEquals((short) 2, rotated.get(1, 0));
+        assertEquals((short) 3, rotated.get(2, 0));
+    }
+
+    @Test
+    public void testRotate270_SingleRowEdgeCase() {
+        ShortMatrix matrix = ShortMatrix.of(new short[][] { { 1, 2, 3 } });
+        ShortMatrix rotated = matrix.rotate270();
+
+        assertEquals(3, rotated.rowCount());
+        assertEquals(1, rotated.columnCount());
+        assertEquals((short) 3, rotated.get(0, 0));
+        assertEquals((short) 2, rotated.get(1, 0));
+        assertEquals((short) 1, rotated.get(2, 0));
+    }
+
+    @Test
+    public void testBoxedAndNumericConversions_ZeroColumnRows() {
+        ShortMatrix matrix = ShortMatrix.of(new short[][] { {}, {} });
+
+        assertEquals(2, matrix.boxed().rowCount());
+        assertEquals(0, matrix.boxed().columnCount());
+        assertEquals(2, matrix.toLongMatrix().rowCount());
+        assertEquals(0, matrix.toFloatMatrix().columnCount());
+        assertEquals(2, matrix.toDoubleMatrix().rowCount());
+    }
+
+    // Exercise the custom primitive iterators used by range-based horizontal and vertical streams.
+    @Test
+    public void testStreamIteratorAdvanceAndExhaustion_EdgeCase() {
+        ShortMatrix matrix = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+
+        var rowIterator = matrix.streamHorizontal(0, 2).iterator();
+        assertTrue(rowIterator instanceof com.landawn.abacus.util.stream.ShortIteratorEx);
+        com.landawn.abacus.util.stream.ShortIteratorEx rowEx = (com.landawn.abacus.util.stream.ShortIteratorEx) rowIterator;
+        rowEx.advance(2);
+        assertEquals(2L, rowEx.count());
+        assertEquals((short) 3, rowEx.nextShort());
+        rowEx.advance(10);
+        assertEquals(0L, rowEx.count());
+        assertThrows(java.util.NoSuchElementException.class, rowEx::nextShort);
+
+        var columnIterator = matrix.streamVertical(0, 2).iterator();
+        assertTrue(columnIterator instanceof com.landawn.abacus.util.stream.ShortIteratorEx);
+        com.landawn.abacus.util.stream.ShortIteratorEx columnEx = (com.landawn.abacus.util.stream.ShortIteratorEx) columnIterator;
+        columnEx.advance(1);
+        assertEquals(3L, columnEx.count());
+        assertEquals((short) 3, columnEx.nextShort());
+        columnEx.advance(10);
+        assertEquals(0L, columnEx.count());
+        assertThrows(java.util.NoSuchElementException.class, columnEx::nextShort);
     }
 
 }

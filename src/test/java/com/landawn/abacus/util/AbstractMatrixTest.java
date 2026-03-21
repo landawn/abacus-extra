@@ -263,7 +263,7 @@ class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix tiled = matrix.repeatMatrix(2, 3);
 
-        tiled.printAndReturn();
+        tiled.println();
 
         Assertions.assertEquals(4, tiled.rowCount());
         Assertions.assertEquals(6, tiled.columnCount());
@@ -719,7 +719,7 @@ class AbstractMatrixTest extends TestBase {
     public void testPrintln() {
         IntMatrix matrix = createTestMatrix();
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
     }
 
     @Test
@@ -2765,7 +2765,7 @@ class AbstractMatrixTest extends TestBase {
         @Test
         public void testPrintln_intMatrix() {
             IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            String output = m.printAndReturn();
+            String output = m.println();
             assertNotNull(output);
             assertTrue(output.contains("1"));
             assertTrue(output.contains("4"));
@@ -2774,7 +2774,7 @@ class AbstractMatrixTest extends TestBase {
         @Test
         public void testPrintln_doubleMatrix() {
             DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
-            String output = m.printAndReturn();
+            String output = m.println();
             assertNotNull(output);
             assertTrue(output.contains("1.5") || output.contains("1"));
         }
@@ -2782,7 +2782,7 @@ class AbstractMatrixTest extends TestBase {
         @Test
         public void testPrintln_objectMatrix() {
             Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-            String output = m.printAndReturn();
+            String output = m.println();
             assertNotNull(output);
             assertTrue(output.contains("A"));
             assertTrue(output.contains("D"));
@@ -2791,7 +2791,7 @@ class AbstractMatrixTest extends TestBase {
         @Test
         public void testPrintln_emptyMatrix() {
             IntMatrix m = IntMatrix.empty();
-            String output = m.printAndReturn();
+            String output = m.println();
             assertNotNull(output);
         }
     }
@@ -3173,7 +3173,7 @@ class AbstractMatrixTest extends TestBase {
         @Test
         public void test_println_returnsString() {
             IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            String result = matrix.printAndReturn();
+            String result = matrix.println();
             assertNotNull(result);
             assertTrue(result.contains("1"));
             assertTrue(result.contains("2"));
@@ -3949,6 +3949,16 @@ class AbstractMatrixTest extends TestBase {
             IntMatrix m = IntMatrix.of(new int[0][0]);
             assertEquals(0, m.pointsAntiDiagonal().count());
         }
+    }
+
+    @Test
+    public void testAdjacencyChecks_InvalidColumnIndexEdgeCase() {
+        IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.above(0, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.below(1, -1));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.left(0, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> matrix.right(1, -1));
     }
 
 }

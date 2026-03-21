@@ -822,8 +822,8 @@ class MatricesTest extends TestBase {
             assertEquals("[[0, 1, 2, 3], [4, 5, 6, 7]]", mx.toString());
             assertEquals(mx.toString(), mx.boxed().toString());
             assertDoesNotThrow(() -> {
-                mx.printAndReturn();
-                mx.boxed().printAndReturn();
+                mx.println();
+                mx.boxed().println();
 
                 N.println(Strings.repeat('-', 80));
 
@@ -856,25 +856,25 @@ class MatricesTest extends TestBase {
             assertEquals(28, intSum.get(1, 3));
 
             assertDoesNotThrow(() -> {
-                mx.printAndReturn();
+                mx.println();
 
                 N.println(Strings.repeat('-', 80));
-                same.printAndReturn();
+                same.println();
 
                 N.println(Strings.repeat('-', 80));
-                doubled.printAndReturn();
+                doubled.println();
 
                 N.println(Strings.repeat('-', 80));
-                tripled.printAndReturn();
+                tripled.println();
 
                 N.println(Strings.repeat('-', 80));
-                quadrupled.printAndReturn();
+                quadrupled.println();
 
                 N.println(Strings.repeat('-', 80));
-                boxedSum.printAndReturn();
+                boxedSum.println();
 
                 N.println(Strings.repeat('-', 80));
-                intSum.printAndReturn();
+                intSum.println();
             });
         }
 
@@ -898,25 +898,25 @@ class MatricesTest extends TestBase {
             assertEquals(28L, longSum.get(1, 3));
 
             assertDoesNotThrow(() -> {
-                mx.printAndReturn();
+                mx.println();
 
                 N.println(Strings.repeat('-', 80));
-                same.printAndReturn();
+                same.println();
 
                 N.println(Strings.repeat('-', 80));
-                doubled.printAndReturn();
+                doubled.println();
 
                 N.println(Strings.repeat('-', 80));
-                tripled.printAndReturn();
+                tripled.println();
 
                 N.println(Strings.repeat('-', 80));
-                quadrupled.printAndReturn();
+                quadrupled.println();
 
                 N.println(Strings.repeat('-', 80));
-                byteSum.printAndReturn();
+                byteSum.println();
 
                 N.println(Strings.repeat('-', 80));
-                longSum.printAndReturn();
+                longSum.println();
             });
         }
 
@@ -934,9 +934,9 @@ class MatricesTest extends TestBase {
             assertEquals((byte) 76, result.get(1, 0));
             assertEquals((byte) 98, result.get(1, 1));
             assertDoesNotThrow(() -> {
-                mxa.printAndReturn();
-                mxb.printAndReturn();
-                result.printAndReturn();
+                mxa.println();
+                mxb.println();
+                result.println();
             });
         }
 
@@ -953,9 +953,9 @@ class MatricesTest extends TestBase {
             assertEquals(76, result.get(1, 0));
             assertEquals(98, result.get(1, 1));
             assertDoesNotThrow(() -> {
-                mxa.printAndReturn();
-                mxb.printAndReturn();
-                result.printAndReturn();
+                mxa.println();
+                mxb.println();
+                result.println();
             });
         }
     }
@@ -1656,9 +1656,9 @@ class MatricesTest extends TestBase {
             IntMatrix m1 = IntMatrix.of(arr1);
             IntMatrix m2 = IntMatrix.of(arr2);
             IntMatrix result = Matrices.zip(m1, m2, (a, b) -> a + b);
-            m1.printAndReturn();
-            m2.printAndReturn();
-            result.printAndReturn();
+            m1.println();
+            m2.println();
+            result.println();
 
             assertEquals(10, result.rowCount());
             assertEquals(10, result.columnCount());
@@ -4611,6 +4611,36 @@ class MatricesTest extends TestBase {
         assertEquals(22, result[0][1]);
         assertEquals(43, result[1][0]);
         assertEquals(50, result[1][1]);
+    }
+
+    @Test
+    public void testForEachCartesianIndices_RectangularResultSequential() {
+        IntMatrix a = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+        IntMatrix b = IntMatrix.of(new int[][] { { 1 }, { 2 }, { 3 } });
+        int[][] result = new int[a.rowCount()][b.columnCount()];
+
+        Matrices.forEachCartesianIndices(a, b, (i, j, k) -> result[i][j] += a.get(i, k) * b.get(k, j), false);
+
+        assertEquals(14, result[0][0]);
+        assertEquals(32, result[1][0]);
+        assertEquals(50, result[2][0]);
+    }
+
+    @Test
+    public void testForEachCartesianIndices_RectangularResultParallel() {
+        IntMatrix a = IntMatrix.of(new int[][] { { 1 }, { 2 }, { 3 } });
+        IntMatrix b = IntMatrix.of(new int[][] { { 4, 5, 6 } });
+        int[][] result = new int[a.rowCount()][b.columnCount()];
+
+        Matrices.forEachCartesianIndices(a, b, (i, j, k) -> {
+            synchronized (result) {
+                result[i][j] += a.get(i, k) * b.get(k, j);
+            }
+        }, true);
+
+        assertArrayEquals(new int[] { 4, 5, 6 }, result[0]);
+        assertArrayEquals(new int[] { 8, 10, 12 }, result[1]);
+        assertArrayEquals(new int[] { 12, 15, 18 }, result[2]);
     }
 
 }

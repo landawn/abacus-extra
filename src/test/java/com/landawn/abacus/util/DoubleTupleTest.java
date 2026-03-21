@@ -370,6 +370,34 @@ class DoubleTupleTest extends TestBase {
         assertFalse(tuple9.equals(DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 10.0)));
     }
 
+    // Cover tuple-specific short-circuit branches for the higher arities missed in the report.
+    @Test
+    public void testContains_HigherArityTrailingElements() {
+        DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5);
+        DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5);
+
+        assertTrue(tuple7.contains(7.5));
+        assertFalse(tuple7.contains(9.5));
+        assertTrue(tuple8.contains(8.5));
+        assertFalse(tuple8.contains(9.5));
+    }
+
+    @Test
+    public void testEquals_HigherArityIdentityAndTypeMismatch() {
+        DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5);
+        DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5);
+
+        assertEquals(tuple7, tuple7);
+        assertEquals(tuple7, DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5));
+        assertNotEquals(tuple7, DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 8.5));
+        assertNotEquals(tuple7, "tuple");
+
+        assertEquals(tuple8, tuple8);
+        assertEquals(tuple8, DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5));
+        assertNotEquals(tuple8, DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 9.5));
+        assertNotEquals(tuple8, "tuple");
+    }
+
     @Nested
     /**
      * Comprehensive test suite for DoubleTuple and its nested classes.

@@ -1223,7 +1223,7 @@ class CharMatrixTest extends TestBase {
         CharMatrix matrix = CharMatrix.of(a);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
     }
 
     @Test
@@ -3918,7 +3918,7 @@ class CharMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.contains("a"));
             assertTrue(result.contains("d"));
@@ -5040,7 +5040,7 @@ class CharMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.contains("a"));
         }
@@ -6539,6 +6539,38 @@ class CharMatrixTest extends TestBase {
         CharMatrix b = CharMatrix.of(new char[][] { { 'x', 'y' } });
 
         assertThrows(IllegalArgumentException.class, () -> a.multiply(b));
+    }
+
+    @Test
+    public void testExtendFlattenForEachAndPrint_EdgeCase() {
+        CharMatrix matrix = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
+        CharMatrix extended = matrix.extend(0, 1, 1, 0, 'z');
+        CharList flattened = matrix.flatten();
+        List<Character> visited = new ArrayList<>();
+        String printed = matrix.println();
+
+        matrix.forEach(0, 2, 1, 2, visited::add);
+
+        assertEquals('z', extended.get(0, 0));
+        assertArrayEquals(new char[] { 'a', 'b', 'c', 'd' }, flattened.toArray());
+        assertEquals(List.of('b', 'd'), visited);
+        assertTrue(printed.contains("[a, b]"));
+    }
+
+    @Test
+    public void testStreamHorizontalIteratorAdvanceAndExhaustion_EdgeCase() {
+        CharMatrix matrix = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
+        var iterator = matrix.streamHorizontal(0, 2).iterator();
+
+        assertTrue(iterator instanceof com.landawn.abacus.util.stream.CharIteratorEx);
+
+        com.landawn.abacus.util.stream.CharIteratorEx ex = (com.landawn.abacus.util.stream.CharIteratorEx) iterator;
+        ex.advance(2);
+        assertEquals(2L, ex.count());
+        assertEquals('c', ex.nextChar());
+        ex.advance(10);
+        assertEquals(0L, ex.count());
+        assertThrows(java.util.NoSuchElementException.class, ex::nextChar);
     }
 
 }

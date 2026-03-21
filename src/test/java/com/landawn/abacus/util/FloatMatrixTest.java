@@ -1080,8 +1080,8 @@ class FloatMatrixTest extends TestBase {
         assertFalse(matrix.isEmpty());
         assertTrue(emptyMatrix.isEmpty());
         org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> {
-            matrix.printAndReturn();
-            emptyMatrix.printAndReturn();
+            matrix.println();
+            emptyMatrix.println();
         });
     }
 
@@ -2644,11 +2644,11 @@ class FloatMatrixTest extends TestBase {
         public void testPrintln() {
             FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
 
             FloatMatrix empty = FloatMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
         }
 
         @Test
@@ -4006,14 +4006,14 @@ class FloatMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
         }
 
         @Test
         public void testPrintln_empty() {
             FloatMatrix m = FloatMatrix.empty();
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
         }
     }
@@ -5177,9 +5177,9 @@ class FloatMatrixTest extends TestBase {
         // ============ Utility Tests ============
 
         @Test
-        public void test_printAndReturn() {
+        public void test_println() {
             FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }
@@ -5765,6 +5765,24 @@ class FloatMatrixTest extends TestBase {
             assertEquals(1L, longM.get(0, 0));
             assertEquals(4L, longM.get(1, 1));
         }
+    }
+
+    @Test
+    public void testExtendRepeatFlattenAndForEach_SubRangeEdgeCase() {
+        FloatMatrix matrix = FloatMatrix.of(new float[][] { { 1f, 2f }, { 3f, 4f } });
+        FloatMatrix extended = matrix.extend(0, 1, 1, 0, 8f);
+        FloatMatrix repeatedElements = matrix.repeatElements(2, 1);
+        FloatMatrix repeatedMatrix = matrix.repeatMatrix(1, 2);
+        List<Float> visited = new ArrayList<>();
+
+        matrix.forEach(0, 2, 1, 2, visited::add);
+
+        assertEquals(8f, extended.get(2, 0), DELTA);
+        assertArrayEquals(new float[] { 1f, 2f, 1f, 2f, 3f, 4f, 3f, 4f }, repeatedElements.flatten().toArray(), DELTA);
+        assertArrayEquals(new float[] { 1f, 2f, 1f, 2f, 3f, 4f, 3f, 4f }, repeatedMatrix.flatten().toArray(), DELTA);
+        assertEquals(List.of(2f, 4f), visited);
+        assertArrayEquals(new int[] { 1, 2, 3, 4 }, matrix.toIntMatrix().flatten().toArray());
+        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L }, matrix.toLongMatrix().flatten().toArray());
     }
 
 }

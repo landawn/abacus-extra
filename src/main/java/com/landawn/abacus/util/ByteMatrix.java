@@ -3088,7 +3088,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.printAndReturn();
+     * matrix.println();
      * // Output:
      * // [1, 2, 3]
      * // [4, 5, 6]
@@ -3097,7 +3097,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return the formatted string representation of the matrix
      */
     @Override
-    public String printAndReturn() {
+    public String println() {
         if (a.length == 0) {
             return N.println("[]");
         } else {
@@ -3201,7 +3201,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * elements separated by commas and spaces.
      *
      * <p>The format is suitable for debugging and logging. For pretty-printed output
-     * with each row on a separate line, use {@link #printAndReturn()} instead.
+     * with each row on a separate line, use {@link #println()} instead.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3213,7 +3213,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @return a string representation of this matrix in two-dimensional array format
-     * @see #printAndReturn()
+     * @see #println()
      */
     @Override
     public String toString() {

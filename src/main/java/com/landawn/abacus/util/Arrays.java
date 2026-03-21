@@ -58,32 +58,32 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Object[] array = {"Hello", "World", 123};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns: "[Hello, World, 123]"
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((Object[]) null);
+     * String nullResult = Arrays.println((Object[]) null);
      * // Prints "null"
      *
      * // Empty array
      * Object[] empty = new Object[0];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.printAndReturn()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * <p><b>Performance:</b> This method delegates to {@code Arrays.printAndReturn()} and {@code Arrays.toString()}
+     * <p><b>Performance:</b> This method delegates to {@code Arrays.println()} and {@code Arrays.toString()}
      * for the actual formatting and printing operations.</p>
      *
      * @param a the one-dimensional object array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #printAndReturn(Object[][]) for two-dimensional array printing
-     * @see #printAndReturn(Object[][][]) for three-dimensional array printing
+     * @see #println(Object[][]) for two-dimensional array printing
+     * @see #println(Object[][][]) for three-dimensional array printing
      * @see N#println(Object) for the underlying print implementation
      */
-    public static String printAndReturn(final Object[] a) {
+    public static String println(final Object[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -112,7 +112,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Object[][] array = {{"Hello", "World"}, {123, 456}, null, {}, {"End"}};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[Hello, World],
      * //  [123, 456],
@@ -121,12 +121,12 @@ public sealed class Arrays permits Arrays.f {
      * //  [End]]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((Object[][]) null);
+     * String nullResult = Arrays.println((Object[][]) null);
      * // Prints "null"
      *
      * // Empty array
      * Object[][] empty = new Object[0][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -135,10 +135,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional object array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
-     * @see #printAndReturn(Object[]) for one-dimensional array printing
-     * @see #printAndReturn(Object[][][]) for three-dimensional array printing
+     * @see #println(Object[]) for one-dimensional array printing
+     * @see #println(Object[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final Object[][] a) {
+    public static String println(final Object[][] a) {
         return ff.println(a);
     }
 
@@ -164,7 +164,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Object[][][] array = {{{"A", "B"}, {"C"}}, {{"D"}, null, {}}, null};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[A, B],
      * //    [C]],
@@ -174,12 +174,12 @@ public sealed class Arrays permits Arrays.f {
      * //  null]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((Object[][][]) null);
+     * String nullResult = Arrays.println((Object[][][]) null);
      * // Prints "null"
      *
      * // Empty array
      * Object[][][] empty = new Object[0][][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -189,10 +189,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional object array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
-     * @see #printAndReturn(Object[]) for one-dimensional array printing
-     * @see #printAndReturn(Object[][]) for two-dimensional array printing
+     * @see #println(Object[]) for one-dimensional array printing
+     * @see #println(Object[][]) for two-dimensional array printing
      */
-    public static String printAndReturn(final Object[][][] a) {
+    public static String println(final Object[][][] a) {
         return fff.println(a);
     }
 
@@ -2817,16 +2817,16 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] array = {true, false, true};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns: "[true, false, true]"
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((boolean[]) null);
+     * String nullResult = Arrays.println((boolean[]) null);
      * // Prints "null"
      *
      * // Empty array
      * boolean[] empty = new boolean[0];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -2835,10 +2835,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional boolean array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #printAndReturn(boolean[][]) for two-dimensional array printing
-     * @see #printAndReturn(boolean[][][]) for three-dimensional array printing
+     * @see #println(boolean[][]) for two-dimensional array printing
+     * @see #println(boolean[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final boolean[] a) {
+    public static String println(final boolean[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -2867,7 +2867,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] array = {{true, false, true}, {false, true}, null, {}, {true}};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[true, false, true],
      * //  [false, true],
@@ -2876,12 +2876,12 @@ public sealed class Arrays permits Arrays.f {
      * //  [true]]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((boolean[][]) null);
+     * String nullResult = Arrays.println((boolean[][]) null);
      * // Prints "null"
      *
      * // Empty array
      * boolean[][] empty = new boolean[0][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -2890,10 +2890,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional boolean array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
-     * @see #printAndReturn(boolean[]) for one-dimensional array printing
-     * @see #printAndReturn(boolean[][][]) for three-dimensional array printing
+     * @see #println(boolean[]) for one-dimensional array printing
+     * @see #println(boolean[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final boolean[][] a) {
+    public static String println(final boolean[][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -2963,7 +2963,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] array = {{{true, false, true}, {false, true}}, {{true, false}, null, {}}, null};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[true, false, true],
      * //    [false, true]],
@@ -2973,12 +2973,12 @@ public sealed class Arrays permits Arrays.f {
      * //  null]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((boolean[][][]) null);
+     * String nullResult = Arrays.println((boolean[][][]) null);
      * // Prints "null"
      *
      * // Empty array
      * boolean[][][] empty = new boolean[0][][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -2988,10 +2988,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional boolean array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
-     * @see #printAndReturn(boolean[]) for one-dimensional array printing
-     * @see #printAndReturn(boolean[][]) for two-dimensional array printing
+     * @see #println(boolean[]) for one-dimensional array printing
+     * @see #println(boolean[][]) for two-dimensional array printing
      */
-    public static String printAndReturn(final boolean[][][] a) {
+    public static String println(final boolean[][][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -4156,16 +4156,16 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] array = {'H', 'e', 'l', 'l', 'o'};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns: "[H, e, l, l, o]"
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((char[]) null);
+     * String nullResult = Arrays.println((char[]) null);
      * // Prints "null"
      *
      * // Empty array
      * char[] empty = new char[0];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -4174,10 +4174,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional character array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #printAndReturn(char[][]) for two-dimensional array printing
-     * @see #printAndReturn(char[][][]) for three-dimensional array printing
+     * @see #println(char[][]) for two-dimensional array printing
+     * @see #println(char[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final char[] a) {
+    public static String println(final char[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -4206,7 +4206,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a', 'b', 'c'}, {'d', 'e'}, null, {}, {'f'}};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[a, b, c],
      * //  [d, e],
@@ -4215,12 +4215,12 @@ public sealed class Arrays permits Arrays.f {
      * //  [f]]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((char[][]) null);
+     * String nullResult = Arrays.println((char[][]) null);
      * // Prints "null"
      *
      * // Empty array
      * char[][] empty = new char[0][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -4229,10 +4229,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional character array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
-     * @see #printAndReturn(char[]) for one-dimensional array printing
-     * @see #printAndReturn(char[][][]) for three-dimensional array printing
+     * @see #println(char[]) for one-dimensional array printing
+     * @see #println(char[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final char[][] a) {
+    public static String println(final char[][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -4302,7 +4302,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'a', 'b', 'c'}, {'d', 'e'}}, {{'f', 'g'}, null, {}}, null};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[a, b, c],
      * //    [d, e]],
@@ -4312,12 +4312,12 @@ public sealed class Arrays permits Arrays.f {
      * //  null]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((char[][][]) null);
+     * String nullResult = Arrays.println((char[][][]) null);
      * // Prints "null"
      *
      * // Empty array
      * char[][][] empty = new char[0][][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -4327,10 +4327,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional character array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
-     * @see #printAndReturn(char[]) for one-dimensional array printing
-     * @see #printAndReturn(char[][]) for two-dimensional array printing
+     * @see #println(char[]) for one-dimensional array printing
+     * @see #println(char[][]) for two-dimensional array printing
      */
-    public static String printAndReturn(final char[][][] a) {
+    public static String println(final char[][][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -5433,16 +5433,16 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] array = {1, 2, 3, 4, 5};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns: "[1, 2, 3, 4, 5]"
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((byte[]) null);
+     * String nullResult = Arrays.println((byte[]) null);
      * // Prints "null"
      *
      * // Empty array
      * byte[] empty = new byte[0];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -5451,10 +5451,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional byte array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #printAndReturn(byte[][]) for two-dimensional array printing
-     * @see #printAndReturn(byte[][][]) for three-dimensional array printing
+     * @see #println(byte[][]) for two-dimensional array printing
+     * @see #println(byte[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final byte[] a) {
+    public static String println(final byte[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -5483,7 +5483,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[1, 2, 3],
      * //  [4, 5],
@@ -5492,12 +5492,12 @@ public sealed class Arrays permits Arrays.f {
      * //  [6]]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((byte[][]) null);
+     * String nullResult = Arrays.println((byte[][]) null);
      * // Prints "null"
      *
      * // Empty array
      * byte[][] empty = new byte[0][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -5506,10 +5506,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional byte array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
-     * @see #printAndReturn(byte[]) for one-dimensional array printing
-     * @see #printAndReturn(byte[][][]) for three-dimensional array printing
+     * @see #println(byte[]) for one-dimensional array printing
+     * @see #println(byte[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final byte[][] a) {
+    public static String println(final byte[][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -5579,7 +5579,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1, 2, 3],
      * //    [4, 5]],
@@ -5589,12 +5589,12 @@ public sealed class Arrays permits Arrays.f {
      * //  null]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((byte[][][]) null);
+     * String nullResult = Arrays.println((byte[][][]) null);
      * // Prints "null"
      *
      * // Empty array
      * byte[][][] empty = new byte[0][][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -5604,10 +5604,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional byte array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
-     * @see #printAndReturn(byte[]) for one-dimensional array printing
-     * @see #printAndReturn(byte[][]) for two-dimensional array printing
+     * @see #println(byte[]) for one-dimensional array printing
+     * @see #println(byte[][]) for two-dimensional array printing
      */
-    public static String printAndReturn(final byte[][][] a) {
+    public static String println(final byte[][][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -6699,16 +6699,16 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns: "[1, 2, 3, 4, 5]"
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((short[]) null);
+     * String nullResult = Arrays.println((short[]) null);
      * // Prints "null"
      *
      * // Empty array
      * short[] empty = new short[0];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -6717,10 +6717,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional short array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #printAndReturn(short[][]) for two-dimensional array printing
-     * @see #printAndReturn(short[][][]) for three-dimensional array printing
+     * @see #println(short[][]) for two-dimensional array printing
+     * @see #println(short[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final short[] a) {
+    public static String println(final short[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -6749,7 +6749,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[1, 2, 3],
      * //  [4, 5],
@@ -6758,12 +6758,12 @@ public sealed class Arrays permits Arrays.f {
      * //  [6]]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((short[][]) null);
+     * String nullResult = Arrays.println((short[][]) null);
      * // Prints "null"
      *
      * // Empty array
      * short[][] empty = new short[0][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -6772,10 +6772,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional short array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
-     * @see #printAndReturn(short[]) for one-dimensional array printing
-     * @see #printAndReturn(short[][][]) for three-dimensional array printing
+     * @see #println(short[]) for one-dimensional array printing
+     * @see #println(short[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final short[][] a) {
+    public static String println(final short[][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -6845,7 +6845,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1, 2, 3],
      * //    [4, 5]],
@@ -6855,12 +6855,12 @@ public sealed class Arrays permits Arrays.f {
      * //  null]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((short[][][]) null);
+     * String nullResult = Arrays.println((short[][][]) null);
      * // Prints "null"
      *
      * // Empty array
      * short[][][] empty = new short[0][][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -6870,10 +6870,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional short array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
-     * @see #printAndReturn(short[]) for one-dimensional array printing
-     * @see #printAndReturn(short[][]) for two-dimensional array printing
+     * @see #println(short[]) for one-dimensional array printing
+     * @see #println(short[][]) for two-dimensional array printing
      */
-    public static String printAndReturn(final short[][][] a) {
+    public static String println(final short[][][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -8004,16 +8004,16 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] array = {1, 2, 3, 4, 5};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns: "[1, 2, 3, 4, 5]"
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((int[]) null);
+     * String nullResult = Arrays.println((int[]) null);
      * // Prints "null"
      *
      * // Empty array
      * int[] empty = new int[0];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -8022,10 +8022,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional integer array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #printAndReturn(int[][]) for two-dimensional array printing
-     * @see #printAndReturn(int[][][]) for three-dimensional array printing
+     * @see #println(int[][]) for two-dimensional array printing
+     * @see #println(int[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final int[] a) {
+    public static String println(final int[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -8054,7 +8054,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[1, 2, 3],
      * //  [4, 5],
@@ -8063,12 +8063,12 @@ public sealed class Arrays permits Arrays.f {
      * //  [6]]
      * 
      * // Null array
-     * String nullResult = Arrays.printAndReturn((int[][]) null);
+     * String nullResult = Arrays.println((int[][]) null);
      * // Prints "null"
      * 
      * // Empty array
      * int[][] empty = new int[0][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      * 
@@ -8077,10 +8077,10 @@ public sealed class Arrays permits Arrays.f {
      * 
      * @param a the two-dimensional integer array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
-     * @see #printAndReturn(int[]) for one-dimensional array printing
-     * @see #printAndReturn(int[][][]) for three-dimensional array printing
+     * @see #println(int[]) for one-dimensional array printing
+     * @see #println(int[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final int[][] a) {
+    public static String println(final int[][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -8150,7 +8150,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1, 2, 3],
      * //    [4, 5]],
@@ -8160,12 +8160,12 @@ public sealed class Arrays permits Arrays.f {
      * //  null]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((int[][][]) null);
+     * String nullResult = Arrays.println((int[][][]) null);
      * // Prints "null"
      *
      * // Empty array
      * int[][][] empty = new int[0][][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -8175,10 +8175,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional integer array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
-     * @see #printAndReturn(int[]) for one-dimensional array printing
-     * @see #printAndReturn(int[][]) for two-dimensional array printing
+     * @see #println(int[]) for one-dimensional array printing
+     * @see #println(int[][]) for two-dimensional array printing
      */
-    public static String printAndReturn(final int[][][] a) {
+    public static String println(final int[][][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -9278,16 +9278,16 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1L, 2L, 3L, 4L, 5L};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns: "[1, 2, 3, 4, 5]"
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((long[]) null);
+     * String nullResult = Arrays.println((long[]) null);
      * // Prints "null"
      *
      * // Empty array
      * long[] empty = new long[0];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -9296,10 +9296,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional long array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #printAndReturn(long[][]) for two-dimensional array printing
-     * @see #printAndReturn(long[][][]) for three-dimensional array printing
+     * @see #println(long[][]) for two-dimensional array printing
+     * @see #println(long[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final long[] a) {
+    public static String println(final long[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -9328,7 +9328,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1L, 2L, 3L}, {4L, 5L}, null, {}, {6L}};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[1, 2, 3],
      * //  [4, 5],
@@ -9337,12 +9337,12 @@ public sealed class Arrays permits Arrays.f {
      * //  [6]]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((long[][]) null);
+     * String nullResult = Arrays.println((long[][]) null);
      * // Prints "null"
      *
      * // Empty array
      * long[][] empty = new long[0][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -9351,10 +9351,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional long array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
-     * @see #printAndReturn(long[]) for one-dimensional array printing
-     * @see #printAndReturn(long[][][]) for three-dimensional array printing
+     * @see #println(long[]) for one-dimensional array printing
+     * @see #println(long[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final long[][] a) {
+    public static String println(final long[][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -9424,7 +9424,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1L, 2L, 3L}, {4L, 5L}}, {{6L, 7L}, null, {}}, null};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1, 2, 3],
      * //    [4, 5]],
@@ -9434,12 +9434,12 @@ public sealed class Arrays permits Arrays.f {
      * //  null]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((long[][][]) null);
+     * String nullResult = Arrays.println((long[][][]) null);
      * // Prints "null"
      *
      * // Empty array
      * long[][][] empty = new long[0][][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -9449,10 +9449,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional long array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
-     * @see #printAndReturn(long[]) for one-dimensional array printing
-     * @see #printAndReturn(long[][]) for two-dimensional array printing
+     * @see #println(long[]) for one-dimensional array printing
+     * @see #println(long[][]) for two-dimensional array printing
      */
-    public static String printAndReturn(final long[][][] a) {
+    public static String println(final long[][][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -10551,16 +10551,16 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns: "[1.1, 2.2, 3.3, 4.4, 5.5]"
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((float[]) null);
+     * String nullResult = Arrays.println((float[]) null);
      * // Prints "null"
      *
      * // Empty array
      * float[] empty = new float[0];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -10569,10 +10569,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional float array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #printAndReturn(float[][]) for two-dimensional array printing
-     * @see #printAndReturn(float[][][]) for three-dimensional array printing
+     * @see #println(float[][]) for two-dimensional array printing
+     * @see #println(float[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final float[] a) {
+    public static String println(final float[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -10601,7 +10601,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] array = {{1.1f, 2.2f, 3.3f}, {4.4f, 5.5f}, null, {}, {6.6f}};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[1.1, 2.2, 3.3],
      * //  [4.4, 5.5],
@@ -10610,12 +10610,12 @@ public sealed class Arrays permits Arrays.f {
      * //  [6.6]]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((float[][]) null);
+     * String nullResult = Arrays.println((float[][]) null);
      * // Prints "null"
      *
      * // Empty array
      * float[][] empty = new float[0][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -10624,10 +10624,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional float array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
-     * @see #printAndReturn(float[]) for one-dimensional array printing
-     * @see #printAndReturn(float[][][]) for three-dimensional array printing
+     * @see #println(float[]) for one-dimensional array printing
+     * @see #println(float[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final float[][] a) {
+    public static String println(final float[][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -10697,7 +10697,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] array = {{{1.1f, 2.2f, 3.3f}, {4.4f, 5.5f}}, {{6.6f, 7.7f}, null, {}}, null};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1.1, 2.2, 3.3],
      * //    [4.4, 5.5]],
@@ -10707,12 +10707,12 @@ public sealed class Arrays permits Arrays.f {
      * //  null]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((float[][][]) null);
+     * String nullResult = Arrays.println((float[][][]) null);
      * // Prints "null"
      *
      * // Empty array
      * float[][][] empty = new float[0][][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -10722,10 +10722,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional float array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
-     * @see #printAndReturn(float[]) for one-dimensional array printing
-     * @see #printAndReturn(float[][]) for two-dimensional array printing
+     * @see #println(float[]) for one-dimensional array printing
+     * @see #println(float[][]) for two-dimensional array printing
      */
-    public static String printAndReturn(final float[][][] a) {
+    public static String println(final float[][][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -11834,16 +11834,16 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] array = {1.1, 2.2, 3.3, 4.4, 5.5};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns: "[1.1, 2.2, 3.3, 4.4, 5.5]"
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((double[]) null);
+     * String nullResult = Arrays.println((double[]) null);
      * // Prints "null"
      *
      * // Empty array
      * double[] empty = new double[0];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -11852,10 +11852,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional double array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #printAndReturn(double[][]) for two-dimensional array printing
-     * @see #printAndReturn(double[][][]) for three-dimensional array printing
+     * @see #println(double[][]) for two-dimensional array printing
+     * @see #println(double[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final double[] a) {
+    public static String println(final double[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -11884,7 +11884,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] array = {{1.1, 2.2, 3.3}, {4.4, 5.5}, null, {}, {6.6}};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[1.1, 2.2, 3.3],
      * //  [4.4, 5.5],
@@ -11893,12 +11893,12 @@ public sealed class Arrays permits Arrays.f {
      * //  [6.6]]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((double[][]) null);
+     * String nullResult = Arrays.println((double[][]) null);
      * // Prints "null"
      *
      * // Empty array
      * double[][] empty = new double[0][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -11907,10 +11907,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional double array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
-     * @see #printAndReturn(double[]) for one-dimensional array printing
-     * @see #printAndReturn(double[][][]) for three-dimensional array printing
+     * @see #println(double[]) for one-dimensional array printing
+     * @see #println(double[][][]) for three-dimensional array printing
      */
-    public static String printAndReturn(final double[][] a) {
+    public static String println(final double[][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -11980,7 +11980,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] array = {{{1.1, 2.2, 3.3}, {4.4, 5.5}}, {{6.6, 7.7}, null, {}}, null};
-     * String result = Arrays.printAndReturn(array);
+     * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1.1, 2.2, 3.3],
      * //    [4.4, 5.5]],
@@ -11990,12 +11990,12 @@ public sealed class Arrays permits Arrays.f {
      * //  null]
      *
      * // Null array
-     * String nullResult = Arrays.printAndReturn((double[][][]) null);
+     * String nullResult = Arrays.println((double[][][]) null);
      * // Prints "null"
      *
      * // Empty array
      * double[][][] empty = new double[0][][];
-     * String emptyResult = Arrays.printAndReturn(empty);
+     * String emptyResult = Arrays.println(empty);
      * // Prints "[]"
      * }</pre>
      *
@@ -12005,10 +12005,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional double array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
-     * @see #printAndReturn(double[]) for one-dimensional array printing
-     * @see #printAndReturn(double[][]) for two-dimensional array printing
+     * @see #println(double[]) for one-dimensional array printing
+     * @see #println(double[][]) for two-dimensional array printing
      */
-    public static String printAndReturn(final double[][][] a) {
+    public static String println(final double[][][] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {

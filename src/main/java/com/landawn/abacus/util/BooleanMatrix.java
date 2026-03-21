@@ -3214,7 +3214,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * matrix.printAndReturn();
+     * matrix.println();
      * // Output:
      * // [true, false]
      * // [false, true]
@@ -3223,7 +3223,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return the formatted string representation of the matrix
      */
     @Override
-    public String printAndReturn() {
+    public String println() {
         if (a.length == 0) {
             return N.println("[]");
         } else {

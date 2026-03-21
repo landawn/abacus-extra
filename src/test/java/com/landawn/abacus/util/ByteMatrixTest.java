@@ -1261,7 +1261,7 @@ class ByteMatrixTest extends TestBase {
         ByteMatrix matrix = ByteMatrix.of(a);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
     }
 
     @SuppressWarnings("unchecked")
@@ -1301,7 +1301,7 @@ class ByteMatrixTest extends TestBase {
 
     @Test
     public void testPrintlnEmptyMatrix_EdgeCase() {
-        Assertions.assertEquals("[]", ByteMatrix.empty().printAndReturn());
+        Assertions.assertEquals("[]", ByteMatrix.empty().println());
     }
 
     @Test
@@ -3848,7 +3848,7 @@ class ByteMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.contains("1"));
             assertTrue(result.contains("4"));
@@ -4717,7 +4717,7 @@ class ByteMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.contains("1"));
         }
@@ -6119,6 +6119,22 @@ class ByteMatrixTest extends TestBase {
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(3, m.get(0, 2));
+    }
+
+    @Test
+    public void testStreamHorizontalIteratorAdvanceAndExhaustion_SingleValueRemaining() {
+        ByteMatrix matrix = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
+        var iterator = matrix.streamHorizontal(0, 2).iterator();
+
+        assertTrue(iterator instanceof com.landawn.abacus.util.stream.ByteIteratorEx);
+
+        com.landawn.abacus.util.stream.ByteIteratorEx ex = (com.landawn.abacus.util.stream.ByteIteratorEx) iterator;
+        ex.advance(3);
+        assertEquals(1L, ex.count());
+        assertEquals((byte) 4, ex.nextByte());
+        ex.advance(10);
+        assertEquals(0L, ex.count());
+        assertThrows(java.util.NoSuchElementException.class, ex::nextByte);
     }
 
 }

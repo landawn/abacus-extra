@@ -456,6 +456,22 @@ class BooleanTupleTest extends TestBase {
         assertFalse(tuple9.equals(BooleanTuple.of(true, false, true, false, true, false, true, false, false)));
     }
 
+    // Cover the remaining BooleanTuple4 equality and hash branches reported by JaCoCo.
+    @Test
+    public void testHighArityTupleEqualsAndHashCode_BooleanTuple4Branches() {
+        BooleanTuple.BooleanTuple4 alternating = BooleanTuple.of(true, false, true, false);
+        BooleanTuple.BooleanTuple4 same = BooleanTuple.of(true, false, true, false);
+        BooleanTuple.BooleanTuple4 differentLast = BooleanTuple.of(true, false, true, true);
+        BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
+        BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
+
+        assertEquals(alternating, alternating);
+        assertEquals(alternating, same);
+        assertNotEquals(alternating, differentLast);
+        assertNotEquals(alternating, "tuple");
+        assertNotEquals(allTrue.hashCode(), allFalse.hashCode());
+    }
+
     @Nested
     /**
      * Comprehensive test suite for BooleanTuple and its nested classes.

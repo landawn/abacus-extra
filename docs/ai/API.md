@@ -1,7 +1,7 @@
 # abacus-extra API Index (v3.6.5)
 - Build: unknown
 - Java: 17
-- Generated: 2026-03-15
+- Generated: 2026-03-21
 
 ## Packages
 - com.landawn.abacus.util
@@ -4580,46 +4580,53 @@ Matrix implementation backed by a {@code boolean\[\]\[\]} .
   - `java.lang.IndexOutOfBoundsException` — if {@code fromRowIndex} &lt; 0, {@code toRowIndex} &gt; rowCount, {@code fromColumnIndex} &lt; 0, {@code toColumnIndex} &gt; columnCount, {@code fromRowIndex} &gt; {@code toRowIndex} , or {@code fromColumnIndex} &gt; {@code toColumnIndex}
 ##### resize(...) -> BooleanMatrix
 - **Signature:** `public BooleanMatrix resize(final int newRowCount, final int newColumnCount)`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with false.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code false} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
 - **Returns:** a new BooleanMatrix with the specified dimensions
+- **See also:** #resize(int, int, boolean), #extend(int, int, int, int)
 - **Signature:** `public BooleanMatrix resize(final int newRowCount, final int newColumnCount, final boolean defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded.
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code defaultValueForNewCell} .
+  - Use {@code extend} when the entire original content must be preserved.
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code BooleanMatrix matrix = BooleanMatrix.of(new boolean\[\]\[\] { {true, false, true}, {false, true, false}, {true, false, true} }); // Grow: fill new cells with true BooleanMatrix grown = matrix.resize(4, 4, true); // Result: \[\[true, false, true, true\], // \[false, true, false, true\], // \[true, false, true, true\], // \[true, true, true, true\]\] // Truncate: defaultValueForNewCell is ignored when shrinking BooleanMatrix truncated = matrix.resize(2, 2, true); // Result: \[\[true, false\], // \[false, true\]\] } </pre>
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-  - `defaultValueForNewCell` (`boolean`) — the boolean value to fill new cells with during extension
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`boolean`) — the value used to fill cells that are added when a dimension grows; ignored when a dimension shrinks
 - **Returns:** a new BooleanMatrix with the specified dimensions
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if {@code (long) newRowCount * newColumnCount} overflows {@code Integer.MAX_VALUE}
+- **See also:** #resize(int, int), #extend(int, int, int, int, boolean)
 ##### extend(...) -> BooleanMatrix
 - **Signature:** `public BooleanMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight)`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-- **Returns:** a new extended BooleanMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+- **Returns:** a new BooleanMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
+- **See also:** #extend(int, int, int, int, boolean), #resize(int, int)
 - **Signature:** `public BooleanMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final boolean defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions with padding.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-  - `defaultValueForNewCell` (`boolean`) — the boolean value to fill all new cells with
-- **Returns:** a new extended BooleanMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`boolean`) — the value to fill all new padding cells with
+- **Returns:** a new BooleanMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would exceed Integer.MAX_VALUE
+  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+- **See also:** #extend(int, int, int, int), #resize(int, int, boolean)
 ##### flipInPlaceHorizontally(...) -> void
 - **Signature:** `public void flipInPlaceHorizontally()`
 - **Summary:** Reverses the order of elements in each row in-place (horizontal flip).
@@ -6115,46 +6122,53 @@ Matrix implementation backed by a {@code byte\[\]\[\]} .
   - `java.lang.IndexOutOfBoundsException` — if any indices are out of bounds
 ##### resize(...) -> ByteMatrix
 - **Signature:** `public ByteMatrix resize(final int newRowCount, final int newColumnCount)`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code 0} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
 - **Returns:** a new ByteMatrix with the specified dimensions
+- **See also:** #resize(int, int, byte), #extend(int, int, int, int)
 - **Signature:** `public ByteMatrix resize(final int newRowCount, final int newColumnCount, final byte defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded.
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code defaultValueForNewCell} .
+  - Use {@code extend} when the entire original content must be preserved.
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code ByteMatrix matrix = ByteMatrix.of(new byte\[\]\[\] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}); // Grow: fill new cells with 9 ByteMatrix grown = matrix.resize(4, 4, (byte) 9); // Result: \[\[1, 2, 3, 9\], // \[4, 5, 6, 9\], // \[7, 8, 9, 9\], // \[9, 9, 9, 9\]\] // Truncate: defaultValueForNewCell is ignored when shrinking ByteMatrix truncated = matrix.resize(2, 2, (byte) 9); // Result: \[\[1, 2\], // \[4, 5\]\] } </pre>
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-  - `defaultValueForNewCell` (`byte`) — the byte value to fill new cells with during extension
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`byte`) — the value used to fill cells that are added when a dimension grows; ignored when a dimension shrinks
 - **Returns:** a new ByteMatrix with the specified dimensions
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if {@code (long) newRowCount * newColumnCount} overflows {@code Integer.MAX_VALUE}
+- **See also:** #resize(int, int), #extend(int, int, int, int, byte)
 ##### extend(...) -> ByteMatrix
 - **Signature:** `public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight)`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-- **Returns:** a new extended ByteMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+- **Returns:** a new ByteMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
+- **See also:** #extend(int, int, int, int, byte), #resize(int, int)
 - **Signature:** `public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final byte defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions with padding.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-  - `defaultValueForNewCell` (`byte`) — the byte value to fill all new cells with
-- **Returns:** a new extended ByteMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`byte`) — the value to fill all new padding cells with
+- **Returns:** a new ByteMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would exceed Integer.MAX_VALUE
+  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+- **See also:** #extend(int, int, int, int), #resize(int, int, byte)
 ##### flipInPlaceHorizontally(...) -> void
 - **Signature:** `public void flipInPlaceHorizontally()`
 - **Summary:** Reverses the order of elements in each row horizontally in-place.
@@ -7983,46 +7997,53 @@ Matrix implementation backed by a {@code char\[\]\[\]} .
   - `java.lang.IndexOutOfBoundsException` — if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, fromRowIndex &gt; toRowIndex, fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
 ##### resize(...) -> CharMatrix
 - **Signature:** `public CharMatrix resize(final int newRowCount, final int newColumnCount)`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with ' '.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code ' '} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
 - **Returns:** a new CharMatrix with the specified dimensions
+- **See also:** #resize(int, int, char), #extend(int, int, int, int)
 - **Signature:** `public CharMatrix resize(final int newRowCount, final int newColumnCount, final char defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded.
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code defaultValueForNewCell} .
+  - Use {@code extend} when the entire original content must be preserved.
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code CharMatrix matrix = CharMatrix.of(new char\[\]\[\] {{'a', 'b', 'c'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}}); // Grow: fill new cells with 'x' CharMatrix grown = matrix.resize(4, 4, 'x'); // Result: \[\['a', 'b', 'c', 'x'\], // \['d', 'e', 'f', 'x'\], // \['g', 'h', 'i', 'x'\], // \['x', 'x', 'x', 'x'\]\] // Truncate: defaultValueForNewCell is ignored when shrinking CharMatrix truncated = matrix.resize(2, 2, 'x'); // Result: \[\['a', 'b'\], // \['d', 'e'\]\] } </pre>
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-  - `defaultValueForNewCell` (`char`) — the char value to fill new cells with during extension
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`char`) — the value used to fill cells that are added when a dimension grows; ignored when a dimension shrinks
 - **Returns:** a new CharMatrix with the specified dimensions
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if {@code (long) newRowCount * newColumnCount} overflows {@code Integer.MAX_VALUE}
+- **See also:** #resize(int, int), #extend(int, int, int, int, char)
 ##### extend(...) -> CharMatrix
 - **Signature:** `public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight)`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-- **Returns:** a new extended CharMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+- **Returns:** a new CharMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
+- **See also:** #extend(int, int, int, int, char), #resize(int, int)
 - **Signature:** `public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final char defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions with padding.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-  - `defaultValueForNewCell` (`char`) — the char value to fill all new cells with
-- **Returns:** a new extended CharMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`char`) — the value to fill all new padding cells with
+- **Returns:** a new CharMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would exceed Integer.MAX_VALUE
+  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+- **See also:** #extend(int, int, int, int), #resize(int, int, char)
 ##### flipInPlaceHorizontally(...) -> void
 - **Signature:** `public void flipInPlaceHorizontally()`
 - **Summary:** Reverses the order of elements in each row horizontally (in-place).
@@ -9819,46 +9840,54 @@ Matrix implementation backed by a {@code double\[\]\[\]} .
   - `java.lang.IndexOutOfBoundsException` — if any index is out of bounds, fromRowIndex &gt; toRowIndex, or fromColumnIndex &gt; toColumnIndex
 ##### resize(...) -> DoubleMatrix
 - **Signature:** `public DoubleMatrix resize(final int newRowCount, final int newColumnCount)`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.0.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code 0.0} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
 - **Returns:** a new DoubleMatrix with the specified dimensions
+- **See also:** #resize(int, int, double), #extend(int, int, int, int)
 - **Signature:** `public DoubleMatrix resize(final int newRowCount, final int newColumnCount, final double defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code defaultValueForNewCell} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-  - `defaultValueForNewCell` (`double`) — the double value to fill new cells with during extension
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`double`) — the double value used to fill any newly created cells
 - **Returns:** a new DoubleMatrix with the specified dimensions
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative
+- **See also:** #resize(int, int), #extend(int, int, int, int, double)
 ##### extend(...) -> DoubleMatrix
 - **Signature:** `public DoubleMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight)`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions.
+- **Summary:** Returns a new matrix formed by adding {@code 0.0} -filled padding around every edge of this matrix.
+- **Contract:**
+  - Use {@code resize} when you need exact output dimensions regardless of the original size.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-- **Returns:** a new extended DoubleMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of rows to add above; must be {@code >= 0}
+  - `toDown` (`int`) — number of rows to add below; must be {@code >= 0}
+  - `toLeft` (`int`) — number of columns to add to the left; must be {@code >= 0}
+  - `toRight` (`int`) — number of columns to add to the right; must be {@code >= 0}
+- **Returns:** a new DoubleMatrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
+- **See also:** #extend(int, int, int, int, double), #resize(int, int)
 - **Signature:** `public DoubleMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final double defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions with padding.
+- **Summary:** Returns a new matrix formed by adding {@code defaultValueForNewCell} -filled padding around every edge of this matrix.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-  - `defaultValueForNewCell` (`double`) — the double value to fill all new cells with
-- **Returns:** a new extended DoubleMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of rows to add above; must be {@code >= 0}
+  - `toDown` (`int`) — number of rows to add below; must be {@code >= 0}
+  - `toLeft` (`int`) — number of columns to add to the left; must be {@code >= 0}
+  - `toRight` (`int`) — number of columns to add to the right; must be {@code >= 0}
+  - `defaultValueForNewCell` (`double`) — the double value used to fill all newly added cells
+- **Returns:** a new DoubleMatrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would exceed Integer.MAX_VALUE
+  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+- **See also:** #extend(int, int, int, int), #resize(int, int, double)
 ##### flipInPlaceHorizontally(...) -> void
 - **Signature:** `public void flipInPlaceHorizontally()`
 - **Summary:** Reverses the order of elements in each row (horizontal flip in-place).
@@ -11624,46 +11653,54 @@ Matrix implementation backed by a {@code float\[\]\[\]} .
   - `java.lang.IndexOutOfBoundsException` — if any index is out of bounds, fromRowIndex &gt; toRowIndex, or fromColumnIndex &gt; toColumnIndex
 ##### resize(...) -> FloatMatrix
 - **Signature:** `public FloatMatrix resize(final int newRowCount, final int newColumnCount)`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.0f.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code 0.0f} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
 - **Returns:** a new FloatMatrix with the specified dimensions
+- **See also:** #resize(int, int, float), #extend(int, int, int, int)
 - **Signature:** `public FloatMatrix resize(final int newRowCount, final int newColumnCount, final float defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code defaultValueForNewCell} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-  - `defaultValueForNewCell` (`float`) — the float value to fill new cells with during extension
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`float`) — the float value used to fill any newly created cells
 - **Returns:** a new FloatMatrix with the specified dimensions
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative
+- **See also:** #resize(int, int), #extend(int, int, int, int, float)
 ##### extend(...) -> FloatMatrix
 - **Signature:** `public FloatMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight)`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions.
+- **Summary:** Returns a new matrix formed by adding {@code 0.0f} -filled padding around every edge of this matrix.
+- **Contract:**
+  - Use {@code resize} when you need exact output dimensions regardless of the original size.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-- **Returns:** a new extended FloatMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of rows to add above; must be {@code >= 0}
+  - `toDown` (`int`) — number of rows to add below; must be {@code >= 0}
+  - `toLeft` (`int`) — number of columns to add to the left; must be {@code >= 0}
+  - `toRight` (`int`) — number of columns to add to the right; must be {@code >= 0}
+- **Returns:** a new FloatMatrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
+- **See also:** #extend(int, int, int, int, float), #resize(int, int)
 - **Signature:** `public FloatMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final float defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions with padding.
+- **Summary:** Returns a new matrix formed by adding {@code defaultValueForNewCell} -filled padding around every edge of this matrix.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-  - `defaultValueForNewCell` (`float`) — the float value to fill all new cells with
-- **Returns:** a new extended FloatMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of rows to add above; must be {@code >= 0}
+  - `toDown` (`int`) — number of rows to add below; must be {@code >= 0}
+  - `toLeft` (`int`) — number of columns to add to the left; must be {@code >= 0}
+  - `toRight` (`int`) — number of columns to add to the right; must be {@code >= 0}
+  - `defaultValueForNewCell` (`float`) — the float value used to fill all newly added cells
+- **Returns:** a new FloatMatrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would exceed Integer.MAX_VALUE
+  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+- **See also:** #extend(int, int, int, int), #resize(int, int, float)
 ##### flipInPlaceHorizontally(...) -> void
 - **Signature:** `public void flipInPlaceHorizontally()`
 - **Summary:** Reverses the order of elements in each row (horizontal flip in-place).
@@ -13610,46 +13647,53 @@ Matrix implementation backed by an {@code int\[\]\[\]} .
   - `java.lang.IndexOutOfBoundsException` — if indices are out of bounds
 ##### resize(...) -> IntMatrix
 - **Signature:** `public IntMatrix resize(final int newRowCount, final int newColumnCount)`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code 0} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
 - **Returns:** a new IntMatrix with the specified dimensions
+- **See also:** #resize(int, int, int), #extend(int, int, int, int)
 - **Signature:** `public IntMatrix resize(final int newRowCount, final int newColumnCount, final int defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded.
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code defaultValueForNewCell} .
+  - Use {@code extend} when the entire original content must be preserved.
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code IntMatrix matrix = IntMatrix.of(new int\[\]\[\] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}); // Grow: fill new cells with 9 IntMatrix grown = matrix.resize(4, 4, 9); // Result: \[\[1, 2, 3, 9\], // \[4, 5, 6, 9\], // \[7, 8, 9, 9\], // \[9, 9, 9, 9\]\] // Truncate: defaultValueForNewCell is ignored when shrinking IntMatrix truncated = matrix.resize(2, 2, 9); // Result: \[\[1, 2\], // \[4, 5\]\] } </pre>
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-  - `defaultValueForNewCell` (`int`) — the int value to fill new cells with during extension
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`int`) — the value used to fill cells that are added when a dimension grows; ignored when a dimension shrinks
 - **Returns:** a new IntMatrix with the specified dimensions
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if {@code (long) newRowCount * newColumnCount} overflows {@code Integer.MAX_VALUE}
+- **See also:** #resize(int, int), #extend(int, int, int, int, int)
 ##### extend(...) -> IntMatrix
 - **Signature:** `public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight)`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-- **Returns:** a new extended IntMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+- **Returns:** a new IntMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
+- **See also:** #extend(int, int, int, int, int), #resize(int, int)
 - **Signature:** `public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final int defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions with padding.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-  - `defaultValueForNewCell` (`int`) — the int value to fill all new cells with
-- **Returns:** a new extended IntMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`int`) — the value to fill all new padding cells with
+- **Returns:** a new IntMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would exceed Integer.MAX_VALUE
+  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+- **See also:** #extend(int, int, int, int), #resize(int, int, int)
 ##### flipInPlaceHorizontally(...) -> void
 - **Signature:** `public void flipInPlaceHorizontally()`
 - **Summary:** Reverses the order of elements in each row in-place (horizontal flip).
@@ -15483,46 +15527,54 @@ Matrix implementation backed by a {@code long\[\]\[\]} .
   - `java.lang.IndexOutOfBoundsException` — if indices are out of bounds
 ##### resize(...) -> LongMatrix
 - **Signature:** `public LongMatrix resize(final int newRowCount, final int newColumnCount)`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0L.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code 0L} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
 - **Returns:** a new LongMatrix with the specified dimensions
+- **See also:** #resize(int, int, long), #extend(int, int, int, int)
 - **Signature:** `public LongMatrix resize(final int newRowCount, final int newColumnCount, final long defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code defaultValueForNewCell} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-  - `defaultValueForNewCell` (`long`) — the long value to fill new cells with during extension
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`long`) — the long value used to fill any newly created cells
 - **Returns:** a new LongMatrix with the specified dimensions
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative
+- **See also:** #resize(int, int), #extend(int, int, int, int, long)
 ##### extend(...) -> LongMatrix
 - **Signature:** `public LongMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight)`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions.
+- **Summary:** Returns a new matrix formed by adding {@code 0L} -filled padding around every edge of this matrix.
+- **Contract:**
+  - Use {@code resize} when you need exact output dimensions regardless of the original size.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-- **Returns:** a new extended LongMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of rows to add above; must be {@code >= 0}
+  - `toDown` (`int`) — number of rows to add below; must be {@code >= 0}
+  - `toLeft` (`int`) — number of columns to add to the left; must be {@code >= 0}
+  - `toRight` (`int`) — number of columns to add to the right; must be {@code >= 0}
+- **Returns:** a new LongMatrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
+- **See also:** #extend(int, int, int, int, long), #resize(int, int)
 - **Signature:** `public LongMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final long defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions with padding.
+- **Summary:** Returns a new matrix formed by adding {@code defaultValueForNewCell} -filled padding around every edge of this matrix.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-  - `defaultValueForNewCell` (`long`) — the long value to fill all new cells with
-- **Returns:** a new extended LongMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of rows to add above; must be {@code >= 0}
+  - `toDown` (`int`) — number of rows to add below; must be {@code >= 0}
+  - `toLeft` (`int`) — number of columns to add to the left; must be {@code >= 0}
+  - `toRight` (`int`) — number of columns to add to the right; must be {@code >= 0}
+  - `defaultValueForNewCell` (`long`) — the long value used to fill all newly added cells
+- **Returns:** a new LongMatrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would exceed Integer.MAX_VALUE
+  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+- **See also:** #extend(int, int, int, int), #resize(int, int, long)
 ##### flipInPlaceHorizontally(...) -> void
 - **Signature:** `public void flipInPlaceHorizontally()`
 - **Summary:** Reverses the order of elements in each row (horizontal flip in-place).
@@ -18075,46 +18127,54 @@ Generic object matrix backed by a two-dimensional array.
   - `java.lang.IndexOutOfBoundsException` — if indices are out of bounds
 ##### resize(...) -> Matrix<T>
 - **Signature:** `public Matrix<T> resize(final int newRowCount, final int newColumnCount)`
-- **Summary:** Creates a new matrix with the specified dimensions by extending or truncating this matrix.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - If the new dimensions are larger, new cells are filled with null values.
-  - If the new dimensions are smaller, the matrix is truncated.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code null} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix
-  - `newColumnCount` (`int`) — the number of columns in the new matrix
-- **Returns:** a new matrix with the specified dimensions
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+- **Returns:** a new Matrix with the specified dimensions
+- **See also:** #resize(int, int, Object), #extend(int, int, int, int)
 - **Signature:** `public Matrix<T> resize(final int newRowCount, final int newColumnCount, final T defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix with the specified dimensions by extending or truncating this matrix.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - If the new dimensions are larger, new cells are filled with the specified default value.
-  - If the new dimensions are smaller, the matrix is truncated.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code defaultValueForNewCell} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix
-  - `newColumnCount` (`int`) — the number of columns in the new matrix
-  - `defaultValueForNewCell` (`T`) — the value to fill new cells with (can be null)
-- **Returns:** a new matrix with the specified dimensions
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`T`) — the value used to fill any newly created cells; may be {@code null}
+- **Returns:** a new Matrix with the specified dimensions
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if newRowCount or newColumnCount is negative, or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative
+- **See also:** #resize(int, int), #extend(int, int, int, int, Object)
 ##### extend(...) -> Matrix<T>
 - **Signature:** `public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight)`
-- **Summary:** Extends the matrix by adding rows and columns in all directions.
+- **Summary:** Returns a new matrix formed by adding {@code null} -filled padding around every edge of this matrix.
+- **Contract:**
+  - Use {@code resize} when you need exact output dimensions regardless of the original size.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add at the top (must be non-negative)
-  - `toDown` (`int`) — number of rows to add at the bottom (must be non-negative)
-  - `toLeft` (`int`) — number of columns to add on the left (must be non-negative)
-  - `toRight` (`int`) — number of columns to add on the right (must be non-negative)
-- **Returns:** a new extended matrix with dimensions (toUp + rowCount + toDown) x (toLeft + columnCount + toRight)
+  - `toUp` (`int`) — number of rows to add above; must be {@code >= 0}
+  - `toDown` (`int`) — number of rows to add below; must be {@code >= 0}
+  - `toLeft` (`int`) — number of columns to add to the left; must be {@code >= 0}
+  - `toRight` (`int`) — number of columns to add to the right; must be {@code >= 0}
+- **Returns:** a new Matrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
+- **See also:** #extend(int, int, int, int, Object), #resize(int, int)
 - **Signature:** `public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight, final T defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Extends the matrix by adding rows and columns in all directions.
+- **Summary:** Returns a new matrix formed by adding {@code defaultValueForNewCell} -filled padding around every edge of this matrix.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add at the top (must be non-negative)
-  - `toDown` (`int`) — number of rows to add at the bottom (must be non-negative)
-  - `toLeft` (`int`) — number of columns to add on the left (must be non-negative)
-  - `toRight` (`int`) — number of columns to add on the right (must be non-negative)
-  - `defaultValueForNewCell` (`T`) — the value to fill new cells with (can be null)
-- **Returns:** a new extended matrix with dimensions (toUp + rowCount + toDown) x (toLeft + columnCount + toRight)
+  - `toUp` (`int`) — number of rows to add above; must be {@code >= 0}
+  - `toDown` (`int`) — number of rows to add below; must be {@code >= 0}
+  - `toLeft` (`int`) — number of columns to add to the left; must be {@code >= 0}
+  - `toRight` (`int`) — number of columns to add to the right; must be {@code >= 0}
+  - `defaultValueForNewCell` (`T`) — the value used to fill all newly added cells; may be {@code null}
+- **Returns:** a new Matrix with dimensions {@code (toUp+rowCount+toDown) × (toLeft+columnCount+toRight)}
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any extension parameter is negative
+  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+- **See also:** #extend(int, int, int, int), #resize(int, int, Object)
 ##### flipInPlaceHorizontally(...) -> void
 - **Signature:** `public void flipInPlaceHorizontally()`
 - **Summary:** Reverses the order of elements in each row (horizontal flip).
@@ -20074,46 +20134,53 @@ Matrix implementation backed by a {@code short\[\]\[\]} .
   - `java.lang.IndexOutOfBoundsException` — if any index is out of bounds or fromIndex &gt; toIndex
 ##### resize(...) -> ShortMatrix
 - **Signature:** `public ShortMatrix resize(final int newRowCount, final int newColumnCount)`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded (excess rows removed from the bottom, excess columns removed from the right).
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code 0} .
+  - Use {@code extend} when the entire original content must be preserved.
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
 - **Returns:** a new ShortMatrix with the specified dimensions
+- **See also:** #resize(int, int, short), #extend(int, int, int, int)
 - **Signature:** `public ShortMatrix resize(final int newRowCount, final int newColumnCount, final short defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+- **Summary:** Returns a new matrix whose dimensions are exactly {@code newRowCount × newColumnCount} , anchored at the top-left corner of this matrix.
 - **Contract:**
-  - <p> If the new dimensions are smaller than the current dimensions, the matrix is truncated from the top-left corner.
-  - If larger, the existing content is preserved in the top-left corner and new cells are filled with the specified default value.
+  - <ul> <li> <b> If a dimension shrinks </b> \\u2014 elements beyond the new boundary are discarded.
+  - </li> <li> <b> If a dimension grows </b> \\u2014 new cells are filled with {@code defaultValueForNewCell} .
+  - Use {@code extend} when the entire original content must be preserved.
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code ShortMatrix matrix = ShortMatrix.of(new short\[\]\[\] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}); // Grow: fill new cells with 9 ShortMatrix grown = matrix.resize(4, 4, (short) 9); // Result: \[\[1, 2, 3, 9\], // \[4, 5, 6, 9\], // \[7, 8, 9, 9\], // \[9, 9, 9, 9\]\] // Truncate: defaultValueForNewCell is ignored when shrinking ShortMatrix truncated = matrix.resize(2, 2, (short) 9); // Result: \[\[1, 2\], // \[4, 5\]\] } </pre>
 - **Parameters:**
-  - `newRowCount` (`int`) — the number of rows in the new matrix. It can be smaller than the row count of the current matrix but must be non-negative
-  - `newColumnCount` (`int`) — the number of columns in the new matrix. It can be smaller than the column count of the current matrix but must be non-negative
-  - `defaultValueForNewCell` (`short`) — the short value to fill new cells with during extension
+  - `newRowCount` (`int`) — the row count of the returned matrix; must be {@code >= 0}
+  - `newColumnCount` (`int`) — the column count of the returned matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`short`) — the value used to fill cells that are added when a dimension grows; ignored when a dimension shrinks
 - **Returns:** a new ShortMatrix with the specified dimensions
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
+  - `java.lang.IllegalArgumentException` — if {@code newRowCount} or {@code newColumnCount} is negative, or if {@code (long) newRowCount * newColumnCount} overflows {@code Integer.MAX_VALUE}
+- **See also:** #resize(int, int), #extend(int, int, int, int, short)
 ##### extend(...) -> ShortMatrix
 - **Signature:** `public ShortMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight)`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-- **Returns:** a new extended ShortMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+- **Returns:** a new ShortMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
+- **See also:** #extend(int, int, int, int, short), #resize(int, int)
 - **Signature:** `public ShortMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final short defaultValueForNewCell) throws IllegalArgumentException`
-- **Summary:** Creates a new matrix by extending this matrix in all four directions with padding.
+- **Summary:** Returns a new matrix formed by surrounding this matrix with padding on all four edges.
 - **Parameters:**
-  - `toUp` (`int`) — number of rows to add above; must be non-negative
-  - `toDown` (`int`) — number of rows to add below; must be non-negative
-  - `toLeft` (`int`) — number of columns to add to the left; must be non-negative
-  - `toRight` (`int`) — number of columns to add to the right; must be non-negative
-  - `defaultValueForNewCell` (`short`) — the short value to fill all new cells with
-- **Returns:** a new extended ShortMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
+  - `toUp` (`int`) — number of padding rows to add above the original matrix; must be {@code >= 0}
+  - `toDown` (`int`) — number of padding rows to add below the original matrix; must be {@code >= 0}
+  - `toLeft` (`int`) — number of padding columns to add to the left of the original matrix; must be {@code >= 0}
+  - `toRight` (`int`) — number of padding columns to add to the right of the original matrix; must be {@code >= 0}
+  - `defaultValueForNewCell` (`short`) — the value to fill all new padding cells with
+- **Returns:** a new ShortMatrix with dimensions {@code (toUp + rowCount + toDown) × (toLeft + columnCount + toRight)}
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would exceed Integer.MAX_VALUE
+  - `java.lang.IllegalArgumentException` — if any padding parameter is negative, or if the resulting dimensions would overflow {@code Integer.MAX_VALUE}
+- **See also:** #extend(int, int, int, int), #resize(int, int, short)
 ##### flipInPlaceHorizontally(...) -> void
 - **Signature:** `public void flipInPlaceHorizontally()`
 - **Summary:** Reverses the order of elements in each row (horizontal flip in-place).

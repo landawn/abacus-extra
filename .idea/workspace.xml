@@ -4,7 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b5db6aa-2a32-4f3f-a20c-7ea3298e7e2e" name="Changes" comment="" />
+    <list default="true" id="4b5db6aa-2a32-4f3f-a20c-7ea3298e7e2e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/docs/ai/API.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/ai/API.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/ai/api-index.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/ai/api-index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/AbstractMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/AbstractMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/Arrays.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/Arrays.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/BooleanMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/BooleanMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/ByteMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/ByteMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/CharMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/CharMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/DoubleMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/DoubleMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/FloatMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/FloatMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/IntMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/IntMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/LongMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/LongMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/Matrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/Matrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/ShortMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/landawn/abacus/util/ShortMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/AbstractMatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/AbstractMatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ArraysTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ArraysTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/BooleanMatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/BooleanMatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/BooleanTupleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/BooleanTupleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ByteMatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ByteMatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ByteTupleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ByteTupleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/CharMatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/CharMatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/CharTupleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/CharTupleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/DoubleMatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/DoubleMatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/DoubleTupleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/DoubleTupleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/FloatMatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/FloatMatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/FloatTupleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/FloatTupleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/IntMatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/IntMatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/IntTupleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/IntTupleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/LongMatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/LongMatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/LongTupleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/LongTupleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/MatricesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/MatricesTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/MatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/MatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ShortMatrixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ShortMatrixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ShortTupleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/landawn/abacus/util/ShortTupleTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +72,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
       </set>
     </attachedChunks>
   </component>

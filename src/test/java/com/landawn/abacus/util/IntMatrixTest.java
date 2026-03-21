@@ -2527,11 +2527,11 @@ class IntMatrixTest extends TestBase {
         public void testPrintln() {
             IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
 
             IntMatrix empty = IntMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
         }
 
         @Test
@@ -4979,9 +4979,9 @@ class IntMatrixTest extends TestBase {
         // ============ Utility Tests ============
 
         @Test
-        public void test_printAndReturn() {
+        public void test_println() {
             IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.length() > 0);
         }
@@ -5911,6 +5911,41 @@ class IntMatrixTest extends TestBase {
         assertEquals(3, m.get(0, 2));
         assertEquals(4, m.get(1, 0));
         assertEquals(6, m.get(1, 2));
+    }
+
+    @Test
+    public void testExtendRepeatFlattenAndForEach_SubRangeEdgeCase() {
+        IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix extended = matrix.extend(0, 1, 2, 0, 9);
+        IntMatrix repeatedElements = matrix.repeatElements(1, 2);
+        IntMatrix repeatedMatrix = matrix.repeatMatrix(2, 1);
+        IntList flattened = matrix.flatten();
+        List<Integer> visited = new ArrayList<>();
+
+        matrix.forEach(0, 2, 1, 2, visited::add);
+
+        assertEquals(9, extended.get(0, 0));
+        assertEquals(9, extended.get(2, 1));
+        assertArrayEquals(new int[] { 1, 1, 2, 2, 3, 3, 4, 4 }, repeatedElements.flatten().toArray());
+        assertArrayEquals(new int[] { 1, 2, 3, 4, 1, 2, 3, 4 }, repeatedMatrix.flatten().toArray());
+        assertArrayEquals(new int[] { 1, 2, 3, 4 }, flattened.toArray());
+        assertEquals(List.of(2, 4), visited);
+    }
+
+    @Test
+    public void testStreamHorizontalIteratorAdvanceAndExhaustion_EdgeCase() {
+        IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        var iterator = matrix.streamHorizontal(0, 2).iterator();
+
+        assertTrue(iterator instanceof com.landawn.abacus.util.stream.IntIteratorEx);
+
+        com.landawn.abacus.util.stream.IntIteratorEx ex = (com.landawn.abacus.util.stream.IntIteratorEx) iterator;
+        ex.advance(2);
+        assertEquals(2L, ex.count());
+        assertEquals(3, ex.nextInt());
+        ex.advance(10);
+        assertEquals(0L, ex.count());
+        assertThrows(java.util.NoSuchElementException.class, ex::nextInt);
     }
 
 }

@@ -3157,7 +3157,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * String output = matrix.printAndReturn();
+     * String output = matrix.println();
      * // Prints to stdout and returns:
      * // [1.0, 2.0, 3.0]
      * // [4.0, 5.0, 6.0]
@@ -3166,7 +3166,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return the formatted string representation of the matrix
      */
     @Override
-    public String printAndReturn() {
+    public String println() {
         if (a.length == 0) {
             return N.println("[]");
         } else {

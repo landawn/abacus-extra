@@ -598,6 +598,29 @@ class ByteTupleTest extends TestBase {
         assertFalse(tuple9.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 0)));
     }
 
+    // Cover the remaining higher-arity equality branches reported by JaCoCo.
+    @Test
+    public void testEquals_HigherArityIdentityAndTypeMismatch() {
+        ByteTuple.ByteTuple7 tuple7 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
+        ByteTuple.ByteTuple8 tuple8 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
+        ByteTuple.ByteTuple9 tuple9 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
+
+        assertEquals(tuple7, tuple7);
+        assertEquals(tuple7, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70));
+        assertNotEquals(tuple7, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 71));
+        assertNotEquals(tuple7, "tuple");
+
+        assertEquals(tuple8, tuple8);
+        assertEquals(tuple8, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80));
+        assertNotEquals(tuple8, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 81));
+        assertNotEquals(tuple8, "tuple");
+
+        assertEquals(tuple9, tuple9);
+        assertEquals(tuple9, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90));
+        assertNotEquals(tuple9, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 91));
+        assertNotEquals(tuple9, "tuple");
+    }
+
     @Nested
     /**
      * Comprehensive test suite for ByteTuple and its nested classes.

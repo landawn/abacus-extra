@@ -571,6 +571,25 @@ class LongTupleTest extends TestBase {
         assertFalse(tuple9.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 10L)));
     }
 
+    // Cover tuple-specific short-circuit branches for the higher arities missed in the report.
+    @Test
+    public void testContains_HigherArityTrailingElements() {
+        LongTuple.LongTuple7 tuple7 = LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L);
+
+        assertTrue(tuple7.contains(700L));
+        assertFalse(tuple7.contains(800L));
+    }
+
+    @Test
+    public void testEquals_HigherArityIdentityAndTypeMismatch() {
+        LongTuple.LongTuple7 tuple7 = LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L);
+
+        assertEquals(tuple7, tuple7);
+        assertEquals(tuple7, LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L));
+        assertNotEquals(tuple7, LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 701L));
+        assertNotEquals(tuple7, "tuple");
+    }
+
     @Nested
     @SuppressWarnings("deprecation")
     @Tag("2512")

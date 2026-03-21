@@ -572,6 +572,43 @@ class IntTupleTest extends TestBase {
         assertFalse(tuple9.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 10)));
     }
 
+    // Cover tuple-specific short-circuit branches for the higher arities missed in the report.
+    @Test
+    public void testContains_HigherArityTrailingElements() {
+        IntTuple.IntTuple7 tuple7 = IntTuple.of(10, 20, 30, 40, 50, 60, 70);
+        IntTuple.IntTuple8 tuple8 = IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80);
+        IntTuple.IntTuple9 tuple9 = IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90);
+
+        assertTrue(tuple7.contains(70));
+        assertFalse(tuple7.contains(100));
+        assertTrue(tuple8.contains(80));
+        assertFalse(tuple8.contains(100));
+        assertTrue(tuple9.contains(90));
+        assertFalse(tuple9.contains(100));
+    }
+
+    @Test
+    public void testEquals_HigherArityIdentityAndTypeMismatch() {
+        IntTuple.IntTuple7 tuple7 = IntTuple.of(10, 20, 30, 40, 50, 60, 70);
+        IntTuple.IntTuple8 tuple8 = IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80);
+        IntTuple.IntTuple9 tuple9 = IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90);
+
+        assertEquals(tuple7, tuple7);
+        assertEquals(tuple7, IntTuple.of(10, 20, 30, 40, 50, 60, 70));
+        assertNotEquals(tuple7, IntTuple.of(10, 20, 30, 40, 50, 60, 71));
+        assertNotEquals(tuple7, "tuple");
+
+        assertEquals(tuple8, tuple8);
+        assertEquals(tuple8, IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80));
+        assertNotEquals(tuple8, IntTuple.of(10, 20, 30, 40, 50, 60, 70, 81));
+        assertNotEquals(tuple8, "tuple");
+
+        assertEquals(tuple9, tuple9);
+        assertEquals(tuple9, IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90));
+        assertNotEquals(tuple9, IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 91));
+        assertNotEquals(tuple9, "tuple");
+    }
+
     @Nested
     /**
      * Comprehensive test suite for IntTuple and its nested classes.

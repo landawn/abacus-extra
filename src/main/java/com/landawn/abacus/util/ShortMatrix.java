@@ -3071,7 +3071,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.printAndReturn();
+     * matrix.println();
      * // Output:
      * // [1, 2, 3]
      * // [4, 5, 6]
@@ -3080,7 +3080,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return the formatted string representation of the matrix
      */
     @Override
-    public String printAndReturn() {
+    public String println() {
         if (a.length == 0) {
             return N.println("[]");
         } else {

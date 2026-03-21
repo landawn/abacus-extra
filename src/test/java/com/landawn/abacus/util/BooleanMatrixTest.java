@@ -1058,7 +1058,7 @@ class BooleanMatrixTest extends TestBase {
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
         assertFalse(matrix.isEmpty());
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::printAndReturn);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(matrix::println);
     }
 
     @Test
@@ -2494,14 +2494,14 @@ class BooleanMatrixTest extends TestBase {
         public void testPrintln() {
             BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
             assertFalse(m.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(m::println);
         }
 
         @Test
         public void testPrintln_empty() {
             BooleanMatrix empty = BooleanMatrix.empty();
             assertTrue(empty.isEmpty());
-            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::printAndReturn);
+            org.junit.jupiter.api.Assertions.assertDoesNotThrow(empty::println);
         }
 
         // ============ Additional Edge Cases ============
@@ -3718,7 +3718,7 @@ class BooleanMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.contains("true"));
             assertTrue(result.contains("false"));
@@ -4466,7 +4466,7 @@ class BooleanMatrixTest extends TestBase {
         @Test
         public void testPrintln() {
             BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-            String result = m.printAndReturn();
+            String result = m.println();
             assertNotNull(result);
             assertTrue(result.contains("true"));
         }
@@ -5912,6 +5912,57 @@ class BooleanMatrixTest extends TestBase {
         assertFalse(m.get(1, 2));
         assertFalse(m.get(2, 1));
         assertTrue(m.get(2, 2));
+    }
+
+    // Exercise the custom object iterators used by horizontal and vertical boxed streams.
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testStreamHorizontalIteratorAdvanceAndToArray_EdgeCase() {
+        BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
+        var iterator = matrix.streamHorizontal(0, 2).iterator();
+
+        assertTrue(iterator instanceof com.landawn.abacus.util.stream.ObjIteratorEx);
+
+        com.landawn.abacus.util.stream.ObjIteratorEx<Boolean> ex = (com.landawn.abacus.util.stream.ObjIteratorEx<Boolean>) iterator;
+        ex.advance(1);
+        assertEquals(5L, ex.count());
+        assertArrayEquals(new Boolean[] { false, true, false, true, false }, ex.toArray(new Boolean[0]));
+        ex.advance(10);
+        assertEquals(0L, ex.count());
+        assertThrows(java.util.NoSuchElementException.class, ex::next);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testStreamVerticalIteratorAdvanceAndToArray_EdgeCase() {
+        BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
+        var iterator = matrix.streamVertical(0, 2).iterator();
+
+        assertTrue(iterator instanceof com.landawn.abacus.util.stream.ObjIteratorEx);
+
+        com.landawn.abacus.util.stream.ObjIteratorEx<Boolean> ex = (com.landawn.abacus.util.stream.ObjIteratorEx<Boolean>) iterator;
+        assertEquals(Boolean.TRUE, ex.next());
+        ex.advance(1);
+        assertEquals(4L, ex.count());
+        assertArrayEquals(new Boolean[] { true, false, true, true }, ex.toArray(new Boolean[0]));
+        ex.advance(10);
+        assertEquals(0L, ex.count());
+        assertThrows(java.util.NoSuchElementException.class, ex::next);
+    }
+
+    @Test
+    public void testExtendFlattenAndForEach_SubRangeEdgeCase() {
+        BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix extended = matrix.extend(0, 0, 2, 1, true);
+        BooleanList flattened = matrix.flatten();
+        List<Boolean> visited = new ArrayList<>();
+
+        matrix.forEach(0, 2, 1, 2, visited::add);
+
+        assertTrue(extended.get(0, 0));
+        assertTrue(extended.get(1, 0));
+        assertArrayEquals(new boolean[] { true, false, false, true }, flattened.toArray());
+        assertEquals(List.of(false, true), visited);
     }
 
 }
