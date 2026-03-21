@@ -274,25 +274,7 @@ function resolveOwner(file, sourceClasses) {
   const fileName = path.basename(file.relativePath);
   const className = file.className || fileName.replace(/\.java$/, "");
 
-  if (fileName === "MatrixesTest.java" || className === "MatricesTest") {
-    return { type: "whole", owner: "Matrices", base: true };
-  }
-
-  if (fileName === "MatricesNullArgumentContractTest.java") {
-    return { type: "whole", owner: "Matrices" };
-  }
-
-  if (fileName === "MatrixParityFuzzTest.java") {
-    return { type: "whole", owner: "Matrix", comment: "Placed here because this parity test treats Matrix as the generic reference surface across matrix implementations." };
-  }
-
-  if (fileName === "MatrixRepresentableShapeValidationTest.java") {
-    return { type: "whole", owner: "AbstractMatrix", comment: "Placed here because these assertions cover the shared matrix-shape contract across Matrix and primitive matrix implementations." };
-  }
-
-  if (fileName === "MatrixZeroColumnRowStreamTest.java" || fileName === "PrimitiveMatrixUpdateAllNullValidationTest.java"
-      || fileName === "JavadocExampleMatrixTest.java" || fileName === "JavadocExampleMatrixGroup1Test.java"
-      || fileName === "JavadocExampleMatrixGroup2Test.java" || fileName === "JavadocExampleTupleTest.java"
+  if (fileName === "JavadocExampleTupleTest.java"
       || fileName === "JavadocExampleUtilsTest.java" || fileName === "JavadocExampleOtherTest.java") {
     return { type: "split" };
   }
@@ -319,36 +301,16 @@ function resolveOwner(file, sourceClasses) {
 }
 
 function splitOwnerForMethod(fileName, methodName, sourceClasses) {
-  if (fileName === "MatrixZeroColumnRowStreamTest.java") {
-    if (methodName.includes("GenericMatrix")) {
-      return "Matrix";
-    }
-    return ownerFromMethodName(methodName, sourceClasses);
-  }
-
-  if (fileName === "PrimitiveMatrixUpdateAllNullValidationTest.java") {
-    if (methodName.includes("ObjectMatrix")) {
-      return "Matrix";
-    }
-    return ownerFromMethodName(methodName, sourceClasses);
-  }
-
   if (fileName === "JavadocExampleUtilsTest.java") {
     if (methodName.includes("ImmutableIntArray")) {
       return "ImmutableIntArray";
     }
-    if (methodName.includes("AbstractMatrix")) {
-      return "AbstractMatrix";
-    }
-    return "Matrices";
+    return ownerFromMethodName(methodName, sourceClasses);
   }
 
   if (fileName === "JavadocExampleOtherTest.java") {
     if (methodName.includes("ImmutableIntArray")) {
       return "ImmutableIntArray";
-    }
-    if (methodName.includes("ParallelMode")) {
-      return "ParallelMode";
     }
     return "Points";
   }
@@ -448,19 +410,13 @@ for (const file of parsedFiles) {
 
     for (const [owner, memberSources] of grouped.entries()) {
       const nestedName = reserveNestedName(owner, `${path.basename(file.relativePath, ".java")}_${owner}`);
-      const comment =
-        fileName === "MatrixParityFuzzTest.java"
-          ? "Placed here because this parity test spans Matrix and IntMatrix behavior."
-          : fileName === "MatrixRepresentableShapeValidationTest.java"
-            ? "Placed here because these assertions cover shared matrix behavior across multiple implementations."
-            : "";
       const annotations = file.classAnnotations
         .split(/\r?\n/)
         .map((line) => line.trim())
         .filter((line) => line.startsWith("@"));
       const annotationBlock = annotations.length === 0 ? "" : `${annotations.map((line) => `    ${line}`).join("\n")}\n`;
       const body = memberSources.map((source) => source.split("\n").map((line) => `        ${line}`).join("\n")).join("\n\n");
-      const chunk = `${comment ? `    // ${comment}\n` : ""}    @Nested\n${annotationBlock}    class ${nestedName} extends TestBase {\n${body}\n    }`;
+      const chunk = `    @Nested\n${annotationBlock}    class ${nestedName} extends TestBase {\n${body}\n    }`;
       ownerBuckets.get(owner).push(chunk);
     }
 
@@ -528,10 +484,6 @@ for (const relativePath of filesToDelete) {
   if (fs.existsSync(absolutePath) && !sourceClasses.some((source) => relativePath === `src/test/java/com/landawn/abacus/util/${source}Test.java`)) {
     fs.unlinkSync(absolutePath);
   }
-}
-
-if (fs.existsSync(path.join(repoRoot, "src/test/java/com/landawn/abacus/util/MatrixesTest.java"))) {
-  fs.unlinkSync(path.join(repoRoot, "src/test/java/com/landawn/abacus/util/MatrixesTest.java"));
 }
 
 console.log(`Consolidated ${utilFiles.length} util test files into ${sourceClasses.length} canonical test classes.`);

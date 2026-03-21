@@ -19,11 +19,12 @@ package com.landawn.abacus.util;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- * Namespace for small immutable point/value records used by matrix and geometry helpers.
+ * Namespace for small record-based point/value carriers used by geometry and coordinate helpers.
  *
  * <p>{@link xy} groups two-dimensional variants and {@link xyz} groups three-dimensional variants.
- * Each nested record is a lightweight carrier with record-based equality plus a static {@code of(...)}
- * factory for concise construction.</p>
+ * Primitive-valued records are fully immutable. Object-valued variants are shallowly immutable and
+ * retain the supplied value reference as-is. Each nested record also provides record-based equality
+ * plus a static {@code of(...)} factory for concise construction.</p>
  */
 public final class Points {
 
@@ -36,7 +37,8 @@ public final class Points {
      *
      * <p>The nested records cover common coordinate widths ({@code byte}, {@code int}, {@code long},
      * and {@code double}) together with primitive or object payload types so callers can choose a
-     * compact carrier without defining a custom type.</p>
+     * compact carrier without defining a custom type. Object-valued variants retain their payload
+     * references without defensive copying.</p>
      *
      * @see xyz
      */
@@ -209,11 +211,12 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with byte coordinates and a generic object value.
-         * This class is useful when coordinates are constrained to byte range (-128 to 127)
-         * but the associated value can be any object type.
+         * Represents a two-dimensional point with byte coordinates and an object payload.
+         * This record is a shallowly immutable carrier: the coordinates are fixed, while the
+         * referenced value is stored as supplied and may itself be mutable.
          *
-         * <p>All instances are immutable and thread-safe.</p>
+         * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
+         * not mutated concurrently.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -223,10 +226,9 @@ public final class Points {
         public record ByteObjPoint<T>(byte x, byte y, T v) {
 
             /**
-             * Creates a new ByteObjPoint with the specified coordinates and value.
-             * This factory method is ideal when working with small-range coordinates but requiring
-             * any object type for the associated value, providing maximum flexibility for storing
-             * complex data structures at specific coordinates.
+             * Creates a new ByteObjPoint with the specified coordinates and value reference.
+             * The supplied value is stored as-is; this factory does not clone or otherwise protect
+             * mutable payloads.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -426,11 +428,12 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with integer coordinates and a generic object value.
-         * This class is useful when coordinates fit within the integer range
-         * but the associated value can be any object type.
+         * Represents a two-dimensional point with integer coordinates and an object payload.
+         * This record is a shallowly immutable carrier: the coordinates are fixed, while the
+         * referenced value is stored as supplied and may itself be mutable.
          *
-         * <p>All instances are immutable and thread-safe.</p>
+         * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
+         * not mutated concurrently.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -440,9 +443,9 @@ public final class Points {
         public record IntObjPoint<T>(int x, int y, T v) {
 
             /**
-             * Creates a new IntObjPoint with the specified coordinates and value.
-             * This factory method provides maximum flexibility by allowing any object type as the value
-             * while using standard integer coordinates, making it suitable for complex grid-based data structures.
+             * Creates a new IntObjPoint with the specified coordinates and value reference.
+             * The supplied value is stored as-is; this factory does not clone or otherwise protect
+             * mutable payloads.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -641,11 +644,12 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with long coordinates and a generic object value.
-         * This class is useful when coordinates require the full long integer range
-         * but the associated value can be any object type.
+         * Represents a two-dimensional point with long coordinates and an object payload.
+         * This record is a shallowly immutable carrier: the coordinates are fixed, while the
+         * referenced value is stored as supplied and may itself be mutable.
          *
-         * <p>All instances are immutable and thread-safe.</p>
+         * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
+         * not mutated concurrently.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -655,9 +659,9 @@ public final class Points {
         public record LongObjPoint<T>(long x, long y, T v) {
 
             /**
-             * Creates a new LongObjPoint with the specified coordinates and value.
-             * This factory method provides maximum flexibility by allowing any object type as the value
-             * while using long integer coordinates, suitable for very large coordinate spaces with complex data.
+             * Creates a new LongObjPoint with the specified coordinates and value reference.
+             * The supplied value is stored as-is; this factory does not clone or otherwise protect
+             * mutable payloads.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -816,7 +820,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and value.
+         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a double-precision floating-point value.
          * This class provides full double-precision floating-point support for both coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -862,11 +866,12 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a generic object value.
-         * This class is useful when coordinates require floating-point precision
-         * but the associated value can be any object type.
+         * Represents a two-dimensional point with double-precision floating-point coordinates and an object payload.
+         * This record is a shallowly immutable carrier: the coordinates are fixed, while the
+         * referenced value is stored as supplied and may itself be mutable.
          *
-         * <p>All instances are immutable and thread-safe.</p>
+         * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
+         * not mutated concurrently.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -876,9 +881,9 @@ public final class Points {
         public record DoubleObjPoint<T>(double x, double y, T v) {
 
             /**
-             * Creates a new DoubleObjPoint with the specified coordinates and value.
-             * This factory method provides maximum flexibility by allowing any object type as the value
-             * while using double-precision floating-point coordinates, suitable for continuous spaces with complex data.
+             * Creates a new DoubleObjPoint with the specified coordinates and value reference.
+             * The supplied value is stored as-is; this factory does not clone or otherwise protect
+             * mutable payloads.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -915,7 +920,8 @@ public final class Points {
      *
      * <p>The nested records cover common coordinate widths ({@code byte}, {@code int}, {@code long},
      * and {@code double}) together with primitive or object payload types so callers can choose a
-     * compact spatial carrier without defining a custom type.</p>
+     * compact spatial carrier without defining a custom type. Object-valued variants retain their
+     * payload references without defensive copying.</p>
      *
      * @see xy
      */
@@ -1100,11 +1106,12 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable three-dimensional point with byte coordinates and a generic object value.
-         * This class is useful when coordinates are constrained to byte range (-128 to 127)
-         * but the associated value can be any object type.
+         * Represents a three-dimensional point with byte coordinates and an object payload.
+         * This record is a shallowly immutable carrier: the coordinates are fixed, while the
+         * referenced value is stored as supplied and may itself be mutable.
          *
-         * <p>All instances are immutable and thread-safe.</p>
+         * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
+         * not mutated concurrently.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -1115,10 +1122,9 @@ public final class Points {
         public record ByteObjPoint<T>(byte x, byte y, byte z, T v) {
 
             /**
-             * Creates a new ByteObjPoint with the specified coordinates and value.
-             * This factory method is ideal when working with small-range 3D coordinates but requiring
-             * any object type for the associated value, providing maximum flexibility for storing
-             * complex data structures at specific 3D positions.
+             * Creates a new ByteObjPoint with the specified coordinates and value reference.
+             * The supplied value is stored as-is; this factory does not clone or otherwise protect
+             * mutable payloads.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -1332,11 +1338,12 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable three-dimensional point with integer coordinates and a generic object value.
-         * This class is useful when coordinates fit within the integer range
-         * but the associated value can be any object type.
+         * Represents a three-dimensional point with integer coordinates and an object payload.
+         * This record is a shallowly immutable carrier: the coordinates are fixed, while the
+         * referenced value is stored as supplied and may itself be mutable.
          *
-         * <p>All instances are immutable and thread-safe.</p>
+         * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
+         * not mutated concurrently.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -1347,9 +1354,9 @@ public final class Points {
         public record IntObjPoint<T>(int x, int y, int z, T v) {
 
             /**
-             * Creates a new IntObjPoint with the specified coordinates and value.
-             * This factory method provides maximum flexibility by allowing any object type as the value
-             * while using standard integer 3D coordinates, making it suitable for complex voxel-based data structures.
+             * Creates a new IntObjPoint with the specified coordinates and value reference.
+             * The supplied value is stored as-is; this factory does not clone or otherwise protect
+             * mutable payloads.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -1562,11 +1569,12 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable three-dimensional point with long coordinates and a generic object value.
-         * This class is useful when coordinates require the full long integer range
-         * but the associated value can be any object type.
+         * Represents a three-dimensional point with long coordinates and an object payload.
+         * This record is a shallowly immutable carrier: the coordinates are fixed, while the
+         * referenced value is stored as supplied and may itself be mutable.
          *
-         * <p>All instances are immutable and thread-safe.</p>
+         * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
+         * not mutated concurrently.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -1577,9 +1585,9 @@ public final class Points {
         public record LongObjPoint<T>(long x, long y, long z, T v) {
 
             /**
-             * Creates a new LongObjPoint with the specified coordinates and value.
-             * This factory method provides maximum flexibility by allowing any object type as the value
-             * while using long integer 3D coordinates, suitable for very large coordinate spaces with complex data.
+             * Creates a new LongObjPoint with the specified coordinates and value reference.
+             * The supplied value is stored as-is; this factory does not clone or otherwise protect
+             * mutable payloads.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -1749,7 +1757,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable three-dimensional point with double-precision floating-point coordinates and value.
+         * Represents an immutable three-dimensional point with double-precision floating-point coordinates and a double-precision floating-point value.
          * This class provides full double-precision floating-point support for both coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1798,11 +1806,12 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable three-dimensional point with double-precision floating-point coordinates and a generic object value.
-         * This class is useful when coordinates require floating-point precision
-         * but the associated value can be any object type.
+         * Represents a three-dimensional point with double-precision floating-point coordinates and an object payload.
+         * This record is a shallowly immutable carrier: the coordinates are fixed, while the
+         * referenced value is stored as supplied and may itself be mutable.
          *
-         * <p>All instances are immutable and thread-safe.</p>
+         * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
+         * not mutated concurrently.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -1813,9 +1822,9 @@ public final class Points {
         public record DoubleObjPoint<T>(double x, double y, double z, T v) {
 
             /**
-             * Creates a new DoubleObjPoint with the specified coordinates and value.
-             * This factory method provides maximum flexibility by allowing any object type as the value
-             * while using double-precision floating-point 3D coordinates, suitable for continuous spaces with complex data.
+             * Creates a new DoubleObjPoint with the specified coordinates and value reference.
+             * The supplied value is stored as-is; this factory does not clone or otherwise protect
+             * mutable payloads.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code

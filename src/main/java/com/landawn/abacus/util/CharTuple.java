@@ -465,8 +465,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a new array containing all elements of this tuple.
      * <p>
-     * This method creates a defensive copy of the internal array. Modifications to the
-     * returned array do not affect the tuple since tuples are immutable.
+     * This method creates a defensive copy of the internal array. Changes to the
+     * returned array do not affect the tuple because tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -513,8 +513,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p>
      * Iterates through all elements in this tuple in order, executing the provided
      * consumer action for each element. This method is primarily used for side effects
-     * such as logging, printing, or updating external state. The tuple itself is not
-     * modified as it is immutable.
+     * such as logging, printing, or updating external state. Because tuples are immutable,
+     * the iteration does not modify this tuple.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

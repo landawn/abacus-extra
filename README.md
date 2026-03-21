@@ -4,14 +4,6 @@
 [![Javadocs](https://img.shields.io/badge/javadoc-3.6.5-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn/abacus-extra/3.6.5/index.html)
 
 
-* Matrices: 
-[AbstractMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/AbstractMatrix_view.html), 
-[Matrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Matrix_view.html), 
-[ByteMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/ByteMatrix_view.html), 
-[IntMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/IntMatrix_view.html), 
-[LongMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/LongMatrix_view.html), 
-[DoubleMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/DoubleMatrix_view.html)...
-
 * Primitive Tuples: 
 [PrimitiveTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/PrimitiveTuple_view.html), 
 [BooleanTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/BooleanTuple_view.html), 
@@ -20,8 +12,8 @@
 [LongTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/LongTuple_view.html), 
 [DoubleTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/DoubleTuple_view.html)...
 
-* More: [Matrices](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Matrices_view.html), 
-[Points](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Points_view.html), 
+* More: [Points](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Points_view.html), 
+[Sheet](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Sheet_view.html), 
 [f](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/f_view.html), ...
 
 

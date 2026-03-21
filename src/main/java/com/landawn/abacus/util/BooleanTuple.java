@@ -408,8 +408,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p>
      * Iterates through all elements in this tuple in order, executing the provided
      * consumer action for each element. This method is primarily used for side effects
-     * such as logging, printing, or updating external state. The tuple itself is not
-     * modified as it is immutable.
+     * such as logging, printing, or updating external state. Because tuples are immutable,
+     * the iteration does not modify this tuple.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

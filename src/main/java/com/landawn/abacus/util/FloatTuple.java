@@ -465,8 +465,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     /**
      * Returns a new array containing all elements of this tuple.
      * <p>
-     * This method creates a defensive copy of the internal array. Modifications to the
-     * returned array will not affect the tuple since tuples are immutable.
+     * This method creates a defensive copy of the internal array. Changes to the
+     * returned array do not affect the tuple because tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

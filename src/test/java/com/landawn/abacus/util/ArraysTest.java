@@ -13082,10 +13082,10 @@ class ArraysTest extends TestBase {
         // ========================
 
         @Test
-        public void testClassJavadoc_flattenIntMatrix() {
-            // Line 101-102: int[][] matrix = {{1, 2, 3}, {4, 5, 6}}; => flatten => {1, 2, 3, 4, 5, 6}
-            int[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 } };
-            int[] flattened = Arrays.flatten(matrix);
+        public void testClassJavadoc_flattenIntGrid() {
+            // Line 101-102: int[][] grid = {{1, 2, 3}, {4, 5, 6}}; => flatten => {1, 2, 3, 4, 5, 6}
+            int[][] grid = { { 1, 2, 3 }, { 4, 5, 6 } };
+            int[] flattened = Arrays.flatten(grid);
             assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6 }, flattened);
         }
 

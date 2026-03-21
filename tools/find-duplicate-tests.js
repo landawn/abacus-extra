@@ -303,7 +303,7 @@ function summarize(groups) {
 }
 
 // Detect cross-file groups where each file is a type-specific test class
-// (e.g., FloatMatrixTest, IntMatrixTest) — these test the same method pattern
+// (e.g., FloatTupleTest, IntTupleTest) — these test the same method pattern
 // on different types and are NOT true duplicates.
 function isTypeVariantGroup(group) {
   const files = new Set(group.map((method) => method.filePath));
@@ -311,13 +311,13 @@ function isTypeVariantGroup(group) {
     return false;
   }
 
-  // Extract base class names (e.g., "FloatMatrix" from "FloatMatrixTest.java")
+  // Extract base class names (e.g., "FloatTuple" from "FloatTupleTest.java")
   const baseNames = [...files].map((filePath) => {
     const fileName = path.basename(filePath, ".java");
     return fileName.replace(/Test$/, "");
   });
 
-  // Check if all base names share a common suffix (e.g., "Matrix")
+  // Check if all base names share a common suffix (e.g., "Tuple")
   // and differ only by a type prefix (e.g., "Float", "Int", "Short")
   const typePrefixes = ["Boolean", "Byte", "Char", "Double", "Float", "Int", "Long", "Short"];
   const suffixes = baseNames.map((name) => {

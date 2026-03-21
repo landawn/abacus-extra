@@ -14,6 +14,10 @@
 package com.landawn.abacus.util;
 
 import java.math.RoundingMode;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
@@ -15546,7 +15550,104 @@ public sealed class Arrays permits Arrays.f {
                 return currentTargetElementType;
             }
 
-            return (Class<T>) AbstractMatrix.resolveCommonAssignableType(currentTargetElementType, value.getClass());
+            return (Class<T>) resolveCommonAssignableType(currentTargetElementType, value.getClass());
+        }
+
+        /**
+         * Resolves the most specific assignable common type for the two input types.
+         *
+         * <p>This search considers both super classes and interfaces. If no better common type
+         * can be identified, {@link Object} is returned.</p>
+         *
+         * @param left the first type, may be {@code null}
+         * @param right the second type, may be {@code null}
+         * @return the most specific common assignable type, never {@code null}
+         */
+        protected static Class<?> resolveCommonAssignableType(final Class<?> left, final Class<?> right) {
+            if (left == null) {
+                return right == null ? Object.class : right;
+            }
+
+            if (right == null) {
+                return left;
+            }
+
+            if (left.isAssignableFrom(right)) {
+                return left;
+            }
+
+            if (right.isAssignableFrom(left)) {
+                return right;
+            }
+
+            final Map<Class<?>, Integer> leftDistances = collectTypeDistances(left);
+            final Map<Class<?>, Integer> rightDistances = collectTypeDistances(right);
+            Class<?> best = Object.class;
+            int bestDistance = Integer.MAX_VALUE;
+            int bestPenalty = Integer.MAX_VALUE;
+            int bestMethodCount = Integer.MIN_VALUE;
+
+            for (final Map.Entry<Class<?>, Integer> entry : leftDistances.entrySet()) {
+                final Class<?> candidate = entry.getKey();
+                final Integer rightDistance = rightDistances.get(candidate);
+
+                if (rightDistance == null || !candidate.isAssignableFrom(left) || !candidate.isAssignableFrom(right)) {
+                    continue;
+                }
+
+                final int totalDistance = entry.getValue() + rightDistance;
+                final int typePenalty = commonTypePenalty(candidate);
+                final int methodCount = candidate.getMethods().length;
+
+                if (totalDistance < bestDistance || (totalDistance == bestDistance && typePenalty < bestPenalty)
+                        || (totalDistance == bestDistance && typePenalty == bestPenalty && methodCount > bestMethodCount) || (totalDistance == bestDistance
+                                && typePenalty == bestPenalty && methodCount == bestMethodCount && best.isAssignableFrom(candidate))) {
+                    best = candidate;
+                    bestDistance = totalDistance;
+                    bestPenalty = typePenalty;
+                    bestMethodCount = methodCount;
+                }
+            }
+
+            return best;
+        }
+
+        private static Map<Class<?>, Integer> collectTypeDistances(final Class<?> startType) {
+            final Map<Class<?>, Integer> distances = new LinkedHashMap<>();
+            final Deque<Class<?>> queue = new ArrayDeque<>();
+            distances.put(startType, 0);
+            queue.add(startType);
+
+            while (!queue.isEmpty()) {
+                final Class<?> current = queue.removeFirst();
+                final int nextDistance = distances.get(current) + 1;
+
+                final Class<?> superClass = current.getSuperclass();
+
+                if (superClass != null && distances.putIfAbsent(superClass, nextDistance) == null) {
+                    queue.addLast(superClass);
+                }
+
+                for (final Class<?> intf : current.getInterfaces()) {
+                    if (distances.putIfAbsent(intf, nextDistance) == null) {
+                        queue.addLast(intf);
+                    }
+                }
+            }
+
+            return distances;
+        }
+
+        private static int commonTypePenalty(final Class<?> type) {
+            if (type == Object.class) {
+                return 3;
+            }
+
+            if (type.isInterface()) {
+                return type.getMethods().length == 0 ? 2 : 1;
+            }
+
+            return 0;
         }
 
         @SuppressWarnings("unchecked")
