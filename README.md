@@ -1,7 +1,9 @@
 # abacus-extra 
  
 [![Maven Central](https://img.shields.io/maven-central/v/com.landawn/abacus-extra.svg)](https://maven-badges.herokuapp.com/maven-central/com.landawn/abacus-extra/)
-[![Javadocs](https://img.shields.io/badge/javadoc-3.6.5-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn/abacus-extra/3.6.5/index.html)
+[![Javadocs](https://img.shields.io/badge/javadoc-3.6.6-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn/abacus-extra/3.6.6/index.html)
+
+Additional utility types for the Abacus ecosystem, focused on primitive tuples, point/value records, array helpers, and related supporting APIs.
 
 
 * Primitive Tuples: 
@@ -10,11 +12,9 @@
 [ByteTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/ByteTuple_view.html), 
 [IntTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/IntTuple_view.html), 
 [LongTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/LongTuple_view.html), 
-[DoubleTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/DoubleTuple_view.html)...
+[DoubleTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/DoubleTuple_view.html),
+[Points](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Points_view.html)...
 
-* More: [Points](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Points_view.html), 
-[Sheet](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Sheet_view.html), 
-[f](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/f_view.html), ...
 
 
 ## Download/Installation & [Changes](https://github.com/landawn/abacus-extra/blob/master/CHANGES.md):
@@ -24,7 +24,7 @@
 * Gradle:
 ```gradle
 // JDK 17 or above:
-compile 'com.landawn:abacus-extra:3.6.5'
+compile 'com.landawn:abacus-extra:3.6.6'
 ```
 
 

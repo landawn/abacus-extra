@@ -248,8 +248,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * boolean[][] matrix = {{true, false}, {false, true}};
-     * String[][] result = Arrays.mapToObj(matrix, b -> b ? "YES" : "NO", String.class);
+     * boolean[][] grid = {{true, false}, {false, true}};
+     * String[][] result = Arrays.mapToObj(grid, b -> b ? "YES" : "NO", String.class);
      * // Result: {{"YES", "NO"}, {"NO", "YES"}}
      * }</pre>
      *
@@ -361,8 +361,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * char[][] matrix = {{'a', 'b'}, {'c', 'd'}};
-     * String[][] result = Arrays.mapToObj(matrix, c -> String.valueOf(c).toUpperCase(), String.class);
+     * char[][] grid = {{'a', 'b'}, {'c', 'd'}};
+     * String[][] result = Arrays.mapToObj(grid, c -> String.valueOf(c).toUpperCase(), String.class);
      * // Result: {{"A", "B"}, {"C", "D"}}
      * }</pre>
      *
@@ -474,8 +474,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * byte[][] matrix = {{1, 2}, {3, 4}};
-     * String[][] result = Arrays.mapToObj(matrix, b -> "0x" + Integer.toHexString(b), String.class);
+     * byte[][] grid = {{1, 2}, {3, 4}};
+     * String[][] result = Arrays.mapToObj(grid, b -> "0x" + Integer.toHexString(b), String.class);
      * // Result: {{"0x1", "0x2"}, {"0x3", "0x4"}}
      * }</pre>
      *
@@ -587,8 +587,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * short[][] matrix = {{10, 20}, {30, 40}};
-     * Integer[][] result = Arrays.mapToObj(matrix, s -> (int) s * 2, Integer.class);
+     * short[][] grid = {{10, 20}, {30, 40}};
+     * Integer[][] result = Arrays.mapToObj(grid, s -> (int) s * 2, Integer.class);
      * // Result: {{20, 40}, {60, 80}}
      * }</pre>
      *
@@ -701,8 +701,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[][] matrix = {{1, 2, 3}, {4, 5, 6}};
-     * String[][] result = Arrays.mapToObj(matrix, i -> "Item " + i, String.class);
+     * int[][] grid = {{1, 2, 3}, {4, 5, 6}};
+     * String[][] result = Arrays.mapToObj(grid, i -> "Item " + i, String.class);
      * // Result: {{"Item 1", "Item 2", "Item 3"}, {"Item 4", "Item 5", "Item 6"}}
      * }</pre>
      *
@@ -814,8 +814,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] matrix = {{100L, 200L}, {300L, 400L}};
-     * String[][] result = Arrays.mapToObj(matrix, l -> "ID-" + l, String.class);
+     * long[][] grid = {{100L, 200L}, {300L, 400L}};
+     * String[][] result = Arrays.mapToObj(grid, l -> "ID-" + l, String.class);
      * // Result: {{"ID-100", "ID-200"}, {"ID-300", "ID-400"}}
      * }</pre>
      *
@@ -930,8 +930,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][] matrix = {{1.1f, 2.2f}, {3.3f, 4.4f}};
-     * String[][] result = Arrays.mapToObj(matrix, f -> String.format("%.1f", f), String.class);
+     * float[][] grid = {{1.1f, 2.2f}, {3.3f, 4.4f}};
+     * String[][] result = Arrays.mapToObj(grid, f -> String.format("%.1f", f), String.class);
      * // Result: {{"1.1", "2.2"}, {"3.3", "4.4"}}
      * }</pre>
      *
@@ -1153,8 +1153,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[][] matrix = {{1, 2}, {3, 4}};
-     * long[][] result = Arrays.mapToLong(matrix, i -> i * 1000000000L);
+     * int[][] grid = {{1, 2}, {3, 4}};
+     * long[][] result = Arrays.mapToLong(grid, i -> i * 1000000000L);
      * // Result: {{1000000000L, 2000000000L}, {3000000000L, 4000000000L}}
      * }</pre>
      *
@@ -1255,8 +1255,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[][] matrix = {{10, 20}, {30, 40}};
-     * double[][] result = Arrays.mapToDouble(matrix, i -> i / 3.0);
+     * int[][] grid = {{10, 20}, {30, 40}};
+     * double[][] result = Arrays.mapToDouble(grid, i -> i / 3.0);
      * // Result: {{3.33..., 6.66...}, {10.0, 13.33...}}
      * }</pre>
      *
@@ -1358,8 +1358,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] matrix = {{100L, 200L}, {300L, 400L}};
-     * int[][] result = Arrays.mapToInt(matrix, l -> (int) (l / 10));
+     * long[][] grid = {{100L, 200L}, {300L, 400L}};
+     * int[][] result = Arrays.mapToInt(grid, l -> (int) (l / 10));
      * // Result: {{10, 20}, {30, 40}}
      * }</pre>
      *
@@ -1463,8 +1463,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] matrix = {{1000L, 2000L}, {3000L, 4000L}};
-     * double[][] result = Arrays.mapToDouble(matrix, l -> l / 1000.0);
+     * long[][] grid = {{1000L, 2000L}, {3000L, 4000L}};
+     * double[][] result = Arrays.mapToDouble(grid, l -> l / 1000.0);
      * // Result: {{1.0, 2.0}, {3.0, 4.0}}
      * }</pre>
      *
@@ -1566,8 +1566,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][] matrix = {{1.5, 2.7}, {3.2, 4.9}};
-     * int[][] result = Arrays.mapToInt(matrix, d -> (int) Math.round(d));
+     * double[][] grid = {{1.5, 2.7}, {3.2, 4.9}};
+     * int[][] result = Arrays.mapToInt(grid, d -> (int) Math.round(d));
      * // Result: {{2, 3}, {3, 5}}
      * }</pre>
      *
@@ -1766,9 +1766,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * boolean[][] matrix = {{true, false}, {false, true}};
-     * Arrays.updateAll(matrix, b -> !b);
-     * // matrix is now: {{false, true}, {true, false}}
+     * boolean[][] grid = {{true, false}, {false, true}};
+     * Arrays.updateAll(grid, b -> !b);
+     * // grid is now: {{false, true}, {true, false}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -1854,9 +1854,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * boolean[][] matrix = {{true, false}, {true, false}};
-     * Arrays.replaceIf(matrix, b -> b, false);
-     * // matrix is now: {{false, false}, {false, false}}
+     * boolean[][] grid = {{true, false}, {true, false}};
+     * Arrays.replaceIf(grid, b -> b, false);
+     * // grid is now: {{false, false}, {false, false}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -2325,7 +2325,7 @@ public sealed class Arrays permits Arrays.f {
      * shorter outer array is exhausted. Each pair of corresponding sub-arrays is zipped
      * using the standard one-dimensional array zip logic.
      * 
-     * <p>This method is useful for matrix-like operations where you want to combine
+     * <p>This method is useful for row-aligned operations where you want to combine
      * corresponding rows from two two-dimensional arrays.</p>
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2508,8 +2508,9 @@ public sealed class Arrays permits Arrays.f {
      * Applies the zip operation to corresponding two-dimensional sub-arrays, which in turn zip their
      * corresponding one-dimensional sub-arrays. The operation stops when the shorter outer array is exhausted.
      * 
-     * <p>This method is useful for combining three-dimensional data structures like cubes or time-series of matrices,
-     * where you want to perform element-wise operations on corresponding positions.</p>
+     * <p>This method is useful for combining three-dimensional data structures such as cubes or
+     * time-series of two-dimensional slices, where you want to perform element-wise operations on
+     * corresponding positions.</p>
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4431,9 +4432,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * byte[][] matrix = {{1, 2}, {3, 4}};
-     * Arrays.updateAll(matrix, b -> (byte)(b * 2));
-     * // matrix is now: {{2, 4}, {6, 8}}
+     * byte[][] grid = {{1, 2}, {3, 4}};
+     * Arrays.updateAll(grid, b -> (byte)(b * 2));
+     * // grid is now: {{2, 4}, {6, 8}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -4519,9 +4520,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * byte[][] matrix = {{1, 2}, {3, 2}};
-     * Arrays.replaceIf(matrix, b -> b == 2, (byte)10);
-     * // matrix is now: {{1, 10}, {3, 10}}
+     * byte[][] grid = {{1, 2}, {3, 2}};
+     * Arrays.replaceIf(grid, b -> b == 2, (byte)10);
+     * // grid is now: {{1, 10}, {3, 10}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -7165,8 +7166,8 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Reshapes a one-dimensional array into a three-dimensional array with the specified dimensions.
      *
-     * <p>This method creates a new three-dimensional array by dividing the input array first into matrices
-     * of the specified row and column counts. Each matrix may be incomplete if the array length
+     * <p>This method creates a new three-dimensional array by dividing the input array into
+     * two-dimensional slices of the specified row and column counts. The last slice may be incomplete if the array length
      * is not evenly divisible by rowCount × columnCount. If the input array is {@code null} or empty, returns an empty three-dimensional array.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -7177,7 +7178,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional array to reshape.
-     * @param rowCount the number of rows in each two-dimensional matrix.
+     * @param rowCount the number of rows in each two-dimensional slice.
      * @param columnCount the number of columns in each row.
      * @return a new three-dimensional array containing the reshaped data.
      * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
@@ -9556,8 +9557,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][] matrix = {{1.0f, -2.0f}, {-3.0f, 4.0f}};
-     * Arrays.updateAll(matrix, x -> x * x);   // matrix becomes {{1.0f, 4.0f}, {9.0f, 16.0f}}
+     * float[][] grid = {{1.0f, -2.0f}, {-3.0f, 4.0f}};
+     * Arrays.updateAll(grid, x -> x * x);   // grid becomes {{1.0f, 4.0f}, {9.0f, 16.0f}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -9642,8 +9643,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][] matrix = {{1.0f, -2.0f}, {0.0f, -4.0f}};
-     * Arrays.replaceIf(matrix, x -> x <= 0, 99.0f);   // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
+     * float[][] grid = {{1.0f, -2.0f}, {0.0f, -4.0f}};
+     * Arrays.replaceIf(grid, x -> x <= 0, 99.0f);   // grid becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -9700,7 +9701,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1, 2, 3, 4, 5, 6, 7};
-     * float[][] matrix = Arrays.reshape(array, 3);   // returns {{1, 2, 3}, {4, 5, 6}, {7}}
+     * float[][] grid = Arrays.reshape(array, 3);   // returns {{1, 2, 3}, {4, 5, 6}, {7}}
      * }</pre>
      *
      * @param a the one-dimensional array to reshape.
@@ -9773,8 +9774,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][] matrix = {{1.0f, 2.0f}, {3.0f, 4.0f}};
-     * float[] array = Arrays.flatten(matrix);   // returns {1.0f, 2.0f, 3.0f, 4.0f}
+     * float[][] grid = {{1.0f, 2.0f}, {3.0f, 4.0f}};
+     * float[] array = Arrays.flatten(grid);   // returns {1.0f, 2.0f, 3.0f, 4.0f}
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
@@ -9857,8 +9858,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][] matrix = {{4.0f, 1.0f}, {3.0f, 2.0f}};
-     * Arrays.applyOnFlattened(matrix, N::sort);   // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * float[][] grid = {{4.0f, 1.0f}, {3.0f, 2.0f}};
+     * Arrays.applyOnFlattened(grid, N::sort);   // grid becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -10426,8 +10427,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][] matrix = {{1.0f}, {2.0f, 3.0f}, null};
-     * long count = Arrays.elementCount(matrix);   // count is 3
+     * float[][] grid = {{1.0f}, {2.0f, 3.0f}, null};
+     * long count = Arrays.elementCount(grid);   // count is 3
      * }</pre>
      *
      * @param a the two-dimensional array to count elements in.
@@ -10490,8 +10491,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][] matrix = {{1.0f, 2.0f}, {3.0f}, null};
-     * int minLen = Arrays.minSubArrayLength(matrix);   // minLen is 0
+     * float[][] grid = {{1.0f, 2.0f}, {3.0f}, null};
+     * int minLen = Arrays.minSubArrayLength(grid);   // minLen is 0
      * }</pre>
      *
      * @param a the two-dimensional array to inspect.
@@ -10517,8 +10518,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][] matrix = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
-     * int maxLen = Arrays.maxSubArrayLength(matrix);   // maxLen is 3
+     * float[][] grid = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
+     * int maxLen = Arrays.maxSubArrayLength(grid);   // maxLen is 3
      * }</pre>
      *
      * @param a the two-dimensional array to inspect.
@@ -10830,9 +10831,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][] matrix = {{1.0, 4.0}, {9.0, 16.0}};
-     * Arrays.updateAll(matrix, x -> Math.sqrt(x));
-     * // matrix is now {{1.0, 2.0}, {3.0, 4.0}}
+     * double[][] grid = {{1.0, 4.0}, {9.0, 16.0}};
+     * Arrays.updateAll(grid, x -> Math.sqrt(x));
+     * // grid is now {{1.0, 2.0}, {3.0, 4.0}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -10918,9 +10919,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][] matrix = {{1.0, -2.0}, {Double.NaN, 4.0}};
-     * Arrays.replaceIf(matrix, x -> Double.isNaN(x), 0.0);
-     * // matrix is now {{1.0, -2.0}, {0.0, 4.0}}
+     * double[][] grid = {{1.0, -2.0}, {Double.NaN, 4.0}};
+     * Arrays.replaceIf(grid, x -> Double.isNaN(x), 0.0);
+     * // grid is now {{1.0, -2.0}, {0.0, 4.0}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -10977,8 +10978,8 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] array = {1, 2, 3, 4, 5, 6, 7};
-     * double[][] matrix = Arrays.reshape(array, 3);
-     * // matrix is now {{1, 2, 3}, {4, 5, 6}, {7}}
+     * double[][] grid = Arrays.reshape(array, 3);
+     * // grid is now {{1, 2, 3}, {4, 5, 6}, {7}}
      * }</pre>
      *
      * @param a the one-dimensional array to reshape.
@@ -11051,8 +11052,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
-     * double[] array = Arrays.flatten(matrix);
+     * double[][] grid = {{1.0, 2.0}, {3.0, 4.0}};
+     * double[] array = Arrays.flatten(grid);
      * // array is now {1.0, 2.0, 3.0, 4.0}
      * }</pre>
      *
@@ -11136,9 +11137,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][] matrix = {{5.0, 2.0}, {8.0, 1.0}};
-     * Arrays.applyOnFlattened(matrix, arr -> java.util.Arrays.sort(arr));
-     * // matrix is now {{1.0, 2.0}, {5.0, 8.0}}
+     * double[][] grid = {{5.0, 2.0}, {8.0, 1.0}};
+     * Arrays.applyOnFlattened(grid, arr -> java.util.Arrays.sort(arr));
+     * // grid is now {{1.0, 2.0}, {5.0, 8.0}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -11706,8 +11707,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][] matrix = {{1, 2}, {3, 4, 5}, null, {}};
-     * long count = Arrays.elementCount(matrix);
+     * double[][] grid = {{1, 2}, {3, 4, 5}, null, {}};
+     * long count = Arrays.elementCount(grid);
      * // count is 5
      * }</pre>
      *
@@ -11771,8 +11772,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
-     * int minLen = Arrays.minSubArrayLength(matrix);
+     * double[][] grid = {{1, 2, 3}, {4, 5}, null};
+     * int minLen = Arrays.minSubArrayLength(grid);
      * // minLen is 0
      * }</pre>
      *
@@ -11799,8 +11800,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
-     * int maxLen = Arrays.maxSubArrayLength(matrix);
+     * double[][] grid = {{1, 2, 3}, {4, 5}, null};
+     * int maxLen = Arrays.maxSubArrayLength(grid);
      * // maxLen is 3
      * }</pre>
      *
