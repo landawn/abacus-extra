@@ -13154,9 +13154,9 @@ class ArraysTest extends TestBase {
         @Test
         public void testClassJavadoc_minMaxSubArrayLength() {
             // Line 156-158: {{1,2,3,4},{5,6,7,8},{9,10,11,12}} => minLen=4, maxLen=4
-            int[][] matrix2D = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
-            assertEquals(4, Arrays.minSubArrayLength(matrix2D));
-            assertEquals(4, Arrays.maxSubArrayLength(matrix2D));
+            int[][] array2D = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
+            assertEquals(4, Arrays.minSubArrayLength(array2D));
+            assertEquals(4, Arrays.maxSubArrayLength(array2D));
         }
 
         // ========================
@@ -13288,8 +13288,8 @@ class ArraysTest extends TestBase {
         @Test
         public void testMapToInt_doubleToInt2D() {
             // Line 1720-1723: mapToInt({{1.5,2.7},{3.2,4.9}}, d -> (int)Math.round(d)) => {{2,3},{3,5}}
-            double[][] matrix = { { 1.5, 2.7 }, { 3.2, 4.9 } };
-            int[][] result = Arrays.mapToInt(matrix, d -> (int) Math.round(d));
+            double[][] array2D = { { 1.5, 2.7 }, { 3.2, 4.9 } };
+            int[][] result = Arrays.mapToInt(array2D, d -> (int) Math.round(d));
             assertArrayEquals(new int[] { 2, 3 }, result[0]);
             assertArrayEquals(new int[] { 3, 5 }, result[1]);
         }
