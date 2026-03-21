@@ -20,9 +20,10 @@ import com.landawn.abacus.util.u.Optional;
 /**
  * Common base class for the immutable primitive tuple families in this package.
  *
- * <p>It provides the functional helpers shared by the concrete tuple types:
+ * <p>It provides the small functional toolkit shared by the concrete tuple types:
  * {@link #accept(Throwables.Consumer)}, {@link #map(Throwables.Function)},
- * {@link #filter(Throwables.Predicate)}, and {@link #toOptional()}.</p>
+ * {@link #filter(Throwables.Predicate)}, and {@link #toOptional()}. Concrete families layer their
+ * arity-specific fields and domain operations on top of this base.</p>
  *
  * @param <TP> the specific tuple type extending this class
  */

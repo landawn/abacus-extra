@@ -23,15 +23,16 @@ import com.landawn.abacus.util.stream.IntStream;
 /**
  * Base class for immutable tuples of primitive {@code int} values.
  *
- * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
- * functional helper methods.</p>
+ * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
+ * {@link #copyOf(int[])} and the {@code of(...)} overloads select the matching subtype, while the base
+ * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * @param <TP> the specific IntTuple subtype
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
 
-    /** Lazily initialized backing array holding all tuple elements. */
+    /** Lazily initialized cached array view of all tuple elements. */
     protected volatile int[] elements;
 
     /**
@@ -623,15 +624,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the internal array of elements in this tuple.
+     * Returns the cached array view of the tuple contents.
      * <p>
-     * This method is used internally by the tuple implementation to access the
-     * underlying array of int values. The returned array is lazily initialized
-     * on first access and cached for subsequent calls.
-     * </p>
-     * <p>
-     * Subclasses must implement this method to provide access to their elements.
-     * Modifications to the returned array will affect the tuple's internal state.
+     * Implementations lazily initialize this array on first access and then reuse it on subsequent
+     * calls. The returned array is therefore a live internal cache, not a defensive copy.
      * </p>
      *
      * @return the array of int elements stored in this tuple

@@ -18,11 +18,12 @@ import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.stream.IntStream;
 
 /**
- * Read-only wrapper around an {@code int[]}.
+ * Immutable-style wrapper around an {@code int[]}.
  *
- * <p>{@link #unsafeWrap(int[])} keeps the supplied array as backing storage, while
- * {@link #copyOf(int[])} makes a defensive copy. Use {@code copyOf} when the source array may be modified
- * elsewhere.</p>
+ * <p>{@link #copyOf(int[])} creates an isolated snapshot, while {@link #unsafeWrap(int[])} keeps the
+ * supplied array as backing storage. The latter avoids copying but is only as immutable as the caller's
+ * discipline, so prefer {@code copyOf} unless the backing array is exclusively owned for the lifetime of
+ * the wrapper.</p>
  */
 @Beta
 public final class ImmutableIntArray implements Immutable {

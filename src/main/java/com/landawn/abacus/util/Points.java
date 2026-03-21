@@ -19,10 +19,11 @@ package com.landawn.abacus.util;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- * Namespace for small immutable point records used by matrix and geometry helpers.
+ * Namespace for small immutable point/value records used by matrix and geometry helpers.
  *
- * <p>{@link xy} contains two-dimensional point/value records and {@link xyz} contains three-dimensional
- * variants, each specialized for several primitive coordinate and value types.</p>
+ * <p>{@link xy} groups two-dimensional variants and {@link xyz} groups three-dimensional variants.
+ * Each nested record is a lightweight carrier with record-based equality plus a static {@code of(...)}
+ * factory for concise construction.</p>
  */
 public final class Points {
 
@@ -31,19 +32,12 @@ public final class Points {
     }
 
     /**
-     * This class provides two-dimensional coordinate point implementations.
-     * Each point stores x and y coordinates of various primitive types
-     * (byte, int, long, double) to optimize memory usage and performance for specific use cases.
+     * Namespace for two-dimensional point/value records.
      *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Create a two-dimensional integer point with value
-     * Points.xy.IntIntPoint point = Points.xy.IntIntPoint.of(10, 20, 100);
-     * int x = point.x();  // 10
-     * int y = point.y();  // 20
-     * int value = point.v();  // 100
-     * }</pre>
-     * 
+     * <p>The nested records cover common coordinate widths ({@code byte}, {@code int}, {@code long},
+     * and {@code double}) together with primitive or object payload types so callers can choose a
+     * compact carrier without defining a custom type.</p>
+     *
      * @see xyz
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
@@ -917,20 +911,12 @@ public final class Points {
     }
 
     /**
-     * This class provides three-dimensional coordinate point implementations.
-     * Each point stores x, y, and z coordinates of various primitive types
-     * (byte, int, long, double) to optimize memory usage and performance for specific use cases.
+     * Namespace for three-dimensional point/value records.
      *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Create a three-dimensional integer point with value
-     * Points.xyz.IntIntPoint point = Points.xyz.IntIntPoint.of(10, 20, 30, 100);
-     * int x = point.x();  // 10
-     * int y = point.y();  // 20
-     * int z = point.z();  // 30
-     * int value = point.v();  // 100
-     * }</pre>
-     * 
+     * <p>The nested records cover common coordinate widths ({@code byte}, {@code int}, {@code long},
+     * and {@code double}) together with primitive or object payload types so callers can choose a
+     * compact spatial carrier without defining a custom type.</p>
+     *
      * @see xy
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")

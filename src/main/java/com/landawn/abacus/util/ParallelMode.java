@@ -15,10 +15,12 @@
 package com.landawn.abacus.util;
 
 /**
- * Parallelization policy used by {@link Matrices} for the current thread.
+ * Thread-local parallelization policy consulted by {@link Matrices}.
  *
- * <p>The active value is stored by {@link Matrices#setParallelMode(ParallelMode)} and is consulted by
- * helpers such as {@link Matrices#isParallelizable(AbstractMatrix, long)}.</p>
+ * <p>The active value is set through {@link Matrices#setParallelMode(ParallelMode)} and consulted by
+ * helpers such as {@link Matrices#isParallelizable(AbstractMatrix, long)}. {@link #FORCE_ON} requests
+ * parallel execution whenever the required runtime support is present, {@link #FORCE_OFF} disables it,
+ * and {@link #AUTO} defers to the built-in size heuristics.</p>
  *
  * @see Matrices#setParallelMode(ParallelMode)
  * @see Matrices#getParallelMode()

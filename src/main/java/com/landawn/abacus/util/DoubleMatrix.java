@@ -30,9 +30,12 @@ import com.landawn.abacus.util.stream.Stream;
 /**
  * Matrix implementation backed by a {@code double[][]}.
  *
- * <p>It provides double-specific accessors and transformations while sharing the common matrix operations
- * defined by {@link AbstractMatrix}. Construction and factory methods typically wrap the supplied array
- * directly unless their documentation states otherwise.</p>
+ * <p>It provides double-specific accessors, transformations, and bulk operations on top of
+ * {@link AbstractMatrix}. Constructors and {@code of(...)} usually wrap the supplied array directly,
+ * while builders such as diagonal factories, conversions, and mapping methods allocate fresh storage.</p>
+ *
+ * <p>Cells introduced by resizing or extension default to {@code 0.0d} unless an overload lets the
+ * caller provide a different fill value.</p>
  */
 public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, DoubleStream, Stream<DoubleStream>, DoubleMatrix> {
 

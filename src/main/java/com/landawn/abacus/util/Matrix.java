@@ -29,11 +29,15 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Generic object matrix backed by a two-dimensional array.
+ * Object matrix backed by a rectangular {@code T[][]}.
  *
  * <p>This type provides the same shape, traversal, and transformation operations as the primitive matrix
- * variants while storing reference values. Construction and factory methods typically wrap the supplied
- * backing array directly unless their documentation states otherwise.</p>
+ * variants while preserving reference semantics. Constructors and {@code of(...)} usually wrap the
+ * supplied backing array directly, while builders that synthesize data allocate fresh storage.</p>
+ *
+ * <p>{@code null} elements are permitted. When a new backing array must be created, the implementation
+ * tracks either an explicit target type or the runtime component type so array-typed results remain
+ * reifiable where possible.</p>
  *
  * @param <T> the element type stored in the matrix
  */

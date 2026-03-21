@@ -23,15 +23,16 @@ import com.landawn.abacus.util.stream.CharStream;
 /**
  * Base class for immutable tuples of primitive {@code char} values.
  *
- * <p>The nested tuple types in this class provide fixed-arity carriers together with aggregate and
- * functional helper methods.</p>
+ * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
+ * {@link #copyOf(char[])} and the {@code of(...)} overloads select the matching subtype, while the base
+ * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * @param <TP> the specific CharTuple subtype
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
 
-    /** Lazily initialized backing array holding all tuple elements. */
+    /** Lazily initialized cached array view of all tuple elements. */
     protected volatile char[] elements;
 
     /**

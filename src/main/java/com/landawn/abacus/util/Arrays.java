@@ -19,14 +19,14 @@ import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- * Provides utility methods for working with one-, two-, and three-dimensional arrays of primitives and objects.
+ * Utility methods for one-, two-, and three-dimensional arrays of primitives and objects.
  *
  * <p>This class complements {@link java.util.Arrays} with bulk updates, conditional replacement,
  * reshaping, flattening, zipping, element counting, primitive conversion, and formatted printing.
- * Individual methods document whether they mutate the supplied array or return a newly allocated result.</p>
+ * Each method documents whether it mutates the supplied array or returns newly allocated storage.</p>
  *
- * <p>The nested helper classes {@link f}, {@link ff}, and {@link fff} group mapping and bulk operations
- * for object arrays with one, two, and three dimensions.</p>
+ * <p>The nested helper classes {@link f}, {@link ff}, and {@link fff} group the object-array specific
+ * operations by dimensionality.</p>
  */
 @Beta
 public sealed class Arrays permits Arrays.f {
@@ -14284,15 +14284,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * A utility class that extends {@code com.landawn.abacus.util.Arrays} providing additional
-     * mapping methods for object arrays. This class is marked with {@code SuppressFBWarnings} for its naming convention.
+     * Object-array helper namespace for one-dimensional arrays.
      *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * String[] strings = {"1", "2", "3"};
-     * Integer[] ints = Arrays.f.map(strings, Integer::valueOf, Integer.class);
-     * // Result: [1, 2, 3]
-     * }</pre>
+     * <p>The short name supports concise static imports that mirror the dimensionality of the target
+     * array: {@code f} for one-dimensional, {@link ff} for two-dimensional, and {@link fff} for
+     * three-dimensional object arrays.</p>
      *
      * @see Arrays.ff
      * @see Arrays.fff
@@ -14609,20 +14605,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * A utility class providing functional-style operations on two-dimensional arrays.
-     * It provides methods for updating, replacing, reshaping, flattening, mapping, and zipping.
+     * Object-array helper namespace for two-dimensional arrays.
      *
-     * <p>All methods are static, and this class cannot be instantiated. The short name {@code ff}
-     * is intended to support convenient static imports.</p>
-     *
-     * <p>Key features include:</p>
-     * <ul>
-     *   <li>In-place update and replacement operations</li>
-     *   <li>Array reshaping and flattening</li>
-     *   <li>Type-safe mapping to primitive arrays</li>
-     *   <li>Advanced zipping operations with multiple arrays</li>
-     *   <li>Null-safe handling in many operations</li>
-     * </ul>
+     * <p>This class groups the bulk update, reshape, flatten, map, and zip operations that are specific
+     * to {@code T[][]}. The short name is intentional so callers can use concise static imports when they
+     * work heavily with multidimensional object arrays.</p>
      *
      * @see Arrays.f
      * @see Arrays.fff
@@ -15824,20 +15811,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * A utility class providing functional-style operations on three-dimensional arrays.
-     * It provides methods for updating, replacing, reshaping, flattening, mapping, and zipping.
+     * Object-array helper namespace for three-dimensional arrays.
      *
-     * <p>All methods are static, and this class cannot be instantiated. The short name {@code fff}
-     * is intended to support convenient static imports.</p>
-     *
-     * <p>Common use cases include:</p>
-     * <ul>
-     *   <li>Bulk updates of array elements using functions</li>
-     *   <li>Conditional replacement of values</li>
-     *   <li>Reshaping between different dimensional representations</li>
-     *   <li>Type conversions through mapping operations</li>
-     *   <li>Combining multiple arrays through zip operations</li>
-     * </ul>
+     * <p>This class contains the {@code T[][][]} variants of the bulk update, reshape, flatten, map,
+     * and zip operations exposed by {@link Arrays}. The compact name is deliberate and mirrors
+     * {@link f} and {@link ff} for convenient static import usage.</p>
      *
      * @see Arrays.f
      * @see Arrays.ff
