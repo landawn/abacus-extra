@@ -1,7 +1,7 @@
 {
   "library": {
     "name": "abacus-extra",
-    "version": "3.6.6",
+    "version": "3.6.7",
     "generated_at": "2026-03-21",
     "java_target": "17",
     "source": {

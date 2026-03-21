@@ -1,4 +1,4 @@
-# abacus-extra API Index (v3.6.6)
+# abacus-extra API Index (v3.6.7)
 - Build: unknown
 - Java: 17
 - Generated: 2026-03-21
