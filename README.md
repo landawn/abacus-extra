@@ -32,7 +32,7 @@ compile 'com.landawn:abacus-extra:3.6.6'
 Please refer to [Wiki](https://github.com/landawn/abacus-extra/wiki)
 
 
-## Also See: [abacus-common](https://github.com/landawn/abacus-common), [abacus-jdbc](https://github.com/landawn/abacus-jdbc).
+## Also See: [abacus-common](https://github.com/landawn/abacus-common), [abacus-matrix](https://github.com/landawn/abacus-matrix).
 
 
 ## Recommended Java programming libraries/frameworks:
