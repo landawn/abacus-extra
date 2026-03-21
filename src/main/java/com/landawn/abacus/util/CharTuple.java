@@ -532,6 +532,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+        N.checkArgNotNull(consumer);
+
         for (final char element : elements()) {
             consumer.accept(element);
         }
@@ -1134,6 +1136,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
         }
@@ -1421,6 +1425,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1736,6 +1742,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1956,6 +1964,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2180,6 +2190,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2409,6 +2421,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2640,6 +2654,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2876,6 +2892,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);

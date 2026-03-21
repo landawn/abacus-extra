@@ -547,6 +547,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+        N.checkArgNotNull(consumer);
+
         for (final byte element : elements()) {
             consumer.accept(element);
         }
@@ -1111,6 +1113,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
         }
@@ -1439,6 +1443,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1782,6 +1788,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1995,6 +2003,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2212,6 +2222,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2434,6 +2446,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2663,6 +2677,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2897,6 +2913,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);

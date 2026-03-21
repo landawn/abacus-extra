@@ -528,6 +528,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+        N.checkArgNotNull(consumer);
+
         for (final long element : elements()) {
             consumer.accept(element);
         }
@@ -1049,6 +1051,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
         }
@@ -1321,6 +1325,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1543,6 +1549,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1786,6 +1794,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1930,6 +1940,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2132,6 +2144,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2341,6 +2355,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2557,6 +2573,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);

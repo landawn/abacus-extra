@@ -530,6 +530,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @throws E if the consumer throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+        N.checkArgNotNull(consumer);
+
         for (final float element : elements()) {
             consumer.accept(element);
         }
@@ -1048,6 +1050,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
         }
@@ -1324,6 +1328,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1604,6 +1610,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1793,6 +1801,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1987,6 +1997,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2187,6 +2199,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2395,6 +2409,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2609,6 +2625,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);

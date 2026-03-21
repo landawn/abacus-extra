@@ -527,6 +527,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+        N.checkArgNotNull(consumer);
+
         for (final int element : elements()) {
             consumer.accept(element);
         }
@@ -1047,6 +1049,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
         }
@@ -1310,6 +1314,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1572,6 +1578,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1762,6 +1770,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1956,6 +1966,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2155,6 +2167,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2361,6 +2375,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2572,6 +2588,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);

@@ -12842,6 +12842,16 @@ class ArraysTest extends TestBase {
             assertFalse(invoked[0], "The callback should not run for a null 2D array");
         }
 
+        @Test
+        public void test_applyOnFlattened_rejectsNullActionForEmptyInputs() {
+            assertThrows(IllegalArgumentException.class, () -> Arrays.applyOnFlattened((boolean[][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.applyOnFlattened(new int[0][][], null));
+            assertThrows(IllegalArgumentException.class, () -> ff.applyOnFlattened((Integer[][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> ff.applyOnFlattened(new Integer[0][], null));
+            assertThrows(IllegalArgumentException.class, () -> fff.applyOnFlattened((Integer[][][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> fff.applyOnFlattened(new Integer[0][][], null));
+        }
+
         // ============================================
         // Tests for zip(boolean[], boolean[])
         // ============================================

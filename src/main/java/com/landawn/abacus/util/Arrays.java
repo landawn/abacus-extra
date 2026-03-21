@@ -2083,6 +2083,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #applyOnFlattened(boolean[][][], Throwables.Consumer) for three-dimensional arrays
      */
     public static <E extends Exception> void applyOnFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -2119,6 +2121,8 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void applyOnFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -3413,6 +3417,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(char[][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -3451,6 +3457,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(char[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -4676,6 +4684,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(byte[][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -4714,6 +4724,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(byte[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -6016,6 +6028,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(short[][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -6051,6 +6065,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(short[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -7318,6 +7334,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(int[][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -7358,6 +7376,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(int[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -8597,6 +8617,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(long[][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -8633,6 +8655,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(long[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -9870,6 +9894,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(float[][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -9907,6 +9933,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(float[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -11150,6 +11178,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(double[][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -11188,6 +11218,8 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(double[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void applyOnFlattened(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -14807,6 +14839,8 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void applyOnFlattened(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             if (N.isEmpty(a)) {
                 return;
             }
@@ -16116,6 +16150,8 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void applyOnFlattened(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             if (N.isEmpty(a)) {
                 return;
             }

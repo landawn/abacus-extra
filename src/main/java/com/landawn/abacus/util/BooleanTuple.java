@@ -429,6 +429,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
+        N.checkArgNotNull(consumer);
+
         for (final boolean element : elements()) {
             consumer.accept(element);
         }
@@ -804,6 +806,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
         }
@@ -1026,6 +1030,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1260,6 +1266,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1410,6 +1418,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1565,6 +1575,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1726,6 +1738,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -1896,6 +1910,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);
@@ -2072,6 +2088,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
             consumer.accept(_1);
             consumer.accept(_2);
             consumer.accept(_3);

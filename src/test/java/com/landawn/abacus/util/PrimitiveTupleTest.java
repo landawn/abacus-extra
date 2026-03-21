@@ -111,6 +111,26 @@ class PrimitiveTupleTest extends TestBase {
     }
 
     @Test
+    public void testForEachRejectsNullConsumerForEmptyAndNonEmptyTuples() {
+        assertThrows(IllegalArgumentException.class, () -> BooleanTuple.copyOf(new boolean[0]).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> BooleanTuple.of(true, false).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> ByteTuple.copyOf(new byte[0]).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> ByteTuple.of((byte) 1, (byte) 2).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> CharTuple.copyOf(new char[0]).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> CharTuple.of('a', 'b').forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> DoubleTuple.copyOf(new double[0]).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> DoubleTuple.of(1.0, 2.0).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> FloatTuple.copyOf(new float[0]).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> FloatTuple.of(1.0f, 2.0f).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> IntTuple.copyOf(new int[0]).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> IntTuple.of(1, 2).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> LongTuple.copyOf(new long[0]).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> LongTuple.of(1L, 2L).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> ShortTuple.copyOf(new short[0]).forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> ShortTuple.of((short) 1, (short) 2).forEach(null));
+    }
+
+    @Test
     public void testMapWithIntTuple() {
         IntTuple.IntTuple2 tuple = IntTuple.of(3, 4);
 
