@@ -324,7 +324,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * BooleanTuple.BooleanTuple2 reversedPair = pair.reverse();   // (false, true)
      *
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * BooleanTuple.BooleanTuple3 reversed = tuple.reverse();   // (true, false, true)
+     * BooleanTuple.BooleanTuple3 reversed = tuple.reverse();   // (true, false, true) - palindrome
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -426,6 +426,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * @param <E> the type of exception that may be thrown by the consumer
      * @param consumer the action to be performed for each element, must not be {@code null}
+     * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
@@ -576,7 +577,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns this empty tuple (reversing an empty tuple yields itself).
          *
-         * @return this BooleanTuple<?> instance
+         * @return this {@code BooleanTuple0} instance
          */
         @Override
         public BooleanTuple0 reverse() {
@@ -802,6 +803,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -857,7 +859,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param <U> the type of the result returned by the mapper function
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
-         * @return the result of applying the mapping function to both elements
+         * @return the result of applying the mapping function to both elements; may be {@code null} if the mapper returns {@code null}
          * @throws E if the mapper throws an exception during execution
          */
         @MayReturnNull
@@ -1026,6 +1028,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1087,7 +1090,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param <U> the type of the result returned by the mapper function
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
-         * @return the result of applying the mapping function to all three elements
+         * @return the result of applying the mapping function to all three elements; may be {@code null} if the mapper returns {@code null}
          * @throws E if the mapper throws an exception during execution
          */
         @MayReturnNull
@@ -1262,6 +1265,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1388,7 +1392,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-         * BooleanTuple.BooleanTuple5 reversed = tuple.reverse();   // (true, false, true, false, true) - reversed
+         * BooleanTuple.BooleanTuple5 reversed = tuple.reverse();   // (true, false, true, false, true) - palindrome
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple5 with the elements in reverse order
@@ -1414,6 +1418,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1571,6 +1576,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1707,7 +1713,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-         * BooleanTuple.BooleanTuple7 reversed = tuple.reverse();   // (true, false, true, false, true, false, true) - reversed
+         * BooleanTuple.BooleanTuple7 reversed = tuple.reverse();   // (true, false, true, false, true, false, true) - palindrome
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple7 with the elements in reverse order
@@ -1734,6 +1740,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1906,6 +1913,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2057,7 +2065,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-         * BooleanTuple.BooleanTuple9 reversed = tuple.reverse();   // (true, false, true, false, true, false, true, false, true) - reversed
+         * BooleanTuple.BooleanTuple9 reversed = tuple.reverse();   // (true, false, true, false, true, false, true, false, true) - palindrome
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple9 with the elements in reverse order
@@ -2084,6 +2092,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override

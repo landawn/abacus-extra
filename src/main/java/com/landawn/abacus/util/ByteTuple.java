@@ -544,6 +544,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * @param <E> the type of exception that may be thrown by the consumer
      * @param consumer the action to be performed for each element, must not be {@code null}
+     * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
@@ -1109,6 +1110,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the consumer
          * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception during execution
          */
         @Override
@@ -1150,6 +1152,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer to apply to both elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
          */
         public <E extends Exception> void accept(final Throwables.ByteBiConsumer<E> action) throws E {
@@ -1188,7 +1191,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
-         * @return the result of applying the bi-function to both elements
+         * @return the result of applying the bi-function to both elements (may be {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
          */
         @MayReturnNull
@@ -1232,6 +1236,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test both elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          */
         public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws E {
@@ -1439,6 +1444,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the consumer
          * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception during execution
          */
         @Override
@@ -1485,6 +1491,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer to apply to all three elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
          */
         public <E extends Exception> void accept(final Throwables.ByteTriConsumer<E> action) throws E {
@@ -1528,7 +1535,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
-         * @return the result of applying the tri-function to all three elements
+         * @return the result of applying the tri-function to all three elements (may be {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
          */
         @MayReturnNull
@@ -1577,6 +1585,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test all three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          */
         public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws E {
@@ -1784,6 +1793,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the consumer
          * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception during execution
          */
         @Override
@@ -1999,6 +2009,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the consumer
          * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception during execution
          */
         @Override
@@ -2218,6 +2229,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the consumer
          * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception during execution
          */
         @Override
@@ -2442,6 +2454,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the consumer
          * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception during execution
          */
         @Override
@@ -2673,6 +2686,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the consumer
          * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception during execution
          */
         @Override
@@ -2909,6 +2923,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the consumer
          * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception during execution
          */
         @Override

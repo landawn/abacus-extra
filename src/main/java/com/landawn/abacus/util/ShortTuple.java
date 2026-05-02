@@ -528,6 +528,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * @param <E> the type of exception that may be thrown by the consumer
      * @param consumer the action to be performed for each element, must not be {@code null}
+     * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
@@ -755,10 +756,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * Returns the shared empty short array.
          *
-         * @return a short array containing all elements of this tuple
+         * @return {@link N#EMPTY_SHORT_ARRAY}, the canonical empty short array
          */
         @Override
         protected short[] elements() {
@@ -1049,6 +1049,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1076,6 +1077,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.ShortBiConsumer<E> action) throws E {
@@ -1101,7 +1103,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements
-         * @return the result of applying the mapper function
+         * @return the result of applying the mapper function (may be {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1131,6 +1134,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements
          * @return an Optional containing this tuple if the predicate returns true, empty otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<ShortTuple2> filter(final Throwables.ShortBiPredicate<E> predicate) throws E {
@@ -1312,6 +1316,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1340,6 +1345,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the action may throw
          * @param action the tri-consumer to perform on the three elements
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.ShortTriConsumer<E> action) throws E {
@@ -1365,7 +1371,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements
-         * @return the result of applying the mapper function
+         * @return the result of applying the mapper function (may be {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1395,6 +1402,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements
          * @return an Optional containing this tuple if the predicate returns true, empty otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<ShortTuple3> filter(final Throwables.ShortTriPredicate<E> predicate) throws E {
@@ -1573,6 +1581,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1765,6 +1774,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1961,6 +1971,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2162,6 +2173,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2371,6 +2383,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2586,6 +2599,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override

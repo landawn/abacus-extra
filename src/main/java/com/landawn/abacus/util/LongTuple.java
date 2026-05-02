@@ -525,6 +525,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * @param <E> the type of exception that may be thrown by the consumer
      * @param consumer the action to be performed for each element, must not be {@code null}
+     * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
@@ -752,10 +753,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * Returns the shared empty long array.
          *
-         * @return a long array containing all elements of this tuple
+         * @return an empty long array
          */
         @Override
         protected long[] elements() {
@@ -1047,6 +1047,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1071,7 +1072,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * pair.accept((a, b) -> System.out.println("Distance: " + Math.sqrt(a*a + b*b)));
          *
          * LongTuple.LongTuple2 coordinates = LongTuple.of(10L, 20L);
-         * coordinates.accept((x, y) -> System.out.println("Sheet.Point at (" + x + ", " + y + ")"));
+         * coordinates.accept((x, y) -> System.out.println("Point at (" + x + ", " + y + ")"));
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1321,6 +1322,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1545,6 +1547,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1790,6 +1793,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1936,6 +1940,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2140,6 +2145,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2351,6 +2357,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2569,6 +2576,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override

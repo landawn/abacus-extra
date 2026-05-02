@@ -529,6 +529,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * @param <E> the type of exception that may be thrown by the consumer
      * @param consumer the action to be performed for each element, must not be {@code null}
+     * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
@@ -1130,9 +1131,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
@@ -1162,6 +1164,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer action to be performed on both elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
          */
         public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws E {
@@ -1186,7 +1189,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <U> the type of the result returned by the mapper function
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
-         * @return the result of applying the mapping function to both elements
+         * @return the result of applying the mapping function to both elements (may be {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
          */
         @MayReturnNull
@@ -1218,6 +1222,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test both elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          */
         public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws E {
@@ -1419,9 +1424,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
@@ -1453,6 +1459,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer action to be performed on all three elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
          */
         public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws E {
@@ -1477,7 +1484,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <U> the type of the result returned by the mapper function
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
-         * @return the result of applying the mapping function to all three elements
+         * @return the result of applying the mapping function to all three elements (may be {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
          */
         @MayReturnNull
@@ -1509,6 +1517,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test all three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          */
         public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws E {
@@ -1736,9 +1745,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
@@ -1750,11 +1760,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_4);
         }
 
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all four elements
+         */
         @Override
         public int hashCode() {
             return (31 * (31 * (31 * _1 + _2) + _3)) + _4;
         }
 
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a CharTuple.CharTuple4 with the same elements
+         */
         @Override
         public boolean equals(final Object obj) {
             if (this == obj) {
@@ -1766,6 +1787,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             }
         }
 
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4)"
+         */
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
@@ -1958,9 +1984,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
@@ -1973,11 +2000,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_5);
         }
 
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all five elements
+         */
         @Override
         public int hashCode() {
             return (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4)) + _5;
         }
 
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a CharTuple.CharTuple5 with the same elements
+         */
         @Override
         public boolean equals(final Object obj) {
             if (this == obj) {
@@ -1989,6 +2027,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             }
         }
 
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5)"
+         */
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
@@ -2184,9 +2227,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
@@ -2200,11 +2244,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_6);
         }
 
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all six elements
+         */
         @Override
         public int hashCode() {
             return (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5)) + _6;
         }
 
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a CharTuple.CharTuple6 with the same elements
+         */
         @Override
         public boolean equals(final Object obj) {
             if (this == obj) {
@@ -2216,6 +2271,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             }
         }
 
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6)"
+         */
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
@@ -2415,9 +2475,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
@@ -2432,11 +2493,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_7);
         }
 
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all seven elements
+         */
         @Override
         public int hashCode() {
             return (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6)) + _7;
         }
 
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a CharTuple.CharTuple7 with the same elements
+         */
         @Override
         public boolean equals(final Object obj) {
             if (this == obj) {
@@ -2448,6 +2520,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             }
         }
 
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, ..., element7)"
+         */
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
@@ -2648,9 +2725,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
@@ -2666,11 +2744,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_8);
         }
 
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all eight elements
+         */
         @Override
         public int hashCode() {
             return (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7)) + _8;
         }
 
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a CharTuple.CharTuple8 with the same elements
+         */
         @Override
         public boolean equals(final Object obj) {
             if (this == obj) {
@@ -2683,6 +2772,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             }
         }
 
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, ..., element8)"
+         */
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
@@ -2886,9 +2980,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
@@ -2905,11 +3000,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             consumer.accept(_9);
         }
 
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all nine elements
+         */
         @Override
         public int hashCode() {
             return (31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8)) + _9;
         }
 
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a CharTuple.CharTuple9 with the same elements
+         */
         @Override
         public boolean equals(final Object obj) {
             if (this == obj) {
@@ -2922,6 +3028,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             }
         }
 
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, ..., element9)"
+         */
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";

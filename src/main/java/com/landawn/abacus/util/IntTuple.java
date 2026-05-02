@@ -370,8 +370,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Returns the sum of all int values in this tuple as an {@code int}.
      * <p>
-     * Note: This method does not check for overflow. If the sum exceeds {@code Integer.MAX_VALUE},
-     * the result will wrap around according to standard int arithmetic.
+     * The summation is performed in {@code long} precision and then narrowed back to {@code int};
+     * if the true total does not fit in an {@code int}, an {@link ArithmeticException} is thrown
+     * rather than the result silently wrapping around.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -384,6 +385,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * }</pre>
      *
      * @return the sum of all int values in this tuple as an {@code int}
+     * @throws ArithmeticException if the total does not fit in an {@code int}
      */
     public int sum() {
         return N.sum(elements());
@@ -524,6 +526,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * @param <E> the type of exception that may be thrown by the consumer
      * @param consumer the action to be performed for each element, must not be {@code null}
+     * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
@@ -751,10 +754,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * Returns the shared empty int array.
          *
-         * @return an int array containing all elements of this tuple
+         * @return an empty int array
          */
         @Override
         protected int[] elements() {
@@ -1003,6 +1005,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the sum of the two elements as an int.
          *
          * @return _1 + _2 as an int
+         * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
         public int sum() {
@@ -1045,6 +1048,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1268,6 +1272,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the sum of all three elements as an int.
          *
          * @return _1 + _2 + _3 as an int
+         * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
         public int sum() {
@@ -1310,6 +1315,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1532,6 +1538,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the sum of all four elements as an int.
          *
          * @return _1 + _2 + _3 + _4 as an int
+         * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
         public int sum() {
@@ -1574,6 +1581,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1724,6 +1732,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the sum of all five elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 as an int
+         * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
         public int sum() {
@@ -1766,6 +1775,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1920,6 +1930,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the sum of all six elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 as an int
+         * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
         public int sum() {
@@ -1962,6 +1973,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2120,6 +2132,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the sum of all seven elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 as an int
+         * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
         public int sum() {
@@ -2163,6 +2176,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2328,6 +2342,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the sum of all eight elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 as an int
+         * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
         public int sum() {
@@ -2371,6 +2386,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2541,6 +2557,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the sum of all nine elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9 as an int
+         * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
         public int sum() {
@@ -2584,6 +2601,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override

@@ -305,6 +305,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p>
      * This method finds and returns the smallest float value among all elements
      * in the tuple. For tuples with a single element, returns that element.
+     * If any element is {@code NaN}, the result is {@code NaN}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -328,6 +329,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p>
      * This method finds and returns the largest float value among all elements
      * in the tuple. For tuples with a single element, returns that element.
+     * If any element is {@code NaN}, the result is {@code NaN}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -375,7 +377,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * Returns the sum of all float values in this tuple.
      * <p>
      * This method calculates the sum by adding all float values together.
-     * For an empty tuple, returns 0.0f.
+     * For an empty tuple, returns 0.0f. If any element is {@code NaN}, the result is {@code NaN}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -397,8 +399,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * Returns the average of all float values in this tuple.
      * <p>
      * This method calculates the arithmetic mean of all elements in the tuple.
-     * The result is always returned as a double to preserve precision, even when
-     * the average is a whole number.
+     * The result is returned as a {@code double} to preserve precision.
+     * If any element is {@code NaN}, the result is {@code NaN}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -444,6 +446,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * This method performs a linear search through all elements in the tuple to determine
      * if any element matches the specified value. Returns {@code true} if at least one
      * element equals the search value, {@code false} otherwise.
+     * </p>
+     * <p>
+     * Comparisons follow {@link Float#compare(float, float)} semantics: {@code NaN} is
+     * considered equal to {@code NaN}, and {@code +0.0f} and {@code -0.0f} are not considered equal.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -527,6 +533,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @param <E> the type of exception that may be thrown by the consumer
      * @param consumer the action to be performed for each element
+     * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
@@ -585,6 +592,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <li>They contain the same elements in the same order</li>
      * </ul>
      * <p>
+     * Element comparisons follow {@link Float#compare(float, float)} semantics:
+     * {@code NaN} is treated as equal to {@code NaN}, and {@code +0.0f} is not equal to {@code -0.0f}.
      * This method adheres to the general contract of {@link Object#equals(Object)}.
      * </p>
      *
@@ -1046,6 +1055,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1077,6 +1087,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer to perform on the two elements
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws E {
@@ -1108,6 +1119,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to the two elements
          * @return the result of applying the mapper to _1 and _2
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1142,6 +1154,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test the two elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<FloatTuple2> filter(final Throwables.FloatBiPredicate<E> predicate) throws E {
@@ -1324,6 +1337,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1360,6 +1374,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer to perform on the three elements
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws E {
@@ -1392,6 +1407,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to the three elements
          * @return the result of applying the mapper to _1, _2, and _3
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1426,6 +1442,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test the three elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<FloatTuple3> filter(final Throwables.FloatTriPredicate<E> predicate) throws E {
@@ -1606,6 +1623,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1797,6 +1815,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -1993,6 +2012,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2195,6 +2215,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2405,6 +2426,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
@@ -2621,6 +2643,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
         @Override
