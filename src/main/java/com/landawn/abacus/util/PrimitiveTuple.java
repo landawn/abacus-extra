@@ -20,12 +20,13 @@ import com.landawn.abacus.util.u.Optional;
 /**
  * Common base class for the immutable primitive tuple families in this package.
  *
- * <p>It provides the small functional toolkit shared by the concrete tuple types:
- * {@link #accept(Throwables.Consumer)}, {@link #map(Throwables.Function)},
+ * <p>It declares the {@link #arity()} contract and provides the small functional toolkit shared by the
+ * concrete tuple types: {@link #accept(Throwables.Consumer)}, {@link #map(Throwables.Function)},
  * {@link #filter(Throwables.Predicate)}, and {@link #toOptional()}. Concrete families layer their
  * arity-specific fields and domain operations on top of this base.</p>
  *
- * @param <TP> the specific tuple type extending this class
+ * @param <TP> the concrete tuple subtype (self-type), used so that the helpers above operate on the
+ *             actual subtype rather than this abstract base
  */
 @com.landawn.abacus.annotation.Immutable
 abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutable {
@@ -38,12 +39,14 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
     public abstract int arity();
 
     /**
-     * Performs the given action with this tuple instance.
+     * Passes this tuple to the given action.
      *
      * @param <E> the type of exception that may be thrown by the action
-     * @param action the action to perform
+     * @param action the action to invoke with this tuple as its input
      * @throws NullPointerException if {@code action} is {@code null}
      * @throws E if the action throws an exception
+     * @see #map(Throwables.Function)
+     * @see #filter(Throwables.Predicate)
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super TP, E> action) throws E {
         action.accept((TP) this);
@@ -54,10 +57,12 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      *
      * @param <U> the type of the result produced by the mapping function
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param mapper the mapping function
-     * @return the mapped value, which may be {@code null}
+     * @param mapper the function to apply with this tuple as its input
+     * @return the value produced by the mapper, which may be {@code null} if the mapper returns {@code null}
      * @throws NullPointerException if {@code mapper} is {@code null}
      * @throws E if the mapper throws an exception
+     * @see #accept(Throwables.Consumer)
+     * @see #filter(Throwables.Predicate)
      */
     @MayReturnNull
     public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws E {
@@ -65,13 +70,17 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
     }
 
     /**
-     * Returns this tuple wrapped in an {@link Optional} when the predicate matches.
+     * Tests this tuple with the given predicate and returns it wrapped in an {@link Optional}
+     * if the predicate is satisfied, or an empty {@link Optional} otherwise.
      *
      * @param <E> the type of exception that may be thrown by the predicate
-     * @param predicate the predicate to test
-     * @return an {@link Optional} containing this tuple if the predicate returns {@code true}; otherwise {@link Optional#empty()}
+     * @param predicate the predicate to evaluate against this tuple
+     * @return an {@link Optional} containing this tuple if the predicate returns {@code true};
+     *         otherwise {@link Optional#empty()}
      * @throws NullPointerException if {@code predicate} is {@code null}
      * @throws E if the predicate throws an exception
+     * @see #toOptional()
+     * @see #map(Throwables.Function)
      */
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
         return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.empty();
@@ -80,7 +89,8 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
     /**
      * Returns this tuple wrapped in a non-empty {@link Optional}.
      *
-     * @return an {@link Optional} containing this tuple
+     * @return an {@link Optional} containing this tuple; never empty
+     * @see #filter(Throwables.Predicate)
      */
     public Optional<TP> toOptional() {
         return Optional.of((TP) this);

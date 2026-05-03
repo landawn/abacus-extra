@@ -79,9 +79,9 @@ public final class Points {
              * Points.xy.ByteBytePoint gridCell = Points.xy.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 127);
              * }</pre>
              *
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
-             * @param v the value associated with this point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
+             * @param v the byte value associated with this point
              * @return a new ByteBytePoint instance with the specified coordinates and value, never {@code null}
              */
             public static ByteBytePoint of(final byte x, final byte y, final byte v) {
@@ -119,8 +119,8 @@ public final class Points {
              * Points.xy.ByteIntPoint cellWithCount = Points.xy.ByteIntPoint.of((byte) 0, (byte) 0, 1000000);
              * }</pre>
              *
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
              * @param v the integer value associated with this point
              * @return a new ByteIntPoint instance with the specified coordinates and value, never {@code null}
              */
@@ -160,8 +160,8 @@ public final class Points {
              * Points.xy.ByteLongPoint cellWithTime = Points.xy.ByteLongPoint.of((byte) 0, (byte) 0, timestamp);
              * }</pre>
              *
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
              * @param v the long value associated with this point
              * @return a new ByteLongPoint instance with the specified coordinates and value, never {@code null}
              */
@@ -200,8 +200,8 @@ public final class Points {
              * Points.xy.ByteDoublePoint cellWithProbability = Points.xy.ByteDoublePoint.of((byte) 1, (byte) 1, 0.75);
              * }</pre>
              *
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
              * @param v the double value associated with this point
              * @return a new ByteDoublePoint instance with the specified coordinates and value, never {@code null}
              */
@@ -245,8 +245,8 @@ public final class Points {
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
              * @param v the object value associated with this point, may be {@code null}
              * @return a new ByteObjPoint instance with the specified coordinates and value, never {@code null}
              */
@@ -287,7 +287,7 @@ public final class Points {
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the byte value associated with this point, must be in the range [-128, 127]
+             * @param v the byte value associated with this point
              * @return a new IntBytePoint instance with the specified coordinates and value, never {@code null}
              */
             public static IntBytePoint of(final int x, final int y, final byte v) {
@@ -508,7 +508,7 @@ public final class Points {
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the byte value associated with this point, must be in the range [-128, 127]
+             * @param v the byte value associated with this point
              * @return a new LongBytePoint instance with the specified coordinates and value, never {@code null}
              */
             public static LongBytePoint of(final long x, final long y, final byte v) {
@@ -558,7 +558,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with long coordinates and a long value.
-         * This class provides full long integer range for both coordinates and associated value.
+         * This class provides full long integer range for both coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
          *
@@ -724,7 +724,7 @@ public final class Points {
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the byte value associated with this point, must be in the range [-128, 127]
+             * @param v the byte value associated with this point
              * @return a new DoubleBytePoint instance with the specified coordinates and value, never {@code null}
              */
             public static DoubleBytePoint of(final double x, final double y, final byte v) {
@@ -964,10 +964,10 @@ public final class Points {
              * Points.xyz.ByteBytePoint voxel = Points.xyz.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 0, (byte) 127);
              * }</pre>
              *
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
-             * @param z the z-coordinate of the point, must be in the range [-128, 127]
-             * @param v the value associated with this point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
+             * @param z the z-coordinate of the point
+             * @param v the byte value associated with this point
              * @return a new ByteBytePoint instance with the specified coordinates and value, never {@code null}
              */
             public static ByteBytePoint of(final byte x, final byte y, final byte z, final byte v) {
@@ -1007,9 +1007,9 @@ public final class Points {
              * Points.xyz.ByteIntPoint voxelCount = Points.xyz.ByteIntPoint.of((byte) 0, (byte) 0, (byte) 0, 1000000);
              * }</pre>
              *
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
-             * @param z the z-coordinate of the point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
+             * @param z the z-coordinate of the point
              * @param v the integer value associated with this point
              * @return a new ByteIntPoint instance with the specified coordinates and value, never {@code null}
              */
@@ -1051,9 +1051,9 @@ public final class Points {
              * Points.xyz.ByteLongPoint voxelTime = Points.xyz.ByteLongPoint.of((byte) 0, (byte) 0, (byte) 0, timestamp);
              * }</pre>
              *
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
-             * @param z the z-coordinate of the point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
+             * @param z the z-coordinate of the point
              * @param v the long value associated with this point
              * @return a new ByteLongPoint instance with the specified coordinates and value, never {@code null}
              */
@@ -1094,9 +1094,9 @@ public final class Points {
              * Points.xyz.ByteDoublePoint voxelDensity = Points.xyz.ByteDoublePoint.of((byte) 1, (byte) 1, (byte) 1, 0.85);
              * }</pre>
              *
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
-             * @param z the z-coordinate of the point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
+             * @param z the z-coordinate of the point
              * @param v the double value associated with this point
              * @return a new ByteDoublePoint instance with the specified coordinates and value, never {@code null}
              */
@@ -1142,9 +1142,9 @@ public final class Points {
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
-             * @param x the x-coordinate of the point, must be in the range [-128, 127]
-             * @param y the y-coordinate of the point, must be in the range [-128, 127]
-             * @param z the z-coordinate of the point, must be in the range [-128, 127]
+             * @param x the x-coordinate of the point
+             * @param y the y-coordinate of the point
+             * @param z the z-coordinate of the point
              * @param v the object value associated with this point, may be {@code null}
              * @return a new ByteObjPoint instance with the specified coordinates and value, never {@code null}
              */
@@ -1188,7 +1188,7 @@ public final class Points {
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the byte value associated with this point, must be in the range [-128, 127]
+             * @param v the byte value associated with this point
              * @return a new IntBytePoint instance with the specified coordinates and value, never {@code null}
              */
             public static IntBytePoint of(final int x, final int y, final int z, final byte v) {
@@ -1424,7 +1424,7 @@ public final class Points {
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the byte value associated with this point, must be in the range [-128, 127]
+             * @param v the byte value associated with this point
              * @return a new LongBytePoint instance with the specified coordinates and value, never {@code null}
              */
             public static LongBytePoint of(final long x, final long y, final long z, final byte v) {
@@ -1477,7 +1477,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with long coordinates and a long value.
-         * This class provides full long integer range for both coordinates and associated value.
+         * This class provides full long integer range for all three coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
          *
@@ -1490,8 +1490,8 @@ public final class Points {
 
             /**
              * Creates a new LongLongPoint with the specified coordinates and value.
-             * This factory method provides the maximum integer range for both 3D coordinates and the
-             * associated value, suitable for very large coordinate spaces with large identifiers or timestamps.
+             * This factory method provides the maximum integer range for all three coordinates and the
+             * associated value, suitable for very large 3D coordinate spaces with large identifiers or timestamps.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -1655,7 +1655,7 @@ public final class Points {
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the byte value associated with this point, must be in the range [-128, 127]
+             * @param v the byte value associated with this point
              * @return a new DoubleBytePoint instance with the specified coordinates and value, never {@code null}
              */
             public static DoubleBytePoint of(final double x, final double y, final double z, final byte v) {
@@ -1758,7 +1758,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with double-precision floating-point coordinates and a double-precision floating-point value.
-         * This class provides full double-precision floating-point support for both coordinates and the associated value.
+         * This class provides full double-precision floating-point support for all three coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
          *
@@ -1771,7 +1771,7 @@ public final class Points {
 
             /**
              * Creates a new DoubleDoublePoint with the specified coordinates and value.
-             * This factory method provides full double-precision floating-point support for both 3D coordinates
+             * This factory method provides full double-precision floating-point support for all three coordinates
              * and the associated value, ideal for continuous mathematical, physical, and scientific 3D applications.
              *
              * <p><b>Usage Examples:</b></p>

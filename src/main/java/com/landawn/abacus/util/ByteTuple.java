@@ -27,7 +27,14 @@ import com.landawn.abacus.util.stream.ByteStream;
  * {@link #copyOf(byte[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
+ * <p>All {@code byte} arithmetic in this class follows Java's signed semantics (range {@code -128}
+ * to {@code 127}). Aggregates such as {@link #sum()} are widened to {@code int} and {@link #average()}
+ * to {@code double} to avoid overflow.</p>
+ *
  * @param <TP> the specific ByteTuple subtype
+ * @see PrimitiveTuple
+ * @see IntTuple
+ * @see ShortTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
@@ -268,9 +275,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * or to the base tuple type.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
-     * @param values the array of byte values (must have length 0-9), may be {@code null}
-     * @return a ByteTuple of appropriate size containing the array values, or an empty ByteTuple if the array is null or empty
-     * @throws IllegalArgumentException if the array has more than 9 elements
+     * @param values the array of byte values; may be {@code null} or empty (length must be at most 9)
+     * @return a ByteTuple of appropriate size containing the array values, or an empty ByteTuple if the array is {@code null} or empty
+     * @throws IllegalArgumentException if {@code values.length} is greater than 9
      */
     @SuppressWarnings("deprecation")
     public static <TP extends ByteTuple<TP>> TP copyOf(final byte[] values) {
@@ -329,6 +336,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * @return the minimum byte value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #max()
+     * @see #median()
      */
     public byte min() {
         return N.min(elements());
@@ -352,6 +361,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * @return the maximum byte value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #median()
      */
     public byte max() {
         return N.max(elements());
@@ -400,7 +411,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * int pairSum = pair.sum();   // 150 (exceeds byte range, so returned as int)
      * }</pre>
      *
-     * @return the sum of all byte values in this tuple as an {@code int}
+     * @return the sum of all byte values in this tuple as an {@code int}; {@code 0} for an empty tuple
+     * @see #average()
      */
     public int sum() {
         return N.sum(elements());
@@ -422,8 +434,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * double avgPair = pair.average();   // 7.5
      * }</pre>
      *
-     * @return the average of all byte values in this tuple as a double
+     * @return the average of all byte values in this tuple as a {@code double}
      * @throws NoSuchElementException if the tuple is empty
+     * @see #sum()
      */
     public double average() {
         return N.average(elements());
@@ -444,6 +457,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * ByteTuple.ByteTuple3 reversed = tuple.reverse();   // (30, 20, 10)
      * }</pre>
+     *
+     * <p>For tuples of arity 0 or 1, the returned tuple is equal to this one (reversing has no effect).</p>
      *
      * @return a new tuple with the elements in reverse order
      */
@@ -492,6 +507,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @return a new byte array containing all tuple elements
+     * @see #toList()
+     * @see #stream()
      */
     public byte[] toArray() {
         return elements().clone();
@@ -516,6 +533,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @return a new ByteList containing all tuple elements
+     * @see #toArray()
+     * @see #stream()
      */
     public ByteList toList() {
         return ByteList.of(elements().clone());
@@ -534,11 +553,11 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * tuple.forEach(b -> System.out.println("Value: " + b));
-     * // Output: Value: 10, Value: 20, Value: 30
+     * // Prints three lines: "Value: 10", "Value: 20", "Value: 30"
      *
      * // Sum values using external accumulator
      * java.util.concurrent.atomic.AtomicInteger sum = new java.util.concurrent.atomic.AtomicInteger();
-     * tuple.forEach(b -> sum.addAndGet(b));
+     * tuple.forEach(sum::addAndGet);
      * // sum is now 60
      * }</pre>
      *
@@ -546,6 +565,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param consumer the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception during execution
+     * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
         N.checkArgNotNull(consumer);
@@ -604,11 +624,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <ul>
      *   <li>They are the same object (reference equality), or</li>
-     *   <li>They are instances of the exact same class, and</li>
+     *   <li>They are instances of the exact same runtime class (so tuples of different arity are never equal), and</li>
      *   <li>They contain the same byte values in the same order</li>
      * </ul>
      *
-     * <p>This method is consistent with {@link #hashCode()}.</p>
+     * <p>This method is consistent with {@link #hashCode()}. Several arity-specific subclasses override
+     * this method with an equivalent but specialized implementation.</p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
@@ -661,11 +682,11 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     protected abstract byte[] elements();
 
     /**
-     * An empty ByteTuple containing no elements.
+     * An empty {@link ByteTuple} containing no elements (arity 0).
      * <p>
-     * This class represents a tuple with arity 0, serving as a singleton instance
-     * for cases where an empty byte tuple is needed. It is typically returned
-     * by the {@link #copyOf(byte[])} method when a null or empty array is provided.
+     * This package-private class is exposed only through the base {@code ByteTuple} type
+     * via the singleton instance returned by {@link #copyOf(byte[])} when invoked with a
+     * {@code null} or zero-length array.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -755,7 +776,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns this empty tuple instance.
          * Since this tuple has no elements, reversing has no effect.
          *
-         * @return this ByteTuple<?> instance
+         * @return this {@code ByteTuple0} instance
          */
         @Override
         public ByteTuple0 reverse() {
@@ -870,9 +891,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all byte values in this tuple.
-         * Since this tuple contains only one element, it returns that element as an integer.
+         * Since this tuple contains only one element, it returns that element widened to an {@code int}.
          *
-         * @return the single byte value as an integer
+         * @return the single byte value widened to an {@code int} (sign-extended)
          */
         @Override
         public int sum() {
@@ -881,9 +902,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all byte values in this tuple.
-         * Since this tuple contains only one element, it returns that element as a double.
+         * Since this tuple contains only one element, it returns that element converted to a {@code double}.
          *
-         * @return the single byte value as a double
+         * @return the single byte value as a {@code double}
          */
         @Override
         public double average() {
@@ -915,7 +936,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return the byte value as the hash code
+         * @return the single byte element widened to an {@code int} (sign-extended)
          */
         @Override
         public int hashCode() {
@@ -1095,9 +1116,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * <pre>{@code
          * ByteTuple.ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
          *
-         * // Print each element
+         * // Print each element (prints "Value: 10" then "Value: 20" on separate lines)
          * tuple.forEach(b -> System.out.println("Value: " + b));
-         * // Output: Value: 10, Value: 20
          *
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
@@ -1105,7 +1125,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * // Sum using accumulator
          * java.util.concurrent.atomic.AtomicInteger sum = new java.util.concurrent.atomic.AtomicInteger();
-         * tuple.forEach(b -> sum.addAndGet(b));   // sum is 30
+         * tuple.forEach(sum::addAndGet);   // sum is 30
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the consumer
@@ -1154,6 +1174,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param action the bi-consumer to apply to both elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
+         * @see #forEach(Throwables.ByteConsumer)
+         * @see #map(Throwables.ByteBiFunction)
          */
         public <E extends Exception> void accept(final Throwables.ByteBiConsumer<E> action) throws E {
             action.accept(_1, _2);
@@ -1194,6 +1216,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @return the result of applying the bi-function to both elements (may be {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
+         * @see #accept(Throwables.ByteBiConsumer)
+         * @see #filter(Throwables.ByteBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ByteBiFunction<U, E> mapper) throws E {
@@ -1238,6 +1262,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
+         * @see #accept(Throwables.ByteBiConsumer)
+         * @see #map(Throwables.ByteBiFunction)
          */
         public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1368,6 +1394,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
          *
          * @return the middle byte value when sorted
          */
@@ -1429,9 +1456,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * <pre>{@code
          * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
          *
-         * // Print each element
+         * // Print each element (prints "Value: 10", "Value: 20", "Value: 30" on separate lines)
          * tuple.forEach(b -> System.out.println("Value: " + b));
-         * // Output: Value: 10, Value: 20, Value: 30
          *
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
@@ -1439,7 +1465,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * // Sum using accumulator
          * java.util.concurrent.atomic.AtomicInteger sum = new java.util.concurrent.atomic.AtomicInteger();
-         * tuple.forEach(b -> sum.addAndGet(b));   // sum is 60
+         * tuple.forEach(sum::addAndGet);   // sum is 60
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the consumer
@@ -1493,6 +1519,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param action the tri-consumer to apply to all three elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
+         * @see #forEach(Throwables.ByteConsumer)
+         * @see #map(Throwables.ByteTriFunction)
          */
         public <E extends Exception> void accept(final Throwables.ByteTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
@@ -1538,6 +1566,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @return the result of applying the tri-function to all three elements (may be {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
+         * @see #accept(Throwables.ByteTriConsumer)
+         * @see #filter(Throwables.ByteTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ByteTriFunction<U, E> mapper) throws E {
@@ -1587,6 +1617,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
+         * @see #accept(Throwables.ByteTriConsumer)
+         * @see #map(Throwables.ByteTriFunction)
          */
         public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -1782,9 +1814,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * <pre>{@code
          * ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
          *
-         * // Print each element
+         * // Print each element (each println produces its own line)
          * tuple.forEach(b -> System.out.println("Value: " + b));
-         * // Output: Value: 10, Value: 20, Value: 30, Value: 40
          *
          * // Collect to list
          * List<Byte> list = new ArrayList<>();

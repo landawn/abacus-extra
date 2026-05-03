@@ -316,6 +316,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * @return the minimum long value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #max()
+     * @see #median()
      */
     public long min() {
         return N.min(elements());
@@ -339,6 +341,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * @return the maximum long value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #median()
      */
     public long max() {
         return N.max(elements());
@@ -405,6 +409,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * @return the average of all long values in this tuple as a double
      * @throws NoSuchElementException if the tuple is empty
+     * @see #sum()
      */
     public double average() {
         return N.average(elements());
@@ -1076,8 +1081,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the bi-consumer to perform on the two elements
+         * @param action the bi-consumer to perform on the two elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.LongConsumer)
+         * @see #map(Throwables.LongBiFunction)
          */
         public <E extends Exception> void accept(final Throwables.LongBiConsumer<E> action) throws E {
             action.accept(_1, _2);
@@ -1105,9 +1113,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the bi-function to apply to the two elements
+         * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
+         * @see #accept(Throwables.LongBiConsumer)
+         * @see #filter(Throwables.LongBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.LongBiFunction<U, E> mapper) throws E {
@@ -1137,9 +1148,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the bi-predicate to test the two elements
+         * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
+         * @see #accept(Throwables.LongBiConsumer)
+         * @see #map(Throwables.LongBiFunction)
          */
         public <E extends Exception> Optional<LongTuple2> filter(final Throwables.LongBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1354,8 +1368,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on the three elements
+         * @param action the tri-consumer to perform on the three elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.LongConsumer)
+         * @see #map(Throwables.LongTriFunction)
          */
         public <E extends Exception> void accept(final Throwables.LongTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
@@ -1384,9 +1401,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the tri-function to apply to the three elements
+         * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
+         * @see #accept(Throwables.LongTriConsumer)
+         * @see #filter(Throwables.LongTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.LongTriFunction<U, E> mapper) throws E {
@@ -1416,9 +1436,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the tri-predicate to test the three elements
+         * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
+         * @see #accept(Throwables.LongTriConsumer)
+         * @see #map(Throwables.LongTriFunction)
          */
         public <E extends Exception> Optional<LongTuple3> filter(final Throwables.LongTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();

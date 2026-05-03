@@ -24,6 +24,12 @@ import com.landawn.abacus.util.stream.IntStream;
  * supplied array as backing storage. The latter avoids copying but is only as immutable as the caller's
  * discipline, so prefer {@code copyOf} unless the backing array is exclusively owned for the lifetime of
  * the wrapper.</p>
+ *
+ * <p>This class is annotated with {@link Beta @Beta} and its API may evolve in future releases.</p>
+ *
+ * @see #copyOf(int[])
+ * @see #unsafeWrap(int[])
+ * @see Immutable
  */
 @Beta
 public final class ImmutableIntArray implements Immutable {
@@ -35,10 +41,10 @@ public final class ImmutableIntArray implements Immutable {
     private final int[] elements;
 
     /**
-     * Package-private constructor that wraps the provided array.
-     * If the array is null, an empty array is used instead.
+     * Package-private constructor that retains the provided array as the backing storage
+     * without copying. If {@code array} is {@code null}, {@link N#EMPTY_INT_ARRAY} is used instead.
      *
-     * @param array the array to wrap
+     * @param array the array to wrap, or {@code null} for an empty backing array
      */
     ImmutableIntArray(final int[] array) {
         elements = array == null ? N.EMPTY_INT_ARRAY : array;
@@ -210,9 +216,14 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4, 5});
      *
-     * // Print each element
+     * // Print each element (one value per line)
      * array.forEach(value -> System.out.println(value));
-     * // Output: 1, 2, 3, 4, 5 (each on a new line)
+     * // Output:
+     * // 1
+     * // 2
+     * // 3
+     * // 4
+     * // 5
      *
      * // Accumulate sum
      * int[] sum = {0};
@@ -224,6 +235,8 @@ public final class ImmutableIntArray implements Immutable {
      * @param action the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
+     * @see #forEachIndexed(Throwables.IntIntConsumer)
+     * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action);
@@ -265,6 +278,7 @@ public final class ImmutableIntArray implements Immutable {
      *               and value (second parameter) as primitive ints, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
+     * @see #forEach(Throwables.IntConsumer)
      */
     public <E extends Exception> void forEachIndexed(final Throwables.IntIntConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action);
@@ -284,6 +298,11 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p>This method is useful for applying functional transformations and operations
      * on the array elements without manually iterating through them.</p>
+     *
+     * <p><b>Note:</b> the returned stream is constructed directly over the backing array; it does not
+     * make a defensive copy. When this wrapper was created via {@link #unsafeWrap(int[])}, the backing
+     * array is the caller-supplied array, so any mutation of that array will be observable through the
+     * returned stream. Use {@link #copyOf(int[])} if you require full isolation.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

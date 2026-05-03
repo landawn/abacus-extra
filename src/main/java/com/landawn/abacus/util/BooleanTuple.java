@@ -26,6 +26,7 @@ import com.landawn.abacus.util.stream.Stream;
  * base class supplies reversal, containment, and functional helper operations.</p>
  *
  * @param <TP> the specific BooleanTuple subtype
+ * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
@@ -479,15 +480,13 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * Compares this tuple to the specified object for equality.
-     * 
-     * <p>
-     * Two tuples are considered equal if and only if:
-     * </p>
      *
+     * <p>
+     * Two tuples are considered equal if and only if either:
+     * </p>
      * <ul>
-     *   <li>They are the same object (reference equality), or</li>
-     *   <li>They are instances of the exact same class, and</li>
-     *   <li>They contain the same boolean values in the same order</li>
+     *   <li>they are the same object (reference equality), or</li>
+     *   <li>they are instances of the exact same runtime class and contain the same boolean values in the same order.</li>
      * </ul>
      *
      * <p>This method is consistent with {@link #hashCode()}.</p>
@@ -657,8 +656,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
-         * For a single-element tuple, returns a copy of itself.
+         * Returns a new BooleanTuple.BooleanTuple1 with the same element.
+         * Since this tuple has only one element, reversing has no effect on the contained value.
          *
          * @return a new BooleanTuple.BooleanTuple1 with the same element
          */
@@ -692,7 +691,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple1 with the same element
+         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple1 with the same element, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -834,7 +833,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer action to be performed on both elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
+         * @see #forEach(Throwables.BooleanConsumer)
+         * @see #map(Throwables.BooleanBiFunction)
          */
         public <E extends Exception> void accept(final Throwables.BooleanBiConsumer<E> action) throws E {
             action.accept(_1, _2);
@@ -860,7 +862,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
          * @return the result of applying the mapping function to both elements; may be {@code null} if the mapper returns {@code null}
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
+         * @see #accept(Throwables.BooleanBiConsumer)
+         * @see #filter(Throwables.BooleanBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.BooleanBiFunction<U, E> mapper) throws E {
@@ -891,7 +896,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test both elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
+         * @see #accept(Throwables.BooleanBiConsumer)
+         * @see #map(Throwables.BooleanBiFunction)
          */
         public <E extends Exception> Optional<BooleanTuple2> filter(final Throwables.BooleanBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -914,7 +922,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple2 with the same elements
+         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple2 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1064,7 +1072,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer action to be performed on all three elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
+         * @see #forEach(Throwables.BooleanConsumer)
+         * @see #map(Throwables.BooleanTriFunction)
          */
         public <E extends Exception> void accept(final Throwables.BooleanTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
@@ -1091,7 +1102,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
          * @return the result of applying the mapping function to all three elements; may be {@code null} if the mapper returns {@code null}
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
+         * @see #accept(Throwables.BooleanTriConsumer)
+         * @see #filter(Throwables.BooleanTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.BooleanTriFunction<U, E> mapper) throws E {
@@ -1123,7 +1137,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test all three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
+         * @see #accept(Throwables.BooleanTriConsumer)
+         * @see #map(Throwables.BooleanTriFunction)
          */
         public <E extends Exception> Optional<BooleanTuple3> filter(final Throwables.BooleanTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -1147,7 +1164,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple3 with the same elements
+         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple3 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1297,7 +1314,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple4 with the same elements
+         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple4 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1452,7 +1469,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple5 with the same elements
+         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple5 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1612,7 +1629,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple6 with the same elements
+         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple6 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1778,7 +1795,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple7 with the same elements
+         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple7 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1953,7 +1970,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple8 with the same elements
+         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple8 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2134,7 +2151,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple9 with the same elements
+         * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple9 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {

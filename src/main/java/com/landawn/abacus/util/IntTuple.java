@@ -28,6 +28,9 @@ import com.landawn.abacus.util.stream.IntStream;
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * @param <TP> the specific IntTuple subtype
+ * @see PrimitiveTuple
+ * @see LongTuple
+ * @see ShortTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
@@ -254,9 +257,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * or to the base tuple type.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
-     * @param values the array of int values (must have length 0-9), may be {@code null}
-     * @return an IntTuple of appropriate size containing the array values, or an empty IntTuple if the array is null or empty
-     * @throws IllegalArgumentException if the array has more than 9 elements
+     * @param values the array of int values; may be {@code null} or empty, in which case an empty tuple is returned
+     * @return an IntTuple of the appropriate arity containing the array values, or an empty IntTuple if the array is {@code null} or empty
+     * @throws IllegalArgumentException if {@code values} has more than 9 elements
      */
     @SuppressWarnings("deprecation")
     public static <TP extends IntTuple<TP>> TP copyOf(final int[] values) {
@@ -315,6 +318,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * @return the minimum int value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #max()
+     * @see #median()
      */
     public int min() {
         return N.min(elements());
@@ -338,6 +343,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * @return the maximum int value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #median()
      */
     public int max() {
         return N.max(elements());
@@ -392,10 +399,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the average of all int values in this tuple as a double.
+     * Returns the arithmetic mean of all int values in this tuple as a {@code double}.
      * <p>
-     * Note: The result is returned as a double to preserve precision. The average is
-     * calculated by converting int values to double during computation.
+     * The result is returned as a {@code double} to preserve fractional precision.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -404,8 +410,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * double avg = tuple.average();   // 2.5
      * }</pre>
      *
-     * @return the average of all int values in this tuple as a double
+     * @return the average of all int values in this tuple as a {@code double}
      * @throws NoSuchElementException if the tuple is empty
+     * @see #sum()
      */
     public double average() {
         return N.average(elements());
@@ -877,7 +884,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return the hash code of the single element
+         * @return {@code _1} (the {@code int} value itself, which is its own hash code)
          */
         @Override
         public int hashCode() {
@@ -888,7 +895,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is an IntTuple.IntTuple1 with the same value
+         * @return {@code true} if the object is an IntTuple.IntTuple1 with the same value, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1078,6 +1085,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
@@ -1105,6 +1113,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements
          * @return the result of applying the mapper function, may be {@code null}
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1133,6 +1142,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
@@ -1346,6 +1356,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <E> the type of exception that the action may throw
          * @param action the tri-consumer to perform on the three elements
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws E {
@@ -1374,6 +1385,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements
          * @return the result of applying the mapper function, may be {@code null}
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1402,6 +1414,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws E {

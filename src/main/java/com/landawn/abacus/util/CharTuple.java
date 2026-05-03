@@ -27,6 +27,11 @@ import com.landawn.abacus.util.stream.CharStream;
  * {@link #copyOf(char[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
+ * <p><b>Numeric semantics:</b> All ordering and arithmetic operations ({@link #min()}, {@link #max()},
+ * {@link #median()}, {@link #sum()}, {@link #average()}) treat each {@code char} as its unsigned
+ * 16-bit UTF-16 code unit value (range {@code 0..65535}). Surrogate code units are not paired or
+ * interpreted as code points.</p>
+ *
  * @param <TP> the specific CharTuple subtype
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
@@ -300,10 +305,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the minimum char value in this tuple.
+     * Returns the minimum char value in this tuple, compared as unsigned 16-bit code units.
      * <p>
      * This method finds and returns the smallest char value among all elements
-     * in the tuple. For tuples with a single element, returns that element.
+     * in the tuple. For tuples with a single element, that element is returned.
+     * Note that {@code 'Z'} (90) is therefore considered less than {@code 'a'} (97).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -317,16 +323,19 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * @return the minimum char value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #max()
+     * @see #median()
      */
     public char min() {
         return N.min(elements());
     }
 
     /**
-     * Returns the maximum char value in this tuple.
+     * Returns the maximum char value in this tuple, compared as unsigned 16-bit code units.
      * <p>
      * This method finds and returns the largest char value among all elements
-     * in the tuple. For tuples with a single element, returns that element.
+     * in the tuple. For tuples with a single element, that element is returned.
+     * Note that {@code 'a'} (97) is therefore considered greater than {@code 'Z'} (90).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -340,13 +349,15 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * @return the maximum char value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #median()
      */
     public char max() {
         return N.max(elements());
     }
 
     /**
-     * Returns the median char value in this tuple.
+     * Returns the median char value in this tuple, ordered as unsigned 16-bit code units.
      * <p>
      * The median is the middle value when all elements are sorted. For tuples with
      * an odd number of elements, returns the exact middle value. For tuples with an
@@ -366,6 +377,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * @return the median char value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
      */
     public char median() {
         return N.median(elements());
@@ -374,9 +387,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the sum of all char values in this tuple as an integer.
      * <p>
-     * This method calculates the sum by adding the numeric values of all char elements together.
-     * The result is returned as an int to prevent overflow issues that could occur if the sum
-     * exceeds the char range (0 to 65535).
+     * This method calculates the sum by adding the unsigned 16-bit numeric values of all char
+     * elements together. The result is returned as an {@code int} to prevent overflow issues that
+     * could occur if the sum exceeds the char range (0 to 65535). For an empty tuple, the sum is 0.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -388,17 +401,18 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * int pairSum = pair.sum();                         // 177
      * }</pre>
      *
-     * @return the sum of all char values in this tuple as an integer
+     * @return the sum of all char values in this tuple as an integer, or 0 if the tuple is empty
+     * @see #average()
      */
     public int sum() {
         return N.sum(elements());
     }
 
     /**
-     * Returns the average of all char values in this tuple as a double.
+     * Returns the average (arithmetic mean) of all char values in this tuple as a double.
      * <p>
-     * Note: The result is returned as a double to preserve precision. The average is
-     * calculated by converting char values to double during computation.
+     * The average is computed from the unsigned 16-bit numeric values of the char elements.
+     * The result is returned as a {@code double} to preserve precision.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -412,6 +426,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * @return the average of all char values in this tuple as a double
      * @throws NoSuchElementException if the tuple is empty
+     * @see #sum()
      */
     public double average() {
         return N.average(elements());
@@ -584,11 +599,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Two tuples are considered equal if and only if:
      * </p>
      * <ul>
-     * <li>They are of the exact same class (e.g., both CharTuple.CharTuple2)</li>
-     * <li>They contain the same elements in the same order</li>
+     * <li>They are of the exact same runtime class (e.g., both CharTuple.CharTuple2)</li>
+     * <li>They contain the same char elements in the same order</li>
      * </ul>
      * <p>
-     * This method adheres to the general contract of {@link Object#equals(Object)}.
+     * Tuples of different arities (e.g., {@code CharTuple2} and {@code CharTuple3}) are never equal,
+     * even if their elements would otherwise match. This method adheres to the general contract
+     * of {@link Object#equals(Object)}.
      * </p>
      *
      * @param obj the object to be compared for equality with this tuple
@@ -608,12 +625,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a string representation of this tuple.
      * <p>
-     * The string representation consists of the tuple elements enclosed in parentheses "( )"
-     * and separated by commas and spaces. This format provides a clear and readable
-     * representation of the tuple's contents.
+     * Each concrete subclass overrides this method to produce a representation in which
+     * the tuple's elements are enclosed in parentheses {@code "( )"} and separated by
+     * a comma and space.
      * </p>
      *
-     * <p><b>Usage Examples:</b></p>
+     * <p><b>Usage Examples (subclass output):</b></p>
      * <ul>
      * <li>{@code (A, B, C)} - for a CharTuple.CharTuple3</li>
      * <li>{@code (X, Y)} - for a CharTuple.CharTuple2</li>
@@ -632,12 +649,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Returns the internal array containing all char elements in this tuple.
      * <p>
      * This method provides direct access to the underlying char array used by the tuple.
-     * Subclasses implement this method to return their internal storage. The returned array
-     * should not be modified directly as it may be shared or cached by the tuple implementation.
+     * Subclasses implement this method to return their internal storage; concrete subclasses
+     * typically lazily initialize and cache the array on first access. The returned array
+     * must not be modified, as it is shared and cached by the tuple implementation.
      * For safe array access, use {@link #toArray()} instead, which returns a defensive copy.
      * </p>
      *
-     * @return the internal array of char elements
+     * @return the internal array of char elements (never {@code null}; empty for an empty tuple)
      */
     protected abstract char[] elements();
 
@@ -645,9 +663,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * An empty CharTuple containing no elements.
      * <p>
      * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
-     * with a single shared instance accessed via {@code CharTuple.copyOf(new char[0])} or returned
-     * when creating tuples from null/empty arrays. All statistical operations on CharTuple<?> either
-     * return 0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
+     * with a single shared instance returned by {@link #copyOf(char[])} when given a {@code null}
+     * or empty array. The class itself is package-private; instances are always observed through
+     * the public type {@code CharTuple<?>}. {@link #sum()} returns 0, while {@link #min()},
+     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link NoSuchElementException}.
      * </p>
      */
     static final class CharTuple0 extends CharTuple<CharTuple0> {
@@ -759,7 +778,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns this empty tuple (reversing an empty tuple has no effect).
          *
-         * @return this CharTuple<?> instance
+         * @return this {@code CharTuple0} instance
          */
         @Override
         public CharTuple0 reverse() {

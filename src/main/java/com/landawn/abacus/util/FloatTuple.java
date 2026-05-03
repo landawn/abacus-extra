@@ -319,6 +319,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @return the minimum float value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #max()
+     * @see Math#min(float, float)
      */
     public float min() {
         return N.min(elements());
@@ -343,6 +345,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @return the maximum float value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see Math#max(float, float)
      */
     public float max() {
         return N.max(elements());
@@ -390,6 +394,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @return the sum of all float values in this tuple
+     * @see #average()
      */
     public float sum() {
         return N.sum(elements());
@@ -414,6 +419,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @return the average of all float values in this tuple as a {@code double}
      * @throws NoSuchElementException if the tuple is empty
+     * @see #sum()
      */
     public double average() {
         return N.average(elements());
@@ -486,6 +492,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @return a new float array containing all tuple elements
+     * @see #toList()
+     * @see #stream()
      */
     public float[] toArray() {
         return elements().clone();
@@ -509,6 +517,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @return a new FloatList containing all tuple elements
+     * @see #toArray()
+     * @see #stream()
      */
     public FloatList toList() {
         return FloatList.of(elements().clone());
@@ -562,6 +572,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @return a FloatStream containing all tuple elements
+     * @see #toArray()
+     * @see #toList()
      */
     public FloatStream stream() {
         return FloatStream.of(elements());
@@ -731,10 +743,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a reversed version of this tuple.
-         * For an empty tuple, returns the same instance.
+         * Returns this empty tuple instance.
+         * Since this tuple has no elements, reversing has no effect.
          *
-         * @return this instance
+         * @return this {@code FloatTuple0} instance
          */
         @Override
         public FloatTuple0 reverse() {
@@ -764,10 +776,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * Returns the internal (empty) array of float elements.
+         * Returns the shared {@code N.EMPTY_FLOAT_ARRAY} singleton.
          *
-         * @return a float array containing all elements of this tuple
+         * @return a shared empty float array
          */
         @Override
         protected float[] elements() {
@@ -875,9 +887,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
+         * Uses {@link Float#compare(float, float)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0f} does not match {@code -0.0f}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code true} if _1 equals valueToFind, {@code false} otherwise
+         * @return {@code true} if {@code _1} equals {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1089,6 +1103,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param action the bi-consumer to perform on the two elements
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #map(Throwables.FloatBiFunction)
+         * @see #filter(Throwables.FloatBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws E {
             action.accept(_1, _2);
@@ -1118,9 +1134,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to the two elements
-         * @return the result of applying the mapper to _1 and _2
+         * @return the result of applying the mapper to _1 and _2 (may be {@code null} if the mapper returns {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
+         * @see #accept(Throwables.FloatBiConsumer)
+         * @see #filter(Throwables.FloatBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatBiFunction<U, E> mapper) throws E {
@@ -1156,6 +1174,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
+         * @see #accept(Throwables.FloatBiConsumer)
+         * @see #map(Throwables.FloatBiFunction)
          */
         public <E extends Exception> Optional<FloatTuple2> filter(final Throwables.FloatBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1376,6 +1396,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param action the tri-consumer to perform on the three elements
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #map(Throwables.FloatTriFunction)
+         * @see #filter(Throwables.FloatTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
@@ -1406,9 +1428,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to the three elements
-         * @return the result of applying the mapper to _1, _2, and _3
+         * @return the result of applying the mapper to _1, _2, and _3 (may be {@code null} if the mapper returns {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
+         * @see #accept(Throwables.FloatTriConsumer)
+         * @see #filter(Throwables.FloatTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatTriFunction<U, E> mapper) throws E {
@@ -1444,6 +1468,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
+         * @see #accept(Throwables.FloatTriConsumer)
+         * @see #map(Throwables.FloatTriFunction)
          */
         public <E extends Exception> Optional<FloatTuple3> filter(final Throwables.FloatTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();

@@ -305,7 +305,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p>
      * This method finds and returns the smallest double value among all elements
      * in the tuple. For tuples with a single element, returns that element.
-     * If any element is {@code NaN}, the result is {@code NaN}.
+     * </p>
+     * <p>
+     * NaN handling differs by arity. Concrete subclasses {@code DoubleTuple1}
+     * through {@code DoubleTuple9} use {@link Math#min(double, double)} or its
+     * delegating helpers, so any {@code NaN} element causes the result to be
+     * {@code NaN}. {@link Math#min(double, double)} also distinguishes
+     * {@code -0.0} from {@code +0.0} (treating {@code -0.0} as the smaller).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -319,6 +325,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * @return the minimum double value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #max()
+     * @see Math#min(double, double)
      */
     public double min() {
         return N.min(elements());
@@ -329,7 +337,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p>
      * This method finds and returns the largest double value among all elements
      * in the tuple. For tuples with a single element, returns that element.
-     * If any element is {@code NaN}, the result is {@code NaN}.
+     * </p>
+     * <p>
+     * NaN handling differs by arity. Concrete subclasses {@code DoubleTuple1}
+     * through {@code DoubleTuple9} use {@link Math#max(double, double)} or its
+     * delegating helpers, so any {@code NaN} element causes the result to be
+     * {@code NaN}. {@link Math#max(double, double)} also distinguishes
+     * {@code -0.0} from {@code +0.0} (treating {@code +0.0} as the larger).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -343,6 +357,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * @return the maximum double value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see Math#max(double, double)
      */
     public double max() {
         return N.max(elements());
@@ -352,7 +368,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Returns the median value of the elements in this tuple.
      * <p>
      * For tuples with an odd number of elements, returns the middle value when sorted.
-     * For tuples with an even number of elements, returns the lower middle value.
+     * For tuples with an even number of elements, returns the lower middle value
+     * (not the average of the two middle values).
+     * </p>
+     * <p>
+     * Ordering is performed with {@link Double#compare(double, double)} semantics, so
+     * {@code NaN} is treated as the largest value (and equal to itself), and
+     * {@code -0.0} is treated as less than {@code +0.0}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -368,6 +390,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * @return the median double element in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see N#median(double...)
      */
     public double median() {
         return N.median(elements());
@@ -376,8 +399,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns the sum of all double values in this tuple.
      * <p>
-     * This method calculates the sum by adding all double values together.
-     * For an empty tuple, returns 0.0. If any element is {@code NaN}, the result is {@code NaN}.
+     * This method calculates the sum by adding all double values together using
+     * the Kahan summation algorithm for improved numerical accuracy. For an empty
+     * tuple, returns {@code 0.0}. If any element is {@code NaN}, the result is
+     * {@code NaN}. Infinities follow standard IEEE-754 addition rules
+     * (e.g. {@code +INF + -INF} produces {@code NaN}).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -389,17 +415,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double pairSum = pair.sum();   // 4.0
      * }</pre>
      *
-     * @return the sum of all double values in this tuple
+     * @return the sum of all double values in this tuple, or {@code 0.0} if empty
+     * @see #average()
      */
     public double sum() {
         return N.sum(elements());
     }
 
     /**
-     * Returns the average of all double values in this tuple.
+     * Returns the arithmetic mean of all double values in this tuple.
      * <p>
-     * This method calculates the arithmetic mean of all elements in the tuple.
-     * If any element is {@code NaN}, the result is {@code NaN}.
+     * Computed using Kahan summation for improved numerical accuracy. If any
+     * element is {@code NaN}, the result is {@code NaN}. Infinities follow
+     * standard IEEE-754 rules.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -411,8 +439,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double avgPair = pair.average();   // 1.5
      * }</pre>
      *
-     * @return the average of all double values in this tuple
+     * @return the arithmetic mean of all double values in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #sum()
      */
     public double average() {
         return N.average(elements());
@@ -464,6 +493,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * @param valueToFind the double value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+     * @see Double#compare(double, double)
      */
     public abstract boolean contains(double valueToFind);
 
@@ -514,10 +544,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Performs the given action for each element in this tuple.
+     * Performs the given action for each element in this tuple, in order from
+     * {@code _1} to the highest-indexed field.
      * <p>
      * This method iterates through all elements in the tuple in order, applying the specified
      * consumer action to each element. The action is performed for its side effects only.
+     * For an empty tuple this method returns immediately without invoking the consumer.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -531,7 +563,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the consumer
-     * @param consumer the action to be performed for each element
+     * @param consumer the action to be performed for each element; must not be {@code null}
      * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception
      */
@@ -569,12 +601,16 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns a hash code value for this tuple.
      * <p>
-     * The hash code is computed based on the contents of the tuple's elements.
-     * Tuples with identical elements in the same order will have the same hash code.
-     * This implementation ensures consistency with the {@link #equals(Object)} method.
+     * The hash code is computed from the contents of the tuple's elements using
+     * {@link Double#hashCode(double)} for each element (which is bit-pattern based,
+     * so {@code +0.0} and {@code -0.0} hash differently and {@code NaN} hashes to a
+     * single canonical value). Tuples with identical elements in the same order
+     * have the same hash code. This implementation is consistent with
+     * {@link #equals(Object)}.
      * </p>
      *
      * @return a hash code value for this tuple
+     * @see #equals(Object)
      */
     @Override
     public int hashCode() {
@@ -587,7 +623,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Two tuples are considered equal if and only if:
      * </p>
      * <ul>
-     * <li>They are of the exact same class (e.g., both DoubleTuple.DoubleTuple2)</li>
+     * <li>They are of the exact same runtime class (e.g., both {@code DoubleTuple.DoubleTuple2});
+     *     a {@code DoubleTuple1} is never equal to a {@code DoubleTuple2}, even if both have arity-comparable contents</li>
      * <li>They contain the same elements in the same order</li>
      * </ul>
      * <p>
@@ -598,6 +635,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
+     * @see #hashCode()
      */
     @Override
     public boolean equals(final Object obj) {
@@ -648,9 +686,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * An empty DoubleTuple containing no elements.
      * <p>
      * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
-     * with a single shared instance accessed via {@code DoubleTuple.copyOf(new double[0])} or returned
-     * when creating tuples from null/empty arrays. All statistical operations on DoubleTuple.DoubleTuple0 either
-     * return 0.0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
+     * with a single shared instance returned by {@link DoubleTuple#copyOf(double[])} when called
+     * with a {@code null} or zero-length array. The class itself is package-private; callers see it
+     * as a {@code DoubleTuple<?>}. The aggregate operation {@link #sum()} returns {@code 0.0};
+     * {@link #min()}, {@link #max()}, {@link #median()}, and {@link #average()} all throw
+     * {@link NoSuchElementException}.
      * </p>
      */
     static final class DoubleTuple0 extends DoubleTuple<DoubleTuple0> {
@@ -763,10 +803,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * Returns the internal (empty) array of double elements.
+         * Returns the shared {@code N.EMPTY_DOUBLE_ARRAY} singleton.
          *
-         * @return a double array containing all elements of this tuple
+         * @return a shared empty double array
          */
         @Override
         protected double[] elements() {
@@ -857,7 +897,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns a new tuple with the elements in reverse order.
-         * For a single-element tuple, returns a copy of itself.
+         * For a single-element tuple, the returned tuple has the same content,
+         * but a fresh instance is allocated rather than returning {@code this}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -865,7 +906,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * DoubleTuple.DoubleTuple1 reversed = tuple.reverse();   // (5.0)
          * }</pre>
          *
-         * @return a new DoubleTuple.DoubleTuple1 with the same value
+         * @return a new {@code DoubleTuple1} with the same value as this tuple
          */
         @Override
         public DoubleTuple1 reverse() {
@@ -874,9 +915,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
+         * Uses {@link Double#compare(double, double)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0} does not match {@code -0.0}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code true} if _1 equals valueToFind, {@code false} otherwise
+         * @return {@code true} if {@code _1} equals {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -992,10 +1035,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the median value of the two elements.
-         * For two elements (even number), returns the lower value.
+         * Returns the median of the two elements.
+         * Because there is an even number of elements, this is the lower of the
+         * two (i.e., {@code Math.min(_1, _2)}), not their average.
          *
-         * @return the median (lower) double value
+         * @return the smaller of {@code _1} and {@code _2}
          */
         @Override
         public double median() {
@@ -1004,8 +1048,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the two elements.
+         * The sum is computed using Kahan summation; if either element is
+         * {@code NaN} the result is {@code NaN}.
          *
-         * @return _1 + _2
+         * @return the sum of {@code _1} and {@code _2}
          */
         @Override
         public double sum() {
@@ -1013,9 +1059,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the average of the two elements.
+         * Returns the arithmetic mean of the two elements.
+         * If either element is {@code NaN} the result is {@code NaN}.
          *
-         * @return (_1 + _2) / 2.0
+         * @return the average of {@code _1} and {@code _2}
          */
         @Override
         public double average() {
@@ -1274,9 +1321,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the three elements.
-         * For three elements (odd number), returns the middle value when sorted.
+         * Comparison uses {@link Double#compare(double, double)} semantics, so
+         * {@code NaN} is treated as the largest value.
          *
-         * @return the middle value when sorted
+         * @return the middle value when the three elements are sorted
          */
         @Override
         public double median() {
@@ -1285,8 +1333,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the three elements.
+         * Computed using Kahan summation; if any element is {@code NaN}, the
+         * result is {@code NaN}.
          *
-         * @return _1 + _2 + _3
+         * @return the sum of {@code _1}, {@code _2}, and {@code _3}
          */
         @Override
         public double sum() {
@@ -1294,9 +1344,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the average of the three elements.
+         * Returns the arithmetic mean of the three elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3) / 3.0
+         * @return the average of {@code _1}, {@code _2}, and {@code _3}
          */
         @Override
         public double average() {
@@ -1504,7 +1555,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly four double values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * This arity does not expose the bi/tri-arg functional helpers that
+     * {@link DoubleTuple2} and {@link DoubleTuple3} provide.
+     * </p>
      */
     public static final class DoubleTuple4 extends DoubleTuple<DoubleTuple4> {
 
@@ -1540,8 +1595,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the minimum value among the four elements.
+         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * treated as less than {@code +0.0}.
          *
-         * @return the smallest of _1, _2, _3, and _4
+         * @return the smallest of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
         @Override
         public double min() {
@@ -1550,8 +1608,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the maximum value among the four elements.
+         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * treated as greater than {@code -0.0}.
          *
-         * @return the largest of _1, _2, _3, and _4
+         * @return the largest of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
         @Override
         public double max() {
@@ -1560,9 +1621,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the four elements.
-         * For an even number of elements, returns the lower middle value.
+         * For an even number of elements, returns the lower of the two middle values
+         * (not their average).
          *
-         * @return the median double value
+         * @return the lower middle value when the four elements are sorted
          */
         @Override
         public double median() {
@@ -1571,8 +1633,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the four elements.
+         * Computed using Kahan summation; if any element is {@code NaN}, the
+         * result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4
+         * @return the sum of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
         @Override
         public double sum() {
@@ -1580,9 +1644,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the average of the four elements.
+         * Returns the arithmetic mean of the four elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4) / 4.0
+         * @return the average of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
         @Override
         public double average() {
@@ -1692,7 +1757,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly five double values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _5}.
+     * </p>
      */
     public static final class DoubleTuple5 extends DoubleTuple<DoubleTuple5> {
 
@@ -1731,8 +1798,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the minimum value among the five elements.
+         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * treated as less than {@code +0.0}.
          *
-         * @return the smallest of _1, _2, _3, _4, and _5
+         * @return the smallest of {@code _1} through {@code _5}
          */
         @Override
         public double min() {
@@ -1741,8 +1811,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the maximum value among the five elements.
+         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * treated as greater than {@code -0.0}.
          *
-         * @return the largest of _1, _2, _3, _4, and _5
+         * @return the largest of {@code _1} through {@code _5}
          */
         @Override
         public double max() {
@@ -1751,9 +1824,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the five elements.
-         * For five elements (odd number), returns the middle value when sorted.
+         * For an odd number of elements, this is the exact middle value when sorted.
          *
-         * @return the middle value when sorted
+         * @return the middle value when the five elements are sorted
          */
         @Override
         public double median() {
@@ -1762,8 +1835,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the five elements.
+         * Computed using Kahan summation; if any element is {@code NaN}, the
+         * result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5
+         * @return the sum of {@code _1} through {@code _5}
          */
         @Override
         public double sum() {
@@ -1771,9 +1846,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the average of the five elements.
+         * Returns the arithmetic mean of the five elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5) / 5.0
+         * @return the average of {@code _1} through {@code _5}
          */
         @Override
         public double average() {
@@ -1886,7 +1962,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly six double values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _6}.
+     * </p>
      */
     public static final class DoubleTuple6 extends DoubleTuple<DoubleTuple6> {
 
@@ -1928,8 +2006,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the minimum value among the six elements.
+         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * treated as less than {@code +0.0}.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, and _6
+         * @return the smallest of {@code _1} through {@code _6}
          */
         @Override
         public double min() {
@@ -1938,8 +2019,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the maximum value among the six elements.
+         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * treated as greater than {@code -0.0}.
          *
-         * @return the largest of _1, _2, _3, _4, _5, and _6
+         * @return the largest of {@code _1} through {@code _6}
          */
         @Override
         public double max() {
@@ -1948,9 +2032,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the six elements.
-         * For an even number of elements, returns the lower middle value.
+         * For an even number of elements, returns the lower of the two middle values
+         * (not their average).
          *
-         * @return the median double value
+         * @return the lower middle value when the six elements are sorted
          */
         @Override
         public double median() {
@@ -1959,8 +2044,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the six elements.
+         * Computed using Kahan summation; if any element is {@code NaN}, the
+         * result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6
+         * @return the sum of {@code _1} through {@code _6}
          */
         @Override
         public double sum() {
@@ -1968,9 +2055,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the average of the six elements.
+         * Returns the arithmetic mean of the six elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0
+         * @return the average of {@code _1} through {@code _6}
          */
         @Override
         public double average() {
@@ -2086,7 +2174,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly seven double values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _7}.
+     * </p>
      */
     public static final class DoubleTuple7 extends DoubleTuple<DoubleTuple7> {
 
@@ -2131,8 +2221,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the minimum value among the seven elements.
+         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * treated as less than {@code +0.0}.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, _6, and _7
+         * @return the smallest of {@code _1} through {@code _7}
          */
         @Override
         public double min() {
@@ -2141,8 +2234,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the maximum value among the seven elements.
+         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * treated as greater than {@code -0.0}.
          *
-         * @return the largest of _1, _2, _3, _4, _5, _6, and _7
+         * @return the largest of {@code _1} through {@code _7}
          */
         @Override
         public double max() {
@@ -2151,9 +2247,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the seven elements.
-         * For seven elements (odd number), returns the middle value when sorted.
+         * For an odd number of elements, this is the exact middle value when sorted.
          *
-         * @return the middle value when sorted
+         * @return the middle value when the seven elements are sorted
          */
         @Override
         public double median() {
@@ -2162,8 +2258,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the seven elements.
+         * Computed using Kahan summation; if any element is {@code NaN}, the
+         * result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7
+         * @return the sum of {@code _1} through {@code _7}
          */
         @Override
         public double sum() {
@@ -2171,9 +2269,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the average of the seven elements.
+         * Returns the arithmetic mean of the seven elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0
+         * @return the average of {@code _1} through {@code _7}
          */
         @Override
         public double average() {
@@ -2291,7 +2390,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly eight double values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _8}.
+     * </p>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more double values
      */
@@ -2342,8 +2443,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the minimum value among the eight elements.
+         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * treated as less than {@code +0.0}.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, and _8
+         * @return the smallest of {@code _1} through {@code _8}
          */
         @Override
         public double min() {
@@ -2352,8 +2456,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the maximum value among the eight elements.
+         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * treated as greater than {@code -0.0}.
          *
-         * @return the largest of _1, _2, _3, _4, _5, _6, _7, and _8
+         * @return the largest of {@code _1} through {@code _8}
          */
         @Override
         public double max() {
@@ -2362,9 +2469,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the eight elements.
-         * For an even number of elements, returns the lower middle value.
+         * For an even number of elements, returns the lower of the two middle values
+         * (not their average).
          *
-         * @return the median double value
+         * @return the lower middle value when the eight elements are sorted
          */
         @Override
         public double median() {
@@ -2373,8 +2481,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the eight elements.
+         * Computed using Kahan summation; if any element is {@code NaN}, the
+         * result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8
+         * @return the sum of {@code _1} through {@code _8}
          */
         @Override
         public double sum() {
@@ -2382,9 +2492,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the average of the eight elements.
+         * Returns the arithmetic mean of the eight elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0
+         * @return the average of {@code _1} through {@code _8}
          */
         @Override
         public double average() {
@@ -2504,7 +2615,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly nine double values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _9}.
+     * </p>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more double values
      */
@@ -2559,8 +2672,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the minimum value among the nine elements.
+         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * treated as less than {@code +0.0}.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         * @return the smallest of {@code _1} through {@code _9}
          */
         @Override
         public double min() {
@@ -2569,8 +2685,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the maximum value among the nine elements.
+         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * treated as greater than {@code -0.0}.
          *
-         * @return the largest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         * @return the largest of {@code _1} through {@code _9}
          */
         @Override
         public double max() {
@@ -2579,9 +2698,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the nine elements.
-         * For nine elements (odd number), returns the middle value when sorted.
+         * For an odd number of elements, this is the exact middle value when sorted.
          *
-         * @return the middle value when sorted
+         * @return the middle value when the nine elements are sorted
          */
         @Override
         public double median() {
@@ -2590,8 +2709,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the nine elements.
+         * Computed using Kahan summation; if any element is {@code NaN}, the
+         * result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9
+         * @return the sum of {@code _1} through {@code _9}
          */
         @Override
         public double sum() {
@@ -2599,9 +2720,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the average of the nine elements.
+         * Returns the arithmetic mean of the nine elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0
+         * @return the average of {@code _1} through {@code _9}
          */
         @Override
         public double average() {
