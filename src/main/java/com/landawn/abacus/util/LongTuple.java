@@ -2381,7 +2381,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public long min() {
-            return N.min(elements());
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2391,7 +2391,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public long max() {
-            return N.max(elements());
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2402,7 +2402,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public long median() {
-            return N.median(elements());
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2412,7 +2412,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public long sum() {
-            return N.sum(elements());
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2422,7 +2422,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(elements());
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2601,7 +2601,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public long min() {
-            return N.min(elements());
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -2611,7 +2611,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public long max() {
-            return N.max(elements());
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -2622,7 +2622,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public long median() {
-            return N.median(elements());
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -2632,7 +2632,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public long sum() {
-            return N.sum(elements());
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -2642,7 +2642,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(elements());
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**

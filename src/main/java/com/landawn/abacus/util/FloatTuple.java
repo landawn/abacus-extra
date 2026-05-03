@@ -1547,7 +1547,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float min() {
-            return N.min(_1, _2, _3, _4);
+            return Math.min(Math.min(_1, _2), Math.min(_3, _4));
         }
 
         /**
@@ -1557,7 +1557,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float max() {
-            return N.max(_1, _2, _3, _4);
+            return Math.max(Math.max(_1, _2), Math.max(_3, _4));
         }
 
         /**
@@ -1738,7 +1738,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float min() {
-            return N.min(_1, _2, _3, _4, _5);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), _5);
         }
 
         /**
@@ -1748,7 +1748,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float max() {
-            return N.max(_1, _2, _3, _4, _5);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), _5);
         }
 
         /**
@@ -1935,7 +1935,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float min() {
-            return N.min(_1, _2, _3, _4, _5, _6);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(_5, _6));
         }
 
         /**
@@ -1945,7 +1945,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float max() {
-            return N.max(_1, _2, _3, _4, _5, _6);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(_5, _6));
         }
 
         /**
@@ -2138,7 +2138,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), _7));
         }
 
         /**
@@ -2148,7 +2148,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), _7));
         }
 
         /**
@@ -2349,7 +2349,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8)));
         }
 
         /**
@@ -2359,7 +2359,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8)));
         }
 
         /**
@@ -2566,7 +2566,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return Math.min(Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8))), _9);
         }
 
         /**
@@ -2576,7 +2576,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public float max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return Math.max(Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8))), _9);
         }
 
         /**

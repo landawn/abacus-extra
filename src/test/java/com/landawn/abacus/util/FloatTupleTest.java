@@ -3669,6 +3669,41 @@ class FloatTupleTest extends TestBase {
             FloatTuple2 tuple = FloatTuple.of(Float.NaN, 1.0f);
             assertTrue(tuple.contains(Float.NaN));
         }
+
+        // Regression: docs claim "If any element is NaN, the result is NaN" on min()/max().
+        // Tuple4-9 previously routed through N.min(float...)/N.max(float...) which skip NaN,
+        // contradicting the doc and the Tuple2/Tuple3 implementations.
+        @Test
+        public void test_minMax_nanPropagation_arity4to9() {
+            final float n = Float.NaN;
+
+            assertTrue(Float.isNaN(FloatTuple.of(1f, n, 2f, 3f).min()));
+            assertTrue(Float.isNaN(FloatTuple.of(1f, n, 2f, 3f).max()));
+            assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, 3f, 4f, n).min()));
+            assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, 3f, 4f, n).max()));
+            assertTrue(Float.isNaN(FloatTuple.of(n, 2f, 3f, 4f, 5f, 6f).min()));
+            assertTrue(Float.isNaN(FloatTuple.of(n, 2f, 3f, 4f, 5f, 6f).max()));
+            assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, 3f, n, 5f, 6f, 7f).min()));
+            assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, 3f, n, 5f, 6f, 7f).max()));
+            assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, n).min()));
+            assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, n).max()));
+            assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, n).min()));
+            assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, n).max()));
+
+            // Without NaN, results are still correct.
+            assertEquals(1f, FloatTuple.of(4f, 1f, 3f, 2f).min(), 0f);
+            assertEquals(4f, FloatTuple.of(4f, 1f, 3f, 2f).max(), 0f);
+            assertEquals(1f, FloatTuple.of(4f, 1f, 3f, 2f, 5f).min(), 0f);
+            assertEquals(5f, FloatTuple.of(4f, 1f, 3f, 2f, 5f).max(), 0f);
+            assertEquals(1f, FloatTuple.of(4f, 1f, 3f, 2f, 5f, 6f).min(), 0f);
+            assertEquals(6f, FloatTuple.of(4f, 1f, 3f, 2f, 5f, 6f).max(), 0f);
+            assertEquals(1f, FloatTuple.of(4f, 1f, 3f, 2f, 5f, 6f, 7f).min(), 0f);
+            assertEquals(7f, FloatTuple.of(4f, 1f, 3f, 2f, 5f, 6f, 7f).max(), 0f);
+            assertEquals(1f, FloatTuple.of(4f, 1f, 3f, 2f, 5f, 6f, 7f, 8f).min(), 0f);
+            assertEquals(8f, FloatTuple.of(4f, 1f, 3f, 2f, 5f, 6f, 7f, 8f).max(), 0f);
+            assertEquals(1f, FloatTuple.of(4f, 1f, 3f, 2f, 5f, 6f, 7f, 8f, 9f).min(), 0f);
+            assertEquals(9f, FloatTuple.of(4f, 1f, 3f, 2f, 5f, 6f, 7f, 8f, 9f).max(), 0f);
+        }
     }
 
     @Nested

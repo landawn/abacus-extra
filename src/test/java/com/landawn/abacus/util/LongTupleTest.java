@@ -4004,6 +4004,29 @@ class LongTupleTest extends TestBase {
             long median = tuple.median();
             assertEquals(30L, median);
         }
+
+        // Regression: LongTuple8/9 previously delegated min/max/median/sum/average to N.X(elements()),
+        // forcing lazy initialization of the cached `elements` array. Switched to N.X(_1, _2, ..., _n)
+        // for parity with IntTuple/ShortTuple peer arities. Verify aggregate results are still correct.
+        @Test
+        public void test_longTuple8_aggregates_unchanged() {
+            LongTuple.LongTuple8 t = LongTuple.of(7L, 3L, 5L, 1L, 8L, 4L, 2L, 6L);
+            assertEquals(1L, t.min());
+            assertEquals(8L, t.max());
+            assertEquals(4L, t.median());
+            assertEquals(36L, t.sum());
+            assertEquals(36.0 / 8.0, t.average(), 0d);
+        }
+
+        @Test
+        public void test_longTuple9_aggregates_unchanged() {
+            LongTuple.LongTuple9 t = LongTuple.of(7L, 3L, 5L, 1L, 8L, 4L, 2L, 6L, 9L);
+            assertEquals(1L, t.min());
+            assertEquals(9L, t.max());
+            assertEquals(5L, t.median());
+            assertEquals(45L, t.sum());
+            assertEquals(45.0 / 9.0, t.average(), 0d);
+        }
     }
 
     // Regression tests for the report-driven uncovered tuple branches.

@@ -3763,6 +3763,41 @@ class DoubleTupleTest extends TestBase {
             assertEquals(0.0, tuple.sum(), DELTA);
             assertEquals(0.0, tuple.average(), DELTA);
         }
+
+        // Regression: docs claim "If any element is NaN, the result is NaN" on min()/max().
+        // Tuple4-9 previously routed through N.min(double...)/N.max(double...) which skip NaN,
+        // contradicting the doc and the Tuple2/Tuple3 implementations.
+        @Test
+        public void test_minMax_nanPropagation_arity4to9() {
+            final double n = Double.NaN;
+
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, n, 2d, 3d).min()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, n, 2d, 3d).max()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, 3d, 4d, n).min()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, 3d, 4d, n).max()));
+            assertTrue(Double.isNaN(DoubleTuple.of(n, 2d, 3d, 4d, 5d, 6d).min()));
+            assertTrue(Double.isNaN(DoubleTuple.of(n, 2d, 3d, 4d, 5d, 6d).max()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, 3d, n, 5d, 6d, 7d).min()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, 3d, n, 5d, 6d, 7d).max()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, n).min()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, n).max()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, n).min()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, n).max()));
+
+            // Without NaN, results are still correct.
+            assertEquals(1d, DoubleTuple.of(4d, 1d, 3d, 2d).min(), 0d);
+            assertEquals(4d, DoubleTuple.of(4d, 1d, 3d, 2d).max(), 0d);
+            assertEquals(1d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d).min(), 0d);
+            assertEquals(5d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d).max(), 0d);
+            assertEquals(1d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d, 6d).min(), 0d);
+            assertEquals(6d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d, 6d).max(), 0d);
+            assertEquals(1d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d, 6d, 7d).min(), 0d);
+            assertEquals(7d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d, 6d, 7d).max(), 0d);
+            assertEquals(1d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d, 6d, 7d, 8d).min(), 0d);
+            assertEquals(8d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d, 6d, 7d, 8d).max(), 0d);
+            assertEquals(1d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d, 6d, 7d, 8d, 9d).min(), 0d);
+            assertEquals(9d, DoubleTuple.of(4d, 1d, 3d, 2d, 5d, 6d, 7d, 8d, 9d).max(), 0d);
+        }
     }
 
     @Nested
