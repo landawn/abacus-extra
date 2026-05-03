@@ -28,6 +28,9 @@ import com.landawn.abacus.util.stream.LongStream;
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * @param <TP> the specific LongTuple subtype
+ * @see PrimitiveTuple
+ * @see IntTuple
+ * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP> {
@@ -395,10 +398,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the average of all long values in this tuple as a double.
+     * Returns the arithmetic mean of all long values in this tuple as a {@code double}.
      * <p>
-     * Note: The result is returned as a double to preserve precision. The average is
-     * calculated by converting long values to double during computation.
+     * The result is returned as a {@code double} to preserve fractional precision.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -407,7 +409,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * double avg = tuple.average();   // 2.0
      * }</pre>
      *
-     * @return the average of all long values in this tuple as a double
+     * @return the arithmetic mean of all long values in this tuple as a {@code double}
      * @throws NoSuchElementException if the tuple is empty
      * @see #sum()
      */
@@ -1082,7 +1084,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.LongConsumer)
          * @see #map(Throwables.LongBiFunction)
@@ -1115,7 +1116,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
-         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.LongBiConsumer)
          * @see #filter(Throwables.LongBiPredicate)
@@ -1150,7 +1150,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.LongBiConsumer)
          * @see #map(Throwables.LongBiFunction)
@@ -1369,7 +1368,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the action may throw
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.LongConsumer)
          * @see #map(Throwables.LongTriFunction)
@@ -1403,7 +1401,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
-         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.LongTriConsumer)
          * @see #filter(Throwables.LongTriPredicate)
@@ -1438,7 +1435,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.LongTriConsumer)
          * @see #map(Throwables.LongTriFunction)
@@ -2344,7 +2340,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple (always 8).
+         * Returns the number of elements in this tuple, which is always 8.
          *
          * @return 8
          */
@@ -2563,7 +2559,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple (always 9).
+         * Returns the number of elements in this tuple, which is always 9.
          *
          * @return 9
          */

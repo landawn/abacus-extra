@@ -1735,7 +1735,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the one-dimensional boolean array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the one-dimensional boolean array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1762,7 +1764,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the two-dimensional boolean array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the two-dimensional boolean array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1789,7 +1793,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the three-dimensional boolean array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the three-dimensional boolean array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3075,7 +3081,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the one-dimensional char array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the one-dimensional char array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3102,7 +3110,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the two-dimensional char array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the two-dimensional char array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3129,7 +3139,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the three-dimensional char array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the three-dimensional char array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4420,7 +4432,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the one-dimensional byte array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the one-dimensional byte array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4447,7 +4461,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the two-dimensional byte array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the two-dimensional byte array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4474,7 +4490,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the three-dimensional byte array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the three-dimensional byte array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5701,7 +5719,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the one-dimensional short array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the one-dimensional short array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5727,7 +5747,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the two-dimensional short array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the two-dimensional short array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5753,7 +5775,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in the three-dimensional short array by applying the provided unary operator. Each element is replaced with the result of applying the operator. This method modifies the array in-place.
+     * Updates all elements in the three-dimensional short array by applying the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8293,7 +8317,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1L, 2L, 3L};
-     * updateAll(array, x -> x * x);
+     * Arrays.updateAll(array, x -> x * x);
      * // array is now [1L, 4L, 9L]
      * }</pre>
      *
@@ -8322,7 +8346,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1L, 2L}, {3L, 4L}};
-     * updateAll(array, x -> -x);
+     * Arrays.updateAll(array, x -> -x);
      * // array is now {{-1L, -2L}, {-3L, -4L}}
      * }</pre>
      *
@@ -8351,7 +8375,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1L}, {2L}}, {{3L}, {4L}}};
-     * updateAll(array, x -> x + 1);
+     * Arrays.updateAll(array, x -> x + 1);
      * // array is now {{{2L}, {3L}}, {{4L}, {5L}}}
      * }</pre>
      *
@@ -8380,7 +8404,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1L, 2L, 3L, 4L, 5L};
-     * replaceIf(array, x -> x % 2 == 0, 0L);
+     * Arrays.replaceIf(array, x -> x % 2 == 0, 0L);
      * // array is now [1L, 0L, 3L, 0L, 5L]
      * }</pre>
      *
@@ -8410,7 +8434,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1L, -2L}, {3L, -4L}};
-     * replaceIf(array, x -> x < 0, 0L);
+     * Arrays.replaceIf(array, x -> x < 0, 0L);
      * // array is now {{1L, 0L}, {3L, 0L}}
      * }</pre>
      *
@@ -8438,7 +8462,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1L, 2L}}, {{-3L, 4L}}};
-     * replaceIf(array, x -> x < 0, 99L);
+     * Arrays.replaceIf(array, x -> x < 0, 99L);
      * // array is now {{{1L, 2L}}, {{99L, 4L}}}
      * }</pre>
      *
@@ -9260,7 +9284,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L, 2L, 3L}, {4L, 5L}, null, {6L}};
-     * int minLen = minSubArrayLength(a);
+     * int minLen = Arrays.minSubArrayLength(a);
      * // minLen will be 0
      * }</pre>
      *
@@ -9288,7 +9312,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L}, {2L, 3L}, null, {4L, 5L, 6L}};
-     * int maxLen = maxSubArrayLength(a);
+     * int maxLen = Arrays.maxSubArrayLength(a);
      * // maxLen will be 3
      * }</pre>
      *
@@ -14528,7 +14552,6 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional {@code double} array, or an empty array if the input is {@code null} or empty.
      * @see #toDouble(float[][])
      * @see #toDouble(float[][][])
-     * @see #toFloat(double[])
      */
     public static double[] toDouble(final float[] a) {
         if (N.isEmpty(a)) {
@@ -14964,7 +14987,7 @@ public sealed class Arrays permits Arrays.f {
          * Private constructor to prevent instantiation of this utility class.
          */
         private ff() {
-            // Singleton
+            // utility class
         }
 
         /**
@@ -15842,8 +15865,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Resolves target element type for zip methods that infer result type from {@code A}.
-         * When {@code a} is null, falls back to {@code defaultValueA}.
+         * Resolves the target element type for zip methods that infer the result type from {@code A}.
+         * When {@code a} is {@code null}, falls back to the runtime type of {@code defaultValueA}.
+         *
+         * @param <A> the inferred element type.
+         * @param a the first input array, used to extract the component type; may be {@code null}.
+         * @param defaultValueA the default value, used as a fallback for type inference; may be {@code null}.
+         * @return the resolved element type, never {@code null}.
+         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}.
          */
         @SuppressWarnings("unchecked")
         private static <A> Class<A> resolveTargetElementTypeForZipWithDefaults(final A[][] a, final A defaultValueA) {
@@ -15859,6 +15888,15 @@ public sealed class Arrays permits Arrays.f {
                     "Unable to infer target element type: both 'a' and 'defaultValueA' are null. Use the overload with targetElementType.");
         }
 
+        /**
+         * Scans all elements of a two-dimensional mapped-value array and widens the target element
+         * type as necessary so that every element is assignable to the returned type.
+         *
+         * @param <T> the candidate element type.
+         * @param initialTargetElementType the starting type, possibly inferred from the source array.
+         * @param mappedValues the mapped result values whose runtime types are inspected.
+         * @return the most specific common type that is assignable from every non-null element.
+         */
         @SuppressWarnings("unchecked")
         static <T> Class<T> inferTargetElementType(final Class<T> initialTargetElementType, final Object[][] mappedValues) {
             Class<T> targetElementType = initialTargetElementType;
@@ -15874,6 +15912,15 @@ public sealed class Arrays permits Arrays.f {
             return targetElementType;
         }
 
+        /**
+         * Scans all elements of a three-dimensional mapped-value array and widens the target element
+         * type as necessary so that every element is assignable to the returned type.
+         *
+         * @param <T> the candidate element type.
+         * @param initialTargetElementType the starting type, possibly inferred from the source array.
+         * @param mappedValues the mapped result values whose runtime types are inspected.
+         * @return the most specific common type that is assignable from every non-null element.
+         */
         static <T> Class<T> inferTargetElementType(final Class<T> initialTargetElementType, final Object[][][] mappedValues) {
             Class<T> targetElementType = initialTargetElementType;
 
@@ -15884,6 +15931,17 @@ public sealed class Arrays permits Arrays.f {
             return targetElementType;
         }
 
+        /**
+         * Returns a type that is at least as wide as {@code currentTargetElementType} and is also
+         * assignable from the runtime type of {@code value}.  If {@code value} is {@code null} or
+         * already assignable to {@code currentTargetElementType}, the current type is returned
+         * unchanged; otherwise the common assignable ancestor is computed.
+         *
+         * @param <T> the current candidate type.
+         * @param currentTargetElementType the previously inferred element type, or {@code null} if none.
+         * @param value a mapped result value whose runtime type may require widening.
+         * @return the widened element type, never {@code null}.
+         */
         @SuppressWarnings("unchecked")
         static <T> Class<T> widenTargetElementType(final Class<T> currentTargetElementType, final Object value) {
             if (currentTargetElementType == null) {
@@ -15956,6 +16014,14 @@ public sealed class Arrays permits Arrays.f {
             return best;
         }
 
+        /**
+         * Performs a breadth-first traversal of the type hierarchy rooted at {@code startType}
+         * (following both superclass and interface edges) and records the minimum graph distance
+         * from {@code startType} to each reachable type.
+         *
+         * @param startType the type from which distances are measured.
+         * @return a map from each reachable type to its minimum distance from {@code startType}.
+         */
         private static Map<Class<?>, Integer> collectTypeDistances(final Class<?> startType) {
             final Map<Class<?>, Integer> distances = new LinkedHashMap<>();
             final Deque<Class<?>> queue = new ArrayDeque<>();
@@ -15982,6 +16048,20 @@ public sealed class Arrays permits Arrays.f {
             return distances;
         }
 
+        /**
+         * Returns a penalty score used during common-type resolution to prefer concrete classes
+         * over marker interfaces and {@link Object}.  Lower scores are preferred.
+         *
+         * <ul>
+         *   <li>3 — {@link Object} (least preferred)</li>
+         *   <li>2 — a marker interface (no declared methods)</li>
+         *   <li>1 — a non-marker interface</li>
+         *   <li>0 — a concrete class (most preferred)</li>
+         * </ul>
+         *
+         * @param type the candidate type to score.
+         * @return the penalty for the given type.
+         */
         private static int commonTypePenalty(final Class<?> type) {
             if (type == Object.class) {
                 return 3;
@@ -15994,6 +16074,15 @@ public sealed class Arrays permits Arrays.f {
             return 0;
         }
 
+        /**
+         * Creates a typed two-dimensional array from an untyped two-dimensional array of mapped values,
+         * casting each element to the target element type.
+         *
+         * @param <T> the target element type.
+         * @param mappedValues the raw mapped values, typically produced by a zip or map operation.
+         * @param targetElementType the desired element type for the result array.
+         * @return a new two-dimensional array of the target type containing the same elements.
+         */
         @SuppressWarnings("unchecked")
         static <T> T[][] castToTargetElementType(final Object[][] mappedValues, final Class<T> targetElementType) {
             final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.len(mappedValues));
@@ -16012,6 +16101,15 @@ public sealed class Arrays permits Arrays.f {
             return result;
         }
 
+        /**
+         * Creates a typed three-dimensional array from an untyped three-dimensional array of mapped values,
+         * casting each element to the target element type.
+         *
+         * @param <T> the target element type.
+         * @param mappedValues the raw mapped values, typically produced by a zip or map operation.
+         * @param targetElementType the desired element type for the result array.
+         * @return a new three-dimensional array of the target type containing the same elements.
+         */
         static <T> T[][][] castToTargetElementType(final Object[][][] mappedValues, final Class<T> targetElementType) {
             final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), N.len(mappedValues));
 
@@ -16023,19 +16121,20 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * A private helper method to zip elements of two one-dimensional arrays into a result array.
-         * @param a first array.
-         * @param b second array.
-         * @param defaultValueA default value for first array.
-         * @param defaultValueB default value for second array.
-         * @param zipFunction function to combine elements (must not be {@code null}).
-         * @param targetElementType class of the result element type (must not be {@code null}).
+         * Zips corresponding elements from two one-dimensional arrays into a result array, using
+         * default values for missing elements when one array is shorter than the other.
          *
-         * @param <A> type of first array element.
-         * @param <B> type of second array element.
-         * @param <R> type of result array element.
-         * @param <E> type of exception.
-         * @return a new array of zipped elements.
+         * @param <A> the element type of the first array.
+         * @param <B> the element type of the second array.
+         * @param <R> the element type of the result array.
+         * @param <E> the type of exception that may be thrown by the zip function.
+         * @param a the first array (can be {@code null}, treated as empty).
+         * @param b the second array (can be {@code null}, treated as empty).
+         * @param defaultValueA the default value used when the first array is shorter.
+         * @param defaultValueB the default value used when the second array is shorter.
+         * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
+         * @param targetElementType the class of the result element type (must not be {@code null}).
+         * @return a new array of zipped elements with length equal to the longer input array.
          * @throws E if the zip function fails.
          */
         private static <A, B, R, E extends Exception> R[] zip(final A[] a, final B[] b, final A defaultValueA, final B defaultValueB,
@@ -16064,22 +16163,23 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * A private helper method to zip elements of three one-dimensional arrays into a result array.
+         * Zips corresponding elements from three one-dimensional arrays into a result array, using
+         * default values for missing elements when any array is shorter than the longest one.
          *
-         * @param <A> type of first array element.
-         * @param <B> type of second array element.
-         * @param <C> type of third array element.
-         * @param <R> type of result array element.
-         * @param <E> type of exception.
-         * @param a first array.
-         * @param b second array.
-         * @param c third array.
-         * @param defaultValueA default value for first array.
-         * @param defaultValueB default value for second array.
-         * @param defaultValueC default value for third array.
-         * @param zipFunction function to combine elements (must not be {@code null}).
-         * @param targetElementType class of the result element type (must not be {@code null}).
-         * @return a new array of zipped elements.
+         * @param <A> the element type of the first array.
+         * @param <B> the element type of the second array.
+         * @param <C> the element type of the third array.
+         * @param <R> the element type of the result array.
+         * @param <E> the type of exception that may be thrown by the zip function.
+         * @param a the first array (can be {@code null}, treated as empty).
+         * @param b the second array (can be {@code null}, treated as empty).
+         * @param c the third array (can be {@code null}, treated as empty).
+         * @param defaultValueA the default value used when the first array is shorter.
+         * @param defaultValueB the default value used when the second array is shorter.
+         * @param defaultValueC the default value used when the third array is shorter.
+         * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
+         * @param targetElementType the class of the result element type (must not be {@code null}).
+         * @return a new array of zipped elements with length equal to the longest input array.
          * @throws E if the zip function fails.
          */
         private static <A, B, C, R, E extends Exception> R[] zip(final A[] a, final B[] b, final C[] c, final A defaultValueA, final B defaultValueB,
@@ -16273,7 +16373,7 @@ public sealed class Arrays permits Arrays.f {
          * This class is designed to be used statically only.
          */
         private fff() {
-            // Singleton
+            // utility class
         }
 
         /**
@@ -17202,8 +17302,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Resolves target element type for zip methods that infer result type from {@code A}.
-         * When {@code a} is null, falls back to {@code defaultValueA}.
+         * Resolves the target element type for zip methods that infer the result type from {@code A}.
+         * When {@code a} is {@code null}, falls back to the runtime type of {@code defaultValueA}.
+         *
+         * @param <A> the inferred element type.
+         * @param a the first input array, used to extract the component type; may be {@code null}.
+         * @param defaultValueA the default value, used as a fallback for type inference; may be {@code null}.
+         * @return the resolved element type, never {@code null}.
+         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}.
          */
         @SuppressWarnings("unchecked")
         private static <A> Class<A> resolveTargetElementTypeForZipWithDefaults(final A[][][] a, final A defaultValueA) {

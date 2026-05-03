@@ -1084,8 +1084,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the bi-consumer to perform on the two elements
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @param action the bi-consumer to perform on the two elements, must not be {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
@@ -1111,9 +1110,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the bi-function to apply to the two elements
+         * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
-         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1140,9 +1138,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the bi-predicate to test the two elements
+         * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
@@ -1355,8 +1352,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the tri-consumer to perform on the three elements
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @param action the tri-consumer to perform on the three elements, must not be {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws E {
@@ -1383,9 +1379,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the tri-function to apply to the three elements
+         * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
-         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1412,9 +1407,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the tri-predicate to test the three elements
+         * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws E {

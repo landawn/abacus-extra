@@ -33,6 +33,9 @@ import com.landawn.abacus.util.stream.IntStream;
  */
 @Beta
 public final class ImmutableIntArray implements Immutable {
+    /**
+     * The number of elements in this array; equals {@code elements.length}.
+     */
     private final int length;
 
     /**
@@ -193,7 +196,7 @@ public final class ImmutableIntArray implements Immutable {
      * int last = array.get(array.length() - 1);   // returns 20
      * }</pre>
      *
-     * @param index the zero-based index of the element to retrieve (must be {@code >= 0 and < length()})
+     * @param index the zero-based index of the element to retrieve; must be {@code >= 0} and {@code < length()}
      * @return the int element at the specified index
      * @throws ArrayIndexOutOfBoundsException if the index is negative or greater than or equal to {@code length()}
      */
@@ -355,9 +358,9 @@ public final class ImmutableIntArray implements Immutable {
      * }</pre>
      *
      * @param fromIndex the starting index (inclusive) of the range to copy (must be {@code >= 0})
-     * @param toIndex the ending index (exclusive) of the range to copy (must be {@code <= length})
+     * @param toIndex the ending index (exclusive) of the range to copy (must be {@code <= length()})
      * @return a newly allocated int array containing the elements in {@code [fromIndex, toIndex)}
-     * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length},
+     * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
      *                                   or {@code fromIndex > toIndex}
      * @see java.util.Arrays#copyOfRange(int[], int, int)
      */

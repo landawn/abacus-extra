@@ -1602,11 +1602,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * This class provides direct access to elements through public final fields
      * {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * CharTuple.CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
-     * }</pre>
      */
     public static final class CharTuple4 extends CharTuple<CharTuple4> {
 
@@ -1632,12 +1627,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the number of elements in this tuple, which is always 4.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-         * int size = tuple.arity();   // 4
-         * }</pre>
          *
          * @return 4
          */
@@ -1838,11 +1827,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * This class provides direct access to elements through public final fields
      * {@code _1} through {@code _5}.
      * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * CharTuple.CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
-     * }</pre>
      */
     public static final class CharTuple5 extends CharTuple<CharTuple5> {
 
@@ -1871,12 +1855,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the number of elements in this tuple, which is always 5.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-         * int size = tuple.arity();   // 5
-         * }</pre>
          *
          * @return 5
          */
@@ -2078,11 +2056,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * This class provides direct access to elements through public final fields
      * {@code _1} through {@code _6}.
      * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * CharTuple.CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
-     * }</pre>
      */
     public static final class CharTuple6 extends CharTuple<CharTuple6> {
 
@@ -2114,12 +2087,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the number of elements in this tuple, which is always 6.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-         * int size = tuple.arity();   // 6
-         * }</pre>
          *
          * @return 6
          */
@@ -2322,11 +2289,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * This class provides direct access to elements through public final fields
      * {@code _1} through {@code _7}.
      * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * CharTuple.CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-     * }</pre>
      */
     public static final class CharTuple7 extends CharTuple<CharTuple7> {
 
@@ -2361,12 +2323,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the number of elements in this tuple, which is always 7.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-         * int size = tuple.arity();   // 7
-         * }</pre>
          *
          * @return 7
          */
@@ -2611,12 +2567,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the number of elements in this tuple, which is always 8.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-         * int size = tuple.arity();   // 8
-         * }</pre>
          *
          * @return 8
          */
@@ -2866,12 +2816,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the number of elements in this tuple, which is always 9.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-         * int size = tuple.arity();   // 9
-         * }</pre>
          *
          * @return 9
          */

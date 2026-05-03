@@ -628,10 +628,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * Returns a string representation of this tuple.
      * <p>
-     * The string representation consists of the tuple elements enclosed in square brackets
-     * and separated by commas and spaces, in the format {@code [element1, element2, ...]}.
-     * Subclasses with arity 1-9 override this method to render their contents enclosed
-     * in parentheses (for example, {@code "(1, 2, 3)"}); the empty tuple renders as {@code "()"}.
+     * The string representation consists of the tuple elements enclosed in parentheses
+     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
+     * The empty tuple renders as {@code "()"}.
      * </p>
      *
      * @return a string representation of this tuple
@@ -656,9 +655,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     protected abstract short[] elements();
 
     /**
-     * An empty tuple containing no elements.
-     * This class is used to represent a tuple with zero elements
-     * and is returned by {@link #copyOf(short[])} when passed a null or empty array.
+     * An empty ShortTuple containing no elements (arity 0).
+     * <p>
+     * This package-private class is exposed only through the base {@code ShortTuple} type
+     * via the singleton instance returned by {@link #copyOf(short[])} when invoked with a
+     * {@code null} or zero-length array. {@link #sum()} returns 0, while {@link #min()},
+     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link java.util.NoSuchElementException}.
+     * </p>
      */
     static final class ShortTuple0 extends ShortTuple<ShortTuple0> {
 
@@ -714,10 +717,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all values in this tuple as an int.
-         * For an empty tuple, the sum is 0.
+         * Returns the sum of all short values in this tuple as an int.
+         * Since this tuple is empty, always returns 0.
          *
-         * @return 0 as an int
+         * @return 0
          */
         @Override
         public int sum() {
@@ -737,10 +740,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a tuple with the elements in reverse order.
-         * For an empty tuple, returns itself as there are no elements to reverse.
+         * Returns this empty tuple (reversing an empty tuple has no effect).
          *
-         * @return this empty tuple
+         * @return this {@code ShortTuple0} instance
          */
         @Override
         public ShortTuple0 reverse() {
@@ -748,11 +750,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if this tuple contains the specified value.
-         * An empty tuple contains no values.
+         * Checks if this tuple contains the specified short value.
+         * An empty tuple never contains any value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code false} always, as the tuple is empty
+         * @return {@code false} always, because this tuple contains no elements
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -781,13 +783,18 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * A tuple containing exactly one short value.
-     * The value is accessible through the public final field {@code _1}.
-     * 
+     * A ShortTuple containing exactly one short element.
+     * <p>
+     * Provides direct access to the element through the public final field {@code _1}.
+     * This is the simplest non-empty tuple type, useful for wrapping a single short value
+     * in a tuple context.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple.ShortTuple1 single = ShortTuple.of((short)42);
+     * ShortTuple.ShortTuple1 single = ShortTuple.of((short) 42);
      * short value = single._1;  // 42
+     * short min = single.min();  // 42 (single element)
      * }</pre>
      */
     public static final class ShortTuple1 extends ShortTuple<ShortTuple1> {
@@ -814,10 +821,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value in this tuple.
-         * For a single-element tuple, this is the element itself.
+         * Returns the minimum short value in this tuple.
+         * Since this tuple contains only one element, it returns that element.
          *
-         * @return the single element value
+         * @return the single short value in this tuple
          */
         @Override
         public short min() {
@@ -825,10 +832,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value in this tuple.
-         * For a single-element tuple, this is the element itself.
+         * Returns the maximum short value in this tuple.
+         * Since this tuple contains only one element, it returns that element.
          *
-         * @return the single element value
+         * @return the single short value in this tuple
          */
         @Override
         public short max() {
@@ -836,10 +843,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value in this tuple.
-         * For a single-element tuple, this is the element itself.
+         * Returns the median short value in this tuple.
+         * Since this tuple contains only one element, it returns that element.
          *
-         * @return the single element value
+         * @return the single short value in this tuple
          */
         @Override
         public short median() {
@@ -847,10 +854,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all values in this tuple as an int.
-         * For a single-element tuple, this is the element itself converted to int.
+         * Returns the sum of all short values in this tuple as an int.
+         * Since this tuple contains only one element, it returns that element widened to an {@code int}.
          *
-         * @return the single element value as an int
+         * @return the single short value widened to an {@code int}
          */
         @Override
         public int sum() {
@@ -858,10 +865,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of all values in this tuple.
-         * For a single-element tuple, this is the element itself.
+         * Returns the average of all short values in this tuple as a double.
+         * Since this tuple contains only one element, it returns that element converted to a {@code double}.
          *
-         * @return the single element value as a double
+         * @return the single short value as a {@code double}
          */
         @Override
         public double average() {
@@ -869,10 +876,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
-         * For a single-element tuple, returns a new tuple with the same value.
+         * Returns a new ShortTuple.ShortTuple1 with the same element.
+         * Since this tuple has only one element, reversing has no effect on the contained value.
          *
-         * @return a new ShortTuple.ShortTuple1 with the same value
+         * @return a new ShortTuple.ShortTuple1 with the same element
          */
         @Override
         public ShortTuple1 reverse() {
@@ -880,10 +887,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if this tuple contains the specified value.
+         * Checks if this tuple contains the specified short value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code true} if the value equals _1, {@code false} otherwise
+         * @return {@code true} if the element equals {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -893,7 +900,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return the hash code of the single element
+         * @return the single short element widened to an {@code int}
          */
         @Override
         public int hashCode() {
@@ -903,8 +910,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if the object is a ShortTuple.ShortTuple1 with the same value
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ShortTuple.ShortTuple1 with the same element, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -920,7 +927,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string in the format "(value)"
+         * @return a string representation in the format "(element)"
          */
         @Override
         public String toString() {
@@ -931,7 +938,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          *
-         * @return a short array containing all elements of this tuple
+         * @return a short array containing the single element
          */
         @Override
         protected short[] elements() {
@@ -988,9 +995,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value among the two elements.
+         * Returns the minimum short value in this tuple.
          *
-         * @return the smaller of _1 and _2
+         * @return the smaller of the two short values
          */
         @Override
         public short min() {
@@ -998,9 +1005,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value among the two elements.
+         * Returns the maximum short value in this tuple.
          *
-         * @return the larger of _1 and _2
+         * @return the larger of the two short values
          */
         @Override
         public short max() {
@@ -1019,9 +1026,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of the two elements as an int.
+         * Returns the sum of all short values in this tuple as an int.
          *
-         * @return _1 + _2 as an int
+         * @return the sum of both short values as an {@code int}
          */
         @Override
         public int sum() {
@@ -1029,9 +1036,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of the two elements.
+         * Returns the average of all short values in this tuple as a double.
          *
-         * @return (_1 + _2) / 2.0 as a double
+         * @return the average of both short values as a {@code double}
          */
         @Override
         public double average() {
@@ -1039,9 +1046,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
+         * Returns a new ShortTuple.ShortTuple2 with the elements in reverse order.
          *
-         * @return a new ShortTuple.ShortTuple2 with values (_2, _1)
+         * @return a new ShortTuple.ShortTuple2 with the elements swapped
          */
         @Override
         public ShortTuple2 reverse() {
@@ -1049,10 +1056,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if either element equals the specified value.
+         * Checks if this tuple contains the specified short value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code true} if valueToFind equals _1 or _2
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1060,10 +1067,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action for each element in order.
+         * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
+         * @param consumer the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
@@ -1165,7 +1172,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return 31 * _1 + _2
+         * @return a hash code value calculated from both elements
          */
         @Override
         public int hashCode() {
@@ -1175,8 +1182,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if the object is a ShortTuple.ShortTuple2 with the same values
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ShortTuple.ShortTuple2 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1192,7 +1199,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string in the format "(_1, _2)"
+         * @return a string representation in the format "(element1, element2)"
          */
         @Override
         public String toString() {
@@ -1203,7 +1210,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          *
-         * @return a short array containing all elements of this tuple
+         * @return a short array containing all elements in order
          */
         @Override
         protected short[] elements() {
@@ -1263,9 +1270,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value among the three elements.
+         * Returns the minimum short value in this tuple.
          *
-         * @return the smallest of _1, _2, and _3
+         * @return the smallest of the three short values
          */
         @Override
         public short min() {
@@ -1273,9 +1280,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value among the three elements.
+         * Returns the maximum short value in this tuple.
          *
-         * @return the largest of _1, _2, and _3
+         * @return the largest of the three short values
          */
         @Override
         public short max() {
@@ -1283,7 +1290,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value of the three elements.
+         * Returns the median short value in this tuple.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
          *
          * @return the middle short value when sorted
          */
@@ -1293,9 +1301,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all three elements as an int.
+         * Returns the sum of all short values in this tuple as an int.
          *
-         * @return _1 + _2 + _3 as an int
+         * @return the sum of all three short values as an {@code int}
          */
         @Override
         public int sum() {
@@ -1303,9 +1311,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of all three elements.
+         * Returns the average of all short values in this tuple as a double.
          *
-         * @return (_1 + _2 + _3) / 3.0 as a double
+         * @return the average of all three short values as a {@code double}
          */
         @Override
         public double average() {
@@ -1313,9 +1321,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
+         * Returns a new ShortTuple.ShortTuple3 with the elements in reverse order.
          *
-         * @return a new ShortTuple.ShortTuple3 with values (_3, _2, _1)
+         * @return a new ShortTuple.ShortTuple3 with the elements in reverse order
          */
         @Override
         public ShortTuple3 reverse() {
@@ -1323,10 +1331,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if any element equals the specified value.
+         * Checks if this tuple contains the specified short value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code true} if valueToFind equals _1, _2, or _3
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1334,10 +1342,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action for each element in order.
+         * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
+         * @param consumer the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
@@ -1440,7 +1448,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return (31 * (31 * _1 + _2)) + _3
+         * @return a hash code value calculated from all three elements
          */
         @Override
         public int hashCode() {
@@ -1450,8 +1458,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if the object is a ShortTuple.ShortTuple3 with the same values
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ShortTuple.ShortTuple3 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1467,7 +1475,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string in the format "(_1, _2, _3)"
+         * @return a string representation in the format "(element1, element2, element3)"
          */
         @Override
         public String toString() {
@@ -1478,7 +1486,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          *
-         * @return a short array containing all elements of this tuple
+         * @return a short array containing all elements in order
          */
         @Override
         protected short[] elements() {
@@ -1533,9 +1541,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value among the four elements.
+         * Returns the minimum short value in this tuple.
          *
-         * @return the smallest of _1, _2, _3, and _4
+         * @return the smallest of the four short values
          */
         @Override
         public short min() {
@@ -1543,9 +1551,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value among the four elements.
+         * Returns the maximum short value in this tuple.
          *
-         * @return the largest of _1, _2, _3, and _4
+         * @return the largest of the four short values
          */
         @Override
         public short max() {
@@ -1553,7 +1561,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value of the four elements.
+         * Returns the median short value in this tuple.
          * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower middle) short value when sorted
@@ -1564,9 +1572,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all four elements as an int.
+         * Returns the sum of all short values in this tuple as an int.
          *
-         * @return _1 + _2 + _3 + _4 as an int
+         * @return the sum of all four short values as an {@code int}
          */
         @Override
         public int sum() {
@@ -1574,9 +1582,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of all four elements.
+         * Returns the average of all short values in this tuple as a double.
          *
-         * @return (_1 + _2 + _3 + _4) / 4.0 as a double
+         * @return the average of all four short values as a {@code double}
          */
         @Override
         public double average() {
@@ -1584,9 +1592,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
+         * Returns a new ShortTuple.ShortTuple4 with the elements in reverse order.
          *
-         * @return a new ShortTuple.ShortTuple4 with values (_4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple4 with the elements in reverse order
          */
         @Override
         public ShortTuple4 reverse() {
@@ -1594,10 +1602,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if any element equals the specified value.
+         * Checks if this tuple contains the specified short value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code true} if valueToFind equals any of the four elements
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1605,10 +1613,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action for each element in order.
+         * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
+         * @param consumer the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
@@ -1624,10 +1632,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all four elements.
          *
-         * @return a hash code based on all four elements
+         * @return a hash code value calculated from all four elements
          */
         @Override
         public int hashCode() {
@@ -1635,12 +1641,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple.ShortTuple4 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple.ShortTuple4 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ShortTuple.ShortTuple4 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1655,9 +1659,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (_1, _2, _3, _4) where each element is displayed in order.
          *
-         * @return a string representation in the format "(_1, _2, _3, _4)"
+         * @return a string representation in the format "(element1, element2, element3, element4)"
          */
         @Override
         public String toString() {
@@ -1668,7 +1671,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          *
-         * @return a short array containing all elements of this tuple
+         * @return a short array containing all elements in order
          */
         @Override
         protected short[] elements() {
@@ -1726,9 +1729,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value among the five elements.
+         * Returns the minimum short value in this tuple.
          *
-         * @return the smallest of _1, _2, _3, _4, and _5
+         * @return the smallest of the five short values
          */
         @Override
         public short min() {
@@ -1736,9 +1739,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value among the five elements.
+         * Returns the maximum short value in this tuple.
          *
-         * @return the largest of _1, _2, _3, _4, and _5
+         * @return the largest of the five short values
          */
         @Override
         public short max() {
@@ -1746,10 +1749,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value of the five elements.
+         * Returns the median short value in this tuple.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
-         * @return the median short value
+         * @return the middle short value when sorted
          */
         @Override
         public short median() {
@@ -1757,9 +1760,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all five elements as an int.
+         * Returns the sum of all short values in this tuple as an int.
          *
-         * @return _1 + _2 + _3 + _4 + _5 as an int
+         * @return the sum of all five short values as an {@code int}
          */
         @Override
         public int sum() {
@@ -1767,9 +1770,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of all five elements.
+         * Returns the average of all short values in this tuple as a double.
          *
-         * @return (_1 + _2 + _3 + _4 + _5) / 5.0 as a double
+         * @return the average of all five short values as a {@code double}
          */
         @Override
         public double average() {
@@ -1777,9 +1780,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
+         * Returns a new ShortTuple.ShortTuple5 with the elements in reverse order.
          *
-         * @return a new ShortTuple.ShortTuple5 with values (_5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple5 with the elements in reverse order
          */
         @Override
         public ShortTuple5 reverse() {
@@ -1787,10 +1790,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if any element equals the specified value.
+         * Checks if this tuple contains the specified short value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code true} if valueToFind equals any of the five elements
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1798,10 +1801,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action for each element in order.
+         * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
+         * @param consumer the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
@@ -1818,10 +1821,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all five elements.
          *
-         * @return a hash code based on all five elements
+         * @return a hash code value calculated from all five elements
          */
         @Override
         public int hashCode() {
@@ -1829,12 +1830,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple.ShortTuple5 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple.ShortTuple5 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ShortTuple.ShortTuple5 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1849,9 +1848,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (_1, _2, _3, _4, _5) where each element is displayed in order.
          *
-         * @return a string representation in the format "(_1, _2, _3, _4, _5)"
+         * @return a string representation in the format "(element1, element2, element3, element4, element5)"
          */
         @Override
         public String toString() {
@@ -1862,7 +1860,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          *
-         * @return a short array containing all elements of this tuple
+         * @return a short array containing all elements in order
          */
         @Override
         protected short[] elements() {
@@ -1923,9 +1921,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value among the six elements.
+         * Returns the minimum short value in this tuple.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, and _6
+         * @return the smallest of the six short values
          */
         @Override
         public short min() {
@@ -1933,9 +1931,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value among the six elements.
+         * Returns the maximum short value in this tuple.
          *
-         * @return the largest of _1, _2, _3, _4, _5, and _6
+         * @return the largest of the six short values
          */
         @Override
         public short max() {
@@ -1943,7 +1941,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value of the six elements.
+         * Returns the median short value in this tuple.
          * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower middle) short value when sorted
@@ -1954,9 +1952,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all six elements as an int.
+         * Returns the sum of all short values in this tuple as an int.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 as an int
+         * @return the sum of all six short values as an {@code int}
          */
         @Override
         public int sum() {
@@ -1964,9 +1962,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of all six elements.
+         * Returns the average of all short values in this tuple as a double.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0 as a double
+         * @return the average of all six short values as a {@code double}
          */
         @Override
         public double average() {
@@ -1974,9 +1972,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
+         * Returns a new ShortTuple.ShortTuple6 with the elements in reverse order.
          *
-         * @return a new ShortTuple.ShortTuple6 with values (_6, _5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple6 with the elements in reverse order
          */
         @Override
         public ShortTuple6 reverse() {
@@ -1984,10 +1982,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if any element equals the specified value.
+         * Checks if this tuple contains the specified short value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code true} if valueToFind equals any of the six elements
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1995,10 +1993,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action for each element in order.
+         * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
+         * @param consumer the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
@@ -2016,10 +2014,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all six elements.
          *
-         * @return a hash code based on all six elements
+         * @return a hash code value calculated from all six elements
          */
         @Override
         public int hashCode() {
@@ -2027,12 +2023,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple.ShortTuple6 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple.ShortTuple6 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ShortTuple.ShortTuple6 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2047,9 +2041,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (_1, _2, _3, _4, _5, _6) where each element is displayed in order.
          *
-         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6)"
+         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6)"
          */
         @Override
         public String toString() {
@@ -2060,7 +2053,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          *
-         * @return a short array containing all elements of this tuple
+         * @return a short array containing all elements in order
          */
         @Override
         protected short[] elements() {
@@ -2124,9 +2117,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value among the seven elements.
+         * Returns the minimum short value in this tuple.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, _6, and _7
+         * @return the smallest of the seven short values
          */
         @Override
         public short min() {
@@ -2134,9 +2127,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value among the seven elements.
+         * Returns the maximum short value in this tuple.
          *
-         * @return the largest of _1, _2, _3, _4, _5, _6, and _7
+         * @return the largest of the seven short values
          */
         @Override
         public short max() {
@@ -2144,10 +2137,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value of the seven elements.
+         * Returns the median short value in this tuple.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
-         * @return the median short value
+         * @return the middle short value when sorted
          */
         @Override
         public short median() {
@@ -2155,9 +2148,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all seven elements as an int.
+         * Returns the sum of all short values in this tuple as an int.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 as an int
+         * @return the sum of all seven short values as an {@code int}
          */
         @Override
         public int sum() {
@@ -2165,9 +2158,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of all seven elements.
+         * Returns the average of all short values in this tuple as a double.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0 as a double
+         * @return the average of all seven short values as a {@code double}
          */
         @Override
         public double average() {
@@ -2175,9 +2168,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
+         * Returns a new ShortTuple.ShortTuple7 with the elements in reverse order.
          *
-         * @return a new ShortTuple.ShortTuple7 with values (_7, _6, _5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple7 with the elements in reverse order
          */
         @Override
         public ShortTuple7 reverse() {
@@ -2185,10 +2178,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if any element equals the specified value.
+         * Checks if this tuple contains the specified short value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code true} if valueToFind equals any of the seven elements
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -2197,10 +2190,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action for each element in order.
+         * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
+         * @param consumer the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
@@ -2219,10 +2212,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all seven elements.
          *
-         * @return a hash code based on all seven elements
+         * @return a hash code value calculated from all seven elements
          */
         @Override
         public int hashCode() {
@@ -2230,12 +2221,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple.ShortTuple7 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple.ShortTuple7 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ShortTuple.ShortTuple7 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2250,9 +2239,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (_1, _2, _3, _4, _5, _6, _7) where each element is displayed in order.
          *
-         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7)"
+         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6, element7)"
          */
         @Override
         public String toString() {
@@ -2263,7 +2251,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          *
-         * @return a short array containing all elements of this tuple
+         * @return a short array containing all elements in order
          */
         @Override
         protected short[] elements() {
@@ -2334,9 +2322,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value among the eight elements.
+         * Returns the minimum short value in this tuple.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, and _8
+         * @return the smallest of the eight short values
          */
         @Override
         public short min() {
@@ -2344,9 +2332,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value among the eight elements.
+         * Returns the maximum short value in this tuple.
          *
-         * @return the largest of _1, _2, _3, _4, _5, _6, _7, and _8
+         * @return the largest of the eight short values
          */
         @Override
         public short max() {
@@ -2354,7 +2342,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value of the eight elements.
+         * Returns the median short value in this tuple.
          * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower middle) short value when sorted
@@ -2365,9 +2353,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all eight elements as an int.
+         * Returns the sum of all short values in this tuple as an int.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 as an int
+         * @return the sum of all eight short values as an {@code int}
          */
         @Override
         public int sum() {
@@ -2375,9 +2363,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of all eight elements.
+         * Returns the average of all short values in this tuple as a double.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0 as a double
+         * @return the average of all eight short values as a {@code double}
          */
         @Override
         public double average() {
@@ -2385,9 +2373,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
+         * Returns a new ShortTuple.ShortTuple8 with the elements in reverse order.
          *
-         * @return a new ShortTuple.ShortTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple8 with the elements in reverse order
          */
         @Override
         public ShortTuple8 reverse() {
@@ -2395,10 +2383,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if any element equals the specified value.
+         * Checks if this tuple contains the specified short value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code true} if valueToFind equals any of the eight elements
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -2407,10 +2395,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action for each element in order.
+         * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
+         * @param consumer the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
@@ -2430,10 +2418,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all eight elements.
          *
-         * @return a hash code based on all eight elements
+         * @return a hash code value calculated from all eight elements
          */
         @Override
         public int hashCode() {
@@ -2441,12 +2427,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple.ShortTuple8 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple.ShortTuple8 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ShortTuple.ShortTuple8 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2462,9 +2446,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (_1, _2, _3, _4, _5, _6, _7, _8) where each element is displayed in order.
          *
-         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8)"
+         * @return a string representation in the format "(element1, element2, ..., element8)"
          */
         @Override
         public String toString() {
@@ -2475,7 +2458,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          *
-         * @return a short array containing all elements of this tuple
+         * @return a short array containing all elements in order
          */
         @Override
         protected short[] elements() {
@@ -2550,9 +2533,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value among the nine elements.
+         * Returns the minimum short value in this tuple.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         * @return the smallest of the nine short values
          */
         @Override
         public short min() {
@@ -2560,9 +2543,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value among the nine elements.
+         * Returns the maximum short value in this tuple.
          *
-         * @return the largest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         * @return the largest of the nine short values
          */
         @Override
         public short max() {
@@ -2570,10 +2553,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value of the nine elements.
+         * Returns the median short value in this tuple.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
-         * @return the median short value
+         * @return the middle short value when sorted
          */
         @Override
         public short median() {
@@ -2581,9 +2564,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all nine elements as an int.
+         * Returns the sum of all short values in this tuple as an int.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9 as an int
+         * @return the sum of all nine short values as an {@code int}
          */
         @Override
         public int sum() {
@@ -2591,9 +2574,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of all nine elements.
+         * Returns the average of all short values in this tuple as a double.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0 as a double
+         * @return the average of all nine short values as a {@code double}
          */
         @Override
         public double average() {
@@ -2601,9 +2584,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
+         * Returns a new ShortTuple.ShortTuple9 with the elements in reverse order.
          *
-         * @return a new ShortTuple.ShortTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new ShortTuple.ShortTuple9 with the elements in reverse order
          */
         @Override
         public ShortTuple9 reverse() {
@@ -2611,10 +2594,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks if any element equals the specified value.
+         * Checks if this tuple contains the specified short value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code true} if valueToFind equals any of the nine elements
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -2623,10 +2606,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action for each element in order.
+         * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
+         * @param consumer the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
          */
@@ -2647,10 +2630,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all nine elements.
          *
-         * @return a hash code based on all nine elements
+         * @return a hash code value calculated from all nine elements
          */
         @Override
         public int hashCode() {
@@ -2658,12 +2639,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Compares this tuple to another object for equality.
-         * Two tuples are equal if they are both ShortTuple.ShortTuple9 instances
-         * and all corresponding elements are equal.
+         * Compares this tuple to the specified object for equality.
          *
-         * @param obj the object to compare with
-         * @return {@code true} if obj is a ShortTuple.ShortTuple9 with equal elements, {@code false} otherwise
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a ShortTuple.ShortTuple9 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2679,9 +2658,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is (_1, _2, _3, _4, _5, _6, _7, _8, _9) where each element is displayed in order.
          *
-         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8, _9)"
+         * @return a string representation in the format "(element1, element2, ..., element9)"
          */
         @Override
         public String toString() {
@@ -2692,7 +2670,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          *
-         * @return a short array containing all elements of this tuple
+         * @return a short array containing all elements in order
          */
         @Override
         protected short[] elements() {

@@ -28,6 +28,8 @@ import com.landawn.abacus.util.stream.DoubleStream;
  * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * @param <TP> the specific DoubleTuple subtype
+ * @see PrimitiveTuple
+ * @see FloatTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
@@ -651,9 +653,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns a string representation of this tuple.
      * <p>
-     * The string representation consists of the tuple elements enclosed in parentheses "( )"
-     * and separated by commas and spaces. This format provides a clear and readable
-     * representation of the tuple's contents.
+     * The string representation consists of the tuple elements enclosed in parentheses
+     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
+     * This format provides a clear and readable representation of the tuple's contents.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -770,10 +772,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a reversed version of this tuple.
-         * For an empty tuple, returns the same instance.
+         * Returns this empty tuple instance.
+         * Since this tuple has no elements, reversing has no effect.
          *
-         * @return this instance
+         * @return this {@code DoubleTuple0} instance
          */
         @Override
         public DoubleTuple0 reverse() {
@@ -1132,8 +1134,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the bi-consumer to perform on the two elements
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @param action the bi-consumer to perform on the two elements, must not be {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws E {
@@ -1163,9 +1164,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown by the mapper
-         * @param mapper the bi-function to apply to the two elements
-         * @return the result of applying the mapper to _1 and _2
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @param mapper the bi-function to apply to the two elements, must not be {@code null}
+         * @return the result of applying the mapper to _1 and _2 (may be {@code null} if the mapper returns {@code null})
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1198,9 +1198,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
-         * @param predicate the bi-predicate to test the two elements
-         * @return Optional containing this tuple if predicate returns true, empty otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @param predicate the bi-predicate to test the two elements, must not be {@code null}
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
@@ -1422,8 +1421,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the tri-consumer to perform on the three elements
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @param action the tri-consumer to perform on the three elements, must not be {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws E {
@@ -1454,9 +1452,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown by the mapper
-         * @param mapper the tri-function to apply to the three elements
-         * @return the result of applying the mapper to _1, _2, and _3
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @param mapper the tri-function to apply to the three elements, must not be {@code null}
+         * @return the result of applying the mapper to _1, _2, and _3 (may be {@code null} if the mapper returns {@code null})
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1489,9 +1486,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
-         * @param predicate the tri-predicate to test the three elements
-         * @return Optional containing this tuple if predicate returns true, empty otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @param predicate the tri-predicate to test the three elements, must not be {@code null}
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E {
