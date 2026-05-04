@@ -401,11 +401,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns the sum of all double values in this tuple.
      * <p>
-     * This method calculates the sum by adding all double values together using
-     * the Kahan summation algorithm for improved numerical accuracy. For an empty
-     * tuple, returns {@code 0.0}. If any element is {@code NaN}, the result is
-     * {@code NaN}. Infinities follow standard IEEE-754 addition rules
-     * (e.g. {@code +INF + -INF} produces {@code NaN}).
+     * For an empty tuple, returns {@code 0.0}. If any element is {@code NaN},
+     * the result is {@code NaN}. Infinities follow standard IEEE-754 addition
+     * rules (e.g. {@code +INF + -INF} produces {@code NaN}).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -427,9 +425,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns the arithmetic mean of all double values in this tuple.
      * <p>
-     * Computed using Kahan summation for improved numerical accuracy. If any
-     * element is {@code NaN}, the result is {@code NaN}. Infinities follow
-     * standard IEEE-754 rules.
+     * If any element is {@code NaN}, the result is {@code NaN}. Infinities
+     * follow standard IEEE-754 rules.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -517,6 +514,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * }</pre>
      *
      * @return a new double array containing all tuple elements
+     * @see #toList()
+     * @see #stream()
      */
     public double[] toArray() {
         return elements().clone();
@@ -540,6 +539,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * }</pre>
      *
      * @return a new DoubleList containing all tuple elements
+     * @see #toArray()
+     * @see #stream()
      */
     public DoubleList toList() {
         return DoubleList.of(elements().clone());
@@ -595,6 +596,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * }</pre>
      *
      * @return a DoubleStream containing all tuple elements
+     * @see #toArray()
+     * @see #toList()
      */
     public DoubleStream stream() {
         return DoubleStream.of(elements());
@@ -1050,8 +1053,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the two elements.
-         * The sum is computed using Kahan summation; if either element is
-         * {@code NaN} the result is {@code NaN}.
+         * If either element is {@code NaN} the result is {@code NaN}.
          *
          * @return the sum of {@code _1} and {@code _2}
          */
@@ -1332,8 +1334,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the three elements.
-         * Computed using Kahan summation; if any element is {@code NaN}, the
-         * result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * @return the sum of {@code _1}, {@code _2}, and {@code _3}
          */
@@ -1629,8 +1630,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the four elements.
-         * Computed using Kahan summation; if any element is {@code NaN}, the
-         * result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * @return the sum of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
@@ -1831,8 +1831,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the five elements.
-         * Computed using Kahan summation; if any element is {@code NaN}, the
-         * result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * @return the sum of {@code _1} through {@code _5}
          */
@@ -2040,8 +2039,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the six elements.
-         * Computed using Kahan summation; if any element is {@code NaN}, the
-         * result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * @return the sum of {@code _1} through {@code _6}
          */
@@ -2254,8 +2252,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the seven elements.
-         * Computed using Kahan summation; if any element is {@code NaN}, the
-         * result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * @return the sum of {@code _1} through {@code _7}
          */
@@ -2477,8 +2474,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the eight elements.
-         * Computed using Kahan summation; if any element is {@code NaN}, the
-         * result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * @return the sum of {@code _1} through {@code _8}
          */
@@ -2705,8 +2701,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of the nine elements.
-         * Computed using Kahan summation; if any element is {@code NaN}, the
-         * result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * @return the sum of {@code _1} through {@code _9}
          */

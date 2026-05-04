@@ -7,11 +7,6 @@ Use multiple agents to fix all javadoc issues reported by running: mvn javadoc:j
 
 Review all public methods in the classes located under foler: ./src/main/java/ for naming convention consistency, and provide suggestions for design and method naming improvements. 
 
-Perform a thorough deep line by line review for javadocs in all the classes under folder: ./src/main/java to improve/correct existing javadocs
-
-Perform a thorough deep line by line review for javadocs in all the classes in package com.landawn.abacus.type under folder: ./src/main/java to improve/correct existing javadocs
-
-Perform a thorough deep line by line review for javadocs in Multiset.java to improve/correct existing javadocs
 
 
 Perform a thorough deep line by line review for all the classes under folder: ./src/main/java to find bugs and fix them, and add unit tests for the fixes to existing test classes
@@ -19,6 +14,13 @@ Perform a thorough deep line by line review for all the classes under folder: ./
 Perform a thorough deep line by line review for all the classes in package com.landawn.abacus.util under folder: ./src/main/java to find bugs and fix them, and add unit tests for the fixes to existing test classes
 
 Are you sure you have identified and fixed all the bugs? Perform a thorough deep review again.
+
+
+Perform a thorough deep line by line review for javadocs in all the classes under folder: ./src/main/java to improve/correct existing javadocs
+
+Perform a thorough deep line by line review for javadocs in all the classes in package com.landawn.abacus.type under folder: ./src/main/java to improve/correct existing javadocs
+
+Perform a thorough deep line by line review for javadocs in Multiset.java to improve/correct existing javadocs
 
 
 -- ==========================================================

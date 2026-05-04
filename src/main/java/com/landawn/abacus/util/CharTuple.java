@@ -626,7 +626,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Returns a string representation of this tuple.
      * <p>
      * Each concrete subclass overrides this method to produce a representation in which
-     * the tuple's elements are enclosed in parentheses {@code "( )"} and separated by
+     * the tuple's elements are enclosed in parentheses {@code "()"} and separated by
      * a comma and space.
      * </p>
      *

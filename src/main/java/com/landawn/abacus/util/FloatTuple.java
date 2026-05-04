@@ -358,7 +358,13 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * Returns the median value of the elements in this tuple.
      * <p>
      * For tuples with an odd number of elements, returns the middle value when sorted.
-     * For tuples with an even number of elements, returns the lower middle value.
+     * For tuples with an even number of elements, returns the lower middle value
+     * (not the average of the two middle values).
+     * </p>
+     * <p>
+     * Ordering is performed with {@link Float#compare(float, float)} semantics, so
+     * {@code NaN} is treated as the largest value (and equal to itself), and
+     * {@code -0.0f} is treated as less than {@code +0.0f}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -374,6 +380,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @return the median float element in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see N#median(float...)
      */
     public float median() {
         return N.median(elements());
@@ -395,7 +402,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * float pairSum = pair.sum();   // 4.0f
      * }</pre>
      *
-     * @return the sum of all float values in this tuple
+     * @return the sum of all float values in this tuple, or {@code 0.0f} if empty
      * @see #average()
      */
     public float sum() {
@@ -527,10 +534,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Performs the given action for each element in this tuple.
+     * Performs the given action for each element in this tuple, in order from
+     * {@code _1} to the highest-indexed field.
      * <p>
      * This method iterates through all elements in the tuple in order, applying the specified
      * consumer action to each element. The action is performed for its side effects only.
+     * For an empty tuple this method returns immediately without invoking the consumer.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -544,7 +553,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the consumer
-     * @param consumer the action to be performed for each element
+     * @param consumer the action to be performed for each element; must not be {@code null}
      * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception
      */
@@ -586,10 +595,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p>
      * The hash code is computed based on the contents of the tuple's elements.
      * Tuples with identical elements in the same order will have the same hash code.
-     * This implementation ensures consistency with the {@link #equals(Object)} method.
+     * This implementation is consistent with {@link #equals(Object)}.
      * </p>
      *
      * @return a hash code value for this tuple
+     * @see #equals(Object)
      */
     @Override
     public int hashCode() {
@@ -613,6 +623,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
+     * @see #hashCode()
      */
     @Override
     public boolean equals(final Object obj) {

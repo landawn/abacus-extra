@@ -2352,7 +2352,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple.LongTuple8 with elements in order (_8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new LongTuple.LongTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public LongTuple8 reverse() {
@@ -2360,10 +2360,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Checks if this tuple contains the specified value.
+         * Checks if any element equals the specified value.
          *
          * @param valueToFind the long value to search for
-         * @return {@code true} if any element equals the value, {@code false} otherwise
+         * @return {@code true} if valueToFind equals any of the eight elements
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -2372,9 +2372,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Performs the given action for each element in this tuple.
+         * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
@@ -2396,7 +2396,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the eight elements.
          *
-         * @return the minimum of all eight elements
+         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, and _8
          */
         @Override
         public long min() {
@@ -2406,7 +2406,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the maximum value among the eight elements.
          *
-         * @return the maximum of all eight elements
+         * @return the largest of _1, _2, _3, _4, _5, _6, _7, and _8
          */
         @Override
         public long max() {
@@ -2425,9 +2425,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the sum of the eight elements.
+         * Returns the sum of all eight elements.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 as a long
          */
         @Override
         public long sum() {
@@ -2435,9 +2435,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the average of the eight elements.
+         * Returns the average of all eight elements.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0 as a double
          */
         @Override
         public double average() {
@@ -2571,7 +2571,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple.LongTuple9 with elements in order (_9, _8, _7, _6, _5, _4, _3, _2, _1)
+         * @return a new LongTuple.LongTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public LongTuple9 reverse() {
@@ -2579,10 +2579,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Checks if this tuple contains the specified value.
+         * Checks if any element equals the specified value.
          *
          * @param valueToFind the long value to search for
-         * @return {@code true} if any element equals the value, {@code false} otherwise
+         * @return {@code true} if valueToFind equals any of the nine elements
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -2591,9 +2591,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Performs the given action for each element in this tuple.
+         * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
          * @throws IllegalArgumentException if {@code consumer} is {@code null}
          * @throws E if the consumer throws an exception
@@ -2616,7 +2616,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the nine elements.
          *
-         * @return the minimum of all nine elements
+         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
          */
         @Override
         public long min() {
@@ -2626,7 +2626,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the maximum value among the nine elements.
          *
-         * @return the maximum of all nine elements
+         * @return the largest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
          */
         @Override
         public long max() {
@@ -2645,9 +2645,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the sum of the nine elements.
+         * Returns the sum of all nine elements.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9 as a long
          */
         @Override
         public long sum() {
@@ -2655,9 +2655,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the average of the nine elements.
+         * Returns the average of all nine elements.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0 as a double
          */
         @Override
         public double average() {

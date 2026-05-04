@@ -28,6 +28,8 @@ import com.landawn.abacus.util.stream.ShortStream;
  * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * @param <TP> the specific ShortTuple subtype
+ * @see PrimitiveTuple
+ * @see IntTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {
@@ -377,6 +379,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
      * @see #max()
+     * @see N#median(short...)
      */
     public short median() {
         return N.median(elements());
@@ -592,6 +595,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * </p>
      *
      * @return a hash code value for this tuple
+     * @see #equals(Object)
      */
     @Override
     public int hashCode() {
@@ -613,6 +617,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
+     * @see #hashCode()
      */
     @Override
     public boolean equals(final Object obj) {
@@ -1098,8 +1103,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the bi-consumer to perform on the two elements
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @param action the bi-consumer to perform on the two elements, must not be {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.ShortBiFunction)
          * @see #filter(Throwables.ShortBiPredicate)
@@ -1126,9 +1130,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the bi-function to apply to the two elements
+         * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper function (may be {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ShortBiConsumer)
          * @see #filter(Throwables.ShortBiPredicate)
@@ -1158,9 +1161,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the bi-predicate to test the two elements
+         * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, otherwise an empty {@code Optional}
-         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.ShortBiConsumer)
          * @see #map(Throwables.ShortBiFunction)
@@ -1374,8 +1376,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the tri-consumer to perform on the three elements
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @param action the tri-consumer to perform on the three elements, must not be {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.ShortTriFunction)
          * @see #filter(Throwables.ShortTriPredicate)
@@ -1402,9 +1403,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the tri-function to apply to the three elements
+         * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper function (may be {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ShortTriConsumer)
          * @see #filter(Throwables.ShortTriPredicate)
@@ -1434,9 +1434,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the tri-predicate to test the three elements
+         * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, otherwise an empty {@code Optional}
-         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.ShortTriConsumer)
          * @see #map(Throwables.ShortTriFunction)
