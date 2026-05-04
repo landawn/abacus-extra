@@ -331,7 +331,15 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @see Math#min(double, double)
      */
     public double min() {
-        return N.min(elements());
+        final double[] arr = elements();
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+        double result = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            result = Math.min(result, arr[i]);
+        }
+        return result;
     }
 
     /**
@@ -363,7 +371,15 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @see Math#max(double, double)
      */
     public double max() {
-        return N.max(elements());
+        final double[] arr = elements();
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+        double result = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            result = Math.max(result, arr[i]);
+        }
+        return result;
     }
 
     /**
@@ -395,7 +411,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @see N#median(double...)
      */
     public double median() {
-        return N.median(elements());
+        final double[] arr = elements();
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+        return N.median(arr);
     }
 
     /**
@@ -443,7 +463,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @see #sum()
      */
     public double average() {
-        return N.average(elements());
+        final double[] arr = elements();
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+        return N.average(arr);
     }
 
     /**

@@ -501,6 +501,72 @@ class FloatTupleTest extends TestBase {
         assertTrue(tuple.toString().contains("4.5"));
     }
 
+    // Regression: the base FloatTuple.min/max/median/average Javadoc states they throw
+    // NoSuchElementException for an empty tuple. The previous delegation to N.min/N.max/N.median
+    // threw IllegalArgumentException for empty arrays, and N.average returned 0.0 silently,
+    // both contradicting the Javadoc. The fix routes empty arrays to NoSuchElementException
+    // up-front and scans elements with Math.min/Math.max so NaN propagates as documented.
+    @Test
+    public void testFloatTupleBaseMinMax_NaNPropagationAndEmpty() {
+        class DerivedFloatTuple extends FloatTuple<DerivedFloatTuple> {
+            private final float[] values;
+
+            DerivedFloatTuple(final float... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedFloatTuple reverse() {
+                return this;
+            }
+
+            @Override
+            public boolean contains(final float valueToFind) {
+                return false;
+            }
+
+            @Override
+            protected float[] elements() {
+                return values;
+            }
+        }
+
+        // Tuple containing a NaN element should produce NaN min/max (was previously
+        // incorrectly skipping NaN via N.min/N.max).
+        final DerivedFloatTuple tupleWithNaN = new DerivedFloatTuple(1.0f, Float.NaN, 2.0f, 3.0f);
+        assertTrue(Float.isNaN(tupleWithNaN.min()), "min() should propagate NaN");
+        assertTrue(Float.isNaN(tupleWithNaN.max()), "max() should propagate NaN");
+
+        // NaN in trailing position also propagates (covers loop tail).
+        final DerivedFloatTuple tupleNaNLast = new DerivedFloatTuple(1.0f, 2.0f, 3.0f, Float.NaN);
+        assertTrue(Float.isNaN(tupleNaNLast.min()));
+        assertTrue(Float.isNaN(tupleNaNLast.max()));
+
+        // Without NaN, results are still correct.
+        final DerivedFloatTuple tuple = new DerivedFloatTuple(4.5f, 1.5f, 3.5f, 2.5f);
+        assertEquals(1.5f, tuple.min(), 0.0f);
+        assertEquals(4.5f, tuple.max(), 0.0f);
+
+        // Single element including NaN still propagates.
+        final DerivedFloatTuple onlyNaN = new DerivedFloatTuple(Float.NaN);
+        assertTrue(Float.isNaN(onlyNaN.min()));
+        assertTrue(Float.isNaN(onlyNaN.max()));
+
+        // Empty derived tuple must throw NoSuchElementException for ALL of min/max/median/average,
+        // matching the @throws NoSuchElementException Javadoc. Previously these threw
+        // IllegalArgumentException (min/max/median) or returned 0.0 silently (average).
+        final DerivedFloatTuple empty = new DerivedFloatTuple();
+        assertThrows(NoSuchElementException.class, empty::min);
+        assertThrows(NoSuchElementException.class, empty::max);
+        assertThrows(NoSuchElementException.class, empty::median);
+        assertThrows(NoSuchElementException.class, empty::average);
+    }
+
     // Exercise zero-initialized tuple constructors and cached element materialization.
     @Test
     public void testFloatTupleDefaultConstructors_ZeroInitialization() {

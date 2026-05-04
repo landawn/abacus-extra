@@ -325,7 +325,15 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @see Math#min(float, float)
      */
     public float min() {
-        return N.min(elements());
+        final float[] arr = elements();
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+        float result = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            result = Math.min(result, arr[i]);
+        }
+        return result;
     }
 
     /**
@@ -351,7 +359,15 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @see Math#max(float, float)
      */
     public float max() {
-        return N.max(elements());
+        final float[] arr = elements();
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+        float result = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            result = Math.max(result, arr[i]);
+        }
+        return result;
     }
 
     /**
@@ -383,7 +399,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @see N#median(float...)
      */
     public float median() {
-        return N.median(elements());
+        final float[] arr = elements();
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+        return N.median(arr);
     }
 
     /**
@@ -431,7 +451,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @see #sum()
      */
     public double average() {
-        return N.average(elements());
+        final float[] arr = elements();
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+        return N.average(arr);
     }
 
     /**

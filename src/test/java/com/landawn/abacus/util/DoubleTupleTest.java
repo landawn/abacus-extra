@@ -298,6 +298,61 @@ class DoubleTupleTest extends TestBase {
         assertTrue(tuple.toString().contains("4.5"));
     }
 
+    // Regression: the base DoubleTuple.min()/max()/median()/average() Javadoc states they
+    // throw NoSuchElementException for an empty tuple. The previous delegation to
+    // N.min/N.max/N.median threw IllegalArgumentException for empty arrays, and N.average
+    // returned 0.0 instead of throwing. The fix routes empty arrays to NoSuchElementException
+    // up-front and uses Math.min/Math.max so that NaN propagates per the concrete-arity docs.
+    @Test
+    public void testDoubleTupleBaseMinMaxMedianAverage_EmptyAndNaN() {
+        class DerivedDoubleTuple extends DoubleTuple<DerivedDoubleTuple> {
+            private final double[] values;
+
+            DerivedDoubleTuple(final double... values) {
+                this.values = values;
+            }
+
+            @Override
+            public int arity() {
+                return values.length;
+            }
+
+            @Override
+            public DerivedDoubleTuple reverse() {
+                return this;
+            }
+
+            @Override
+            public boolean contains(final double valueToFind) {
+                return false;
+            }
+
+            @Override
+            protected double[] elements() {
+                return values;
+            }
+        }
+
+        // NaN should propagate through the base min/max scan.
+        final DerivedDoubleTuple tupleWithNaN = new DerivedDoubleTuple(1.0, Double.NaN, 2.0, 3.0);
+        assertTrue(Double.isNaN(tupleWithNaN.min()));
+        assertTrue(Double.isNaN(tupleWithNaN.max()));
+
+        // Without NaN, results are still correct.
+        final DerivedDoubleTuple tuple = new DerivedDoubleTuple(4.5, 1.5, 3.5, 2.5);
+        assertEquals(1.5, tuple.min(), 0.0);
+        assertEquals(4.5, tuple.max(), 0.0);
+
+        // Empty derived tuple must throw NoSuchElementException for ALL of min/max/median/average,
+        // matching the @throws NoSuchElementException Javadoc. Previously these threw
+        // IllegalArgumentException (min/max/median) or returned 0.0 silently (average).
+        final DerivedDoubleTuple empty = new DerivedDoubleTuple();
+        assertThrows(NoSuchElementException.class, empty::min);
+        assertThrows(NoSuchElementException.class, empty::max);
+        assertThrows(NoSuchElementException.class, empty::median);
+        assertThrows(NoSuchElementException.class, empty::average);
+    }
+
     // Exercise zero-initialized tuple constructors and cached element materialization.
     @Test
     public void testDoubleTupleDefaultConstructors_ZeroInitialization() {
