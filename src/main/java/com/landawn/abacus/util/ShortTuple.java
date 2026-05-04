@@ -540,7 +540,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * <pre>{@code
      * ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
      * tuple.forEach(v -> System.out.println("Value: " + v));
-     * // Prints (one per line): Value: 1, Value: 2, Value: 3
+     * // Prints, one per line: "Value: 1", then "Value: 2", then "Value: 3"
      *
      * // Accumulate sum externally
      * java.util.concurrent.atomic.AtomicInteger total = new java.util.concurrent.atomic.AtomicInteger();
@@ -1153,10 +1153,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
-         * u.Optional<ShortTuple.ShortTuple2> result = pair.filter((a, b) -> a < b);
+         * Optional<ShortTuple.ShortTuple2> result = pair.filter((a, b) -> a < b);
          * // Returns: Optional containing the pair (since 3 < 5)
          *
-         * u.Optional<ShortTuple.ShortTuple2> empty = pair.filter((a, b) -> a > b);
+         * Optional<ShortTuple.ShortTuple2> empty = pair.filter((a, b) -> a > b);
          * // Returns: Optional.empty() (since 3 is not > 5)
          * }</pre>
          *
@@ -1426,10 +1426,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
-         * u.Optional<ShortTuple.ShortTuple3> result = triple.filter((a, b, c) -> a < b && b < c);
+         * Optional<ShortTuple.ShortTuple3> result = triple.filter((a, b, c) -> a < b && b < c);
          * // Returns: Optional containing the triple (since 2 < 3 < 5)
          *
-         * u.Optional<ShortTuple.ShortTuple3> empty = triple.filter((a, b, c) -> a + b + c > 20);
+         * Optional<ShortTuple.ShortTuple3> empty = triple.filter((a, b, c) -> a + b + c > 20);
          * // Returns: Optional.empty() (since 2 + 3 + 5 = 10 is not > 20)
          * }</pre>
          *

@@ -270,7 +270,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * ByteTuple.ByteTuple1 single = ByteTuple.copyOf(new byte[]{(byte) 42});
      * }</pre>
      *
-     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>Type note:</b> the runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type.</p>
      *
@@ -389,6 +389,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * @return the median byte value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
      */
     public byte median() {
         return N.median(elements());
@@ -443,10 +445,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged as tuples are immutable.
+     * This method returns a tuple containing all elements in reversed order. The original
+     * tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -458,9 +460,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * ByteTuple.ByteTuple3 reversed = tuple.reverse();   // (30, 20, 10)
      * }</pre>
      *
-     * <p>For tuples of arity 0 or 1, the returned tuple is equal to this one (reversing has no effect).</p>
+     * <p>For tuples of arity 0 or 1, the returned tuple is equal to this one (reversing has no effect).
+     * The empty tuple returns itself; arity-1 tuples return a new instance with the same value.</p>
      *
-     * @return a new tuple with the elements in reverse order
+     * @return a tuple of the same arity with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -628,8 +631,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *   <li>They contain the same byte values in the same order</li>
      * </ul>
      *
-     * <p>This method is consistent with {@link #hashCode()}. Several arity-specific subclasses override
-     * this method with an equivalent but specialized implementation.</p>
+     * <p>This method is consistent with {@link #hashCode()}. The non-empty arity-specific subclasses
+     * override this method with an equivalent but specialized implementation that compares fields directly.</p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise

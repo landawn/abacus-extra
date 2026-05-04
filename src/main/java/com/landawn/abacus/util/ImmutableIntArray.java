@@ -392,7 +392,8 @@ public final class ImmutableIntArray implements Immutable {
      * System.out.println(hash1 == hash2);   // prints: true (equal arrays have same hash)
      *
      * ImmutableIntArray array3 = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 4});
-     * System.out.println(hash1 == array3.hashCode());   // likely prints: false (different content often yields different hashes, but not guaranteed)
+     * // Distinct content typically (but not always) produces a distinct hash code.
+     * System.out.println(hash1 == array3.hashCode());   // typically prints: false
      * }</pre>
      *
      * @return a hash code value for this ImmutableIntArray based on its contents
@@ -423,7 +424,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * System.out.println(array1.equals(array2));                // prints: true
      * System.out.println(array1.equals(array3));                // prints: false
-     * System.out.println(array1.equals(new int[] {1, 2, 3}));   // prints: false (different type)
+     * System.out.println(array1.equals(new int[] {1, 2, 3}));   // prints: false (raw int[] is not an ImmutableIntArray)
      * }</pre>
      *
      * @param obj the object to compare with this ImmutableIntArray

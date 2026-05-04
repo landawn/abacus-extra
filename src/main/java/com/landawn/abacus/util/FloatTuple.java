@@ -260,7 +260,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of float values (must have length 0-9), may be {@code null}
-     * @return a FloatTuple of appropriate size containing the array values, or an empty FloatTuple if the array is null or empty
+     * @return a FloatTuple of appropriate size containing the array values, or an empty FloatTuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
@@ -378,9 +378,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * (not the average of the two middle values).
      * </p>
      * <p>
-     * Ordering is performed with {@link Float#compare(float, float)} semantics, so
-     * {@code NaN} is treated as the largest value (and equal to itself), and
-     * {@code -0.0f} is treated as less than {@code +0.0f}.
+     * For tuples with three or more elements, ordering follows {@link Float#compare(float, float)}
+     * semantics, so {@code NaN} is treated as the largest value (and equal to itself), and
+     * {@code -0.0f} is treated as less than {@code +0.0f}. For two-element tuples the result
+     * is computed via {@link Math#min(float, float)}, so the result is {@code NaN} if either
+     * element is {@code NaN}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -699,8 +701,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p>
      * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
      * with a single shared instance accessed via {@code FloatTuple.copyOf(new float[0])} or returned
-     * when creating tuples from null/empty arrays. All statistical operations on FloatTuple.FloatTuple0 either
-     * return 0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
+     * when creating tuples from {@code null} or empty arrays. All statistical operations on this empty
+     * tuple either return {@code 0.0f} (for {@link #sum()}) or throw {@link NoSuchElementException}
+     * (for {@link #min()}, {@link #max()}, {@link #median()}, {@link #average()}).
      * </p>
      */
     static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
@@ -758,9 +761,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the sum of all elements in this tuple.
-         * For an empty tuple, the sum is 0.
+         * For an empty tuple, the sum is {@code 0.0f}.
          *
-         * @return 0
+         * @return {@code 0.0f}
          */
         @Override
         public float sum() {
@@ -792,10 +795,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
-         * Since this tuple is empty, this method always returns false.
+         * Since this tuple is empty, this method always returns {@code false}.
          *
          * @param valueToFind the float value to search for
-         * @return false always, as there are no elements
+         * @return {@code false} always, as there are no elements
          */
         @Override
         public boolean contains(final float valueToFind) {

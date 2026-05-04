@@ -27,7 +27,7 @@ import com.landawn.abacus.util.stream.IntStream;
  * {@link #copyOf(int[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
- * @param <TP> the specific IntTuple subtype
+ * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  * @see LongTuple
  * @see ShortTuple
@@ -649,7 +649,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * An empty tuple containing no elements.
      * This class is used to represent a tuple with zero elements
-     * and is returned by {@link #copyOf(int[])} when passed a null or empty array.
+     * and is returned by {@link #copyOf(int[])} when passed a {@code null} or empty array.
      */
     static final class IntTuple0 extends IntTuple<IntTuple0> {
 
@@ -938,11 +938,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * A tuple containing exactly two int values.
      * The values are accessible through the public final fields {@code _1} and {@code _2}.
      *
-     * <p>This class provides additional functional methods for working with pairs:
+     * <p>This class provides additional functional methods for working with pairs:</p>
      * <ul>
      *   <li>{@link #accept(Throwables.IntBiConsumer)} - consume both values</li>
      *   <li>{@link #map(Throwables.IntBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.IntBiPredicate)} - conditionally wrap in u.Optional</li>
+     *   <li>{@link #filter(Throwables.IntBiPredicate)} - conditionally wrap in {@link Optional}</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -998,10 +998,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median int value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element.
+         * Returns the median of the two elements.
+         * For tuples with an even number of elements, returns the lower of the two middle
+         * elements; with only two values this is equivalent to {@link #min()}.
          *
-         * @return the median (lower) int value
+         * @return the smaller of {@code _1} and {@code _2}
          */
         @Override
         public int median() {
@@ -1203,11 +1204,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * A tuple containing exactly three int values.
      * The values are accessible through the public final fields {@code _1}, {@code _2}, and {@code _3}.
      *
-     * <p>This class provides additional functional methods for working with triples:
+     * <p>This class provides additional functional methods for working with triples:</p>
      * <ul>
      *   <li>{@link #accept(Throwables.IntTriConsumer)} - consume all three values</li>
      *   <li>{@link #map(Throwables.IntTriFunction)} - transform the triple to a single value</li>
-     *   <li>{@link #filter(Throwables.IntTriPredicate)} - conditionally wrap in u.Optional</li>
+     *   <li>{@link #filter(Throwables.IntTriPredicate)} - conditionally wrap in {@link Optional}</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>

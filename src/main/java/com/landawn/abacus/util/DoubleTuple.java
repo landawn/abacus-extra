@@ -236,9 +236,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Creates a DoubleTuple from an array of double values.
      * <p>
      * The size of the returned tuple depends on the length of the input array.
-     * This factory method supports arrays with 0 to 9 elements. For empty or null
+     * This factory method supports arrays with 0 to 9 elements. For empty or {@code null}
      * arrays, returns an empty {@code DoubleTuple<?>}. For arrays with 1-9 elements, returns
-     * the corresponding DoubleTuple.DoubleTuple1-9 instance.
+     * the corresponding {@code DoubleTuple.DoubleTuple1} through {@code DoubleTuple.DoubleTuple9} instance.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -260,7 +260,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of double values (must have length 0-9), may be {@code null}
-     * @return a DoubleTuple of appropriate size containing the array values, or an empty DoubleTuple if the array is null or empty
+     * @return a DoubleTuple of appropriate size containing the array values, or an empty DoubleTuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
@@ -309,11 +309,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * in the tuple. For tuples with a single element, returns that element.
      * </p>
      * <p>
-     * NaN handling differs by arity. Concrete subclasses {@code DoubleTuple1}
-     * through {@code DoubleTuple9} use {@link Math#min(double, double)} or its
-     * delegating helpers, so any {@code NaN} element causes the result to be
-     * {@code NaN}. {@link Math#min(double, double)} also distinguishes
-     * {@code -0.0} from {@code +0.0} (treating {@code -0.0} as the smaller).
+     * Comparisons are performed pairwise with {@link Math#min(double, double)}, so any
+     * {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0} is
+     * treated as smaller than {@code +0.0}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -349,11 +347,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * in the tuple. For tuples with a single element, returns that element.
      * </p>
      * <p>
-     * NaN handling differs by arity. Concrete subclasses {@code DoubleTuple1}
-     * through {@code DoubleTuple9} use {@link Math#max(double, double)} or its
-     * delegating helpers, so any {@code NaN} element causes the result to be
-     * {@code NaN}. {@link Math#max(double, double)} also distinguishes
-     * {@code -0.0} from {@code +0.0} (treating {@code +0.0} as the larger).
+     * Comparisons are performed pairwise with {@link Math#max(double, double)}, so any
+     * {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0} is
+     * treated as larger than {@code -0.0}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -390,9 +386,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * (not the average of the two middle values).
      * </p>
      * <p>
-     * Ordering is performed with {@link Double#compare(double, double)} semantics, so
-     * {@code NaN} is treated as the largest value (and equal to itself), and
-     * {@code -0.0} is treated as less than {@code +0.0}.
+     * For tuples with three or more elements, ordering is performed with
+     * {@link Double#compare(double, double)} semantics, so {@code NaN} is treated as the
+     * largest value (and equal to itself), and {@code -0.0} is treated as less than
+     * {@code +0.0}. The two-element case is special: it returns
+     * {@link Math#min(double, double) Math.min(_1, _2)}, which propagates {@code NaN}
+     * (i.e. if either element is {@code NaN}, the result is {@code NaN}).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -777,9 +776,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the sum of all elements in this tuple.
-         * For an empty tuple, the sum is 0.
+         * For an empty tuple, the sum is {@code 0.0}.
          *
-         * @return 0
+         * @return {@code 0.0}
          */
         @Override
         public double sum() {
@@ -811,10 +810,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
-         * Since this tuple is empty, this method always returns false.
+         * Since this tuple is empty, this method always returns {@code false}.
          *
          * @param valueToFind the double value to search for
-         * @return false always, as there are no elements
+         * @return {@code false} always, as there are no elements
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -877,7 +876,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the minimum value in this tuple, which is the single element.
          *
-         * @return the value of _1
+         * @return the value of {@code _1}
          */
         @Override
         public double min() {
@@ -887,7 +886,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the maximum value in this tuple, which is the single element.
          *
-         * @return the value of _1
+         * @return the value of {@code _1}
          */
         @Override
         public double max() {
@@ -897,7 +896,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the median value in this tuple, which is the single element.
          *
-         * @return the value of _1
+         * @return the value of {@code _1}
          */
         @Override
         public double median() {
@@ -907,7 +906,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the sum of elements in this tuple, which is the single element.
          *
-         * @return the value of _1
+         * @return the value of {@code _1}
          */
         @Override
         public double sum() {
@@ -917,7 +916,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the average of elements in this tuple, which is the single element.
          *
-         * @return the value of _1
+         * @return the value of {@code _1}
          */
         @Override
         public double average() {
@@ -1045,8 +1044,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the minimum value among the two elements.
+         * If either element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the smaller of _1 and _2
+         * @return the smaller of {@code _1} and {@code _2}
          */
         @Override
         public double min() {
@@ -1055,8 +1055,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the maximum value among the two elements.
+         * If either element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the larger of _1 and _2
+         * @return the larger of {@code _1} and {@code _2}
          */
         @Override
         public double max() {
@@ -1066,9 +1067,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the median of the two elements.
          * Because there is an even number of elements, this is the lower of the
-         * two (i.e., {@code Math.min(_1, _2)}), not their average.
+         * two (i.e., {@code Math.min(_1, _2)}), not their average. If either
+         * element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the smaller of {@code _1} and {@code _2}
+         * @return the smaller of {@code _1} and {@code _2}, or {@code NaN} if either is {@code NaN}
          */
         @Override
         public double median() {
@@ -1326,8 +1328,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the minimum value among the three elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the smallest of _1, _2, and _3
+         * @return the smallest of {@code _1}, {@code _2}, and {@code _3}
          */
         @Override
         public double min() {
@@ -1336,8 +1339,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the maximum value among the three elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the largest of _1, _2, and _3
+         * @return the largest of {@code _1}, {@code _2}, and {@code _3}
          */
         @Override
         public double max() {
@@ -1643,7 +1647,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the median value of the four elements.
          * For an even number of elements, returns the lower of the two middle values
-         * (not their average).
+         * (not their average). Ordering uses {@link Double#compare(double, double)}
+         * semantics, so {@code NaN} is treated as the largest value.
          *
          * @return the lower middle value when the four elements are sorted
          */
@@ -1845,6 +1850,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the median value of the five elements.
          * For an odd number of elements, this is the exact middle value when sorted.
+         * Ordering uses {@link Double#compare(double, double)} semantics, so
+         * {@code NaN} is treated as the largest value.
          *
          * @return the middle value when the five elements are sorted
          */
@@ -2052,7 +2059,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the median value of the six elements.
          * For an even number of elements, returns the lower of the two middle values
-         * (not their average).
+         * (not their average). Ordering uses {@link Double#compare(double, double)}
+         * semantics, so {@code NaN} is treated as the largest value.
          *
          * @return the lower middle value when the six elements are sorted
          */
@@ -2266,6 +2274,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the median value of the seven elements.
          * For an odd number of elements, this is the exact middle value when sorted.
+         * Ordering uses {@link Double#compare(double, double)} semantics, so
+         * {@code NaN} is treated as the largest value.
          *
          * @return the middle value when the seven elements are sorted
          */
@@ -2487,7 +2497,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the median value of the eight elements.
          * For an even number of elements, returns the lower of the two middle values
-         * (not their average).
+         * (not their average). Ordering uses {@link Double#compare(double, double)}
+         * semantics, so {@code NaN} is treated as the largest value.
          *
          * @return the lower middle value when the eight elements are sorted
          */
@@ -2715,6 +2726,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the median value of the nine elements.
          * For an odd number of elements, this is the exact middle value when sorted.
+         * Ordering uses {@link Double#compare(double, double)} semantics, so
+         * {@code NaN} is treated as the largest value.
          *
          * @return the middle value when the nine elements are sorted
          */

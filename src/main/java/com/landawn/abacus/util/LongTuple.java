@@ -27,7 +27,7 @@ import com.landawn.abacus.util.stream.LongStream;
  * {@link #copyOf(long[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
- * @param <TP> the specific LongTuple subtype
+ * @param <TP> the concrete {@code LongTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  * @see IntTuple
  * @see DoubleTuple
@@ -232,12 +232,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Creates a LongTuple from an array of long values.
+     * Creates a {@code LongTuple} from an array of long values.
      * <p>
      * The size of the returned tuple depends on the length of the input array.
-     * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty {@code LongTuple<?>}. For arrays with 1-9 elements, returns
-     * the corresponding LongTuple.LongTuple1-9 instance.
+     * This factory method supports arrays with 0 to 9 elements. For empty or {@code null}
+     * arrays, returns the shared empty tuple instance. For arrays with 1-9 elements, returns
+     * the corresponding {@code LongTuple1}-{@code LongTuple9} instance.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -246,7 +246,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * long[] values = {1L, 2L, 3L};
      * LongTuple.LongTuple3 tuple = LongTuple.copyOf(values);
      *
-     * // Empty array returns LongTuple<?>
+     * // Empty array returns the shared empty tuple
      * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
      *
      * // Single element
@@ -259,7 +259,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of long values (must have length 0-9), may be {@code null}
-     * @return a LongTuple of appropriate size containing the array values, or an empty LongTuple if the array is null or empty
+     * @return a {@code LongTuple} of appropriate size containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
@@ -311,10 +311,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-     * long min = tuple.min();   // 1
+     * long min = tuple.min();   // 1L
      *
      * LongTuple.LongTuple1 single = LongTuple.of(42L);
-     * long singleMin = single.min();   // 42
+     * long singleMin = single.min();   // 42L
      * }</pre>
      *
      * @return the minimum long value in this tuple
@@ -336,10 +336,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-     * long max = tuple.max();   // 3
+     * long max = tuple.max();   // 3L
      *
      * LongTuple.LongTuple1 single = LongTuple.of(42L);
-     * long singleMax = single.max();   // 42
+     * long singleMax = single.max();   // 42L
      * }</pre>
      *
      * @return the maximum long value in this tuple
@@ -356,20 +356,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p>
      * The median is calculated by sorting the elements internally. For tuples with an odd
      * number of elements, returns the middle value when sorted. For tuples with an even
-     * number of elements, returns the lower middle value when sorted.
+     * number of elements, returns the lower of the two middle values when sorted.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-     * long median = tuple.median();   // 2
+     * long median = tuple.median();   // 2L
      *
      * LongTuple.LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * long median2 = quad.median();   // 2 (lower middle value)
+     * long median2 = quad.median();   // 2L (lower middle value)
      * }</pre>
      *
      * @return the median long value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
      */
     public long median() {
         return N.median(elements());
@@ -378,17 +380,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the sum of all long values in this tuple as a {@code long}.
      * <p>
-     * Note: This method does not check for overflow. If the sum exceeds {@code Long.MAX_VALUE},
-     * the result will wrap around according to standard long arithmetic.
+     * Note: this method does not check for overflow. If the sum overflows the range of
+     * {@code long}, the result wraps around according to standard two's-complement long arithmetic.
+     * For an empty tuple this method returns {@code 0L}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long sum = tuple.sum();   // 6
+     * long sum = tuple.sum();   // 6L
      *
      * LongTuple.LongTuple2 pair = LongTuple.of(100L, 200L);
-     * long total = pair.sum();  // 300
+     * long total = pair.sum();  // 300L
      * }</pre>
      *
      * @return the sum of all long values in this tuple as a {@code long}
@@ -522,12 +525,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * tuple.forEach(v -> System.out.println("Value: " + v));
-     * // Output: Value: 1, Value: 2, Value: 3
+     * // Prints (one per line):
+     * //   Value: 1
+     * //   Value: 2
+     * //   Value: 3
      *
      * // Accumulate sum externally
      * java.util.concurrent.atomic.AtomicLong total = new java.util.concurrent.atomic.AtomicLong();
-     * tuple.forEach(v -> total.addAndGet(v));
-     * // total is now 6
+     * tuple.forEach(total::addAndGet);
+     * // total.get() == 6L
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the consumer
@@ -554,13 +560,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long sum = tuple.stream().sum();   // 6
+     * long sum = tuple.stream().sum();   // 6L
      *
      * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
-     * long max = pair.stream().max().getAsLong();   // 20
+     * long max = pair.stream().max().getAsLong();   // 20L
      * }</pre>
      *
-     * @return a LongStream containing all tuple elements
+     * @return a {@code LongStream} containing all tuple elements
      */
     public LongStream stream() {
         return LongStream.of(elements());
@@ -705,9 +711,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all values in this tuple.
-         * For an empty tuple, the sum is 0.
+         * For an empty tuple, the sum is {@code 0L}.
          *
-         * @return 0
+         * @return {@code 0L}
          */
         @Override
         public long sum() {
@@ -849,9 +855,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all values in this tuple.
-         * For a single-element tuple, this is the element itself.
+         * For a single-element tuple, this is the element value converted to {@code double}.
          *
-         * @return the single element value as a double
+         * @return {@code _1} converted to {@code double}
          */
         @Override
         public double average() {
@@ -910,7 +916,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string in the format "(value)"
+         * @return a string in the format {@code "(_1)"}
          */
         @Override
         public String toString() {
@@ -941,7 +947,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <ul>
      *   <li>{@link #accept(Throwables.LongBiConsumer)} - consume both values</li>
      *   <li>{@link #map(Throwables.LongBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.LongBiPredicate)} - conditionally wrap in u.Optional</li>
+     *   <li>{@link #filter(Throwables.LongBiPredicate)} - conditionally wrap in an {@link Optional}</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -998,10 +1004,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the median long value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle value.
+         * Returns the median value of the two elements.
+         * Because this tuple has an even number of elements, this returns the lower of {@code _1} and {@code _2}.
          *
-         * @return the median (lower middle) long value
+         * @return the lower of {@code _1} and {@code _2}
          */
         @Override
         public long median() {
@@ -1137,10 +1143,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
-         * u.Optional<LongTuple.LongTuple2> result = pair.filter((a, b) -> a < b);   // Optional containing the tuple
+         * Optional<LongTuple.LongTuple2> result = pair.filter((a, b) -> a < b);   // Optional containing the tuple
          *
          * LongTuple.LongTuple2 values = LongTuple.of(5L, 3L);
-         * u.Optional<LongTuple.LongTuple2> empty = values.filter((a, b) -> a < b);  // Empty Optional
+         * Optional<LongTuple.LongTuple2> empty = values.filter((a, b) -> a < b);  // Empty Optional
          *
          * LongTuple.LongTuple2 coords = LongTuple.of(10L, 10L);
          * coords.filter((x, y) -> x == y)
@@ -1149,7 +1155,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
-         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, an empty {@code Optional} otherwise
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.LongBiConsumer)
          * @see #map(Throwables.LongBiFunction)
@@ -1188,7 +1194,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string in the format "(_1, _2)"
+         * @return a string in the format {@code "(_1, _2)"}
          */
         @Override
         public String toString() {
@@ -1219,7 +1225,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <ul>
      *   <li>{@link #accept(Throwables.LongTriConsumer)} - consume all three values</li>
      *   <li>{@link #map(Throwables.LongTriFunction)} - transform the triple to a single value</li>
-     *   <li>{@link #filter(Throwables.LongTriPredicate)} - conditionally wrap in u.Optional</li>
+     *   <li>{@link #filter(Throwables.LongTriPredicate)} - conditionally wrap in an {@link Optional}</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1280,9 +1286,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the three elements.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
+         * Returns the middle value of {@code _1}, {@code _2}, and {@code _3} when sorted.
          *
-         * @return the median long value
+         * @return the median long value of the three elements
          */
         @Override
         public long median() {
@@ -1422,19 +1428,19 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
-         * u.Optional<LongTuple.LongTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
+         * Optional<LongTuple.LongTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
          *
          * LongTuple.LongTuple3 pythagorean = LongTuple.of(3L, 4L, 5L);
          * pythagorean.filter((a, b, c) -> a*a + b*b == c*c)
          *            .ifPresent(t -> System.out.println("Pythagorean triple found!"));
          *
          * LongTuple.LongTuple3 descending = LongTuple.of(5L, 4L, 3L);
-         * u.Optional<LongTuple.LongTuple3> empty = descending.filter((a, b, c) -> a < b && b < c);  // Empty Optional
+         * Optional<LongTuple.LongTuple3> empty = descending.filter((a, b, c) -> a < b && b < c);  // Empty Optional
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
-         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, an empty {@code Optional} otherwise
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.LongTriConsumer)
          * @see #map(Throwables.LongTriFunction)
@@ -1473,7 +1479,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string in the format "(_1, _2, _3)"
+         * @return a string in the format {@code "(_1, _2, _3)"}
          */
         @Override
         public String toString() {
@@ -1601,9 +1607,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the four elements.
-         * For tuples with an even number of elements, returns the lower middle value.
+         * Because this tuple has an even number of elements, this returns the lower of the two middle values when sorted.
          *
-         * @return the median (lower middle) long value
+         * @return the lower-middle long value of the four elements
          */
         @Override
         public long median() {
@@ -1757,9 +1763,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the five elements.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
+         * Returns the middle value of the five elements when sorted.
          *
-         * @return the median long value
+         * @return the median long value of the five elements
          */
         @Override
         public long median() {
@@ -1996,9 +2002,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the six elements.
-         * For tuples with an even number of elements, returns the lower middle element.
+         * Because this tuple has an even number of elements, this returns the lower of the two middle values when sorted.
          *
-         * @return the median (lower middle) long value when sorted
+         * @return the lower-middle long value of the six elements
          */
         @Override
         public long median() {
@@ -2202,9 +2208,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the seven elements.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
+         * Returns the middle value of the seven elements when sorted.
          *
-         * @return the median long value
+         * @return the median long value of the seven elements
          */
         @Override
         public long median() {
@@ -2415,9 +2421,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the eight elements.
-         * For tuples with an even number of elements, returns the lower middle value.
+         * Because this tuple has an even number of elements, this returns the lower of the two middle values when sorted.
          *
-         * @return the median (lower middle) long value
+         * @return the lower-middle long value of the eight elements
          */
         @Override
         public long median() {
@@ -2635,9 +2641,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the nine elements.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
+         * Returns the middle value of the nine elements when sorted.
          *
-         * @return the median long value
+         * @return the median long value of the nine elements
          */
         @Override
         public long median() {

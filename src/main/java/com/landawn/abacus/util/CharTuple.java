@@ -260,9 +260,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type.</p>
      *
-     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
+     * @param <TP> the base {@code CharTuple} type or matching arity-specific subtype expected by the caller
      * @param values the array of char values (must have length 0-9), may be {@code null}
-     * @return a CharTuple of appropriate size containing the array values, or an empty CharTuple if the array is null or empty
+     * @return a CharTuple of appropriate size containing the array values, or an empty CharTuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
@@ -1230,8 +1230,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple2 tuple = CharTuple.of('A', 'B');
-         * u.Optional<CharTuple.CharTuple2> result = tuple.filter((a, b) -> a < b);   // Optional containing the tuple
-         * u.Optional<CharTuple.CharTuple2> empty = tuple.filter((a, b) -> a > b);    // Optional.empty()
+         * Optional<CharTuple.CharTuple2> result = tuple.filter((a, b) -> a < b);   // Optional containing the tuple
+         * Optional<CharTuple.CharTuple2> empty = tuple.filter((a, b) -> a > b);    // Optional.empty()
          *
          * // Chaining with ifPresent
          * tuple.filter((a, b) -> a != b)
@@ -1525,8 +1525,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-         * u.Optional<CharTuple.CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
-         * u.Optional<CharTuple.CharTuple3> empty = tuple.filter((a, b, c) -> a > b);             // Optional.empty()
+         * Optional<CharTuple.CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
+         * Optional<CharTuple.CharTuple3> empty = tuple.filter((a, b, c) -> a > b);             // Optional.empty()
          *
          * // Chaining operations
          * tuple.filter((a, b, c) -> a < c)

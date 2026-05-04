@@ -25,7 +25,7 @@ import com.landawn.abacus.util.stream.Stream;
  * {@link #copyOf(boolean[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies reversal, containment, and functional helper operations.</p>
  *
- * @param <TP> the specific BooleanTuple subtype
+ * @param <TP> the concrete {@code BooleanTuple} subtype (self-type bound used for fluent return types)
  * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
@@ -257,7 +257,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * boolean[] values = {true, false, true};
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.copyOf(values);
      *
-     * // Empty array returns BooleanTuple<?>
+     * // Empty or null array returns an empty BooleanTuple
      * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
      *
      * // Single element
@@ -269,8 +269,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * or to the base tuple type.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
-     * @param values the array of boolean values (must have length 0-9), may be {@code null}
-     * @return a BooleanTuple of appropriate size containing the array values, or an empty BooleanTuple if the array is null or empty
+     * @param values the array of boolean values to copy; may be {@code null} or empty, and must contain at most 9 elements
+     * @return a BooleanTuple of the appropriate arity containing the array values, or an empty BooleanTuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
@@ -545,9 +545,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     /**
      * An empty BooleanTuple containing no elements.
      * <p>
-     * This class represents a tuple with arity 0, serving as a singleton instance
+     * This class represents a tuple with arity 0 and exposes a shared {@code EMPTY} singleton
      * for cases where an empty boolean tuple is needed. It is typically returned
-     * by the {@link #copyOf(boolean[])} method when a null or empty array is provided.
+     * by the {@link #copyOf(boolean[])} method when a {@code null} or empty array is provided.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -656,8 +656,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns a new BooleanTuple.BooleanTuple1 with the same element.
-         * Since this tuple has only one element, reversing has no effect on the contained value.
+         * Returns a new {@code BooleanTuple1} with the same element.
+         * Since this tuple has only one element, reversing has no effect on the contained value;
+         * however, a new instance is still returned for consistency with the {@link #reverse()} contract.
          *
          * @return a new BooleanTuple.BooleanTuple1 with the same element
          */

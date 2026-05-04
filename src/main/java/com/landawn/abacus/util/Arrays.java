@@ -5632,7 +5632,7 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1, 2, 3],
-     * //    [4, 5]],
+     * //   [4, 5]],
      * //  [[6, 7],
      * //   null,
      * //   []],
@@ -6910,7 +6910,7 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1, 2, 3],
-     * //    [4, 5]],
+     * //   [4, 5]],
      * //  [[6, 7],
      * //   null,
      * //   []],
@@ -8223,7 +8223,7 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1, 2, 3],
-     * //    [4, 5]],
+     * //   [4, 5]],
      * //  [[6, 7],
      * //   null,
      * //   []],
@@ -8650,7 +8650,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{3L, 1L}, {4L, 2L}};
-     * applyOnFlattened(array, t -> java.util.Arrays.sort(t));
+     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));
      * // array is now {{1L, 2L}, {3L, 4L}}
      * }</pre>
      *
@@ -8689,7 +8689,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{3L}, {1L}}, {{4L, 2L}}};
-     * applyOnFlattened(array, t -> java.util.Arrays.sort(t));
+     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));
      * // array is now {{{1L}, {2L}}, {{3L, 4L}}}
      * }</pre>
      *
@@ -9223,7 +9223,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1, 2}, {3, 4, 5}, null};
-     * long count = elementCount(array);
+     * long count = Arrays.elementCount(array);
      * // count is 5
      * }</pre>
      *
@@ -9250,7 +9250,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1}, {2, 3}}, null, {{4, 5, 6}}};
-     * long count = elementCount(array);
+     * long count = Arrays.elementCount(array);
      * // count is 6
      * }</pre>
      *
@@ -9503,7 +9503,7 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1, 2, 3],
-     * //    [4, 5]],
+     * //   [4, 5]],
      * //  [[6, 7],
      * //   null,
      * //   []],
@@ -10784,7 +10784,7 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1.1, 2.2, 3.3],
-     * //    [4.4, 5.5]],
+     * //   [4.4, 5.5]],
      * //  [[6.6, 7.7],
      * //   null,
      * //   []],
@@ -12075,7 +12075,7 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(array);
      * // Prints to console and returns:
      * // [[[1.1, 2.2, 3.3],
-     * //    [4.4, 5.5]],
+     * //   [4.4, 5.5]],
      * //  [[6.6, 7.7],
      * //   null,
      * //   []],
@@ -16597,9 +16597,9 @@ public sealed class Arrays permits Arrays.f {
          * unary operator, creating a new array with the same structure but transformed elements.
          * The original array is not modified.
          *
-         * <p>The result array has the same outer and middle lengths as the input. {@code null}
-         * or empty inner sub-arrays are preserved as such; otherwise the operator is invoked
-         * for every slot, including slots whose value is {@code null}.</p>
+         * <p>The result array has the same outer length as the input. {@code null} or empty inner
+         * sub-arrays at any level are mapped to empty arrays in the result; otherwise the operator
+         * is invoked for every slot, including slots whose value is {@code null}.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
