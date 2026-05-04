@@ -25,8 +25,10 @@ import com.landawn.abacus.util.u.Optional;
  * {@link #filter(Throwables.Predicate)}, and {@link #toOptional()}. Concrete families layer their
  * arity-specific fields and domain operations on top of this base.</p>
  *
- * @param <TP> the concrete tuple subtype (self-type), used so that the helpers above operate on the
- *             actual subtype rather than this abstract base
+ * @param <TP> the concrete tuple subtype (self-type), used so that helper methods such as
+ *             {@link #accept(Throwables.Consumer)}, {@link #map(Throwables.Function)}, and
+ *             {@link #filter(Throwables.Predicate)} operate on the concrete subtype rather than
+ *             this abstract base
  */
 @com.landawn.abacus.annotation.Immutable
 abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutable {
@@ -44,7 +46,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @param <E> the type of exception that may be thrown by the action
      * @param action the action to invoke with this tuple as its input
      * @throws NullPointerException if {@code action} is {@code null}
-     * @throws E if the action throws an exception
+     * @throws E if the action throws an exception during execution
      * @see #map(Throwables.Function)
      * @see #filter(Throwables.Predicate)
      */
@@ -58,9 +60,9 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @param <U> the type of the result produced by the mapping function
      * @param <E> the type of exception that may be thrown by the mapper
      * @param mapper the function to apply with this tuple as its input
-     * @return the value produced by the mapper, which may be {@code null} if the mapper returns {@code null}
+     * @return the value produced by the mapper; may be {@code null} if the mapper returns {@code null}
      * @throws NullPointerException if {@code mapper} is {@code null}
-     * @throws E if the mapper throws an exception
+     * @throws E if the mapper throws an exception during execution
      * @see #accept(Throwables.Consumer)
      * @see #filter(Throwables.Predicate)
      */
@@ -78,9 +80,9 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @return an {@link Optional} containing this tuple if the predicate returns {@code true};
      *         otherwise {@link Optional#empty()}
      * @throws NullPointerException if {@code predicate} is {@code null}
-     * @throws E if the predicate throws an exception
-     * @see #toOptional()
+     * @throws E if the predicate throws an exception during evaluation
      * @see #map(Throwables.Function)
+     * @see #toOptional()
      */
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
         return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.empty();

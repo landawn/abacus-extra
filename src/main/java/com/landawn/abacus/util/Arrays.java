@@ -15548,7 +15548,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <B> the element type of the second array.
          * @param <E> the type of exception that may be thrown by the zip function.
          * @param a the first two-dimensional array (must not be {@code null}; used to infer the result element type).
-         * @param b the second two-dimensional array.
+         * @param b the second two-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the function to combine paired elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
@@ -15710,13 +15710,13 @@ public sealed class Arrays permits Arrays.f {
          * // sums is {{111, 222}, {333, 444}}
          * }</pre>
          * 
-         * @param <A> the element type of all arrays and the result.
+         * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
          * @param <E> the type of exception that may be thrown.
          * @param a the first two-dimensional array (must not be {@code null}; used to infer the result element type).
-         * @param b the second two-dimensional array.
-         * @param c the third two-dimensional array.
+         * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+         * @param c the third two-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
@@ -15795,7 +15795,7 @@ public sealed class Arrays permits Arrays.f {
          * // sums is {{111, 20}, {202, 303}}
          * }</pre>
          * 
-         * @param <A> the element type of all arrays and the result.
+         * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
          * @param <E> the type of exception that may be thrown.
@@ -16979,7 +16979,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <B> the element type of the second array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the first three-dimensional array (must not be {@code null}; used to infer the result element type).
-         * @param b the second three-dimensional array.
+         * @param b the second three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the binary function to combine corresponding elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
@@ -17149,8 +17149,8 @@ public sealed class Arrays permits Arrays.f {
          * @param <C> the element type of the third array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the first three-dimensional array (must not be {@code null}; used to infer the result element type).
-         * @param b the second three-dimensional array.
-         * @param c the third three-dimensional array.
+         * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+         * @param c the third three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the ternary function to combine corresponding elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
