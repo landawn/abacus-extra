@@ -1547,45 +1547,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
-         *
-         * @return a new LongTuple.LongTuple4 with values (_4, _3, _2, _1)
-         */
-        @Override
-        public LongTuple4 reverse() {
-            return new LongTuple4(_4, _3, _2, _1);
-        }
-
-        /**
-         * Checks if any element equals the specified value.
-         *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the four elements
-         */
-        @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
-        }
-
-        /**
-         * Performs the given action for each element in order.
-         *
-         * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
-         */
-        @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
-
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-        }
-
-        /**
          * Returns the minimum value among the four elements.
          *
          * @return the smallest of _1, _2, _3, and _4
@@ -1634,6 +1595,45 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         @Override
         public double average() {
             return N.average(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new LongTuple.LongTuple4 with values (_4, _3, _2, _1)
+         */
+        @Override
+        public LongTuple4 reverse() {
+            return new LongTuple4(_4, _3, _2, _1);
+        }
+
+        /**
+         * Checks if any element equals the specified value.
+         *
+         * @param valueToFind the long value to search for
+         * @return {@code true} if valueToFind equals any of the four elements
+         */
+        @Override
+        public boolean contains(final long valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
         }
 
         /**
@@ -1940,47 +1940,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
-         *
-         * @return a new LongTuple.LongTuple6 with values (_6, _5, _4, _3, _2, _1)
-         */
-        @Override
-        public LongTuple6 reverse() {
-            return new LongTuple6(_6, _5, _4, _3, _2, _1);
-        }
-
-        /**
-         * Checks if any element equals the specified value.
-         *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the six elements
-         */
-        @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
-        }
-
-        /**
-         * Performs the given action for each element in order.
-         *
-         * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
-         */
-        @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
-
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-            consumer.accept(_5);
-            consumer.accept(_6);
-        }
-
-        /**
          * Returns the minimum value among the six elements.
          *
          * @return the smallest of _1, _2, _3, _4, _5, and _6
@@ -2029,6 +1988,47 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         @Override
         public double average() {
             return N.average(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new LongTuple.LongTuple6 with values (_6, _5, _4, _3, _2, _1)
+         */
+        @Override
+        public LongTuple6 reverse() {
+            return new LongTuple6(_6, _5, _4, _3, _2, _1);
+        }
+
+        /**
+         * Checks if any element equals the specified value.
+         *
+         * @param valueToFind the long value to search for
+         * @return {@code true} if valueToFind equals any of the six elements
+         */
+        @Override
+        public boolean contains(final long valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
         }
 
         /**
@@ -2144,49 +2144,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
-         *
-         * @return a new LongTuple.LongTuple7 with values (_7, _6, _5, _4, _3, _2, _1)
-         */
-        @Override
-        public LongTuple7 reverse() {
-            return new LongTuple7(_7, _6, _5, _4, _3, _2, _1);
-        }
-
-        /**
-         * Checks if any element equals the specified value.
-         *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the seven elements
-         */
-        @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind;
-        }
-
-        /**
-         * Performs the given action for each element in order.
-         *
-         * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
-         */
-        @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
-
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-            consumer.accept(_5);
-            consumer.accept(_6);
-            consumer.accept(_7);
-        }
-
-        /**
          * Returns the minimum value among the seven elements.
          *
          * @return the smallest of _1, _2, _3, _4, _5, _6, and _7
@@ -2235,6 +2192,49 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         @Override
         public double average() {
             return N.average(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new LongTuple.LongTuple7 with values (_7, _6, _5, _4, _3, _2, _1)
+         */
+        @Override
+        public LongTuple7 reverse() {
+            return new LongTuple7(_7, _6, _5, _4, _3, _2, _1);
+        }
+
+        /**
+         * Checks if any element equals the specified value.
+         *
+         * @param valueToFind the long value to search for
+         * @return {@code true} if valueToFind equals any of the seven elements
+         */
+        @Override
+        public boolean contains(final long valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
+                    || _7 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
         }
 
         /**
@@ -2356,50 +2356,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
-         *
-         * @return a new LongTuple.LongTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
-         */
-        @Override
-        public LongTuple8 reverse() {
-            return new LongTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
-        }
-
-        /**
-         * Checks if any element equals the specified value.
-         *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the eight elements
-         */
-        @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind;
-        }
-
-        /**
-         * Performs the given action for each element in order.
-         *
-         * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
-         */
-        @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
-
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-            consumer.accept(_5);
-            consumer.accept(_6);
-            consumer.accept(_7);
-            consumer.accept(_8);
-        }
-
-        /**
          * Returns the minimum value among the eight elements.
          *
          * @return the smallest of _1, _2, _3, _4, _5, _6, _7, and _8
@@ -2448,6 +2404,50 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         @Override
         public double average() {
             return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new LongTuple.LongTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
+         */
+        @Override
+        public LongTuple8 reverse() {
+            return new LongTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
+        }
+
+        /**
+         * Checks if any element equals the specified value.
+         *
+         * @param valueToFind the long value to search for
+         * @return {@code true} if valueToFind equals any of the eight elements
+         */
+        @Override
+        public boolean contains(final long valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
+                    || _7 == valueToFind || _8 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
         }
 
         /**
@@ -2575,51 +2575,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
-         *
-         * @return a new LongTuple.LongTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
-         */
-        @Override
-        public LongTuple9 reverse() {
-            return new LongTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
-        }
-
-        /**
-         * Checks if any element equals the specified value.
-         *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the nine elements
-         */
-        @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
-        }
-
-        /**
-         * Performs the given action for each element in order.
-         *
-         * @param <E> the type of exception that the consumer may throw
-         * @param consumer the action to perform on each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
-         */
-        @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
-
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-            consumer.accept(_5);
-            consumer.accept(_6);
-            consumer.accept(_7);
-            consumer.accept(_8);
-            consumer.accept(_9);
-        }
-
-        /**
          * Returns the minimum value among the nine elements.
          *
          * @return the smallest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
@@ -2668,6 +2623,51 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         @Override
         public double average() {
             return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new LongTuple.LongTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
+         */
+        @Override
+        public LongTuple9 reverse() {
+            return new LongTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
+        }
+
+        /**
+         * Checks if any element equals the specified value.
+         *
+         * @param valueToFind the long value to search for
+         * @return {@code true} if valueToFind equals any of the nine elements
+         */
+        @Override
+        public boolean contains(final long valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
+                    || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws IllegalArgumentException if {@code consumer} is {@code null}
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            N.checkArgNotNull(consumer);
+
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+            consumer.accept(_9);
         }
 
         /**
