@@ -4135,4 +4135,108 @@ class DoubleTupleTest extends TestBase {
         assertFalse(tuple9.equals("tuple9"));
     }
 
+    // Pin the Javadoc contract that contains/equals follow Double.compare semantics:
+    // NaN matches NaN, and +0.0 does not match -0.0. A regression to '==' or
+    // Double.doubleToRawLongBits would silently break these invariants.
+    @Test
+    public void testDoubleSemantics_NaN_and_signedZero() {
+        // ---- contains() must treat NaN as equal to NaN across all arities. ----
+        assertTrue(DoubleTuple.of(Double.NaN).contains(Double.NaN));
+        assertTrue(DoubleTuple.of(1d, Double.NaN).contains(Double.NaN));
+        assertTrue(DoubleTuple.of(1d, 2d, Double.NaN).contains(Double.NaN));
+        assertTrue(DoubleTuple.of(1d, 2d, 3d, Double.NaN).contains(Double.NaN));
+        assertTrue(DoubleTuple.of(1d, 2d, 3d, 4d, Double.NaN).contains(Double.NaN));
+        assertTrue(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, Double.NaN).contains(Double.NaN));
+        assertTrue(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, Double.NaN).contains(Double.NaN));
+        assertTrue(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, Double.NaN).contains(Double.NaN));
+        assertTrue(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, Double.NaN).contains(Double.NaN));
+
+        // ---- contains() must NOT treat +0.0 and -0.0 as equal. ----
+        assertFalse(DoubleTuple.of(0.0).contains(-0.0));
+        assertFalse(DoubleTuple.of(-0.0).contains(0.0));
+        assertFalse(DoubleTuple.of(1d, 0.0).contains(-0.0));
+        assertFalse(DoubleTuple.of(1d, 2d, 0.0).contains(-0.0));
+        assertFalse(DoubleTuple.of(1d, 2d, 3d, 0.0).contains(-0.0));
+        assertFalse(DoubleTuple.of(1d, 2d, 3d, 4d, 0.0).contains(-0.0));
+        // Same value matches with sign preserved.
+        assertTrue(DoubleTuple.of(0.0).contains(0.0));
+        assertTrue(DoubleTuple.of(-0.0).contains(-0.0));
+
+        // ---- equals() must treat NaN as equal to NaN. ----
+        assertEquals(DoubleTuple.of(Double.NaN), DoubleTuple.of(Double.NaN));
+        assertEquals(DoubleTuple.of(1d, Double.NaN), DoubleTuple.of(1d, Double.NaN));
+        assertEquals(DoubleTuple.of(1d, 2d, Double.NaN), DoubleTuple.of(1d, 2d, Double.NaN));
+        assertEquals(DoubleTuple.of(1d, 2d, 3d, Double.NaN), DoubleTuple.of(1d, 2d, 3d, Double.NaN));
+        assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, Double.NaN), DoubleTuple.of(1d, 2d, 3d, 4d, Double.NaN));
+        assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, Double.NaN), DoubleTuple.of(1d, 2d, 3d, 4d, 5d, Double.NaN));
+        assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, Double.NaN), DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, Double.NaN));
+        assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, Double.NaN), DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, Double.NaN));
+        assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, Double.NaN),
+                DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, Double.NaN));
+
+        // ---- equals() must NOT treat +0.0 and -0.0 as equal. ----
+        assertNotEquals(DoubleTuple.of(0.0), DoubleTuple.of(-0.0));
+        assertNotEquals(DoubleTuple.of(0.0, 1d), DoubleTuple.of(-0.0, 1d));
+        assertNotEquals(DoubleTuple.of(1d, 0.0, 2d), DoubleTuple.of(1d, -0.0, 2d));
+        assertNotEquals(DoubleTuple.of(1d, 2d, 0.0, 3d), DoubleTuple.of(1d, 2d, -0.0, 3d));
+        assertNotEquals(DoubleTuple.of(1d, 2d, 3d, 0.0, 4d), DoubleTuple.of(1d, 2d, 3d, -0.0, 4d));
+    }
+
+    // hashCode contract: equal tuples (per Double.compare) must have the same hash code.
+    // NaN hashes to a single canonical value, so two NaN-containing tuples share a hash.
+    // +0.0 and -0.0 are NOT equal and (correctly) hash differently because Double.hashCode
+    // is bit-pattern based.
+    @Test
+    public void testDoubleSemantics_HashCode_NaN_and_signedZero() {
+        // NaN: equal -> equal hash.
+        assertEquals(DoubleTuple.of(Double.NaN).hashCode(), DoubleTuple.of(Double.NaN).hashCode());
+        assertEquals(DoubleTuple.of(1d, Double.NaN).hashCode(), DoubleTuple.of(1d, Double.NaN).hashCode());
+        assertEquals(DoubleTuple.of(Double.NaN, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d).hashCode(),
+                DoubleTuple.of(Double.NaN, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d).hashCode());
+
+        // +0.0 vs -0.0: not equal; bit-pattern hash differs.
+        assertNotEquals(DoubleTuple.of(0.0).hashCode(), DoubleTuple.of(-0.0).hashCode());
+        assertNotEquals(DoubleTuple.of(1d, 0.0).hashCode(), DoubleTuple.of(1d, -0.0).hashCode());
+        assertNotEquals(DoubleTuple.of(0.0, 1d, 2d).hashCode(), DoubleTuple.of(-0.0, 1d, 2d).hashCode());
+    }
+
+    // Sum / average / min / max / median behavior with infinities and NaN.
+    @Test
+    public void testDoubleSemantics_AggregatesWithSpecialValues() {
+        // Sum: +INF + (-INF) = NaN (IEEE-754).
+        assertTrue(Double.isNaN(DoubleTuple.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY).sum()));
+        // Sum with NaN propagates.
+        assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, Double.NaN).sum()));
+        // Average with NaN propagates.
+        assertTrue(Double.isNaN(DoubleTuple.of(1d, 2d, Double.NaN).average()));
+
+        // Min/max with -0.0 vs +0.0: Math.min/max treats -0.0 as strictly less than +0.0.
+        assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).min()));
+        assertEquals(Double.doubleToRawLongBits(+0.0), Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).max()));
+        // Same for higher arities (Tuple4-9 use Math.min/max chains).
+        assertEquals(Double.doubleToRawLongBits(-0.0),
+                Double.doubleToRawLongBits(DoubleTuple.of(1d, 0.0, 2d, -0.0, 3d, 4d, 5d, 6d, 7d).min()));
+        assertEquals(Double.doubleToRawLongBits(+0.0),
+                Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).max()));
+
+        // Median for 2 elements is min(...), so NaN propagates.
+        assertTrue(Double.isNaN(DoubleTuple.of(1d, Double.NaN).median()));
+    }
+
+    // copyOf must dispatch to the correct arity-specific subtype based on length.
+    @Test
+    public void testCopyOf_dispatchesToCorrectArity() {
+        for (int len = 0; len <= 9; len++) {
+            final double[] src = new double[len];
+            for (int i = 0; i < len; i++) {
+                src[i] = i + 1.5;
+            }
+            final DoubleTuple<?> tuple = DoubleTuple.copyOf(src);
+            assertEquals(len, tuple.arity(), "arity mismatch for length " + len);
+            assertArrayEquals(src, tuple.toArray(), 0.0, "elements mismatch for length " + len);
+        }
+
+        assertThrows(IllegalArgumentException.class, () -> DoubleTuple.copyOf(new double[10]));
+    }
+
 }

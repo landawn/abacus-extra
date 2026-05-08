@@ -258,9 +258,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * or to the base tuple type.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
-     * @param values the array of long values (must have length 0-9), may be {@code null}
-     * @return a {@code LongTuple} of appropriate size containing the array values, or the shared empty tuple if the array is {@code null} or empty
-     * @throws IllegalArgumentException if the array has more than 9 elements
+     * @param values the array of long values; may be {@code null} or empty, in which case the shared empty tuple is returned
+     * @return a {@code LongTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
+     * @throws IllegalArgumentException if {@code values} has more than 9 elements
      */
     @SuppressWarnings("deprecation")
     public static <TP extends LongTuple<TP>> TP copyOf(final long[] values) {
@@ -1090,6 +1090,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.LongConsumer)
          * @see #map(Throwables.LongBiFunction)
@@ -1122,6 +1123,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.LongBiConsumer)
          * @see #filter(Throwables.LongBiPredicate)
@@ -1156,6 +1158,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, an empty {@code Optional} otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.LongBiConsumer)
          * @see #map(Throwables.LongBiFunction)
@@ -1374,6 +1377,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * @param <E> the type of exception that the action may throw
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.LongConsumer)
          * @see #map(Throwables.LongTriFunction)
@@ -1407,6 +1411,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.LongTriConsumer)
          * @see #filter(Throwables.LongTriPredicate)
@@ -1441,6 +1446,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, an empty {@code Optional} otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.LongTriConsumer)
          * @see #map(Throwables.LongTriFunction)

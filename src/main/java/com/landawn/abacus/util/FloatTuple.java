@@ -307,7 +307,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p>
      * This method finds and returns the smallest float value among all elements
      * in the tuple. For tuples with a single element, returns that element.
-     * If any element is {@code NaN}, the result is {@code NaN}.
+     * </p>
+     * <p>
+     * Comparisons are performed pairwise with {@link Math#min(float, float)}, so any
+     * {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0f} is
+     * treated as smaller than {@code +0.0f}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -341,7 +345,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p>
      * This method finds and returns the largest float value among all elements
      * in the tuple. For tuples with a single element, returns that element.
-     * If any element is {@code NaN}, the result is {@code NaN}.
+     * </p>
+     * <p>
+     * Comparisons are performed pairwise with {@link Math#max(float, float)}, so any
+     * {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0f} is
+     * treated as larger than {@code -0.0f}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -411,8 +419,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     /**
      * Returns the sum of all float values in this tuple.
      * <p>
-     * This method calculates the sum by adding all float values together.
-     * For an empty tuple, returns 0.0f. If any element is {@code NaN}, the result is {@code NaN}.
+     * For an empty tuple, returns {@code 0.0f}. If any element is {@code NaN},
+     * the result is {@code NaN}. Infinities follow standard IEEE-754 addition rules
+     * (e.g. {@code +INF + -INF} produces {@code NaN}).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -432,11 +441,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the average of all float values in this tuple.
+     * Returns the arithmetic mean of all float values in this tuple.
      * <p>
-     * This method calculates the arithmetic mean of all elements in the tuple.
      * The result is returned as a {@code double} to preserve precision.
-     * If any element is {@code NaN}, the result is {@code NaN}.
+     * If any element is {@code NaN}, the result is {@code NaN}. Infinities
+     * follow standard IEEE-754 rules.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -506,6 +515,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @param valueToFind the float value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+     * @see Float#compare(float, float)
      */
     public abstract boolean contains(float valueToFind);
 
@@ -619,9 +629,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     /**
      * Returns a hash code value for this tuple.
      * <p>
-     * The hash code is computed based on the contents of the tuple's elements.
-     * Tuples with identical elements in the same order will have the same hash code.
-     * This implementation is consistent with {@link #equals(Object)}.
+     * The hash code is computed from the contents of the tuple's elements using
+     * {@link Float#hashCode(float)} for each element (which is bit-pattern based,
+     * so {@code +0.0f} and {@code -0.0f} hash differently and {@code NaN} hashes
+     * to a single canonical value). Tuples with identical elements in the same
+     * order have the same hash code. This implementation is consistent with
+     * {@link #equals(Object)}.
      * </p>
      *
      * @return a hash code value for this tuple
@@ -638,7 +651,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * Two tuples are considered equal if and only if:
      * </p>
      * <ul>
-     * <li>They are of the exact same class (e.g., both FloatTuple.FloatTuple2)</li>
+     * <li>They are of the exact same runtime class (e.g., both {@code FloatTuple.FloatTuple2});
+     *     a {@code FloatTuple1} is never equal to a {@code FloatTuple2}, regardless of element values</li>
      * <li>They contain the same elements in the same order</li>
      * </ul>
      * <p>
@@ -700,10 +714,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * An empty FloatTuple containing no elements.
      * <p>
      * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
-     * with a single shared instance accessed via {@code FloatTuple.copyOf(new float[0])} or returned
-     * when creating tuples from {@code null} or empty arrays. All statistical operations on this empty
-     * tuple either return {@code 0.0f} (for {@link #sum()}) or throw {@link NoSuchElementException}
-     * (for {@link #min()}, {@link #max()}, {@link #median()}, {@link #average()}).
+     * with a single shared instance returned by {@link FloatTuple#copyOf(float[])} when called
+     * with a {@code null} or zero-length array. The class itself is package-private; callers see it
+     * as a {@code FloatTuple<?>}. The aggregate operation {@link #sum()} returns {@code 0.0f};
+     * {@link #min()}, {@link #max()}, {@link #median()}, and {@link #average()} all throw
+     * {@link NoSuchElementException}.
      * </p>
      */
     static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
@@ -910,7 +925,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a new tuple with the elements in reverse order.
-         * For a single-element tuple, returns a copy of itself.
+         * For a single-element tuple, the returned tuple has the same content,
+         * but a fresh instance is allocated rather than returning {@code this}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -918,7 +934,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * FloatTuple.FloatTuple1 reversed = tuple.reverse();   // (3.14f)
          * }</pre>
          *
-         * @return a new FloatTuple.FloatTuple1 with the same value
+         * @return a new {@code FloatTuple1} with the same value as this tuple
          */
         @Override
         public FloatTuple1 reverse() {
@@ -1028,8 +1044,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the minimum value among the two elements.
+         * If either element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the smaller of _1 and _2
+         * @return the smaller of {@code _1} and {@code _2}
          */
         @Override
         public float min() {
@@ -1038,8 +1055,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the maximum value among the two elements.
+         * If either element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the larger of _1 and _2
+         * @return the larger of {@code _1} and {@code _2}
          */
         @Override
         public float max() {
@@ -1047,10 +1065,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median float value in this tuple.
-         * For a tuple of two elements, returns the lower value.
+         * Returns the median of the two elements.
+         * Because there is an even number of elements, this is the lower of the
+         * two (i.e., {@code Math.min(_1, _2)}), not their average. If either
+         * element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the median (lower) float value
+         * @return the smaller of {@code _1} and {@code _2}, or {@code NaN} if either is {@code NaN}
          */
         @Override
         public float median() {
@@ -1059,8 +1079,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the sum of the two elements.
+         * If either element is {@code NaN} the result is {@code NaN}.
          *
-         * @return _1 + _2
+         * @return the sum of {@code _1} and {@code _2}
          */
         @Override
         public float sum() {
@@ -1068,9 +1089,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of the two elements.
+         * Returns the arithmetic mean of the two elements as a {@code double}.
+         * If either element is {@code NaN} the result is {@code NaN}.
          *
-         * @return (_1 + _2) / 2.0
+         * @return the average of {@code _1} and {@code _2}
          */
         @Override
         public double average() {
@@ -1141,6 +1163,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.FloatBiFunction)
          * @see #filter(Throwables.FloatBiPredicate)
@@ -1174,6 +1197,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper to _1 and _2 (may be {@code null} if the mapper returns {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.FloatBiConsumer)
          * @see #filter(Throwables.FloatBiPredicate)
@@ -1210,6 +1234,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.FloatBiConsumer)
          * @see #map(Throwables.FloatBiFunction)
@@ -1313,8 +1338,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the minimum value among the three elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the smallest of _1, _2, and _3
+         * @return the smallest of {@code _1}, {@code _2}, and {@code _3}
          */
         @Override
         public float min() {
@@ -1323,8 +1349,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the maximum value among the three elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return the largest of _1, _2, and _3
+         * @return the largest of {@code _1}, {@code _2}, and {@code _3}
          */
         @Override
         public float max() {
@@ -1333,9 +1360,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the three elements.
-         * For three elements (odd number), returns the middle value when sorted.
+         * Comparison uses {@link Float#compare(float, float)} semantics, so
+         * {@code NaN} is treated as the largest value.
          *
-         * @return the middle value when sorted
+         * @return the middle value when the three elements are sorted
          */
         @Override
         public float median() {
@@ -1344,8 +1372,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the sum of the three elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return _1 + _2 + _3
+         * @return the sum of {@code _1}, {@code _2}, and {@code _3}
          */
         @Override
         public float sum() {
@@ -1353,9 +1382,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of the three elements.
+         * Returns the arithmetic mean of the three elements as a {@code double}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3) / 3.0
+         * @return the average of {@code _1}, {@code _2}, and {@code _3}
          */
         @Override
         public double average() {
@@ -1431,6 +1461,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.FloatTriFunction)
          * @see #filter(Throwables.FloatTriPredicate)
@@ -1465,6 +1496,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper to _1, _2, and _3 (may be {@code null} if the mapper returns {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.FloatTriConsumer)
          * @see #filter(Throwables.FloatTriPredicate)
@@ -1501,6 +1533,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          * @see #accept(Throwables.FloatTriConsumer)
          * @see #map(Throwables.FloatTriFunction)
@@ -1566,7 +1599,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly four float values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * This arity does not expose the bi/tri-arg functional helpers that
+     * {@link FloatTuple2} and {@link FloatTuple3} provide.
+     * </p>
      */
     public static final class FloatTuple4 extends FloatTuple<FloatTuple4> {
 
@@ -1602,8 +1639,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the minimum value among the four elements.
+         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * treated as less than {@code +0.0f}.
          *
-         * @return the smallest of _1, _2, _3, and _4
+         * @return the smallest of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
         @Override
         public float min() {
@@ -1612,8 +1652,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the maximum value among the four elements.
+         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * treated as greater than {@code -0.0f}.
          *
-         * @return the largest of _1, _2, _3, and _4
+         * @return the largest of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
         @Override
         public float max() {
@@ -1622,9 +1665,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the four elements.
-         * For an even number of elements, returns the lower middle value.
+         * For an even number of elements, returns the lower of the two middle values
+         * (not their average). Ordering uses {@link Float#compare(float, float)}
+         * semantics, so {@code NaN} is treated as the largest value.
          *
-         * @return the median float value
+         * @return the lower middle value when the four elements are sorted
          */
         @Override
         public float median() {
@@ -1633,8 +1678,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the sum of the four elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4
+         * @return the sum of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
         @Override
         public float sum() {
@@ -1642,9 +1688,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of the four elements.
+         * Returns the arithmetic mean of the four elements as a {@code double}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4) / 4.0
+         * @return the average of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
         @Override
         public double average() {
@@ -1754,7 +1801,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly five float values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _5}.
+     * </p>
      */
     public static final class FloatTuple5 extends FloatTuple<FloatTuple5> {
 
@@ -1793,8 +1842,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the minimum value among the five elements.
+         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * treated as less than {@code +0.0f}.
          *
-         * @return the smallest of _1, _2, _3, _4, and _5
+         * @return the smallest of {@code _1} through {@code _5}
          */
         @Override
         public float min() {
@@ -1803,8 +1855,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the maximum value among the five elements.
+         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * treated as greater than {@code -0.0f}.
          *
-         * @return the largest of _1, _2, _3, _4, and _5
+         * @return the largest of {@code _1} through {@code _5}
          */
         @Override
         public float max() {
@@ -1813,9 +1868,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the five elements.
-         * For five elements (odd number), returns the middle value when sorted.
+         * For an odd number of elements, this is the exact middle value when sorted.
+         * Ordering uses {@link Float#compare(float, float)} semantics, so
+         * {@code NaN} is treated as the largest value.
          *
-         * @return the middle value when sorted
+         * @return the middle value when the five elements are sorted
          */
         @Override
         public float median() {
@@ -1824,8 +1881,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the sum of the five elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5
+         * @return the sum of {@code _1} through {@code _5}
          */
         @Override
         public float sum() {
@@ -1833,9 +1891,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of the five elements.
+         * Returns the arithmetic mean of the five elements as a {@code double}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5) / 5.0
+         * @return the average of {@code _1} through {@code _5}
          */
         @Override
         public double average() {
@@ -1948,7 +2007,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly six float values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _6}.
+     * </p>
      */
     public static final class FloatTuple6 extends FloatTuple<FloatTuple6> {
 
@@ -1990,8 +2051,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the minimum value among the six elements.
+         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * treated as less than {@code +0.0f}.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, and _6
+         * @return the smallest of {@code _1} through {@code _6}
          */
         @Override
         public float min() {
@@ -2000,8 +2064,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the maximum value among the six elements.
+         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * treated as greater than {@code -0.0f}.
          *
-         * @return the largest of _1, _2, _3, _4, _5, and _6
+         * @return the largest of {@code _1} through {@code _6}
          */
         @Override
         public float max() {
@@ -2010,9 +2077,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the six elements.
-         * For an even number of elements, returns the lower middle value.
+         * For an even number of elements, returns the lower of the two middle values
+         * (not their average). Ordering uses {@link Float#compare(float, float)}
+         * semantics, so {@code NaN} is treated as the largest value.
          *
-         * @return the median float value
+         * @return the lower middle value when the six elements are sorted
          */
         @Override
         public float median() {
@@ -2021,8 +2090,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the sum of the six elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6
+         * @return the sum of {@code _1} through {@code _6}
          */
         @Override
         public float sum() {
@@ -2030,9 +2100,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of the six elements.
+         * Returns the arithmetic mean of the six elements as a {@code double}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0
+         * @return the average of {@code _1} through {@code _6}
          */
         @Override
         public double average() {
@@ -2148,7 +2219,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly seven float values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _7}.
+     * </p>
      */
     public static final class FloatTuple7 extends FloatTuple<FloatTuple7> {
 
@@ -2193,8 +2266,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the minimum value among the seven elements.
+         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * treated as less than {@code +0.0f}.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, _6, and _7
+         * @return the smallest of {@code _1} through {@code _7}
          */
         @Override
         public float min() {
@@ -2203,8 +2279,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the maximum value among the seven elements.
+         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * treated as greater than {@code -0.0f}.
          *
-         * @return the largest of _1, _2, _3, _4, _5, _6, and _7
+         * @return the largest of {@code _1} through {@code _7}
          */
         @Override
         public float max() {
@@ -2213,9 +2292,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the seven elements.
-         * For seven elements (odd number), returns the middle value when sorted.
+         * For an odd number of elements, this is the exact middle value when sorted.
+         * Ordering uses {@link Float#compare(float, float)} semantics, so
+         * {@code NaN} is treated as the largest value.
          *
-         * @return the middle value when sorted
+         * @return the middle value when the seven elements are sorted
          */
         @Override
         public float median() {
@@ -2224,8 +2305,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the sum of the seven elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7
+         * @return the sum of {@code _1} through {@code _7}
          */
         @Override
         public float sum() {
@@ -2233,9 +2315,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of the seven elements.
+         * Returns the arithmetic mean of the seven elements as a {@code double}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0
+         * @return the average of {@code _1} through {@code _7}
          */
         @Override
         public double average() {
@@ -2353,7 +2436,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly eight float values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _8}.
+     * </p>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more float values
      */
@@ -2404,8 +2489,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the minimum value among the eight elements.
+         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * treated as less than {@code +0.0f}.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, and _8
+         * @return the smallest of {@code _1} through {@code _8}
          */
         @Override
         public float min() {
@@ -2414,8 +2502,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the maximum value among the eight elements.
+         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * treated as greater than {@code -0.0f}.
          *
-         * @return the largest of _1, _2, _3, _4, _5, _6, _7, and _8
+         * @return the largest of {@code _1} through {@code _8}
          */
         @Override
         public float max() {
@@ -2424,9 +2515,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the eight elements.
-         * For an even number of elements, returns the lower middle value.
+         * For an even number of elements, returns the lower of the two middle values
+         * (not their average). Ordering uses {@link Float#compare(float, float)}
+         * semantics, so {@code NaN} is treated as the largest value.
          *
-         * @return the median float value
+         * @return the lower middle value when the eight elements are sorted
          */
         @Override
         public float median() {
@@ -2435,8 +2528,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the sum of the eight elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8
+         * @return the sum of {@code _1} through {@code _8}
          */
         @Override
         public float sum() {
@@ -2444,9 +2538,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of the eight elements.
+         * Returns the arithmetic mean of the eight elements as a {@code double}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0
+         * @return the average of {@code _1} through {@code _8}
          */
         @Override
         public double average() {
@@ -2566,7 +2661,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly nine float values.
+     * <p>
      * Provides direct access to elements via public final fields {@code _1} through {@code _9}.
+     * </p>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more float values
      */
@@ -2621,8 +2718,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the minimum value among the nine elements.
+         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * treated as less than {@code +0.0f}.
          *
-         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         * @return the smallest of {@code _1} through {@code _9}
          */
         @Override
         public float min() {
@@ -2631,8 +2731,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the maximum value among the nine elements.
+         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
+         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * treated as greater than {@code -0.0f}.
          *
-         * @return the largest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         * @return the largest of {@code _1} through {@code _9}
          */
         @Override
         public float max() {
@@ -2641,9 +2744,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the nine elements.
-         * For nine elements (odd number), returns the middle value when sorted.
+         * For an odd number of elements, this is the exact middle value when sorted.
+         * Ordering uses {@link Float#compare(float, float)} semantics, so
+         * {@code NaN} is treated as the largest value.
          *
-         * @return the middle value when sorted
+         * @return the middle value when the nine elements are sorted
          */
         @Override
         public float median() {
@@ -2652,8 +2757,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the sum of the nine elements.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9
+         * @return the sum of {@code _1} through {@code _9}
          */
         @Override
         public float sum() {
@@ -2661,9 +2767,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of the nine elements.
+         * Returns the arithmetic mean of the nine elements as a {@code double}.
+         * If any element is {@code NaN}, the result is {@code NaN}.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0
+         * @return the average of {@code _1} through {@code _9}
          */
         @Override
         public double average() {

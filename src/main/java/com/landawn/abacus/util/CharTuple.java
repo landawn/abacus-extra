@@ -258,12 +258,14 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
-     * or to the base tuple type.</p>
+     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
+     * {@link ClassCastException} at the assignment site.</p>
      *
      * @param <TP> the base {@code CharTuple} type or matching arity-specific subtype expected by the caller
      * @param values the array of char values (must have length 0-9), may be {@code null}
      * @return a CharTuple of appropriate size containing the array values, or an empty CharTuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
+     * @see #of(char)
      */
     @SuppressWarnings("deprecation")
     public static <TP extends CharTuple<TP>> TP copyOf(final char[] values) {
@@ -960,7 +962,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return the numeric value of the char element
+         * @return the {@code int} value of the single char element
          */
         @Override
         public int hashCode() {
@@ -971,7 +973,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a CharTuple.CharTuple1 with the same element
+         * @return {@code true} if the specified object is a CharTuple.CharTuple1 with the same element, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1262,7 +1264,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a CharTuple.CharTuple2 with the same elements
+         * @return {@code true} if the specified object is a CharTuple.CharTuple2 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1557,7 +1559,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a CharTuple.CharTuple3 with the same elements
+         * @return {@code true} if the specified object is a CharTuple.CharTuple3 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1782,7 +1784,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a CharTuple.CharTuple4 with the same elements
+         * @return {@code true} if the specified object is a CharTuple.CharTuple4 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2011,7 +2013,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a CharTuple.CharTuple5 with the same elements
+         * @return {@code true} if the specified object is a CharTuple.CharTuple5 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2244,7 +2246,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a CharTuple.CharTuple6 with the same elements
+         * @return {@code true} if the specified object is a CharTuple.CharTuple6 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2482,7 +2484,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a CharTuple.CharTuple7 with the same elements
+         * @return {@code true} if the specified object is a CharTuple.CharTuple7 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2727,7 +2729,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a CharTuple.CharTuple8 with the same elements
+         * @return {@code true} if the specified object is a CharTuple.CharTuple8 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2977,7 +2979,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a CharTuple.CharTuple9 with the same elements
+         * @return {@code true} if the specified object is a CharTuple.CharTuple9 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {

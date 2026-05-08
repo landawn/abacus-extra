@@ -652,7 +652,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * </p>
      * <ul>
      * <li>They are of the exact same runtime class (e.g., both {@code DoubleTuple.DoubleTuple2});
-     *     a {@code DoubleTuple1} is never equal to a {@code DoubleTuple2}, even if both have arity-comparable contents</li>
+     *     a {@code DoubleTuple1} is never equal to a {@code DoubleTuple2}, regardless of element values</li>
      * <li>They contain the same elements in the same order</li>
      * </ul>
      * <p>
@@ -1163,6 +1163,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws E {
@@ -1194,6 +1195,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper to _1 and _2 (may be {@code null} if the mapper returns {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1228,6 +1230,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
@@ -1451,6 +1454,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
+         * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws E {
@@ -1483,6 +1487,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper to _1, _2, and _3 (may be {@code null} if the mapper returns {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1517,6 +1522,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E {

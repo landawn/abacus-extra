@@ -950,7 +950,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a ByteTuple.ByteTuple1 with the same element
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple1 with the same element, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1286,7 +1286,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a ByteTuple.ByteTuple2 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple2 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1641,7 +1641,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a ByteTuple.ByteTuple3 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple3 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1854,7 +1854,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a ByteTuple.ByteTuple4 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple4 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2071,7 +2071,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a ByteTuple.ByteTuple5 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple5 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2292,7 +2292,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a ByteTuple.ByteTuple6 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple6 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2518,7 +2518,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a ByteTuple.ByteTuple7 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple7 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2751,7 +2751,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a ByteTuple.ByteTuple8 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple8 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2989,7 +2989,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return {@code true} if the specified object is a ByteTuple.ByteTuple9 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple.ByteTuple9 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {

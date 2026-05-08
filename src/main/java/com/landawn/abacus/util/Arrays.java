@@ -75,11 +75,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@link N#println(Object)} and returns
-     * the formatted string for potential further use.</p>
-     *
-     * <p><b>Performance:</b> This method delegates to {@link N#println(Object)} and {@link N#toString(Object[])}
-     * for the actual formatting and printing operations.</p>
+     * <p>This method both prints the formatted string to the console and returns it for further use.</p>
      *
      * @param a the one-dimensional object array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
@@ -211,9 +207,6 @@ public sealed class Arrays permits Arrays.f {
      * String[] strings = Arrays.mapToObj(flags, b -> b ? "YES" : "NO", String.class);
      * // Result: ["YES", "NO", "YES"]
      * }</pre>
-     *
-     * <p><b>Type Conversion:</b> The target element type must be specified to ensure proper array creation
-     * and type safety throughout the transformation process.</p>
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
@@ -894,9 +887,6 @@ public sealed class Arrays permits Arrays.f {
      * // Result: ["98.6°F", "99.5°F", "97.3°F"]
      * }</pre>
      *
-     * <p><b>Type Conversion:</b> The target element type must be specified to ensure proper array creation
-     * and type safety throughout the transformation process.</p>
-     *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the float array to map (can be {@code null}).
@@ -1009,9 +999,6 @@ public sealed class Arrays permits Arrays.f {
      * String[] strings = Arrays.mapToObj(doubles, d -> String.format("%.1f", d), String.class);
      * // Result: ["1.5", "2.5", "3.5"]
      * }</pre>
-     *
-     * <p><b>Type Conversion:</b> The target element type must be specified to ensure proper array creation
-     * and type safety throughout the transformation process.</p>
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -6051,7 +6038,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
-     * This method flattens the array, applies the operation, then copies the values back to their original positions.
+     * Useful for applying one-dimensional operations (e.g., sorting) across an irregular two-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7622,7 +7609,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
@@ -7787,7 +7774,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
@@ -8906,7 +8893,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
@@ -9071,7 +9058,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
@@ -10188,7 +10175,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
@@ -10353,7 +10340,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final Throwables.FloatBinaryOperator<E> zipFunction)
@@ -10995,6 +10982,8 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces each element of the two-dimensional array with the specified new value if it satisfies the given predicate.
+     * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11023,6 +11012,8 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces each element of the three-dimensional array with the specified new value if it satisfies the given predicate.
+     * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -14058,9 +14049,9 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] source = {1L, 2L, 9007199254740992L};
+     * long[] source = {1L, 2L, 16777217L};
      * float[] result = Arrays.toFloat(source);
-     * // result may be {1.0f, 2.0f, 9.0071993E15f} (the third element loses precision)
+     * // result is {1.0f, 2.0f, 1.6777216E7f} (the third element loses precision)
      * }</pre>
      *
      * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
@@ -14983,7 +14974,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This class groups the bulk update, reshape, flatten, map, and zip operations that are specific
      * to {@code T[][]}. The short name is intentional so callers can use concise static imports when they
-     * work heavily with multidimensional object arrays.</p>
+     * work heavily with multidimensional object arrays. Unlike {@link f}, this class does not extend
+     * {@link Arrays}; it only exposes the 2D-specific helpers declared here.</p>
      *
      * @see Arrays.f
      * @see Arrays.fff
@@ -16368,7 +16360,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This class contains the {@code T[][][]} variants of the bulk update, reshape, flatten, map,
      * and zip operations exposed by {@link Arrays}. The compact name is deliberate and mirrors
-     * {@link f} and {@link ff} for convenient static import usage.</p>
+     * {@link f} and {@link ff} for convenient static import usage. Like {@link ff}, this class does
+     * not extend {@link Arrays}; only {@link f} inherits the parent class's static methods.</p>
      *
      * @see Arrays.f
      * @see Arrays.ff

@@ -270,14 +270,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * BooleanTuple.BooleanTuple1 single = BooleanTuple.copyOf(new boolean[]{true});
      * }</pre>
      *
-     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>Type note:</b> the runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of boolean values to copy; may be {@code null} or empty, and must contain at most 9 elements
-     * @return a BooleanTuple of the appropriate arity containing the array values, or an empty BooleanTuple if the array is {@code null} or empty
-     * @throws IllegalArgumentException if the array has more than 9 elements
+     * @return a BooleanTuple of the appropriate arity containing the array values, or an empty BooleanTuple if {@code values} is {@code null} or empty
+     * @throws IllegalArgumentException if {@code values.length} is greater than 9
      */
     @SuppressWarnings("deprecation")
     public static <TP extends BooleanTuple<TP>> TP copyOf(final boolean[] values) {
@@ -319,10 +319,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged as tuples are immutable.
+     * This method returns a tuple containing all elements in reversed order. The original
+     * tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -334,7 +334,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * BooleanTuple.BooleanTuple3 reversed = tuple.reverse();   // (true, false, true) - palindrome
      * }</pre>
      *
-     * @return a new tuple with the elements in reverse order
+     * <p>For tuples of arity 0 or 1, the returned tuple is equal to this one (reversing has no effect).
+     * The empty tuple returns itself; arity-1 tuples return a new instance with the same value.</p>
+     *
+     * @return a tuple of the same arity with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -381,6 +384,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * }</pre>
      *
      * @return a new boolean array containing all tuple elements
+     * @see #toList()
+     * @see #stream()
      */
     public boolean[] toArray() {
         return elements().clone();
@@ -405,6 +410,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * }</pre>
      *
      * @return a new BooleanList containing all tuple elements
+     * @see #toArray()
+     * @see #stream()
      */
     public BooleanList toList() {
         return BooleanList.of(elements().clone());
@@ -435,6 +442,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param consumer the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code consumer} is {@code null}
      * @throws E if the consumer throws an exception during execution
+     * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
         N.checkArgNotNull(consumer);
@@ -488,14 +496,16 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * Compares this tuple to the specified object for equality.
      *
      * <p>
-     * Two tuples are considered equal if and only if either:
+     * Two tuples are considered equal if and only if:
      * </p>
      * <ul>
      *   <li>they are the same object (reference equality), or</li>
-     *   <li>they are instances of the exact same runtime class and contain the same boolean values in the same order.</li>
+     *   <li>they are instances of the exact same runtime class (so tuples of different arity are never equal), and</li>
+     *   <li>they contain the same boolean values in the same order.</li>
      * </ul>
      *
-     * <p>This method is consistent with {@link #hashCode()}.</p>
+     * <p>This method is consistent with {@link #hashCode()}. The non-empty arity-specific subclasses
+     * override this method with an equivalent but specialized implementation that compares fields directly.</p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
@@ -538,10 +548,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     /**
      * Returns the internal array containing all boolean elements in this tuple.
      * <p>
-     * This method provides direct access to the underlying boolean array used by the tuple.
-     * Subclasses implement this method to return their internal storage. The returned array
-     * should not be modified directly as it may be shared or cached by the tuple implementation.
-     * For safe array access, use {@link #toArray()} instead, which returns a defensive copy.
+     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
      *
      * @return the internal array of boolean elements
@@ -549,11 +558,11 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     protected abstract boolean[] elements();
 
     /**
-     * An empty BooleanTuple containing no elements.
+     * An empty {@link BooleanTuple} containing no elements (arity 0).
      * <p>
-     * This class represents a tuple with arity 0 and exposes a shared {@code EMPTY} singleton
-     * for cases where an empty boolean tuple is needed. It is typically returned
-     * by the {@link #copyOf(boolean[])} method when a {@code null} or empty array is provided.
+     * This package-private class is exposed only through the base {@code BooleanTuple} type
+     * via the singleton instance returned by {@link #copyOf(boolean[])} when invoked with a
+     * {@code null} or zero-length array.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -687,7 +696,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return 1231 if the value is true, 1237 if false
+         * @return {@code 1231} if {@code _1} is {@code true}, {@code 1237} otherwise (the same values used by {@link Boolean#hashCode(boolean)})
          */
         @Override
         public int hashCode() {

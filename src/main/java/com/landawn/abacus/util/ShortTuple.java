@@ -1104,7 +1104,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
-         * @throws E if the action throws an exception
+         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws E if the action throws an exception during execution
          * @see #map(Throwables.ShortBiFunction)
          * @see #filter(Throwables.ShortBiPredicate)
          */
@@ -1131,8 +1132,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
-         * @return the result of applying the mapper function (may be {@code null})
-         * @throws E if the mapper throws an exception
+         * @return the result of applying the mapper function (may be {@code null} if the mapper returns {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws E if the mapper throws an exception during execution
          * @see #accept(Throwables.ShortBiConsumer)
          * @see #filter(Throwables.ShortBiPredicate)
          */
@@ -1163,7 +1165,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, otherwise an empty {@code Optional}
-         * @throws E if the predicate throws an exception
+         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.ShortBiConsumer)
          * @see #map(Throwables.ShortBiFunction)
          */
@@ -1377,7 +1380,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <E> the type of exception that the action may throw
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
-         * @throws E if the action throws an exception
+         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws E if the action throws an exception during execution
          * @see #map(Throwables.ShortTriFunction)
          * @see #filter(Throwables.ShortTriPredicate)
          */
@@ -1404,8 +1408,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
-         * @return the result of applying the mapper function (may be {@code null})
-         * @throws E if the mapper throws an exception
+         * @return the result of applying the mapper function (may be {@code null} if the mapper returns {@code null})
+         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws E if the mapper throws an exception during execution
          * @see #accept(Throwables.ShortTriConsumer)
          * @see #filter(Throwables.ShortTriPredicate)
          */
@@ -1436,7 +1441,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, otherwise an empty {@code Optional}
-         * @throws E if the predicate throws an exception
+         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.ShortTriConsumer)
          * @see #map(Throwables.ShortTriFunction)
          */

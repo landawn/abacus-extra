@@ -424,7 +424,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * System.out.println(array1.equals(array2));                // prints: true
      * System.out.println(array1.equals(array3));                // prints: false
-     * System.out.println(array1.equals(new int[] {1, 2, 3}));   // prints: false (raw int[] is not an ImmutableIntArray)
+     * System.out.println(array1.equals(new int[] {1, 2, 3}));   // prints: false (a raw int[] is not an ImmutableIntArray)
      * }</pre>
      *
      * @param obj the object to compare with this ImmutableIntArray

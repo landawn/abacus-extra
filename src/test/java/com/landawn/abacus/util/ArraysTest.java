@@ -12233,6 +12233,273 @@ class ArraysTest extends TestBase {
             double[] result = Arrays.mapToDouble(arr, l -> l * 1.5);
             assertArrayEquals(new double[] { 1.5, 3.0, 4.5 }, result, 0.001);
         }
+
+        // ============ Conversion methods - documented '> 0' semantics ============
+
+        @Test
+        public void testToBoolean_byteArray_negativeAndZeroBecomeFalse() {
+            byte[] a = { 1, 0, -1, 5, Byte.MAX_VALUE, Byte.MIN_VALUE, -128 };
+            boolean[] result = Arrays.toBoolean(a);
+            // Doc says strictly > 0; negative bytes (including -128 / Byte.MIN_VALUE) must be false.
+            assertArrayEquals(new boolean[] { true, false, false, true, true, false, false }, result);
+        }
+
+        @Test
+        public void testToBoolean_intArray_negativeAndZeroBecomeFalse() {
+            int[] a = { 1, 0, -1, 5, Integer.MAX_VALUE, Integer.MIN_VALUE };
+            boolean[] result = Arrays.toBoolean(a);
+            // Doc says strictly > 0; Integer.MIN_VALUE > 0 must evaluate to false.
+            assertArrayEquals(new boolean[] { true, false, false, true, true, false }, result);
+        }
+
+        @Test
+        public void testToBoolean_byte2DArray_nullSubArrayBecomesEmpty() {
+            byte[][] a = { { 1, -1 }, null, { 0 } };
+            boolean[][] result = Arrays.toBoolean(a);
+            assertEquals(3, result.length);
+            assertArrayEquals(new boolean[] { true, false }, result[0]);
+            assertNotNull(result[1]);
+            assertEquals(0, result[1].length);
+            assertArrayEquals(new boolean[] { false }, result[2]);
+        }
+
+        @Test
+        public void testToBoolean_int3DArray_nullSubArrayBecomesEmpty() {
+            int[][][] a = { { { 1, -1 } }, null, { { 0 } } };
+            boolean[][][] result = Arrays.toBoolean(a);
+            assertEquals(3, result.length);
+            assertArrayEquals(new boolean[] { true, false }, result[0][0]);
+            assertNotNull(result[1]);
+            assertEquals(0, result[1].length);
+            assertArrayEquals(new boolean[] { false }, result[2][0]);
+        }
+
+        // ============ Conversion - sign extension semantics ============
+
+        @Test
+        public void testToShort_byte_signExtended() {
+            byte[] a = { -1, -128, 0, 127, 1 };
+            short[] result = Arrays.toShort(a);
+            // byte -> short widening sign-extends: -1 stays -1, -128 stays -128.
+            assertArrayEquals(new short[] { -1, -128, 0, 127, 1 }, result);
+        }
+
+        @Test
+        public void testToInt_byte_signExtended() {
+            byte[] a = { -1, -128, 0, 127 };
+            int[] result = Arrays.toInt(a);
+            assertArrayEquals(new int[] { -1, -128, 0, 127 }, result);
+        }
+
+        @Test
+        public void testToInt_char_zeroExtended() {
+            // char is unsigned 16-bit; widening to int must NOT sign-extend.
+            char[] a = { ' ', 'ÿ', '￿', '耀' };
+            int[] result = Arrays.toInt(a);
+            assertArrayEquals(new int[] { 0, 0xFF, 0xFFFF, 0x8000 }, result);
+        }
+
+        @Test
+        public void testToLong_byte_signExtended() {
+            byte[] a = { -1, -128, 127 };
+            long[] result = Arrays.toLong(a);
+            assertArrayEquals(new long[] { -1L, -128L, 127L }, result);
+        }
+
+        @Test
+        public void testToLong_short_signExtended() {
+            short[] a = { -1, Short.MIN_VALUE, Short.MAX_VALUE };
+            long[] result = Arrays.toLong(a);
+            assertArrayEquals(new long[] { -1L, (long) Short.MIN_VALUE, (long) Short.MAX_VALUE }, result);
+        }
+
+        @Test
+        public void testToChar_int_truncatesToLow16Bits() {
+            // (char) cast keeps only low 16 bits; values outside 0..65535 wrap.
+            int[] a = { 65, 0x10041 /* wraps to 0x0041 = 'A' */, 0xFFFF, -1 /* wraps to 0xFFFF */ };
+            char[] result = Arrays.toChar(a);
+            assertEquals('A', result[0]);
+            assertEquals('A', result[1]);
+            assertEquals('￿', result[2]);
+            assertEquals('￿', result[3]);
+        }
+
+        @Test
+        public void testToInt_floatArray_NaNBecomesZero() {
+            // JLS narrowing: NaN -> 0, +Inf saturates to MAX, -Inf saturates to MIN.
+            float[] a = { Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, 1.7f, -3.9f };
+            int[] result = Arrays.toInt(a);
+            assertEquals(0, result[0]);
+            assertEquals(Integer.MAX_VALUE, result[1]);
+            assertEquals(Integer.MIN_VALUE, result[2]);
+            assertEquals(1, result[3]);
+            assertEquals(-3, result[4]);
+        }
+
+        @Test
+        public void testToLong_doubleArray_NaNBecomesZero() {
+            double[] a = { Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, 1.9, -2.1 };
+            long[] result = Arrays.toLong(a);
+            assertEquals(0L, result[0]);
+            assertEquals(Long.MAX_VALUE, result[1]);
+            assertEquals(Long.MIN_VALUE, result[2]);
+            assertEquals(1L, result[3]);
+            assertEquals(-2L, result[4]);
+        }
+
+        @Test
+        public void testToFloat_long_widening() {
+            long[] a = { 0L, 1L, -1L, Long.MAX_VALUE };
+            float[] result = Arrays.toFloat(a);
+            assertEquals(0.0f, result[0], 0.0f);
+            assertEquals(1.0f, result[1], 0.0f);
+            assertEquals(-1.0f, result[2], 0.0f);
+            // Long.MAX_VALUE rounds to 2^63 in float (loss of precision is documented).
+            assertEquals((float) Long.MAX_VALUE, result[3], 0.0f);
+        }
+
+        // ============ Null arg behavior on conversion methods ============
+
+        @Test
+        public void testConversion_nullInputs_returnEmptyArrays() {
+            assertEquals(0, Arrays.toBoolean((byte[]) null).length);
+            assertEquals(0, Arrays.toBoolean((byte[][]) null).length);
+            assertEquals(0, Arrays.toBoolean((byte[][][]) null).length);
+            assertEquals(0, Arrays.toBoolean((int[]) null).length);
+            assertEquals(0, Arrays.toChar((int[]) null).length);
+            assertEquals(0, Arrays.toByte((boolean[]) null).length);
+            assertEquals(0, Arrays.toShort((byte[]) null).length);
+            assertEquals(0, Arrays.toInt((boolean[]) null).length);
+            assertEquals(0, Arrays.toInt((char[]) null).length);
+            assertEquals(0, Arrays.toInt((byte[]) null).length);
+            assertEquals(0, Arrays.toInt((short[]) null).length);
+            assertEquals(0, Arrays.toInt((float[]) null).length);
+            assertEquals(0, Arrays.toInt((double[]) null).length);
+            assertEquals(0, Arrays.toLong((byte[]) null).length);
+            assertEquals(0, Arrays.toLong((short[]) null).length);
+            assertEquals(0, Arrays.toLong((int[]) null).length);
+            assertEquals(0, Arrays.toLong((float[]) null).length);
+            assertEquals(0, Arrays.toLong((double[]) null).length);
+            assertEquals(0, Arrays.toFloat((byte[]) null).length);
+            assertEquals(0, Arrays.toFloat((short[]) null).length);
+            assertEquals(0, Arrays.toFloat((int[]) null).length);
+            assertEquals(0, Arrays.toFloat((long[]) null).length);
+            assertEquals(0, Arrays.toDouble((byte[]) null).length);
+            assertEquals(0, Arrays.toDouble((short[]) null).length);
+            assertEquals(0, Arrays.toDouble((int[]) null).length);
+            assertEquals(0, Arrays.toDouble((long[]) null).length);
+            assertEquals(0, Arrays.toDouble((float[]) null).length);
+        }
+
+        // ============ ff/fff zip with default values - boundary behavior ============
+
+        @Test
+        public void testFF_zipWithDefaults_unequalRowCount_usesDefaults() {
+            Integer[][] aa = { { 1, 2 } };
+            Integer[][] bb = { { 10 }, { 20, 30 } };
+            Integer[][] result = ff.zip(aa, bb, 0, 0, (x, y) -> x + y);
+            assertEquals(2, result.length);
+            // Row 0: pair (1,10), (2, defaultB=0) -> (11, 2)
+            assertArrayEquals(new Integer[] { 11, 2 }, result[0]);
+            // Row 1: aa is shorter -> use defaultA=0; pair (0,20), (0,30)
+            assertArrayEquals(new Integer[] { 20, 30 }, result[1]);
+        }
+
+        @Test
+        public void testFF_zipWithDefaults_aShorter() {
+            Integer[][] aa = { { 1 } };
+            Integer[][] bb = { { 10, 20 }, { 30, 40 } };
+            Integer[][] result = ff.zip(aa, bb, 5, 0, (x, y) -> x + y);
+            assertEquals(2, result.length);
+            // Row 0: pair (1, 10), then aa[0] short -> (defaultA=5, 20) -> 25
+            assertArrayEquals(new Integer[] { 11, 25 }, result[0]);
+            // Row 1: aa[1] doesn't exist -> use defaultA=5 for all elements
+            assertArrayEquals(new Integer[] { 35, 45 }, result[1]);
+        }
+
+        @Test
+        public void testFFF_zipWithDefaults_unequalLengths() {
+            Integer[][][] aa = { { { 1, 2 } } };
+            Integer[][][] bb = { { { 10 } }, { { 20, 30 } } };
+            Integer[][][] result = fff.zip(aa, bb, 0, 0, (x, y) -> x + y);
+            assertEquals(2, result.length);
+            // Top-level i=0: zip 2D rows
+            assertArrayEquals(new Integer[] { 11, 2 }, result[0][0]);
+            // Top-level i=1: aa is too short -> defaultA used everywhere
+            assertArrayEquals(new Integer[] { 20, 30 }, result[1][0]);
+        }
+
+        @Test
+        public void testFFF_zipThreeArraysWithDefaults() {
+            Integer[][][] aa = { { { 1 } } };
+            Integer[][][] bb = { { { 10, 20 } } };
+            Integer[][][] cc = { { {} }, { { 100 } } };
+            Integer[][][] result = fff.zip(aa, bb, cc, 0, 0, 0, (x, y, z) -> x + y + z);
+            // Result should have outer length 2 (max of 1, 1, 2)
+            assertEquals(2, result.length);
+            // i=0: aa has 1, bb has [10,20], cc[0] = [[]] -> the inner row is empty
+            //      so column counts: aa[0][0]=[1], bb[0][0]=[10,20], cc[0][0]=[]
+            //      max=2, so zip across max 2 cols: (1,10,defaultC=0)=11, (defaultA=0,20,defaultC=0)=20
+            assertArrayEquals(new Integer[] { 11, 20 }, result[0][0]);
+            // i=1: aa missing, bb missing, cc[1]=[[100]]; defaults for missing
+            assertArrayEquals(new Integer[] { 100 }, result[1][0]);
+        }
+
+        // ============ ff/fff map - null sub-arrays produce empty inner arrays ============
+
+        @Test
+        public void testFF_mapToInt_nullInnerSubArrayBecomesEmpty() {
+            Integer[][] arr = { { 1, 2 }, null, { 3 } };
+            int[][] result = ff.mapToInt(arr, x -> x * 2);
+            assertEquals(3, result.length);
+            assertArrayEquals(new int[] { 2, 4 }, result[0]);
+            assertNotNull(result[1]);
+            assertEquals(0, result[1].length);
+            assertArrayEquals(new int[] { 6 }, result[2]);
+        }
+
+        @Test
+        public void testFFF_mapToBoolean_nullInnerSubArrayBecomesEmpty() {
+            Integer[][][] arr = { { { 1, 2 } }, null, { { 3 } } };
+            boolean[][][] result = fff.mapToBoolean(arr, x -> x > 1);
+            assertEquals(3, result.length);
+            assertArrayEquals(new boolean[] { false, true }, result[0][0]);
+            assertNotNull(result[1]);
+            assertEquals(0, result[1].length);
+            assertArrayEquals(new boolean[] { true }, result[2][0]);
+        }
+
+        // ============ ff.flatten - element count must match for jagged arrays ============
+
+        @Test
+        public void testFF_flatten_jaggedWithNullAndEmpty() {
+            Integer[][] arr = { { 1, 2 }, null, {}, { 3, 4, 5 } };
+            Integer[] result = ff.flatten(arr);
+            assertArrayEquals(new Integer[] { 1, 2, 3, 4, 5 }, result);
+        }
+
+        @Test
+        public void testFFF_flatten_jaggedWithNullAndEmpty() {
+            Integer[][][] arr = { { { 1, 2 }, null, { 3 } }, null, { {}, { 4, 5 } } };
+            Integer[] result = fff.flatten(arr);
+            assertArrayEquals(new Integer[] { 1, 2, 3, 4, 5 }, result);
+        }
+
+        // ============ f.mapToBoolean - boundary on empty/null source ============
+
+        @Test
+        public void testF_mapToBoolean_nullArray_returnsEmpty() {
+            boolean[] result = f.mapToBoolean((String[]) null, s -> true);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testF_mapToInt_appliesPerElement() {
+            String[] arr = { "1", "10", "100" };
+            int[] result = f.mapToInt(arr, Integer::parseInt);
+            assertArrayEquals(new int[] { 1, 10, 100 }, result);
+        }
     }
 
     @Nested
@@ -13768,6 +14035,323 @@ class ArraysTest extends TestBase {
             Arrays.applyOnFlattened(arr, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new byte[] { 1, 2 }, arr[0]);
             assertArrayEquals(new byte[] { 3, 4 }, arr[1]);
+        }
+
+        // ============================================
+        // Range 9001-12184: long/float/double bug-hunt tests
+        // ============================================
+
+        @Test
+        public void testLongZip2D_TernaryWithDefaultValues() throws Exception {
+            // Doc example at long Arrays.zip(long[][],long[][],long[][],long,long,long,...)
+            long[][] a = { { 1, 2 }, { 3, 4, 5 } };
+            long[][] b = { { 5, 6, 7 }, { 8, 9 }, { 10 } };
+            long[][] c = { { 10, 11 } };
+            long[][] result = Arrays.zip(a, b, c, 0L, 10L, 20L, (x, y, z) -> x + y + z);
+            assertEquals(3, result.length);
+            assertArrayEquals(new long[] { 16, 19, 27 }, result[0]);
+            assertArrayEquals(new long[] { 31, 33, 35 }, result[1]);
+            assertArrayEquals(new long[] { 30 }, result[2]);
+        }
+
+        @Test
+        public void testLongZip3D_TernaryWithDefaultValues() throws Exception {
+            // Doc example at long Arrays.zip(long[][][],long[][][],long[][][],long,long,long,...)
+            long[][][] a = { { { 1, 2 } } };
+            long[][][] b = { { { 11, 12 }, { 13, 14 } } };
+            long[][][] c = { { { 21, 22 } } };
+            long[][][] result = Arrays.zip(a, b, c, 0L, 10L, 20L, (x, y, z) -> x + y + z);
+            assertEquals(1, result.length);
+            assertEquals(2, result[0].length);
+            assertArrayEquals(new long[] { 33, 36 }, result[0][0]);
+            assertArrayEquals(new long[] { 33, 34 }, result[0][1]);
+        }
+
+        @Test
+        public void testLongZip3D_BinaryWithDefaultValues_FirstShorter() throws Exception {
+            // Doc example: a shorter than b at outer level, ensures defaultValueA used for missing 2D blocks
+            long[][][] a = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 } } };
+            long[][][] b = { { { 10, 20 }, { 30, 40 } }, { { 50, 60 }, { 70, 80 } }, { { 90 } } };
+            long[][][] result = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
+            assertEquals(3, result.length);
+            assertArrayEquals(new long[] { 11, 22 }, result[0][0]);
+            assertArrayEquals(new long[] { 33, 44 }, result[0][1]);
+            assertArrayEquals(new long[] { 55, 66 }, result[1][0]);
+            assertArrayEquals(new long[] { 70, 80 }, result[1][1]);
+            assertArrayEquals(new long[] { 90 }, result[2][0]);
+        }
+
+        @Test
+        public void testLongElementCount2DAnd3D() {
+            long[][] a2 = { { 1, 2 }, { 3, 4, 5 }, null };
+            assertEquals(5L, Arrays.elementCount(a2));
+            long[][][] a3 = { { { 1 }, { 2, 3 } }, null, { { 4, 5, 6 } } };
+            assertEquals(6L, Arrays.elementCount(a3));
+        }
+
+        @Test
+        public void testLongMinMaxSubArrayLength() {
+            long[][] a = { { 1L, 2L, 3L }, { 4L, 5L }, null, { 6L } };
+            assertEquals(0, Arrays.minSubArrayLength(a));
+            assertEquals(3, Arrays.maxSubArrayLength(a));
+        }
+
+        @Test
+        public void testLongPrintln() {
+            String s1 = Arrays.println(new long[] { 1L, 2L, 3L });
+            assertNotNull(s1);
+            assertTrue(s1.contains("1") && s1.contains("2") && s1.contains("3"));
+            String s2 = Arrays.println((long[]) null);
+            assertEquals("null", s2);
+            String s3 = Arrays.println(new long[0]);
+            assertEquals("[]", s3);
+        }
+
+        @Test
+        public void testFloatUpdateAll_All_Dims() throws Exception {
+            float[] a1 = { 1.0f, -2.0f, 3.0f };
+            Arrays.updateAll(a1, x -> Math.abs(x));
+            assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, a1, 0.0f);
+
+            float[][] a2 = { { 1.0f, -2.0f }, { -3.0f, 4.0f } };
+            Arrays.updateAll(a2, x -> x * x);
+            assertArrayEquals(new float[] { 1.0f, 4.0f }, a2[0], 0.0f);
+            assertArrayEquals(new float[] { 9.0f, 16.0f }, a2[1], 0.0f);
+
+            float[][][] a3 = { { { -1.0f } }, { { 2.0f } } };
+            Arrays.updateAll(a3, x -> -x);
+            assertArrayEquals(new float[] { 1.0f }, a3[0][0], 0.0f);
+            assertArrayEquals(new float[] { -2.0f }, a3[1][0], 0.0f);
+        }
+
+        @Test
+        public void testFloatReplaceIfWithNaN() throws Exception {
+            float[] a1 = { 1.0f, Float.NaN, 3.0f, Float.NaN };
+            Arrays.replaceIf(a1, Float::isNaN, 0.0f);
+            assertArrayEquals(new float[] { 1.0f, 0.0f, 3.0f, 0.0f }, a1, 0.0f);
+        }
+
+        @Test
+        public void testFloatReshape2D_And_3D() {
+            float[] arr = { 1, 2, 3, 4, 5, 6, 7 };
+            float[][] grid = Arrays.reshape(arr, 3);
+            assertArrayEquals(new float[] { 1, 2, 3 }, grid[0], 0.0f);
+            assertArrayEquals(new float[] { 4, 5, 6 }, grid[1], 0.0f);
+            assertArrayEquals(new float[] { 7 }, grid[2], 0.0f);
+
+            float[][][] cube = Arrays.reshape(arr, 2, 2);
+            assertEquals(2, cube.length);
+            assertArrayEquals(new float[] { 1, 2 }, cube[0][0], 0.0f);
+            assertArrayEquals(new float[] { 3, 4 }, cube[0][1], 0.0f);
+            assertArrayEquals(new float[] { 5, 6 }, cube[1][0], 0.0f);
+            assertArrayEquals(new float[] { 7 }, cube[1][1], 0.0f);
+        }
+
+        @Test
+        public void testFloatFlatten_PreservesNaN() {
+            float[][] grid = { { 1.0f, Float.NaN }, { 3.0f, 4.0f } };
+            float[] flat = Arrays.flatten(grid);
+            assertEquals(4, flat.length);
+            assertEquals(1.0f, flat[0], 0.0f);
+            assertTrue(Float.isNaN(flat[1]));
+            assertEquals(3.0f, flat[2], 0.0f);
+            assertEquals(4.0f, flat[3], 0.0f);
+        }
+
+        @Test
+        public void testFloatApplyOnFlattened_Sort() {
+            float[][] grid = { { 4.0f, 1.0f }, { 3.0f, 2.0f } };
+            Arrays.applyOnFlattened(grid, t -> java.util.Arrays.sort(t));
+            assertArrayEquals(new float[] { 1.0f, 2.0f }, grid[0], 0.0f);
+            assertArrayEquals(new float[] { 3.0f, 4.0f }, grid[1], 0.0f);
+        }
+
+        @Test
+        public void testFloatZip1D_DefaultValues() throws Exception {
+            // Doc: zip({1,2,3,4}, {5,6}, 0, 10, +) => {6,8,13,14}
+            float[] a = { 1, 2, 3, 4 };
+            float[] b = { 5, 6 };
+            float[] result = Arrays.zip(a, b, 0f, 10f, (x, y) -> x + y);
+            assertArrayEquals(new float[] { 6, 8, 13, 14 }, result, 0.0f);
+        }
+
+        @Test
+        public void testFloatZip3D_TernaryWithDefaultValues() throws Exception {
+            float[][][] a = { { { 1, 2 } } };
+            float[][][] b = { { { 11, 12 }, { 13, 14 } } };
+            float[][][] c = { { { 21, 22 } } };
+            float[][][] result = Arrays.zip(a, b, c, 0f, 10f, 20f, (x, y, z) -> x + y + z);
+            assertEquals(1, result.length);
+            assertEquals(2, result[0].length);
+            assertArrayEquals(new float[] { 33, 36 }, result[0][0], 0.0f);
+            assertArrayEquals(new float[] { 33, 34 }, result[0][1], 0.0f);
+        }
+
+        @Test
+        public void testFloatZip3D_BinaryWithDefaultValues_FirstShorter() throws Exception {
+            float[][][] a = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 } } };
+            float[][][] b = { { { 10, 20 }, { 30, 40 } }, { { 50, 60 }, { 70, 80 } }, { { 90 } } };
+            float[][][] result = Arrays.zip(a, b, 0f, 10f, (x, y) -> x + y);
+            assertEquals(3, result.length);
+            assertArrayEquals(new float[] { 11, 22 }, result[0][0], 0.0f);
+            assertArrayEquals(new float[] { 33, 44 }, result[0][1], 0.0f);
+            assertArrayEquals(new float[] { 55, 66 }, result[1][0], 0.0f);
+            assertArrayEquals(new float[] { 70, 80 }, result[1][1], 0.0f);
+            assertArrayEquals(new float[] { 90 }, result[2][0], 0.0f);
+        }
+
+        @Test
+        public void testFloatElementCount() {
+            float[][] grid = { { 1.0f }, { 2.0f, 3.0f }, null };
+            assertEquals(3L, Arrays.elementCount(grid));
+            float[][][] cube = { { { 1.0f } }, { { 2.0f, 3.0f }, null }, null };
+            assertEquals(3L, Arrays.elementCount(cube));
+        }
+
+        @Test
+        public void testFloatMinMaxSubArrayLength() {
+            float[][] grid = { { 1.0f, 2.0f }, { 3.0f }, null };
+            assertEquals(0, Arrays.minSubArrayLength(grid));
+            float[][] grid2 = { { 1.0f }, { 2.0f, 3.0f, 4.0f }, null };
+            assertEquals(3, Arrays.maxSubArrayLength(grid2));
+        }
+
+        @Test
+        public void testFloatPrintln_SpecialValues() {
+            // Verify NaN and Infinity render via println
+            float[] a = { Float.NaN, Float.POSITIVE_INFINITY, 1.5f };
+            String s = Arrays.println(a);
+            assertNotNull(s);
+            assertTrue(s.contains("NaN"));
+            assertTrue(s.contains("Infinity"));
+
+            String s2 = Arrays.println(new float[][] { { 1.5f, 2.5f }, null, { 3.5f } });
+            assertTrue(s2.contains("1.5"));
+            assertTrue(s2.contains("null"));
+
+            String s3 = Arrays.println(new float[][][] { { { 1.5f, 2.5f } }, { { 3.5f } } });
+            assertTrue(s3.contains("[[1.5, 2.5]]"));
+        }
+
+        @Test
+        public void testDoubleUpdateAll_NaN_Behavior() throws Exception {
+            double[] a = { 1.0, Double.NaN, -2.0 };
+            Arrays.updateAll(a, x -> Math.abs(x));
+            assertEquals(1.0, a[0], 0.0);
+            assertTrue(Double.isNaN(a[1])); // abs(NaN) = NaN
+            assertEquals(2.0, a[2], 0.0);
+        }
+
+        @Test
+        public void testDoubleReplaceIf_NaN_Infinity() throws Exception {
+            double[][] grid = { { 1.0, -2.0 }, { Double.NaN, 4.0 } };
+            Arrays.replaceIf(grid, x -> Double.isNaN(x), 0.0);
+            assertArrayEquals(new double[] { 1.0, -2.0 }, grid[0], 0.0);
+            assertArrayEquals(new double[] { 0.0, 4.0 }, grid[1], 0.0);
+
+            double[][][] cube = { { { 1.0 }, { Double.POSITIVE_INFINITY } }, { { 3.0 }, { -4.0 } } };
+            Arrays.replaceIf(cube, x -> !Double.isFinite(x), -1.0);
+            assertEquals(1.0, cube[0][0][0], 0.0);
+            assertEquals(-1.0, cube[0][1][0], 0.0);
+            assertEquals(3.0, cube[1][0][0], 0.0);
+            assertEquals(-4.0, cube[1][1][0], 0.0);
+        }
+
+        @Test
+        public void testDoubleReshape3D() {
+            double[] arr = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            double[][][] cube = Arrays.reshape(arr, 2, 3);
+            assertEquals(2, cube.length);
+            assertArrayEquals(new double[] { 1, 2, 3 }, cube[0][0], 0.0);
+            assertArrayEquals(new double[] { 4, 5, 6 }, cube[0][1], 0.0);
+            assertArrayEquals(new double[] { 7, 8, 9 }, cube[1][0], 0.0);
+            assertArrayEquals(new double[] { 10 }, cube[1][1], 0.0);
+        }
+
+        @Test
+        public void testDoubleFlatten_3D_WithNullsAndEmpties() {
+            double[][][] cube = { { { 1.0 }, { 2.0, 3.0 } }, null, { { 4.0 } }, { null, {}, { 5.0 } } };
+            double[] flat = Arrays.flatten(cube);
+            assertArrayEquals(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0 }, flat, 0.0);
+        }
+
+        @Test
+        public void testDoubleApplyOnFlattened_3D() {
+            double[][][] cube = { { { 9.0, 2.0 } }, { { 5.0 }, { 1.0 } } };
+            Arrays.applyOnFlattened(cube, arr -> java.util.Arrays.sort(arr));
+            assertArrayEquals(new double[] { 1.0, 2.0 }, cube[0][0], 0.0);
+            assertArrayEquals(new double[] { 5.0 }, cube[1][0], 0.0);
+            assertArrayEquals(new double[] { 9.0 }, cube[1][1], 0.0);
+        }
+
+        @Test
+        public void testDoubleZip1D_DefaultValues() throws Exception {
+            double[] a = { 1, 2, 3, 4 };
+            double[] b = { 5, 6 };
+            double[] result = Arrays.zip(a, b, 0d, 10d, (x, y) -> x + y);
+            assertArrayEquals(new double[] { 6, 8, 13, 14 }, result, 0.0);
+        }
+
+        @Test
+        public void testDoubleZip3D_TernaryWithDefaultValues() throws Exception {
+            double[][][] a = { { { 1, 2 } } };
+            double[][][] b = { { { 11, 12 }, { 13, 14 } } };
+            double[][][] c = { { { 21, 22 } } };
+            double[][][] result = Arrays.zip(a, b, c, 0d, 10d, 20d, (x, y, z) -> x + y + z);
+            assertEquals(1, result.length);
+            assertEquals(2, result[0].length);
+            assertArrayEquals(new double[] { 33, 36 }, result[0][0], 0.0);
+            assertArrayEquals(new double[] { 33, 34 }, result[0][1], 0.0);
+        }
+
+        @Test
+        public void testDoubleZip3D_BinaryWithDefaultValues_FirstShorter() throws Exception {
+            double[][][] a = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 } } };
+            double[][][] b = { { { 10, 20 }, { 30, 40 } }, { { 50, 60 }, { 70, 80 } }, { { 90 } } };
+            double[][][] result = Arrays.zip(a, b, 0d, 10d, (x, y) -> x + y);
+            assertEquals(3, result.length);
+            assertArrayEquals(new double[] { 11, 22 }, result[0][0], 0.0);
+            assertArrayEquals(new double[] { 33, 44 }, result[0][1], 0.0);
+            assertArrayEquals(new double[] { 55, 66 }, result[1][0], 0.0);
+            assertArrayEquals(new double[] { 70, 80 }, result[1][1], 0.0);
+            assertArrayEquals(new double[] { 90 }, result[2][0], 0.0);
+        }
+
+        @Test
+        public void testDoubleElementCountAndMinMax() {
+            double[][] grid = { { 1, 2 }, { 3, 4, 5 }, null, {} };
+            assertEquals(5L, Arrays.elementCount(grid));
+            double[][][] cube = { { { 1 }, { 2, 3 } }, null, { { 4 } } };
+            assertEquals(4L, Arrays.elementCount(cube));
+            assertEquals(0, Arrays.minSubArrayLength(grid));
+            assertEquals(3, Arrays.maxSubArrayLength(grid));
+        }
+
+        @Test
+        public void testDoublePrintln_3D_WithNulls() {
+            double[][][] arr = { { { 1.1, 2.2, 3.3 }, { 4.4, 5.5 } }, { { 6.6, 7.7 }, null, {} }, null };
+            String s = Arrays.println(arr);
+            assertNotNull(s);
+            assertTrue(s.contains("1.1"));
+            assertTrue(s.contains("4.4"));
+            assertTrue(s.contains("null"));
+            assertTrue(s.contains("[]"));
+        }
+
+        @Test
+        public void testZipLong3D_BothEmpty() throws Exception {
+            long[][][] r = Arrays.zip((long[][][]) null, (long[][][]) null, (x, y) -> x + y);
+            assertEquals(0, r.length);
+            long[][][] r2 = Arrays.zip((long[][][]) null, (long[][][]) null, 0L, 0L, (x, y) -> x + y);
+            assertEquals(0, r2.length);
+        }
+
+        @Test
+        public void testZipFloat3D_AllNullInputs() throws Exception {
+            float[][][] r = Arrays.zip((float[][][]) null, (float[][][]) null, (float[][][]) null, (x, y, z) -> x + y + z);
+            assertEquals(0, r.length);
+            float[][][] r2 = Arrays.zip((float[][][]) null, (float[][][]) null, (float[][][]) null, 0f, 0f, 0f, (x, y, z) -> x + y + z);
+            assertEquals(0, r2.length);
         }
     }
 
