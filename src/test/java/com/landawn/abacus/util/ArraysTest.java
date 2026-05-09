@@ -14407,4 +14407,240 @@ class ArraysTest extends TestBase {
         assertTrue(floatCube.contains("[[1.5, 2.5]]"));
     }
 
+    // -- Tests for f / ff / fff (Object array helper namespaces) ---------------------------------
+
+    @Test
+    public void testF_mapPrimitiveTypes() throws Exception {
+        String[] strings = { "1", "2", "3" };
+        Integer[] ints = f.map(strings, Integer::valueOf, Integer.class);
+        assertArrayEquals(new Integer[] { 1, 2, 3 }, ints);
+
+        assertArrayEquals(new boolean[] { true, false, true }, f.mapToBoolean(new String[] { "hello", "hi", "world" }, s -> s.length() > 3));
+        assertArrayEquals(new char[] { 'a', 'b', 'c' }, f.mapToChar(new String[] { "apple", "banana", "cherry" }, s -> s.charAt(0)));
+        assertArrayEquals(new byte[] { 10, 20, 30 }, f.mapToByte(new String[] { "10", "20", "30" }, Byte::parseByte));
+        assertArrayEquals(new short[] { 100, 200, 300 }, f.mapToShort(new String[] { "100", "200", "300" }, Short::parseShort));
+        assertArrayEquals(new int[] { 10, 20, 30 }, f.mapToInt(new String[] { "10", "20", "30" }, Integer::parseInt));
+        assertArrayEquals(new long[] { 1000L, 2000L, 3000L }, f.mapToLong(new String[] { "1000", "2000", "3000" }, Long::parseLong));
+        assertArrayEquals(new float[] { 1.5f, 2.5f, 3.5f }, f.mapToFloat(new String[] { "1.5", "2.5", "3.5" }, Float::parseFloat), 0.0f);
+        assertArrayEquals(new double[] { 1.5, 2.5, 3.5 }, f.mapToDouble(new String[] { "1.5", "2.5", "3.5" }, Double::parseDouble), 0.0);
+    }
+
+    @Test
+    public void testFF_reshape_jaggedLastRow() {
+        Integer[] arr = { 1, 2, 3, 4, 5, 6, 7 };
+        Integer[][] reshaped = ff.reshape(arr, 3);
+        assertEquals(3, reshaped.length);
+        assertArrayEquals(new Integer[] { 1, 2, 3 }, reshaped[0]);
+        assertArrayEquals(new Integer[] { 4, 5, 6 }, reshaped[1]);
+        assertArrayEquals(new Integer[] { 7 }, reshaped[2]);
+    }
+
+    @Test
+    public void testFF_flatten_skipsNullAndEmptySubArrays() {
+        Integer[][] arr = { { 1, 2 }, null, { 3, 4, 5 }, {}, { 6 } };
+        Integer[] flat = ff.flatten(arr);
+        assertArrayEquals(new Integer[] { 1, 2, 3, 4, 5, 6 }, flat);
+    }
+
+    @Test
+    public void testFF_flatten_preservesComponentType() {
+        Integer[][] arr = { { 1, 2 }, { 3 } };
+        Integer[] flat = ff.flatten(arr);
+        // Component type must be Integer, not Object
+        assertEquals(Integer.class, flat.getClass().getComponentType());
+        assertArrayEquals(new Integer[] { 1, 2, 3 }, flat);
+    }
+
+    @Test
+    public void testFF_replaceIf_skipsNullSubArrays() throws Exception {
+        Integer[][] arr = { { 1, null, 3 }, null, { null, 5, 6 } };
+        ff.replaceIf(arr, val -> val == null, 0);
+        assertArrayEquals(new Integer[] { 1, 0, 3 }, arr[0]);
+        assertNull(arr[1]);
+        assertArrayEquals(new Integer[] { 0, 5, 6 }, arr[2]);
+    }
+
+    @Test
+    public void testFF_updateAll_skipsNullSubArrays() throws Exception {
+        String[][] arr = { { "a", "b" }, null, { "c" } };
+        ff.updateAll(arr, String::toUpperCase);
+        assertArrayEquals(new String[] { "A", "B" }, arr[0]);
+        assertNull(arr[1]);
+        assertArrayEquals(new String[] { "C" }, arr[2]);
+    }
+
+    @Test
+    public void testFF_map_preservesShape() throws Exception {
+        Integer[][] arr = { { 1, 2 }, { 3, 4, 5 } };
+        Integer[][] doubled = ff.map(arr, x -> x * 2);
+        assertArrayEquals(new Integer[] { 2, 4 }, doubled[0]);
+        assertArrayEquals(new Integer[] { 6, 8, 10 }, doubled[1]);
+    }
+
+    @Test
+    public void testFF_zip_truncatesToMin() throws Exception {
+        Integer[][] a = { { 1, 2, 3 }, { 4, 5 } };
+        Integer[][] b = { { 10, 20 }, { 30, 40, 50 }, { 60 } };
+        Integer[][] sums = ff.zip(a, b, (x, y) -> x + y);
+        assertEquals(2, sums.length);
+        assertArrayEquals(new Integer[] { 11, 22 }, sums[0]);
+        assertArrayEquals(new Integer[] { 34, 45 }, sums[1]);
+    }
+
+    @Test
+    public void testFF_zipWithDefaults_extendsToMax() throws Exception {
+        Integer[][] a = { { 1, 2 }, { 3 } };
+        Integer[][] b = { { 10 }, { 30, 40 }, { 100 } };
+        Integer[][] sums = ff.zip(a, b, 0, 0, (x, y) -> x + y);
+        assertEquals(3, sums.length);
+        assertArrayEquals(new Integer[] { 11, 2 }, sums[0]);
+        assertArrayEquals(new Integer[] { 33, 40 }, sums[1]);
+        assertArrayEquals(new Integer[] { 100 }, sums[2]);
+    }
+
+    @Test
+    public void testFF_zip3_truncatesToMin() throws Exception {
+        Integer[][] a = { { 1, 2 }, { 3, 4 } };
+        Integer[][] b = { { 10, 20 }, { 30, 40 }, { 50 } };
+        Integer[][] c = { { 100, 200 }, { 300, 400 } };
+        Integer[][] sums = ff.zip(a, b, c, (x, y, z) -> x + y + z);
+        assertEquals(2, sums.length);
+        assertArrayEquals(new Integer[] { 111, 222 }, sums[0]);
+        assertArrayEquals(new Integer[] { 333, 444 }, sums[1]);
+    }
+
+    @Test
+    public void testFF_zip3WithDefaults_extendsToMax() throws Exception {
+        Integer[][] a = { { 1 }, { 2, 3 } };
+        Integer[][] b = { { 10, 20 } };
+        Integer[][] c = { { 100 }, { 200, 300 }, { 400 } };
+        Integer[][] sums = ff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+        assertEquals(3, sums.length);
+        assertArrayEquals(new Integer[] { 111, 20 }, sums[0]);
+        assertArrayEquals(new Integer[] { 202, 303 }, sums[1]);
+        assertArrayEquals(new Integer[] { 400 }, sums[2]);
+    }
+
+    @Test
+    public void testFF_elementCount_handlesNullSubArrays() {
+        Object[][] arr = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
+        assertEquals(6L, ff.elementCount(arr));
+    }
+
+    @Test
+    public void testFF_minMaxSubArrayLength() {
+        Object[][] arr = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
+        assertEquals(0, ff.minSubArrayLength(arr));
+        assertEquals(3, ff.maxSubArrayLength(arr));
+    }
+
+    @Test
+    public void testFF_mutateAsFlat_sortsAcrossRows() throws Exception {
+        Integer[][] arr = { { 3, 1, 4 }, { 1, 5, 9 } };
+        ff.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
+        assertArrayEquals(new Integer[] { 1, 1, 3 }, arr[0]);
+        assertArrayEquals(new Integer[] { 4, 5, 9 }, arr[1]);
+    }
+
+    @Test
+    public void testFFF_reshape_3x2() {
+        Integer[] flat = { 1, 2, 3, 4, 5, 6, 7, 8 };
+        Integer[][][] reshaped = fff.reshape(flat, 2, 2);
+        assertEquals(2, reshaped.length);
+        assertArrayEquals(new Integer[] { 1, 2 }, reshaped[0][0]);
+        assertArrayEquals(new Integer[] { 3, 4 }, reshaped[0][1]);
+        assertArrayEquals(new Integer[] { 5, 6 }, reshaped[1][0]);
+        assertArrayEquals(new Integer[] { 7, 8 }, reshaped[1][1]);
+    }
+
+    @Test
+    public void testFFF_flatten_skipsNullsAtAllLevels() {
+        Integer[][][] arr = { { { 1, 2 }, null, { 3 } }, null, { { 4, 5, 6 } } };
+        Integer[] flat = fff.flatten(arr);
+        assertArrayEquals(new Integer[] { 1, 2, 3, 4, 5, 6 }, flat);
+        assertEquals(Integer.class, flat.getClass().getComponentType());
+    }
+
+    @Test
+    public void testFFF_replaceIf_skipsNullsAtAllLevels() throws Exception {
+        Integer[][][] arr = { { { 1, null, 3 } }, null, { null, { null, 5 } } };
+        fff.replaceIf(arr, v -> v == null, 0);
+        assertArrayEquals(new Integer[] { 1, 0, 3 }, arr[0][0]);
+        assertNull(arr[1]);
+        assertNull(arr[2][0]);
+        assertArrayEquals(new Integer[] { 0, 5 }, arr[2][1]);
+    }
+
+    @Test
+    public void testFFF_zip2_truncatesToMin() throws Exception {
+        Integer[][][] a = { { { 1, 2 } }, { { 3, 4 } } };
+        Integer[][][] b = { { { 10, 20 } }, { { 30, 40 } }, { { 50, 60 } } };
+        Integer[][][] sums = fff.zip(a, b, (x, y) -> x + y);
+        assertEquals(2, sums.length);
+        assertArrayEquals(new Integer[] { 11, 22 }, sums[0][0]);
+        assertArrayEquals(new Integer[] { 33, 44 }, sums[1][0]);
+    }
+
+    @Test
+    public void testFFF_zip2WithDefaults_extendsToMax() throws Exception {
+        Integer[][][] a = { { { 1, 2 } } };
+        Integer[][][] b = { { { 10 } }, { { 20, 30 } } };
+        Integer[][][] result = fff.zip(a, b, 0, 0, (x, y) -> x + y);
+        assertEquals(2, result.length);
+        assertArrayEquals(new Integer[] { 11, 2 }, result[0][0]);
+        assertArrayEquals(new Integer[] { 20, 30 }, result[1][0]);
+    }
+
+    @Test
+    public void testFFF_zip3_truncatesToMin() throws Exception {
+        Integer[][][] a = { { { 1, 2 } }, { { 3, 4 } } };
+        Integer[][][] b = { { { 10, 20 } }, { { 30, 40 } } };
+        Integer[][][] c = { { { 100, 200 } }, { { 300, 400 } }, { { 500, 600 } } };
+        Integer[][][] sums = fff.zip(a, b, c, (x, y, z) -> x + y + z);
+        assertEquals(2, sums.length);
+        assertArrayEquals(new Integer[] { 111, 222 }, sums[0][0]);
+        assertArrayEquals(new Integer[] { 333, 444 }, sums[1][0]);
+    }
+
+    @Test
+    public void testFFF_zip3WithDefaults_extendsToMax() throws Exception {
+        Integer[][][] a = { { { 1 } } };
+        Integer[][][] b = { { { 10, 20 } } };
+        Integer[][][] c = { { {} }, { { 100 } } };
+        Integer[][][] result = fff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+        assertEquals(2, result.length);
+        assertArrayEquals(new Integer[] { 11, 20 }, result[0][0]);
+        assertArrayEquals(new Integer[] { 100 }, result[1][0]);
+    }
+
+    @Test
+    public void testFFF_mutateAsFlat_sortsAcrossAllLevels() throws Exception {
+        Integer[][][] arr = { { { 5, 2 } }, { { 9, 1 } }, { { 3, 7 } } };
+        fff.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
+        assertArrayEquals(new Integer[] { 1, 2 }, arr[0][0]);
+        assertArrayEquals(new Integer[] { 3, 5 }, arr[1][0]);
+        assertArrayEquals(new Integer[] { 7, 9 }, arr[2][0]);
+    }
+
+    @Test
+    public void testFFF_elementCount_handlesNullsAtAllLevels() {
+        Object[][][] arr = { { { 1, 2 }, { 3 } }, null, { null, { 4, 5, 6 } } };
+        assertEquals(6L, fff.elementCount(arr));
+    }
+
+    @Test
+    public void testFFF_mapToInt_acrossPrimitiveVariants() throws Exception {
+        String[][][] strs = { { { "1", "2" } }, { { "3", "4" } } };
+        int[][][] ints = fff.mapToInt(strs, Integer::parseInt);
+        assertArrayEquals(new int[] { 1, 2 }, ints[0][0]);
+        assertArrayEquals(new int[] { 3, 4 }, ints[1][0]);
+
+        long[][][] longs = fff.mapToLong(strs, Long::parseLong);
+        assertArrayEquals(new long[] { 1L, 2L }, longs[0][0]);
+
+        boolean[][][] bools = fff.mapToBoolean(strs, s -> Integer.parseInt(s) > 2);
+        assertArrayEquals(new boolean[] { false, false }, bools[0][0]);
+        assertArrayEquals(new boolean[] { true, true }, bools[1][0]);
+    }
+
 }
