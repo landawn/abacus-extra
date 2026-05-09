@@ -473,15 +473,15 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         // ============================================
-        // Tests for subArray() method
+        // Tests for copyOfRange() method
         // ============================================
 
         @Test
-        public void testSubArray_FullRange() {
+        public void testCopyOfRange_FullRange() {
             int[] data = { 1, 2, 3, 4, 5 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-            int[] copy = immutable.subArray(0, 5);
+            int[] copy = immutable.copyOfRange(0, 5);
 
             assertEquals(5, copy.length);
             assertEquals(1, copy[0]);
@@ -489,11 +489,11 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
-        public void testSubArray_PartialRange() {
+        public void testCopyOfRange_PartialRange() {
             int[] data = { 10, 20, 30, 40, 50 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-            int[] copy = immutable.subArray(1, 4);
+            int[] copy = immutable.copyOfRange(1, 4);
 
             assertEquals(3, copy.length);
             assertEquals(20, copy[0]);
@@ -502,37 +502,37 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
-        public void testSubArray_EmptyRange() {
+        public void testCopyOfRange_EmptyRange() {
             int[] data = { 1, 2, 3 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-            int[] copy = immutable.subArray(1, 1);
+            int[] copy = immutable.copyOfRange(1, 1);
 
             assertEquals(0, copy.length);
         }
 
         @Test
-        public void testSubArray_InvalidFromIndex() {
+        public void testCopyOfRange_InvalidFromIndex() {
             int[] data = { 1, 2, 3 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-            assertThrows(IndexOutOfBoundsException.class, () -> immutable.subArray(-1, 2));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(-1, 2));
         }
 
         @Test
-        public void testSubArray_InvalidToIndex() {
+        public void testCopyOfRange_InvalidToIndex() {
             int[] data = { 1, 2, 3 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-            assertThrows(IndexOutOfBoundsException.class, () -> immutable.subArray(0, 10));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(0, 10));
         }
 
         @Test
-        public void testSubArray_FromIndexGreaterThanToIndex() {
+        public void testCopyOfRange_FromIndexGreaterThanToIndex() {
             int[] data = { 1, 2, 3 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-            assertThrows(IndexOutOfBoundsException.class, () -> immutable.subArray(2, 1));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(2, 1));
         }
 
         // ============================================
@@ -831,18 +831,18 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
-        public void testImmutableIntArraySubArray() {
-            // From subArray() Javadoc
+        public void testImmutableIntArrayCopyOfRange() {
+            // From copyOfRange() Javadoc
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 10, 20, 30, 40, 50 });
 
-            int[] subArray = array.subArray(1, 4);
-            assertArrayEquals(new int[] { 20, 30, 40 }, subArray); // {20, 30, 40} with length 3
-            assertEquals(3, subArray.length);
+            int[] range = array.copyOfRange(1, 4);
+            assertArrayEquals(new int[] { 20, 30, 40 }, range); // {20, 30, 40} with length 3
+            assertEquals(3, range.length);
 
-            int[] first3 = array.subArray(0, 3);
+            int[] first3 = array.copyOfRange(0, 3);
             assertArrayEquals(new int[] { 10, 20, 30 }, first3);
 
-            int[] empty = array.subArray(2, 2);
+            int[] empty = array.copyOfRange(2, 2);
             assertEquals(0, empty.length); // empty array with length 0
         }
 
@@ -924,17 +924,17 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
-        public void testImmutableIntArray_subArray() {
-            // From subArray Javadoc
+        public void testImmutableIntArray_copyOfRange() {
+            // From copyOfRange Javadoc
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 10, 20, 30, 40, 50 });
 
-            int[] subArray = array.subArray(1, 4);
-            assertArrayEquals(new int[] { 20, 30, 40 }, subArray); // contains {20, 30, 40}
+            int[] range = array.copyOfRange(1, 4);
+            assertArrayEquals(new int[] { 20, 30, 40 }, range); // contains {20, 30, 40}
 
-            int[] first3 = array.subArray(0, 3);
+            int[] first3 = array.copyOfRange(0, 3);
             assertArrayEquals(new int[] { 10, 20, 30 }, first3); // contains {10, 20, 30}
 
-            int[] empty = array.subArray(2, 2);
+            int[] empty = array.copyOfRange(2, 2);
             assertEquals(0, empty.length); // empty array with length 0
         }
 

@@ -438,17 +438,17 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * // count is now 2
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown by the consumer
-     * @param consumer the action to be performed for each element, must not be {@code null}
-     * @throws IllegalArgumentException if {@code consumer} is {@code null}
-     * @throws E if the consumer throws an exception during execution
+     * @param <E> the type of exception that may be thrown by the action
+     * @param action the action to be performed for each element, must not be {@code null}
+     * @throws IllegalArgumentException if {@code action} is {@code null}
+     * @throws E if the action throws an exception during execution
      * @see #stream()
      */
-    public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
-        N.checkArgNotNull(consumer);
+    public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+        N.checkArgNotNull(action);
 
         for (final boolean element : elements()) {
-            consumer.accept(element);
+            action.accept(element);
         }
     }
 
@@ -817,16 +817,16 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
+         * @param action the action to be performed for each element
+         * @throws IllegalArgumentException if {@code action} is {@code null}
+         * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+            N.checkArgNotNull(action);
 
-            consumer.accept(_1);
-            consumer.accept(_2);
+            action.accept(_1);
+            action.accept(_2);
         }
 
         /**
@@ -1051,17 +1051,17 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
+         * @param action the action to be performed for each element
+         * @throws IllegalArgumentException if {@code action} is {@code null}
+         * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+            N.checkArgNotNull(action);
 
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
+            action.accept(_1);
+            action.accept(_2);
+            action.accept(_3);
         }
 
         /**
@@ -1297,18 +1297,18 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
+         * @param action the action to be performed for each element
+         * @throws IllegalArgumentException if {@code action} is {@code null}
+         * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+            N.checkArgNotNull(action);
 
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
+            action.accept(_1);
+            action.accept(_2);
+            action.accept(_3);
+            action.accept(_4);
         }
 
         /**
@@ -1450,19 +1450,19 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
+         * @param action the action to be performed for each element
+         * @throws IllegalArgumentException if {@code action} is {@code null}
+         * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+            N.checkArgNotNull(action);
 
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-            consumer.accept(_5);
+            action.accept(_1);
+            action.accept(_2);
+            action.accept(_3);
+            action.accept(_4);
+            action.accept(_5);
         }
 
         /**
@@ -1608,20 +1608,20 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
+         * @param action the action to be performed for each element
+         * @throws IllegalArgumentException if {@code action} is {@code null}
+         * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+            N.checkArgNotNull(action);
 
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-            consumer.accept(_5);
-            consumer.accept(_6);
+            action.accept(_1);
+            action.accept(_2);
+            action.accept(_3);
+            action.accept(_4);
+            action.accept(_5);
+            action.accept(_6);
         }
 
         /**
@@ -1772,21 +1772,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
+         * @param action the action to be performed for each element
+         * @throws IllegalArgumentException if {@code action} is {@code null}
+         * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+            N.checkArgNotNull(action);
 
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-            consumer.accept(_5);
-            consumer.accept(_6);
-            consumer.accept(_7);
+            action.accept(_1);
+            action.accept(_2);
+            action.accept(_3);
+            action.accept(_4);
+            action.accept(_5);
+            action.accept(_6);
+            action.accept(_7);
         }
 
         /**
@@ -1945,22 +1945,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
+         * @param action the action to be performed for each element
+         * @throws IllegalArgumentException if {@code action} is {@code null}
+         * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+            N.checkArgNotNull(action);
 
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-            consumer.accept(_5);
-            consumer.accept(_6);
-            consumer.accept(_7);
-            consumer.accept(_8);
+            action.accept(_1);
+            action.accept(_2);
+            action.accept(_3);
+            action.accept(_4);
+            action.accept(_5);
+            action.accept(_6);
+            action.accept(_7);
+            action.accept(_8);
         }
 
         /**
@@ -2124,23 +2124,23 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Performs the given action for each element in this tuple.
          *
          * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws IllegalArgumentException if {@code consumer} is {@code null}
-         * @throws E if the consumer throws an exception
+         * @param action the action to be performed for each element
+         * @throws IllegalArgumentException if {@code action} is {@code null}
+         * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> consumer) throws E {
-            N.checkArgNotNull(consumer);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+            N.checkArgNotNull(action);
 
-            consumer.accept(_1);
-            consumer.accept(_2);
-            consumer.accept(_3);
-            consumer.accept(_4);
-            consumer.accept(_5);
-            consumer.accept(_6);
-            consumer.accept(_7);
-            consumer.accept(_8);
-            consumer.accept(_9);
+            action.accept(_1);
+            action.accept(_2);
+            action.accept(_3);
+            action.accept(_4);
+            action.accept(_5);
+            action.accept(_6);
+            action.accept(_7);
+            action.accept(_8);
+            action.accept(_9);
         }
 
         /**

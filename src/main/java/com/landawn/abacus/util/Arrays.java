@@ -1989,7 +1989,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(boolean[][][]) for flattening three-dimensional arrays
-     * @see #applyOnFlattened(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlat(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static boolean[] flatten(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -2029,7 +2029,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(boolean[][]) for flattening two-dimensional arrays
-     * @see #applyOnFlattened(boolean[][][], Throwables.Consumer) for performing operations on flattened three-dimensional arrays
+     * @see #mutateAsFlat(boolean[][][], Throwables.Consumer) for performing operations on flattened three-dimensional arrays
      */
     public static boolean[] flatten(final boolean[][][] a) {
         if (N.isEmpty(a)) {
@@ -2069,7 +2069,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {false, true}};
-     * Arrays.applyOnFlattened(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });   // Flips all elements
+     * Arrays.mutateAsFlat(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });   // Flips all elements
      * // arr is now: {{false, true}, {true, false}}
      * }</pre>
      *
@@ -2079,9 +2079,9 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
      * @see #flatten(boolean[][]) for just flattening without applying operations
-     * @see #applyOnFlattened(boolean[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlat(boolean[][][], Throwables.Consumer) for three-dimensional arrays
      */
-    public static <E extends Exception> void applyOnFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -2110,7 +2110,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}};
-     * Arrays.applyOnFlattened(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; });   // Flips all elements
+     * Arrays.mutateAsFlat(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; });   // Flips all elements
      * // cube's structure is preserved while values are inverted
      * }</pre>
      *
@@ -2120,9 +2120,9 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
      * @see #flatten(boolean[][][]) for just flattening without applying operations
-     * @see #applyOnFlattened(boolean[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlat(boolean[][], Throwables.Consumer) for two-dimensional arrays
      */
-    public static <E extends Exception> void applyOnFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -3336,7 +3336,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional character array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(char[][][]) for three-dimensional arrays
-     * @see #applyOnFlattened(char[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(char[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static char[] flatten(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -3375,7 +3375,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional character array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(char[][]) for two-dimensional arrays
-     * @see #applyOnFlattened(char[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(char[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static char[] flatten(final char[][][] a) {
         if (N.isEmpty(a)) {
@@ -3415,7 +3415,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'c', 'a'}, {'b'}};
-     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
      * // array becomes {{'a', 'b'}, {'c'}}
      * }</pre>
      *
@@ -3424,10 +3424,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(char[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlat(char[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(char[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -3456,7 +3456,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'d', 'a'}}, {{'c'}, {'b'}}};
-     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
      * // array becomes {{{'a', 'b'}}, {{'c'}, {'d'}}}
      * }</pre>
      *
@@ -3465,10 +3465,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(char[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlat(char[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(char[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -4613,7 +4613,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional byte array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(byte[][][]) for three-dimensional arrays
-     * @see #applyOnFlattened(byte[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(byte[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static byte[] flatten(final byte[][] a) {
         if (N.isEmpty(a)) {
@@ -4652,7 +4652,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional byte array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(byte[][]) for two-dimensional arrays
-     * @see #applyOnFlattened(byte[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(byte[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static byte[] flatten(final byte[][][] a) {
         if (N.isEmpty(a)) {
@@ -4690,7 +4690,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] arr = {{3, 1}, {4, 2}};
-     * Arrays.applyOnFlattened(arr, t -> java.util.Arrays.sort(t));   // Sorts all elements
+     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));   // Sorts all elements
      * // arr becomes: {{1, 2}, {3, 4}}
      * }</pre>
      *
@@ -4699,10 +4699,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(byte[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlat(byte[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(byte[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -4731,7 +4731,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] cube = {{{3, 1}, {4, 2}}, {{6, 5}, {8, 7}}};
-     * Arrays.applyOnFlattened(cube, arr -> java.util.Arrays.sort(arr));   // Sorts all elements
+     * Arrays.mutateAsFlat(cube, arr -> java.util.Arrays.sort(arr));   // Sorts all elements
      * // cube's structure is preserved but elements are sorted
      * }</pre>
      *
@@ -4740,10 +4740,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(byte[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlat(byte[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(byte[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -5966,7 +5966,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(short[][][]) for three-dimensional arrays
-     * @see #applyOnFlattened(short[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(short[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static short[] flatten(final short[][] a) {
         if (N.isEmpty(a)) {
@@ -6005,7 +6005,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(short[][]) for two-dimensional arrays
-     * @see #applyOnFlattened(short[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(short[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static short[] flatten(final short[][][] a) {
         if (N.isEmpty(a)) {
@@ -6043,7 +6043,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{3, 1}, {4, 2}};
-     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));   // sorts all elements across sub-arrays
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));   // sorts all elements across sub-arrays
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -6051,10 +6051,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(short[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlat(short[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(short[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -6081,7 +6081,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{5, 2}}, {{3, 1}}};
-     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));   // sorts all elements across all sub-arrays
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));   // sorts all elements across all sub-arrays
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -6089,10 +6089,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(short[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlat(short[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(short[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -7267,7 +7267,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(int[][][]) for three-dimensional arrays
-     * @see #applyOnFlattened(int[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(int[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static int[] flatten(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -7309,7 +7309,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(int[][]) for two-dimensional arrays
-     * @see #applyOnFlattened(int[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(int[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static int[] flatten(final int[][][] a) {
         if (N.isEmpty(a)) {
@@ -7350,7 +7350,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] arr = {{3, 1, 4}, {1, 5, 9}};
-     * Arrays.applyOnFlattened(arr, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
      * // arr is now {{1, 1, 3}, {4, 5, 9}}
      * }</pre>
      *
@@ -7359,10 +7359,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(int[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlat(int[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(int[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -7393,7 +7393,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] arr = {{{5, 2}}, {{8, 1}}};
-     * Arrays.applyOnFlattened(arr, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
      * // arr is now {{{1, 2}}, {{5, 8}}}
      * }</pre>
      *
@@ -7402,10 +7402,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(int[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlat(int[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(int[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -8562,7 +8562,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(long[][][]) for three-dimensional arrays
-     * @see #applyOnFlattened(long[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(long[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static long[] flatten(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -8600,7 +8600,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(long[][]) for two-dimensional arrays
-     * @see #applyOnFlattened(long[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlat(long[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static long[] flatten(final long[][][] a) {
         if (N.isEmpty(a)) {
@@ -8637,7 +8637,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{3L, 1L}, {4L, 2L}};
-     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
      * // array is now {{1L, 2L}, {3L, 4L}}
      * }</pre>
      *
@@ -8646,10 +8646,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(long[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlat(long[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(long[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -8676,7 +8676,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{3L}, {1L}}, {{4L, 2L}}};
-     * Arrays.applyOnFlattened(array, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
      * // array is now {{{1L}, {2L}}, {{3L, 4L}}}
      * }</pre>
      *
@@ -8685,10 +8685,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(long[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlat(long[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(long[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -9841,7 +9841,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(float[][][]) for flattening three-dimensional arrays
-     * @see #applyOnFlattened(float[][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlat(float[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static float[] flatten(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -9880,7 +9880,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(float[][]) for flattening two-dimensional arrays
-     * @see #applyOnFlattened(float[][][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlat(float[][][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static float[] flatten(final float[][][] a) {
         if (N.isEmpty(a)) {
@@ -9919,7 +9919,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] grid = {{4.0f, 1.0f}, {3.0f, 2.0f}};
-     * Arrays.applyOnFlattened(grid, N::sort);   // grid becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * Arrays.mutateAsFlat(grid, N::sort);   // grid becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -9927,10 +9927,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(float[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlat(float[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(float[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -9959,7 +9959,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] cube = {{{4.0f, 1.0f}}, {{3.0f, 2.0f}}};
-     * Arrays.applyOnFlattened(cube, N::sort);   // cube becomes {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     * Arrays.mutateAsFlat(cube, N::sort);   // cube becomes {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -9967,10 +9967,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(float[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlat(float[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(float[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -11132,7 +11132,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(double[][][]) for flattening three-dimensional arrays
-     * @see #applyOnFlattened(double[][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlat(double[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static double[] flatten(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -11171,7 +11171,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
      * @see #flatten(double[][]) for flattening two-dimensional arrays
-     * @see #applyOnFlattened(double[][][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlat(double[][][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static double[] flatten(final double[][][] a) {
         if (N.isEmpty(a)) {
@@ -11210,7 +11210,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] grid = {{5.0, 2.0}, {8.0, 1.0}};
-     * Arrays.applyOnFlattened(grid, arr -> java.util.Arrays.sort(arr));
+     * Arrays.mutateAsFlat(grid, arr -> java.util.Arrays.sort(arr));
      * // grid is now {{1.0, 2.0}, {5.0, 8.0}}
      * }</pre>
      *
@@ -11219,10 +11219,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(double[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlat(double[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(double[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -11251,7 +11251,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] cube = {{{9.0, 2.0}}, {{5.0}, {1.0}}};
-     * Arrays.applyOnFlattened(cube, arr -> java.util.Arrays.sort(arr));
+     * Arrays.mutateAsFlat(cube, arr -> java.util.Arrays.sort(arr));
      * // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
      * }</pre>
      *
@@ -11260,10 +11260,10 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #applyOnFlattened(double[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlat(double[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(double[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void applyOnFlattened(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlat(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E {
         N.checkArgNotNull(action, "action");
 
         if (N.isEmpty(a)) {
@@ -15157,7 +15157,7 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Integer[][] array = {{3, 1, 4}, {1, 5, 9}};
-         * ff.applyOnFlattened(array, arr -> java.util.Arrays.sort(arr));
+         * ff.mutateAsFlat(array, arr -> java.util.Arrays.sort(arr));
          * // array is now {{1, 1, 3}, {4, 5, 9}}
          * }</pre>
          *
@@ -15168,7 +15168,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws IllegalArgumentException if {@code action} is {@code null}.
          * @throws E if the operation throws an exception.
          */
-        public static <T, E extends Exception> void applyOnFlattened(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E {
+        public static <T, E extends Exception> void mutateAsFlat(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E {
             N.checkArgNotNull(action, "action");
 
             if (N.isEmpty(a)) {
@@ -16549,7 +16549,7 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Integer[][][] arr = {{{5, 2}}, {{9, 1}}, {{3, 7}}};
-         * fff.applyOnFlattened(arr, flat -> java.util.Arrays.sort(flat));
+         * fff.mutateAsFlat(arr, flat -> java.util.Arrays.sort(flat));
          * // arr is now {{{1, 2}}, {{3, 5}}, {{7, 9}}}
          * }</pre>
          *
@@ -16560,7 +16560,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws IllegalArgumentException if {@code action} is {@code null}.
          * @throws E if the operation throws an exception.
          */
-        public static <T, E extends Exception> void applyOnFlattened(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E {
+        public static <T, E extends Exception> void mutateAsFlat(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E {
             N.checkArgNotNull(action, "action");
 
             if (N.isEmpty(a)) {
