@@ -3470,6 +3470,31 @@ class BooleanTupleTest extends TestBase {
     }
 
     @Test
+    public void testHashCodeSeedConsistency() {
+        // Tuple1 uses seed=0: hashCode = elementHash
+        assertEquals(1231, BooleanTuple.of(true).hashCode());
+        assertEquals(1237, BooleanTuple.of(false).hashCode());
+
+        // Tuple2 uses seed=0: hashCode = 31 * h1 + h2 (consistent with Tuple1 and IntTuple2 pattern)
+        assertEquals(31 * 1231 + 1237, BooleanTuple.of(true, false).hashCode());
+        assertEquals(31 * 1237 + 1231, BooleanTuple.of(false, true).hashCode());
+
+        // Tuple3 uses seed=0: hashCode = 31 * (31 * h1 + h2) + h3
+        assertEquals(31 * (31 * 1231 + 1237) + 1231, BooleanTuple.of(true, false, true).hashCode());
+
+        // Tuple4 uses seed=0
+        assertEquals(31 * (31 * (31 * 1231 + 1237) + 1231) + 1237,
+                BooleanTuple.of(true, false, true, false).hashCode());
+
+        // Tuple5 uses seed=0
+        assertEquals(31 * (31 * (31 * (31 * 1231 + 1237) + 1231) + 1237) + 1231,
+                BooleanTuple.of(true, false, true, false, true).hashCode());
+
+        // Same-value different-arity should produce different hashes (extra 0-value element changes hash)
+        // except when arity differs and both have same elements up to different lengths
+    }
+
+    @Test
     public void testCoverageRegression_HighArityEqualsBranches() {
         BooleanTuple.BooleanTuple4 tuple4 = BooleanTuple.of(true, false, true, false);
         assertTrue(tuple4.equals(tuple4));

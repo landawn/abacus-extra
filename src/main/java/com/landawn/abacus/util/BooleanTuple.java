@@ -928,10 +928,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public int hashCode() {
-            int result = 1;
-
-            result = 31 * result + (_1 ? 1231 : 1237);
-            return 31 * result + (_2 ? 1231 : 1237);
+            return 31 * (_1 ? 1231 : 1237) + (_2 ? 1231 : 1237);
         }
 
         /**
@@ -1169,11 +1166,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public int hashCode() {
-            int result = 1;
-
-            result = 31 * result + (_1 ? 1231 : 1237);
-            result = 31 * result + (_2 ? 1231 : 1237);
-            return 31 * result + (_3 ? 1231 : 1237);
+            return (31 * (31 * (_1 ? 1231 : 1237) + (_2 ? 1231 : 1237))) + (_3 ? 1231 : 1237);
         }
 
         /**
@@ -1318,12 +1311,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public int hashCode() {
-            int result = 1;
-
-            result = 31 * result + (_1 ? 1231 : 1237);
-            result = 31 * result + (_2 ? 1231 : 1237);
-            result = 31 * result + (_3 ? 1231 : 1237);
-            return 31 * result + (_4 ? 1231 : 1237);
+            return (31 * (31 * (31 * (_1 ? 1231 : 1237) + (_2 ? 1231 : 1237)) + (_3 ? 1231 : 1237))) + (_4 ? 1231 : 1237);
         }
 
         /**
@@ -1472,13 +1460,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public int hashCode() {
-            int result = 1;
-
-            result = 31 * result + (_1 ? 1231 : 1237);
-            result = 31 * result + (_2 ? 1231 : 1237);
-            result = 31 * result + (_3 ? 1231 : 1237);
-            result = 31 * result + (_4 ? 1231 : 1237);
-            return 31 * result + (_5 ? 1231 : 1237);
+            return (31 * (31 * (31 * (31 * (_1 ? 1231 : 1237) + (_2 ? 1231 : 1237)) + (_3 ? 1231 : 1237)) + (_4 ? 1231 : 1237))) + (_5 ? 1231 : 1237);
         }
 
         /**
@@ -1631,14 +1613,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public int hashCode() {
-            int result = 1;
-
-            result = 31 * result + (_1 ? 1231 : 1237);
-            result = 31 * result + (_2 ? 1231 : 1237);
-            result = 31 * result + (_3 ? 1231 : 1237);
-            result = 31 * result + (_4 ? 1231 : 1237);
-            result = 31 * result + (_5 ? 1231 : 1237);
-            return 31 * result + (_6 ? 1231 : 1237);
+            return (31 * (31 * (31 * (31 * (31 * (_1 ? 1231 : 1237) + (_2 ? 1231 : 1237)) + (_3 ? 1231 : 1237)) + (_4 ? 1231 : 1237)) + (_5 ? 1231 : 1237)))
+                    + (_6 ? 1231 : 1237);
         }
 
         /**
@@ -1796,15 +1772,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public int hashCode() {
-            int result = 1;
-
-            result = 31 * result + (_1 ? 1231 : 1237);
-            result = 31 * result + (_2 ? 1231 : 1237);
-            result = 31 * result + (_3 ? 1231 : 1237);
-            result = 31 * result + (_4 ? 1231 : 1237);
-            result = 31 * result + (_5 ? 1231 : 1237);
-            result = 31 * result + (_6 ? 1231 : 1237);
-            return 31 * result + (_7 ? 1231 : 1237);
+            return (31
+                    * (31 * (31 * (31 * (31 * (31 * (_1 ? 1231 : 1237) + (_2 ? 1231 : 1237)) + (_3 ? 1231 : 1237)) + (_4 ? 1231 : 1237)) + (_5 ? 1231 : 1237))
+                            + (_6 ? 1231 : 1237)))
+                    + (_7 ? 1231 : 1237);
         }
 
         /**
@@ -1970,16 +1941,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public int hashCode() {
-            int result = 1;
-
-            result = 31 * result + (_1 ? 1231 : 1237);
-            result = 31 * result + (_2 ? 1231 : 1237);
-            result = 31 * result + (_3 ? 1231 : 1237);
-            result = 31 * result + (_4 ? 1231 : 1237);
-            result = 31 * result + (_5 ? 1231 : 1237);
-            result = 31 * result + (_6 ? 1231 : 1237);
-            result = 31 * result + (_7 ? 1231 : 1237);
-            return 31 * result + (_8 ? 1231 : 1237);
+            return (31 * (31
+                    * (31 * (31 * (31 * (31 * (31 * (_1 ? 1231 : 1237) + (_2 ? 1231 : 1237)) + (_3 ? 1231 : 1237)) + (_4 ? 1231 : 1237)) + (_5 ? 1231 : 1237))
+                            + (_6 ? 1231 : 1237))
+                    + (_7 ? 1231 : 1237))) + (_8 ? 1231 : 1237);
         }
 
         /**
@@ -2150,17 +2115,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          */
         @Override
         public int hashCode() {
-            int result = 1;
-
-            result = 31 * result + (_1 ? 1231 : 1237);
-            result = 31 * result + (_2 ? 1231 : 1237);
-            result = 31 * result + (_3 ? 1231 : 1237);
-            result = 31 * result + (_4 ? 1231 : 1237);
-            result = 31 * result + (_5 ? 1231 : 1237);
-            result = 31 * result + (_6 ? 1231 : 1237);
-            result = 31 * result + (_7 ? 1231 : 1237);
-            result = 31 * result + (_8 ? 1231 : 1237);
-            return 31 * result + (_9 ? 1231 : 1237);
+            return (31 * (31 * (31
+                    * (31 * (31 * (31 * (31 * (31 * (_1 ? 1231 : 1237) + (_2 ? 1231 : 1237)) + (_3 ? 1231 : 1237)) + (_4 ? 1231 : 1237)) + (_5 ? 1231 : 1237))
+                            + (_6 ? 1231 : 1237))
+                    + (_7 ? 1231 : 1237)) + (_8 ? 1231 : 1237))) + (_9 ? 1231 : 1237);
         }
 
         /**
