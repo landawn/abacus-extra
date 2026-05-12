@@ -14,6 +14,8 @@
 
 package com.landawn.abacus.util;
 
+import java.util.NoSuchElementException;
+
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.stream.IntStream;
 
@@ -179,6 +181,83 @@ public final class ImmutableIntArray implements Immutable {
         }
 
         return false;
+    }
+
+    /**
+     * Returns the minimum value among all elements in this array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {3, 1, 4, 1, 5});
+     * int min = array.min();   // 1
+     * }</pre>
+     *
+     * @return the minimum int value in this array
+     * @throws NoSuchElementException if this array is empty
+     * @see #max()
+     * @see #sum()
+     * @see #average()
+     */
+    public int min() {
+        return N.min(elements);
+    }
+
+    /**
+     * Returns the maximum value among all elements in this array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {3, 1, 4, 1, 5});
+     * int max = array.max();   // 5
+     * }</pre>
+     *
+     * @return the maximum int value in this array
+     * @throws NoSuchElementException if this array is empty
+     * @see #min()
+     * @see #sum()
+     * @see #average()
+     */
+    public int max() {
+        return N.max(elements);
+    }
+
+    /**
+     * Returns the sum of all elements in this array.
+     *
+     * <p>The summation is performed in {@code long} precision and narrowed to {@code int};
+     * if the total does not fit in an {@code int}, an {@link ArithmeticException} is thrown.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4});
+     * int sum = array.sum();   // 10
+     * }</pre>
+     *
+     * @return the sum of all elements in this array as an {@code int}, or {@code 0} if empty
+     * @throws ArithmeticException if the sum overflows the {@code int} range
+     * @see #average()
+     */
+    public int sum() {
+        return N.sum(elements);
+    }
+
+    /**
+     * Returns the arithmetic mean of all elements in this array as a {@code double}.
+     *
+     * <p>The result is returned as a {@code double} to preserve fractional precision.
+     * For an empty array this method returns {@code 0D}.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4});
+     * double avg = array.average();   // 2.5
+     * }</pre>
+     *
+     * @return the average of all elements in this array as a {@code double}, or {@code 0D} if empty
+     * @see #sum()
+     */
+    public double average() {
+        return N.average(elements);
     }
 
     /**
