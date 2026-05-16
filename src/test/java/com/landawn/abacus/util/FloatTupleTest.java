@@ -2078,8 +2078,28 @@ class FloatTupleTest extends TestBase {
         public void testFloatTuple9_reverse() {
             FloatTuple.FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
             FloatTuple.FloatTuple9 reversed = tuple.reverse();
-            assertEquals(tuple._1, reversed._9);
-            assertEquals(tuple._9, reversed._1);
+            assertEquals(9.0f, reversed._1, 0.0f);
+            assertEquals(8.0f, reversed._2, 0.0f);
+            assertEquals(7.0f, reversed._3, 0.0f);
+            assertEquals(6.0f, reversed._4, 0.0f);
+            assertEquals(5.0f, reversed._5, 0.0f);
+            assertEquals(4.0f, reversed._6, 0.0f);
+            assertEquals(3.0f, reversed._7, 0.0f);
+            assertEquals(2.0f, reversed._8, 0.0f);
+            assertEquals(1.0f, reversed._9, 0.0f);
+        }
+
+        @Test
+        public void testFloatTuple9_equalsAndHashCode_differInOneField() {
+            float[] base = { 10f, 20f, 30f, 40f, 50f, 60f, 70f, 80f, 90f };
+            FloatTuple.FloatTuple9 t = FloatTuple.of(base[0], base[1], base[2], base[3], base[4], base[5], base[6], base[7], base[8]);
+            for (int i = 0; i < 9; i++) {
+                float[] diff = base.clone();
+                diff[i] = diff[i] + 1.0f;
+                FloatTuple.FloatTuple9 other = FloatTuple.of(diff[0], diff[1], diff[2], diff[3], diff[4], diff[5], diff[6], diff[7], diff[8]);
+                assertNotEquals(t, other, "field _" + (i + 1) + " should affect equals");
+                assertNotEquals(t.hashCode(), other.hashCode(), "field _" + (i + 1) + " should affect hashCode");
+            }
         }
 
         @Test

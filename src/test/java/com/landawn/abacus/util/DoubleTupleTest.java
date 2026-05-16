@@ -1996,8 +1996,28 @@ class DoubleTupleTest extends TestBase {
         public void testDoubleTuple9_reverse() {
             DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
             DoubleTuple.DoubleTuple9 reversed = tuple.reverse();
-            assertEquals(tuple._1, reversed._9);
-            assertEquals(tuple._9, reversed._1);
+            assertEquals(9.0, reversed._1, 0.0);
+            assertEquals(8.0, reversed._2, 0.0);
+            assertEquals(7.0, reversed._3, 0.0);
+            assertEquals(6.0, reversed._4, 0.0);
+            assertEquals(5.0, reversed._5, 0.0);
+            assertEquals(4.0, reversed._6, 0.0);
+            assertEquals(3.0, reversed._7, 0.0);
+            assertEquals(2.0, reversed._8, 0.0);
+            assertEquals(1.0, reversed._9, 0.0);
+        }
+
+        @Test
+        public void testDoubleTuple9_equalsAndHashCode_differInOneField() {
+            double[] base = { 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0 };
+            DoubleTuple.DoubleTuple9 t = DoubleTuple.of(base[0], base[1], base[2], base[3], base[4], base[5], base[6], base[7], base[8]);
+            for (int i = 0; i < 9; i++) {
+                double[] diff = base.clone();
+                diff[i] = diff[i] + 1.0;
+                DoubleTuple.DoubleTuple9 other = DoubleTuple.of(diff[0], diff[1], diff[2], diff[3], diff[4], diff[5], diff[6], diff[7], diff[8]);
+                assertNotEquals(t, other, "field _" + (i + 1) + " should affect equals");
+                assertNotEquals(t.hashCode(), other.hashCode(), "field _" + (i + 1) + " should affect hashCode");
+            }
         }
 
         @Test
@@ -4171,8 +4191,7 @@ class DoubleTupleTest extends TestBase {
         assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, Double.NaN), DoubleTuple.of(1d, 2d, 3d, 4d, 5d, Double.NaN));
         assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, Double.NaN), DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, Double.NaN));
         assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, Double.NaN), DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, Double.NaN));
-        assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, Double.NaN),
-                DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, Double.NaN));
+        assertEquals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, Double.NaN), DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, Double.NaN));
 
         // ---- equals() must NOT treat +0.0 and -0.0 as equal. ----
         assertNotEquals(DoubleTuple.of(0.0), DoubleTuple.of(-0.0));
@@ -4214,10 +4233,8 @@ class DoubleTupleTest extends TestBase {
         assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).min()));
         assertEquals(Double.doubleToRawLongBits(+0.0), Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).max()));
         // Same for higher arities (Tuple4-9 use Math.min/max chains).
-        assertEquals(Double.doubleToRawLongBits(-0.0),
-                Double.doubleToRawLongBits(DoubleTuple.of(1d, 0.0, 2d, -0.0, 3d, 4d, 5d, 6d, 7d).min()));
-        assertEquals(Double.doubleToRawLongBits(+0.0),
-                Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).max()));
+        assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(1d, 0.0, 2d, -0.0, 3d, 4d, 5d, 6d, 7d).min()));
+        assertEquals(Double.doubleToRawLongBits(+0.0), Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).max()));
 
         // Median for 2 elements is min(...), so NaN propagates.
         assertTrue(Double.isNaN(DoubleTuple.of(1d, Double.NaN).median()));

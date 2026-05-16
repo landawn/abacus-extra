@@ -2038,8 +2038,28 @@ class ByteTupleTest extends TestBase {
         public void testByteTuple9_reverse() {
             ByteTuple.ByteTuple9 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
             ByteTuple.ByteTuple9 reversed = tuple.reverse();
-            assertEquals(tuple._1, reversed._9);
-            assertEquals(tuple._9, reversed._1);
+            assertEquals((byte) 9, reversed._1);
+            assertEquals((byte) 8, reversed._2);
+            assertEquals((byte) 7, reversed._3);
+            assertEquals((byte) 6, reversed._4);
+            assertEquals((byte) 5, reversed._5);
+            assertEquals((byte) 4, reversed._6);
+            assertEquals((byte) 3, reversed._7);
+            assertEquals((byte) 2, reversed._8);
+            assertEquals((byte) 1, reversed._9);
+        }
+
+        @Test
+        public void testByteTuple9_equalsAndHashCode_differInOneField() {
+            byte[] base = { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+            ByteTuple.ByteTuple9 t = ByteTuple.of(base[0], base[1], base[2], base[3], base[4], base[5], base[6], base[7], base[8]);
+            for (int i = 0; i < 9; i++) {
+                byte[] diff = base.clone();
+                diff[i] = (byte) (diff[i] + 1);
+                ByteTuple.ByteTuple9 other = ByteTuple.of(diff[0], diff[1], diff[2], diff[3], diff[4], diff[5], diff[6], diff[7], diff[8]);
+                assertNotEquals(t, other, "field _" + (i + 1) + " should affect equals");
+                assertNotEquals(t.hashCode(), other.hashCode(), "field _" + (i + 1) + " should affect hashCode");
+            }
         }
 
         @Test

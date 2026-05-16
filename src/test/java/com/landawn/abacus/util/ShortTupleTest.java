@@ -2025,8 +2025,28 @@ class ShortTupleTest extends TestBase {
         public void testShortTuple9_reverse() {
             ShortTuple.ShortTuple9 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
             ShortTuple.ShortTuple9 reversed = tuple.reverse();
-            assertEquals(tuple._1, reversed._9);
-            assertEquals(tuple._9, reversed._1);
+            assertEquals((short) 9, reversed._1);
+            assertEquals((short) 8, reversed._2);
+            assertEquals((short) 7, reversed._3);
+            assertEquals((short) 6, reversed._4);
+            assertEquals((short) 5, reversed._5);
+            assertEquals((short) 4, reversed._6);
+            assertEquals((short) 3, reversed._7);
+            assertEquals((short) 2, reversed._8);
+            assertEquals((short) 1, reversed._9);
+        }
+
+        @Test
+        public void testShortTuple9_equalsAndHashCode_differInOneField() {
+            short[] base = { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+            ShortTuple.ShortTuple9 t = ShortTuple.of(base[0], base[1], base[2], base[3], base[4], base[5], base[6], base[7], base[8]);
+            for (int i = 0; i < 9; i++) {
+                short[] diff = base.clone();
+                diff[i] = (short) (diff[i] + 1);
+                ShortTuple.ShortTuple9 other = ShortTuple.of(diff[0], diff[1], diff[2], diff[3], diff[4], diff[5], diff[6], diff[7], diff[8]);
+                assertNotEquals(t, other, "field _" + (i + 1) + " should affect equals");
+                assertNotEquals(t.hashCode(), other.hashCode(), "field _" + (i + 1) + " should affect hashCode");
+            }
         }
 
         @Test

@@ -234,6 +234,173 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         // ============================================
+        // Tests for min() method
+        // ============================================
+
+        @Test
+        public void testMin_TypicalValues() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 3, 1, 4, 1, 5, 9, 2, 6 });
+            assertEquals(1, array.min());
+        }
+
+        @Test
+        public void testMin_SingleElement() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
+            assertEquals(42, array.min());
+        }
+
+        @Test
+        public void testMin_AllNegative() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { -5, -10, -1, -100 });
+            assertEquals(-100, array.min());
+        }
+
+        @Test
+        public void testMin_BoundaryValues() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { Integer.MAX_VALUE, 0, Integer.MIN_VALUE });
+            assertEquals(Integer.MIN_VALUE, array.min());
+        }
+
+        @Test
+        public void testMin_EmptyArrayThrows() {
+            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+            assertThrows(java.util.NoSuchElementException.class, empty::min);
+        }
+
+        @Test
+        public void testMin_NullInputThrows() {
+            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
+            assertThrows(java.util.NoSuchElementException.class, empty::min);
+        }
+
+        // ============================================
+        // Tests for max() method
+        // ============================================
+
+        @Test
+        public void testMax_TypicalValues() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 3, 1, 4, 1, 5, 9, 2, 6 });
+            assertEquals(9, array.max());
+        }
+
+        @Test
+        public void testMax_SingleElement() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
+            assertEquals(42, array.max());
+        }
+
+        @Test
+        public void testMax_AllNegative() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { -5, -10, -1, -100 });
+            assertEquals(-1, array.max());
+        }
+
+        @Test
+        public void testMax_BoundaryValues() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { Integer.MIN_VALUE, 0, Integer.MAX_VALUE });
+            assertEquals(Integer.MAX_VALUE, array.max());
+        }
+
+        @Test
+        public void testMax_EmptyArrayThrows() {
+            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+            assertThrows(java.util.NoSuchElementException.class, empty::max);
+        }
+
+        @Test
+        public void testMax_NullInputThrows() {
+            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
+            assertThrows(java.util.NoSuchElementException.class, empty::max);
+        }
+
+        // ============================================
+        // Tests for sum() method
+        // ============================================
+
+        @Test
+        public void testSum_TypicalValues() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4, 5 });
+            assertEquals(15, array.sum());
+        }
+
+        @Test
+        public void testSum_SingleElement() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
+            assertEquals(42, array.sum());
+        }
+
+        @Test
+        public void testSum_NegativeAndPositive() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { -10, 5, -3, 8 });
+            assertEquals(0, array.sum());
+        }
+
+        @Test
+        public void testSum_EmptyArrayReturnsZero() {
+            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+            assertEquals(0, empty.sum());
+        }
+
+        @Test
+        public void testSum_NullInputReturnsZero() {
+            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
+            assertEquals(0, empty.sum());
+        }
+
+        @Test
+        public void testSum_OverflowThrows() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { Integer.MAX_VALUE, 1 });
+            assertThrows(ArithmeticException.class, array::sum);
+        }
+
+        // ============================================
+        // Tests for average() method
+        // ============================================
+
+        @Test
+        public void testAverage_TypicalValues() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4 });
+            assertEquals(2.5d, array.average(), 0.0);
+        }
+
+        @Test
+        public void testAverage_SingleElement() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
+            assertEquals(42.0d, array.average(), 0.0);
+        }
+
+        @Test
+        public void testAverage_AllSameValue() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 7, 7, 7, 7, 7 });
+            assertEquals(7.0d, array.average(), 0.0);
+        }
+
+        @Test
+        public void testAverage_NegativeValues() {
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { -2, -4, -6 });
+            assertEquals(-4.0d, array.average(), 0.0);
+        }
+
+        @Test
+        public void testAverage_EmptyArrayReturnsZero() {
+            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+            assertEquals(0.0d, empty.average(), 0.0);
+        }
+
+        @Test
+        public void testAverage_NullInputReturnsZero() {
+            ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
+            assertEquals(0.0d, empty.average(), 0.0);
+        }
+
+        @Test
+        public void testAverage_NoOverflowOnLargeValues() {
+            // sum() would overflow int, but average() uses long internally, so it should not
+            ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { Integer.MAX_VALUE, Integer.MAX_VALUE });
+            assertEquals((double) Integer.MAX_VALUE, array.average(), 0.0);
+        }
+
+        // ============================================
         // Tests for get() method
         // ============================================
 

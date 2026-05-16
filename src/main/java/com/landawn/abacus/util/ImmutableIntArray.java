@@ -199,6 +199,9 @@ public final class ImmutableIntArray implements Immutable {
      * @see #average()
      */
     public int min() {
+        if (length == 0) {
+            throw new NoSuchElementException("ImmutableIntArray is empty");
+        }
         return N.min(elements);
     }
 
@@ -218,6 +221,9 @@ public final class ImmutableIntArray implements Immutable {
      * @see #average()
      */
     public int max() {
+        if (length == 0) {
+            throw new NoSuchElementException("ImmutableIntArray is empty");
+        }
         return N.max(elements);
     }
 

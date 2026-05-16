@@ -1090,7 +1090,27 @@ class CharTupleTest extends TestBase {
             CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
             CharTuple9 reversed = tuple.reverse();
             assertEquals('i', reversed._1);
+            assertEquals('h', reversed._2);
+            assertEquals('g', reversed._3);
+            assertEquals('f', reversed._4);
+            assertEquals('e', reversed._5);
+            assertEquals('d', reversed._6);
+            assertEquals('c', reversed._7);
+            assertEquals('b', reversed._8);
             assertEquals('a', reversed._9);
+        }
+
+        @Test
+        public void testCharTuple9_equalsAndHashCode_differInOneField() {
+            char[] base = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
+            CharTuple9 t = CharTuple.of(base[0], base[1], base[2], base[3], base[4], base[5], base[6], base[7], base[8]);
+            for (int i = 0; i < 9; i++) {
+                char[] diff = base.clone();
+                diff[i] = (char) (diff[i] + 1);
+                CharTuple9 other = CharTuple.of(diff[0], diff[1], diff[2], diff[3], diff[4], diff[5], diff[6], diff[7], diff[8]);
+                assertNotEquals(t, other, "field _" + (i + 1) + " should affect equals");
+                assertNotEquals(t.hashCode(), other.hashCode(), "field _" + (i + 1) + " should affect hashCode");
+            }
         }
 
         // Additional tests for larger tuple sizes - contains

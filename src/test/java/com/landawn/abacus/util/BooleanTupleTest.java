@@ -3483,12 +3483,10 @@ class BooleanTupleTest extends TestBase {
         assertEquals(31 * (31 * 1231 + 1237) + 1231, BooleanTuple.of(true, false, true).hashCode());
 
         // Tuple4 uses seed=0
-        assertEquals(31 * (31 * (31 * 1231 + 1237) + 1231) + 1237,
-                BooleanTuple.of(true, false, true, false).hashCode());
+        assertEquals(31 * (31 * (31 * 1231 + 1237) + 1231) + 1237, BooleanTuple.of(true, false, true, false).hashCode());
 
         // Tuple5 uses seed=0
-        assertEquals(31 * (31 * (31 * (31 * 1231 + 1237) + 1231) + 1237) + 1231,
-                BooleanTuple.of(true, false, true, false, true).hashCode());
+        assertEquals(31 * (31 * (31 * (31 * 1231 + 1237) + 1231) + 1237) + 1231, BooleanTuple.of(true, false, true, false, true).hashCode());
 
         // Same-value different-arity should produce different hashes (extra 0-value element changes hash)
         // except when arity differs and both have same elements up to different lengths

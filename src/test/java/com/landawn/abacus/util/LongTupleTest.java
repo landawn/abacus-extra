@@ -2110,8 +2110,28 @@ class LongTupleTest extends TestBase {
         public void testLongTuple9_reverse() {
             LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
             LongTuple.LongTuple9 reversed = tuple.reverse();
-            assertEquals(tuple._1, reversed._9);
-            assertEquals(tuple._9, reversed._1);
+            assertEquals(9L, reversed._1);
+            assertEquals(8L, reversed._2);
+            assertEquals(7L, reversed._3);
+            assertEquals(6L, reversed._4);
+            assertEquals(5L, reversed._5);
+            assertEquals(4L, reversed._6);
+            assertEquals(3L, reversed._7);
+            assertEquals(2L, reversed._8);
+            assertEquals(1L, reversed._9);
+        }
+
+        @Test
+        public void testLongTuple9_equalsAndHashCode_differInOneField() {
+            long[] base = { 10L, 20L, 30L, 40L, 50L, 60L, 70L, 80L, 90L };
+            LongTuple.LongTuple9 t = LongTuple.of(base[0], base[1], base[2], base[3], base[4], base[5], base[6], base[7], base[8]);
+            for (int i = 0; i < 9; i++) {
+                long[] diff = base.clone();
+                diff[i] = diff[i] + 1L;
+                LongTuple.LongTuple9 other = LongTuple.of(diff[0], diff[1], diff[2], diff[3], diff[4], diff[5], diff[6], diff[7], diff[8]);
+                assertNotEquals(t, other, "field _" + (i + 1) + " should affect equals");
+                assertNotEquals(t.hashCode(), other.hashCode(), "field _" + (i + 1) + " should affect hashCode");
+            }
         }
 
         @Test
