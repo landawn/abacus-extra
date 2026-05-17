@@ -1,20 +1,16 @@
 ## 3.6.10
-* Move matrix related classes to a new project: abacus-matrix
 * Naming convention improvements
 * Improvements and bug fixes
 
 ## 3.6.9
-* Move matrix related classes to a new project: abacus-matrix
 * Naming convention improvements
 * Improvements and bug fixes
 
 ## 3.6.8
-* Move matrix related classes to a new project: abacus-matrix
 * Naming convention improvements
 * Improvements and bug fixes
 
 ## 3.6.7
-* Move matrix related classes to a new project: abacus-matrix
 * Naming convention improvements
 * Improvements and bug fixes
 
