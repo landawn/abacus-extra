@@ -1119,4 +1119,152 @@ class ImmutableIntArrayTest extends TestBase {
         }
     }
 
+    /**
+     * Property-based and concurrency tests for ImmutableIntArray.
+     *
+     * <p>Asserts immutability/isolation guarantees and that a {@link ImmutableIntArray#copyOf}
+     * instance is safe to read concurrently from many threads (an immutable, defensively-copied
+     * value type must produce identical results regardless of access interleaving).</p>
+     */
+    @Nested
+    @Tag("2025")
+    class ImmutableIntArrayPropertyTest extends TestBase {
+
+        private int[] randomData(final java.util.Random r, final int len) {
+            final int[] a = new int[len];
+            for (int i = 0; i < len; i++) {
+                a[i] = r.nextInt(2001) - 1000;
+            }
+            return a;
+        }
+
+        @Test
+        public void property_copyOf_isolatesFromSourceMutation() {
+            final int[] src = { 1, 2, 3, 4, 5 };
+            final ImmutableIntArray array = ImmutableIntArray.copyOf(src);
+
+            java.util.Arrays.fill(src, 0); // mutate the source after copying
+
+            assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, array.copyOfRange(0, array.length()),
+                    "copyOf must take a defensive snapshot");
+        }
+
+        @Test
+        public void property_unsafeWrap_reflectsSourceMutation() {
+            final int[] src = { 1, 2, 3 };
+            final ImmutableIntArray array = ImmutableIntArray.unsafeWrap(src);
+
+            src[0] = 99; // documented: unsafeWrap shares the backing array
+
+            assertEquals(99, array.get(0), "unsafeWrap intentionally shares the backing array");
+        }
+
+        @Test
+        public void property_copyOfRange_returnsIndependentCopy() {
+            final ImmutableIntArray array = ImmutableIntArray.copyOf(new int[] { 10, 20, 30, 40 });
+            final int[] range = array.copyOfRange(1, 4);
+            java.util.Arrays.fill(range, -1);
+            // Mutating the returned range must not affect the immutable instance.
+            assertArrayEquals(new int[] { 10, 20, 30, 40 }, array.copyOfRange(0, 4));
+        }
+
+        @Test
+        public void property_aggregatesAndAccessorsAreConsistent() {
+            final java.util.Random r = new java.util.Random(20260516L);
+
+            for (int it = 0; it < 300; it++) {
+                final int len = 1 + r.nextInt(64); // non-empty
+                final int[] data = randomData(r, len);
+                final ImmutableIntArray array = ImmutableIntArray.copyOf(data);
+
+                long expectedSum = 0;
+                int expectedMin = data[0];
+                int expectedMax = data[0];
+                for (final int v : data) {
+                    expectedSum += v;
+                    expectedMin = Math.min(expectedMin, v);
+                    expectedMax = Math.max(expectedMax, v);
+                }
+
+                assertEquals(len, array.length());
+                assertFalse(array.isEmpty());
+                assertEquals((int) expectedSum, array.sum());
+                assertEquals(expectedMin, array.min());
+                assertEquals(expectedMax, array.max());
+                assertEquals(expectedSum / (double) len, array.average(), 1e-9);
+
+                // get(i), stream(), copyOfRange(0,len) and forEach must all agree.
+                assertArrayEquals(data, array.stream().toArray());
+                assertArrayEquals(data, array.copyOfRange(0, len));
+                for (int i = 0; i < len; i++) {
+                    assertEquals(data[i], array.get(i));
+                }
+                final int[] viaForEach = new int[len];
+                final int[] idx = { 0 };
+                array.forEach(v -> viaForEach[idx[0]++] = v);
+                assertArrayEquals(data, viaForEach);
+            }
+        }
+
+        @Test
+        public void property_emptyAggregatesAndExceptions() {
+            final ImmutableIntArray empty = ImmutableIntArray.copyOf(new int[0]);
+            assertTrue(empty.isEmpty());
+            assertEquals(0, empty.length());
+            assertEquals(0, empty.sum());
+            assertEquals(0d, empty.average(), 0d);
+            assertThrows(java.util.NoSuchElementException.class, empty::min);
+            assertThrows(java.util.NoSuchElementException.class, empty::max);
+        }
+
+        @Test
+        public void property_concurrentReadsAreConsistent() throws Exception {
+            final java.util.Random r = new java.util.Random(7L);
+            final int[] data = randomData(r, 1000);
+            final ImmutableIntArray array = ImmutableIntArray.copyOf(data);
+
+            long expectedSum = 0;
+            int expectedMin = data[0];
+            int expectedMax = data[0];
+            for (final int v : data) {
+                expectedSum += v;
+                expectedMin = Math.min(expectedMin, v);
+                expectedMax = Math.max(expectedMax, v);
+            }
+            final int finalSum = (int) expectedSum;
+            final int finalMin = expectedMin;
+            final int finalMax = expectedMax;
+
+            final int threads = 16;
+            final java.util.concurrent.ExecutorService pool = java.util.concurrent.Executors.newFixedThreadPool(threads);
+            try {
+                final java.util.concurrent.CountDownLatch start = new java.util.concurrent.CountDownLatch(1);
+                final java.util.List<java.util.concurrent.Future<Boolean>> futures = new ArrayList<>();
+
+                for (int t = 0; t < threads; t++) {
+                    futures.add(pool.submit(() -> {
+                        start.await();
+                        for (int i = 0; i < 2000; i++) {
+                            if (array.sum() != finalSum || array.min() != finalMin || array.max() != finalMax) {
+                                return Boolean.FALSE;
+                            }
+                            if (!java.util.Arrays.equals(data, array.stream().toArray())) {
+                                return Boolean.FALSE;
+                            }
+                        }
+                        return Boolean.TRUE;
+                    }));
+                }
+
+                start.countDown();
+                for (final java.util.concurrent.Future<Boolean> f : futures) {
+                    assertTrue(f.get(30, java.util.concurrent.TimeUnit.SECONDS),
+                            "concurrent reads of an immutable instance must stay consistent");
+                }
+            } finally {
+                pool.shutdownNow();
+            }
+        }
+    }
+
 }

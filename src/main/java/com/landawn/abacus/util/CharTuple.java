@@ -601,7 +601,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Two tuples are considered equal if and only if:
      * </p>
      * <ul>
-     * <li>They are of the exact same runtime class (e.g., both CharTuple.CharTuple2)</li>
+     * <li>They are the same object (reference equality), or</li>
+     * <li>They are of the exact same runtime class (e.g., both CharTuple.CharTuple2), and</li>
      * <li>They contain the same char elements in the same order</li>
      * </ul>
      * <p>

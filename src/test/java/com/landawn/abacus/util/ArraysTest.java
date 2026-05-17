@@ -14643,4 +14643,130 @@ class ArraysTest extends TestBase {
         assertArrayEquals(new boolean[] { true, true }, bools[1][0]);
     }
 
+    /**
+     * Randomized property-based tests for reshape / flatten / zip.
+     *
+     * <p>These complement the example-based tests above by exercising many random shapes and
+     * sizes to assert structural invariants (round-trip, length, no input mutation) rather than
+     * fixed input/output pairs.</p>
+     */
+    @Nested
+    class ArraysPropertyTest extends TestBase {
+
+        private static final int ITERATIONS = 500;
+
+        private int[] randomIntArray(final java.util.Random r, final int len) {
+            final int[] a = new int[len];
+            for (int i = 0; i < len; i++) {
+                // Keep values small so sums/zips can never overflow int.
+                a[i] = r.nextInt(2001) - 1000;
+            }
+            return a;
+        }
+
+        @Test
+        public void property_flattenReshape2D_roundTrips() {
+            final java.util.Random r = new java.util.Random(20260516L);
+
+            for (int it = 0; it < ITERATIONS; it++) {
+                final int len = r.nextInt(200); // include 0 (empty)
+                final int cols = 1 + r.nextInt(20);
+                final int[] a = randomIntArray(r, len);
+                final int[] snapshot = a.clone();
+
+                final int[][] reshaped = Arrays.reshape(a, cols);
+                assertArrayEquals(snapshot, a, "reshape must not mutate its input");
+                assertArrayEquals(a, Arrays.flatten(reshaped),
+                        "flatten(reshape(a, cols)) must equal a for len=" + len + ", cols=" + cols);
+
+                if (len > 0) {
+                    final int fullRows = len / cols;
+                    final int rem = len % cols;
+                    final int expectedRows = fullRows + (rem == 0 ? 0 : 1);
+                    assertEquals(expectedRows, reshaped.length, "row count");
+                    for (int i = 0; i < fullRows; i++) {
+                        assertEquals(cols, reshaped[i].length, "full rows must have exactly cols elements");
+                    }
+                    if (rem != 0) {
+                        assertEquals(rem, reshaped[reshaped.length - 1].length, "last (partial) row length");
+                    }
+                }
+            }
+        }
+
+        @Test
+        public void property_flattenReshape3D_roundTrips() {
+            final java.util.Random r = new java.util.Random(987654321L);
+
+            for (int it = 0; it < ITERATIONS; it++) {
+                final int len = r.nextInt(200);
+                final int rows = 1 + r.nextInt(8);
+                final int cols = 1 + r.nextInt(8);
+                final int[] a = randomIntArray(r, len);
+                final int[] snapshot = a.clone();
+
+                final int[][][] reshaped = Arrays.reshape(a, rows, cols);
+                assertArrayEquals(snapshot, a, "3D reshape must not mutate its input");
+                assertArrayEquals(a, Arrays.flatten(reshaped),
+                        "flatten(reshape(a, rows, cols)) must equal a for len=" + len + ", rows=" + rows + ", cols=" + cols);
+
+                // Total element count across all blocks/rows must equal len.
+                long total = 0;
+                for (final int[][] block : reshaped) {
+                    for (final int[] row : block) {
+                        total += row.length;
+                    }
+                }
+                assertEquals(len, total, "reshaped element count");
+            }
+        }
+
+        @Test
+        public void property_flattenReturnsIndependentCopy() {
+            final int[][] a = { { 1, 2, 3 }, { 4, 5 }, { 6 } };
+            final int[] flat = Arrays.flatten(a);
+            java.util.Arrays.fill(flat, 999);
+            // Mutating the flattened result must not affect the source structure.
+            assertArrayEquals(new int[] { 1, 2, 3 }, a[0]);
+            assertArrayEquals(new int[] { 4, 5 }, a[1]);
+            assertArrayEquals(new int[] { 6 }, a[2]);
+        }
+
+        @Test
+        public void property_zip1D_lengthAndElementwise_noMutation() {
+            final java.util.Random r = new java.util.Random(42L);
+
+            for (int it = 0; it < ITERATIONS; it++) {
+                final int lenA = r.nextInt(50);
+                final int lenB = r.nextInt(50);
+                final int[] a = randomIntArray(r, lenA);
+                final int[] b = randomIntArray(r, lenB);
+                final int[] snapA = a.clone();
+                final int[] snapB = b.clone();
+
+                final int[] zipped = Arrays.zip(a, b, (x, y) -> x + y);
+
+                assertArrayEquals(snapA, a, "zip must not mutate a");
+                assertArrayEquals(snapB, b, "zip must not mutate b");
+                assertEquals(Math.min(lenA, lenB), zipped.length, "zip length is min of inputs");
+                for (int i = 0; i < zipped.length; i++) {
+                    assertEquals(a[i] + b[i], zipped[i], "zip element-wise at i=" + i);
+                }
+            }
+        }
+
+        @Test
+        public void property_zip2D_elementwise() {
+            final int[][] a = { { 1, 2, 3 }, { 4 }, { 5, 6 } };
+            final int[][] b = { { 10, 20 }, { 30, 40 }, { 50, 60, 70 } };
+
+            final int[][] z = Arrays.zip(a, b, (x, y) -> x * y);
+
+            assertEquals(3, z.length);
+            assertArrayEquals(new int[] { 10, 40 }, z[0]); // min(3,2)=2 cols
+            assertArrayEquals(new int[] { 120 }, z[1]); // min(1,2)=1 col
+            assertArrayEquals(new int[] { 250, 360 }, z[2]); // min(2,3)=2 cols
+        }
+    }
+
 }
