@@ -16,12 +16,10 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.annotation.SuppressFBWarnings;
-
 /**
  * Namespace for small record-based point/value carriers used by geometry and coordinate helpers.
  *
- * <p>{@link xy} groups two-dimensional variants and {@link xyz} groups three-dimensional variants.
+ * <p>{@link D2} groups two-dimensional variants and {@link D3} groups three-dimensional variants.
  * Primitive-valued records are fully immutable. Object-valued variants are shallowly immutable and
  * retain the supplied value reference as-is. Each nested record also provides record-based equality
  * plus a static {@code of(...)} factory for concise construction.</p>
@@ -40,12 +38,11 @@ public final class Points {
      * compact carrier without defining a custom type. Object-valued variants retain their payload
      * references without defensive copying.</p>
      *
-     * @see xyz
+     * @see D3
      */
-    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
-    public static final class xy { // NOSONAR
+    public static final class D2 {
 
-        private xy() {
+        private D2() {
             // utility class.
         }
 
@@ -58,9 +55,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteBytePoint(byte x, byte y, byte v) {
+        public record ByteBytePoint(byte x, byte y, byte value) {
 
             /**
              * Creates a new ByteBytePoint with the specified coordinates and value.
@@ -70,22 +67,22 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point at coordinates (10, 20) with value 5
-             * Points.xy.ByteBytePoint point = Points.xy.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 5);
+             * Points.D2.ByteBytePoint point = Points.D2.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 5);
              * byte x = point.x();  // 10
              * byte y = point.y();  // 20
-             * byte value = point.v();  // 5
+             * byte value = point.value();  // 5
              *
              * // Useful for memory-efficient grid representations
-             * Points.xy.ByteBytePoint gridCell = Points.xy.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 127);
+             * Points.D2.ByteBytePoint gridCell = Points.D2.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 127);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the byte value associated with this point
+             * @param value the byte value associated with this point
              * @return a new ByteBytePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static ByteBytePoint of(final byte x, final byte y, final byte v) {
-                return new ByteBytePoint(x, y, v);
+            public static ByteBytePoint of(final byte x, final byte y, final byte value) {
+                return new ByteBytePoint(x, y, value);
             }
         }
 
@@ -98,9 +95,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteIntPoint(byte x, byte y, int v) {
+        public record ByteIntPoint(byte x, byte y, int value) {
 
             /**
              * Creates a new ByteIntPoint with the specified coordinates and value.
@@ -110,22 +107,22 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with byte coordinates and integer value
-             * Points.xy.ByteIntPoint point = Points.xy.ByteIntPoint.of((byte) 5, (byte) 10, 1000);
+             * Points.D2.ByteIntPoint point = Points.D2.ByteIntPoint.of((byte) 5, (byte) 10, 1000);
              * byte x = point.x();  // 5
              * byte y = point.y();  // 10
-             * int value = point.v();  // 1000
+             * int value = point.value();  // 1000
              *
              * // Useful for small grids with large counts or indices
-             * Points.xy.ByteIntPoint cellWithCount = Points.xy.ByteIntPoint.of((byte) 0, (byte) 0, 1000000);
+             * Points.D2.ByteIntPoint cellWithCount = Points.D2.ByteIntPoint.of((byte) 0, (byte) 0, 1000000);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the integer value associated with this point
+             * @param value the integer value associated with this point
              * @return a new ByteIntPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static ByteIntPoint of(final byte x, final byte y, final int v) {
-                return new ByteIntPoint(x, y, v);
+            public static ByteIntPoint of(final byte x, final byte y, final int value) {
+                return new ByteIntPoint(x, y, value);
             }
         }
 
@@ -138,9 +135,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteLongPoint(byte x, byte y, long v) {
+        public record ByteLongPoint(byte x, byte y, long value) {
 
             /**
              * Creates a new ByteLongPoint with the specified coordinates and value.
@@ -150,23 +147,23 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with byte coordinates and long value
-             * Points.xy.ByteLongPoint point = Points.xy.ByteLongPoint.of((byte) 3, (byte) 7, 1000000000L);
+             * Points.D2.ByteLongPoint point = Points.D2.ByteLongPoint.of((byte) 3, (byte) 7, 1000000000L);
              * byte x = point.x();  // 3
              * byte y = point.y();  // 7
-             * long value = point.v();  // 1000000000
+             * long value = point.value();  // 1000000000
              *
              * // Useful for small grids with timestamps
              * long timestamp = System.currentTimeMillis();
-             * Points.xy.ByteLongPoint cellWithTime = Points.xy.ByteLongPoint.of((byte) 0, (byte) 0, timestamp);
+             * Points.D2.ByteLongPoint cellWithTime = Points.D2.ByteLongPoint.of((byte) 0, (byte) 0, timestamp);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the long value associated with this point
+             * @param value the long value associated with this point
              * @return a new ByteLongPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static ByteLongPoint of(final byte x, final byte y, final long v) {
-                return new ByteLongPoint(x, y, v);
+            public static ByteLongPoint of(final byte x, final byte y, final long value) {
+                return new ByteLongPoint(x, y, value);
             }
         }
 
@@ -179,9 +176,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteDoublePoint(byte x, byte y, double v) {
+        public record ByteDoublePoint(byte x, byte y, double value) {
 
             /**
              * Creates a new ByteDoublePoint with the specified coordinates and value.
@@ -191,22 +188,22 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with byte coordinates and double value
-             * Points.xy.ByteDoublePoint point = Points.xy.ByteDoublePoint.of((byte) 2, (byte) 4, 3.14159);
+             * Points.D2.ByteDoublePoint point = Points.D2.ByteDoublePoint.of((byte) 2, (byte) 4, 3.14159);
              * byte x = point.x();  // 2
              * byte y = point.y();  // 4
-             * double value = point.v();  // 3.14159
+             * double value = point.value();  // 3.14159
              *
              * // Useful for small grids with probability or weight values
-             * Points.xy.ByteDoublePoint cellWithProbability = Points.xy.ByteDoublePoint.of((byte) 1, (byte) 1, 0.75);
+             * Points.D2.ByteDoublePoint cellWithProbability = Points.D2.ByteDoublePoint.of((byte) 1, (byte) 1, 0.75);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the double value associated with this point
+             * @param value the double value associated with this point
              * @return a new ByteDoublePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static ByteDoublePoint of(final byte x, final byte y, final double v) {
-                return new ByteDoublePoint(x, y, v);
+            public static ByteDoublePoint of(final byte x, final byte y, final double value) {
+                return new ByteDoublePoint(x, y, value);
             }
         }
 
@@ -221,9 +218,9 @@ public final class Points {
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteObjPoint<T>(byte x, byte y, T v) {
+        public record ByteObjPoint<T>(byte x, byte y, T value) {
 
             /**
              * Creates a new ByteObjPoint with the specified coordinates and value reference.
@@ -233,25 +230,25 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with byte coordinates and a String value
-             * Points.xy.ByteObjPoint<String> point = Points.xy.ByteObjPoint.of((byte) 1, (byte) 2, "label");
+             * Points.D2.ByteObjPoint<String> point = Points.D2.ByteObjPoint.of((byte) 1, (byte) 2, "label");
              * byte x = point.x();  // 1
              * byte y = point.y();  // 2
-             * String value = point.v();  // "label"
+             * String value = point.value();  // "label"
              *
              * // Useful for small grids with complex metadata
              * record Metadata(String name, int priority) {}
              * Metadata meta = new Metadata("important", 10);
-             * Points.xy.ByteObjPoint<Metadata> cellWithMeta = Points.xy.ByteObjPoint.of((byte) 0, (byte) 0, meta);
+             * Points.D2.ByteObjPoint<Metadata> cellWithMeta = Points.D2.ByteObjPoint.of((byte) 0, (byte) 0, meta);
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the object value associated with this point, may be {@code null}
+             * @param value the object value associated with this point, may be {@code null}
              * @return a new ByteObjPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static <T> ByteObjPoint<T> of(final byte x, final byte y, final T v) {
-                return new ByteObjPoint<>(x, y, v);
+            public static <T> ByteObjPoint<T> of(final byte x, final byte y, final T value) {
+                return new ByteObjPoint<>(x, y, value);
             }
         }
 
@@ -264,9 +261,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntBytePoint(int x, int y, byte v) {
+        public record IntBytePoint(int x, int y, byte value) {
 
             /**
              * Creates a new IntBytePoint with the specified coordinates and value.
@@ -276,22 +273,22 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with integer coordinates and byte value
-             * Points.xy.IntBytePoint point = Points.xy.IntBytePoint.of(100, 200, (byte) 10);
+             * Points.D2.IntBytePoint point = Points.D2.IntBytePoint.of(100, 200, (byte) 10);
              * int x = point.x();  // 100
              * int y = point.y();  // 200
-             * byte value = point.v();  // 10
+             * byte value = point.value();  // 10
              *
              * // Useful for large grids with small enumeration values
-             * Points.xy.IntBytePoint cellType = Points.xy.IntBytePoint.of(1000, 2000, (byte) 3);  // type = 3
+             * Points.D2.IntBytePoint cellType = Points.D2.IntBytePoint.of(1000, 2000, (byte) 3);  // type = 3
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the byte value associated with this point
+             * @param value the byte value associated with this point
              * @return a new IntBytePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static IntBytePoint of(final int x, final int y, final byte v) {
-                return new IntBytePoint(x, y, v);
+            public static IntBytePoint of(final int x, final int y, final byte value) {
+                return new IntBytePoint(x, y, value);
             }
         }
 
@@ -304,9 +301,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntIntPoint(int x, int y, int v) {
+        public record IntIntPoint(int x, int y, int value) {
 
             /**
              * Creates a new IntIntPoint with the specified coordinates and value.
@@ -317,25 +314,25 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with integer coordinates and integer value
-             * Points.xy.IntIntPoint point = Points.xy.IntIntPoint.of(100, 200, 300);
+             * Points.D2.IntIntPoint point = Points.D2.IntIntPoint.of(100, 200, 300);
              * int x = point.x();  // 100
              * int y = point.y();  // 200
-             * int value = point.v();  // 300
+             * int value = point.value();  // 300
              *
              * // Common use case: grid cells with counts or indices
-             * Points.xy.IntIntPoint gridCell = Points.xy.IntIntPoint.of(10, 20, 5000);
+             * Points.D2.IntIntPoint gridCell = Points.D2.IntIntPoint.of(10, 20, 5000);
              *
              * // Use in pathfinding with cost values
-             * Points.xy.IntIntPoint pathNode = Points.xy.IntIntPoint.of(5, 8, 15);  // cost = 15
+             * Points.D2.IntIntPoint pathNode = Points.D2.IntIntPoint.of(5, 8, 15);  // cost = 15
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the integer value associated with this point
+             * @param value the integer value associated with this point
              * @return a new IntIntPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static IntIntPoint of(final int x, final int y, final int v) {
-                return new IntIntPoint(x, y, v);
+            public static IntIntPoint of(final int x, final int y, final int value) {
+                return new IntIntPoint(x, y, value);
             }
         }
 
@@ -348,9 +345,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntLongPoint(int x, int y, long v) {
+        public record IntLongPoint(int x, int y, long value) {
 
             /**
              * Creates a new IntLongPoint with the specified coordinates and value.
@@ -360,26 +357,26 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with integer coordinates and long value
-             * Points.xy.IntLongPoint point = Points.xy.IntLongPoint.of(50, 75, 10000000000L);
+             * Points.D2.IntLongPoint point = Points.D2.IntLongPoint.of(50, 75, 10000000000L);
              * int x = point.x();  // 50
              * int y = point.y();  // 75
-             * long value = point.v();  // 10000000000
+             * long value = point.value();  // 10000000000
              *
              * // Useful for grids with timestamps
              * long timestamp = System.currentTimeMillis();
-             * Points.xy.IntLongPoint cellWithTime = Points.xy.IntLongPoint.of(10, 20, timestamp);
+             * Points.D2.IntLongPoint cellWithTime = Points.D2.IntLongPoint.of(10, 20, timestamp);
              *
              * // Track large identifiers in a grid
-             * Points.xy.IntLongPoint cellWithId = Points.xy.IntLongPoint.of(5, 8, 9876543210L);
+             * Points.D2.IntLongPoint cellWithId = Points.D2.IntLongPoint.of(5, 8, 9876543210L);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the long value associated with this point
+             * @param value the long value associated with this point
              * @return a new IntLongPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static IntLongPoint of(final int x, final int y, final long v) {
-                return new IntLongPoint(x, y, v);
+            public static IntLongPoint of(final int x, final int y, final long value) {
+                return new IntLongPoint(x, y, value);
             }
         }
 
@@ -392,9 +389,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntDoublePoint(int x, int y, double v) {
+        public record IntDoublePoint(int x, int y, double value) {
 
             /**
              * Creates a new IntDoublePoint with the specified coordinates and value.
@@ -404,26 +401,26 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with integer coordinates and double value
-             * Points.xy.IntDoublePoint point = Points.xy.IntDoublePoint.of(10, 20, 3.14159);
+             * Points.D2.IntDoublePoint point = Points.D2.IntDoublePoint.of(10, 20, 3.14159);
              * int x = point.x();  // 10
              * int y = point.y();  // 20
-             * double value = point.v();  // 3.14159
+             * double value = point.value();  // 3.14159
              *
              * // Useful for grids with probability values
-             * Points.xy.IntDoublePoint cellProbability = Points.xy.IntDoublePoint.of(5, 8, 0.85);
+             * Points.D2.IntDoublePoint cellProbability = Points.D2.IntDoublePoint.of(5, 8, 0.85);
              *
              * // Distance-based calculations
              * double distance = Math.sqrt(10 * 10 + 20 * 20);
-             * Points.xy.IntDoublePoint nodeWithDistance = Points.xy.IntDoublePoint.of(10, 20, distance);
+             * Points.D2.IntDoublePoint nodeWithDistance = Points.D2.IntDoublePoint.of(10, 20, distance);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the double value associated with this point
+             * @param value the double value associated with this point
              * @return a new IntDoublePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static IntDoublePoint of(final int x, final int y, final double v) {
-                return new IntDoublePoint(x, y, v);
+            public static IntDoublePoint of(final int x, final int y, final double value) {
+                return new IntDoublePoint(x, y, value);
             }
         }
 
@@ -438,9 +435,9 @@ public final class Points {
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntObjPoint<T>(int x, int y, T v) {
+        public record IntObjPoint<T>(int x, int y, T value) {
 
             /**
              * Creates a new IntObjPoint with the specified coordinates and value reference.
@@ -450,29 +447,29 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with integer coordinates and a String value
-             * Points.xy.IntObjPoint<String> point = Points.xy.IntObjPoint.of(10, 20, "label");
+             * Points.D2.IntObjPoint<String> point = Points.D2.IntObjPoint.of(10, 20, "label");
              * int x = point.x();  // 10
              * int y = point.y();  // 20
-             * String value = point.v();  // "label"
+             * String value = point.value();  // "label"
              *
              * // Grid with custom objects
              * record Cell(String type, int priority, boolean active) {}
              * Cell cell = new Cell("wall", 5, true);
-             * Points.xy.IntObjPoint<Cell> gridCell = Points.xy.IntObjPoint.of(5, 8, cell);
+             * Points.D2.IntObjPoint<Cell> gridCell = Points.D2.IntObjPoint.of(5, 8, cell);
              *
              * // Store collections at grid positions
              * List<String> items = List.of("item1", "item2");
-             * Points.xy.IntObjPoint<List<String>> cellItems = Points.xy.IntObjPoint.of(3, 7, items);
+             * Points.D2.IntObjPoint<List<String>> cellItems = Points.D2.IntObjPoint.of(3, 7, items);
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the object value associated with this point, may be {@code null}
+             * @param value the object value associated with this point, may be {@code null}
              * @return a new IntObjPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static <T> IntObjPoint<T> of(final int x, final int y, final T v) {
-                return new IntObjPoint<>(x, y, v);
+            public static <T> IntObjPoint<T> of(final int x, final int y, final T value) {
+                return new IntObjPoint<>(x, y, value);
             }
         }
 
@@ -485,9 +482,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongBytePoint(long x, long y, byte v) {
+        public record LongBytePoint(long x, long y, byte value) {
 
             /**
              * Creates a new LongBytePoint with the specified coordinates and value.
@@ -497,22 +494,22 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with long coordinates and byte value
-             * Points.xy.LongBytePoint point = Points.xy.LongBytePoint.of(1000000L, 2000000L, (byte) 5);
+             * Points.D2.LongBytePoint point = Points.D2.LongBytePoint.of(1000000L, 2000000L, (byte) 5);
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
-             * byte value = point.v();  // 5
+             * byte value = point.value();  // 5
              *
              * // Useful for very large grids with small enumeration values
-             * Points.xy.LongBytePoint cellType = Points.xy.LongBytePoint.of(999999999L, 888888888L, (byte) 2);
+             * Points.D2.LongBytePoint cellType = Points.D2.LongBytePoint.of(999999999L, 888888888L, (byte) 2);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the byte value associated with this point
+             * @param value the byte value associated with this point
              * @return a new LongBytePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static LongBytePoint of(final long x, final long y, final byte v) {
-                return new LongBytePoint(x, y, v);
+            public static LongBytePoint of(final long x, final long y, final byte value) {
+                return new LongBytePoint(x, y, value);
             }
         }
 
@@ -525,9 +522,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongIntPoint(long x, long y, int v) {
+        public record LongIntPoint(long x, long y, int value) {
 
             /**
              * Creates a new LongIntPoint with the specified coordinates and value.
@@ -537,22 +534,22 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with long coordinates and integer value
-             * Points.xy.LongIntPoint point = Points.xy.LongIntPoint.of(1000000L, 2000000L, 500);
+             * Points.D2.LongIntPoint point = Points.D2.LongIntPoint.of(1000000L, 2000000L, 500);
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
-             * int value = point.v();  // 500
+             * int value = point.value();  // 500
              *
              * // Useful for very large grids with counts or indices
-             * Points.xy.LongIntPoint cellCount = Points.xy.LongIntPoint.of(999999999L, 888888888L, 1000000);
+             * Points.D2.LongIntPoint cellCount = Points.D2.LongIntPoint.of(999999999L, 888888888L, 1000000);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the integer value associated with this point
+             * @param value the integer value associated with this point
              * @return a new LongIntPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static LongIntPoint of(final long x, final long y, final int v) {
-                return new LongIntPoint(x, y, v);
+            public static LongIntPoint of(final long x, final long y, final int value) {
+                return new LongIntPoint(x, y, value);
             }
         }
 
@@ -564,9 +561,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongLongPoint(long x, long y, long v) {
+        public record LongLongPoint(long x, long y, long value) {
 
             /**
              * Creates a new LongLongPoint with the specified coordinates and value.
@@ -576,26 +573,26 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with long coordinates and long value
-             * Points.xy.LongLongPoint point = Points.xy.LongLongPoint.of(1000000L, 2000000L, 3000000000L);
+             * Points.D2.LongLongPoint point = Points.D2.LongLongPoint.of(1000000L, 2000000L, 3000000000L);
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
-             * long value = point.v();  // 3000000000
+             * long value = point.value();  // 3000000000
              *
              * // Useful for very large grids with timestamps
              * long timestamp = System.currentTimeMillis();
-             * Points.xy.LongLongPoint cellTime = Points.xy.LongLongPoint.of(999999999L, 888888888L, timestamp);
+             * Points.D2.LongLongPoint cellTime = Points.D2.LongLongPoint.of(999999999L, 888888888L, timestamp);
              *
              * // Large coordinate space with large identifiers
-             * Points.xy.LongLongPoint cellId = Points.xy.LongLongPoint.of(1L << 40, 1L << 41, 1L << 50);
+             * Points.D2.LongLongPoint cellId = Points.D2.LongLongPoint.of(1L << 40, 1L << 41, 1L << 50);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the long value associated with this point
+             * @param value the long value associated with this point
              * @return a new LongLongPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static LongLongPoint of(final long x, final long y, final long v) {
-                return new LongLongPoint(x, y, v);
+            public static LongLongPoint of(final long x, final long y, final long value) {
+                return new LongLongPoint(x, y, value);
             }
         }
 
@@ -608,9 +605,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongDoublePoint(long x, long y, double v) {
+        public record LongDoublePoint(long x, long y, double value) {
 
             /**
              * Creates a new LongDoublePoint with the specified coordinates and value.
@@ -620,26 +617,26 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with long coordinates and double value
-             * Points.xy.LongDoublePoint point = Points.xy.LongDoublePoint.of(1000000L, 2000000L, 3.14159);
+             * Points.D2.LongDoublePoint point = Points.D2.LongDoublePoint.of(1000000L, 2000000L, 3.14159);
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
-             * double value = point.v();  // 3.14159
+             * double value = point.value();  // 3.14159
              *
              * // Useful for very large grids with probability or weight values
-             * Points.xy.LongDoublePoint cellWeight = Points.xy.LongDoublePoint.of(999999999L, 888888888L, 0.85);
+             * Points.D2.LongDoublePoint cellWeight = Points.D2.LongDoublePoint.of(999999999L, 888888888L, 0.85);
              *
              * // Large coordinate space with distance calculations
              * double distance = Math.sqrt(1000000.0 * 1000000.0 + 2000000.0 * 2000000.0);
-             * Points.xy.LongDoublePoint cellDistance = Points.xy.LongDoublePoint.of(1000000L, 2000000L, distance);
+             * Points.D2.LongDoublePoint cellDistance = Points.D2.LongDoublePoint.of(1000000L, 2000000L, distance);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the double value associated with this point
+             * @param value the double value associated with this point
              * @return a new LongDoublePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static LongDoublePoint of(final long x, final long y, final double v) {
-                return new LongDoublePoint(x, y, v);
+            public static LongDoublePoint of(final long x, final long y, final double value) {
+                return new LongDoublePoint(x, y, value);
             }
         }
 
@@ -654,9 +651,9 @@ public final class Points {
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongObjPoint<T>(long x, long y, T v) {
+        public record LongObjPoint<T>(long x, long y, T value) {
 
             /**
              * Creates a new LongObjPoint with the specified coordinates and value reference.
@@ -666,29 +663,29 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with long coordinates and a String value
-             * Points.xy.LongObjPoint<String> point = Points.xy.LongObjPoint.of(1000000L, 2000000L, "marker");
+             * Points.D2.LongObjPoint<String> point = Points.D2.LongObjPoint.of(1000000L, 2000000L, "marker");
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
-             * String value = point.v();  // "marker"
+             * String value = point.value();  // "marker"
              *
              * // Very large grid with custom objects
              * record Region(String name, int population) {}
              * Region region = new Region("Zone-A", 1000000);
-             * Points.xy.LongObjPoint<Region> gridRegion = Points.xy.LongObjPoint.of(999999999L, 888888888L, region);
+             * Points.D2.LongObjPoint<Region> gridRegion = Points.D2.LongObjPoint.of(999999999L, 888888888L, region);
              *
              * // Spatial indexing with metadata
              * Map<String, Object> metadata = Map.of("type", "city", "size", 500000);
-             * Points.xy.LongObjPoint<Map<String, Object>> location = Points.xy.LongObjPoint.of(1L << 40, 1L << 41, metadata);
+             * Points.D2.LongObjPoint<Map<String, Object>> location = Points.D2.LongObjPoint.of(1L << 40, 1L << 41, metadata);
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the object value associated with this point, may be {@code null}
+             * @param value the object value associated with this point, may be {@code null}
              * @return a new LongObjPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static <T> LongObjPoint<T> of(final long x, final long y, final T v) {
-                return new LongObjPoint<>(x, y, v);
+            public static <T> LongObjPoint<T> of(final long x, final long y, final T value) {
+                return new LongObjPoint<>(x, y, value);
             }
         }
 
@@ -701,9 +698,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleBytePoint(double x, double y, byte v) {
+        public record DoubleBytePoint(double x, double y, byte value) {
 
             /**
              * Creates a new DoubleBytePoint with the specified coordinates and value.
@@ -713,22 +710,22 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with double coordinates and byte value
-             * Points.xy.DoubleBytePoint point = Points.xy.DoubleBytePoint.of(10.5, 20.7, (byte) 3);
+             * Points.D2.DoubleBytePoint point = Points.D2.DoubleBytePoint.of(10.5, 20.7, (byte) 3);
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
-             * byte value = point.v();  // 3
+             * byte value = point.value();  // 3
              *
              * // Useful for continuous coordinate spaces with small enumeration values
-             * Points.xy.DoubleBytePoint region = Points.xy.DoubleBytePoint.of(3.14159, 2.71828, (byte) 1);
+             * Points.D2.DoubleBytePoint region = Points.D2.DoubleBytePoint.of(3.14159, 2.71828, (byte) 1);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the byte value associated with this point
+             * @param value the byte value associated with this point
              * @return a new DoubleBytePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static DoubleBytePoint of(final double x, final double y, final byte v) {
-                return new DoubleBytePoint(x, y, v);
+            public static DoubleBytePoint of(final double x, final double y, final byte value) {
+                return new DoubleBytePoint(x, y, value);
             }
         }
 
@@ -741,9 +738,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleIntPoint(double x, double y, int v) {
+        public record DoubleIntPoint(double x, double y, int value) {
 
             /**
              * Creates a new DoubleIntPoint with the specified coordinates and value.
@@ -753,25 +750,25 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with double coordinates and integer value
-             * Points.xy.DoubleIntPoint point = Points.xy.DoubleIntPoint.of(10.5, 20.7, 100);
+             * Points.D2.DoubleIntPoint point = Points.D2.DoubleIntPoint.of(10.5, 20.7, 100);
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
-             * int value = point.v();  // 100
+             * int value = point.value();  // 100
              *
              * // Useful for continuous coordinate spaces with counts
-             * Points.xy.DoubleIntPoint sample = Points.xy.DoubleIntPoint.of(3.14159, 2.71828, 1000);
+             * Points.D2.DoubleIntPoint sample = Points.D2.DoubleIntPoint.of(3.14159, 2.71828, 1000);
              *
              * // Geographic coordinates with elevation
-             * Points.xy.DoubleIntPoint geoPoint = Points.xy.DoubleIntPoint.of(40.7128, -74.0060, 10);  // elevation in meters
+             * Points.D2.DoubleIntPoint geoPoint = Points.D2.DoubleIntPoint.of(40.7128, -74.0060, 10);  // elevation in meters
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the integer value associated with this point
+             * @param value the integer value associated with this point
              * @return a new DoubleIntPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static DoubleIntPoint of(final double x, final double y, final int v) {
-                return new DoubleIntPoint(x, y, v);
+            public static DoubleIntPoint of(final double x, final double y, final int value) {
+                return new DoubleIntPoint(x, y, value);
             }
         }
 
@@ -784,9 +781,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleLongPoint(double x, double y, long v) {
+        public record DoubleLongPoint(double x, double y, long value) {
 
             /**
              * Creates a new DoubleLongPoint with the specified coordinates and value.
@@ -796,26 +793,26 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with double coordinates and long value
-             * Points.xy.DoubleLongPoint point = Points.xy.DoubleLongPoint.of(10.5, 20.7, 1000000000L);
+             * Points.D2.DoubleLongPoint point = Points.D2.DoubleLongPoint.of(10.5, 20.7, 1000000000L);
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
-             * long value = point.v();  // 1000000000
+             * long value = point.value();  // 1000000000
              *
              * // Useful for continuous coordinate spaces with timestamps
              * long timestamp = System.currentTimeMillis();
-             * Points.xy.DoubleLongPoint sample = Points.xy.DoubleLongPoint.of(3.14159, 2.71828, timestamp);
+             * Points.D2.DoubleLongPoint sample = Points.D2.DoubleLongPoint.of(3.14159, 2.71828, timestamp);
              *
              * // Geographic coordinates with large identifiers
-             * Points.xy.DoubleLongPoint location = Points.xy.DoubleLongPoint.of(40.7128, -74.0060, 9876543210L);
+             * Points.D2.DoubleLongPoint location = Points.D2.DoubleLongPoint.of(40.7128, -74.0060, 9876543210L);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the long value associated with this point
+             * @param value the long value associated with this point
              * @return a new DoubleLongPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static DoubleLongPoint of(final double x, final double y, final long v) {
-                return new DoubleLongPoint(x, y, v);
+            public static DoubleLongPoint of(final double x, final double y, final long value) {
+                return new DoubleLongPoint(x, y, value);
             }
         }
 
@@ -827,9 +824,9 @@ public final class Points {
          *
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleDoublePoint(double x, double y, double v) {
+        public record DoubleDoublePoint(double x, double y, double value) {
 
             /**
              * Creates a new DoubleDoublePoint with the specified coordinates and value.
@@ -839,29 +836,29 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with double coordinates and double value
-             * Points.xy.DoubleDoublePoint point = Points.xy.DoubleDoublePoint.of(10.5, 20.7, 3.14159);
+             * Points.D2.DoubleDoublePoint point = Points.D2.DoubleDoublePoint.of(10.5, 20.7, 3.14159);
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
-             * double value = point.v();  // 3.14159
+             * double value = point.value();  // 3.14159
              *
              * // Useful for continuous spaces with probability or weight values
-             * Points.xy.DoubleDoublePoint sample = Points.xy.DoubleDoublePoint.of(3.14159, 2.71828, 0.95);
+             * Points.D2.DoubleDoublePoint sample = Points.D2.DoubleDoublePoint.of(3.14159, 2.71828, 0.95);
              *
              * // Geographic coordinates with temperature
-             * Points.xy.DoubleDoublePoint weather = Points.xy.DoubleDoublePoint.of(40.7128, -74.0060, 22.5);
+             * Points.D2.DoubleDoublePoint weather = Points.D2.DoubleDoublePoint.of(40.7128, -74.0060, 22.5);
              *
              * // Mathematical calculations
              * double distance = Math.sqrt(10.5 * 10.5 + 20.7 * 20.7);
-             * Points.xy.DoubleDoublePoint vector = Points.xy.DoubleDoublePoint.of(10.5, 20.7, distance);
+             * Points.D2.DoubleDoublePoint vector = Points.D2.DoubleDoublePoint.of(10.5, 20.7, distance);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the double value associated with this point
+             * @param value the double value associated with this point
              * @return a new DoubleDoublePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static DoubleDoublePoint of(final double x, final double y, final double v) {
-                return new DoubleDoublePoint(x, y, v);
+            public static DoubleDoublePoint of(final double x, final double y, final double value) {
+                return new DoubleDoublePoint(x, y, value);
             }
         }
 
@@ -876,9 +873,9 @@ public final class Points {
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleObjPoint<T>(double x, double y, T v) {
+        public record DoubleObjPoint<T>(double x, double y, T value) {
 
             /**
              * Creates a new DoubleObjPoint with the specified coordinates and value reference.
@@ -888,29 +885,29 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a point with double coordinates and a String value
-             * Points.xy.DoubleObjPoint<String> point = Points.xy.DoubleObjPoint.of(10.5, 20.7, "location");
+             * Points.D2.DoubleObjPoint<String> point = Points.D2.DoubleObjPoint.of(10.5, 20.7, "location");
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
-             * String value = point.v();  // "location"
+             * String value = point.value();  // "location"
              *
              * // Geographic coordinates with custom objects
              * record Place(String name, int population, String country) {}
              * Place place = new Place("New York", 8000000, "USA");
-             * Points.xy.DoubleObjPoint<Place> geoPoint = Points.xy.DoubleObjPoint.of(40.7128, -74.0060, place);
+             * Points.D2.DoubleObjPoint<Place> geoPoint = Points.D2.DoubleObjPoint.of(40.7128, -74.0060, place);
              *
              * // Continuous space with metadata
              * Map<String, Object> metadata = Map.of("temperature", 22.5, "humidity", 65);
-             * Points.xy.DoubleObjPoint<Map<String, Object>> sensor = Points.xy.DoubleObjPoint.of(3.14159, 2.71828, metadata);
+             * Points.D2.DoubleObjPoint<Map<String, Object>> sensor = Points.D2.DoubleObjPoint.of(3.14159, 2.71828, metadata);
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
-             * @param v the object value associated with this point, may be {@code null}
+             * @param value the object value associated with this point, may be {@code null}
              * @return a new DoubleObjPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static <T> DoubleObjPoint<T> of(final double x, final double y, final T v) {
-                return new DoubleObjPoint<>(x, y, v);
+            public static <T> DoubleObjPoint<T> of(final double x, final double y, final T value) {
+                return new DoubleObjPoint<>(x, y, value);
             }
         }
     }
@@ -923,12 +920,11 @@ public final class Points {
      * compact spatial carrier without defining a custom type. Object-valued variants retain their
      * payload references without defensive copying.</p>
      *
-     * @see xy
+     * @see D2
      */
-    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
-    public static final class xyz { // NOSONAR
+    public static final class D3 {
 
-        private xyz() {
+        private D3() {
             // utility class.
         }
 
@@ -942,9 +938,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteBytePoint(byte x, byte y, byte z, byte v) {
+        public record ByteBytePoint(byte x, byte y, byte z, byte value) {
 
             /**
              * Creates a new ByteBytePoint with the specified coordinates and value.
@@ -954,24 +950,24 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point at coordinates (10, 20, 30) with value 5
-             * Points.xyz.ByteBytePoint point = Points.xyz.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 30, (byte) 5);
+             * Points.D3.ByteBytePoint point = Points.D3.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 30, (byte) 5);
              * byte x = point.x();  // 10
              * byte y = point.y();  // 20
              * byte z = point.z();  // 30
-             * byte value = point.v();  // 5
+             * byte value = point.value();  // 5
              *
              * // Useful for memory-efficient 3D grid representations
-             * Points.xyz.ByteBytePoint voxel = Points.xyz.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 0, (byte) 127);
+             * Points.D3.ByteBytePoint voxel = Points.D3.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 0, (byte) 127);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the byte value associated with this point
+             * @param value the byte value associated with this point
              * @return a new ByteBytePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static ByteBytePoint of(final byte x, final byte y, final byte z, final byte v) {
-                return new ByteBytePoint(x, y, z, v);
+            public static ByteBytePoint of(final byte x, final byte y, final byte z, final byte value) {
+                return new ByteBytePoint(x, y, z, value);
             }
         }
 
@@ -985,9 +981,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteIntPoint(byte x, byte y, byte z, int v) {
+        public record ByteIntPoint(byte x, byte y, byte z, int value) {
 
             /**
              * Creates a new ByteIntPoint with the specified coordinates and value.
@@ -997,24 +993,24 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with byte coordinates and integer value
-             * Points.xyz.ByteIntPoint point = Points.xyz.ByteIntPoint.of((byte) 5, (byte) 10, (byte) 15, 1000);
+             * Points.D3.ByteIntPoint point = Points.D3.ByteIntPoint.of((byte) 5, (byte) 10, (byte) 15, 1000);
              * byte x = point.x();  // 5
              * byte y = point.y();  // 10
              * byte z = point.z();  // 15
-             * int value = point.v();  // 1000
+             * int value = point.value();  // 1000
              *
              * // Useful for small 3D grids with large counts
-             * Points.xyz.ByteIntPoint voxelCount = Points.xyz.ByteIntPoint.of((byte) 0, (byte) 0, (byte) 0, 1000000);
+             * Points.D3.ByteIntPoint voxelCount = Points.D3.ByteIntPoint.of((byte) 0, (byte) 0, (byte) 0, 1000000);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the integer value associated with this point
+             * @param value the integer value associated with this point
              * @return a new ByteIntPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static ByteIntPoint of(final byte x, final byte y, final byte z, final int v) {
-                return new ByteIntPoint(x, y, z, v);
+            public static ByteIntPoint of(final byte x, final byte y, final byte z, final int value) {
+                return new ByteIntPoint(x, y, z, value);
             }
         }
 
@@ -1028,9 +1024,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteLongPoint(byte x, byte y, byte z, long v) {
+        public record ByteLongPoint(byte x, byte y, byte z, long value) {
 
             /**
              * Creates a new ByteLongPoint with the specified coordinates and value.
@@ -1040,25 +1036,25 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with byte coordinates and long value
-             * Points.xyz.ByteLongPoint point = Points.xyz.ByteLongPoint.of((byte) 3, (byte) 7, (byte) 11, 1000000000L);
+             * Points.D3.ByteLongPoint point = Points.D3.ByteLongPoint.of((byte) 3, (byte) 7, (byte) 11, 1000000000L);
              * byte x = point.x();  // 3
              * byte y = point.y();  // 7
              * byte z = point.z();  // 11
-             * long value = point.v();  // 1000000000
+             * long value = point.value();  // 1000000000
              *
              * // Useful for small 3D grids with timestamps
              * long timestamp = System.currentTimeMillis();
-             * Points.xyz.ByteLongPoint voxelTime = Points.xyz.ByteLongPoint.of((byte) 0, (byte) 0, (byte) 0, timestamp);
+             * Points.D3.ByteLongPoint voxelTime = Points.D3.ByteLongPoint.of((byte) 0, (byte) 0, (byte) 0, timestamp);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the long value associated with this point
+             * @param value the long value associated with this point
              * @return a new ByteLongPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static ByteLongPoint of(final byte x, final byte y, final byte z, final long v) {
-                return new ByteLongPoint(x, y, z, v);
+            public static ByteLongPoint of(final byte x, final byte y, final byte z, final long value) {
+                return new ByteLongPoint(x, y, z, value);
             }
         }
 
@@ -1072,9 +1068,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteDoublePoint(byte x, byte y, byte z, double v) {
+        public record ByteDoublePoint(byte x, byte y, byte z, double value) {
 
             /**
              * Creates a new ByteDoublePoint with the specified coordinates and value.
@@ -1084,24 +1080,24 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with byte coordinates and double value
-             * Points.xyz.ByteDoublePoint point = Points.xyz.ByteDoublePoint.of((byte) 2, (byte) 4, (byte) 6, 3.14159);
+             * Points.D3.ByteDoublePoint point = Points.D3.ByteDoublePoint.of((byte) 2, (byte) 4, (byte) 6, 3.14159);
              * byte x = point.x();  // 2
              * byte y = point.y();  // 4
              * byte z = point.z();  // 6
-             * double value = point.v();  // 3.14159
+             * double value = point.value();  // 3.14159
              *
              * // Useful for small 3D grids with density values
-             * Points.xyz.ByteDoublePoint voxelDensity = Points.xyz.ByteDoublePoint.of((byte) 1, (byte) 1, (byte) 1, 0.85);
+             * Points.D3.ByteDoublePoint voxelDensity = Points.D3.ByteDoublePoint.of((byte) 1, (byte) 1, (byte) 1, 0.85);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the double value associated with this point
+             * @param value the double value associated with this point
              * @return a new ByteDoublePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static ByteDoublePoint of(final byte x, final byte y, final byte z, final double v) {
-                return new ByteDoublePoint(x, y, z, v);
+            public static ByteDoublePoint of(final byte x, final byte y, final byte z, final double value) {
+                return new ByteDoublePoint(x, y, z, value);
             }
         }
 
@@ -1117,9 +1113,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record ByteObjPoint<T>(byte x, byte y, byte z, T v) {
+        public record ByteObjPoint<T>(byte x, byte y, byte z, T value) {
 
             /**
              * Creates a new ByteObjPoint with the specified coordinates and value reference.
@@ -1129,27 +1125,27 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with byte coordinates and a String value
-             * Points.xyz.ByteObjPoint<String> point = Points.xyz.ByteObjPoint.of((byte) 1, (byte) 2, (byte) 3, "voxel");
+             * Points.D3.ByteObjPoint<String> point = Points.D3.ByteObjPoint.of((byte) 1, (byte) 2, (byte) 3, "voxel");
              * byte x = point.x();  // 1
              * byte y = point.y();  // 2
              * byte z = point.z();  // 3
-             * String value = point.v();  // "voxel"
+             * String value = point.value();  // "voxel"
              *
              * // Useful for small 3D grids with complex metadata
              * record Material(String type, double density) {}
              * Material material = new Material("iron", 7.87);
-             * Points.xyz.ByteObjPoint<Material> voxelMaterial = Points.xyz.ByteObjPoint.of((byte) 0, (byte) 0, (byte) 0, material);
+             * Points.D3.ByteObjPoint<Material> voxelMaterial = Points.D3.ByteObjPoint.of((byte) 0, (byte) 0, (byte) 0, material);
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the object value associated with this point, may be {@code null}
+             * @param value the object value associated with this point, may be {@code null}
              * @return a new ByteObjPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static <T> ByteObjPoint<T> of(final byte x, final byte y, final byte z, final T v) {
-                return new ByteObjPoint<>(x, y, z, v);
+            public static <T> ByteObjPoint<T> of(final byte x, final byte y, final byte z, final T value) {
+                return new ByteObjPoint<>(x, y, z, value);
             }
         }
 
@@ -1163,9 +1159,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntBytePoint(int x, int y, int z, byte v) {
+        public record IntBytePoint(int x, int y, int z, byte value) {
 
             /**
              * Creates a new IntBytePoint with the specified coordinates and value.
@@ -1175,24 +1171,24 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with integer coordinates and byte value
-             * Points.xyz.IntBytePoint point = Points.xyz.IntBytePoint.of(100, 200, 300, (byte) 10);
+             * Points.D3.IntBytePoint point = Points.D3.IntBytePoint.of(100, 200, 300, (byte) 10);
              * int x = point.x();  // 100
              * int y = point.y();  // 200
              * int z = point.z();  // 300
-             * byte value = point.v();  // 10
+             * byte value = point.value();  // 10
              *
              * // Useful for large 3D grids with small enumeration values
-             * Points.xyz.IntBytePoint voxelType = Points.xyz.IntBytePoint.of(1000, 2000, 3000, (byte) 3);  // type = 3
+             * Points.D3.IntBytePoint voxelType = Points.D3.IntBytePoint.of(1000, 2000, 3000, (byte) 3);  // type = 3
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the byte value associated with this point
+             * @param value the byte value associated with this point
              * @return a new IntBytePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static IntBytePoint of(final int x, final int y, final int z, final byte v) {
-                return new IntBytePoint(x, y, z, v);
+            public static IntBytePoint of(final int x, final int y, final int z, final byte value) {
+                return new IntBytePoint(x, y, z, value);
             }
         }
 
@@ -1206,9 +1202,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntIntPoint(int x, int y, int z, int v) {
+        public record IntIntPoint(int x, int y, int z, int value) {
 
             /**
              * Creates a new IntIntPoint with the specified coordinates and value.
@@ -1219,27 +1215,27 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with integer coordinates and integer value
-             * Points.xyz.IntIntPoint point = Points.xyz.IntIntPoint.of(100, 200, 300, 400);
+             * Points.D3.IntIntPoint point = Points.D3.IntIntPoint.of(100, 200, 300, 400);
              * int x = point.x();  // 100
              * int y = point.y();  // 200
              * int z = point.z();  // 300
-             * int value = point.v();  // 400
+             * int value = point.value();  // 400
              *
              * // Common use case: 3D voxel grids with counts
-             * Points.xyz.IntIntPoint voxel = Points.xyz.IntIntPoint.of(10, 20, 30, 5000);
+             * Points.D3.IntIntPoint voxel = Points.D3.IntIntPoint.of(10, 20, 30, 5000);
              *
              * // 3D pathfinding with cost values
-             * Points.xyz.IntIntPoint pathNode = Points.xyz.IntIntPoint.of(5, 8, 12, 25);  // cost = 25
+             * Points.D3.IntIntPoint pathNode = Points.D3.IntIntPoint.of(5, 8, 12, 25);  // cost = 25
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the integer value associated with this point
+             * @param value the integer value associated with this point
              * @return a new IntIntPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static IntIntPoint of(final int x, final int y, final int z, final int v) {
-                return new IntIntPoint(x, y, z, v);
+            public static IntIntPoint of(final int x, final int y, final int z, final int value) {
+                return new IntIntPoint(x, y, z, value);
             }
         }
 
@@ -1253,9 +1249,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntLongPoint(int x, int y, int z, long v) {
+        public record IntLongPoint(int x, int y, int z, long value) {
 
             /**
              * Creates a new IntLongPoint with the specified coordinates and value.
@@ -1265,28 +1261,28 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with integer coordinates and long value
-             * Points.xyz.IntLongPoint point = Points.xyz.IntLongPoint.of(50, 75, 100, 10000000000L);
+             * Points.D3.IntLongPoint point = Points.D3.IntLongPoint.of(50, 75, 100, 10000000000L);
              * int x = point.x();  // 50
              * int y = point.y();  // 75
              * int z = point.z();  // 100
-             * long value = point.v();  // 10000000000
+             * long value = point.value();  // 10000000000
              *
              * // Useful for 3D grids with timestamps
              * long timestamp = System.currentTimeMillis();
-             * Points.xyz.IntLongPoint voxelTime = Points.xyz.IntLongPoint.of(10, 20, 30, timestamp);
+             * Points.D3.IntLongPoint voxelTime = Points.D3.IntLongPoint.of(10, 20, 30, timestamp);
              *
              * // Track large identifiers in a 3D grid
-             * Points.xyz.IntLongPoint voxelId = Points.xyz.IntLongPoint.of(5, 8, 12, 9876543210L);
+             * Points.D3.IntLongPoint voxelId = Points.D3.IntLongPoint.of(5, 8, 12, 9876543210L);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the long value associated with this point
+             * @param value the long value associated with this point
              * @return a new IntLongPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static IntLongPoint of(final int x, final int y, final int z, final long v) {
-                return new IntLongPoint(x, y, z, v);
+            public static IntLongPoint of(final int x, final int y, final int z, final long value) {
+                return new IntLongPoint(x, y, z, value);
             }
         }
 
@@ -1300,9 +1296,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntDoublePoint(int x, int y, int z, double v) {
+        public record IntDoublePoint(int x, int y, int z, double value) {
 
             /**
              * Creates a new IntDoublePoint with the specified coordinates and value.
@@ -1312,28 +1308,28 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with integer coordinates and double value
-             * Points.xyz.IntDoublePoint point = Points.xyz.IntDoublePoint.of(10, 20, 30, 3.14159);
+             * Points.D3.IntDoublePoint point = Points.D3.IntDoublePoint.of(10, 20, 30, 3.14159);
              * int x = point.x();  // 10
              * int y = point.y();  // 20
              * int z = point.z();  // 30
-             * double value = point.v();  // 3.14159
+             * double value = point.value();  // 3.14159
              *
              * // Useful for 3D grids with density values
-             * Points.xyz.IntDoublePoint voxelDensity = Points.xyz.IntDoublePoint.of(5, 8, 12, 0.85);
+             * Points.D3.IntDoublePoint voxelDensity = Points.D3.IntDoublePoint.of(5, 8, 12, 0.85);
              *
              * // 3D distance-based calculations
              * double distance = Math.sqrt(10 * 10 + 20 * 20 + 30 * 30);
-             * Points.xyz.IntDoublePoint nodeDistance = Points.xyz.IntDoublePoint.of(10, 20, 30, distance);
+             * Points.D3.IntDoublePoint nodeDistance = Points.D3.IntDoublePoint.of(10, 20, 30, distance);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the double value associated with this point
+             * @param value the double value associated with this point
              * @return a new IntDoublePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static IntDoublePoint of(final int x, final int y, final int z, final double v) {
-                return new IntDoublePoint(x, y, z, v);
+            public static IntDoublePoint of(final int x, final int y, final int z, final double value) {
+                return new IntDoublePoint(x, y, z, value);
             }
         }
 
@@ -1349,9 +1345,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record IntObjPoint<T>(int x, int y, int z, T v) {
+        public record IntObjPoint<T>(int x, int y, int z, T value) {
 
             /**
              * Creates a new IntObjPoint with the specified coordinates and value reference.
@@ -1361,31 +1357,31 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with integer coordinates and a String value
-             * Points.xyz.IntObjPoint<String> point = Points.xyz.IntObjPoint.of(10, 20, 30, "block");
+             * Points.D3.IntObjPoint<String> point = Points.D3.IntObjPoint.of(10, 20, 30, "block");
              * int x = point.x();  // 10
              * int y = point.y();  // 20
              * int z = point.z();  // 30
-             * String value = point.v();  // "block"
+             * String value = point.value();  // "block"
              *
              * // 3D voxel grid with custom objects
              * record Voxel(String material, double density, boolean solid) {}
              * Voxel voxel = new Voxel("stone", 2.5, true);
-             * Points.xyz.IntObjPoint<Voxel> gridVoxel = Points.xyz.IntObjPoint.of(5, 8, 12, voxel);
+             * Points.D3.IntObjPoint<Voxel> gridVoxel = Points.D3.IntObjPoint.of(5, 8, 12, voxel);
              *
              * // Store collections at 3D positions
              * List<String> items = List.of("chest", "gold");
-             * Points.xyz.IntObjPoint<List<String>> voxelItems = Points.xyz.IntObjPoint.of(3, 7, 10, items);
+             * Points.D3.IntObjPoint<List<String>> voxelItems = Points.D3.IntObjPoint.of(3, 7, 10, items);
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the object value associated with this point, may be {@code null}
+             * @param value the object value associated with this point, may be {@code null}
              * @return a new IntObjPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static <T> IntObjPoint<T> of(final int x, final int y, final int z, final T v) {
-                return new IntObjPoint<>(x, y, z, v);
+            public static <T> IntObjPoint<T> of(final int x, final int y, final int z, final T value) {
+                return new IntObjPoint<>(x, y, z, value);
             }
         }
 
@@ -1399,9 +1395,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongBytePoint(long x, long y, long z, byte v) {
+        public record LongBytePoint(long x, long y, long z, byte value) {
 
             /**
              * Creates a new LongBytePoint with the specified coordinates and value.
@@ -1411,24 +1407,24 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with long coordinates and byte value
-             * Points.xyz.LongBytePoint point = Points.xyz.LongBytePoint.of(1000000L, 2000000L, 3000000L, (byte) 5);
+             * Points.D3.LongBytePoint point = Points.D3.LongBytePoint.of(1000000L, 2000000L, 3000000L, (byte) 5);
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
              * long z = point.z();  // 3000000
-             * byte value = point.v();  // 5
+             * byte value = point.value();  // 5
              *
              * // Useful for very large 3D grids with small enumeration values
-             * Points.xyz.LongBytePoint voxelType = Points.xyz.LongBytePoint.of(999999999L, 888888888L, 777777777L, (byte) 2);
+             * Points.D3.LongBytePoint voxelType = Points.D3.LongBytePoint.of(999999999L, 888888888L, 777777777L, (byte) 2);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the byte value associated with this point
+             * @param value the byte value associated with this point
              * @return a new LongBytePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static LongBytePoint of(final long x, final long y, final long z, final byte v) {
-                return new LongBytePoint(x, y, z, v);
+            public static LongBytePoint of(final long x, final long y, final long z, final byte value) {
+                return new LongBytePoint(x, y, z, value);
             }
         }
 
@@ -1442,9 +1438,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongIntPoint(long x, long y, long z, int v) {
+        public record LongIntPoint(long x, long y, long z, int value) {
 
             /**
              * Creates a new LongIntPoint with the specified coordinates and value.
@@ -1454,24 +1450,24 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with long coordinates and integer value
-             * Points.xyz.LongIntPoint point = Points.xyz.LongIntPoint.of(1000000L, 2000000L, 3000000L, 500);
+             * Points.D3.LongIntPoint point = Points.D3.LongIntPoint.of(1000000L, 2000000L, 3000000L, 500);
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
              * long z = point.z();  // 3000000
-             * int value = point.v();  // 500
+             * int value = point.value();  // 500
              *
              * // Useful for very large 3D grids with counts or indices
-             * Points.xyz.LongIntPoint voxelCount = Points.xyz.LongIntPoint.of(999999999L, 888888888L, 777777777L, 1000000);
+             * Points.D3.LongIntPoint voxelCount = Points.D3.LongIntPoint.of(999999999L, 888888888L, 777777777L, 1000000);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the integer value associated with this point
+             * @param value the integer value associated with this point
              * @return a new LongIntPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static LongIntPoint of(final long x, final long y, final long z, final int v) {
-                return new LongIntPoint(x, y, z, v);
+            public static LongIntPoint of(final long x, final long y, final long z, final int value) {
+                return new LongIntPoint(x, y, z, value);
             }
         }
 
@@ -1484,9 +1480,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongLongPoint(long x, long y, long z, long v) {
+        public record LongLongPoint(long x, long y, long z, long value) {
 
             /**
              * Creates a new LongLongPoint with the specified coordinates and value.
@@ -1496,28 +1492,28 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with long coordinates and long value
-             * Points.xyz.LongLongPoint point = Points.xyz.LongLongPoint.of(1000000L, 2000000L, 3000000L, 4000000000L);
+             * Points.D3.LongLongPoint point = Points.D3.LongLongPoint.of(1000000L, 2000000L, 3000000L, 4000000000L);
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
              * long z = point.z();  // 3000000
-             * long value = point.v();  // 4000000000
+             * long value = point.value();  // 4000000000
              *
              * // Useful for very large 3D grids with timestamps
              * long timestamp = System.currentTimeMillis();
-             * Points.xyz.LongLongPoint voxelTime = Points.xyz.LongLongPoint.of(999999999L, 888888888L, 777777777L, timestamp);
+             * Points.D3.LongLongPoint voxelTime = Points.D3.LongLongPoint.of(999999999L, 888888888L, 777777777L, timestamp);
              *
              * // Large 3D coordinate space with large identifiers
-             * Points.xyz.LongLongPoint voxelId = Points.xyz.LongLongPoint.of(1L << 40, 1L << 41, 1L << 42, 1L << 50);
+             * Points.D3.LongLongPoint voxelId = Points.D3.LongLongPoint.of(1L << 40, 1L << 41, 1L << 42, 1L << 50);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the long value associated with this point
+             * @param value the long value associated with this point
              * @return a new LongLongPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static LongLongPoint of(final long x, final long y, final long z, final long v) {
-                return new LongLongPoint(x, y, z, v);
+            public static LongLongPoint of(final long x, final long y, final long z, final long value) {
+                return new LongLongPoint(x, y, z, value);
             }
         }
 
@@ -1531,9 +1527,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongDoublePoint(long x, long y, long z, double v) {
+        public record LongDoublePoint(long x, long y, long z, double value) {
 
             /**
              * Creates a new LongDoublePoint with the specified coordinates and value.
@@ -1543,28 +1539,28 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with long coordinates and double value
-             * Points.xyz.LongDoublePoint point = Points.xyz.LongDoublePoint.of(1000000L, 2000000L, 3000000L, 3.14159);
+             * Points.D3.LongDoublePoint point = Points.D3.LongDoublePoint.of(1000000L, 2000000L, 3000000L, 3.14159);
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
              * long z = point.z();  // 3000000
-             * double value = point.v();  // 3.14159
+             * double value = point.value();  // 3.14159
              *
              * // Useful for very large 3D grids with density or probability values
-             * Points.xyz.LongDoublePoint voxelDensity = Points.xyz.LongDoublePoint.of(999999999L, 888888888L, 777777777L, 0.85);
+             * Points.D3.LongDoublePoint voxelDensity = Points.D3.LongDoublePoint.of(999999999L, 888888888L, 777777777L, 0.85);
              *
              * // Large 3D coordinate space with distance calculations
              * double distance = Math.sqrt(1000000.0 * 1000000.0 + 2000000.0 * 2000000.0 + 3000000.0 * 3000000.0);
-             * Points.xyz.LongDoublePoint voxelDistance = Points.xyz.LongDoublePoint.of(1000000L, 2000000L, 3000000L, distance);
+             * Points.D3.LongDoublePoint voxelDistance = Points.D3.LongDoublePoint.of(1000000L, 2000000L, 3000000L, distance);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the double value associated with this point
+             * @param value the double value associated with this point
              * @return a new LongDoublePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static LongDoublePoint of(final long x, final long y, final long z, final double v) {
-                return new LongDoublePoint(x, y, z, v);
+            public static LongDoublePoint of(final long x, final long y, final long z, final double value) {
+                return new LongDoublePoint(x, y, z, value);
             }
         }
 
@@ -1580,9 +1576,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record LongObjPoint<T>(long x, long y, long z, T v) {
+        public record LongObjPoint<T>(long x, long y, long z, T value) {
 
             /**
              * Creates a new LongObjPoint with the specified coordinates and value reference.
@@ -1592,31 +1588,31 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with long coordinates and a String value
-             * Points.xyz.LongObjPoint<String> point = Points.xyz.LongObjPoint.of(1000000L, 2000000L, 3000000L, "region");
+             * Points.D3.LongObjPoint<String> point = Points.D3.LongObjPoint.of(1000000L, 2000000L, 3000000L, "region");
              * long x = point.x();  // 1000000
              * long y = point.y();  // 2000000
              * long z = point.z();  // 3000000
-             * String value = point.v();  // "region"
+             * String value = point.value();  // "region"
              *
              * // Very large 3D grid with custom objects
              * record Chunk(String biome, int height, boolean generated) {}
              * Chunk chunk = new Chunk("plains", 64, true);
-             * Points.xyz.LongObjPoint<Chunk> gridChunk = Points.xyz.LongObjPoint.of(999999999L, 888888888L, 777777777L, chunk);
+             * Points.D3.LongObjPoint<Chunk> gridChunk = Points.D3.LongObjPoint.of(999999999L, 888888888L, 777777777L, chunk);
              *
              * // 3D spatial indexing with metadata
              * Map<String, Object> metadata = Map.of("type", "structure", "volume", 1000);
-             * Points.xyz.LongObjPoint<Map<String, Object>> voxel = Points.xyz.LongObjPoint.of(1L << 40, 1L << 41, 1L << 42, metadata);
+             * Points.D3.LongObjPoint<Map<String, Object>> voxel = Points.D3.LongObjPoint.of(1L << 40, 1L << 41, 1L << 42, metadata);
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the object value associated with this point, may be {@code null}
+             * @param value the object value associated with this point, may be {@code null}
              * @return a new LongObjPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static <T> LongObjPoint<T> of(final long x, final long y, final long z, final T v) {
-                return new LongObjPoint<>(x, y, z, v);
+            public static <T> LongObjPoint<T> of(final long x, final long y, final long z, final T value) {
+                return new LongObjPoint<>(x, y, z, value);
             }
         }
 
@@ -1630,9 +1626,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleBytePoint(double x, double y, double z, byte v) {
+        public record DoubleBytePoint(double x, double y, double z, byte value) {
 
             /**
              * Creates a new DoubleBytePoint with the specified coordinates and value.
@@ -1642,24 +1638,24 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with double coordinates and byte value
-             * Points.xyz.DoubleBytePoint point = Points.xyz.DoubleBytePoint.of(10.5, 20.7, 30.9, (byte) 3);
+             * Points.D3.DoubleBytePoint point = Points.D3.DoubleBytePoint.of(10.5, 20.7, 30.9, (byte) 3);
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
              * double z = point.z();  // 30.9
-             * byte value = point.v();  // 3
+             * byte value = point.value();  // 3
              *
              * // Useful for continuous 3D coordinate spaces with small enumeration values
-             * Points.xyz.DoubleBytePoint region = Points.xyz.DoubleBytePoint.of(3.14159, 2.71828, 1.41421, (byte) 1);
+             * Points.D3.DoubleBytePoint region = Points.D3.DoubleBytePoint.of(3.14159, 2.71828, 1.41421, (byte) 1);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the byte value associated with this point
+             * @param value the byte value associated with this point
              * @return a new DoubleBytePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static DoubleBytePoint of(final double x, final double y, final double z, final byte v) {
-                return new DoubleBytePoint(x, y, z, v);
+            public static DoubleBytePoint of(final double x, final double y, final double z, final byte value) {
+                return new DoubleBytePoint(x, y, z, value);
             }
         }
 
@@ -1673,9 +1669,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleIntPoint(double x, double y, double z, int v) {
+        public record DoubleIntPoint(double x, double y, double z, int value) {
 
             /**
              * Creates a new DoubleIntPoint with the specified coordinates and value.
@@ -1685,27 +1681,27 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with double coordinates and integer value
-             * Points.xyz.DoubleIntPoint point = Points.xyz.DoubleIntPoint.of(10.5, 20.7, 30.9, 100);
+             * Points.D3.DoubleIntPoint point = Points.D3.DoubleIntPoint.of(10.5, 20.7, 30.9, 100);
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
              * double z = point.z();  // 30.9
-             * int value = point.v();  // 100
+             * int value = point.value();  // 100
              *
              * // Useful for continuous 3D coordinate spaces with counts
-             * Points.xyz.DoubleIntPoint sample = Points.xyz.DoubleIntPoint.of(3.14159, 2.71828, 1.41421, 1000);
+             * Points.D3.DoubleIntPoint sample = Points.D3.DoubleIntPoint.of(3.14159, 2.71828, 1.41421, 1000);
              *
              * // 3D physical coordinates with count values
-             * Points.xyz.DoubleIntPoint position = Points.xyz.DoubleIntPoint.of(1.5, 2.7, 3.9, 42);
+             * Points.D3.DoubleIntPoint position = Points.D3.DoubleIntPoint.of(1.5, 2.7, 3.9, 42);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the integer value associated with this point
+             * @param value the integer value associated with this point
              * @return a new DoubleIntPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static DoubleIntPoint of(final double x, final double y, final double z, final int v) {
-                return new DoubleIntPoint(x, y, z, v);
+            public static DoubleIntPoint of(final double x, final double y, final double z, final int value) {
+                return new DoubleIntPoint(x, y, z, value);
             }
         }
 
@@ -1719,9 +1715,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleLongPoint(double x, double y, double z, long v) {
+        public record DoubleLongPoint(double x, double y, double z, long value) {
 
             /**
              * Creates a new DoubleLongPoint with the specified coordinates and value.
@@ -1731,28 +1727,28 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with double coordinates and long value
-             * Points.xyz.DoubleLongPoint point = Points.xyz.DoubleLongPoint.of(10.5, 20.7, 30.9, 1000000000L);
+             * Points.D3.DoubleLongPoint point = Points.D3.DoubleLongPoint.of(10.5, 20.7, 30.9, 1000000000L);
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
              * double z = point.z();  // 30.9
-             * long value = point.v();  // 1000000000
+             * long value = point.value();  // 1000000000
              *
              * // Useful for continuous 3D coordinate spaces with timestamps
              * long timestamp = System.currentTimeMillis();
-             * Points.xyz.DoubleLongPoint sample = Points.xyz.DoubleLongPoint.of(3.14159, 2.71828, 1.41421, timestamp);
+             * Points.D3.DoubleLongPoint sample = Points.D3.DoubleLongPoint.of(3.14159, 2.71828, 1.41421, timestamp);
              *
              * // 3D physical coordinates with large identifiers
-             * Points.xyz.DoubleLongPoint position = Points.xyz.DoubleLongPoint.of(1.5, 2.7, 3.9, 9876543210L);
+             * Points.D3.DoubleLongPoint position = Points.D3.DoubleLongPoint.of(1.5, 2.7, 3.9, 9876543210L);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the long value associated with this point
+             * @param value the long value associated with this point
              * @return a new DoubleLongPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static DoubleLongPoint of(final double x, final double y, final double z, final long v) {
-                return new DoubleLongPoint(x, y, z, v);
+            public static DoubleLongPoint of(final double x, final double y, final double z, final long value) {
+                return new DoubleLongPoint(x, y, z, value);
             }
         }
 
@@ -1765,9 +1761,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleDoublePoint(double x, double y, double z, double v) {
+        public record DoubleDoublePoint(double x, double y, double z, double value) {
 
             /**
              * Creates a new DoubleDoublePoint with the specified coordinates and value.
@@ -1777,31 +1773,31 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with double coordinates and double value
-             * Points.xyz.DoubleDoublePoint point = Points.xyz.DoubleDoublePoint.of(10.5, 20.7, 30.9, 3.14159);
+             * Points.D3.DoubleDoublePoint point = Points.D3.DoubleDoublePoint.of(10.5, 20.7, 30.9, 3.14159);
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
              * double z = point.z();  // 30.9
-             * double value = point.v();  // 3.14159
+             * double value = point.value();  // 3.14159
              *
              * // Useful for continuous 3D spaces with density or probability values
-             * Points.xyz.DoubleDoublePoint sample = Points.xyz.DoubleDoublePoint.of(3.14159, 2.71828, 1.41421, 0.95);
+             * Points.D3.DoubleDoublePoint sample = Points.D3.DoubleDoublePoint.of(3.14159, 2.71828, 1.41421, 0.95);
              *
              * // 3D physical coordinates with measurements
-             * Points.xyz.DoubleDoublePoint position = Points.xyz.DoubleDoublePoint.of(1.5, 2.7, 3.9, 22.5);
+             * Points.D3.DoubleDoublePoint position = Points.D3.DoubleDoublePoint.of(1.5, 2.7, 3.9, 22.5);
              *
              * // Mathematical calculations in 3D space
              * double distance = Math.sqrt(10.5 * 10.5 + 20.7 * 20.7 + 30.9 * 30.9);
-             * Points.xyz.DoubleDoublePoint vector = Points.xyz.DoubleDoublePoint.of(10.5, 20.7, 30.9, distance);
+             * Points.D3.DoubleDoublePoint vector = Points.D3.DoubleDoublePoint.of(10.5, 20.7, 30.9, distance);
              * }</pre>
              *
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the double value associated with this point
+             * @param value the double value associated with this point
              * @return a new DoubleDoublePoint instance with the specified coordinates and value, never {@code null}
              */
-            public static DoubleDoublePoint of(final double x, final double y, final double z, final double v) {
-                return new DoubleDoublePoint(x, y, z, v);
+            public static DoubleDoublePoint of(final double x, final double y, final double z, final double value) {
+                return new DoubleDoublePoint(x, y, z, value);
             }
         }
 
@@ -1817,9 +1813,9 @@ public final class Points {
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
          * @param z the z-coordinate of this point
-         * @param v the value associated with this point
+         * @param value the value associated with this point
          */
-        public record DoubleObjPoint<T>(double x, double y, double z, T v) {
+        public record DoubleObjPoint<T>(double x, double y, double z, T value) {
 
             /**
              * Creates a new DoubleObjPoint with the specified coordinates and value reference.
@@ -1829,31 +1825,31 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * // Create a 3D point with double coordinates and a String value
-             * Points.xyz.DoubleObjPoint<String> point = Points.xyz.DoubleObjPoint.of(10.5, 20.7, 30.9, "marker");
+             * Points.D3.DoubleObjPoint<String> point = Points.D3.DoubleObjPoint.of(10.5, 20.7, 30.9, "marker");
              * double x = point.x();  // 10.5
              * double y = point.y();  // 20.7
              * double z = point.z();  // 30.9
-             * String value = point.v();  // "marker"
+             * String value = point.value();  // "marker"
              *
              * // 3D physical space with custom objects
              * record Particle(String type, double mass, double charge) {}
              * Particle particle = new Particle("electron", 9.109e-31, -1.602e-19);
-             * Points.xyz.DoubleObjPoint<Particle> position = Points.xyz.DoubleObjPoint.of(1.5, 2.7, 3.9, particle);
+             * Points.D3.DoubleObjPoint<Particle> position = Points.D3.DoubleObjPoint.of(1.5, 2.7, 3.9, particle);
              *
              * // Continuous 3D space with metadata
              * Map<String, Object> metadata = Map.of("temperature", 22.5, "pressure", 101.3, "humidity", 65);
-             * Points.xyz.DoubleObjPoint<Map<String, Object>> sensor = Points.xyz.DoubleObjPoint.of(3.14159, 2.71828, 1.41421, metadata);
+             * Points.D3.DoubleObjPoint<Map<String, Object>> sensor = Points.D3.DoubleObjPoint.of(3.14159, 2.71828, 1.41421, metadata);
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
              * @param x the x-coordinate of the point
              * @param y the y-coordinate of the point
              * @param z the z-coordinate of the point
-             * @param v the object value associated with this point, may be {@code null}
+             * @param value the object value associated with this point, may be {@code null}
              * @return a new DoubleObjPoint instance with the specified coordinates and value, never {@code null}
              */
-            public static <T> DoubleObjPoint<T> of(final double x, final double y, final double z, final T v) {
-                return new DoubleObjPoint<>(x, y, z, v);
+            public static <T> DoubleObjPoint<T> of(final double x, final double y, final double z, final T value) {
+                return new DoubleObjPoint<>(x, y, z, value);
             }
         }
     }
