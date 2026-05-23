@@ -29,8 +29,8 @@ import com.landawn.abacus.util.stream.IntStream;
  *
  * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
- * @see LongTuple
  * @see ShortTuple
+ * @see LongTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
@@ -234,9 +234,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * Creates an IntTuple from an array of int values.
      * <p>
      * The size of the returned tuple depends on the length of the input array.
-     * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty {@code IntTuple<?>}. For arrays with 1-9 elements, returns
-     * the corresponding IntTuple.IntTuple1-9 instance.
+     * This factory method supports arrays with 0 to 9 elements. For {@code null} or empty
+     * arrays, returns the shared empty tuple. For arrays with 1-9 elements, returns the
+     * corresponding {@code IntTuple1}..{@code IntTuple9} instance. The values are copied
+     * into the new tuple; subsequent modifications to the input array do not affect it.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -254,12 +255,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
-     * or to the base tuple type.</p>
+     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
+     * {@link ClassCastException} at the assignment site.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of int values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return an {@code IntTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
+     * @see #of(int)
      */
     @SuppressWarnings("deprecation")
     public static <TP extends IntTuple<TP>> TP copyOf(final int[] values) {
@@ -369,6 +372,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * @return the median int value in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
+     * @see N#median(int...)
      */
     public int median() {
         return N.median(elements());
@@ -393,6 +399,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * @return the sum of all int values in this tuple as an {@code int}
      * @throws ArithmeticException if the total does not fit in an {@code int}
+     * @see #average()
      */
     public int sum() {
         return N.sum(elements());
@@ -480,7 +487,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * int[] pairArray = pair.toArray();   // [10, 20]
      * }</pre>
      *
-     * @return a new int array containing all tuple elements
+     * @return a new {@code int[]} array containing all tuple elements in order
+     * @see #toList()
+     * @see #stream()
      */
     public int[] toArray() {
         return elements().clone();
@@ -504,7 +513,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntList pairList = pair.toList();   // [10, 20]
      * }</pre>
      *
-     * @return a new IntList containing all tuple elements
+     * @return a new {@code IntList} containing all tuple elements in order
+     * @see #toArray()
+     * @see #stream()
      */
     public IntList toList() {
         return IntList.of(elements().clone());
@@ -561,7 +572,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * int max = pair.stream().max().getAsInt();   // 20
      * }</pre>
      *
-     * @return an IntStream containing all tuple elements
+     * @return a sequential {@code IntStream} containing all tuple elements in order
+     * @see #toArray()
+     * @see #toList()
      */
     public IntStream stream() {
         return IntStream.of(elements());
@@ -576,6 +589,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * </p>
      *
      * @return a hash code value for this tuple
+     * @see #equals(Object)
      */
     @Override
     public int hashCode() {
@@ -585,20 +599,19 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Compares this tuple to the specified object for equality.
      *
-     * <p>
-     * Two tuples are considered equal if and only if:
-     * </p>
-     *
+     * <p>Two tuples are considered equal if and only if either:</p>
      * <ul>
      *   <li>They are the same object (reference equality), or</li>
-     *   <li>They are instances of the exact same class, and</li>
-     *   <li>They contain the same int values in the same order</li>
+     *   <li>The other object is non-null, is an instance of the exact same runtime class
+     *       (so an {@code IntTuple2} never equals an {@code IntTuple3}), and contains
+     *       the same int values in the same order.</li>
      * </ul>
      *
      * <p>This method is consistent with {@link #hashCode()}.</p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
+     * @see #hashCode()
      */
     @Override
     public boolean equals(final Object obj) {
@@ -895,7 +908,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is an IntTuple.IntTuple1 with the same value, {@code false} otherwise
+         * @return {@code true} if the object is an IntTuple.IntTuple1 with the same element, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -938,7 +951,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * A tuple containing exactly two int values.
      * The values are accessible through the public final fields {@code _1} and {@code _2}.
      *
-     * <p>This class provides additional functional methods for working with pairs:</p>
+     * <p>In addition to the operations inherited from {@link IntTuple}, this class provides
+     * functional helpers for working with pairs:</p>
      * <ul>
      *   <li>{@link #accept(Throwables.IntBiConsumer)} - consume both values</li>
      *   <li>{@link #map(Throwables.IntBiFunction)} - transform the pair to a single value</li>
@@ -1170,7 +1184,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is an IntTuple.IntTuple2 with the same values
+         * @return {@code true} if the object is an IntTuple.IntTuple2 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1213,7 +1227,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * A tuple containing exactly three int values.
      * The values are accessible through the public final fields {@code _1}, {@code _2}, and {@code _3}.
      *
-     * <p>This class provides additional functional methods for working with triples:</p>
+     * <p>In addition to the operations inherited from {@link IntTuple}, this class provides
+     * functional helpers for working with triples:</p>
      * <ul>
      *   <li>{@link #accept(Throwables.IntTriConsumer)} - consume all three values</li>
      *   <li>{@link #map(Throwables.IntTriFunction)} - transform the triple to a single value</li>
@@ -1448,7 +1463,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is an IntTuple.IntTuple3 with the same values
+         * @return {@code true} if the object is an IntTuple.IntTuple3 with the same elements in the same order, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1747,7 +1762,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the median value of the five elements.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
-         * @return the median int value
+         * @return the middle int value when sorted
          */
         @Override
         public int median() {
@@ -2147,7 +2162,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the median value of the seven elements.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
-         * @return the median int value
+         * @return the middle int value when sorted
          */
         @Override
         public int median() {
@@ -2572,7 +2587,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns the median value of the nine elements.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
-         * @return the median int value
+         * @return the middle int value when sorted
          */
         @Override
         public int median() {

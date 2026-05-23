@@ -27,9 +27,11 @@ import com.landawn.abacus.util.stream.ShortStream;
  * {@link #copyOf(short[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
- * @param <TP> the specific ShortTuple subtype
+ * @param <TP> the concrete {@code ShortTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
+ * @see ByteTuple
  * @see IntTuple
+ * @see LongTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {

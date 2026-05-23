@@ -19,10 +19,22 @@ package com.landawn.abacus.util;
 /**
  * Namespace for small record-based point/value carriers used by geometry and coordinate helpers.
  *
- * <p>{@link D2} groups two-dimensional variants and {@link D3} groups three-dimensional variants.
- * Primitive-valued records are fully immutable. Object-valued variants are shallowly immutable and
- * retain the supplied value reference as-is. Each nested record also provides record-based equality
- * plus a static {@code of(...)} factory for concise construction.</p>
+ * <p>{@link D2} groups two-dimensional variants (coordinates {@code x}, {@code y}) and {@link D3}
+ * groups three-dimensional variants (coordinates {@code x}, {@code y}, {@code z}). Every record
+ * also carries a {@code value} payload, whose type is reflected in the record name (e.g.,
+ * {@code IntDoublePoint} has {@code int} coordinates and a {@code double} value, while
+ * {@code DoubleObjPoint<T>} has {@code double} coordinates and a generic object value).</p>
+ *
+ * <p>Primitive-valued records are fully immutable and thread-safe. Object-valued variants
+ * ({@code *ObjPoint}) are shallowly immutable: the coordinate fields are fixed but the referenced
+ * value is stored as supplied without defensive copying, so thread-safety depends on the payload.
+ * Each nested record provides record-based equality and a static {@code of(...)} factory for
+ * concise construction.</p>
+ *
+ * <p>This class cannot be instantiated.</p>
+ *
+ * @see D2
+ * @see D3
  */
 public final class Points {
 

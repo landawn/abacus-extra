@@ -1117,9 +1117,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
+         * Comparisons use {@link Double#compare(double, double)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0} does not match {@code -0.0}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if {@code _1} or {@code _2} equals {@code valueToFind},
+         *         {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1165,6 +1168,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #map(Throwables.DoubleBiFunction)
+         * @see #filter(Throwables.DoubleBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws E {
             action.accept(_1, _2);
@@ -1194,9 +1199,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
-         * @return the result of applying the mapper to _1 and _2 (may be {@code null} if the mapper returns {@code null})
+         * @return the result of applying the mapper to {@code _1} and {@code _2} (may be {@code null} if the mapper returns {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
+         * @see #accept(Throwables.DoubleBiConsumer)
+         * @see #filter(Throwables.DoubleBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws E {
@@ -1232,6 +1239,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
+         * @see #accept(Throwables.DoubleBiConsumer)
+         * @see #map(Throwables.DoubleBiFunction)
          */
         public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1403,9 +1412,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
+         * Comparisons use {@link Double#compare(double, double)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0} does not match {@code -0.0}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1}, {@code _2}, {@code _3} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1456,6 +1468,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #map(Throwables.DoubleTriFunction)
+         * @see #filter(Throwables.DoubleTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
@@ -1486,9 +1500,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
-         * @return the result of applying the mapper to _1, _2, and _3 (may be {@code null} if the mapper returns {@code null})
+         * @return the result of applying the mapper to {@code _1}, {@code _2}, and {@code _3} (may be {@code null} if the mapper returns {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
+         * @see #accept(Throwables.DoubleTriConsumer)
+         * @see #filter(Throwables.DoubleTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws E {
@@ -1524,6 +1540,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
+         * @see #accept(Throwables.DoubleTriConsumer)
+         * @see #map(Throwables.DoubleTriFunction)
          */
         public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -1703,9 +1721,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
+         * Comparisons use {@link Double#compare(double, double)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0} does not match {@code -0.0}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _4} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1906,9 +1927,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
+         * Comparisons use {@link Double#compare(double, double)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0} does not match {@code -0.0}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _5} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -2115,9 +2139,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
+         * Comparisons use {@link Double#compare(double, double)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0} does not match {@code -0.0}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _6} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -2330,9 +2357,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
+         * Comparisons use {@link Double#compare(double, double)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0} does not match {@code -0.0}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _7} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -2553,9 +2583,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
+         * Comparisons use {@link Double#compare(double, double)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0} does not match {@code -0.0}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _8} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -2782,9 +2815,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Checks if this tuple contains the specified double value.
+         * Comparisons use {@link Double#compare(double, double)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0} does not match {@code -0.0}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _9} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {

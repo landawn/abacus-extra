@@ -33,6 +33,7 @@ import com.landawn.abacus.util.stream.CharStream;
  * interpreted as code points.</p>
  *
  * @param <TP> the specific CharTuple subtype
+ * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
@@ -497,6 +498,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @return a new char array containing all tuple elements
+     * @see #toList()
+     * @see #stream()
      */
     public char[] toArray() {
         return elements().clone();
@@ -520,6 +523,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @return a new CharList containing all tuple elements
+     * @see #toArray()
+     * @see #stream()
      */
     public CharList toList() {
         return CharList.of(elements().clone());
@@ -548,6 +553,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @param action the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
+     * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
         N.checkArgNotNull(action);
@@ -1188,6 +1194,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param action the bi-consumer action to be performed on both elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
+         * @see #forEach(Throwables.CharConsumer)
+         * @see #map(Throwables.CharBiFunction)
          */
         public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws E {
             action.accept(_1, _2);
@@ -1214,6 +1222,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @return the result of applying the mapping function to both elements (may be {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
+         * @see #accept(Throwables.CharBiConsumer)
+         * @see #filter(Throwables.CharBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws E {
@@ -1246,6 +1256,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
+         * @see #accept(Throwables.CharBiConsumer)
+         * @see #map(Throwables.CharBiFunction)
          */
         public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1483,6 +1495,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param action the tri-consumer action to be performed on all three elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception during execution
+         * @see #forEach(Throwables.CharConsumer)
+         * @see #map(Throwables.CharTriFunction)
          */
         public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
@@ -1509,6 +1523,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @return the result of applying the mapping function to all three elements (may be {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception during execution
+         * @see #accept(Throwables.CharTriConsumer)
+         * @see #filter(Throwables.CharTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws E {
@@ -1541,6 +1557,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
+         * @see #accept(Throwables.CharTriConsumer)
+         * @see #map(Throwables.CharTriFunction)
          */
         public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();

@@ -1117,9 +1117,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
+         * Comparisons use {@link Float#compare(float, float)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0f} does not match {@code -0.0f}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if {@code _1} or {@code _2} equals {@code valueToFind},
+         *         {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1410,9 +1413,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
+         * Comparisons use {@link Float#compare(float, float)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0f} does not match {@code -0.0f}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1}, {@code _2}, {@code _3} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1716,9 +1722,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
+         * Comparisons use {@link Float#compare(float, float)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0f} does not match {@code -0.0f}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _4} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1919,9 +1928,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
+         * Comparisons use {@link Float#compare(float, float)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0f} does not match {@code -0.0f}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _5} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -2128,9 +2140,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
+         * Comparisons use {@link Float#compare(float, float)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0f} does not match {@code -0.0f}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _6} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -2343,9 +2358,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
+         * Comparisons use {@link Float#compare(float, float)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0f} does not match {@code -0.0f}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _7} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -2566,9 +2584,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
+         * Comparisons use {@link Float#compare(float, float)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0f} does not match {@code -0.0f}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _8} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -2795,9 +2816,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified float value.
+         * Comparisons use {@link Float#compare(float, float)} semantics, so {@code NaN}
+         * matches {@code NaN} and {@code +0.0f} does not match {@code -0.0f}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+         * @return {@code true} if any of {@code _1} through {@code _9} equals
+         *         {@code valueToFind}, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {

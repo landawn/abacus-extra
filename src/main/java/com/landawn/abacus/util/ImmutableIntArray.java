@@ -27,6 +27,10 @@ import com.landawn.abacus.util.stream.IntStream;
  * discipline, so prefer {@code copyOf} unless the backing array is exclusively owned for the lifetime of
  * the wrapper.</p>
  *
+ * <p>The wrapper itself exposes no mutator methods, and accessors that return arrays
+ * ({@link #copyOfRange(int, int)}) always return fresh copies. The {@link #stream()} method, however,
+ * is constructed directly over the backing array; see its javadoc for the implications.</p>
+ *
  * <p>This class is annotated with {@link Beta @Beta} and its API may evolve in future releases.</p>
  *
  * @see #copyOf(int[])
@@ -132,7 +136,8 @@ public final class ImmutableIntArray implements Immutable {
      * boolean result3 = fromNull.isEmpty();   // returns true (null becomes empty array)
      * }</pre>
      *
-     * @return {@code true} if {@code length() == 0}
+     * @return {@code true} if {@code length() == 0}; {@code false} otherwise
+     * @see #length()
      */
     public boolean isEmpty() {
         return length == 0;
@@ -141,13 +146,20 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns the number of elements in this ImmutableIntArray.
      *
+     * <p>The returned value is fixed at construction time and equals the length of the backing
+     * {@code int[]}. It is always {@code >= 0}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3});
      * int len = array.length();   // returns 3
+     *
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
+     * int zero = empty.length();   // returns 0
      * }</pre>
      *
-     * @return the number of elements in this array
+     * @return the number of elements in this array; {@code 0} if empty
+     * @see #isEmpty()
      */
     public int length() {
         return length;
@@ -171,7 +183,8 @@ public final class ImmutableIntArray implements Immutable {
      * }</pre>
      *
      * @param value the value to search for
-     * @return {@code true} if the value is found in this array
+     * @return {@code true} if at least one element equals {@code value}; {@code false} otherwise
+     *         (including when the array is empty)
      */
     public boolean contains(final int value) {
         for (int i = 0; i < length; i++) {
@@ -234,20 +247,28 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * Returns the sum of all elements in this array.
+     * Returns the sum of all elements in this array as an {@code int}.
      *
      * <p>The summation is performed in {@code long} precision and narrowed to {@code int};
-     * if the total does not fit in an {@code int}, an {@link ArithmeticException} is thrown.</p>
+     * if the total does not fit in the {@code int} range, an {@link ArithmeticException} is thrown.
+     * For an empty array this method returns {@code 0}.</p>
+     *
+     * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4});
      * int sum = array.sum();   // 10
+     *
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
+     * int zero = empty.sum();   // 0
      * }</pre>
      *
      * @return the sum of all elements in this array as an {@code int}, or {@code 0} if empty
      * @throws ArithmeticException if the sum overflows the {@code int} range
      * @see #average()
+     * @see #min()
+     * @see #max()
      */
     public int sum() {
         return N.sum(elements);
@@ -257,16 +278,23 @@ public final class ImmutableIntArray implements Immutable {
      * Returns the arithmetic mean of all elements in this array as a {@code double}.
      *
      * <p>The result is returned as a {@code double} to preserve fractional precision.
-     * For an empty array this method returns {@code 0D}.</p>
+     * For an empty array this method returns {@code 0D} (it does not throw).</p>
+     *
+     * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4});
      * double avg = array.average();   // 2.5
+     *
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
+     * double zero = empty.average();   // 0.0
      * }</pre>
      *
      * @return the average of all elements in this array as a {@code double}, or {@code 0D} if empty
      * @see #sum()
+     * @see #min()
+     * @see #max()
      */
     public double average() {
         return N.average(elements);
@@ -289,7 +317,8 @@ public final class ImmutableIntArray implements Immutable {
      *
      * @param index the zero-based index of the element to retrieve; must be {@code >= 0} and {@code < length()}
      * @return the int element at the specified index
-     * @throws ArrayIndexOutOfBoundsException if the index is negative or greater than or equal to {@code length()}
+     * @throws ArrayIndexOutOfBoundsException if {@code index < 0} or {@code index >= length()}
+     * @see #length()
      */
     public int get(final int index) {
         return elements[index];
@@ -396,7 +425,8 @@ public final class ImmutableIntArray implements Immutable {
      * <p><b>Note:</b> the returned stream is constructed directly over the backing array; it does not
      * make a defensive copy. When this wrapper was created via {@link #unsafeWrap(int[])}, the backing
      * array is the caller-supplied array, so any mutation of that array will be observable through the
-     * returned stream. Use {@link #copyOf(int[])} if you require full isolation.</p>
+     * returned stream. Use {@link #copyOf(int[])} to build the wrapper from a defensive copy if you require
+     * full isolation from the original source array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
