@@ -186,7 +186,7 @@ class IntTupleTest extends TestBase {
         assertEquals(20, tuple.median());
 
         IntTuple.IntTuple4 evenTuple = IntTuple.of(10, 20, 30, 40);
-        assertEquals(20, tuple.median()); // Should be (20 + 30) / 2 = 25
+        assertEquals(20, evenTuple.median()); // even arity returns the lower of the two middle values: 20
 
         IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());

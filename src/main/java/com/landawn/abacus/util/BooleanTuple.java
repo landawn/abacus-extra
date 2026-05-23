@@ -49,8 +49,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * Creates a BooleanTuple.BooleanTuple1 containing a single boolean value.
-     * 
+     * Creates a {@link BooleanTuple1} containing a single boolean value.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple1 tuple = BooleanTuple.of(true);
@@ -58,15 +58,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * }</pre>
      *
      * @param _1 the boolean value to store in the tuple
-     * @return a new BooleanTuple.BooleanTuple1 containing the specified value
+     * @return a new {@link BooleanTuple1} containing the specified value
      */
     public static BooleanTuple1 of(final boolean _1) {
         return new BooleanTuple1(_1);
     }
 
     /**
-     * Creates a BooleanTuple.BooleanTuple2 containing two boolean values.
-     * 
+     * Creates a {@link BooleanTuple2} containing two boolean values.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
@@ -76,15 +76,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
-     * @return a new BooleanTuple.BooleanTuple2 containing the specified values
+     * @return a new {@link BooleanTuple2} containing the specified values
      */
     public static BooleanTuple2 of(final boolean _1, final boolean _2) {
         return new BooleanTuple2(_1, _2);
     }
 
     /**
-     * Creates a BooleanTuple.BooleanTuple3 containing three boolean values.
-     * 
+     * Creates a {@link BooleanTuple3} containing three boolean values.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
@@ -94,14 +94,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _1 the first boolean value
      * @param _2 the second boolean value
      * @param _3 the third boolean value
-     * @return a new BooleanTuple.BooleanTuple3 containing the specified values
+     * @return a new {@link BooleanTuple3} containing the specified values
      */
     public static BooleanTuple3 of(final boolean _1, final boolean _2, final boolean _3) {
         return new BooleanTuple3(_1, _2, _3);
     }
 
     /**
-     * Creates a BooleanTuple.BooleanTuple4 containing four boolean values.
+     * Creates a {@link BooleanTuple4} containing four boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -115,14 +115,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _2 the second boolean value
      * @param _3 the third boolean value
      * @param _4 the fourth boolean value
-     * @return a new BooleanTuple.BooleanTuple4 containing the specified values
+     * @return a new {@link BooleanTuple4} containing the specified values
      */
     public static BooleanTuple4 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4) {
         return new BooleanTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * Creates a BooleanTuple.BooleanTuple5 containing five boolean values.
+     * Creates a {@link BooleanTuple5} containing five boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -137,14 +137,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _3 the third boolean value
      * @param _4 the fourth boolean value
      * @param _5 the fifth boolean value
-     * @return a new BooleanTuple.BooleanTuple5 containing the specified values
+     * @return a new {@link BooleanTuple5} containing the specified values
      */
     public static BooleanTuple5 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5) {
         return new BooleanTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * Creates a BooleanTuple.BooleanTuple6 containing six boolean values.
+     * Creates a {@link BooleanTuple6} containing six boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -160,14 +160,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _4 the fourth boolean value
      * @param _5 the fifth boolean value
      * @param _6 the sixth boolean value
-     * @return a new BooleanTuple.BooleanTuple6 containing the specified values
+     * @return a new {@link BooleanTuple6} containing the specified values
      */
     public static BooleanTuple6 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6) {
         return new BooleanTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * Creates a BooleanTuple.BooleanTuple7 containing seven boolean values.
+     * Creates a {@link BooleanTuple7} containing seven boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -184,7 +184,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _5 the fifth boolean value
      * @param _6 the sixth boolean value
      * @param _7 the seventh boolean value
-     * @return a new BooleanTuple.BooleanTuple7 containing the specified values
+     * @return a new {@link BooleanTuple7} containing the specified values
      */
     public static BooleanTuple7 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6,
             final boolean _7) {
@@ -192,7 +192,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * Creates a BooleanTuple.BooleanTuple8 containing eight boolean values.
+     * Creates a {@link BooleanTuple8} containing eight boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -210,8 +210,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _6 the sixth boolean value
      * @param _7 the seventh boolean value
      * @param _8 the eighth boolean value
-     * @return a new BooleanTuple.BooleanTuple8 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more boolean values
+     * @return a new {@link BooleanTuple8} containing the specified values
+     * @deprecated you should consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more boolean values
      */
     @Deprecated
     public static BooleanTuple8 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
@@ -220,7 +220,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * Creates a BooleanTuple.BooleanTuple9 containing nine boolean values.
+     * Creates a {@link BooleanTuple9} containing nine boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -239,8 +239,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _7 the seventh boolean value
      * @param _8 the eighth boolean value
      * @param _9 the ninth boolean value
-     * @return a new BooleanTuple.BooleanTuple9 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
+     * @return a new {@link BooleanTuple9} containing the specified values
+     * @deprecated you should consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
      */
     @Deprecated
     public static BooleanTuple9 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,

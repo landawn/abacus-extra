@@ -2203,8 +2203,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param defaultValueA the default value to use when array 'a' is shorter.
-     * @param defaultValueB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array {@code a} is shorter.
+     * @param defaultValueB the default value to use when array {@code b} is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
@@ -2295,9 +2295,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param defaultValueA the default value to use when array 'a' is shorter.
-     * @param defaultValueB the default value to use when array 'b' is shorter.
-     * @param defaultValueC the default value to use when array 'c' is shorter.
+     * @param defaultValueA the default value to use when array {@code a} is shorter.
+     * @param defaultValueB the default value to use when array {@code b} is shorter.
+     * @param defaultValueC the default value to use when array {@code c} is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
@@ -7254,7 +7254,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a two-dimensional array into a one-dimensional array.
      *
      * <p>This method creates a new one-dimensional array containing all elements from the two-dimensional array
-     * in row-major order. Empty sub-arrays are skipped. If the input array is null or empty,
+     * in row-major order. Null or empty sub-arrays are skipped. If the input array is {@code null} or empty,
      * returns an empty array.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -7296,7 +7296,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a three-dimensional array into a one-dimensional array.
      *
      * <p>This method creates a new one-dimensional array containing all elements from the three-dimensional array
-     * in depth-first order. Empty sub-arrays at any level are skipped. If the input array
+     * in depth-first order. Null or empty sub-arrays at any level are skipped. If the input array
      * is {@code null} or empty, returns an empty array.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -11468,7 +11468,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
@@ -11633,7 +11633,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final Throwables.DoubleBinaryOperator<E> zipFunction)
@@ -15207,7 +15207,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
-         * @return a new two-dimensional array with mapped elements.
+         * @return a new two-dimensional array with mapped elements; the element type is inferred from {@code a} and widened as needed to hold every mapped value.
          * @throws NullPointerException if {@code a} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -16605,7 +16605,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
-         * @return a new array with mapped elements.
+         * @return a new three-dimensional array with mapped elements; the element type is inferred from {@code a} and widened as needed to hold every mapped value.
          * @throws NullPointerException if {@code a} is {@code null}.
          * @throws E if the function throws an exception.
          */

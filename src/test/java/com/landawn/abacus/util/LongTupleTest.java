@@ -185,7 +185,7 @@ class LongTupleTest extends TestBase {
         assertEquals(200L, tuple.median());
 
         LongTuple.LongTuple4 evenTuple = LongTuple.of(100L, 200L, 300L, 400L);
-        assertEquals(200L, evenTuple.median()); // Should be (200L + 300L) / 2 = 250L
+        assertEquals(200L, evenTuple.median()); // even arity returns the lower of the two middle values: 200L
 
         LongTuple.LongTuple0 empty = LongTuple.copyOf(new long[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());

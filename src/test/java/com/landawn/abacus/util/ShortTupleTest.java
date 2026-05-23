@@ -186,7 +186,7 @@ class ShortTupleTest extends TestBase {
         assertEquals(10, tuple.median());
 
         ShortTuple.ShortTuple4 evenTuple = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20);
-        assertEquals((short) 10, evenTuple.median()); // Should be (10 + 15) / 2 = 12
+        assertEquals((short) 10, evenTuple.median()); // even arity returns the lower of the two middle values: 10
 
         ShortTuple.ShortTuple0 empty = ShortTuple.copyOf(new short[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());

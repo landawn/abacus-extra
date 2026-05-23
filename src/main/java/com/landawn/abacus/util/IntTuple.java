@@ -661,7 +661,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns the number of elements in this tuple, which is always 0.
          *
-         * @return 0
+         * @return {@code 0}
          */
         @Override
         public int arity() {
@@ -706,9 +706,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns the sum of all values in this tuple as an int.
-         * For an empty tuple, the sum is 0.
+         * For an empty tuple, the sum is {@code 0}.
          *
-         * @return 0
+         * @return {@code 0}
          */
         @Override
         public int sum() {
@@ -753,7 +753,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "()"
+         * @return {@code "()"}
          */
         @Override
         public String toString() {
@@ -1088,6 +1088,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #map(Throwables.IntBiFunction)
+         * @see #filter(Throwables.IntBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
             action.accept(_1, _2);
@@ -1116,6 +1118,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @return the result of applying the mapper function, may be {@code null}
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
+         * @see #accept(Throwables.IntBiConsumer)
+         * @see #filter(Throwables.IntBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws E {
@@ -1145,6 +1149,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
+         * @see #accept(Throwables.IntBiConsumer)
+         * @see #map(Throwables.IntBiFunction)
          */
         public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1359,6 +1365,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #map(Throwables.IntTriFunction)
+         * @see #filter(Throwables.IntTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
@@ -1388,6 +1396,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @return the result of applying the mapper function, may be {@code null}
          * @throws NullPointerException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
+         * @see #accept(Throwables.IntTriConsumer)
+         * @see #filter(Throwables.IntTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntTriFunction<U, E> mapper) throws E {
@@ -1417,6 +1427,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception
+         * @see #accept(Throwables.IntTriConsumer)
+         * @see #map(Throwables.IntTriFunction)
          */
         public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();

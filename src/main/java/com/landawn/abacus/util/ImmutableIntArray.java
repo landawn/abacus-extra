@@ -186,6 +186,9 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns the minimum value among all elements in this array.
      *
+     * <p>This method scans every element, so its time complexity is O(n) where n is the
+     * length of the array.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {3, 1, 4, 1, 5});
@@ -207,6 +210,9 @@ public final class ImmutableIntArray implements Immutable {
 
     /**
      * Returns the maximum value among all elements in this array.
+     *
+     * <p>This method scans every element, so its time complexity is O(n) where n is the
+     * length of the array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

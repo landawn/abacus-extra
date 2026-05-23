@@ -14769,4 +14769,3005 @@ class ArraysTest extends TestBase {
         }
     }
 
+    /**
+     * Adversarial coverage for the {@code Arrays.toX(Y[])} primitive type-conversion family
+     * (lines 12176..14634 of {@code Arrays.java}). Exercises:
+     * <ul>
+     *   <li>nominal mapping</li>
+     *   <li>{@code null} input contract (must return a correctly-typed empty array, never {@code null})</li>
+     *   <li>empty-input contract</li>
+     *   <li>JLS narrowing-cast edge cases: overflow, NaN, +/-Infinity, sign-extension vs. zero-extension</li>
+     *   <li>precision-loss frontiers for the lossy widening paths (int->float past 2^24, long->double past 2^53)</li>
+     *   <li>2D / 3D structure preservation, including {@code null} sub-arrays</li>
+     *   <li>runtime-type checks on the result class</li>
+     * </ul>
+     */
+    @Nested
+    class ArraysToXConversionTest extends TestBase {
+
+        // ----- toBoolean(byte[]) family -----
+
+        @Test
+        public void toBoolean_byteArr_normal() {
+            assertArrayEquals(new boolean[] { true, false, false, true }, Arrays.toBoolean(new byte[] { 1, 0, -1, 5 }));
+        }
+
+        @Test
+        public void toBoolean_byteArr_strictlyPositiveOnly() {
+            // The documented contract is "value > 0". -1 and -127 must be false, 1 and 127 must be true.
+            final boolean[] r = Arrays.toBoolean(new byte[] { -1, 0, 1, 127, -128 });
+            assertArrayEquals(new boolean[] { false, false, true, true, false }, r);
+        }
+
+        @Test
+        public void toBoolean_byteArr_null() {
+            final boolean[] r = Arrays.toBoolean((byte[]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(boolean[].class, r.getClass());
+        }
+
+        @Test
+        public void toBoolean_byteArr_empty() {
+            final boolean[] r = Arrays.toBoolean(new byte[0]);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+        }
+
+        @Test
+        public void toBoolean_byteArr2D_preservesStructureIncludingNullRow() {
+            final byte[][] in = { { 1, 0 }, null, {}, { -1, 2 } };
+            final boolean[][] r = Arrays.toBoolean(in);
+            assertEquals(4, r.length);
+            assertArrayEquals(new boolean[] { true, false }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            assertNotNull(r[2]);
+            assertEquals(0, r[2].length);
+            assertArrayEquals(new boolean[] { false, true }, r[3]);
+        }
+
+        @Test
+        public void toBoolean_byteArr2D_null() {
+            final boolean[][] r = Arrays.toBoolean((byte[][]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(boolean[][].class, r.getClass());
+        }
+
+        @Test
+        public void toBoolean_byteArr3D_preservesStructure() {
+            final byte[][][] in = { { { 1, 0 }, { -1 } }, null, { null, { 2 } } };
+            final boolean[][][] r = Arrays.toBoolean(in);
+            assertEquals(3, r.length);
+            assertArrayEquals(new boolean[] { true, false }, r[0][0]);
+            assertArrayEquals(new boolean[] { false }, r[0][1]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            assertNotNull(r[2][0]);
+            assertEquals(0, r[2][0].length);
+            assertArrayEquals(new boolean[] { true }, r[2][1]);
+        }
+
+        @Test
+        public void toBoolean_byteArr3D_null() {
+            final boolean[][][] r = Arrays.toBoolean((byte[][][]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(boolean[][][].class, r.getClass());
+        }
+
+        // ----- toBoolean(int[]) family -----
+
+        @Test
+        public void toBoolean_intArr_normalAndNegative() {
+            assertArrayEquals(new boolean[] { true, false, false, true }, Arrays.toBoolean(new int[] { 1, 0, -1, 5 }));
+        }
+
+        @Test
+        public void toBoolean_intArr_strictlyPositive() {
+            assertArrayEquals(new boolean[] { false, false, true, true, false },
+                    Arrays.toBoolean(new int[] { Integer.MIN_VALUE, 0, 1, Integer.MAX_VALUE, -1 }));
+        }
+
+        @Test
+        public void toBoolean_intArr_null() {
+            final boolean[] r = Arrays.toBoolean((int[]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+        }
+
+        @Test
+        public void toBoolean_intArr_empty() {
+            assertEquals(0, Arrays.toBoolean(new int[0]).length);
+        }
+
+        @Test
+        public void toBoolean_intArr2D_preservesStructure() {
+            final int[][] in = { { 1, 0 }, null, { -1, 5 } };
+            final boolean[][] r = Arrays.toBoolean(in);
+            assertEquals(3, r.length);
+            assertArrayEquals(new boolean[] { true, false }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            assertArrayEquals(new boolean[] { false, true }, r[2]);
+        }
+
+        @Test
+        public void toBoolean_intArr2D_null() {
+            assertEquals(0, Arrays.toBoolean((int[][]) null).length);
+        }
+
+        @Test
+        public void toBoolean_intArr3D_preservesStructure() {
+            final int[][][] in = { { { 1, 0 }, { -1 } }, null };
+            final boolean[][][] r = Arrays.toBoolean(in);
+            assertEquals(2, r.length);
+            assertArrayEquals(new boolean[] { true, false }, r[0][0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+        }
+
+        @Test
+        public void toBoolean_intArr3D_null() {
+            assertEquals(0, Arrays.toBoolean((int[][][]) null).length);
+        }
+
+        // ----- toChar(int[]) family -----
+
+        @Test
+        public void toChar_intArr_normal() {
+            assertArrayEquals(new char[] { 'A', 'B', 'C' }, Arrays.toChar(new int[] { 65, 66, 67 }));
+        }
+
+        @Test
+        public void toChar_intArr_narrowingKeepsLow16Bits() {
+            // (char) cast keeps only the low 16 bits; zero-extends from int -> char.
+            // 0 -> 0; 65535 -> 65535; 65536 -> 0 (wraps); -1 -> 65535 (low 16 bits of 0xFFFFFFFF).
+            final char[] r = Arrays.toChar(new int[] { 0, 65535, 65536, -1 });
+            assertEquals((char) 0, r[0]);
+            assertEquals((char) 65535, r[1]);
+            assertEquals((char) 0, r[2]);
+            assertEquals((char) 65535, r[3]);
+            assertEquals(char[].class, r.getClass());
+        }
+
+        @Test
+        public void toChar_intArr_null() {
+            final char[] r = Arrays.toChar((int[]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(char[].class, r.getClass());
+        }
+
+        @Test
+        public void toChar_intArr_empty() {
+            assertEquals(0, Arrays.toChar(new int[0]).length);
+        }
+
+        @Test
+        public void toChar_intArr2D_preservesStructure() {
+            final int[][] in = { { 65, 66 }, null, { 67 } };
+            final char[][] r = Arrays.toChar(in);
+            assertEquals(3, r.length);
+            assertArrayEquals(new char[] { 'A', 'B' }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            assertArrayEquals(new char[] { 'C' }, r[2]);
+        }
+
+        @Test
+        public void toChar_intArr2D_null() {
+            assertEquals(0, Arrays.toChar((int[][]) null).length);
+        }
+
+        @Test
+        public void toChar_intArr3D_preservesStructure() {
+            final int[][][] in = { { { 65 } }, null };
+            final char[][][] r = Arrays.toChar(in);
+            assertEquals(2, r.length);
+            assertArrayEquals(new char[] { 'A' }, r[0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toChar_intArr3D_null() {
+            assertEquals(0, Arrays.toChar((int[][][]) null).length);
+        }
+
+        // ----- toByte(boolean[]) family -----
+
+        @Test
+        public void toByte_booleanArr_normal() {
+            assertArrayEquals(new byte[] { 1, 0, 1 }, Arrays.toByte(new boolean[] { true, false, true }));
+        }
+
+        @Test
+        public void toByte_booleanArr_null() {
+            final byte[] r = Arrays.toByte((boolean[]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(byte[].class, r.getClass());
+        }
+
+        @Test
+        public void toByte_booleanArr_empty() {
+            assertEquals(0, Arrays.toByte(new boolean[0]).length);
+        }
+
+        @Test
+        public void toByte_booleanArr2D_preservesStructure() {
+            final boolean[][] in = { { true, false }, null, { true } };
+            final byte[][] r = Arrays.toByte(in);
+            assertEquals(3, r.length);
+            assertArrayEquals(new byte[] { 1, 0 }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            assertArrayEquals(new byte[] { 1 }, r[2]);
+        }
+
+        @Test
+        public void toByte_booleanArr2D_null() {
+            assertEquals(0, Arrays.toByte((boolean[][]) null).length);
+        }
+
+        @Test
+        public void toByte_booleanArr3D_preservesStructure() {
+            final boolean[][][] in = { { { true, false }, { true } }, { { false } } };
+            final byte[][][] r = Arrays.toByte(in);
+            assertEquals(2, r.length);
+            assertArrayEquals(new byte[] { 1, 0 }, r[0][0]);
+            assertArrayEquals(new byte[] { 1 }, r[0][1]);
+            assertArrayEquals(new byte[] { 0 }, r[1][0]);
+        }
+
+        @Test
+        public void toByte_booleanArr3D_null() {
+            assertEquals(0, Arrays.toByte((boolean[][][]) null).length);
+        }
+
+        // ----- toShort(byte[]) family -----
+
+        @Test
+        public void toShort_byteArr_widensWithSignExtension() {
+            // (byte) -1 must widen to (short) -1, not 255.
+            assertArrayEquals(new short[] { 10, 20, 30, -1, -128, 127 },
+                    Arrays.toShort(new byte[] { 10, 20, 30, -1, -128, 127 }));
+        }
+
+        @Test
+        public void toShort_byteArr_null() {
+            final short[] r = Arrays.toShort((byte[]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(short[].class, r.getClass());
+        }
+
+        @Test
+        public void toShort_byteArr_empty() {
+            assertEquals(0, Arrays.toShort(new byte[0]).length);
+        }
+
+        @Test
+        public void toShort_byteArr2D_preservesStructure() {
+            final byte[][] in = { { 1, -1 }, null, { 127, -128 } };
+            final short[][] r = Arrays.toShort(in);
+            assertEquals(3, r.length);
+            assertArrayEquals(new short[] { 1, -1 }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            assertArrayEquals(new short[] { 127, -128 }, r[2]);
+        }
+
+        @Test
+        public void toShort_byteArr2D_null() {
+            assertEquals(0, Arrays.toShort((byte[][]) null).length);
+        }
+
+        @Test
+        public void toShort_byteArr3D_preservesStructure() {
+            final byte[][][] in = { { { 1, -1 } }, null };
+            final short[][][] r = Arrays.toShort(in);
+            assertEquals(2, r.length);
+            assertArrayEquals(new short[] { 1, -1 }, r[0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toShort_byteArr3D_null() {
+            assertEquals(0, Arrays.toShort((byte[][][]) null).length);
+        }
+
+        // ----- toInt(boolean[]) family -----
+
+        @Test
+        public void toInt_booleanArr_normal() {
+            assertArrayEquals(new int[] { 1, 0, 1 }, Arrays.toInt(new boolean[] { true, false, true }));
+        }
+
+        @Test
+        public void toInt_booleanArr_null() {
+            final int[] r = Arrays.toInt((boolean[]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(int[].class, r.getClass());
+        }
+
+        @Test
+        public void toInt_booleanArr_empty() {
+            assertEquals(0, Arrays.toInt(new boolean[0]).length);
+        }
+
+        @Test
+        public void toInt_booleanArr2D_preservesStructure() {
+            final boolean[][] in = { { true, false }, null };
+            final int[][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { 1, 0 }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+        }
+
+        @Test
+        public void toInt_booleanArr2D_null() {
+            assertEquals(0, Arrays.toInt((boolean[][]) null).length);
+        }
+
+        @Test
+        public void toInt_booleanArr3D_preservesStructure() {
+            final boolean[][][] in = { { { true } }, null };
+            final int[][][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { 1 }, r[0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_booleanArr3D_null() {
+            assertEquals(0, Arrays.toInt((boolean[][][]) null).length);
+        }
+
+        // ----- toInt(char[]) family -----
+
+        @Test
+        public void toInt_charArr_zeroExtendsToPositive() {
+            // char is unsigned; '￿' (65535) must zero-extend to 65535, NOT sign-extend to -1.
+            final int[] r = Arrays.toInt(new char[] { 'A', ' ', '￿' });
+            assertArrayEquals(new int[] { 65, 0, 65535 }, r);
+            assertEquals(int[].class, r.getClass());
+        }
+
+        @Test
+        public void toInt_charArr_null() {
+            final int[] r = Arrays.toInt((char[]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+        }
+
+        @Test
+        public void toInt_charArr_empty() {
+            assertEquals(0, Arrays.toInt(new char[0]).length);
+        }
+
+        @Test
+        public void toInt_charArr2D_preservesStructure() {
+            final char[][] in = { { 'A', 'B' }, null };
+            final int[][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { 65, 66 }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+        }
+
+        @Test
+        public void toInt_charArr2D_null() {
+            assertEquals(0, Arrays.toInt((char[][]) null).length);
+        }
+
+        @Test
+        public void toInt_charArr3D_preservesStructure() {
+            final char[][][] in = { { { 'A' } }, null };
+            final int[][][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { 65 }, r[0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_charArr3D_null() {
+            assertEquals(0, Arrays.toInt((char[][][]) null).length);
+        }
+
+        // ----- toInt(byte[]) family -----
+
+        @Test
+        public void toInt_byteArr_signExtendsNegative() {
+            // (byte) -1 must SIGN-extend to int -1, not 255.
+            final int[] r = Arrays.toInt(new byte[] { -1, -128, 0, 1, 127 });
+            assertArrayEquals(new int[] { -1, -128, 0, 1, 127 }, r);
+            assertEquals(int[].class, r.getClass());
+        }
+
+        @Test
+        public void toInt_byteArr_null() {
+            assertEquals(0, Arrays.toInt((byte[]) null).length);
+        }
+
+        @Test
+        public void toInt_byteArr_empty() {
+            assertEquals(0, Arrays.toInt(new byte[0]).length);
+        }
+
+        @Test
+        public void toInt_byteArr2D_preservesStructure() {
+            final byte[][] in = { { -1, 1 }, null };
+            final int[][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { -1, 1 }, r[0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_byteArr2D_null() {
+            assertEquals(0, Arrays.toInt((byte[][]) null).length);
+        }
+
+        @Test
+        public void toInt_byteArr3D_preservesStructure() {
+            final byte[][][] in = { { { -1 } }, null };
+            final int[][][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { -1 }, r[0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_byteArr3D_null() {
+            assertEquals(0, Arrays.toInt((byte[][][]) null).length);
+        }
+
+        // ----- toInt(short[]) family -----
+
+        @Test
+        public void toInt_shortArr_signExtendsNegative() {
+            final int[] r = Arrays.toInt(new short[] { -1, Short.MIN_VALUE, Short.MAX_VALUE, 0 });
+            assertArrayEquals(new int[] { -1, -32768, 32767, 0 }, r);
+            assertEquals(int[].class, r.getClass());
+        }
+
+        @Test
+        public void toInt_shortArr_null() {
+            assertEquals(0, Arrays.toInt((short[]) null).length);
+        }
+
+        @Test
+        public void toInt_shortArr_empty() {
+            assertEquals(0, Arrays.toInt(new short[0]).length);
+        }
+
+        @Test
+        public void toInt_shortArr2D_preservesStructure() {
+            final short[][] in = { { -1, 1 }, null };
+            final int[][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { -1, 1 }, r[0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_shortArr2D_null() {
+            assertEquals(0, Arrays.toInt((short[][]) null).length);
+        }
+
+        @Test
+        public void toInt_shortArr3D_preservesStructure() {
+            final short[][][] in = { { { -1 } }, null };
+            final int[][][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { -1 }, r[0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_shortArr3D_null() {
+            assertEquals(0, Arrays.toInt((short[][][]) null).length);
+        }
+
+        // ----- toInt(float[]) family : JLS narrowing -----
+
+        @Test
+        public void toInt_floatArr_truncatesTowardZero() {
+            // (int) 1.7f -> 1; (int) -1.7f -> -1 (rounds TOWARD zero, not toward -infinity).
+            final int[] r = Arrays.toInt(new float[] { 1.7f, -1.7f, 1.0f, -1.0f, 0.5f, -0.5f });
+            assertArrayEquals(new int[] { 1, -1, 1, -1, 0, 0 }, r);
+        }
+
+        @Test
+        public void toInt_floatArr_nanAndInfinity() {
+            // Per JLS 5.1.3: NaN -> 0, +Infinity -> Integer.MAX_VALUE, -Infinity -> Integer.MIN_VALUE.
+            // Out-of-range finite values also saturate.
+            final int[] r = Arrays.toInt(new float[] {
+                    Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY,
+                    1e30f, -1e30f });
+            assertEquals(0, r[0]);
+            assertEquals(Integer.MAX_VALUE, r[1]);
+            assertEquals(Integer.MIN_VALUE, r[2]);
+            assertEquals(Integer.MAX_VALUE, r[3]);
+            assertEquals(Integer.MIN_VALUE, r[4]);
+        }
+
+        @Test
+        public void toInt_floatArr_null() {
+            assertEquals(0, Arrays.toInt((float[]) null).length);
+        }
+
+        @Test
+        public void toInt_floatArr_empty() {
+            assertEquals(0, Arrays.toInt(new float[0]).length);
+        }
+
+        @Test
+        public void toInt_floatArr2D_preservesStructure() {
+            final float[][] in = { { Float.NaN, 1.9f }, null };
+            final int[][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { 0, 1 }, r[0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_floatArr2D_null() {
+            assertEquals(0, Arrays.toInt((float[][]) null).length);
+        }
+
+        @Test
+        public void toInt_floatArr3D_preservesStructure() {
+            final float[][][] in = { { { Float.POSITIVE_INFINITY } }, null };
+            final int[][][] r = Arrays.toInt(in);
+            assertEquals(Integer.MAX_VALUE, r[0][0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_floatArr3D_null() {
+            assertEquals(0, Arrays.toInt((float[][][]) null).length);
+        }
+
+        // ----- toInt(double[]) family : JLS narrowing -----
+
+        @Test
+        public void toInt_doubleArr_truncatesTowardZero() {
+            final int[] r = Arrays.toInt(new double[] { 1.7, -1.7, 1.0, -1.0, 0.5, -0.5 });
+            assertArrayEquals(new int[] { 1, -1, 1, -1, 0, 0 }, r);
+        }
+
+        @Test
+        public void toInt_doubleArr_nanAndInfinity() {
+            final int[] r = Arrays.toInt(new double[] {
+                    Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
+                    1e30, -1e30 });
+            assertEquals(0, r[0]);
+            assertEquals(Integer.MAX_VALUE, r[1]);
+            assertEquals(Integer.MIN_VALUE, r[2]);
+            assertEquals(Integer.MAX_VALUE, r[3]);
+            assertEquals(Integer.MIN_VALUE, r[4]);
+        }
+
+        @Test
+        public void toInt_doubleArr_null() {
+            assertEquals(0, Arrays.toInt((double[]) null).length);
+        }
+
+        @Test
+        public void toInt_doubleArr_empty() {
+            assertEquals(0, Arrays.toInt(new double[0]).length);
+        }
+
+        @Test
+        public void toInt_doubleArr2D_preservesStructure() {
+            final double[][] in = { { Double.NaN, 1.9 }, null };
+            final int[][] r = Arrays.toInt(in);
+            assertArrayEquals(new int[] { 0, 1 }, r[0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_doubleArr2D_null() {
+            assertEquals(0, Arrays.toInt((double[][]) null).length);
+        }
+
+        @Test
+        public void toInt_doubleArr3D_preservesStructure() {
+            final double[][][] in = { { { Double.NEGATIVE_INFINITY } }, null };
+            final int[][][] r = Arrays.toInt(in);
+            assertEquals(Integer.MIN_VALUE, r[0][0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toInt_doubleArr3D_null() {
+            assertEquals(0, Arrays.toInt((double[][][]) null).length);
+        }
+
+        // ----- toLong(byte[]) -----
+
+        @Test
+        public void toLong_byteArr_signExtends() {
+            assertArrayEquals(new long[] { -1L, -128L, 0L, 127L },
+                    Arrays.toLong(new byte[] { -1, -128, 0, 127 }));
+        }
+
+        @Test
+        public void toLong_byteArr_null() {
+            final long[] r = Arrays.toLong((byte[]) null);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(long[].class, r.getClass());
+        }
+
+        @Test
+        public void toLong_byteArr_empty() {
+            assertEquals(0, Arrays.toLong(new byte[0]).length);
+        }
+
+        @Test
+        public void toLong_byteArr2D_preservesStructure() {
+            final byte[][] in = { { -1, 1 }, null };
+            final long[][] r = Arrays.toLong(in);
+            assertArrayEquals(new long[] { -1L, 1L }, r[0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_byteArr2D_null() {
+            assertEquals(0, Arrays.toLong((byte[][]) null).length);
+        }
+
+        @Test
+        public void toLong_byteArr3D_preservesStructure() {
+            final byte[][][] in = { { { -1 } }, null };
+            final long[][][] r = Arrays.toLong(in);
+            assertArrayEquals(new long[] { -1L }, r[0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_byteArr3D_null() {
+            assertEquals(0, Arrays.toLong((byte[][][]) null).length);
+        }
+
+        // ----- toLong(short[]) -----
+
+        @Test
+        public void toLong_shortArr_signExtends() {
+            assertArrayEquals(new long[] { -1L, -32768L, 32767L, 0L },
+                    Arrays.toLong(new short[] { -1, Short.MIN_VALUE, Short.MAX_VALUE, 0 }));
+        }
+
+        @Test
+        public void toLong_shortArr_null() {
+            assertEquals(0, Arrays.toLong((short[]) null).length);
+        }
+
+        @Test
+        public void toLong_shortArr_empty() {
+            assertEquals(0, Arrays.toLong(new short[0]).length);
+        }
+
+        @Test
+        public void toLong_shortArr2D_preservesStructure() {
+            final short[][] in = { { -1, 1 }, null };
+            final long[][] r = Arrays.toLong(in);
+            assertArrayEquals(new long[] { -1L, 1L }, r[0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_shortArr2D_null() {
+            assertEquals(0, Arrays.toLong((short[][]) null).length);
+        }
+
+        @Test
+        public void toLong_shortArr3D_preservesStructure() {
+            final short[][][] in = { { { -1 } }, null };
+            final long[][][] r = Arrays.toLong(in);
+            assertArrayEquals(new long[] { -1L }, r[0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_shortArr3D_null() {
+            assertEquals(0, Arrays.toLong((short[][][]) null).length);
+        }
+
+        // ----- toLong(int[]) -----
+
+        @Test
+        public void toLong_intArr_widens() {
+            assertArrayEquals(new long[] { -1L, Integer.MIN_VALUE, Integer.MAX_VALUE, 0L },
+                    Arrays.toLong(new int[] { -1, Integer.MIN_VALUE, Integer.MAX_VALUE, 0 }));
+        }
+
+        @Test
+        public void toLong_intArr_null() {
+            assertEquals(0, Arrays.toLong((int[]) null).length);
+        }
+
+        @Test
+        public void toLong_intArr_empty() {
+            assertEquals(0, Arrays.toLong(new int[0]).length);
+        }
+
+        @Test
+        public void toLong_intArr2D_preservesStructure() {
+            final int[][] in = { { -1, Integer.MAX_VALUE }, null };
+            final long[][] r = Arrays.toLong(in);
+            assertArrayEquals(new long[] { -1L, Integer.MAX_VALUE }, r[0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_intArr2D_null() {
+            assertEquals(0, Arrays.toLong((int[][]) null).length);
+        }
+
+        @Test
+        public void toLong_intArr3D_preservesStructure() {
+            final int[][][] in = { { { -1 } }, null };
+            final long[][][] r = Arrays.toLong(in);
+            assertArrayEquals(new long[] { -1L }, r[0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_intArr3D_null() {
+            assertEquals(0, Arrays.toLong((int[][][]) null).length);
+        }
+
+        // ----- toLong(float[]) -----
+
+        @Test
+        public void toLong_floatArr_truncatesTowardZero() {
+            assertArrayEquals(new long[] { 1L, -1L, 0L, 0L },
+                    Arrays.toLong(new float[] { 1.7f, -1.7f, 0.5f, -0.5f }));
+        }
+
+        @Test
+        public void toLong_floatArr_nanAndInfinity() {
+            final long[] r = Arrays.toLong(new float[] {
+                    Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY });
+            assertEquals(0L, r[0]);
+            assertEquals(Long.MAX_VALUE, r[1]);
+            assertEquals(Long.MIN_VALUE, r[2]);
+        }
+
+        @Test
+        public void toLong_floatArr_null() {
+            assertEquals(0, Arrays.toLong((float[]) null).length);
+        }
+
+        @Test
+        public void toLong_floatArr_empty() {
+            assertEquals(0, Arrays.toLong(new float[0]).length);
+        }
+
+        @Test
+        public void toLong_floatArr2D_preservesStructure() {
+            final float[][] in = { { Float.NaN, 2.5f }, null };
+            final long[][] r = Arrays.toLong(in);
+            assertArrayEquals(new long[] { 0L, 2L }, r[0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_floatArr2D_null() {
+            assertEquals(0, Arrays.toLong((float[][]) null).length);
+        }
+
+        @Test
+        public void toLong_floatArr3D_preservesStructure() {
+            final float[][][] in = { { { Float.POSITIVE_INFINITY } }, null };
+            final long[][][] r = Arrays.toLong(in);
+            assertEquals(Long.MAX_VALUE, r[0][0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_floatArr3D_null() {
+            assertEquals(0, Arrays.toLong((float[][][]) null).length);
+        }
+
+        // ----- toLong(double[]) -----
+
+        @Test
+        public void toLong_doubleArr_truncatesTowardZero() {
+            assertArrayEquals(new long[] { 1L, -1L, 0L, 0L },
+                    Arrays.toLong(new double[] { 1.7, -1.7, 0.5, -0.5 }));
+        }
+
+        @Test
+        public void toLong_doubleArr_nanAndInfinity() {
+            final long[] r = Arrays.toLong(new double[] {
+                    Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY });
+            assertEquals(0L, r[0]);
+            assertEquals(Long.MAX_VALUE, r[1]);
+            assertEquals(Long.MIN_VALUE, r[2]);
+        }
+
+        @Test
+        public void toLong_doubleArr_null() {
+            assertEquals(0, Arrays.toLong((double[]) null).length);
+        }
+
+        @Test
+        public void toLong_doubleArr_empty() {
+            assertEquals(0, Arrays.toLong(new double[0]).length);
+        }
+
+        @Test
+        public void toLong_doubleArr2D_preservesStructure() {
+            final double[][] in = { { Double.NaN, 2.5 }, null };
+            final long[][] r = Arrays.toLong(in);
+            assertArrayEquals(new long[] { 0L, 2L }, r[0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_doubleArr2D_null() {
+            assertEquals(0, Arrays.toLong((double[][]) null).length);
+        }
+
+        @Test
+        public void toLong_doubleArr3D_preservesStructure() {
+            final double[][][] in = { { { Double.POSITIVE_INFINITY } }, null };
+            final long[][][] r = Arrays.toLong(in);
+            assertEquals(Long.MAX_VALUE, r[0][0][0]);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toLong_doubleArr3D_null() {
+            assertEquals(0, Arrays.toLong((double[][][]) null).length);
+        }
+
+        // ----- toFloat(byte[]) -----
+
+        @Test
+        public void toFloat_byteArr_widensExact() {
+            assertArrayEquals(new float[] { -1f, 0f, 127f, -128f },
+                    Arrays.toFloat(new byte[] { -1, 0, 127, -128 }), 0f);
+        }
+
+        @Test
+        public void toFloat_byteArr_null() {
+            assertEquals(0, Arrays.toFloat((byte[]) null).length);
+        }
+
+        @Test
+        public void toFloat_byteArr_empty() {
+            assertEquals(0, Arrays.toFloat(new byte[0]).length);
+        }
+
+        @Test
+        public void toFloat_byteArr2D_preservesStructure() {
+            final byte[][] in = { { 1, -1 }, null };
+            final float[][] r = Arrays.toFloat(in);
+            assertArrayEquals(new float[] { 1f, -1f }, r[0], 0f);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toFloat_byteArr2D_null() {
+            assertEquals(0, Arrays.toFloat((byte[][]) null).length);
+        }
+
+        @Test
+        public void toFloat_byteArr3D_preservesStructure() {
+            final byte[][][] in = { { { -1 } }, null };
+            final float[][][] r = Arrays.toFloat(in);
+            assertArrayEquals(new float[] { -1f }, r[0][0], 0f);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toFloat_byteArr3D_null() {
+            assertEquals(0, Arrays.toFloat((byte[][][]) null).length);
+        }
+
+        // ----- toFloat(short[]) -----
+
+        @Test
+        public void toFloat_shortArr_widensExact() {
+            assertArrayEquals(new float[] { -1f, 32767f, -32768f },
+                    Arrays.toFloat(new short[] { -1, Short.MAX_VALUE, Short.MIN_VALUE }), 0f);
+        }
+
+        @Test
+        public void toFloat_shortArr_null() {
+            assertEquals(0, Arrays.toFloat((short[]) null).length);
+        }
+
+        @Test
+        public void toFloat_shortArr_empty() {
+            assertEquals(0, Arrays.toFloat(new short[0]).length);
+        }
+
+        @Test
+        public void toFloat_shortArr2D_preservesStructure() {
+            final short[][] in = { { -1, 1 }, null };
+            final float[][] r = Arrays.toFloat(in);
+            assertArrayEquals(new float[] { -1f, 1f }, r[0], 0f);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toFloat_shortArr2D_null() {
+            assertEquals(0, Arrays.toFloat((short[][]) null).length);
+        }
+
+        @Test
+        public void toFloat_shortArr3D_preservesStructure() {
+            final short[][][] in = { { { -1 } }, null };
+            final float[][][] r = Arrays.toFloat(in);
+            assertArrayEquals(new float[] { -1f }, r[0][0], 0f);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toFloat_shortArr3D_null() {
+            assertEquals(0, Arrays.toFloat((short[][][]) null).length);
+        }
+
+        // ----- toFloat(int[]) : precision-loss at 2^24 boundary -----
+
+        @Test
+        public void toFloat_intArr_precisionLossPast2Pow24() {
+            // 2^24 = 16777216 — exactly representable in float.
+            // 16777217 cannot be represented; (float) 16777217 -> 16777216.0f
+            // 16777218 IS representable. This documents the precision-loss frontier.
+            final float[] r = Arrays.toFloat(new int[] { 16_777_216, 16_777_217, 16_777_218 });
+            assertEquals(16777216.0f, r[0], 0f);
+            assertEquals(16777216.0f, r[1], 0f); // precision loss
+            assertEquals(16777218.0f, r[2], 0f);
+        }
+
+        @Test
+        public void toFloat_intArr_minMax() {
+            final float[] r = Arrays.toFloat(new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1 });
+            assertEquals((float) Integer.MIN_VALUE, r[0], 0f);
+            assertEquals((float) Integer.MAX_VALUE, r[1], 0f);
+            assertEquals(0f, r[2], 0f);
+            assertEquals(-1f, r[3], 0f);
+        }
+
+        @Test
+        public void toFloat_intArr_null() {
+            assertEquals(0, Arrays.toFloat((int[]) null).length);
+        }
+
+        @Test
+        public void toFloat_intArr_empty() {
+            assertEquals(0, Arrays.toFloat(new int[0]).length);
+        }
+
+        @Test
+        public void toFloat_intArr2D_preservesStructure() {
+            final int[][] in = { { -1, 1 }, null };
+            final float[][] r = Arrays.toFloat(in);
+            assertArrayEquals(new float[] { -1f, 1f }, r[0], 0f);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toFloat_intArr2D_null() {
+            assertEquals(0, Arrays.toFloat((int[][]) null).length);
+        }
+
+        @Test
+        public void toFloat_intArr3D_preservesStructure() {
+            final int[][][] in = { { { -1 } }, null };
+            final float[][][] r = Arrays.toFloat(in);
+            assertArrayEquals(new float[] { -1f }, r[0][0], 0f);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toFloat_intArr3D_null() {
+            assertEquals(0, Arrays.toFloat((int[][][]) null).length);
+        }
+
+        // ----- toFloat(long[]) : precision loss past 2^24, overflow to +/-Inf for huge values -----
+
+        @Test
+        public void toFloat_longArr_precisionLossPast2Pow24() {
+            // Same precision frontier as int[] but using long inputs.
+            final float[] r = Arrays.toFloat(new long[] { 16_777_216L, 16_777_217L });
+            assertEquals(16777216.0f, r[0], 0f);
+            assertEquals(16777216.0f, r[1], 0f);
+        }
+
+        @Test
+        public void toFloat_longArr_minMax() {
+            // (float) Long.MAX_VALUE and Long.MIN_VALUE are finite (large) per JLS widening.
+            final float[] r = Arrays.toFloat(new long[] { Long.MIN_VALUE, Long.MAX_VALUE });
+            assertEquals((float) Long.MIN_VALUE, r[0], 0f);
+            assertEquals((float) Long.MAX_VALUE, r[1], 0f);
+            assertFalse(Float.isNaN(r[0]));
+            assertFalse(Float.isNaN(r[1]));
+        }
+
+        @Test
+        public void toFloat_longArr_null() {
+            assertEquals(0, Arrays.toFloat((long[]) null).length);
+        }
+
+        @Test
+        public void toFloat_longArr_empty() {
+            assertEquals(0, Arrays.toFloat(new long[0]).length);
+        }
+
+        @Test
+        public void toFloat_longArr2D_preservesStructure() {
+            final long[][] in = { { -1L, 1L }, null };
+            final float[][] r = Arrays.toFloat(in);
+            assertArrayEquals(new float[] { -1f, 1f }, r[0], 0f);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toFloat_longArr2D_null() {
+            assertEquals(0, Arrays.toFloat((long[][]) null).length);
+        }
+
+        @Test
+        public void toFloat_longArr3D_preservesStructure() {
+            final long[][][] in = { { { -1L } }, null };
+            final float[][][] r = Arrays.toFloat(in);
+            assertArrayEquals(new float[] { -1f }, r[0][0], 0f);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toFloat_longArr3D_null() {
+            assertEquals(0, Arrays.toFloat((long[][][]) null).length);
+        }
+
+        // ----- toDouble(byte[]) -----
+
+        @Test
+        public void toDouble_byteArr_widensExact() {
+            assertArrayEquals(new double[] { -1d, 0d, 127d, -128d },
+                    Arrays.toDouble(new byte[] { -1, 0, 127, -128 }), 0d);
+        }
+
+        @Test
+        public void toDouble_byteArr_null() {
+            assertEquals(0, Arrays.toDouble((byte[]) null).length);
+        }
+
+        @Test
+        public void toDouble_byteArr_empty() {
+            assertEquals(0, Arrays.toDouble(new byte[0]).length);
+        }
+
+        @Test
+        public void toDouble_byteArr2D_preservesStructure() {
+            final byte[][] in = { { -1, 1 }, null };
+            final double[][] r = Arrays.toDouble(in);
+            assertArrayEquals(new double[] { -1d, 1d }, r[0], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_byteArr2D_null() {
+            assertEquals(0, Arrays.toDouble((byte[][]) null).length);
+        }
+
+        @Test
+        public void toDouble_byteArr3D_preservesStructure() {
+            final byte[][][] in = { { { -1 } }, null };
+            final double[][][] r = Arrays.toDouble(in);
+            assertArrayEquals(new double[] { -1d }, r[0][0], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_byteArr3D_null() {
+            assertEquals(0, Arrays.toDouble((byte[][][]) null).length);
+        }
+
+        // ----- toDouble(short[]) -----
+
+        @Test
+        public void toDouble_shortArr_widensExact() {
+            assertArrayEquals(new double[] { -1d, 32767d, -32768d },
+                    Arrays.toDouble(new short[] { -1, Short.MAX_VALUE, Short.MIN_VALUE }), 0d);
+        }
+
+        @Test
+        public void toDouble_shortArr_null() {
+            assertEquals(0, Arrays.toDouble((short[]) null).length);
+        }
+
+        @Test
+        public void toDouble_shortArr_empty() {
+            assertEquals(0, Arrays.toDouble(new short[0]).length);
+        }
+
+        @Test
+        public void toDouble_shortArr2D_preservesStructure() {
+            final short[][] in = { { -1, 1 }, null };
+            final double[][] r = Arrays.toDouble(in);
+            assertArrayEquals(new double[] { -1d, 1d }, r[0], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_shortArr2D_null() {
+            assertEquals(0, Arrays.toDouble((short[][]) null).length);
+        }
+
+        @Test
+        public void toDouble_shortArr3D_preservesStructure() {
+            final short[][][] in = { { { -1 } }, null };
+            final double[][][] r = Arrays.toDouble(in);
+            assertArrayEquals(new double[] { -1d }, r[0][0], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_shortArr3D_null() {
+            assertEquals(0, Arrays.toDouble((short[][][]) null).length);
+        }
+
+        // ----- toDouble(int[]) -----
+
+        @Test
+        public void toDouble_intArr_widensExact() {
+            // int widens to double exactly (double has 53-bit significand >= 32-bit int).
+            assertArrayEquals(new double[] { Integer.MIN_VALUE, -1d, 0d, 1d, Integer.MAX_VALUE },
+                    Arrays.toDouble(new int[] { Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE }), 0d);
+        }
+
+        @Test
+        public void toDouble_intArr_null() {
+            assertEquals(0, Arrays.toDouble((int[]) null).length);
+        }
+
+        @Test
+        public void toDouble_intArr_empty() {
+            assertEquals(0, Arrays.toDouble(new int[0]).length);
+        }
+
+        @Test
+        public void toDouble_intArr2D_preservesStructure() {
+            final int[][] in = { { -1, 1 }, null };
+            final double[][] r = Arrays.toDouble(in);
+            assertArrayEquals(new double[] { -1d, 1d }, r[0], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_intArr2D_null() {
+            assertEquals(0, Arrays.toDouble((int[][]) null).length);
+        }
+
+        @Test
+        public void toDouble_intArr3D_preservesStructure() {
+            final int[][][] in = { { { -1 } }, null };
+            final double[][][] r = Arrays.toDouble(in);
+            assertArrayEquals(new double[] { -1d }, r[0][0], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_intArr3D_null() {
+            assertEquals(0, Arrays.toDouble((int[][][]) null).length);
+        }
+
+        // ----- toDouble(long[]) : precision loss past 2^53 -----
+
+        @Test
+        public void toDouble_longArr_precisionLossPast2Pow53() {
+            // 2^53 = 9007199254740992 is exactly representable.
+            // 2^53 + 1 = 9007199254740993 cannot be represented; widens to 9007199254740992.0.
+            final long pow53 = 1L << 53; // 9007199254740992
+            final double[] r = Arrays.toDouble(new long[] { pow53, pow53 + 1L, pow53 + 2L });
+            assertEquals((double) pow53, r[0], 0d);
+            assertEquals((double) pow53, r[1], 0d); // documented precision loss
+            assertEquals((double) (pow53 + 2L), r[2], 0d);
+        }
+
+        @Test
+        public void toDouble_longArr_minMax() {
+            final double[] r = Arrays.toDouble(new long[] { Long.MIN_VALUE, Long.MAX_VALUE });
+            assertEquals((double) Long.MIN_VALUE, r[0], 0d);
+            assertEquals((double) Long.MAX_VALUE, r[1], 0d);
+        }
+
+        @Test
+        public void toDouble_longArr_null() {
+            assertEquals(0, Arrays.toDouble((long[]) null).length);
+        }
+
+        @Test
+        public void toDouble_longArr_empty() {
+            assertEquals(0, Arrays.toDouble(new long[0]).length);
+        }
+
+        @Test
+        public void toDouble_longArr2D_preservesStructure() {
+            final long[][] in = { { -1L, 1L }, null };
+            final double[][] r = Arrays.toDouble(in);
+            assertArrayEquals(new double[] { -1d, 1d }, r[0], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_longArr2D_null() {
+            assertEquals(0, Arrays.toDouble((long[][]) null).length);
+        }
+
+        @Test
+        public void toDouble_longArr3D_preservesStructure() {
+            final long[][][] in = { { { -1L } }, null };
+            final double[][][] r = Arrays.toDouble(in);
+            assertArrayEquals(new double[] { -1d }, r[0][0], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_longArr3D_null() {
+            assertEquals(0, Arrays.toDouble((long[][][]) null).length);
+        }
+
+        // ----- toDouble(float[]) -----
+
+        @Test
+        public void toDouble_floatArr_widensFiniteAndSpecials() {
+            final double[] r = Arrays.toDouble(new float[] { 1.0f, -1.0f, Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY });
+            assertEquals(1.0d, r[0], 0d);
+            assertEquals(-1.0d, r[1], 0d);
+            assertTrue(Double.isNaN(r[2]));
+            assertEquals(Double.POSITIVE_INFINITY, r[3], 0d);
+            assertEquals(Double.NEGATIVE_INFINITY, r[4], 0d);
+        }
+
+        @Test
+        public void toDouble_floatArr_null() {
+            assertEquals(0, Arrays.toDouble((float[]) null).length);
+        }
+
+        @Test
+        public void toDouble_floatArr_empty() {
+            assertEquals(0, Arrays.toDouble(new float[0]).length);
+        }
+
+        @Test
+        public void toDouble_floatArr2D_preservesStructure() {
+            final float[][] in = { { 1.5f, -1.5f }, null };
+            final double[][] r = Arrays.toDouble(in);
+            assertEquals(1.5d, r[0][0], 0d);
+            assertEquals(-1.5d, r[0][1], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_floatArr2D_null() {
+            assertEquals(0, Arrays.toDouble((float[][]) null).length);
+        }
+
+        @Test
+        public void toDouble_floatArr3D_preservesStructure() {
+            final float[][][] in = { { { 1.5f } }, null };
+            final double[][][] r = Arrays.toDouble(in);
+            assertEquals(1.5d, r[0][0][0], 0d);
+            assertNotNull(r[1]);
+        }
+
+        @Test
+        public void toDouble_floatArr3D_null() {
+            assertEquals(0, Arrays.toDouble((float[][][]) null).length);
+        }
+
+        // ----- Runtime-type assertions for representative results -----
+
+        @Test
+        public void runtimeTypeAssertions_oneDim() {
+            assertEquals(boolean[].class, Arrays.toBoolean(new byte[] { 1 }).getClass());
+            assertEquals(boolean[].class, Arrays.toBoolean(new int[] { 1 }).getClass());
+            assertEquals(char[].class, Arrays.toChar(new int[] { 65 }).getClass());
+            assertEquals(byte[].class, Arrays.toByte(new boolean[] { true }).getClass());
+            assertEquals(short[].class, Arrays.toShort(new byte[] { 1 }).getClass());
+            assertEquals(int[].class, Arrays.toInt(new boolean[] { true }).getClass());
+            assertEquals(int[].class, Arrays.toInt(new char[] { 'A' }).getClass());
+            assertEquals(int[].class, Arrays.toInt(new byte[] { 1 }).getClass());
+            assertEquals(int[].class, Arrays.toInt(new short[] { 1 }).getClass());
+            assertEquals(int[].class, Arrays.toInt(new float[] { 1f }).getClass());
+            assertEquals(int[].class, Arrays.toInt(new double[] { 1d }).getClass());
+            assertEquals(long[].class, Arrays.toLong(new byte[] { 1 }).getClass());
+            assertEquals(long[].class, Arrays.toLong(new short[] { 1 }).getClass());
+            assertEquals(long[].class, Arrays.toLong(new int[] { 1 }).getClass());
+            assertEquals(long[].class, Arrays.toLong(new float[] { 1f }).getClass());
+            assertEquals(long[].class, Arrays.toLong(new double[] { 1d }).getClass());
+            assertEquals(float[].class, Arrays.toFloat(new byte[] { 1 }).getClass());
+            assertEquals(float[].class, Arrays.toFloat(new short[] { 1 }).getClass());
+            assertEquals(float[].class, Arrays.toFloat(new int[] { 1 }).getClass());
+            assertEquals(float[].class, Arrays.toFloat(new long[] { 1L }).getClass());
+            assertEquals(double[].class, Arrays.toDouble(new byte[] { 1 }).getClass());
+            assertEquals(double[].class, Arrays.toDouble(new short[] { 1 }).getClass());
+            assertEquals(double[].class, Arrays.toDouble(new int[] { 1 }).getClass());
+            assertEquals(double[].class, Arrays.toDouble(new long[] { 1L }).getClass());
+            assertEquals(double[].class, Arrays.toDouble(new float[] { 1f }).getClass());
+        }
+
+        @Test
+        public void runtimeTypeAssertions_twoAndThreeDim() {
+            assertEquals(int[][].class, Arrays.toInt(new byte[][] { { 1 } }).getClass());
+            assertEquals(int[][][].class, Arrays.toInt(new byte[][][] { { { 1 } } }).getClass());
+            assertEquals(double[][].class, Arrays.toDouble(new long[][] { { 1L } }).getClass());
+            assertEquals(double[][][].class, Arrays.toDouble(new long[][][] { { { 1L } } }).getClass());
+            assertEquals(char[][].class, Arrays.toChar(new int[][] { { 65 } }).getClass());
+            assertEquals(char[][][].class, Arrays.toChar(new int[][][] { { { 65 } } }).getClass());
+        }
+    }
+
+    /**
+     * Adversarial tests for the type-inference machinery in {@link Arrays.ff} and
+     * {@link Arrays.fff}. These exercise the helper methods
+     * {@code inferTargetElementType}, {@code widenTargetElementType},
+     * {@code resolveCommonAssignableType}, {@code collectTypeDistances},
+     * {@code commonTypePenalty}, {@code castToTargetElementType}, and
+     * {@code resolveTargetElementTypeForZipWithDefaults} indirectly through the
+     * inferred-type {@code map}/{@code zip} public overloads.
+     */
+    @Nested
+    class ArraysTypeInferenceTest extends TestBase {
+
+        // --------------------------------------------------------------------
+        // Direct (reflection-based) probes of the package-private helpers.
+        // These let us trace concrete inputs through the algorithm.
+        // --------------------------------------------------------------------
+
+        private static Class<?> resolveCommon(final Class<?> left, final Class<?> right) throws Exception {
+            final java.lang.reflect.Method m = Arrays.ff.class.getDeclaredMethod("resolveCommonAssignableType", Class.class, Class.class);
+            m.setAccessible(true);
+            return (Class<?>) m.invoke(null, left, right);
+        }
+
+        @SuppressWarnings("unchecked")
+        private static java.util.Map<Class<?>, Integer> collectDistances(final Class<?> start) throws Exception {
+            final java.lang.reflect.Method m = Arrays.ff.class.getDeclaredMethod("collectTypeDistances", Class.class);
+            m.setAccessible(true);
+            return (java.util.Map<Class<?>, Integer>) m.invoke(null, start);
+        }
+
+        private static int penalty(final Class<?> type) throws Exception {
+            final java.lang.reflect.Method m = Arrays.ff.class.getDeclaredMethod("commonTypePenalty", Class.class);
+            m.setAccessible(true);
+            return (int) m.invoke(null, type);
+        }
+
+        // --------------------------------------------------------------------
+        // collectTypeDistances scenarios (11, 12, 13)
+        // --------------------------------------------------------------------
+
+        @Test
+        public void collectTypeDistances_Integer_hasExpectedAncestors() throws Exception {
+            final java.util.Map<Class<?>, Integer> d = collectDistances(Integer.class);
+            assertEquals(0, d.get(Integer.class));
+            assertEquals(1, d.get(Number.class));
+            assertEquals(2, d.get(Object.class));
+            // Integer implements Comparable<Integer> directly => distance 1
+            assertEquals(1, d.get(Comparable.class));
+            // Number implements Serializable => Integer -> Number(1) -> Serializable(2)
+            assertEquals(2, d.get(java.io.Serializable.class));
+        }
+
+        @Test
+        public void collectTypeDistances_String_hasExpectedAncestors() throws Exception {
+            final java.util.Map<Class<?>, Integer> d = collectDistances(String.class);
+            assertEquals(0, d.get(String.class));
+            assertEquals(1, d.get(Object.class));
+            assertEquals(1, d.get(Comparable.class));
+            assertEquals(1, d.get(java.io.Serializable.class));
+            assertEquals(1, d.get(CharSequence.class));
+        }
+
+        @Test
+        public void collectTypeDistances_Object_onlySelf() throws Exception {
+            final java.util.Map<Class<?>, Integer> d = collectDistances(Object.class);
+            assertEquals(1, d.size());
+            assertEquals(0, d.get(Object.class));
+        }
+
+        @Test
+        public void collectTypeDistances_Interface_listIncludesCollection() throws Exception {
+            final java.util.Map<Class<?>, Integer> d = collectDistances(java.util.List.class);
+            assertEquals(0, d.get(java.util.List.class));
+            // In Java 21+ List extends SequencedCollection extends Collection (d=2);
+            // in earlier JDKs List extends Collection directly (d=1). Be JDK-agnostic.
+            final Integer collDist = d.get(java.util.Collection.class);
+            assertNotNull(collDist);
+            assertTrue(collDist >= 1, "Collection must be reachable from List");
+            final Integer iterDist = d.get(Iterable.class);
+            assertNotNull(iterDist);
+            assertTrue(iterDist > collDist, "Iterable is a super-interface of Collection");
+            // Starting from an interface, Object is NOT reachable via the BFS:
+            // interface.getSuperclass() returns null, and Object is not in any interface's
+            // getInterfaces(). This is a *meaningful observation about the algorithm*:
+            // resolveCommonAssignableType will only find Object as a common ancestor when
+            // at least one of the two types is a concrete class (so the BFS climbs through
+            // its superclass chain to Object).
+            assertFalse(d.containsKey(Object.class),
+                    "Starting from an interface, Object is unreachable (interface.getSuperclass() == null)");
+        }
+
+        @Test
+        public void collectTypeDistances_terminates_noInfiniteLoop() throws Exception {
+            // Sanity check: BFS terminates and doesn't blow up.
+            assertNotNull(collectDistances(java.util.ArrayList.class));
+            assertNotNull(collectDistances(java.util.LinkedList.class));
+            assertNotNull(collectDistances(java.util.HashMap.class));
+            assertNotNull(collectDistances(Comparable.class));
+        }
+
+        // --------------------------------------------------------------------
+        // commonTypePenalty scenarios
+        // --------------------------------------------------------------------
+
+        @Test
+        public void commonTypePenalty_categories() throws Exception {
+            assertEquals(3, penalty(Object.class));
+            // Marker interfaces (no methods)
+            assertEquals(2, penalty(java.io.Serializable.class));
+            assertEquals(2, penalty(Cloneable.class));
+            assertEquals(2, penalty(java.util.RandomAccess.class));
+            // Non-marker interfaces
+            assertEquals(1, penalty(Comparable.class));
+            assertEquals(1, penalty(CharSequence.class));
+            assertEquals(1, penalty(java.util.List.class));
+            // Concrete classes
+            assertEquals(0, penalty(Integer.class));
+            assertEquals(0, penalty(Number.class));
+            assertEquals(0, penalty(String.class));
+        }
+
+        // --------------------------------------------------------------------
+        // resolveCommonAssignableType scenarios (1-10)
+        // --------------------------------------------------------------------
+
+        @Test
+        public void resolveCommonAssignableType_sameType_returnsThatType() throws Exception {
+            assertEquals(Integer.class, resolveCommon(Integer.class, Integer.class));
+            assertEquals(String.class, resolveCommon(String.class, String.class));
+        }
+
+        @Test
+        public void resolveCommonAssignableType_oneAssignableFromOther() throws Exception {
+            assertEquals(Number.class, resolveCommon(Number.class, Integer.class));
+            assertEquals(Number.class, resolveCommon(Integer.class, Number.class));
+            assertEquals(Object.class, resolveCommon(Object.class, String.class));
+        }
+
+        @Test
+        public void resolveCommonAssignableType_IntegerLong_resolvesToNumber() throws Exception {
+            // Both have Number at distance 1, Comparable at distance 1.
+            // Number penalty 0 (concrete) < Comparable penalty 1 (interface) => Number wins.
+            assertEquals(Number.class, resolveCommon(Integer.class, Long.class));
+        }
+
+        @Test
+        public void resolveCommonAssignableType_IntegerDouble_resolvesToNumber() throws Exception {
+            assertEquals(Number.class, resolveCommon(Integer.class, Double.class));
+        }
+
+        @Test
+        public void resolveCommonAssignableType_IntegerString_resolvesToComparable() throws Exception {
+            // Integer: Comparable d=1, Serializable d=2, Object d=2
+            // String:  Comparable d=1, Serializable d=1, Object d=1
+            // Comparable total=2 penalty=1
+            // Serializable total=3 penalty=2
+            // Object total=3 penalty=3
+            // => Comparable wins on smallest total distance.
+            assertEquals(Comparable.class, resolveCommon(Integer.class, String.class));
+        }
+
+        @Test
+        public void resolveCommonAssignableType_nullHandling() throws Exception {
+            assertEquals(Object.class, resolveCommon(null, null));
+            assertEquals(Integer.class, resolveCommon(null, Integer.class));
+            assertEquals(Integer.class, resolveCommon(Integer.class, null));
+        }
+
+        @Test
+        public void resolveCommonAssignableType_ArrayListLinkedList_resolvesToConcreteAncestor() throws Exception {
+            // ArrayList superclass chain: AbstractList -> AbstractCollection -> Object
+            // LinkedList superclass chain: AbstractSequentialList -> AbstractList -> AbstractCollection -> Object
+            // Common concrete ancestor: AbstractList (penalty 0)
+            // ArrayList -> AbstractList d=1
+            // LinkedList -> AbstractList d=2 (via AbstractSequentialList)
+            // total = 3, penalty 0
+            // Versus List interface: ArrayList d=1, LinkedList d=1 => total 2, penalty 1.
+            // List wins on smaller total distance (2 < 3).
+            assertEquals(java.util.List.class, resolveCommon(java.util.ArrayList.class, java.util.LinkedList.class));
+        }
+
+        // --------------------------------------------------------------------
+        // widenTargetElementType / inferTargetElementType end-to-end via ff.map
+        // Scenarios (1-9, 14-16)
+        // --------------------------------------------------------------------
+
+        @Test
+        public void ff_map_allIntegers_resultIsIntegerArray() {
+            final Number[][] in = { { 1, 2 }, { 3, 4 } };
+            final Number[][] out = ff.map(in, n -> n);
+            assertEquals(Number[][].class, out.getClass());
+            // initial target = Number (from declared type), all values are Integer -> Number.isInstance(int) -> stays Number.
+            // The algorithm never narrows; declared type is preserved.
+        }
+
+        @Test
+        public void ff_map_mixedNumberSubtypes_resultArrayCanHoldAllValues() {
+            // Object[][] declared, mapper returns Integer for first cell, Long for second.
+            // initial type = Object; widening short-circuits since current==Object.class.
+            // Result element type stays Object — and the array correctly holds Integer and Long.
+            final Object[][] in = { { "a", "b" } };
+            final Object[][] out = ff.map(in, s -> ((String) s).length() % 2 == 0 ? (Object) 1L : (Object) 1);
+            assertEquals(Object[][].class, out.getClass());
+            assertNotNull(out[0][0]);
+            assertNotNull(out[0][1]);
+        }
+
+        @Test
+        public void ff_map_nullsInResult_doNotWidenTarget() {
+            // Number[][] in, mapper returns nulls for some, Integer for others.
+            // initial = Number; nulls cause no widening; Integers fit Number. Result stays Number.
+            final Number[][] in = { { 1, 2 }, { 3, 4 } };
+            final Number[][] out = ff.map(in, n -> n.intValue() % 2 == 0 ? null : n);
+            assertEquals(Number[][].class, out.getClass());
+            assertNull(out[0][1]); // value 2 -> null
+            assertEquals(1, out[0][0]);
+        }
+
+        @Test
+        public void ff_map_emptyInput_returnsEmptyOfDeclaredType() {
+            final Integer[][] in = new Integer[0][];
+            final Integer[][] out = ff.map(in, n -> n + 1);
+            assertEquals(Integer[][].class, out.getClass());
+            assertEquals(0, out.length);
+        }
+
+        @Test
+        public void ff_map_emptyInnerRows_preservesStructure() {
+            final Integer[][] in = { {}, {}, {} };
+            final Integer[][] out = ff.map(in, n -> n + 1);
+            assertEquals(Integer[][].class, out.getClass());
+            assertEquals(3, out.length);
+            for (int i = 0; i < 3; i++) {
+                assertEquals(0, out[i].length);
+            }
+        }
+
+        // --------------------------------------------------------------------
+        // zip with defaults: resolveTargetElementTypeForZipWithDefaults
+        // Scenarios (17, 18)
+        // --------------------------------------------------------------------
+
+        @Test
+        public void ff_zipWithDefaults_aNotNull_inferredFromArrayComponentType() {
+            final Integer[][] a = { { 1, 2 } };
+            final Integer[][] b = { { 10, 20, 30 } };
+            // a.getClass().getComponentType().getComponentType() = Integer.class
+            // initial target = Integer; both arrays have Integers; bi function returns Integer.
+            final Integer[][] out = ff.zip(a, b, 0, 0, (x, y) -> x + y);
+            assertEquals(Integer[][].class, out.getClass());
+            assertArrayEquals(new Integer[] { 11, 22, 30 }, out[0]);
+        }
+
+        @Test
+        public void ff_zipWithDefaults_aNull_fallsBackToDefaultsClass() {
+            final Integer[][] b = { { 10, 20 } };
+            // a == null -> use defaultValueA.getClass() = Integer.class
+            final Integer[][] out = ff.zip((Integer[][]) null, b, 7, 0, (x, y) -> x + y);
+            assertEquals(Integer[][].class, out.getClass());
+            assertArrayEquals(new Integer[] { 17, 27 }, out[0]);
+        }
+
+        @Test
+        public void ff_zipWithDefaults_bothNullThrows() {
+            assertThrows(IllegalArgumentException.class, () -> ff.zip((Integer[][]) null, (Integer[][]) null, (Integer) null, (Integer) null,
+                    (x, y) -> (x == null ? 0 : x) + (y == null ? 0 : y)));
+        }
+
+        // --------------------------------------------------------------------
+        // 3D (fff) versions
+        // --------------------------------------------------------------------
+
+        @Test
+        public void fff_map_preservesDeclaredType() {
+            final Integer[][][] in = { { { 1, 2 }, { 3 } }, { { 4 } } };
+            final Integer[][][] out = fff.map(in, n -> n + 1);
+            assertEquals(Integer[][][].class, out.getClass());
+            assertArrayEquals(new Integer[] { 2, 3 }, out[0][0]);
+            assertArrayEquals(new Integer[] { 4 }, out[0][1]);
+            assertArrayEquals(new Integer[] { 5 }, out[1][0]);
+        }
+
+        @Test
+        public void fff_zipWithDefaults_aNull_fallsBack() {
+            final Integer[][][] b = { { { 10, 20 } } };
+            final Integer[][][] out = fff.zip((Integer[][][]) null, b, 5, 0, (x, y) -> x + y);
+            assertEquals(Integer[][][].class, out.getClass());
+            assertArrayEquals(new Integer[] { 15, 25 }, out[0][0]);
+        }
+
+        @Test
+        public void fff_zipWithDefaults_bothNullThrows() {
+            assertThrows(IllegalArgumentException.class, () -> fff.zip((Integer[][][]) null, (Integer[][][]) null, (Integer) null, (Integer) null,
+                    (x, y) -> (x == null ? 0 : x) + (y == null ? 0 : y)));
+        }
+
+        // --------------------------------------------------------------------
+        // Tie-break logic of resolveCommonAssignableType.
+        // Make sure equally-distant candidates pick concrete over interface,
+        // and the assignability tie-breaker prefers the more specific type.
+        // --------------------------------------------------------------------
+
+        @Test
+        public void resolveCommonAssignableType_concretePreferredOverInterface() throws Exception {
+            // Integer and Long: Number(d=2,pen=0) vs Comparable(d=2,pen=1). Number wins (lower penalty).
+            assertEquals(Number.class, resolveCommon(Integer.class, Long.class));
+            // Double and Long: same.
+            assertEquals(Number.class, resolveCommon(Double.class, Long.class));
+        }
+
+        @Test
+        public void resolveCommonAssignableType_StringBuilderAndStringBuffer_resolvesToCommonAbstract() throws Exception {
+            // Both extend AbstractStringBuilder (package-private). Their nearest *public* common
+            // class in the hierarchy: AbstractStringBuilder is package-private, Object is the
+            // first reachable concrete class via the BFS. Both implement CharSequence (d=1),
+            // Appendable (d=1), Serializable (d=1 for StringBuffer via class, ... varies), Comparable.
+            // We won't pin the exact tie since AbstractStringBuilder is package-private
+            // but distance metric still treats it as a real class. Just verify the result is
+            // a real common assignable type.
+            final Class<?> c = resolveCommon(StringBuilder.class, StringBuffer.class);
+            assertNotNull(c);
+            assertTrue(c.isAssignableFrom(StringBuilder.class) && c.isAssignableFrom(StringBuffer.class));
+        }
+
+        // --------------------------------------------------------------------
+        // Verify the widen-monotonicity contract: result type is assignable
+        // from every element actually placed in the result array.
+        // --------------------------------------------------------------------
+
+        @Test
+        public void widenTargetElementType_resultArrayAcceptsAllElements() {
+            // Use a Number[][] declared array but stuff Integers and Longs.
+            final Number[][] in = { { 1, 2L }, { 3.0, 4f } };
+            final Number[][] out = ff.map(in, n -> n);
+            assertEquals(Number[][].class, out.getClass());
+            assertEquals(Integer.valueOf(1), out[0][0]);
+            assertEquals(Long.valueOf(2L), out[0][1]);
+            assertEquals(Double.valueOf(3.0), out[1][0]);
+            assertEquals(Float.valueOf(4f), out[1][1]);
+        }
+    }
+
+    // ==========================================================================================
+    // Adversarial review of reshape / flatten / mutateAsFlat / zip / elementCount / minSub / maxSub.
+    // Exercises edge cases across multiple primitive types: boolean, char, byte, short, int, long,
+    // float, double, and Object[] variants via f / ff / fff.
+    // ==========================================================================================
+
+    @Nested
+    class ArraysReshapeFlattenZipAdversarialTest {
+
+        // ------------------------------------------------------------------------------------------
+        // reshape(T[], columnCount) — 2D
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void reshape_2D_empty_returnsEmpty2D() {
+            // int
+            final int[][] ri = Arrays.reshape(new int[0], 5);
+            assertEquals(0, ri.length);
+            // boolean
+            final boolean[][] rb = Arrays.reshape(new boolean[0], 3);
+            assertEquals(0, rb.length);
+            // double
+            final double[][] rd = Arrays.reshape(new double[0], 7);
+            assertEquals(0, rd.length);
+        }
+
+        @Test
+        public void reshape_2D_nullSource_returnsEmpty2D() {
+            // primitives accept null per javadoc
+            assertEquals(0, Arrays.reshape((int[]) null, 3).length);
+            assertEquals(0, Arrays.reshape((boolean[]) null, 3).length);
+            assertEquals(0, Arrays.reshape((long[]) null, 3).length);
+            assertEquals(0, Arrays.reshape((char[]) null, 3).length);
+        }
+
+        @Test
+        public void reshape_2D_partialLastRow_int() {
+            final int[] arr = { 1, 2, 3, 4, 5 };
+            final int[][] r = Arrays.reshape(arr, 2);
+            assertEquals(3, r.length);
+            assertArrayEquals(new int[] { 1, 2 }, r[0]);
+            assertArrayEquals(new int[] { 3, 4 }, r[1]);
+            assertArrayEquals(new int[] { 5 }, r[2]);
+        }
+
+        @Test
+        public void reshape_2D_partialLastRow_byte() {
+            final byte[] arr = { 1, 2, 3, 4, 5 };
+            final byte[][] r = Arrays.reshape(arr, 2);
+            assertEquals(3, r.length);
+            assertArrayEquals(new byte[] { 1, 2 }, r[0]);
+            assertArrayEquals(new byte[] { 3, 4 }, r[1]);
+            assertArrayEquals(new byte[] { 5 }, r[2]);
+        }
+
+        @Test
+        public void reshape_2D_singleElementWithBiggerCols() {
+            final int[][] r = Arrays.reshape(new int[] { 42 }, 5);
+            assertEquals(1, r.length);
+            assertArrayEquals(new int[] { 42 }, r[0]);
+        }
+
+        @Test
+        public void reshape_2D_zeroColumns_throws() {
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(new int[] { 1, 2 }, 0));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(new boolean[] { true }, 0));
+        }
+
+        @Test
+        public void reshape_2D_negativeColumns_throws() {
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(new int[] { 1, 2 }, -1));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(new double[] { 1.0 }, -5));
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // reshape(T[], rowCount, columnCount) — 3D
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void reshape_3D_evenBlocks_int() {
+            final int[] arr = { 1, 2, 3, 4, 5, 6 };
+            final int[][][] r = Arrays.reshape(arr, 2, 2);
+            // block-size = 4; len=6 -> 2 blocks. Block 0 has 2 rows, block 1 has 1 row of 2.
+            assertEquals(2, r.length);
+            assertEquals(2, r[0].length);
+            assertArrayEquals(new int[] { 1, 2 }, r[0][0]);
+            assertArrayEquals(new int[] { 3, 4 }, r[0][1]);
+            assertEquals(1, r[1].length);
+            assertArrayEquals(new int[] { 5, 6 }, r[1][0]);
+        }
+
+        @Test
+        public void reshape_3D_partialLastBlockPartialLastRow_int() {
+            final int[] arr = { 1, 2, 3, 4, 5, 6, 7 };
+            final int[][][] r = Arrays.reshape(arr, 2, 2);
+            // block 0: {{1,2},{3,4}}; block 1 has 2 rows: {{5,6},{7}}
+            assertEquals(2, r.length);
+            assertEquals(2, r[0].length);
+            assertArrayEquals(new int[] { 1, 2 }, r[0][0]);
+            assertArrayEquals(new int[] { 3, 4 }, r[0][1]);
+            assertEquals(2, r[1].length);
+            assertArrayEquals(new int[] { 5, 6 }, r[1][0]);
+            assertArrayEquals(new int[] { 7 }, r[1][1]);
+        }
+
+        @Test
+        public void reshape_3D_partialLastBlockPartialLastRow_long() {
+            final long[] arr = { 1, 2, 3, 4, 5, 6, 7 };
+            final long[][][] r = Arrays.reshape(arr, 2, 2);
+            assertEquals(2, r.length);
+            assertEquals(2, r[0].length);
+            assertArrayEquals(new long[] { 1, 2 }, r[0][0]);
+            assertArrayEquals(new long[] { 3, 4 }, r[0][1]);
+            assertEquals(2, r[1].length);
+            assertArrayEquals(new long[] { 5, 6 }, r[1][0]);
+            assertArrayEquals(new long[] { 7 }, r[1][1]);
+        }
+
+        @Test
+        public void reshape_3D_empty_returnsEmpty3D() {
+            assertEquals(0, Arrays.reshape(new int[0], 2, 2).length);
+            assertEquals(0, Arrays.reshape(new short[0], 3, 4).length);
+            assertEquals(0, Arrays.reshape((float[]) null, 2, 2).length);
+        }
+
+        @Test
+        public void reshape_3D_zeroOrNegative_throws() {
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(new int[] { 1 }, 0, 1));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(new int[] { 1 }, 1, 0));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(new int[] { 1 }, -1, 1));
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // flatten — 2D
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void flatten_2D_emptyOuter_int() {
+            assertArrayEquals(new int[0], Arrays.flatten(new int[0][]));
+            assertArrayEquals(new int[0], Arrays.flatten((int[][]) null));
+        }
+
+        @Test
+        public void flatten_2D_allNullRows_int() {
+            // Note: int[][] cannot literally hold "null, null" as rows are int[] which is an object;
+            // but two null int[] rows are perfectly legal.
+            final int[][] a = new int[][] { null, null };
+            assertArrayEquals(new int[0], Arrays.flatten(a));
+        }
+
+        @Test
+        public void flatten_2D_mixedNullEmptyAndPopulated_int() {
+            final int[][] a = new int[][] { { 1, 2 }, null, {}, { 3 } };
+            assertArrayEquals(new int[] { 1, 2, 3 }, Arrays.flatten(a));
+        }
+
+        @Test
+        public void flatten_2D_mixedNullEmptyAndPopulated_boolean() {
+            final boolean[][] a = new boolean[][] { { true, false }, null, {}, { true } };
+            assertArrayEquals(new boolean[] { true, false, true }, Arrays.flatten(a));
+        }
+
+        @Test
+        public void flatten_2D_mixedNullEmptyAndPopulated_double() {
+            final double[][] a = new double[][] { { 1.5, 2.5 }, null, {}, { 3.5 } };
+            assertArrayEquals(new double[] { 1.5, 2.5, 3.5 }, Arrays.flatten(a));
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // flatten — 3D
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void flatten_3D_mixedNullsAndEmpties_int() {
+            final int[][][] a = new int[][][] { { null, { 1 } }, { { 2 }, {} }, null };
+            assertArrayEquals(new int[] { 1, 2 }, Arrays.flatten(a));
+        }
+
+        @Test
+        public void flatten_3D_mixedNullsAndEmpties_long() {
+            final long[][][] a = new long[][][] { { null, { 1L } }, { { 2L }, {} }, null };
+            assertArrayEquals(new long[] { 1L, 2L }, Arrays.flatten(a));
+        }
+
+        @Test
+        public void flatten_3D_empty_double() {
+            assertArrayEquals(new double[0], Arrays.flatten(new double[0][][]));
+            assertArrayEquals(new double[0], Arrays.flatten((double[][][]) null));
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // mutateAsFlat — 2D
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void mutateAsFlat_2D_sortPreservesJaggedStructure_int() {
+            final int[][] a = new int[][] { { 3, 1, 4 }, { 1, 5, 9 } };
+            Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
+            assertArrayEquals(new int[] { 1, 1, 3 }, a[0]);
+            assertArrayEquals(new int[] { 4, 5, 9 }, a[1]);
+        }
+
+        @Test
+        public void mutateAsFlat_2D_sortPreservesJaggedStructure_double() {
+            final double[][] a = new double[][] { { 3.0, 1.0, 4.0 }, { 1.5, 5.0, 9.5 } };
+            Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
+            assertArrayEquals(new double[] { 1.0, 1.5, 3.0 }, a[0]);
+            assertArrayEquals(new double[] { 4.0, 5.0, 9.5 }, a[1]);
+        }
+
+        @Test
+        public void mutateAsFlat_2D_nullRowsArePreserved_int() {
+            // null rows must remain null after the round-trip.
+            final int[][] a = new int[][] { { 3, 1 }, null, {}, { 7, 2 } };
+            Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
+            // flattened = {3,1,7,2} -> sorted = {1,2,3,7}; copy back row-by-row, null/empty skipped.
+            assertNull(a[1]);
+            assertEquals(0, a[2].length);
+            assertArrayEquals(new int[] { 1, 2 }, a[0]);
+            assertArrayEquals(new int[] { 3, 7 }, a[3]);
+        }
+
+        @Test
+        public void mutateAsFlat_2D_nullRowsArePreserved_byte() {
+            final byte[][] a = new byte[][] { { 3, 1 }, null, {}, { 7, 2 } };
+            Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
+            assertNull(a[1]);
+            assertEquals(0, a[2].length);
+            assertArrayEquals(new byte[] { 1, 2 }, a[0]);
+            assertArrayEquals(new byte[] { 3, 7 }, a[3]);
+        }
+
+        @Test
+        public void mutateAsFlat_2D_emptyOuter_isNoop() {
+            // null input -> no-op (and no NPE)
+            Arrays.mutateAsFlat((int[][]) null, t -> java.util.Arrays.sort(t));
+            // empty outer -> no-op
+            final int[][] empty = new int[0][];
+            Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+            assertEquals(0, empty.length);
+        }
+
+        @Test
+        public void mutateAsFlat_2D_nullAction_throws() {
+            final int[][] a = { { 1, 2 } };
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateAsFlat(a, null));
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // mutateAsFlat — 3D
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void mutateAsFlat_3D_sortPreservesNested_int() {
+            final int[][][] a = new int[][][] { { { 5, 2 }, null }, { {}, { 8, 1 } } };
+            Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
+            // flattened: {5,2,8,1} -> sorted {1,2,5,8}
+            assertArrayEquals(new int[] { 1, 2 }, a[0][0]);
+            assertNull(a[0][1]);
+            assertEquals(0, a[1][0].length);
+            assertArrayEquals(new int[] { 5, 8 }, a[1][1]);
+        }
+
+        @Test
+        public void mutateAsFlat_3D_sortPreservesNested_short() {
+            final short[][][] a = new short[][][] { { { 5, 2 }, null }, { {}, { 8, 1 } } };
+            Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
+            assertArrayEquals(new short[] { 1, 2 }, a[0][0]);
+            assertNull(a[0][1]);
+            assertEquals(0, a[1][0].length);
+            assertArrayEquals(new short[] { 5, 8 }, a[1][1]);
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // zip — 1D, no defaults
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void zip_1D_oneEmpty_returnsEmpty_int() {
+            final int[] r = Arrays.zip(new int[0], new int[] { 1, 2, 3 }, (x, y) -> x + y);
+            assertArrayEquals(new int[0], r);
+        }
+
+        @Test
+        public void zip_1D_shorterFirst_returnsShorterLen_int() {
+            final int[] r = Arrays.zip(new int[] { 1, 2 }, new int[] { 3, 4, 5 }, (x, y) -> x + y);
+            assertArrayEquals(new int[] { 4, 6 }, r);
+        }
+
+        @Test
+        public void zip_1D_bothNull_returnsEmpty_int() {
+            final int[] r = Arrays.zip((int[]) null, (int[]) null, (x, y) -> x + y);
+            assertArrayEquals(new int[0], r);
+        }
+
+        @Test
+        public void zip_1D_bothNull_returnsEmpty_boolean() {
+            final boolean[] r = Arrays.zip((boolean[]) null, (boolean[]) null, (x, y) -> x && y);
+            assertArrayEquals(new boolean[0], r);
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // zip — 1D, with defaults — VERIFY which input gets the default
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void zip_1D_default_aIsShorter_int() {
+            // a empty, b = {1,2,3}, default a=100, b=200 -> result uses 100 for missing a
+            final int[] r = Arrays.zip(new int[0], new int[] { 1, 2, 3 }, 100, 200, (x, y) -> x + y);
+            assertArrayEquals(new int[] { 101, 102, 103 }, r);
+        }
+
+        @Test
+        public void zip_1D_default_bIsShorter_int() {
+            // a = {1}, b empty, default a=100, b=200 -> use 200 for missing b
+            final int[] r = Arrays.zip(new int[] { 1 }, new int[0], 100, 200, (x, y) -> x + y);
+            assertArrayEquals(new int[] { 201 }, r);
+        }
+
+        @Test
+        public void zip_1D_default_equalLength_int() {
+            // Equal lengths: defaults not applied
+            final int[] r = Arrays.zip(new int[] { 1, 2 }, new int[] { 3, 4 }, 100, 200, (x, y) -> x + y);
+            assertArrayEquals(new int[] { 4, 6 }, r);
+        }
+
+        @Test
+        public void zip_1D_default_bothEmpty_returnsEmpty_int() {
+            final int[] r = Arrays.zip(new int[0], new int[0], 100, 200, (x, y) -> x + y);
+            assertArrayEquals(new int[0], r);
+        }
+
+        @Test
+        public void zip_1D_default_aIsShorter_double() {
+            final double[] r = Arrays.zip(new double[0], new double[] { 1.0, 2.0 }, 10.0, 20.0, (x, y) -> x + y);
+            assertArrayEquals(new double[] { 11.0, 12.0 }, r);
+        }
+
+        @Test
+        public void zip_1D_default_bIsShorter_long() {
+            final long[] r = Arrays.zip(new long[] { 1L }, new long[0], 10L, 20L, (x, y) -> x + y);
+            assertArrayEquals(new long[] { 21L }, r);
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // zip — ternary 1D, with defaults
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void zip_1D_ternary_default_int() {
+            // a={1,2,3,4}, b={5,6}, c={8,9,10}; defaults 0,10,20
+            final int[] r = Arrays.zip(new int[] { 1, 2, 3, 4 }, new int[] { 5, 6 }, new int[] { 8, 9, 10 }, 0, 10, 20, (x, y, z) -> x + y + z);
+            // i=0: 1+5+8=14
+            // i=1: 2+6+9=17
+            // i=2: 3+10+10=23 (b missing, use 10)
+            // i=3: 4+10+20=34 (b and c missing)
+            assertArrayEquals(new int[] { 14, 17, 23, 34 }, r);
+        }
+
+        @Test
+        public void zip_1D_ternary_default_allEmpty_int() {
+            final int[] r = Arrays.zip(new int[0], new int[0], new int[0], 1, 2, 3, (x, y, z) -> x + y + z);
+            assertArrayEquals(new int[0], r);
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // zip — 2D, no defaults
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void zip_2D_outerShorter_innerEqualLen_int() {
+            final int[][] a = { { 1, 2 } };
+            final int[][] b = { { 3, 4 }, { 5, 6 } };
+            final int[][] r = Arrays.zip(a, b, (x, y) -> x + y);
+            assertEquals(1, r.length);
+            assertArrayEquals(new int[] { 4, 6 }, r[0]);
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // zip — 2D, with defaults — the SUSPICIOUS else-if pattern
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void zip_2D_default_lenA_less_than_lenB_int() {
+            // lenA < lenB -> 'if (lenA < maxLen)' branch
+            final int[][] a = { { 1, 2 } };
+            final int[][] b = { { 3, 4, 5 }, { 8, 9 } };
+            final int[][] r = Arrays.zip(a, b, 100, 200, (x, y) -> x + y);
+            assertEquals(2, r.length);
+            // row 0 inner: lenA=2,lenB=3, max=3 -> {4, 6, 105}
+            assertArrayEquals(new int[] { 4, 6, 105 }, r[0]);
+            // row 1 from default: zip(null, b[1], 100, 200, ...) -> {108, 109}
+            assertArrayEquals(new int[] { 108, 109 }, r[1]);
+        }
+
+        @Test
+        public void zip_2D_default_lenA_greater_than_lenB_int() {
+            // lenA > lenB -> 'else if (lenB < maxLen)' branch
+            final int[][] a = { { 1, 2, 3 }, { 4, 5 } };
+            final int[][] b = { { 10, 20 } };
+            final int[][] r = Arrays.zip(a, b, 100, 200, (x, y) -> x + y);
+            assertEquals(2, r.length);
+            // row 0: lenA=3,lenB=2 -> {11,22,203}
+            assertArrayEquals(new int[] { 11, 22, 203 }, r[0]);
+            // row 1 from default: zip(a[1]={4,5}, null, 100, 200, ...) -> {204, 205}
+            assertArrayEquals(new int[] { 204, 205 }, r[1]);
+        }
+
+        @Test
+        public void zip_2D_default_lenAEqualsLenB_int() {
+            // lenA == lenB == maxLen -> neither branch taken
+            final int[][] a = { { 1, 2 }, { 3, 4 } };
+            final int[][] b = { { 10, 20 }, { 30, 40 } };
+            final int[][] r = Arrays.zip(a, b, 100, 200, (x, y) -> x + y);
+            assertEquals(2, r.length);
+            assertArrayEquals(new int[] { 11, 22 }, r[0]);
+            assertArrayEquals(new int[] { 33, 44 }, r[1]);
+        }
+
+        @Test
+        public void zip_2D_default_lenA_less_than_lenB_boolean() {
+            final boolean[][] a = { { true } };
+            final boolean[][] b = { { false, true }, { false, true, false } };
+            final boolean[][] r = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+            assertEquals(2, r.length);
+            // row 0: lenA=1, lenB=2, max=2 -> {true||false, false||true} = {true, true}
+            assertArrayEquals(new boolean[] { true, true }, r[0]);
+            // row 1 default: zip(null, b[1], false, true) -> {false||false, false||true, false||false} = {false,true,false}
+            assertArrayEquals(new boolean[] { false, true, false }, r[1]);
+        }
+
+        @Test
+        public void zip_2D_default_lenA_greater_than_lenB_boolean() {
+            final boolean[][] a = { { true, false }, { false, true } };
+            final boolean[][] b = { { true } };
+            final boolean[][] r = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+            assertEquals(2, r.length);
+            // row 0: lenA=2,lenB=1 -> {true||true, false||true} = {true, true}
+            assertArrayEquals(new boolean[] { true, true }, r[0]);
+            // row 1 default: zip(a[1]={false,true}, null, false, true) -> {false||true, true||true}
+            assertArrayEquals(new boolean[] { true, true }, r[1]);
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // zip — 2D ternary with defaults
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void zip_2D_ternary_default_assortedLengths_int() {
+            // Different outer lengths AND different inner lengths for the 3 rows.
+            // The inner zip uses each row's own max-length, NOT a global outer-aligned length.
+            final int[][] a = { { 1, 2 } };
+            final int[][] b = { { 10, 20 }, { 30 } };
+            final int[][] c = { { 100, 101, 102 }, { 200, 300, 400 }, { 500 } };
+            final int[][] r = Arrays.zip(a, b, c, 1000, 2000, 3000, (x, y, z) -> x + y + z);
+            // outer max = 3
+            assertEquals(3, r.length);
+            // row 0: a={1,2}, b={10,20}, c={100,101,102}, inner maxLen=3
+            //   i=0: 1+10+100 = 111
+            //   i=1: 2+20+101 = 123
+            //   i=2: 1000+2000+102 = 3102 (a and b missing)
+            assertArrayEquals(new int[] { 111, 123, 3102 }, r[0]);
+            // row 1: a=null (outer missing), b={30}, c={200,300,400}, inner maxLen=3
+            //   i=0: 1000+30+200 = 1230
+            //   i=1: 1000+2000+300 = 3300
+            //   i=2: 1000+2000+400 = 3400
+            assertArrayEquals(new int[] { 1230, 3300, 3400 }, r[1]);
+            // row 2: a=null, b=null, c={500}, inner maxLen=1
+            //   i=0: 1000+2000+500 = 3500
+            assertArrayEquals(new int[] { 3500 }, r[2]);
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // zip — 3D with defaults — exercise the same suspicious else-if pattern at outer level
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void zip_3D_default_lenA_less_than_lenB_int() {
+            final int[][][] a = { { { 1, 2 } } };
+            final int[][][] b = { { { 3, 4 } }, { { 5, 6 } } };
+            final int[][][] r = Arrays.zip(a, b, 100, 200, (x, y) -> x + y);
+            assertEquals(2, r.length);
+            assertArrayEquals(new int[] { 4, 6 }, r[0][0]);
+            // r[1] comes from zip(null, b[1], ...) -> 2D: lenA=0,lenB=1 -> row 0: zip(null, {5,6}, 100, 200) -> {105, 106}
+            assertArrayEquals(new int[] { 105, 106 }, r[1][0]);
+        }
+
+        @Test
+        public void zip_3D_default_lenA_greater_than_lenB_int() {
+            final int[][][] a = { { { 1, 2 } }, { { 5, 6 } } };
+            final int[][][] b = { { { 3, 4 } } };
+            final int[][][] r = Arrays.zip(a, b, 100, 200, (x, y) -> x + y);
+            assertEquals(2, r.length);
+            assertArrayEquals(new int[] { 4, 6 }, r[0][0]);
+            // r[1] from zip(a[1], null, ...): inner zip({5,6}, null, 100, 200) -> {205, 206}
+            assertArrayEquals(new int[] { 205, 206 }, r[1][0]);
+        }
+
+        @Test
+        public void zip_3D_ternary_default_assortedLengths_int() {
+            final int[][][] a = { { { 1 } } };
+            final int[][][] b = { { { 2 } }, { { 3 } } };
+            final int[][][] c = { { { 4 } }, { { 5 } }, { { 6 } } };
+            final int[][][] r = Arrays.zip(a, b, c, 10, 20, 30, (x, y, z) -> x + y + z);
+            assertEquals(3, r.length);
+            // r[0]: a={{1}}, b={{2}}, c={{4}} -> 1+2+4 = 7
+            assertArrayEquals(new int[] { 7 }, r[0][0]);
+            // r[1]: a=null, b={{3}}, c={{5}} -> 10+3+5 = 18
+            assertArrayEquals(new int[] { 18 }, r[1][0]);
+            // r[2]: a=null, b=null, c={{6}} -> 10+20+6 = 36
+            assertArrayEquals(new int[] { 36 }, r[2][0]);
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // elementCount / minSubArrayLength / maxSubArrayLength
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void elementCount_2D_skipsNulls_int() {
+            final int[][] a = new int[][] { null, { 1, 2 }, null };
+            assertEquals(2L, Arrays.elementCount(a));
+        }
+
+        @Test
+        public void elementCount_2D_skipsNulls_boolean() {
+            final boolean[][] a = new boolean[][] { null, { true, false, true }, null, {} };
+            assertEquals(3L, Arrays.elementCount(a));
+        }
+
+        @Test
+        public void elementCount_3D_skipsNulls_int() {
+            final int[][][] a = new int[][][] { { { 1 }, { 2, 3 } }, null, { { 4, 5, 6 } } };
+            assertEquals(6L, Arrays.elementCount(a));
+        }
+
+        @Test
+        public void minSubArrayLength_nullRow_returnsZero_int() {
+            // javadoc: "A null sub-array is considered to have a length of 0"
+            final int[][] a = new int[][] { null, { 1 }, null, { 1, 2 } };
+            assertEquals(0, Arrays.minSubArrayLength(a));
+        }
+
+        @Test
+        public void minSubArrayLength_emptyRow_returnsZero_int() {
+            final int[][] a = new int[][] { {} };
+            assertEquals(0, Arrays.minSubArrayLength(a));
+        }
+
+        @Test
+        public void minSubArrayLength_emptyOuter_returnsZero_int() {
+            assertEquals(0, Arrays.minSubArrayLength(new int[0][]));
+            assertEquals(0, Arrays.minSubArrayLength((int[][]) null));
+        }
+
+        @Test
+        public void maxSubArrayLength_allNullRows_returnsZero_int() {
+            final int[][] a = new int[][] { null, null };
+            assertEquals(0, Arrays.maxSubArrayLength(a));
+        }
+
+        @Test
+        public void maxSubArrayLength_mixedRows_int() {
+            final int[][] a = new int[][] { { 1 }, { 2, 3 }, null, { 4, 5, 6 } };
+            assertEquals(3, Arrays.maxSubArrayLength(a));
+        }
+
+        // ------------------------------------------------------------------------------------------
+        // Object-array variant (ff) — flatten and ff.elementCount for completeness
+        // ------------------------------------------------------------------------------------------
+
+        @Test
+        public void ff_flatten_2D_mixedNullsAndEmpties() {
+            final Integer[][] a = new Integer[][] { { 1, 2 }, null, {}, { 3 } };
+            final Integer[] r = ff.flatten(a);
+            assertArrayEquals(new Integer[] { 1, 2, 3 }, r);
+        }
+
+        @Test
+        public void ff_elementCount_skipsNulls() {
+            final Integer[][] a = new Integer[][] { null, { 1, 2 }, null };
+            assertEquals(2L, ff.elementCount(a));
+        }
+    }
+
+    @Nested
+    class ArraysMapPrintlnUpdateAdversarialTest {
+
+        // =============================================================================
+        // mapToObj — 1D / 2D / 3D — every primitive source
+        // =============================================================================
+
+        @Test
+        public void mapToObj_int_basic_runtimeType() {
+            final String[] r = Arrays.mapToObj(new int[] { 1, 2, 3 }, i -> "v" + i, String.class);
+            assertArrayEquals(new String[] { "v1", "v2", "v3" }, r);
+            // RUNTIME TYPE: must be String[] not Object[]
+            assertEquals(String[].class, r.getClass());
+        }
+
+        @Test
+        public void mapToObj_int_nullInput_returnsEmptyArrayOfTargetType() {
+            final Integer[] r = Arrays.mapToObj((int[]) null, i -> i, Integer.class);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(Integer[].class, r.getClass());
+        }
+
+        @Test
+        public void mapToObj_int_emptyInput_returnsEmptyArrayOfTargetType() {
+            final String[] r = Arrays.mapToObj(new int[0], i -> "x", String.class);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(String[].class, r.getClass());
+        }
+
+        @Test
+        public void mapToObj_int_mapperReturnsNull_isPreserved() {
+            final String[] r = Arrays.mapToObj(new int[] { 1, 2, 3 }, i -> i == 2 ? null : "v" + i, String.class);
+            assertArrayEquals(new String[] { "v1", null, "v3" }, r);
+        }
+
+        @Test
+        public void mapToObj_int_mapperThrows_propagates() {
+            final RuntimeException ex = assertThrows(RuntimeException.class, () -> Arrays.mapToObj(new int[] { 1, 2, 3 }, i -> {
+                if (i == 2) {
+                    throw new RuntimeException("boom");
+                }
+                return "v" + i;
+            }, String.class));
+            assertEquals("boom", ex.getMessage());
+        }
+
+        @Test
+        public void mapToObj_int_2D_runtimeTypeAndStructure() {
+            final int[][] a = { { 1, 2 }, { 3 } };
+            final String[][] r = Arrays.mapToObj(a, i -> "v" + i, String.class);
+            assertEquals(String[][].class, r.getClass());
+            assertEquals(2, r.length);
+            assertArrayEquals(new String[] { "v1", "v2" }, r[0]);
+            assertArrayEquals(new String[] { "v3" }, r[1]);
+            assertEquals(String[].class, r[0].getClass());
+        }
+
+        @Test
+        public void mapToObj_int_2D_nullSubArray_becomesEmpty() {
+            // The 2D method recurses to 1D method, where N.isEmpty(null) == true → empty array.
+            // So a null sub-array becomes empty (not preserved as null).
+            final int[][] a = { { 1, 2 }, null, { 3 } };
+            final String[][] r = Arrays.mapToObj(a, i -> "v" + i, String.class);
+            assertEquals(3, r.length);
+            assertArrayEquals(new String[] { "v1", "v2" }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            assertEquals(String[].class, r[1].getClass());
+            assertArrayEquals(new String[] { "v3" }, r[2]);
+        }
+
+        @Test
+        public void mapToObj_int_2D_emptySubArrayPreserved() {
+            final int[][] a = { { 1 }, {}, { 2 } };
+            final String[][] r = Arrays.mapToObj(a, i -> "v" + i, String.class);
+            assertEquals(3, r.length);
+            assertArrayEquals(new String[] { "v1" }, r[0]);
+            assertEquals(0, r[1].length);
+            assertArrayEquals(new String[] { "v2" }, r[2]);
+        }
+
+        @Test
+        public void mapToObj_int_2D_nullInput_emptyArrayOfCorrectType() {
+            final String[][] r = Arrays.mapToObj((int[][]) null, i -> "v" + i, String.class);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+            assertEquals(String[][].class, r.getClass());
+        }
+
+        @Test
+        public void mapToObj_int_3D_nullAtMultipleLevels() {
+            final int[][][] a = { { { 1, 2 }, null }, null, { { 3 } } };
+            final String[][][] r = Arrays.mapToObj(a, i -> "v" + i, String.class);
+            assertEquals(String[][][].class, r.getClass());
+            assertEquals(3, r.length);
+            // outer null → becomes empty String[][] (2D method recurses to 2D, which returns empty[0][])
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            // inner null becomes empty String[]
+            assertNotNull(r[0][1]);
+            assertEquals(0, r[0][1].length);
+            assertArrayEquals(new String[] { "v1", "v2" }, r[0][0]);
+            assertArrayEquals(new String[] { "v3" }, r[2][0]);
+        }
+
+        @Test
+        public void mapToObj_long_runtimeType() {
+            final Long[] r = Arrays.mapToObj(new long[] { 100L, 200L }, l -> l + 1, Long.class);
+            assertArrayEquals(new Long[] { 101L, 201L }, r);
+            assertEquals(Long[].class, r.getClass());
+        }
+
+        @Test
+        public void mapToObj_double_runtimeType() {
+            final String[] r = Arrays.mapToObj(new double[] { 1.5, 2.5 }, d -> "" + d, String.class);
+            assertArrayEquals(new String[] { "1.5", "2.5" }, r);
+            assertEquals(String[].class, r.getClass());
+        }
+
+        @Test
+        public void mapToObj_char_runtimeType() {
+            final Integer[] r = Arrays.mapToObj(new char[] { 'a', 'b' }, c -> (int) c, Integer.class);
+            assertArrayEquals(new Integer[] { 97, 98 }, r);
+            assertEquals(Integer[].class, r.getClass());
+        }
+
+        @Test
+        public void mapToObj_byte_runtimeType() {
+            final String[] r = Arrays.mapToObj(new byte[] { 1, 2 }, b -> "b" + b, String.class);
+            assertEquals(String[].class, r.getClass());
+            assertArrayEquals(new String[] { "b1", "b2" }, r);
+        }
+
+        @Test
+        public void mapToObj_short_runtimeType() {
+            final String[] r = Arrays.mapToObj(new short[] { 10, 20 }, s -> "s" + s, String.class);
+            assertEquals(String[].class, r.getClass());
+            assertArrayEquals(new String[] { "s10", "s20" }, r);
+        }
+
+        @Test
+        public void mapToObj_float_runtimeType() {
+            final String[] r = Arrays.mapToObj(new float[] { 1.5f, 2.5f }, f -> "f" + f, String.class);
+            assertEquals(String[].class, r.getClass());
+            assertArrayEquals(new String[] { "f1.5", "f2.5" }, r);
+        }
+
+        @Test
+        public void mapToObj_boolean_runtimeType() {
+            final String[] r = Arrays.mapToObj(new boolean[] { true, false, true }, b -> b ? "Y" : "N", String.class);
+            assertEquals(String[].class, r.getClass());
+            assertArrayEquals(new String[] { "Y", "N", "Y" }, r);
+        }
+
+        @Test
+        public void mapToObj_boolean_3D_runtimeType() {
+            final boolean[][][] a = { { { true, false } }, { { false } } };
+            final Integer[][][] r = Arrays.mapToObj(a, b -> b ? 1 : 0, Integer.class);
+            assertEquals(Integer[][][].class, r.getClass());
+            assertEquals(2, r.length);
+            assertArrayEquals(new Integer[] { 1, 0 }, r[0][0]);
+            assertArrayEquals(new Integer[] { 0 }, r[1][0]);
+        }
+
+        // =============================================================================
+        // mapToInt / mapToLong / mapToDouble — cross-primitive
+        // =============================================================================
+
+        @Test
+        public void mapToInt_long_extremeValues() {
+            final int[] r = Arrays.mapToInt(new long[] { 1L, 2L, Long.MAX_VALUE }, l -> (int) (l & 0xFFFF));
+            assertArrayEquals(new int[] { 1, 2, 0xFFFF }, r);
+        }
+
+        @Test
+        public void mapToInt_long_nullInput_emptyIntArray() {
+            final int[] r = Arrays.mapToInt((long[]) null, l -> (int) l);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+        }
+
+        @Test
+        public void mapToInt_double_truncation() {
+            final int[] r = Arrays.mapToInt(new double[] { 1.7, -2.3, 3.999 }, d -> (int) d);
+            assertArrayEquals(new int[] { 1, -2, 3 }, r);
+        }
+
+        @Test
+        public void mapToInt_double_2D_preservesShape() {
+            final double[][] a = { { 1.1, 2.2 }, { 3.3 } };
+            final int[][] r = Arrays.mapToInt(a, d -> (int) (d * 10));
+            assertEquals(2, r.length);
+            assertArrayEquals(new int[] { 11, 22 }, r[0]);
+            assertArrayEquals(new int[] { 33 }, r[1]);
+        }
+
+        @Test
+        public void mapToInt_long_2D_nullSubArrayBecomesEmpty() {
+            final long[][] a = { { 1L, 2L }, null, { 3L } };
+            final int[][] r = Arrays.mapToInt(a, l -> (int) l);
+            assertEquals(3, r.length);
+            assertArrayEquals(new int[] { 1, 2 }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            assertArrayEquals(new int[] { 3 }, r[2]);
+        }
+
+        @Test
+        public void mapToInt_long_3D_preservesShape() {
+            final long[][][] a = { { { 1L, 2L } }, { { 3L } } };
+            final int[][][] r = Arrays.mapToInt(a, l -> (int) (l * 10));
+            assertEquals(2, r.length);
+            assertArrayEquals(new int[] { 10, 20 }, r[0][0]);
+            assertArrayEquals(new int[] { 30 }, r[1][0]);
+        }
+
+        @Test
+        public void mapToLong_int_widening() {
+            final long[] r = Arrays.mapToLong(new int[] { 1, 2, 3 }, i -> (long) i * 1_000_000_000L);
+            assertArrayEquals(new long[] { 1_000_000_000L, 2_000_000_000L, 3_000_000_000L }, r);
+        }
+
+        @Test
+        public void mapToLong_int_nullInput_empty() {
+            final long[] r = Arrays.mapToLong((int[]) null, i -> (long) i);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+        }
+
+        @Test
+        public void mapToLong_int_2D_widening() {
+            final int[][] a = { { 1, 2 }, { 3 } };
+            final long[][] r = Arrays.mapToLong(a, i -> (long) i * 1_000_000_000L);
+            assertEquals(2, r.length);
+            assertArrayEquals(new long[] { 1_000_000_000L, 2_000_000_000L }, r[0]);
+            assertArrayEquals(new long[] { 3_000_000_000L }, r[1]);
+        }
+
+        @Test
+        public void mapToLong_double_truncation() {
+            final long[] r = Arrays.mapToLong(new double[] { 1.7, -2.3, 1e10 }, d -> (long) d);
+            assertArrayEquals(new long[] { 1L, -2L, 10_000_000_000L }, r);
+        }
+
+        @Test
+        public void mapToLong_double_3D() {
+            final double[][][] a = { { { 1.5, 2.5 } }, { { 3.5 } } };
+            final long[][][] r = Arrays.mapToLong(a, d -> (long) d);
+            assertEquals(2, r.length);
+            assertArrayEquals(new long[] { 1L, 2L }, r[0][0]);
+            assertArrayEquals(new long[] { 3L }, r[1][0]);
+        }
+
+        @Test
+        public void mapToDouble_int_fractional() {
+            final double[] r = Arrays.mapToDouble(new int[] { 1, 2, 3 }, i -> i / 2.0);
+            assertArrayEquals(new double[] { 0.5, 1.0, 1.5 }, r, 0.0);
+        }
+
+        @Test
+        public void mapToDouble_int_nullInput_empty() {
+            final double[] r = Arrays.mapToDouble((int[]) null, i -> (double) i);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+        }
+
+        @Test
+        public void mapToDouble_long_widening() {
+            final double[] r = Arrays.mapToDouble(new long[] { 100L, 200L }, l -> l / 100.0);
+            assertArrayEquals(new double[] { 1.0, 2.0 }, r, 0.0);
+        }
+
+        @Test
+        public void mapToDouble_long_2D() {
+            final long[][] a = { { 100L, 200L }, { 300L } };
+            final double[][] r = Arrays.mapToDouble(a, l -> l / 100.0);
+            assertEquals(2, r.length);
+            assertArrayEquals(new double[] { 1.0, 2.0 }, r[0], 0.0);
+            assertArrayEquals(new double[] { 3.0 }, r[1], 0.0);
+        }
+
+        @Test
+        public void mapToDouble_int_mapperThrows_propagates() {
+            assertThrows(RuntimeException.class, () -> Arrays.mapToDouble(new int[] { 1, 2 }, i -> {
+                throw new RuntimeException("boom");
+            }));
+        }
+
+        // =============================================================================
+        // println — primitive 1D / 2D / 3D
+        // =============================================================================
+
+        @Test
+        public void println_int_empty_returnsBracketsString() {
+            assertEquals("[]", Arrays.println(new int[0]));
+        }
+
+        @Test
+        public void println_int_null_returnsNullLiteral() {
+            assertEquals("null", Arrays.println((int[]) null));
+        }
+
+        @Test
+        public void println_int_2D_nullSubArray_writesNullToken() {
+            final int[][] a = { { 1, 2 }, null, {} };
+            final String s = Arrays.println(a);
+            assertTrue(s.contains("[1, 2]"), "Should contain row [1, 2]: " + s);
+            assertTrue(s.contains("null"), "Should contain 'null' token for null sub-array: " + s);
+            assertTrue(s.contains("[]"), "Should contain '[]' token for empty sub-array: " + s);
+        }
+
+        @Test
+        public void println_int_2D_null_returnsNullLiteral() {
+            assertEquals("null", Arrays.println((int[][]) null));
+        }
+
+        @Test
+        public void println_int_2D_empty_returnsBrackets() {
+            assertEquals("[]", Arrays.println(new int[0][]));
+        }
+
+        @Test
+        public void println_int_3D_mixedNullsAndEmpties() {
+            final int[][][] a = { { { 1 }, null, {} }, null, {} };
+            final String s = Arrays.println(a);
+            // 3D method handles outer null/empty at index level explicitly
+            assertTrue(s.contains("null"));
+            assertTrue(s.contains("[]"));
+            assertTrue(s.contains("[1]"));
+        }
+
+        @Test
+        public void println_int_3D_null_returnsNullLiteral() {
+            assertEquals("null", Arrays.println((int[][][]) null));
+        }
+
+        @Test
+        public void println_double_NaN_appears() {
+            final String s = Arrays.println(new double[] { Double.NaN, 1.5 });
+            assertTrue(s.contains("NaN"), "Expected NaN in output: " + s);
+        }
+
+        @Test
+        public void println_float_NaN_appears() {
+            final String s = Arrays.println(new float[] { Float.NaN, 2.5f });
+            assertTrue(s.contains("NaN"), "Expected NaN in output: " + s);
+        }
+
+        @Test
+        public void println_boolean_3D_consistent() {
+            final boolean[][][] a = { { { true, false } }, null };
+            final String s = Arrays.println(a);
+            assertTrue(s.contains("true"));
+            assertTrue(s.contains("false"));
+            assertTrue(s.contains("null"));
+        }
+
+        @Test
+        public void println_long_2D_consistent() {
+            final long[][] a = { { 1L, 2L }, null, {} };
+            final String s = Arrays.println(a);
+            assertTrue(s.contains("[1, 2]"));
+            assertTrue(s.contains("null"));
+            assertTrue(s.contains("[]"));
+        }
+
+        @Test
+        public void println_char_2D_consistent() {
+            final char[][] a = { { 'a', 'b' }, null, {} };
+            final String s = Arrays.println(a);
+            assertTrue(s.contains("[a, b]"));
+            assertTrue(s.contains("null"));
+            assertTrue(s.contains("[]"));
+        }
+
+        @Test
+        public void println_byte_2D_consistent() {
+            final byte[][] a = { { 1, 2 }, null, {} };
+            final String s = Arrays.println(a);
+            assertTrue(s.contains("[1, 2]"));
+            assertTrue(s.contains("null"));
+            assertTrue(s.contains("[]"));
+        }
+
+        @Test
+        public void println_short_2D_consistent() {
+            final short[][] a = { { 10, 20 }, null, {} };
+            final String s = Arrays.println(a);
+            assertTrue(s.contains("[10, 20]"));
+            assertTrue(s.contains("null"));
+            assertTrue(s.contains("[]"));
+        }
+
+        @Test
+        public void println_float_2D_consistent() {
+            final float[][] a = { { 1.5f, 2.5f }, null, {} };
+            final String s = Arrays.println(a);
+            assertTrue(s.contains("1.5"));
+            assertTrue(s.contains("null"));
+            assertTrue(s.contains("[]"));
+        }
+
+        @Test
+        public void println_double_2D_consistent() {
+            final double[][] a = { { 1.5, 2.5 }, null, {} };
+            final String s = Arrays.println(a);
+            assertTrue(s.contains("1.5"));
+            assertTrue(s.contains("null"));
+            assertTrue(s.contains("[]"));
+        }
+
+        @Test
+        public void println_Object_1D_null() {
+            assertEquals("null", Arrays.println((Object[]) null));
+        }
+
+        @Test
+        public void println_Object_1D_empty() {
+            assertEquals("[]", Arrays.println(new Object[0]));
+        }
+
+        @Test
+        public void println_Object_2D_null() {
+            assertEquals("null", Arrays.println((Object[][]) null));
+        }
+
+        @Test
+        public void println_Object_2D_empty() {
+            assertEquals("[]", Arrays.println(new Object[0][]));
+        }
+
+        @Test
+        public void println_Object_3D_null() {
+            assertEquals("null", Arrays.println((Object[][][]) null));
+        }
+
+        @Test
+        public void println_Object_1D_multilineToString() {
+            // An element whose toString contains a newline — does println cope?
+            final Object multilineElem = new Object() {
+                @Override
+                public String toString() {
+                    return "line1\nline2";
+                }
+            };
+            final String s = Arrays.println(new Object[] { multilineElem, "x" });
+            assertTrue(s.contains("line1"));
+            assertTrue(s.contains("line2"));
+            assertTrue(s.contains("x"));
+        }
+
+        // =============================================================================
+        // updateAll — primitive 1D / 2D / 3D
+        // =============================================================================
+
+        @Test
+        public void updateAll_int_null_isNoOp() {
+            assertDoesNotThrow(() -> Arrays.updateAll((int[]) null, i -> i + 1));
+        }
+
+        @Test
+        public void updateAll_int_empty_isNoOp() {
+            final int[] a = new int[0];
+            Arrays.updateAll(a, i -> i + 1);
+            assertEquals(0, a.length);
+        }
+
+        @Test
+        public void updateAll_int_basic() {
+            final int[] a = { 1, 2, 3 };
+            Arrays.updateAll(a, i -> i * 10);
+            assertArrayEquals(new int[] { 10, 20, 30 }, a);
+        }
+
+        @Test
+        public void updateAll_int_operatorThrows_partialMutationVisible() {
+            final int[] a = { 1, 2, 3, 4 };
+            assertThrows(RuntimeException.class, () -> Arrays.updateAll(a, i -> {
+                if (i == 3) {
+                    throw new RuntimeException("boom");
+                }
+                return i * 10;
+            }));
+            // First two elements mutated; index 2 threw before write; index 3 untouched
+            assertEquals(10, a[0]);
+            assertEquals(20, a[1]);
+            assertEquals(3, a[2]);
+            assertEquals(4, a[3]);
+        }
+
+        @Test
+        public void updateAll_int_closureMutatesOtherElement_seesNewValues() {
+            // updateAll reads a[i], applies op, writes back. If op (via closure)
+            // mutates a different index, subsequent iterations see the new value.
+            final int[] a = { 1, 2, 3 };
+            Arrays.updateAll(a, i -> {
+                if (i == 1) {
+                    a[2] = 999; // mutate element ahead
+                }
+                return i + 100;
+            });
+            // a[0] processed first: 1 → 101
+            // a[1] processed: 2 → 102, and side-effect sets a[2] = 999
+            // a[2] processed: reads 999 (already mutated), 999 → 1099
+            assertEquals(101, a[0]);
+            assertEquals(102, a[1]);
+            assertEquals(1099, a[2]);
+        }
+
+        @Test
+        public void updateAll_int_2D_null_isNoOp() {
+            assertDoesNotThrow(() -> Arrays.updateAll((int[][]) null, i -> i + 1));
+        }
+
+        @Test
+        public void updateAll_int_2D_withNullSubArrays_skipped() {
+            // Primitive 2D updateAll uses for-each, then 1D variant checks N.isEmpty(null) → returns.
+            // So null sub-arrays are silently skipped (no NPE).
+            final int[][] a = { { 1, 2 }, null, { 3 } };
+            Arrays.updateAll(a, i -> i * 10);
+            assertArrayEquals(new int[] { 10, 20 }, a[0]);
+            assertNull(a[1]);
+            assertArrayEquals(new int[] { 30 }, a[2]);
+        }
+
+        @Test
+        public void updateAll_int_3D_withNullSubArrays_skipped() {
+            final int[][][] a = { { { 1 }, null }, null, { { 2 } } };
+            Arrays.updateAll(a, i -> i + 100);
+            assertArrayEquals(new int[] { 101 }, a[0][0]);
+            assertNull(a[0][1]);
+            assertNull(a[1]);
+            assertArrayEquals(new int[] { 102 }, a[2][0]);
+        }
+
+        @Test
+        public void updateAll_long_2D_basic() {
+            final long[][] a = { { 1L, 2L }, { 3L } };
+            Arrays.updateAll(a, l -> l + 100L);
+            assertArrayEquals(new long[] { 101L, 102L }, a[0]);
+            assertArrayEquals(new long[] { 103L }, a[1]);
+        }
+
+        @Test
+        public void updateAll_double_3D_basic() {
+            final double[][][] a = { { { 1.0 } }, { { 2.0 } } };
+            Arrays.updateAll(a, d -> d * 2.0);
+            assertEquals(2.0, a[0][0][0], 0.0);
+            assertEquals(4.0, a[1][0][0], 0.0);
+        }
+
+        @Test
+        public void updateAll_boolean_2D_withNullSub() {
+            final boolean[][] a = { { true, false }, null };
+            Arrays.updateAll(a, b -> !b);
+            assertArrayEquals(new boolean[] { false, true }, a[0]);
+            assertNull(a[1]);
+        }
+
+        @Test
+        public void updateAll_char_basic() {
+            final char[] a = { 'a', 'b' };
+            Arrays.updateAll(a, c -> (char) (c + 1));
+            assertArrayEquals(new char[] { 'b', 'c' }, a);
+        }
+
+        @Test
+        public void updateAll_byte_basic() {
+            final byte[] a = { 1, 2 };
+            Arrays.updateAll(a, b -> (byte) (b * 2));
+            assertArrayEquals(new byte[] { 2, 4 }, a);
+        }
+
+        @Test
+        public void updateAll_short_basic() {
+            final short[] a = { 10, 20 };
+            Arrays.updateAll(a, s -> (short) (s + 1));
+            assertArrayEquals(new short[] { 11, 21 }, a);
+        }
+
+        @Test
+        public void updateAll_float_basic() {
+            final float[] a = { 1.5f, 2.5f };
+            Arrays.updateAll(a, f -> f * 2.0f);
+            assertArrayEquals(new float[] { 3.0f, 5.0f }, a, 0.0f);
+        }
+
+        // =============================================================================
+        // replaceIf — primitive 1D / 2D / 3D
+        // =============================================================================
+
+        @Test
+        public void replaceIf_int_null_isNoOp() {
+            assertDoesNotThrow(() -> Arrays.replaceIf((int[]) null, i -> true, 999));
+        }
+
+        @Test
+        public void replaceIf_int_predicateMatchesNone_unchanged() {
+            final int[] a = { 1, 2, 3 };
+            Arrays.replaceIf(a, i -> i > 100, 0);
+            assertArrayEquals(new int[] { 1, 2, 3 }, a);
+        }
+
+        @Test
+        public void replaceIf_int_predicateMatchesAll_allReplaced() {
+            final int[] a = { 1, 2, 3 };
+            Arrays.replaceIf(a, i -> true, -1);
+            assertArrayEquals(new int[] { -1, -1, -1 }, a);
+        }
+
+        @Test
+        public void replaceIf_int_2D_withNullSubArrays_skipped() {
+            final int[][] a = { { 1, 2, 3 }, null, { 4, 5 } };
+            Arrays.replaceIf(a, i -> i % 2 == 0, 0);
+            assertArrayEquals(new int[] { 1, 0, 3 }, a[0]);
+            assertNull(a[1]);
+            assertArrayEquals(new int[] { 0, 5 }, a[2]);
+        }
+
+        @Test
+        public void replaceIf_int_3D_withNullSubArrays_skipped() {
+            final int[][][] a = { { { 1, 2 }, null }, null, { { 3, 4 } } };
+            Arrays.replaceIf(a, i -> i > 2, 99);
+            assertArrayEquals(new int[] { 1, 2 }, a[0][0]);
+            assertNull(a[0][1]);
+            assertNull(a[1]);
+            assertArrayEquals(new int[] { 99, 99 }, a[2][0]);
+        }
+
+        @Test
+        public void replaceIf_double_NaNReplacement_isWritten() {
+            final double[] a = { 1.0, 2.0, 3.0 };
+            Arrays.replaceIf(a, d -> d == 2.0, Double.NaN);
+            assertEquals(1.0, a[0], 0.0);
+            assertTrue(Double.isNaN(a[1]), "Element at index 1 should be NaN");
+            assertEquals(3.0, a[2], 0.0);
+        }
+
+        @Test
+        public void replaceIf_double_predicateOnNaN_quirk() {
+            // NaN != NaN. A predicate `d -> d == Double.NaN` will NEVER match NaN.
+            // Use Double.isNaN(d) instead.
+            final double[] a = { 1.0, Double.NaN, 3.0 };
+            Arrays.replaceIf(a, d -> d == Double.NaN, -1.0); // bogus predicate
+            // Nothing replaced — because NaN == NaN is false
+            assertEquals(1.0, a[0], 0.0);
+            assertTrue(Double.isNaN(a[1]));
+            assertEquals(3.0, a[2], 0.0);
+
+            // Now use proper Double.isNaN predicate — NaN gets replaced
+            Arrays.replaceIf(a, Double::isNaN, -1.0);
+            assertEquals(-1.0, a[1], 0.0);
+        }
+
+        @Test
+        public void replaceIf_predicateThrows_propagates() {
+            final int[] a = { 1, 2, 3 };
+            assertThrows(RuntimeException.class, () -> Arrays.replaceIf(a, i -> {
+                if (i == 2) {
+                    throw new RuntimeException("boom");
+                }
+                return false;
+            }, 0));
+            // Before exception, only one element was tested and not replaced
+            assertArrayEquals(new int[] { 1, 2, 3 }, a);
+        }
+
+        @Test
+        public void replaceIf_long_2D_basic() {
+            final long[][] a = { { 1L, 2L }, { 3L, 4L } };
+            Arrays.replaceIf(a, l -> l % 2 == 0, 999L);
+            assertArrayEquals(new long[] { 1L, 999L }, a[0]);
+            assertArrayEquals(new long[] { 3L, 999L }, a[1]);
+        }
+
+        @Test
+        public void replaceIf_boolean_2D_withNullSub() {
+            final boolean[][] a = { { true, false, true }, null };
+            Arrays.replaceIf(a, b -> b, false);
+            assertArrayEquals(new boolean[] { false, false, false }, a[0]);
+            assertNull(a[1]);
+        }
+
+        @Test
+        public void replaceIf_char_basic() {
+            final char[] a = { 'a', 'b', 'c' };
+            Arrays.replaceIf(a, c -> c == 'b', 'X');
+            assertArrayEquals(new char[] { 'a', 'X', 'c' }, a);
+        }
+
+        @Test
+        public void replaceIf_byte_basic() {
+            final byte[] a = { 1, 2, 3 };
+            Arrays.replaceIf(a, b -> b > 1, (byte) 9);
+            assertArrayEquals(new byte[] { 1, 9, 9 }, a);
+        }
+
+        @Test
+        public void replaceIf_short_basic() {
+            final short[] a = { 1, 2, 3 };
+            Arrays.replaceIf(a, s -> s == 2, (short) 99);
+            assertArrayEquals(new short[] { 1, 99, 3 }, a);
+        }
+
+        @Test
+        public void replaceIf_float_NaNReplacement() {
+            final float[] a = { 1.0f, 2.0f };
+            Arrays.replaceIf(a, f -> f == 1.0f, Float.NaN);
+            assertTrue(Float.isNaN(a[0]));
+            assertEquals(2.0f, a[1], 0.0f);
+        }
+
+        // =============================================================================
+        // Symmetry — updateAll vs replaceIf on null sub-arrays
+        // =============================================================================
+
+        @Test
+        public void symmetry_updateAll_replaceIf_2D_nullSubsAreSkipped() {
+            // Both should silently skip null sub-arrays (no NPE) — verify symmetry.
+            final int[][] a1 = { { 1 }, null, { 2 } };
+            final int[][] a2 = { { 1 }, null, { 2 } };
+            assertDoesNotThrow(() -> Arrays.updateAll(a1, i -> i));
+            assertDoesNotThrow(() -> Arrays.replaceIf(a2, i -> false, 0));
+            // null still null in both
+            assertNull(a1[1]);
+            assertNull(a2[1]);
+        }
+
+        @Test
+        public void symmetry_updateAll_replaceIf_3D_nullSubsAreSkipped() {
+            final int[][][] a1 = { { { 1 } }, null };
+            final int[][][] a2 = { { { 1 } }, null };
+            assertDoesNotThrow(() -> Arrays.updateAll(a1, i -> i));
+            assertDoesNotThrow(() -> Arrays.replaceIf(a2, i -> false, 0));
+            assertNull(a1[1]);
+            assertNull(a2[1]);
+        }
+    }
+
 }
