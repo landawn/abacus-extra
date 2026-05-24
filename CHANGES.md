@@ -1,3 +1,8 @@
+## 3.7.2
+* change <groupId>com.landawn</groupId> to <groupId>com.landawn.abacus</groupId>
+* Naming convention improvements
+* Improvements and bug fixes
+
 ## 3.7.1
 * Naming convention improvements
 * Improvements and bug fixes
