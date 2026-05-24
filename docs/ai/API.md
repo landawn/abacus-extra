@@ -1,7 +1,7 @@
-# abacus-extra API Index (v3.7.1)
+# abacus-extra API Index (v3.7.3)
 - Build: unknown
 - Java: 17
-- Generated: 2026-05-23
+- Generated: 2026-05-24
 
 ## Packages
 - com.landawn.abacus.util
@@ -662,7 +662,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void updateAll(final short[] a, final Throwables.ShortUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in the one-dimensional short array by applying the provided unary operator.
 - **Parameters:**
-  - `a` (`short[]`) — the array to update (can be {@code null} ).
+  - `a` (`short[]`) — the array to update (can be {@code null} or empty).
   - `operator` (`Throwables.ShortUnaryOperator<E>`) — the unary operator to apply to each element (must not be {@code null} ).
 - **Throws:**
   - `E` — if the {@code operator} throws an exception.
@@ -670,7 +670,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void updateAll(final short[][] a, final Throwables.ShortUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in the two-dimensional short array by applying the provided unary operator.
 - **Parameters:**
-  - `a` (`short[][]`) — the two-dimensional array to update (can be {@code null} ).
+  - `a` (`short[][]`) — the two-dimensional array to update (can be {@code null} or empty).
   - `operator` (`Throwables.ShortUnaryOperator<E>`) — the unary operator to apply to each element (must not be {@code null} ).
 - **Throws:**
   - `E` — if the {@code operator} throws an exception.
@@ -678,7 +678,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void updateAll(final short[][][] a, final Throwables.ShortUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in the three-dimensional short array by applying the provided unary operator.
 - **Parameters:**
-  - `a` (`short[][][]`) — the three-dimensional array to update (can be {@code null} ).
+  - `a` (`short[][][]`) — the three-dimensional array to update (can be {@code null} or empty).
   - `operator` (`Throwables.ShortUnaryOperator<E>`) — the unary operator to apply to each element (must not be {@code null} ).
 - **Throws:**
   - `E` — if the {@code operator} throws an exception.
@@ -686,7 +686,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void updateAll(final int[] a, final Throwables.IntUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in the one-dimensional int array by applying the provided unary operator.
 - **Parameters:**
-  - `a` (`int[]`) — the array to be modified (can be {@code null} ).
+  - `a` (`int[]`) — the array to be modified (can be {@code null} or empty).
   - `operator` (`Throwables.IntUnaryOperator<E>`) — the unary operator to apply to each element (must not be {@code null} ).
 - **Throws:**
   - `E` — if the {@code operator} throws an exception.
@@ -694,7 +694,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void updateAll(final int[][] a, final Throwables.IntUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in the two-dimensional int array by applying the provided unary operator.
 - **Parameters:**
-  - `a` (`int[][]`) — the two-dimensional array to be modified (can be {@code null} ).
+  - `a` (`int[][]`) — the two-dimensional array to be modified (can be {@code null} or empty).
   - `operator` (`Throwables.IntUnaryOperator<E>`) — the unary operator to apply to each element (must not be {@code null} ).
 - **Throws:**
   - `E` — if the {@code operator} throws an exception.
@@ -702,7 +702,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void updateAll(final int[][][] a, final Throwables.IntUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in the three-dimensional int array by applying the provided unary operator.
 - **Parameters:**
-  - `a` (`int[][][]`) — the three-dimensional array to be modified (can be {@code null} ).
+  - `a` (`int[][][]`) — the three-dimensional array to be modified (can be {@code null} or empty).
   - `operator` (`Throwables.IntUnaryOperator<E>`) — the unary operator to apply to each element (must not be {@code null} ).
 - **Throws:**
   - `E` — if the {@code operator} throws an exception.
@@ -710,7 +710,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void updateAll(final long[] a, final Throwables.LongUnaryOperator<E> operator) throws E`
 - **Summary:** Updates each element of the specified long array by applying a unary operator.
 - **Parameters:**
-  - `a` (`long[]`) — the array to be modified (can be {@code null} ).
+  - `a` (`long[]`) — the array to be modified (can be {@code null} or empty).
   - `operator` (`Throwables.LongUnaryOperator<E>`) — the unary operator to apply to each element (must not be {@code null} ).
 - **Throws:**
   - `E` — if the {@code operator} throws an exception.
@@ -718,7 +718,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void updateAll(final long[][] a, final Throwables.LongUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in the two-dimensional long array by applying the provided unary operator.
 - **Parameters:**
-  - `a` (`long[][]`) — the two-dimensional array to be modified (can be {@code null} ).
+  - `a` (`long[][]`) — the two-dimensional array to be modified (can be {@code null} or empty).
   - `operator` (`Throwables.LongUnaryOperator<E>`) — the unary operator to apply to each element (must not be {@code null} ).
 - **Throws:**
   - `E` — if the {@code operator} throws an exception.
@@ -726,7 +726,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void updateAll(final long[][][] a, final Throwables.LongUnaryOperator<E> operator) throws E`
 - **Summary:** Updates all elements in the three-dimensional long array by applying the provided unary operator.
 - **Parameters:**
-  - `a` (`long[][][]`) — the three-dimensional array to be modified (can be {@code null} ).
+  - `a` (`long[][][]`) — the three-dimensional array to be modified (can be {@code null} or empty).
   - `operator` (`Throwables.LongUnaryOperator<E>`) — the unary operator to apply to each element (must not be {@code null} ).
 - **Throws:**
   - `E` — if the {@code operator} throws an exception.
@@ -843,7 +843,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void replaceIf(final byte[] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E`
 - **Summary:** Replaces all elements in a byte array that match the predicate with a new value.
 - **Parameters:**
-  - `a` (`byte[]`) — the byte array to modify (can be {@code null} ).
+  - `a` (`byte[]`) — the byte array to modify (can be {@code null} or empty).
   - `predicate` (`Throwables.BytePredicate<E>`) — the condition to test each element (must not be {@code null} ).
   - `newValue` (`byte`) — the value to replace matching elements with.
 - **Throws:**
@@ -870,7 +870,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void replaceIf(final short[] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E`
 - **Summary:** Replaces elements in a short array that match the predicate with a new value.
 - **Parameters:**
-  - `a` (`short[]`) — the array to modify (can be {@code null} ).
+  - `a` (`short[]`) — the array to modify (can be {@code null} or empty).
   - `predicate` (`Throwables.ShortPredicate<E>`) — the predicate to test each element (must not be {@code null} ).
   - `newValue` (`short`) — the value to replace matching elements with.
 - **Throws:**
@@ -879,7 +879,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void replaceIf(final short[][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E`
 - **Summary:** Replaces elements in a two-dimensional short array that match the predicate with a new value.
 - **Parameters:**
-  - `a` (`short[][]`) — the two-dimensional array to modify (can be {@code null} ).
+  - `a` (`short[][]`) — the two-dimensional array to modify (can be {@code null} or empty).
   - `predicate` (`Throwables.ShortPredicate<E>`) — the predicate to test each element (must not be {@code null} ).
   - `newValue` (`short`) — the value to replace matching elements with.
 - **Throws:**
@@ -888,7 +888,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void replaceIf(final short[][][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E`
 - **Summary:** Replaces elements in a three-dimensional short array that match the predicate with a new value.
 - **Parameters:**
-  - `a` (`short[][][]`) — the three-dimensional array to modify (can be {@code null} ).
+  - `a` (`short[][][]`) — the three-dimensional array to modify (can be {@code null} or empty).
   - `predicate` (`Throwables.ShortPredicate<E>`) — the predicate to test each element (must not be {@code null} ).
   - `newValue` (`short`) — the value to replace matching elements with.
 - **Throws:**
@@ -897,7 +897,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static <E extends Exception> void replaceIf(final int[] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E`
 - **Summary:** Replaces elements in the array that match the given predicate with the specified new value.
 - **Parameters:**
-  - `a` (`int[]`) — the array to be modified (can be {@code null} ).
+  - `a` (`int[]`) — the array to be modified (can be {@code null} or empty).
   - `predicate` (`Throwables.IntPredicate<E>`) — the predicate to test each element (must not be {@code null} ).
   - `newValue` (`int`) — the value to replace matching elements with.
 - **Throws:**
@@ -908,7 +908,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Contract:**
   - If the array is {@code null} or empty, the method returns without performing any operation.
 - **Parameters:**
-  - `a` (`int[][]`) — the two-dimensional array to be modified (can be {@code null} ).
+  - `a` (`int[][]`) — the two-dimensional array to be modified (can be {@code null} or empty).
   - `predicate` (`Throwables.IntPredicate<E>`) — the predicate to test each element (must not be {@code null} ).
   - `newValue` (`int`) — the value to replace matching elements with.
 - **Throws:**
@@ -919,7 +919,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Contract:**
   - If the array is {@code null} or empty, the method returns without performing any operation.
 - **Parameters:**
-  - `a` (`int[][][]`) — the three-dimensional array to be modified (can be {@code null} ).
+  - `a` (`int[][][]`) — the three-dimensional array to be modified (can be {@code null} or empty).
   - `predicate` (`Throwables.IntPredicate<E>`) — the predicate to test each element (must not be {@code null} ).
   - `newValue` (`int`) — the value to replace matching elements with.
 - **Throws:**
@@ -930,7 +930,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Contract:**
   - Replaces each element of a long array with a new value if it satisfies a given predicate.
 - **Parameters:**
-  - `a` (`long[]`) — the array to be modified (can be {@code null} ).
+  - `a` (`long[]`) — the array to be modified (can be {@code null} or empty).
   - `predicate` (`Throwables.LongPredicate<E>`) — the condition to test for each element (must not be {@code null} ).
   - `newValue` (`long`) — the value to replace with if the predicate is true.
 - **Throws:**
@@ -941,7 +941,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Contract:**
   - Replaces each element of a two-dimensional long array with a new value if it satisfies a given predicate.
 - **Parameters:**
-  - `a` (`long[][]`) — the two-dimensional array to be modified (can be {@code null} ).
+  - `a` (`long[][]`) — the two-dimensional array to be modified (can be {@code null} or empty).
   - `predicate` (`Throwables.LongPredicate<E>`) — the condition to test for each element (must not be {@code null} ).
   - `newValue` (`long`) — the value to replace with if the predicate is true.
 - **Throws:**
@@ -952,7 +952,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Contract:**
   - Replaces each element of a three-dimensional long array with a new value if it satisfies a given predicate.
 - **Parameters:**
-  - `a` (`long[][][]`) — the three-dimensional array to be modified (can be {@code null} ).
+  - `a` (`long[][][]`) — the three-dimensional array to be modified (can be {@code null} or empty).
   - `predicate` (`Throwables.LongPredicate<E>`) — the condition to test for each element (must not be {@code null} ).
   - `newValue` (`long`) — the value to replace with if the predicate is true.
 - **Throws:**
@@ -1070,83 +1070,91 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Contract:**
   - The last row may have fewer elements if the total elements don't divide evenly.
 - **Parameters:**
-  - `a` (`byte[]`) — the one-dimensional byte array to reshape (can be {@code null} ).
-  - `columnCount` (`int`) — the number of columns for the reshaped array.
-- **Returns:** a two-dimensional byte array with the specified number of columns.
+  - `a` (`byte[]`) — the one-dimensional byte array to reshape (can be {@code null} or empty).
+  - `columnCount` (`int`) — the number of columns for the reshaped array (must be positive).
+- **Returns:** a two-dimensional byte array with the specified number of columns, or an empty two-dimensional array if input is {@code null} or empty.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code columnCount} is not positive.
+- **See also:** #reshape(byte\[\], int, int),for reshaping into a three-dimensional array
 - **Signature:** `public static byte[][][] reshape(final byte[] a, final int rowCount, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.
 - **Parameters:**
-  - `a` (`byte[]`) — the one-dimensional byte array to reshape (can be {@code null} ).
-  - `rowCount` (`int`) — the number of rows for the reshaped subarray.
-  - `columnCount` (`int`) — the number of columns for the reshaped subarray.
-- **Returns:** a three-dimensional byte array with the specified number of rows and columns.
+  - `a` (`byte[]`) — the one-dimensional byte array to reshape (can be {@code null} or empty).
+  - `rowCount` (`int`) — the number of rows for the reshaped subarray (must be positive).
+  - `columnCount` (`int`) — the number of columns for the reshaped subarray (must be positive).
+- **Returns:** a three-dimensional byte array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+- **See also:** #reshape(byte\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static short[][] reshape(final short[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional short array into a two-dimensional array with the specified number of columns.
 - **Contract:**
   - The last row may have fewer elements if the array length is not evenly divisible by columnCount.
 - **Parameters:**
-  - `a` (`short[]`) — the array to reshape (can be {@code null} ).
-  - `columnCount` (`int`) — the number of columns in each row.
-- **Returns:** a two-dimensional array with the specified column count.
+  - `a` (`short[]`) — the array to reshape (can be {@code null} or empty).
+  - `columnCount` (`int`) — the number of columns in each row (must be positive).
+- **Returns:** a two-dimensional array with the specified column count, or an empty two-dimensional array if input is {@code null} or empty.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code columnCount} is not positive.
+- **See also:** #reshape(short\[\], int, int),for reshaping into a three-dimensional array
 - **Signature:** `public static short[][][] reshape(final short[] a, final int rowCount, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional short array into a three-dimensional array with the specified dimensions.
 - **Parameters:**
-  - `a` (`short[]`) — the array to reshape (can be {@code null} ).
-  - `rowCount` (`int`) — the number of rows in each two-dimensional block.
-  - `columnCount` (`int`) — the number of columns in each row.
-- **Returns:** a three-dimensional array with the specified dimensions.
+  - `a` (`short[]`) — the array to reshape (can be {@code null} or empty).
+  - `rowCount` (`int`) — the number of rows in each two-dimensional block (must be positive).
+  - `columnCount` (`int`) — the number of columns in each row (must be positive).
+- **Returns:** a three-dimensional array with the specified dimensions, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+- **See also:** #reshape(short\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static int[][] reshape(final int[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
 - **Contract:**
   - The last row may contain fewer elements if the array length is not evenly divisible by the column count.
   - If the input array is {@code null} or empty, returns an empty two-dimensional array.
 - **Parameters:**
-  - `a` (`int[]`) — the one-dimensional array to reshape (can be {@code null} ).
-  - `columnCount` (`int`) — the number of columns in each row.
+  - `a` (`int[]`) — the one-dimensional array to reshape (can be {@code null} or empty).
+  - `columnCount` (`int`) — the number of columns in each row (must be positive).
 - **Returns:** a new two-dimensional array containing the reshaped data, or an empty two-dimensional array if input is {@code null} or empty.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code columnCount} is not positive.
+- **See also:** #reshape(int\[\], int, int),for reshaping into a three-dimensional array
 - **Signature:** `public static int[][][] reshape(final int[] a, final int rowCount, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional array into a three-dimensional array with the specified dimensions.
 - **Contract:**
   - The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount.
   - If the input array is {@code null} or empty, returns an empty three-dimensional array.
 - **Parameters:**
-  - `a` (`int[]`) — the one-dimensional array to reshape (can be {@code null} ).
-  - `rowCount` (`int`) — the number of rows in each two-dimensional slice.
-  - `columnCount` (`int`) — the number of columns in each row.
+  - `a` (`int[]`) — the one-dimensional array to reshape (can be {@code null} or empty).
+  - `rowCount` (`int`) — the number of rows in each two-dimensional slice (must be positive).
+  - `columnCount` (`int`) — the number of columns in each row (must be positive).
 - **Returns:** a new three-dimensional array containing the reshaped data, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+- **See also:** #reshape(int\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static long[][] reshape(final long[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional long array into a two-dimensional long array with a specified number of columns.
 - **Contract:**
   - The last row may be shorter if the total number of elements is not a multiple of {@code columnCount} .
 - **Parameters:**
-  - `a` (`long[]`) — the one-dimensional array to reshape (can be {@code null} ).
-  - `columnCount` (`int`) — the number of columns in the resulting two-dimensional array.
+  - `a` (`long[]`) — the one-dimensional array to reshape (can be {@code null} or empty).
+  - `columnCount` (`int`) — the number of columns in the resulting two-dimensional array (must be positive).
 - **Returns:** a new two-dimensional long array, or an empty two-dimensional array if input is {@code null} or empty.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code columnCount} is not positive.
+- **See also:** #reshape(long\[\], int, int),for reshaping into a three-dimensional array
 - **Signature:** `public static long[][][] reshape(final long[] a, final int rowCount, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional long array into a three-dimensional long array with a specified number of rows and columns.
 - **Contract:**
   - The last sub-arrays may be shorter if the total element count is not perfectly divisible.
 - **Parameters:**
-  - `a` (`long[]`) — the one-dimensional array to reshape (can be {@code null} ).
-  - `rowCount` (`int`) — the number of rows in each two-dimensional sub-array.
-  - `columnCount` (`int`) — the number of columns in each two-dimensional sub-array.
+  - `a` (`long[]`) — the one-dimensional array to reshape (can be {@code null} or empty).
+  - `rowCount` (`int`) — the number of rows in each two-dimensional sub-array (must be positive).
+  - `columnCount` (`int`) — the number of columns in each two-dimensional sub-array (must be positive).
 - **Returns:** a new three-dimensional long array, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+- **See also:** #reshape(long\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static float[][] reshape(final float[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional float array into a two-dimensional float array with the specified number of columns.
 - **Contract:**
@@ -1207,17 +1215,17 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
 - **See also:** #flatten(boolean\[\]\[\]),for flattening two-dimensional arrays, #mutateAsFlat(boolean\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened three-dimensional arrays
 - **Signature:** `public static char[] flatten(final char[][] a)`
-- **Summary:** Flattens a two-dimensional character array into a new one-dimensional character array by concatenating all its sub-arrays.
+- **Summary:** Flattens a two-dimensional character array into a one-dimensional character array.
 - **Parameters:**
-  - `a` (`char[][]`) — the two-dimensional character array to flatten (can be {@code null} ).
+  - `a` (`char[][]`) — the two-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(char\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlat(char\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(char\[\]\[\]\[\]),for flattening three-dimensional arrays, #mutateAsFlat(char\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static char[] flatten(final char[][][] a)`
-- **Summary:** Flattens a three-dimensional character array into a new one-dimensional character array by concatenating all its innermost sub-arrays.
+- **Summary:** Flattens a three-dimensional character array into a one-dimensional character array.
 - **Parameters:**
-  - `a` (`char[][][]`) — the three-dimensional character array to flatten (can be {@code null} ).
+  - `a` (`char[][][]`) — the three-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(char\[\]\[\]),for two-dimensional arrays, #mutateAsFlat(char\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(char\[\]\[\]),for flattening two-dimensional arrays, #mutateAsFlat(char\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened three-dimensional arrays
 - **Signature:** `public static byte[] flatten(final byte[][] a)`
 - **Summary:** Flattens a two-dimensional byte array into a new one-dimensional byte array by concatenating all its sub-arrays.
 - **Parameters:**
@@ -2310,7 +2318,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `a` (`float[]`) — the first array (can be {@code null} , treated as empty).
   - `b` (`float[]`) — the second array (can be {@code null} , treated as empty).
   - `zipFunction` (`Throwables.FloatBinaryOperator<E>`) — the function to apply to corresponding elements from both arrays (must not be {@code null} ).
-- **Returns:** a new array containing the results of applying the zip function to corresponding elements.
+- **Returns:** a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
 - **Throws:**
   - `E` — if the zip function throws an exception.
 - **Signature:** `public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float defaultValueA, final float defaultValueB, final Throwables.FloatBinaryOperator<E> zipFunction) throws E`
@@ -2455,7 +2463,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `a` (`double[]`) — the first array (can be {@code null} , treated as empty).
   - `b` (`double[]`) — the second array (can be {@code null} , treated as empty).
   - `zipFunction` (`Throwables.DoubleBinaryOperator<E>`) — the function to apply to corresponding elements from both arrays (must not be {@code null} ).
-- **Returns:** a new array containing the results of applying the zip function to corresponding elements.
+- **Returns:** a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
 - **Throws:**
   - `E` — if the zip function throws an exception.
 - **Signature:** `public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double defaultValueA, final double defaultValueB, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E`
@@ -2616,23 +2624,27 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Signature:** `public static long elementCount(final byte[][] a)`
 - **Summary:** Calculates the total count of elements in a two-dimensional byte array.
 - **Parameters:**
-  - `a` (`byte[][]`) — the two-dimensional byte array (can be {@code null} ).
-- **Returns:** the total count of all elements across all sub-arrays.
+  - `a` (`byte[][]`) — the two-dimensional byte array (can be {@code null} or empty).
+- **Returns:** the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
+- **See also:** #elementCount(byte\[\]\[\]\[\]),for three-dimensional arrays
 - **Signature:** `public static long elementCount(final byte[][][] a)`
 - **Summary:** Calculates the total count of elements in a three-dimensional byte array.
 - **Parameters:**
-  - `a` (`byte[][][]`) — the three-dimensional byte array (can be {@code null} ).
-- **Returns:** the total count of all elements across all sub-arrays.
+  - `a` (`byte[][][]`) — the three-dimensional byte array (can be {@code null} or empty).
+- **Returns:** the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
+- **See also:** #elementCount(byte\[\]\[\]),for two-dimensional arrays
 - **Signature:** `public static long elementCount(final short[][] a)`
 - **Summary:** Calculates the total number of elements in a two-dimensional short array.
 - **Parameters:**
-  - `a` (`short[][]`) — the two-dimensional array to count elements in (can be {@code null} ).
-- **Returns:** the total number of elements across all sub-arrays.
+  - `a` (`short[][]`) — the two-dimensional array to count elements in (can be {@code null} or empty).
+- **Returns:** the total number of elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
+- **See also:** #elementCount(short\[\]\[\]\[\]),for three-dimensional arrays
 - **Signature:** `public static long elementCount(final short[][][] a)`
 - **Summary:** Calculates the total number of elements in a three-dimensional short array.
 - **Parameters:**
-  - `a` (`short[][][]`) — the three-dimensional array to count elements in (can be {@code null} ).
-- **Returns:** the total number of elements across all sub-arrays, or 0 if array is {@code null} /empty.
+  - `a` (`short[][][]`) — the three-dimensional array to count elements in (can be {@code null} or empty).
+- **Returns:** the total number of elements across all sub-arrays, or 0 if array is {@code null} or empty.
+- **See also:** #elementCount(short\[\]\[\]),for two-dimensional arrays
 - **Signature:** `public static long elementCount(final int[][] a)`
 - **Summary:** Calculates the total number of integer elements in a two-dimensional array.
 - **Parameters:**
@@ -2693,20 +2705,23 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Contract:**
   - Returns 0 if the input array is {@code null} or empty.
 - **Parameters:**
-  - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} ).
-- **Returns:** the minimum sub-array length, or 0 if the array is empty.
+  - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} or empty).
+- **Returns:** the minimum sub-array length, or 0 if the array is {@code null} or empty.
+- **See also:** #maxSubArrayLength(byte\[\]\[\])
 - **Signature:** `public static int minSubArrayLength(final short[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional short array.
 - **Contract:**
-  - Returns 0 if the array is null or contains only null sub-arrays.
+  - Returns 0 if the array is {@code null} or empty.
 - **Parameters:**
-  - `a` (`short[][]`) — the two-dimensional array to examine (can be {@code null} ).
-- **Returns:** the minimum length of any sub-array, or 0 if array is {@code null} .
+  - `a` (`short[][]`) — the two-dimensional array to examine (can be {@code null} or empty).
+- **Returns:** the minimum length of any sub-array, or 0 if array is {@code null} or empty.
+- **See also:** #maxSubArrayLength(short\[\]\[\])
 - **Signature:** `public static int minSubArrayLength(final int[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional integer array.
 - **Parameters:**
-  - `a` (`int[][]`) — the two-dimensional integer array (can be {@code null} ).
+  - `a` (`int[][]`) — the two-dimensional integer array (can be {@code null} or empty).
 - **Returns:** the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
+- **See also:** #maxSubArrayLength(int\[\]\[\])
 - **Signature:** `public static int minSubArrayLength(final long[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional long array.
 - **Parameters:**
@@ -2740,20 +2755,23 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Contract:**
   - Returns 0 if the input array is {@code null} or empty.
 - **Parameters:**
-  - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} ).
-- **Returns:** the maximum sub-array length, or 0 if the array is empty.
+  - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} or empty).
+- **Returns:** the maximum sub-array length, or 0 if the array is {@code null} or empty.
+- **See also:** #minSubArrayLength(byte\[\]\[\])
 - **Signature:** `public static int maxSubArrayLength(final short[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional short array.
 - **Contract:**
   - Returns 0 if the array is {@code null} or empty.
 - **Parameters:**
-  - `a` (`short[][]`) — the two-dimensional array to examine (can be {@code null} ).
+  - `a` (`short[][]`) — the two-dimensional array to examine (can be {@code null} or empty).
 - **Returns:** the maximum length of any sub-array, or 0 if array is {@code null} or empty.
+- **See also:** #minSubArrayLength(short\[\]\[\])
 - **Signature:** `public static int maxSubArrayLength(final int[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional integer array.
 - **Parameters:**
-  - `a` (`int[][]`) — the two-dimensional integer array (can be {@code null} ).
+  - `a` (`int[][]`) — the two-dimensional integer array (can be {@code null} or empty).
 - **Returns:** the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
+- **See also:** #minSubArrayLength(int\[\]\[\])
 - **Signature:** `public static int maxSubArrayLength(final long[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional long array.
 - **Parameters:**
@@ -5855,12 +5873,14 @@ Base class for immutable tuples of primitive {@code char} values.
 - **Parameters:**
   - (none)
 - **Returns:** a new char array containing all tuple elements
+- **See also:** #toList(), #stream()
 ##### toList(...) -> CharList
 - **Signature:** `public CharList toList()`
 - **Summary:** Returns a new CharList containing all elements of this tuple.
 - **Parameters:**
   - (none)
 - **Returns:** a new CharList containing all tuple elements
+- **See also:** #toArray(), #stream()
 ##### forEach(...) -> void
 - **Signature:** `public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in this tuple.
@@ -5868,6 +5888,7 @@ Base class for immutable tuples of primitive {@code char} values.
   - `action` (`Throwables.CharConsumer<E>`) — the action to be performed for each element, must not be {@code null}
 - **Throws:**
   - `E` — if the action throws an exception during execution
+- **See also:** #stream()
 ##### stream(...) -> CharStream
 - **Signature:** `public CharStream stream()`
 - **Summary:** Returns a CharStream of all elements in this tuple.
@@ -6054,6 +6075,7 @@ A CharTuple containing exactly two char elements.
   - `action` (`Throwables.CharBiConsumer<E>`) — the bi-consumer action to be performed on both elements, must not be {@code null}
 - **Throws:**
   - `E` — if the action throws an exception during execution
+- **See also:** #forEach(Throwables.CharConsumer), #map(Throwables.CharBiFunction)
 ##### map(...) -> U
 - **Signature:** `@MayReturnNull public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws E`
 - **Summary:** Applies the given function to both elements of this tuple and returns the result.
@@ -6062,6 +6084,7 @@ A CharTuple containing exactly two char elements.
 - **Returns:** the result of applying the mapping function to both elements (may be {@code null} )
 - **Throws:**
   - `E` — if the mapper throws an exception during execution
+- **See also:** #accept(Throwables.CharBiConsumer), #filter(Throwables.CharBiPredicate)
 ##### filter(...) -> Optional<CharTuple2>
 - **Signature:** `public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws E`
 - **Summary:** Returns an Optional containing this tuple if it matches the given predicate, otherwise returns an empty Optional.
@@ -6073,6 +6096,7 @@ A CharTuple containing exactly two char elements.
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty otherwise
 - **Throws:**
   - `E` — if the predicate throws an exception during evaluation
+- **See also:** #accept(Throwables.CharBiConsumer), #map(Throwables.CharBiFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
 - **Summary:** Returns a hash code value for this tuple.
@@ -6173,6 +6197,7 @@ A CharTuple containing exactly three char elements.
   - `action` (`Throwables.CharTriConsumer<E>`) — the tri-consumer action to be performed on all three elements, must not be {@code null}
 - **Throws:**
   - `E` — if the action throws an exception during execution
+- **See also:** #forEach(Throwables.CharConsumer), #map(Throwables.CharTriFunction)
 ##### map(...) -> U
 - **Signature:** `@MayReturnNull public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws E`
 - **Summary:** Applies the given function to all three elements of this tuple and returns the result.
@@ -6181,6 +6206,7 @@ A CharTuple containing exactly three char elements.
 - **Returns:** the result of applying the mapping function to all three elements (may be {@code null} )
 - **Throws:**
   - `E` — if the mapper throws an exception during execution
+- **See also:** #accept(Throwables.CharTriConsumer), #filter(Throwables.CharTriPredicate)
 ##### filter(...) -> Optional<CharTuple3>
 - **Signature:** `public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws E`
 - **Summary:** Returns an Optional containing this tuple if it matches the given predicate, otherwise returns an empty Optional.
@@ -6192,6 +6218,7 @@ A CharTuple containing exactly three char elements.
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty otherwise
 - **Throws:**
   - `E` — if the predicate throws an exception during evaluation
+- **See also:** #accept(Throwables.CharTriConsumer), #map(Throwables.CharTriFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
 - **Summary:** Returns a hash code value for this tuple.
@@ -7131,7 +7158,7 @@ A DoubleTuple containing exactly two double values.
   - Checks if this tuple contains the specified double value.
 - **Parameters:**
   - `valueToFind` (`double`) — the double value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if {@code _1} or {@code _2} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -7146,14 +7173,16 @@ A DoubleTuple containing exactly two double values.
   - `action` (`Throwables.DoubleBiConsumer<E>`) — the bi-consumer to perform on the two elements, must not be {@code null}
 - **Throws:**
   - `E` — if the action throws an exception
+- **See also:** #map(Throwables.DoubleBiFunction), #filter(Throwables.DoubleBiPredicate)
 ##### map(...) -> U
 - **Signature:** `@MayReturnNull public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws E`
 - **Summary:** Applies the given bi-function to the two elements and returns the result.
 - **Parameters:**
   - `mapper` (`Throwables.DoubleBiFunction<U, E>`) — the bi-function to apply to the two elements, must not be {@code null}
-- **Returns:** the result of applying the mapper to _1 and _2 (may be {@code null} if the mapper returns {@code null} )
+- **Returns:** the result of applying the mapper to {@code _1} and {@code _2} (may be {@code null} if the mapper returns {@code null} )
 - **Throws:**
   - `E` — if the mapper throws an exception
+- **See also:** #accept(Throwables.DoubleBiConsumer), #filter(Throwables.DoubleBiPredicate)
 ##### filter(...) -> Optional<DoubleTuple2>
 - **Signature:** `public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E`
 - **Summary:** Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.
@@ -7166,6 +7195,7 @@ A DoubleTuple containing exactly two double values.
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty Optional otherwise
 - **Throws:**
   - `E` — if the predicate throws an exception
+- **See also:** #accept(Throwables.DoubleBiConsumer), #map(Throwables.DoubleBiFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
 - **Summary:** Returns a hash code for this tuple based on both elements.
@@ -7255,7 +7285,7 @@ A DoubleTuple containing exactly three double values.
   - Checks if this tuple contains the specified double value.
 - **Parameters:**
   - `valueToFind` (`double`) — the double value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} , {@code _2} , {@code _3} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -7270,14 +7300,16 @@ A DoubleTuple containing exactly three double values.
   - `action` (`Throwables.DoubleTriConsumer<E>`) — the tri-consumer to perform on the three elements, must not be {@code null}
 - **Throws:**
   - `E` — if the action throws an exception
+- **See also:** #map(Throwables.DoubleTriFunction), #filter(Throwables.DoubleTriPredicate)
 ##### map(...) -> U
 - **Signature:** `@MayReturnNull public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws E`
 - **Summary:** Applies the given tri-function to the three elements and returns the result.
 - **Parameters:**
   - `mapper` (`Throwables.DoubleTriFunction<U, E>`) — the tri-function to apply to the three elements, must not be {@code null}
-- **Returns:** the result of applying the mapper to _1, _2, and _3 (may be {@code null} if the mapper returns {@code null} )
+- **Returns:** the result of applying the mapper to {@code _1} , {@code _2} , and {@code _3} (may be {@code null} if the mapper returns {@code null} )
 - **Throws:**
   - `E` — if the mapper throws an exception
+- **See also:** #accept(Throwables.DoubleTriConsumer), #filter(Throwables.DoubleTriPredicate)
 ##### filter(...) -> Optional<DoubleTuple3>
 - **Signature:** `public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E`
 - **Summary:** Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.
@@ -7290,6 +7322,7 @@ A DoubleTuple containing exactly three double values.
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty Optional otherwise
 - **Throws:**
   - `E` — if the predicate throws an exception
+- **See also:** #accept(Throwables.DoubleTriConsumer), #map(Throwables.DoubleTriFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
 - **Summary:** Returns a hash code for this tuple based on all three elements.
@@ -7375,7 +7408,7 @@ A DoubleTuple containing exactly four double values.
   - Checks if this tuple contains the specified double value.
 - **Parameters:**
   - `valueToFind` (`double`) — the double value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _4} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -7470,7 +7503,7 @@ A DoubleTuple containing exactly five double values.
   - Checks if this tuple contains the specified double value.
 - **Parameters:**
   - `valueToFind` (`double`) — the double value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _5} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -7563,7 +7596,7 @@ A DoubleTuple containing exactly six double values.
   - Checks if this tuple contains the specified double value.
 - **Parameters:**
   - `valueToFind` (`double`) — the double value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _6} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -7658,7 +7691,7 @@ A DoubleTuple containing exactly seven double values.
   - Checks if this tuple contains the specified double value.
 - **Parameters:**
   - `valueToFind` (`double`) — the double value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _7} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -7751,7 +7784,7 @@ A DoubleTuple containing exactly eight double values.
   - Checks if this tuple contains the specified double value.
 - **Parameters:**
   - `valueToFind` (`double`) — the double value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _8} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -7846,7 +7879,7 @@ A DoubleTuple containing exactly nine double values.
   - Checks if this tuple contains the specified double value.
 - **Parameters:**
   - `valueToFind` (`double`) — the double value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _9} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -8242,7 +8275,7 @@ A FloatTuple containing exactly two float values.
   - Checks if this tuple contains the specified float value.
 - **Parameters:**
   - `valueToFind` (`float`) — the float value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if {@code _1} or {@code _2} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -8369,7 +8402,7 @@ A FloatTuple containing exactly three float values.
   - Checks if this tuple contains the specified float value.
 - **Parameters:**
   - `valueToFind` (`float`) — the float value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} , {@code _2} , {@code _3} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -8492,7 +8525,7 @@ A FloatTuple containing exactly four float values.
   - Checks if this tuple contains the specified float value.
 - **Parameters:**
   - `valueToFind` (`float`) — the float value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _4} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -8587,7 +8620,7 @@ A FloatTuple containing exactly five float values.
   - Checks if this tuple contains the specified float value.
 - **Parameters:**
   - `valueToFind` (`float`) — the float value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _5} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -8680,7 +8713,7 @@ A FloatTuple containing exactly six float values.
   - Checks if this tuple contains the specified float value.
 - **Parameters:**
   - `valueToFind` (`float`) — the float value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _6} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -8775,7 +8808,7 @@ A FloatTuple containing exactly seven float values.
   - Checks if this tuple contains the specified float value.
 - **Parameters:**
   - `valueToFind` (`float`) — the float value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _7} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -8868,7 +8901,7 @@ A FloatTuple containing exactly eight float values.
   - Checks if this tuple contains the specified float value.
 - **Parameters:**
   - `valueToFind` (`float`) — the float value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _8} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -8963,7 +8996,7 @@ A FloatTuple containing exactly nine float values.
   - Checks if this tuple contains the specified float value.
 - **Parameters:**
   - `valueToFind` (`float`) — the float value to search for
-- **Returns:** {@code true} if the value is found in this tuple, {@code false} otherwise
+- **Returns:** {@code true} if any of {@code _1} through {@code _9} equals {@code valueToFind} , {@code false} otherwise
 ##### forEach(...) -> void
 - **Signature:** `@Override public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in order.
@@ -9029,13 +9062,15 @@ Immutable-style wrapper around an {@code int\[\]} .
   - Returns {@code true} if this ImmutableIntArray contains no elements.
 - **Parameters:**
   - (none)
-- **Returns:** {@code true} if {@code length() == 0}
+- **Returns:** {@code true} if {@code length() == 0} ; {@code false} otherwise
+- **See also:** #length()
 ##### length(...) -> int
 - **Signature:** `public int length()`
 - **Summary:** Returns the number of elements in this ImmutableIntArray.
 - **Parameters:**
   - (none)
-- **Returns:** the number of elements in this array
+- **Returns:** the number of elements in this array; {@code 0} if empty
+- **See also:** #isEmpty()
 ##### contains(...) -> boolean
 - **Signature:** `public boolean contains(final int value)`
 - **Summary:** Returns {@code true} if this ImmutableIntArray contains the specified value.
@@ -9043,7 +9078,7 @@ Immutable-style wrapper around an {@code int\[\]} .
   - Returns {@code true} if this ImmutableIntArray contains the specified value.
 - **Parameters:**
   - `value` (`int`) — the value to search for
-- **Returns:** {@code true} if the value is found in this array
+- **Returns:** {@code true} if at least one element equals {@code value} ; {@code false} otherwise (including when the array is empty)
 - **Performance:** The time complexity is O(n) where n is the length of the array.
 ##### min(...) -> int
 - **Signature:** `public int min()`
@@ -9063,20 +9098,20 @@ Immutable-style wrapper around an {@code int\[\]} .
 - **See also:** #min(), #sum(), #average()
 ##### sum(...) -> int
 - **Signature:** `public int sum()`
-- **Summary:** Returns the sum of all elements in this array.
+- **Summary:** Returns the sum of all elements in this array as an {@code int} .
 - **Contract:**
-  - <p> The summation is performed in {@code long} precision and narrowed to {@code int} ; if the total does not fit in an {@code int} , an {@link ArithmeticException} is thrown.
+  - <p> The summation is performed in {@code long} precision and narrowed to {@code int} ; if the total does not fit in the {@code int} range, an {@link ArithmeticException} is thrown.
 - **Parameters:**
   - (none)
 - **Returns:** the sum of all elements in this array as an {@code int} , or {@code 0} if empty
-- **See also:** #average()
+- **See also:** #average(), #min(), #max()
 ##### average(...) -> double
 - **Signature:** `public double average()`
 - **Summary:** Returns the arithmetic mean of all elements in this array as a {@code double} .
 - **Parameters:**
   - (none)
 - **Returns:** the average of all elements in this array as a {@code double} , or {@code 0D} if empty
-- **See also:** #sum()
+- **See also:** #sum(), #min(), #max()
 ##### get(...) -> int
 - **Signature:** `public int get(final int index)`
 - **Summary:** Returns the int element at the specified index in this ImmutableIntArray.
@@ -9084,6 +9119,7 @@ Immutable-style wrapper around an {@code int\[\]} .
   - `index` (`int`) — the zero-based index of the element to retrieve; must be {@code >= 0} and {@code < length()}
 - **Returns:** the int element at the specified index
 - **Performance:** <p> This method provides constant-time O(1) access to elements by index.
+- **See also:** #length()
 ##### forEach(...) -> void
 - **Signature:** `public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E`
 - **Summary:** Performs the given action for each element in this ImmutableIntArray.
@@ -9109,7 +9145,7 @@ Immutable-style wrapper around an {@code int\[\]} .
 - **Summary:** Returns an IntStream containing all elements of this ImmutableIntArray.
 - **Contract:**
   - When this wrapper was created via {@link #unsafeWrap(int\[\])} , the backing array is the caller-supplied array, so any mutation of that array will be observable through the returned stream.
-  - Use {@link #copyOf(int\[\])} if you require full isolation.
+  - Use {@link #copyOf(int\[\])} to build the wrapper from a defensive copy if you require full isolation from the original source array.
 - **Parameters:**
   - (none)
 - **Returns:** an IntStream containing all elements of this ImmutableIntArray in order
@@ -9248,6 +9284,7 @@ Base class for immutable tuples of primitive {@code int} values.
 - **Parameters:**
   - `values` (`int[]`) — the array of int values; may be {@code null} or empty, in which case the shared empty tuple is returned
 - **Returns:** an {@code IntTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
+- **See also:** #of(int)
 
 #### Public Instance Methods
 ##### min(...) -> int
@@ -9274,6 +9311,7 @@ Base class for immutable tuples of primitive {@code int} values.
 - **Parameters:**
   - (none)
 - **Returns:** the median int value in this tuple
+- **See also:** #min(), #max(), N#median(int...)
 ##### sum(...) -> int
 - **Signature:** `public int sum()`
 - **Summary:** Returns the sum of all int values in this tuple as an {@code int} .
@@ -9282,6 +9320,7 @@ Base class for immutable tuples of primitive {@code int} values.
 - **Parameters:**
   - (none)
 - **Returns:** the sum of all int values in this tuple as an {@code int}
+- **See also:** #average()
 ##### average(...) -> double
 - **Signature:** `public double average()`
 - **Summary:** Returns the arithmetic mean of all int values in this tuple as a {@code double} .
@@ -9310,13 +9349,15 @@ Base class for immutable tuples of primitive {@code int} values.
 - **Summary:** Returns a new array containing all elements of this tuple.
 - **Parameters:**
   - (none)
-- **Returns:** a new int array containing all tuple elements
+- **Returns:** a new {@code int\[\]} array containing all tuple elements in order
+- **See also:** #toList(), #stream()
 ##### toList(...) -> IntList
 - **Signature:** `public IntList toList()`
 - **Summary:** Returns a new IntList containing all elements of this tuple.
 - **Parameters:**
   - (none)
-- **Returns:** a new IntList containing all tuple elements
+- **Returns:** a new {@code IntList} containing all tuple elements in order
+- **See also:** #toArray(), #stream()
 ##### forEach(...) -> void
 - **Signature:** `public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in this tuple.
@@ -9329,21 +9370,24 @@ Base class for immutable tuples of primitive {@code int} values.
 - **Summary:** Returns an IntStream of all elements in this tuple.
 - **Parameters:**
   - (none)
-- **Returns:** an IntStream containing all tuple elements
+- **Returns:** a sequential {@code IntStream} containing all tuple elements in order
+- **See also:** #toArray(), #toList()
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
 - **Summary:** Returns a hash code value for this tuple.
 - **Parameters:**
   - (none)
 - **Returns:** a hash code value for this tuple
+- **See also:** #equals(Object)
 ##### equals(...) -> boolean
 - **Signature:** `@Override public boolean equals(final Object obj)`
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Contract:**
-  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same int values in the same order </li> </ul> <p> This method is consistent with {@link #hashCode()} .
+  - <p> Two tuples are considered equal if and only if either: </p> <ul> <li> They are the same object (reference equality), or </li> <li> The other object is non-null, is an instance of the exact same runtime class (so an {@code IntTuple2} never equals an {@code IntTuple3} ), and contains the same int values in the same order.
 - **Parameters:**
   - `obj` (`Object`) — the object to be compared for equality with this tuple
 - **Returns:** {@code true} if the specified object is equal to this tuple, {@code false} otherwise
+- **See also:** #hashCode()
 ##### toString(...) -> String
 - **Signature:** `@Override public String toString()`
 - **Summary:** Returns a string representation of this tuple.
@@ -9425,7 +9469,7 @@ A tuple containing exactly one int value.
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Parameters:**
   - `obj` (`Object`) — the object to compare with
-- **Returns:** {@code true} if the object is an IntTuple.IntTuple1 with the same value, {@code false} otherwise
+- **Returns:** {@code true} if the object is an IntTuple.IntTuple1 with the same element, {@code false} otherwise
 ##### toString(...) -> String
 - **Signature:** `@Override public String toString()`
 - **Summary:** Returns a string representation of this tuple.
@@ -9543,7 +9587,7 @@ A tuple containing exactly two int values.
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Parameters:**
   - `obj` (`Object`) — the object to compare with
-- **Returns:** {@code true} if the object is an IntTuple.IntTuple2 with the same values
+- **Returns:** {@code true} if the object is an IntTuple.IntTuple2 with the same elements in the same order, {@code false} otherwise
 ##### toString(...) -> String
 - **Signature:** `@Override public String toString()`
 - **Summary:** Returns a string representation of this tuple.
@@ -9661,7 +9705,7 @@ A tuple containing exactly three int values.
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Parameters:**
   - `obj` (`Object`) — the object to compare with
-- **Returns:** {@code true} if the object is an IntTuple.IntTuple3 with the same values
+- **Returns:** {@code true} if the object is an IntTuple.IntTuple3 with the same elements in the same order, {@code false} otherwise
 ##### toString(...) -> String
 - **Signature:** `@Override public String toString()`
 - **Summary:** Returns a string representation of this tuple.
@@ -9798,7 +9842,7 @@ A tuple containing exactly five int values.
   - For tuples with an odd number of elements, returns the middle value when sorted.
 - **Parameters:**
   - (none)
-- **Returns:** the median int value
+- **Returns:** the middle int value when sorted
 ##### sum(...) -> int
 - **Signature:** `@Override public int sum()`
 - **Summary:** Returns the sum of all five elements as an int.
@@ -9982,7 +10026,7 @@ A tuple containing exactly seven int values.
   - For tuples with an odd number of elements, returns the middle value when sorted.
 - **Parameters:**
   - (none)
-- **Returns:** the median int value
+- **Returns:** the middle int value when sorted
 ##### sum(...) -> int
 - **Signature:** `@Override public int sum()`
 - **Summary:** Returns the sum of all seven elements as an int.
@@ -10166,7 +10210,7 @@ A tuple containing exactly nine int values.
   - For tuples with an odd number of elements, returns the middle value when sorted.
 - **Parameters:**
   - (none)
-- **Returns:** the median int value
+- **Returns:** the middle int value when sorted
 ##### sum(...) -> int
 - **Signature:** `@Override public int sum()`
 - **Summary:** Returns the sum of all nine elements as an int.
@@ -10321,6 +10365,7 @@ Base class for immutable tuples of primitive {@code long} values.
 - **Parameters:**
   - `values` (`long[]`) — the array of long values; may be {@code null} or empty, in which case the shared empty tuple is returned
 - **Returns:** a {@code LongTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
+- **See also:** #of(long)
 
 #### Public Instance Methods
 ##### min(...) -> long
@@ -10346,15 +10391,16 @@ Base class for immutable tuples of primitive {@code long} values.
 - **Parameters:**
   - (none)
 - **Returns:** the median long value in this tuple
-- **See also:** #min(), #max()
+- **See also:** #min(), #max(), N#median(long...)
 ##### sum(...) -> long
 - **Signature:** `public long sum()`
 - **Summary:** Returns the sum of all long values in this tuple as a {@code long} .
 - **Contract:**
-  - If the sum overflows the range of {@code long} , the result wraps around according to standard two's-complement long arithmetic.
+  - If the true total exceeds the range of {@code long} , the result wraps around according to standard two's-complement long arithmetic rather than throwing an exception.
 - **Parameters:**
   - (none)
 - **Returns:** the sum of all long values in this tuple as a {@code long}
+- **See also:** #average()
 ##### average(...) -> double
 - **Signature:** `public double average()`
 - **Summary:** Returns the arithmetic mean of all long values in this tuple as a {@code double} .
@@ -10383,13 +10429,15 @@ Base class for immutable tuples of primitive {@code long} values.
 - **Summary:** Returns a new array containing all elements of this tuple.
 - **Parameters:**
   - (none)
-- **Returns:** a new long array containing all tuple elements
+- **Returns:** a new {@code long\[\]} array containing all tuple elements in order
+- **See also:** #toList(), #stream()
 ##### toList(...) -> LongList
 - **Signature:** `public LongList toList()`
 - **Summary:** Returns a new LongList containing all elements of this tuple.
 - **Parameters:**
   - (none)
-- **Returns:** a new LongList containing all tuple elements
+- **Returns:** a new {@code LongList} containing all tuple elements in order
+- **See also:** #toArray(), #stream()
 ##### forEach(...) -> void
 - **Signature:** `public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E`
 - **Summary:** Performs the given action for each element in this tuple.
@@ -10402,21 +10450,24 @@ Base class for immutable tuples of primitive {@code long} values.
 - **Summary:** Returns a LongStream of all elements in this tuple.
 - **Parameters:**
   - (none)
-- **Returns:** a {@code LongStream} containing all tuple elements
+- **Returns:** a sequential {@code LongStream} containing all tuple elements in order
+- **See also:** #toArray(), #toList()
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
 - **Summary:** Returns a hash code value for this tuple.
 - **Parameters:**
   - (none)
 - **Returns:** a hash code value for this tuple
+- **See also:** #equals(Object)
 ##### equals(...) -> boolean
 - **Signature:** `@Override public boolean equals(final Object obj)`
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Contract:**
-  - <p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same long values in the same order </li> </ul> <p> This method is consistent with {@link #hashCode()} .
+  - <p> Two tuples are considered equal if and only if either: </p> <ul> <li> They are the same object (reference equality), or </li> <li> The other object is non-null, is an instance of the exact same runtime class (so a {@code LongTuple2} never equals a {@code LongTuple3} ), and contains the same long values in the same order.
 - **Parameters:**
   - `obj` (`Object`) — the object to be compared for equality with this tuple
 - **Returns:** {@code true} if the specified object is equal to this tuple, {@code false} otherwise
+- **See also:** #hashCode()
 ##### toString(...) -> String
 - **Signature:** `@Override public String toString()`
 - **Summary:** Returns a string representation of this tuple.
@@ -10498,7 +10549,7 @@ A tuple containing exactly one long value.
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Parameters:**
   - `obj` (`Object`) — the object to compare with
-- **Returns:** {@code true} if the object is a LongTuple.LongTuple1 with the same value
+- **Returns:** {@code true} if the object is a LongTuple.LongTuple1 with the same element, {@code false} otherwise
 ##### toString(...) -> String
 - **Signature:** `@Override public String toString()`
 - **Summary:** Returns a string representation of this tuple.
@@ -10583,7 +10634,7 @@ A tuple containing exactly two long values.
   - `action` (`Throwables.LongBiConsumer<E>`) — the bi-consumer to perform on the two elements, must not be {@code null}
 - **Throws:**
   - `E` — if the action throws an exception
-- **See also:** #forEach(Throwables.LongConsumer), #map(Throwables.LongBiFunction)
+- **See also:** #map(Throwables.LongBiFunction), #filter(Throwables.LongBiPredicate)
 ##### map(...) -> U
 - **Signature:** `@MayReturnNull public <U, E extends Exception> U map(final Throwables.LongBiFunction<U, E> mapper) throws E`
 - **Summary:** Applies the given bi-function to the two elements and returns the result.
@@ -10616,7 +10667,7 @@ A tuple containing exactly two long values.
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Parameters:**
   - `obj` (`Object`) — the object to compare with
-- **Returns:** {@code true} if the object is a LongTuple.LongTuple2 with the same values
+- **Returns:** {@code true} if the object is a LongTuple.LongTuple2 with the same elements in the same order, {@code false} otherwise
 ##### toString(...) -> String
 - **Signature:** `@Override public String toString()`
 - **Summary:** Returns a string representation of this tuple.
@@ -10662,7 +10713,7 @@ A tuple containing exactly three long values.
   - Returns the middle value of {@code _1} , {@code _2} , and {@code _3} when sorted.
 - **Parameters:**
   - (none)
-- **Returns:** the median long value of the three elements
+- **Returns:** the middle long value when sorted
 ##### sum(...) -> long
 - **Signature:** `@Override public long sum()`
 - **Summary:** Returns the sum of all three elements.
@@ -10705,7 +10756,7 @@ A tuple containing exactly three long values.
   - `action` (`Throwables.LongTriConsumer<E>`) — the tri-consumer to perform on the three elements, must not be {@code null}
 - **Throws:**
   - `E` — if the action throws an exception
-- **See also:** #forEach(Throwables.LongConsumer), #map(Throwables.LongTriFunction)
+- **See also:** #map(Throwables.LongTriFunction), #filter(Throwables.LongTriPredicate)
 ##### map(...) -> U
 - **Signature:** `@MayReturnNull public <U, E extends Exception> U map(final Throwables.LongTriFunction<U, E> mapper) throws E`
 - **Summary:** Applies the given tri-function to the three elements and returns the result.
@@ -10738,7 +10789,7 @@ A tuple containing exactly three long values.
 - **Summary:** Compares this tuple to the specified object for equality.
 - **Parameters:**
   - `obj` (`Object`) — the object to compare with
-- **Returns:** {@code true} if the object is a LongTuple.LongTuple3 with the same values
+- **Returns:** {@code true} if the object is a LongTuple.LongTuple3 with the same elements in the same order, {@code false} otherwise
 ##### toString(...) -> String
 - **Signature:** `@Override public String toString()`
 - **Summary:** Returns a string representation of this tuple.
@@ -10877,7 +10928,7 @@ A tuple containing exactly five long values.
   - Returns the middle value of the five elements when sorted.
 - **Parameters:**
   - (none)
-- **Returns:** the median long value of the five elements
+- **Returns:** the middle long value when sorted
 ##### sum(...) -> long
 - **Signature:** `@Override public long sum()`
 - **Summary:** Returns the sum of all five elements.
@@ -11063,7 +11114,7 @@ A tuple containing exactly seven long values.
   - Returns the middle value of the seven elements when sorted.
 - **Parameters:**
   - (none)
-- **Returns:** the median long value of the seven elements
+- **Returns:** the middle long value when sorted
 ##### sum(...) -> long
 - **Signature:** `@Override public long sum()`
 - **Summary:** Returns the sum of all seven elements.
@@ -11249,7 +11300,7 @@ A tuple containing exactly nine long values.
   - Returns the middle value of the nine elements when sorted.
 - **Parameters:**
   - (none)
-- **Returns:** the median long value of the nine elements
+- **Returns:** the middle long value when sorted
 ##### sum(...) -> long
 - **Signature:** `@Override public long sum()`
 - **Summary:** Returns the sum of all nine elements.

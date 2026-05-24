@@ -1,8 +1,8 @@
 {
   "library": {
     "name": "abacus-extra",
-    "version": "3.7.1",
-    "generated_at": "2026-05-23",
+    "version": "3.7.3",
+    "generated_at": "2026-05-24",
     "java_target": "17",
     "source": {
       "git_sha": "unknown"
@@ -4085,17 +4085,17 @@
                 {
                   "name": "a",
                   "type": "char[][]",
-                  "javadoc": "the two-dimensional character array to flatten (can be {@code null} ).",
+                  "javadoc": "the two-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays).",
                   "nullability": "unspecified"
                 }
               ],
               "throws": [],
-              "javadoc_summary": "Flattens a two-dimensional character array into a new one-dimensional character array by concatenating all its sub-arrays.",
+              "javadoc_summary": "Flattens a two-dimensional character array into a one-dimensional character array.",
               "contract": [],
               "examples": [],
               "see_also": [
-                "#flatten(char[][][]),for three-dimensional arrays",
-                "#mutateAsFlat(char[][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#flatten(char[][][]),for flattening three-dimensional arrays",
+                "#mutateAsFlat(char[][], Throwables.Consumer),for performing operations on flattened arrays"
               ]
             },
             {
@@ -4112,17 +4112,17 @@
                 {
                   "name": "a",
                   "type": "char[][][]",
-                  "javadoc": "the three-dimensional character array to flatten (can be {@code null} ).",
+                  "javadoc": "the three-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).",
                   "nullability": "unspecified"
                 }
               ],
               "throws": [],
-              "javadoc_summary": "Flattens a three-dimensional character array into a new one-dimensional character array by concatenating all its innermost sub-arrays.",
+              "javadoc_summary": "Flattens a three-dimensional character array into a one-dimensional character array.",
               "contract": [],
               "examples": [],
               "see_also": [
-                "#flatten(char[][]),for two-dimensional arrays",
-                "#mutateAsFlat(char[][][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#flatten(char[][]),for flattening two-dimensional arrays",
+                "#mutateAsFlat(char[][][], Throwables.Consumer),for performing operations on flattened three-dimensional arrays"
               ]
             },
             {
@@ -5271,7 +5271,7 @@
                 {
                   "name": "a",
                   "type": "byte[]",
-                  "javadoc": "the byte array to modify (can be {@code null} ).",
+                  "javadoc": "the byte array to modify (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -5561,13 +5561,13 @@
                 {
                   "name": "a",
                   "type": "byte[]",
-                  "javadoc": "the one-dimensional byte array to reshape (can be {@code null} ).",
+                  "javadoc": "the one-dimensional byte array to reshape (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "columnCount",
                   "type": "int",
-                  "javadoc": "the number of columns for the reshaped array.",
+                  "javadoc": "the number of columns for the reshaped array (must be positive).",
                   "nullability": "unspecified"
                 }
               ],
@@ -5582,7 +5582,9 @@
                 "The last row may have fewer elements if the total elements don't divide evenly."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#reshape(byte[], int, int),for reshaping into a three-dimensional array"
+              ]
             },
             {
               "name": "reshape",
@@ -5598,19 +5600,19 @@
                 {
                   "name": "a",
                   "type": "byte[]",
-                  "javadoc": "the one-dimensional byte array to reshape (can be {@code null} ).",
+                  "javadoc": "the one-dimensional byte array to reshape (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "rowCount",
                   "type": "int",
-                  "javadoc": "the number of rows for the reshaped subarray.",
+                  "javadoc": "the number of rows for the reshaped subarray (must be positive).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "columnCount",
                   "type": "int",
-                  "javadoc": "the number of columns for the reshaped subarray.",
+                  "javadoc": "the number of columns for the reshaped subarray (must be positive).",
                   "nullability": "unspecified"
                 }
               ],
@@ -5623,7 +5625,9 @@
               "javadoc_summary": "Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#reshape(byte[], int),for reshaping into a two-dimensional array"
+              ]
             },
             {
               "name": "zip",
@@ -6357,7 +6361,7 @@
                 {
                   "name": "a",
                   "type": "byte[][]",
-                  "javadoc": "the two-dimensional byte array (can be {@code null} ).",
+                  "javadoc": "the two-dimensional byte array (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
@@ -6365,7 +6369,9 @@
               "javadoc_summary": "Calculates the total count of elements in a two-dimensional byte array.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#elementCount(byte[][][]),for three-dimensional arrays"
+              ]
             },
             {
               "name": "elementCount",
@@ -6381,7 +6387,7 @@
                 {
                   "name": "a",
                   "type": "byte[][][]",
-                  "javadoc": "the three-dimensional byte array (can be {@code null} ).",
+                  "javadoc": "the three-dimensional byte array (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
@@ -6389,7 +6395,9 @@
               "javadoc_summary": "Calculates the total count of elements in a three-dimensional byte array.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#elementCount(byte[][]),for two-dimensional arrays"
+              ]
             },
             {
               "name": "minSubArrayLength",
@@ -6405,7 +6413,7 @@
                 {
                   "name": "a",
                   "type": "byte[][]",
-                  "javadoc": "the two-dimensional byte array to analyze (can be {@code null} ).",
+                  "javadoc": "the two-dimensional byte array to analyze (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
@@ -6415,7 +6423,9 @@
                 "Returns 0 if the input array is {@code null} or empty."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#maxSubArrayLength(byte[][])"
+              ]
             },
             {
               "name": "maxSubArrayLength",
@@ -6431,7 +6441,7 @@
                 {
                   "name": "a",
                   "type": "byte[][]",
-                  "javadoc": "the two-dimensional byte array to analyze (can be {@code null} ).",
+                  "javadoc": "the two-dimensional byte array to analyze (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
@@ -6441,7 +6451,9 @@
                 "Returns 0 if the input array is {@code null} or empty."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#minSubArrayLength(byte[][])"
+              ]
             },
             {
               "name": "println",
@@ -6545,7 +6557,7 @@
                 {
                   "name": "a",
                   "type": "short[]",
-                  "javadoc": "the array to update (can be {@code null} ).",
+                  "javadoc": "the array to update (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -6590,7 +6602,7 @@
                 {
                   "name": "a",
                   "type": "short[][]",
-                  "javadoc": "the two-dimensional array to update (can be {@code null} ).",
+                  "javadoc": "the two-dimensional array to update (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -6635,7 +6647,7 @@
                 {
                   "name": "a",
                   "type": "short[][][]",
-                  "javadoc": "the three-dimensional array to update (can be {@code null} ).",
+                  "javadoc": "the three-dimensional array to update (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -6680,7 +6692,7 @@
                 {
                   "name": "a",
                   "type": "short[]",
-                  "javadoc": "the array to modify (can be {@code null} ).",
+                  "javadoc": "the array to modify (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -6731,7 +6743,7 @@
                 {
                   "name": "a",
                   "type": "short[][]",
-                  "javadoc": "the two-dimensional array to modify (can be {@code null} ).",
+                  "javadoc": "the two-dimensional array to modify (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -6782,7 +6794,7 @@
                 {
                   "name": "a",
                   "type": "short[][][]",
-                  "javadoc": "the three-dimensional array to modify (can be {@code null} ).",
+                  "javadoc": "the three-dimensional array to modify (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -6826,13 +6838,13 @@
                 {
                   "name": "a",
                   "type": "short[]",
-                  "javadoc": "the array to reshape (can be {@code null} ).",
+                  "javadoc": "the array to reshape (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "columnCount",
                   "type": "int",
-                  "javadoc": "the number of columns in each row.",
+                  "javadoc": "the number of columns in each row (must be positive).",
                   "nullability": "unspecified"
                 }
               ],
@@ -6847,7 +6859,9 @@
                 "The last row may have fewer elements if the array length is not evenly divisible by columnCount."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#reshape(short[], int, int),for reshaping into a three-dimensional array"
+              ]
             },
             {
               "name": "reshape",
@@ -6863,19 +6877,19 @@
                 {
                   "name": "a",
                   "type": "short[]",
-                  "javadoc": "the array to reshape (can be {@code null} ).",
+                  "javadoc": "the array to reshape (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "rowCount",
                   "type": "int",
-                  "javadoc": "the number of rows in each two-dimensional block.",
+                  "javadoc": "the number of rows in each two-dimensional block (must be positive).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "columnCount",
                   "type": "int",
-                  "javadoc": "the number of columns in each row.",
+                  "javadoc": "the number of columns in each row (must be positive).",
                   "nullability": "unspecified"
                 }
               ],
@@ -6888,7 +6902,9 @@
               "javadoc_summary": "Reshapes a one-dimensional short array into a three-dimensional array with the specified dimensions.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#reshape(short[], int),for reshaping into a two-dimensional array"
+              ]
             },
             {
               "name": "flatten",
@@ -7766,7 +7782,7 @@
                 {
                   "name": "a",
                   "type": "short[][]",
-                  "javadoc": "the two-dimensional array to count elements in (can be {@code null} ).",
+                  "javadoc": "the two-dimensional array to count elements in (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
@@ -7774,7 +7790,9 @@
               "javadoc_summary": "Calculates the total number of elements in a two-dimensional short array.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#elementCount(short[][][]),for three-dimensional arrays"
+              ]
             },
             {
               "name": "elementCount",
@@ -7790,7 +7808,7 @@
                 {
                   "name": "a",
                   "type": "short[][][]",
-                  "javadoc": "the three-dimensional array to count elements in (can be {@code null} ).",
+                  "javadoc": "the three-dimensional array to count elements in (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
@@ -7798,7 +7816,9 @@
               "javadoc_summary": "Calculates the total number of elements in a three-dimensional short array.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#elementCount(short[][]),for two-dimensional arrays"
+              ]
             },
             {
               "name": "minSubArrayLength",
@@ -7814,17 +7834,19 @@
                 {
                   "name": "a",
                   "type": "short[][]",
-                  "javadoc": "the two-dimensional array to examine (can be {@code null} ).",
+                  "javadoc": "the two-dimensional array to examine (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
               "throws": [],
               "javadoc_summary": "Finds the minimum length among all sub-arrays in a two-dimensional short array.",
               "contract": [
-                "Returns 0 if the array is null or contains only null sub-arrays."
+                "Returns 0 if the array is {@code null} or empty."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#maxSubArrayLength(short[][])"
+              ]
             },
             {
               "name": "maxSubArrayLength",
@@ -7840,7 +7862,7 @@
                 {
                   "name": "a",
                   "type": "short[][]",
-                  "javadoc": "the two-dimensional array to examine (can be {@code null} ).",
+                  "javadoc": "the two-dimensional array to examine (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
@@ -7850,7 +7872,9 @@
                 "Returns 0 if the array is {@code null} or empty."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#minSubArrayLength(short[][])"
+              ]
             },
             {
               "name": "println",
@@ -7954,7 +7978,7 @@
                 {
                   "name": "a",
                   "type": "int[]",
-                  "javadoc": "the array to be modified (can be {@code null} ).",
+                  "javadoc": "the array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -7999,7 +8023,7 @@
                 {
                   "name": "a",
                   "type": "int[][]",
-                  "javadoc": "the two-dimensional array to be modified (can be {@code null} ).",
+                  "javadoc": "the two-dimensional array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -8044,7 +8068,7 @@
                 {
                   "name": "a",
                   "type": "int[][][]",
-                  "javadoc": "the three-dimensional array to be modified (can be {@code null} ).",
+                  "javadoc": "the three-dimensional array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -8089,7 +8113,7 @@
                 {
                   "name": "a",
                   "type": "int[]",
-                  "javadoc": "the array to be modified (can be {@code null} ).",
+                  "javadoc": "the array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -8140,7 +8164,7 @@
                 {
                   "name": "a",
                   "type": "int[][]",
-                  "javadoc": "the two-dimensional array to be modified (can be {@code null} ).",
+                  "javadoc": "the two-dimensional array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -8193,7 +8217,7 @@
                 {
                   "name": "a",
                   "type": "int[][][]",
-                  "javadoc": "the three-dimensional array to be modified (can be {@code null} ).",
+                  "javadoc": "the three-dimensional array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -8239,13 +8263,13 @@
                 {
                   "name": "a",
                   "type": "int[]",
-                  "javadoc": "the one-dimensional array to reshape (can be {@code null} ).",
+                  "javadoc": "the one-dimensional array to reshape (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "columnCount",
                   "type": "int",
-                  "javadoc": "the number of columns in each row.",
+                  "javadoc": "the number of columns in each row (must be positive).",
                   "nullability": "unspecified"
                 }
               ],
@@ -8261,7 +8285,9 @@
                 "If the input array is {@code null} or empty, returns an empty two-dimensional array."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#reshape(int[], int, int),for reshaping into a three-dimensional array"
+              ]
             },
             {
               "name": "reshape",
@@ -8277,19 +8303,19 @@
                 {
                   "name": "a",
                   "type": "int[]",
-                  "javadoc": "the one-dimensional array to reshape (can be {@code null} ).",
+                  "javadoc": "the one-dimensional array to reshape (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "rowCount",
                   "type": "int",
-                  "javadoc": "the number of rows in each two-dimensional slice.",
+                  "javadoc": "the number of rows in each two-dimensional slice (must be positive).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "columnCount",
                   "type": "int",
-                  "javadoc": "the number of columns in each row.",
+                  "javadoc": "the number of columns in each row (must be positive).",
                   "nullability": "unspecified"
                 }
               ],
@@ -8305,7 +8331,9 @@
                 "If the input array is {@code null} or empty, returns an empty three-dimensional array."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#reshape(int[], int),for reshaping into a two-dimensional array"
+              ]
             },
             {
               "name": "flatten",
@@ -9239,7 +9267,7 @@
                 {
                   "name": "a",
                   "type": "int[][]",
-                  "javadoc": "the two-dimensional integer array (can be {@code null} ).",
+                  "javadoc": "the two-dimensional integer array (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
@@ -9247,7 +9275,9 @@
               "javadoc_summary": "Finds the minimum length among all sub-arrays in a two-dimensional integer array.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#maxSubArrayLength(int[][])"
+              ]
             },
             {
               "name": "maxSubArrayLength",
@@ -9263,7 +9293,7 @@
                 {
                   "name": "a",
                   "type": "int[][]",
-                  "javadoc": "the two-dimensional integer array (can be {@code null} ).",
+                  "javadoc": "the two-dimensional integer array (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 }
               ],
@@ -9271,7 +9301,9 @@
               "javadoc_summary": "Finds the maximum length among all sub-arrays in a two-dimensional integer array.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#minSubArrayLength(int[][])"
+              ]
             },
             {
               "name": "println",
@@ -9375,7 +9407,7 @@
                 {
                   "name": "a",
                   "type": "long[]",
-                  "javadoc": "the array to be modified (can be {@code null} ).",
+                  "javadoc": "the array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -9420,7 +9452,7 @@
                 {
                   "name": "a",
                   "type": "long[][]",
-                  "javadoc": "the two-dimensional array to be modified (can be {@code null} ).",
+                  "javadoc": "the two-dimensional array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -9465,7 +9497,7 @@
                 {
                   "name": "a",
                   "type": "long[][][]",
-                  "javadoc": "the three-dimensional array to be modified (can be {@code null} ).",
+                  "javadoc": "the three-dimensional array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -9510,7 +9542,7 @@
                 {
                   "name": "a",
                   "type": "long[]",
-                  "javadoc": "the array to be modified (can be {@code null} ).",
+                  "javadoc": "the array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -9563,7 +9595,7 @@
                 {
                   "name": "a",
                   "type": "long[][]",
-                  "javadoc": "the two-dimensional array to be modified (can be {@code null} ).",
+                  "javadoc": "the two-dimensional array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -9616,7 +9648,7 @@
                 {
                   "name": "a",
                   "type": "long[][][]",
-                  "javadoc": "the three-dimensional array to be modified (can be {@code null} ).",
+                  "javadoc": "the three-dimensional array to be modified (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
@@ -9662,13 +9694,13 @@
                 {
                   "name": "a",
                   "type": "long[]",
-                  "javadoc": "the one-dimensional array to reshape (can be {@code null} ).",
+                  "javadoc": "the one-dimensional array to reshape (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "columnCount",
                   "type": "int",
-                  "javadoc": "the number of columns in the resulting two-dimensional array.",
+                  "javadoc": "the number of columns in the resulting two-dimensional array (must be positive).",
                   "nullability": "unspecified"
                 }
               ],
@@ -9683,7 +9715,9 @@
                 "The last row may be shorter if the total number of elements is not a multiple of {@code columnCount} ."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#reshape(long[], int, int),for reshaping into a three-dimensional array"
+              ]
             },
             {
               "name": "reshape",
@@ -9699,19 +9733,19 @@
                 {
                   "name": "a",
                   "type": "long[]",
-                  "javadoc": "the one-dimensional array to reshape (can be {@code null} ).",
+                  "javadoc": "the one-dimensional array to reshape (can be {@code null} or empty).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "rowCount",
                   "type": "int",
-                  "javadoc": "the number of rows in each two-dimensional sub-array.",
+                  "javadoc": "the number of rows in each two-dimensional sub-array (must be positive).",
                   "nullability": "unspecified"
                 },
                 {
                   "name": "columnCount",
                   "type": "int",
-                  "javadoc": "the number of columns in each two-dimensional sub-array.",
+                  "javadoc": "the number of columns in each two-dimensional sub-array (must be positive).",
                   "nullability": "unspecified"
                 }
               ],
@@ -9726,7 +9760,9 @@
                 "The last sub-arrays may be shorter if the total element count is not perfectly divisible."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#reshape(long[], int),for reshaping into a two-dimensional array"
+              ]
             },
             {
               "name": "flatten",
@@ -26115,7 +26151,10 @@
               "javadoc_summary": "Returns a new array containing all elements of this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#toList()",
+                "#stream()"
+              ]
             },
             {
               "name": "toList",
@@ -26131,7 +26170,10 @@
               "javadoc_summary": "Returns a new CharList containing all elements of this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#toArray()",
+                "#stream()"
+              ]
             },
             {
               "name": "forEach",
@@ -26166,7 +26208,9 @@
               "javadoc_summary": "Performs the given action for each element in this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#stream()"
+              ]
             },
             {
               "name": "stream",
@@ -26684,7 +26728,10 @@
               "javadoc_summary": "Applies the given action to both elements of this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#forEach(Throwables.CharConsumer)",
+                "#map(Throwables.CharBiFunction)"
+              ]
             },
             {
               "name": "map",
@@ -26725,7 +26772,10 @@
               "javadoc_summary": "Applies the given function to both elements of this tuple and returns the result.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#accept(Throwables.CharBiConsumer)",
+                "#filter(Throwables.CharBiPredicate)"
+              ]
             },
             {
               "name": "filter",
@@ -26763,7 +26813,10 @@
                 "If the predicate returns {@code true} , the tuple is wrapped in an Optional; otherwise, an empty Optional is returned."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#accept(Throwables.CharBiConsumer)",
+                "#map(Throwables.CharBiFunction)"
+              ]
             },
             {
               "name": "hashCode",
@@ -27066,7 +27119,10 @@
                 "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C'); tuple.accept((a, b, c) -> System.out.println(a + \", \" + b + \", \" + c)); // Checking ordering tuple.accept((a, b, c) -> { if (a < b && b < c) System.out.println(\"Ascending order\"); }); } </pre>"
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#forEach(Throwables.CharConsumer)",
+                "#map(Throwables.CharTriFunction)"
+              ]
             },
             {
               "name": "map",
@@ -27107,7 +27163,10 @@
               "javadoc_summary": "Applies the given function to all three elements of this tuple and returns the result.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#accept(Throwables.CharTriConsumer)",
+                "#filter(Throwables.CharTriPredicate)"
+              ]
             },
             {
               "name": "filter",
@@ -27145,7 +27204,10 @@
                 "If the predicate returns {@code true} , the tuple is wrapped in an Optional; otherwise, an empty Optional is returned."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#accept(Throwables.CharTriConsumer)",
+                "#map(Throwables.CharTriFunction)"
+              ]
             },
             {
               "name": "hashCode",
@@ -30338,7 +30400,10 @@
               "javadoc_summary": "Performs the given bi-consumer action on the two elements of this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#map(Throwables.DoubleBiFunction)",
+                "#filter(Throwables.DoubleBiPredicate)"
+              ]
             },
             {
               "name": "map",
@@ -30379,7 +30444,10 @@
               "javadoc_summary": "Applies the given bi-function to the two elements and returns the result.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#accept(Throwables.DoubleBiConsumer)",
+                "#filter(Throwables.DoubleBiPredicate)"
+              ]
             },
             {
               "name": "filter",
@@ -30418,7 +30486,10 @@
                 "If it returns {@code false} , returns an empty Optional."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#accept(Throwables.DoubleBiConsumer)",
+                "#map(Throwables.DoubleBiFunction)"
+              ]
             },
             {
               "name": "hashCode",
@@ -30725,7 +30796,10 @@
               "javadoc_summary": "Performs the given tri-consumer action on the three elements of this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#map(Throwables.DoubleTriFunction)",
+                "#filter(Throwables.DoubleTriPredicate)"
+              ]
             },
             {
               "name": "map",
@@ -30766,7 +30840,10 @@
               "javadoc_summary": "Applies the given tri-function to the three elements and returns the result.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#accept(Throwables.DoubleTriConsumer)",
+                "#filter(Throwables.DoubleTriPredicate)"
+              ]
             },
             {
               "name": "filter",
@@ -30805,7 +30882,10 @@
                 "If it returns {@code false} , returns an empty Optional."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#accept(Throwables.DoubleTriConsumer)",
+                "#map(Throwables.DoubleTriFunction)"
+              ]
             },
             {
               "name": "hashCode",
@@ -36539,7 +36619,9 @@
                 "Returns {@code true} if this ImmutableIntArray contains no elements."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#length()"
+              ]
             },
             {
               "name": "length",
@@ -36555,7 +36637,9 @@
               "javadoc_summary": "Returns the number of elements in this ImmutableIntArray.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#isEmpty()"
+              ]
             },
             {
               "name": "contains",
@@ -36636,13 +36720,15 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns the sum of all elements in this array.",
+              "javadoc_summary": "Returns the sum of all elements in this array as an {@code int} .",
               "contract": [
-                "<p> The summation is performed in {@code long} precision and narrowed to {@code int} ; if the total does not fit in an {@code int} , an {@link ArithmeticException} is thrown."
+                "<p> The summation is performed in {@code long} precision and narrowed to {@code int} ; if the total does not fit in the {@code int} range, an {@link ArithmeticException} is thrown."
               ],
               "examples": [],
               "see_also": [
-                "#average()"
+                "#average()",
+                "#min()",
+                "#max()"
               ]
             },
             {
@@ -36660,7 +36746,9 @@
               "contract": [],
               "examples": [],
               "see_also": [
-                "#sum()"
+                "#sum()",
+                "#min()",
+                "#max()"
               ]
             },
             {
@@ -36685,7 +36773,9 @@
               "contract": [],
               "performance": "<p> This method provides constant-time O(1) access to elements by index.",
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#length()"
+              ]
             },
             {
               "name": "forEach",
@@ -36786,7 +36876,7 @@
               "javadoc_summary": "Returns an IntStream containing all elements of this ImmutableIntArray.",
               "contract": [
                 "When this wrapper was created via {@link #unsafeWrap(int[])} , the backing array is the caller-supplied array, so any mutation of that array will be observable through the returned stream.",
-                "Use {@link #copyOf(int[])} if you require full isolation."
+                "Use {@link #copyOf(int[])} to build the wrapper from a defensive copy if you require full isolation from the original source array."
               ],
               "examples": [],
               "see_also": []
@@ -37385,7 +37475,9 @@
                 "The generic return type is only type-safe when assigned to the matching arity-specific subtype, or to the base tuple type."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#of(int)"
+              ]
             },
             {
               "name": "min",
@@ -37443,7 +37535,11 @@
                 "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code IntTuple.IntTuple3 tuple = IntTuple.of(1, 3, 2); int median = tuple.median(); // 2 (middle value when sorted: 1, 2, 3) IntTuple.IntTuple4 evenTuple = IntTuple.of(1, 2, 3, 4); int evenMedian = evenTuple.median(); // 2 (lower middle when sorted: 1, [2], 3, 4) } </pre>"
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#min()",
+                "#max()",
+                "N#median(int...)"
+              ]
             },
             {
               "name": "sum",
@@ -37461,7 +37557,9 @@
                 "<p> The summation is performed in {@code long} precision and then narrowed back to {@code int} ; if the true total does not fit in an {@code int} , an {@link ArithmeticException} is thrown rather than the result silently wrapping around."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#average()"
+              ]
             },
             {
               "name": "average",
@@ -37540,7 +37638,10 @@
               "javadoc_summary": "Returns a new array containing all elements of this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#toList()",
+                "#stream()"
+              ]
             },
             {
               "name": "toList",
@@ -37556,7 +37657,10 @@
               "javadoc_summary": "Returns a new IntList containing all elements of this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#toArray()",
+                "#stream()"
+              ]
             },
             {
               "name": "forEach",
@@ -37607,7 +37711,10 @@
               "javadoc_summary": "Returns an IntStream of all elements in this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#toArray()",
+                "#toList()"
+              ]
             },
             {
               "name": "hashCode",
@@ -37623,7 +37730,9 @@
               "javadoc_summary": "Returns a hash code value for this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#equals(Object)"
+              ]
             },
             {
               "name": "equals",
@@ -37645,10 +37754,12 @@
               "throws": [],
               "javadoc_summary": "Compares this tuple to the specified object for equality.",
               "contract": [
-                "<p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same int values in the same order </li> </ul> <p> This method is consistent with {@link #hashCode()} ."
+                "<p> Two tuples are considered equal if and only if either: </p> <ul> <li> They are the same object (reference equality), or </li> <li> The other object is non-null, is an instance of the exact same runtime class (so an {@code IntTuple2} never equals an {@code IntTuple3} ), and contains the same int values in the same order."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#hashCode()"
+              ]
             },
             {
               "name": "toString",
@@ -41021,7 +41132,9 @@
                 "The generic return type is only type-safe when assigned to the matching arity-specific subtype, or to the base tuple type."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#of(long)"
+              ]
             },
             {
               "name": "min",
@@ -41080,7 +41193,8 @@
               "examples": [],
               "see_also": [
                 "#min()",
-                "#max()"
+                "#max()",
+                "N#median(long...)"
               ]
             },
             {
@@ -41096,10 +41210,12 @@
               "throws": [],
               "javadoc_summary": "Returns the sum of all long values in this tuple as a {@code long} .",
               "contract": [
-                "If the sum overflows the range of {@code long} , the result wraps around according to standard two's-complement long arithmetic."
+                "If the true total exceeds the range of {@code long} , the result wraps around according to standard two's-complement long arithmetic rather than throwing an exception."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#average()"
+              ]
             },
             {
               "name": "average",
@@ -41178,7 +41294,10 @@
               "javadoc_summary": "Returns a new array containing all elements of this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#toList()",
+                "#stream()"
+              ]
             },
             {
               "name": "toList",
@@ -41194,7 +41313,10 @@
               "javadoc_summary": "Returns a new LongList containing all elements of this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#toArray()",
+                "#stream()"
+              ]
             },
             {
               "name": "forEach",
@@ -41245,7 +41367,10 @@
               "javadoc_summary": "Returns a LongStream of all elements in this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#toArray()",
+                "#toList()"
+              ]
             },
             {
               "name": "hashCode",
@@ -41261,7 +41386,9 @@
               "javadoc_summary": "Returns a hash code value for this tuple.",
               "contract": [],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#equals(Object)"
+              ]
             },
             {
               "name": "equals",
@@ -41283,10 +41410,12 @@
               "throws": [],
               "javadoc_summary": "Compares this tuple to the specified object for equality.",
               "contract": [
-                "<p> Two tuples are considered equal if and only if: </p> <ul> <li> They are the same object (reference equality), or </li> <li> They are instances of the exact same class, and </li> <li> They contain the same long values in the same order </li> </ul> <p> This method is consistent with {@link #hashCode()} ."
+                "<p> Two tuples are considered equal if and only if either: </p> <ul> <li> They are the same object (reference equality), or </li> <li> The other object is non-null, is an instance of the exact same runtime class (so a {@code LongTuple2} never equals a {@code LongTuple3} ), and contains the same long values in the same order."
               ],
               "examples": [],
-              "see_also": []
+              "see_also": [
+                "#hashCode()"
+              ]
             },
             {
               "name": "toString",
@@ -41748,8 +41877,8 @@
               "contract": [],
               "examples": [],
               "see_also": [
-                "#forEach(Throwables.LongConsumer)",
-                "#map(Throwables.LongBiFunction)"
+                "#map(Throwables.LongBiFunction)",
+                "#filter(Throwables.LongBiPredicate)"
               ]
             },
             {
@@ -42139,8 +42268,8 @@
               ],
               "examples": [],
               "see_also": [
-                "#forEach(Throwables.LongConsumer)",
-                "#map(Throwables.LongTriFunction)"
+                "#map(Throwables.LongTriFunction)",
+                "#filter(Throwables.LongTriPredicate)"
               ]
             },
             {
