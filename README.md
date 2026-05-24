@@ -1,6 +1,6 @@
 # abacus-extra 
  
-[![Maven Central](https://img.shields.io/maven-central/v/com.landawn.abacus/abacus-extra.svg)](https://maven-badges.herokuapp.com/maven-central/com.landawn.abacus/abacus-extra/)
+[![Maven Central](https://img.shields.io/maven-central/v/com.landawn.abacus/abacus-extra.svg)](https://central.sonatype.com/artifact/com.landawn.abacus/abacus-extra/3.7.2)
 [![Javadocs](https://img.shields.io/badge/javadoc-3.7.2-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn.abacus/abacus-extra/3.7.2/index.html)
 
 Additional utility types for the Abacus ecosystem, focused on primitive tuples, point/value records, array helpers, and related supporting APIs.
