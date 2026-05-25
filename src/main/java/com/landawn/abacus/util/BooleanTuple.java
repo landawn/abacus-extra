@@ -430,7 +430,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <pre>{@code
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
      * tuple.forEach(b -> System.out.println("Value: " + b));
-     * // Output: Value: true, Value: false, Value: true
+     * // Prints three lines: "Value: true", "Value: false", "Value: true"
      *
      * // Count true values
      * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();

@@ -635,9 +635,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * Returns a string representation of this tuple.
      * <p>
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
-     * The empty tuple renders as {@code "()"}.
+     * Each concrete subclass overrides this method to produce a representation in which
+     * the tuple's elements are enclosed in parentheses {@code "()"} and separated by a
+     * comma and space, in the format {@code (element1, element2, ...)}. The empty tuple
+     * renders as {@code "()"}.
      * </p>
      *
      * @return a string representation of this tuple

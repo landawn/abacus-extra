@@ -534,12 +534,15 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <pre>{@code
      * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * tuple.forEach(v -> System.out.println("Value: " + v));
-     * // Output: Value: 1, Value: 2, Value: 3
+     * // Prints (one per line):
+     * //   Value: 1
+     * //   Value: 2
+     * //   Value: 3
      *
      * // Accumulate sum externally
      * java.util.concurrent.atomic.AtomicInteger total = new java.util.concurrent.atomic.AtomicInteger();
-     * tuple.forEach(v -> total.addAndGet(v));
-     * // total is now 6
+     * tuple.forEach(total::addAndGet);
+     * // total.get() == 6
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action

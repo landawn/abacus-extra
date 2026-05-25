@@ -666,7 +666,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * An empty tuple containing no elements.
      * This class is used to represent a tuple with zero elements
-     * and is returned by {@link #copyOf(long[])} when passed a null or empty array.
+     * and is returned by {@link #copyOf(long[])} when passed a {@code null} or empty array.
      */
     static final class LongTuple0 extends LongTuple<LongTuple0> {
 

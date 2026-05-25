@@ -9227,7 +9227,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of long elements in a two-dimensional array, handling null sub-arrays.
+     * Calculates the total number of long elements in a two-dimensional array.
+     * Null sub-arrays are treated as having zero elements.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9236,8 +9237,9 @@ public sealed class Arrays permits Arrays.f {
      * // count is 5
      * }</pre>
      *
-     * @param a the two-dimensional array to inspect (can be {@code null}).
-     * @return the total count of long elements.
+     * @param a the two-dimensional long array (can be {@code null} or empty).
+     * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
+     * @see #elementCount(long[][][]) for three-dimensional arrays
      */
     public static long elementCount(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -9254,7 +9256,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of long elements in a three-dimensional array, handling null sub-arrays.
+     * Calculates the total number of long elements in a three-dimensional array.
+     * Empty or null sub-arrays at any level are skipped.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9263,8 +9266,9 @@ public sealed class Arrays permits Arrays.f {
      * // count is 6
      * }</pre>
      *
-     * @param a the three-dimensional array to inspect (can be {@code null}).
-     * @return the total count of long elements.
+     * @param a the three-dimensional long array (can be {@code null} or empty).
+     * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
+     * @see #elementCount(long[][]) for two-dimensional arrays
      */
     public static long elementCount(final long[][][] a) {
         if (N.isEmpty(a)) {
@@ -9301,8 +9305,9 @@ public sealed class Arrays permits Arrays.f {
      * // minLen will be 0
      * }</pre>
      *
-     * @param a the two-dimensional long array (can be {@code null}).
+     * @param a the two-dimensional long array (can be {@code null} or empty).
      * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
+     * @see #maxSubArrayLength(long[][])
      */
     public static int minSubArrayLength(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -9329,8 +9334,9 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen will be 3
      * }</pre>
      *
-     * @param a the two-dimensional long array (can be {@code null}).
+     * @param a the two-dimensional long array (can be {@code null} or empty).
      * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
+     * @see #minSubArrayLength(long[][])
      */
     public static int maxSubArrayLength(final long[][] a) {
         if (N.isEmpty(a)) {
