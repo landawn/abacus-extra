@@ -31,7 +31,7 @@ import com.landawn.abacus.util.stream.ByteStream;
  * to {@code 127}). Aggregates such as {@link #sum()} are widened to {@code int} and {@link #average()}
  * to {@code double} to avoid overflow.</p>
  *
- * @param <TP> the specific ByteTuple subtype
+ * @param <TP> the concrete {@code ByteTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  * @see IntTuple
  * @see ShortTuple
@@ -270,14 +270,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * ByteTuple.ByteTuple1 single = ByteTuple.copyOf(new byte[]{(byte) 42});
      * }</pre>
      *
-     * <p><b>Type note:</b> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
-     * or to the base tuple type.</p>
+     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
+     * {@link ClassCastException} at the assignment site.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of byte values; may be {@code null} or empty (length must be at most 9)
      * @return a ByteTuple of appropriate size containing the array values, or an empty ByteTuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values.length} is greater than 9
+     * @see #of(byte)
      */
     @SuppressWarnings("deprecation")
     public static <TP extends ByteTuple<TP>> TP copyOf(final byte[] values) {
@@ -391,6 +393,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
      * @see #max()
+     * @see N#median(byte...)
      */
     public byte median() {
         return N.median(elements());
@@ -598,6 +601,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @return a ByteStream containing all tuple elements
+     * @see #toArray()
+     * @see #toList()
      */
     public ByteStream stream() {
         return ByteStream.of(elements());

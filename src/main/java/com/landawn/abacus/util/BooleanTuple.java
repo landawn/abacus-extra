@@ -31,7 +31,7 @@ import com.landawn.abacus.util.stream.Stream;
  * {@code median()}, {@code sum()}, or {@code average()}. These are intentionally omitted because
  * {@code boolean} values lack a natural numeric ordering and have no meaningful sum or average.</p>
  *
- * @param <TP> the concrete {@code BooleanTuple} subtype (self-type bound used for fluent return types)
+ * @param <TP> the concrete {@code BooleanTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
@@ -270,14 +270,16 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * BooleanTuple.BooleanTuple1 single = BooleanTuple.copyOf(new boolean[]{true});
      * }</pre>
      *
-     * <p><b>Type note:</b> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
-     * or to the base tuple type.</p>
+     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
+     * {@link ClassCastException} at the assignment site.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of boolean values to copy; may be {@code null} or empty, and must contain at most 9 elements
      * @return a BooleanTuple of the appropriate arity containing the array values, or an empty BooleanTuple if {@code values} is {@code null} or empty
      * @throws IllegalArgumentException if {@code values.length} is greater than 9
+     * @see #of(boolean)
      */
     @SuppressWarnings("deprecation")
     public static <TP extends BooleanTuple<TP>> TP copyOf(final boolean[] values) {
@@ -472,6 +474,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * }</pre>
      *
      * @return a Stream containing all tuple elements as Boolean objects
+     * @see #toArray()
+     * @see #toList()
      */
     public Stream<Boolean> stream() {
         return Stream.of(elements());

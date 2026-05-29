@@ -417,7 +417,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * double avg = tuple.average();   // 2.5
      * }</pre>
      *
-     * @return the average of all int values in this tuple as a {@code double}
+     * @return the arithmetic mean of all int values in this tuple as a {@code double}
      * @throws NoSuchElementException if the tuple is empty
      * @see #sum()
      */

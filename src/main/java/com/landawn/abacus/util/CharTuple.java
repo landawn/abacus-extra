@@ -32,7 +32,7 @@ import com.landawn.abacus.util.stream.CharStream;
  * 16-bit UTF-16 code unit value (range {@code 0..65535}). Surrogate code units are not paired or
  * interpreted as code points.</p>
  *
- * @param <TP> the specific CharTuple subtype
+ * @param <TP> the concrete {@code CharTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
@@ -382,6 +382,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
      * @see #max()
+     * @see N#median(char...)
      */
     public char median() {
         return N.median(elements());
@@ -581,6 +582,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @return a CharStream containing all tuple elements
+     * @see #toArray()
+     * @see #toList()
      */
     public CharStream stream() {
         return CharStream.of(elements());

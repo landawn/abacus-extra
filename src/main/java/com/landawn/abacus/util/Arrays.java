@@ -3451,8 +3451,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
-     * This is useful for applying one-dimensional array operations across a three-dimensional structure.
+     * Flattens a three-dimensional array, performs an operation on the resulting one-dimensional array,
+     * and then copies the modified elements back into the original three-dimensional array.
+     * This allows for applying one-dimensional array operations (like sorting) across a three-dimensional structure.
      * The operation is performed in-place on the original three-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
@@ -4697,7 +4698,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the two-dimensional byte array to operate on (can be {@code null}).
+     * @param a the two-dimensional byte array to operate on (can be {@code null} or empty).
      * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
@@ -14676,7 +14677,7 @@ public sealed class Arrays permits Arrays.f {
      * Object-array helper namespace for one-dimensional arrays.
      *
      * <p>The short name supports concise references that mirror the dimensionality of the target
-     * array: {@code f} for one-dimensional, {@link ff} for two-dimensional, and {@link fff} for
+     * array: {@code f} for one-dimensional, {@link Arrays.ff} for two-dimensional, and {@link Arrays.fff} for
      * three-dimensional object arrays. Because this class extends {@link com.landawn.abacus.util.Arrays},
      * code can call every public static method declared on the parent class through the {@code f}
      * identifier (for example {@code f.copy(...)} or {@code f.println(...)}).</p>
@@ -15003,7 +15004,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This class groups the bulk update, reshape, flatten, map, and zip operations that are specific
      * to {@code T[][]}. The short name is intentional so callers can use concise static imports when they
-     * work heavily with multidimensional object arrays. Unlike {@link f}, this class does not extend
+     * work heavily with multidimensional object arrays. Unlike {@link Arrays.f}, this class does not extend
      * {@link Arrays}; it only exposes the 2D-specific helpers declared here.</p>
      *
      * @see Arrays.f
