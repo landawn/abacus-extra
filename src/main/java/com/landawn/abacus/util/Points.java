@@ -78,14 +78,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point at coordinates (10, 20) with value 5
-             * Points.D2.ByteBytePoint point = Points.D2.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 5);
-             * byte x = point.x();  // 10
-             * byte y = point.y();  // 20
-             * byte value = point.value();  // 5
+             * // Basic: typical positive coordinates and value
+             * Points.D2.ByteBytePoint p1 = Points.D2.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 5);
+             * p1.x()     // returns (byte) 10
+             * p1.y()     // returns (byte) 20
+             * p1.value() // returns (byte) 5
              *
-             * // Useful for memory-efficient grid representations
-             * Points.D2.ByteBytePoint gridCell = Points.D2.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 127);
+             * // Basic: zero coordinates and value
+             * Points.D2.ByteBytePoint p2 = Points.D2.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 0);
+             * p2.x()     // returns (byte) 0
+             * p2.y()     // returns (byte) 0
+             * p2.value() // returns (byte) 0
+             *
+             * // Edge: minimum boundary values (Byte.MIN_VALUE = -128)
+             * Points.D2.ByteBytePoint p3 = Points.D2.ByteBytePoint.of((byte) -128, (byte) -128, (byte) -128);
+             * p3.x()     // returns (byte) -128
+             * p3.y()     // returns (byte) -128
+             * p3.value() // returns (byte) -128
+             *
+             * // Edge: maximum boundary values (Byte.MAX_VALUE = 127)
+             * Points.D2.ByteBytePoint p4 = Points.D2.ByteBytePoint.of((byte) 127, (byte) 127, (byte) 127);
+             * p4.x()     // returns (byte) 127
+             * p4.y()     // returns (byte) 127
+             * p4.value() // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -118,14 +133,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with byte coordinates and integer value
-             * Points.D2.ByteIntPoint point = Points.D2.ByteIntPoint.of((byte) 5, (byte) 10, 1000);
-             * byte x = point.x();  // 5
-             * byte y = point.y();  // 10
-             * int value = point.value();  // 1000
+             * // Basic: typical byte coordinates with a large integer value
+             * Points.D2.ByteIntPoint p1 = Points.D2.ByteIntPoint.of((byte) 5, (byte) 10, 1000);
+             * p1.x()     // returns (byte) 5
+             * p1.y()     // returns (byte) 10
+             * p1.value() // returns 1000
              *
-             * // Useful for small grids with large counts or indices
-             * Points.D2.ByteIntPoint cellWithCount = Points.D2.ByteIntPoint.of((byte) 0, (byte) 0, 1000000);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.ByteIntPoint p2 = Points.D2.ByteIntPoint.of((byte) 0, (byte) 0, 0);
+             * p2.x()     // returns (byte) 0
+             * p2.y()     // returns (byte) 0
+             * p2.value() // returns 0
+             *
+             * // Edge: Byte.MIN_VALUE x, Byte.MAX_VALUE y, Integer.MIN_VALUE
+             * Points.D2.ByteIntPoint p3 = Points.D2.ByteIntPoint.of((byte) -128, (byte) 127, Integer.MIN_VALUE);
+             * p3.x()     // returns (byte) -128
+             * p3.y()     // returns (byte) 127
+             * p3.value() // returns Integer.MIN_VALUE (-2147483648)
+             *
+             * // Edge: negative byte coords with Integer.MAX_VALUE
+             * Points.D2.ByteIntPoint p4 = Points.D2.ByteIntPoint.of((byte) -1, (byte) -1, Integer.MAX_VALUE);
+             * p4.x()     // returns (byte) -1
+             * p4.y()     // returns (byte) -1
+             * p4.value() // returns Integer.MAX_VALUE (2147483647)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -158,15 +188,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with byte coordinates and long value
-             * Points.D2.ByteLongPoint point = Points.D2.ByteLongPoint.of((byte) 3, (byte) 7, 1000000000L);
-             * byte x = point.x();  // 3
-             * byte y = point.y();  // 7
-             * long value = point.value();  // 1000000000
+             * // Basic: typical byte coordinates with a large long value
+             * Points.D2.ByteLongPoint p1 = Points.D2.ByteLongPoint.of((byte) 3, (byte) 7, 1_000_000_000L);
+             * p1.x()     // returns (byte) 3
+             * p1.y()     // returns (byte) 7
+             * p1.value() // returns 1000000000L
              *
-             * // Useful for small grids with timestamps
-             * long timestamp = System.currentTimeMillis();
-             * Points.D2.ByteLongPoint cellWithTime = Points.D2.ByteLongPoint.of((byte) 0, (byte) 0, timestamp);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.ByteLongPoint p2 = Points.D2.ByteLongPoint.of((byte) 0, (byte) 0, 0L);
+             * p2.x()     // returns (byte) 0
+             * p2.y()     // returns (byte) 0
+             * p2.value() // returns 0L
+             *
+             * // Edge: Byte.MIN_VALUE coords, Long.MIN_VALUE
+             * Points.D2.ByteLongPoint p3 = Points.D2.ByteLongPoint.of((byte) -128, (byte) -128, Long.MIN_VALUE);
+             * p3.x()     // returns (byte) -128
+             * p3.y()     // returns (byte) -128
+             * p3.value() // returns Long.MIN_VALUE (-9223372036854775808L)
+             *
+             * // Edge: Byte.MAX_VALUE coords, Long.MAX_VALUE
+             * Points.D2.ByteLongPoint p4 = Points.D2.ByteLongPoint.of((byte) 127, (byte) 127, Long.MAX_VALUE);
+             * p4.x()     // returns (byte) 127
+             * p4.y()     // returns (byte) 127
+             * p4.value() // returns Long.MAX_VALUE (9223372036854775807L)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -199,14 +243,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with byte coordinates and double value
-             * Points.D2.ByteDoublePoint point = Points.D2.ByteDoublePoint.of((byte) 2, (byte) 4, 3.14159);
-             * byte x = point.x();  // 2
-             * byte y = point.y();  // 4
-             * double value = point.value();  // 3.14159
+             * // Basic: typical byte coordinates with a floating-point value
+             * Points.D2.ByteDoublePoint p1 = Points.D2.ByteDoublePoint.of((byte) 2, (byte) 4, 3.14159);
+             * p1.x()     // returns (byte) 2
+             * p1.y()     // returns (byte) 4
+             * p1.value() // returns 3.14159
              *
-             * // Useful for small grids with probability or weight values
-             * Points.D2.ByteDoublePoint cellWithProbability = Points.D2.ByteDoublePoint.of((byte) 1, (byte) 1, 0.75);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.ByteDoublePoint p2 = Points.D2.ByteDoublePoint.of((byte) 0, (byte) 0, 0.0);
+             * p2.x()     // returns (byte) 0
+             * p2.y()     // returns (byte) 0
+             * p2.value() // returns 0.0
+             *
+             * // Edge: Byte.MIN_VALUE and Byte.MAX_VALUE coords, Double.NaN value
+             * Points.D2.ByteDoublePoint p3 = Points.D2.ByteDoublePoint.of((byte) -128, (byte) 127, Double.NaN);
+             * p3.x()                   // returns (byte) -128
+             * p3.y()                   // returns (byte) 127
+             * Double.isNaN(p3.value()) // returns true
+             *
+             * // Edge: negative byte coords, Double.POSITIVE_INFINITY value
+             * Points.D2.ByteDoublePoint p4 = Points.D2.ByteDoublePoint.of((byte) -1, (byte) -1, Double.POSITIVE_INFINITY);
+             * p4.x()     // returns (byte) -1
+             * p4.y()     // returns (byte) -1
+             * p4.value() // returns Double.POSITIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -241,16 +300,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with byte coordinates and a String value
-             * Points.D2.ByteObjPoint<String> point = Points.D2.ByteObjPoint.of((byte) 1, (byte) 2, "label");
-             * byte x = point.x();  // 1
-             * byte y = point.y();  // 2
-             * String value = point.value();  // "label"
+             * // Basic: byte coordinates with a String value
+             * Points.D2.ByteObjPoint<String> p1 = Points.D2.ByteObjPoint.of((byte) 1, (byte) 2, "label");
+             * p1.x()     // returns (byte) 1
+             * p1.y()     // returns (byte) 2
+             * p1.value() // returns "label"
              *
-             * // Useful for small grids with complex metadata
-             * record Metadata(String name, int priority) {}
-             * Metadata meta = new Metadata("important", 10);
-             * Points.D2.ByteObjPoint<Metadata> cellWithMeta = Points.D2.ByteObjPoint.of((byte) 0, (byte) 0, meta);
+             * // Basic: byte coordinates with an Integer value
+             * Points.D2.ByteObjPoint<Integer> p2 = Points.D2.ByteObjPoint.of((byte) 10, (byte) 20, 42);
+             * p2.x()     // returns (byte) 10
+             * p2.y()     // returns (byte) 20
+             * p2.value() // returns 42
+             *
+             * // Edge: Byte.MIN_VALUE / Byte.MAX_VALUE coords, null value (records permit null components)
+             * Points.D2.ByteObjPoint<String> p3 = Points.D2.ByteObjPoint.of((byte) -128, (byte) 127, null);
+             * p3.x()     // returns (byte) -128
+             * p3.y()     // returns (byte) 127
+             * p3.value() // returns null
+             *
+             * // Edge: negative byte coords, arbitrary object value
+             * Points.D2.ByteObjPoint<int[]> p4 = Points.D2.ByteObjPoint.of((byte) -1, (byte) -1, new int[]{1, 2, 3});
+             * p4.x()            // returns (byte) -1
+             * p4.y()            // returns (byte) -1
+             * p4.value().length // returns 3
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -284,14 +356,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with integer coordinates and byte value
-             * Points.D2.IntBytePoint point = Points.D2.IntBytePoint.of(100, 200, (byte) 10);
-             * int x = point.x();  // 100
-             * int y = point.y();  // 200
-             * byte value = point.value();  // 10
+             * // Basic: typical integer coordinates with a byte value
+             * Points.D2.IntBytePoint p1 = Points.D2.IntBytePoint.of(100, 200, (byte) 10);
+             * p1.x()     // returns 100
+             * p1.y()     // returns 200
+             * p1.value() // returns (byte) 10
              *
-             * // Useful for large grids with small enumeration values
-             * Points.D2.IntBytePoint cellType = Points.D2.IntBytePoint.of(1000, 2000, (byte) 3);  // type = 3
+             * // Basic: zero coordinates and zero value
+             * Points.D2.IntBytePoint p2 = Points.D2.IntBytePoint.of(0, 0, (byte) 0);
+             * p2.x()     // returns 0
+             * p2.y()     // returns 0
+             * p2.value() // returns (byte) 0
+             *
+             * // Edge: Integer.MIN_VALUE x, Integer.MAX_VALUE y, Byte.MIN_VALUE value
+             * Points.D2.IntBytePoint p3 = Points.D2.IntBytePoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, (byte) -128);
+             * p3.x()     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y()     // returns Integer.MAX_VALUE (2147483647)
+             * p3.value() // returns (byte) -128
+             *
+             * // Edge: negative integer coords with Byte.MAX_VALUE
+             * Points.D2.IntBytePoint p4 = Points.D2.IntBytePoint.of(-1, -1, (byte) 127);
+             * p4.x()     // returns -1
+             * p4.y()     // returns -1
+             * p4.value() // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -325,17 +412,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with integer coordinates and integer value
-             * Points.D2.IntIntPoint point = Points.D2.IntIntPoint.of(100, 200, 300);
-             * int x = point.x();  // 100
-             * int y = point.y();  // 200
-             * int value = point.value();  // 300
+             * // Basic: typical positive coordinates and value
+             * Points.D2.IntIntPoint p1 = Points.D2.IntIntPoint.of(100, 200, 300);
+             * p1.x()     // returns 100
+             * p1.y()     // returns 200
+             * p1.value() // returns 300
              *
-             * // Common use case: grid cells with counts or indices
-             * Points.D2.IntIntPoint gridCell = Points.D2.IntIntPoint.of(10, 20, 5000);
+             * // Basic: zero coordinates and value
+             * Points.D2.IntIntPoint p2 = Points.D2.IntIntPoint.of(0, 0, 0);
+             * p2.x()     // returns 0
+             * p2.y()     // returns 0
+             * p2.value() // returns 0
              *
-             * // Use in pathfinding with cost values
-             * Points.D2.IntIntPoint pathNode = Points.D2.IntIntPoint.of(5, 8, 15);  // cost = 15
+             * // Edge: Integer.MIN_VALUE for all fields
+             * Points.D2.IntIntPoint p3 = Points.D2.IntIntPoint.of(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+             * p3.x()     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y()     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.value() // returns Integer.MIN_VALUE (-2147483648)
+             *
+             * // Edge: Integer.MAX_VALUE for all fields
+             * Points.D2.IntIntPoint p4 = Points.D2.IntIntPoint.of(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+             * p4.x()     // returns Integer.MAX_VALUE (2147483647)
+             * p4.y()     // returns Integer.MAX_VALUE (2147483647)
+             * p4.value() // returns Integer.MAX_VALUE (2147483647)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -368,18 +467,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with integer coordinates and long value
-             * Points.D2.IntLongPoint point = Points.D2.IntLongPoint.of(50, 75, 10000000000L);
-             * int x = point.x();  // 50
-             * int y = point.y();  // 75
-             * long value = point.value();  // 10000000000
+             * // Basic: typical integer coordinates with a large long value
+             * Points.D2.IntLongPoint p1 = Points.D2.IntLongPoint.of(50, 75, 10_000_000_000L);
+             * p1.x()     // returns 50
+             * p1.y()     // returns 75
+             * p1.value() // returns 10000000000L
              *
-             * // Useful for grids with timestamps
-             * long timestamp = System.currentTimeMillis();
-             * Points.D2.IntLongPoint cellWithTime = Points.D2.IntLongPoint.of(10, 20, timestamp);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.IntLongPoint p2 = Points.D2.IntLongPoint.of(0, 0, 0L);
+             * p2.x()     // returns 0
+             * p2.y()     // returns 0
+             * p2.value() // returns 0L
              *
-             * // Track large identifiers in a grid
-             * Points.D2.IntLongPoint cellWithId = Points.D2.IntLongPoint.of(5, 8, 9876543210L);
+             * // Edge: Integer.MIN_VALUE x, Integer.MAX_VALUE y, Long.MIN_VALUE
+             * Points.D2.IntLongPoint p3 = Points.D2.IntLongPoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, Long.MIN_VALUE);
+             * p3.x()     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y()     // returns Integer.MAX_VALUE (2147483647)
+             * p3.value() // returns Long.MIN_VALUE (-9223372036854775808L)
+             *
+             * // Edge: negative integer coords with Long.MAX_VALUE
+             * Points.D2.IntLongPoint p4 = Points.D2.IntLongPoint.of(-1, -1, Long.MAX_VALUE);
+             * p4.x()     // returns -1
+             * p4.y()     // returns -1
+             * p4.value() // returns Long.MAX_VALUE (9223372036854775807L)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -412,18 +522,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with integer coordinates and double value
-             * Points.D2.IntDoublePoint point = Points.D2.IntDoublePoint.of(10, 20, 3.14159);
-             * int x = point.x();  // 10
-             * int y = point.y();  // 20
-             * double value = point.value();  // 3.14159
+             * // Basic: typical integer coordinates with a double value
+             * Points.D2.IntDoublePoint p1 = Points.D2.IntDoublePoint.of(10, 20, 3.14159);
+             * p1.x()     // returns 10
+             * p1.y()     // returns 20
+             * p1.value() // returns 3.14159
              *
-             * // Useful for grids with probability values
-             * Points.D2.IntDoublePoint cellProbability = Points.D2.IntDoublePoint.of(5, 8, 0.85);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.IntDoublePoint p2 = Points.D2.IntDoublePoint.of(0, 0, 0.0);
+             * p2.x()     // returns 0
+             * p2.y()     // returns 0
+             * p2.value() // returns 0.0
              *
-             * // Distance-based calculations
-             * double distance = Math.sqrt(10 * 10 + 20 * 20);
-             * Points.D2.IntDoublePoint nodeWithDistance = Points.D2.IntDoublePoint.of(10, 20, distance);
+             * // Edge: Integer extremes, Double.NaN value
+             * Points.D2.IntDoublePoint p3 = Points.D2.IntDoublePoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, Double.NaN);
+             * p3.x()                   // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y()                   // returns Integer.MAX_VALUE (2147483647)
+             * Double.isNaN(p3.value()) // returns true
+             *
+             * // Edge: negative integer coords with Double.NEGATIVE_INFINITY
+             * Points.D2.IntDoublePoint p4 = Points.D2.IntDoublePoint.of(-1, -1, Double.NEGATIVE_INFINITY);
+             * p4.x()     // returns -1
+             * p4.y()     // returns -1
+             * p4.value() // returns Double.NEGATIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -458,20 +579,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with integer coordinates and a String value
-             * Points.D2.IntObjPoint<String> point = Points.D2.IntObjPoint.of(10, 20, "label");
-             * int x = point.x();  // 10
-             * int y = point.y();  // 20
-             * String value = point.value();  // "label"
+             * // Basic: integer coordinates with a String value
+             * Points.D2.IntObjPoint<String> p1 = Points.D2.IntObjPoint.of(10, 20, "label");
+             * p1.x()     // returns 10
+             * p1.y()     // returns 20
+             * p1.value() // returns "label"
              *
-             * // Grid with custom objects
-             * record Cell(String type, int priority, boolean active) {}
-             * Cell cell = new Cell("wall", 5, true);
-             * Points.D2.IntObjPoint<Cell> gridCell = Points.D2.IntObjPoint.of(5, 8, cell);
+             * // Basic: integer coordinates with an Integer value
+             * Points.D2.IntObjPoint<Integer> p2 = Points.D2.IntObjPoint.of(5, 8, 99);
+             * p2.x()     // returns 5
+             * p2.y()     // returns 8
+             * p2.value() // returns 99
              *
-             * // Store collections at grid positions
-             * List<String> items = List.of("item1", "item2");
-             * Points.D2.IntObjPoint<List<String>> cellItems = Points.D2.IntObjPoint.of(3, 7, items);
+             * // Edge: Integer extremes, null value (records permit null components)
+             * Points.D2.IntObjPoint<String> p3 = Points.D2.IntObjPoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, null);
+             * p3.x()     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y()     // returns Integer.MAX_VALUE (2147483647)
+             * p3.value() // returns null
+             *
+             * // Edge: zero coords, list as value
+             * Points.D2.IntObjPoint<int[]> p4 = Points.D2.IntObjPoint.of(0, 0, new int[]{1, 2, 3});
+             * p4.x()            // returns 0
+             * p4.y()            // returns 0
+             * p4.value().length // returns 3
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -505,14 +635,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with long coordinates and byte value
-             * Points.D2.LongBytePoint point = Points.D2.LongBytePoint.of(1000000L, 2000000L, (byte) 5);
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * byte value = point.value();  // 5
+             * // Basic: typical large long coordinates with a byte value
+             * Points.D2.LongBytePoint p1 = Points.D2.LongBytePoint.of(1_000_000L, 2_000_000L, (byte) 5);
+             * p1.x()     // returns 1000000L
+             * p1.y()     // returns 2000000L
+             * p1.value() // returns (byte) 5
              *
-             * // Useful for very large grids with small enumeration values
-             * Points.D2.LongBytePoint cellType = Points.D2.LongBytePoint.of(999999999L, 888888888L, (byte) 2);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.LongBytePoint p2 = Points.D2.LongBytePoint.of(0L, 0L, (byte) 0);
+             * p2.x()     // returns 0L
+             * p2.y()     // returns 0L
+             * p2.value() // returns (byte) 0
+             *
+             * // Edge: Long.MIN_VALUE x, Long.MAX_VALUE y, Byte.MIN_VALUE
+             * Points.D2.LongBytePoint p3 = Points.D2.LongBytePoint.of(Long.MIN_VALUE, Long.MAX_VALUE, (byte) -128);
+             * p3.x()     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y()     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p3.value() // returns (byte) -128
+             *
+             * // Edge: negative long coords with Byte.MAX_VALUE
+             * Points.D2.LongBytePoint p4 = Points.D2.LongBytePoint.of(-1L, -1L, (byte) 127);
+             * p4.x()     // returns -1L
+             * p4.y()     // returns -1L
+             * p4.value() // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -545,14 +690,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with long coordinates and integer value
-             * Points.D2.LongIntPoint point = Points.D2.LongIntPoint.of(1000000L, 2000000L, 500);
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * int value = point.value();  // 500
+             * // Basic: typical large long coordinates with an integer value
+             * Points.D2.LongIntPoint p1 = Points.D2.LongIntPoint.of(1_000_000L, 2_000_000L, 500);
+             * p1.x()     // returns 1000000L
+             * p1.y()     // returns 2000000L
+             * p1.value() // returns 500
              *
-             * // Useful for very large grids with counts or indices
-             * Points.D2.LongIntPoint cellCount = Points.D2.LongIntPoint.of(999999999L, 888888888L, 1000000);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.LongIntPoint p2 = Points.D2.LongIntPoint.of(0L, 0L, 0);
+             * p2.x()     // returns 0L
+             * p2.y()     // returns 0L
+             * p2.value() // returns 0
+             *
+             * // Edge: Long.MIN_VALUE x, Long.MAX_VALUE y, Integer.MIN_VALUE
+             * Points.D2.LongIntPoint p3 = Points.D2.LongIntPoint.of(Long.MIN_VALUE, Long.MAX_VALUE, Integer.MIN_VALUE);
+             * p3.x()     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y()     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p3.value() // returns Integer.MIN_VALUE (-2147483648)
+             *
+             * // Edge: negative long coords with Integer.MAX_VALUE
+             * Points.D2.LongIntPoint p4 = Points.D2.LongIntPoint.of(-1L, -1L, Integer.MAX_VALUE);
+             * p4.x()     // returns -1L
+             * p4.y()     // returns -1L
+             * p4.value() // returns Integer.MAX_VALUE (2147483647)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -584,18 +744,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with long coordinates and long value
-             * Points.D2.LongLongPoint point = Points.D2.LongLongPoint.of(1000000L, 2000000L, 3000000000L);
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * long value = point.value();  // 3000000000
+             * // Basic: typical large long coordinates and long value
+             * Points.D2.LongLongPoint p1 = Points.D2.LongLongPoint.of(1_000_000L, 2_000_000L, 3_000_000_000L);
+             * p1.x()     // returns 1000000L
+             * p1.y()     // returns 2000000L
+             * p1.value() // returns 3000000000L
              *
-             * // Useful for very large grids with timestamps
-             * long timestamp = System.currentTimeMillis();
-             * Points.D2.LongLongPoint cellTime = Points.D2.LongLongPoint.of(999999999L, 888888888L, timestamp);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.LongLongPoint p2 = Points.D2.LongLongPoint.of(0L, 0L, 0L);
+             * p2.x()     // returns 0L
+             * p2.y()     // returns 0L
+             * p2.value() // returns 0L
              *
-             * // Large coordinate space with large identifiers
-             * Points.D2.LongLongPoint cellId = Points.D2.LongLongPoint.of(1L << 40, 1L << 41, 1L << 50);
+             * // Edge: Long.MIN_VALUE for all fields
+             * Points.D2.LongLongPoint p3 = Points.D2.LongLongPoint.of(Long.MIN_VALUE, Long.MIN_VALUE, Long.MIN_VALUE);
+             * p3.x()     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y()     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.value() // returns Long.MIN_VALUE (-9223372036854775808L)
+             *
+             * // Edge: Long.MAX_VALUE for all fields
+             * Points.D2.LongLongPoint p4 = Points.D2.LongLongPoint.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE);
+             * p4.x()     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p4.y()     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p4.value() // returns Long.MAX_VALUE (9223372036854775807L)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -628,18 +799,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with long coordinates and double value
-             * Points.D2.LongDoublePoint point = Points.D2.LongDoublePoint.of(1000000L, 2000000L, 3.14159);
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * double value = point.value();  // 3.14159
+             * // Basic: typical large long coordinates with a double value
+             * Points.D2.LongDoublePoint p1 = Points.D2.LongDoublePoint.of(1_000_000L, 2_000_000L, 3.14159);
+             * p1.x()     // returns 1000000L
+             * p1.y()     // returns 2000000L
+             * p1.value() // returns 3.14159
              *
-             * // Useful for very large grids with probability or weight values
-             * Points.D2.LongDoublePoint cellWeight = Points.D2.LongDoublePoint.of(999999999L, 888888888L, 0.85);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.LongDoublePoint p2 = Points.D2.LongDoublePoint.of(0L, 0L, 0.0);
+             * p2.x()     // returns 0L
+             * p2.y()     // returns 0L
+             * p2.value() // returns 0.0
              *
-             * // Large coordinate space with distance calculations
-             * double distance = Math.sqrt(1000000.0 * 1000000.0 + 2000000.0 * 2000000.0);
-             * Points.D2.LongDoublePoint cellDistance = Points.D2.LongDoublePoint.of(1000000L, 2000000L, distance);
+             * // Edge: Long.MIN_VALUE x, Long.MAX_VALUE y, Double.NaN value
+             * Points.D2.LongDoublePoint p3 = Points.D2.LongDoublePoint.of(Long.MIN_VALUE, Long.MAX_VALUE, Double.NaN);
+             * p3.x()                   // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y()                   // returns Long.MAX_VALUE (9223372036854775807L)
+             * Double.isNaN(p3.value()) // returns true
+             *
+             * // Edge: negative long coords with Double.NEGATIVE_INFINITY
+             * Points.D2.LongDoublePoint p4 = Points.D2.LongDoublePoint.of(-1L, -1L, Double.NEGATIVE_INFINITY);
+             * p4.x()     // returns -1L
+             * p4.y()     // returns -1L
+             * p4.value() // returns Double.NEGATIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -674,20 +856,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with long coordinates and a String value
-             * Points.D2.LongObjPoint<String> point = Points.D2.LongObjPoint.of(1000000L, 2000000L, "marker");
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * String value = point.value();  // "marker"
+             * // Basic: large long coordinates with a String value
+             * Points.D2.LongObjPoint<String> p1 = Points.D2.LongObjPoint.of(1_000_000L, 2_000_000L, "marker");
+             * p1.x()     // returns 1000000L
+             * p1.y()     // returns 2000000L
+             * p1.value() // returns "marker"
              *
-             * // Very large grid with custom objects
-             * record Region(String name, int population) {}
-             * Region region = new Region("Zone-A", 1000000);
-             * Points.D2.LongObjPoint<Region> gridRegion = Points.D2.LongObjPoint.of(999999999L, 888888888L, region);
+             * // Basic: small long coordinates with an Integer value
+             * Points.D2.LongObjPoint<Integer> p2 = Points.D2.LongObjPoint.of(5L, 8L, 99);
+             * p2.x()     // returns 5L
+             * p2.y()     // returns 8L
+             * p2.value() // returns 99
              *
-             * // Spatial indexing with metadata
-             * Map<String, Object> metadata = Map.of("type", "city", "size", 500000);
-             * Points.D2.LongObjPoint<Map<String, Object>> location = Points.D2.LongObjPoint.of(1L << 40, 1L << 41, metadata);
+             * // Edge: Long.MIN_VALUE x, Long.MAX_VALUE y, null value (records permit null components)
+             * Points.D2.LongObjPoint<String> p3 = Points.D2.LongObjPoint.of(Long.MIN_VALUE, Long.MAX_VALUE, null);
+             * p3.x()     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y()     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p3.value() // returns null
+             *
+             * // Edge: zero coords, array as value
+             * Points.D2.LongObjPoint<int[]> p4 = Points.D2.LongObjPoint.of(0L, 0L, new int[]{10, 20});
+             * p4.x()            // returns 0L
+             * p4.y()            // returns 0L
+             * p4.value().length // returns 2
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -721,14 +912,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with double coordinates and byte value
-             * Points.D2.DoubleBytePoint point = Points.D2.DoubleBytePoint.of(10.5, 20.7, (byte) 3);
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * byte value = point.value();  // 3
+             * // Basic: typical double coordinates with a byte value
+             * Points.D2.DoubleBytePoint p1 = Points.D2.DoubleBytePoint.of(10.5, 20.7, (byte) 3);
+             * p1.x()     // returns 10.5
+             * p1.y()     // returns 20.7
+             * p1.value() // returns (byte) 3
              *
-             * // Useful for continuous coordinate spaces with small enumeration values
-             * Points.D2.DoubleBytePoint region = Points.D2.DoubleBytePoint.of(3.14159, 2.71828, (byte) 1);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.DoubleBytePoint p2 = Points.D2.DoubleBytePoint.of(0.0, 0.0, (byte) 0);
+             * p2.x()     // returns 0.0
+             * p2.y()     // returns 0.0
+             * p2.value() // returns (byte) 0
+             *
+             * // Edge: Double.NaN x, Double.POSITIVE_INFINITY y, Byte.MIN_VALUE
+             * Points.D2.DoubleBytePoint p3 = Points.D2.DoubleBytePoint.of(Double.NaN, Double.POSITIVE_INFINITY, (byte) -128);
+             * Double.isNaN(p3.x())    // returns true
+             * p3.y()                  // returns Double.POSITIVE_INFINITY
+             * p3.value()              // returns (byte) -128
+             *
+             * // Edge: negative double coords with Byte.MAX_VALUE
+             * Points.D2.DoubleBytePoint p4 = Points.D2.DoubleBytePoint.of(-1.0, -1.0, (byte) 127);
+             * p4.x()     // returns -1.0
+             * p4.y()     // returns -1.0
+             * p4.value() // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -761,17 +967,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with double coordinates and integer value
-             * Points.D2.DoubleIntPoint point = Points.D2.DoubleIntPoint.of(10.5, 20.7, 100);
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * int value = point.value();  // 100
+             * // Basic: typical double coordinates with an integer value
+             * Points.D2.DoubleIntPoint p1 = Points.D2.DoubleIntPoint.of(10.5, 20.7, 100);
+             * p1.x()     // returns 10.5
+             * p1.y()     // returns 20.7
+             * p1.value() // returns 100
              *
-             * // Useful for continuous coordinate spaces with counts
-             * Points.D2.DoubleIntPoint sample = Points.D2.DoubleIntPoint.of(3.14159, 2.71828, 1000);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.DoubleIntPoint p2 = Points.D2.DoubleIntPoint.of(0.0, 0.0, 0);
+             * p2.x()     // returns 0.0
+             * p2.y()     // returns 0.0
+             * p2.value() // returns 0
              *
-             * // Geographic coordinates with elevation
-             * Points.D2.DoubleIntPoint geoPoint = Points.D2.DoubleIntPoint.of(40.7128, -74.0060, 10);  // elevation in meters
+             * // Edge: Double.NEGATIVE_INFINITY x, Double.NaN y, Integer.MIN_VALUE
+             * Points.D2.DoubleIntPoint p3 = Points.D2.DoubleIntPoint.of(Double.NEGATIVE_INFINITY, Double.NaN, Integer.MIN_VALUE);
+             * p3.x()               // returns Double.NEGATIVE_INFINITY
+             * Double.isNaN(p3.y()) // returns true
+             * p3.value()           // returns Integer.MIN_VALUE (-2147483648)
+             *
+             * // Edge: negative double coords with Integer.MAX_VALUE
+             * Points.D2.DoubleIntPoint p4 = Points.D2.DoubleIntPoint.of(-1.0, -1.0, Integer.MAX_VALUE);
+             * p4.x()     // returns -1.0
+             * p4.y()     // returns -1.0
+             * p4.value() // returns Integer.MAX_VALUE (2147483647)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -804,18 +1022,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with double coordinates and long value
-             * Points.D2.DoubleLongPoint point = Points.D2.DoubleLongPoint.of(10.5, 20.7, 1000000000L);
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * long value = point.value();  // 1000000000
+             * // Basic: typical double coordinates with a large long value
+             * Points.D2.DoubleLongPoint p1 = Points.D2.DoubleLongPoint.of(10.5, 20.7, 1_000_000_000L);
+             * p1.x()     // returns 10.5
+             * p1.y()     // returns 20.7
+             * p1.value() // returns 1000000000L
              *
-             * // Useful for continuous coordinate spaces with timestamps
-             * long timestamp = System.currentTimeMillis();
-             * Points.D2.DoubleLongPoint sample = Points.D2.DoubleLongPoint.of(3.14159, 2.71828, timestamp);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.DoubleLongPoint p2 = Points.D2.DoubleLongPoint.of(0.0, 0.0, 0L);
+             * p2.x()     // returns 0.0
+             * p2.y()     // returns 0.0
+             * p2.value() // returns 0L
              *
-             * // Geographic coordinates with large identifiers
-             * Points.D2.DoubleLongPoint location = Points.D2.DoubleLongPoint.of(40.7128, -74.0060, 9876543210L);
+             * // Edge: Double.NaN x, Double.POSITIVE_INFINITY y, Long.MIN_VALUE
+             * Points.D2.DoubleLongPoint p3 = Points.D2.DoubleLongPoint.of(Double.NaN, Double.POSITIVE_INFINITY, Long.MIN_VALUE);
+             * Double.isNaN(p3.x()) // returns true
+             * p3.y()               // returns Double.POSITIVE_INFINITY
+             * p3.value()           // returns Long.MIN_VALUE (-9223372036854775808L)
+             *
+             * // Edge: negative double coords with Long.MAX_VALUE
+             * Points.D2.DoubleLongPoint p4 = Points.D2.DoubleLongPoint.of(-1.0, -1.0, Long.MAX_VALUE);
+             * p4.x()     // returns -1.0
+             * p4.y()     // returns -1.0
+             * p4.value() // returns Long.MAX_VALUE (9223372036854775807L)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -847,21 +1076,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with double coordinates and double value
-             * Points.D2.DoubleDoublePoint point = Points.D2.DoubleDoublePoint.of(10.5, 20.7, 3.14159);
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * double value = point.value();  // 3.14159
+             * // Basic: typical double coordinates and double value
+             * Points.D2.DoubleDoublePoint p1 = Points.D2.DoubleDoublePoint.of(10.5, 20.7, 3.14159);
+             * p1.x()     // returns 10.5
+             * p1.y()     // returns 20.7
+             * p1.value() // returns 3.14159
              *
-             * // Useful for continuous spaces with probability or weight values
-             * Points.D2.DoubleDoublePoint sample = Points.D2.DoubleDoublePoint.of(3.14159, 2.71828, 0.95);
+             * // Basic: zero coordinates and zero value
+             * Points.D2.DoubleDoublePoint p2 = Points.D2.DoubleDoublePoint.of(0.0, 0.0, 0.0);
+             * p2.x()     // returns 0.0
+             * p2.y()     // returns 0.0
+             * p2.value() // returns 0.0
              *
-             * // Geographic coordinates with temperature
-             * Points.D2.DoubleDoublePoint weather = Points.D2.DoubleDoublePoint.of(40.7128, -74.0060, 22.5);
+             * // Edge: Double.NaN for all fields
+             * Points.D2.DoubleDoublePoint p3 = Points.D2.DoubleDoublePoint.of(Double.NaN, Double.NaN, Double.NaN);
+             * Double.isNaN(p3.x())     // returns true
+             * Double.isNaN(p3.y())     // returns true
+             * Double.isNaN(p3.value()) // returns true
              *
-             * // Mathematical calculations
-             * double distance = Math.sqrt(10.5 * 10.5 + 20.7 * 20.7);
-             * Points.D2.DoubleDoublePoint vector = Points.D2.DoubleDoublePoint.of(10.5, 20.7, distance);
+             * // Edge: positive/negative infinity coords with Double.MIN_VALUE
+             * Points.D2.DoubleDoublePoint p4 = Points.D2.DoubleDoublePoint.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.MIN_VALUE);
+             * p4.x()     // returns Double.POSITIVE_INFINITY
+             * p4.y()     // returns Double.NEGATIVE_INFINITY
+             * p4.value() // returns Double.MIN_VALUE (4.9E-324)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -896,20 +1133,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a point with double coordinates and a String value
-             * Points.D2.DoubleObjPoint<String> point = Points.D2.DoubleObjPoint.of(10.5, 20.7, "location");
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * String value = point.value();  // "location"
+             * // Basic: double coordinates with a String value
+             * Points.D2.DoubleObjPoint<String> p1 = Points.D2.DoubleObjPoint.of(10.5, 20.7, "location");
+             * p1.x()     // returns 10.5
+             * p1.y()     // returns 20.7
+             * p1.value() // returns "location"
              *
-             * // Geographic coordinates with custom objects
-             * record Place(String name, int population, String country) {}
-             * Place place = new Place("New York", 8000000, "USA");
-             * Points.D2.DoubleObjPoint<Place> geoPoint = Points.D2.DoubleObjPoint.of(40.7128, -74.0060, place);
+             * // Basic: double coordinates with an Integer value
+             * Points.D2.DoubleObjPoint<Integer> p2 = Points.D2.DoubleObjPoint.of(3.14159, 2.71828, 42);
+             * p2.x()     // returns 3.14159
+             * p2.y()     // returns 2.71828
+             * p2.value() // returns 42
              *
-             * // Continuous space with metadata
-             * Map<String, Object> metadata = Map.of("temperature", 22.5, "humidity", 65);
-             * Points.D2.DoubleObjPoint<Map<String, Object>> sensor = Points.D2.DoubleObjPoint.of(3.14159, 2.71828, metadata);
+             * // Edge: Double.NaN coords, null value (records permit null components)
+             * Points.D2.DoubleObjPoint<String> p3 = Points.D2.DoubleObjPoint.of(Double.NaN, Double.POSITIVE_INFINITY, null);
+             * Double.isNaN(p3.x())    // returns true
+             * p3.y()                  // returns Double.POSITIVE_INFINITY
+             * p3.value()              // returns null
+             *
+             * // Edge: zero coords, array as value
+             * Points.D2.DoubleObjPoint<int[]> p4 = Points.D2.DoubleObjPoint.of(0.0, 0.0, new int[]{10, 20});
+             * p4.x()            // returns 0.0
+             * p4.y()            // returns 0.0
+             * p4.value().length // returns 2
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -961,15 +1207,28 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point at coordinates (10, 20, 30) with value 5
-             * Points.D3.ByteBytePoint point = Points.D3.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 30, (byte) 5);
-             * byte x = point.x();  // 10
-             * byte y = point.y();  // 20
-             * byte z = point.z();  // 30
-             * byte value = point.value();  // 5
+             * // Basic: typical positive coordinates and value
+             * Points.D3.ByteBytePoint p1 = Points.D3.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 30, (byte) 5);
+             * p1.x();      // returns (byte) 10
+             * p1.y();      // returns (byte) 20
+             * p1.z();      // returns (byte) 30
+             * p1.value();  // returns (byte) 5
              *
-             * // Useful for memory-efficient 3D grid representations
-             * Points.D3.ByteBytePoint voxel = Points.D3.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 0, (byte) 127);
+             * // Basic: negative coordinates
+             * Points.D3.ByteBytePoint p2 = Points.D3.ByteBytePoint.of((byte) -10, (byte) -20, (byte) -30, (byte) -1);
+             * p2.x();      // returns (byte) -10
+             * p2.value();  // returns (byte) -1
+             *
+             * // Edge: all zeros
+             * Points.D3.ByteBytePoint p3 = Points.D3.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 0, (byte) 0);
+             * p3.x();      // returns (byte) 0
+             * p3.value();  // returns (byte) 0
+             *
+             * // Edge: boundary values Byte.MIN_VALUE and Byte.MAX_VALUE
+             * Points.D3.ByteBytePoint p4 = Points.D3.ByteBytePoint.of(Byte.MIN_VALUE, Byte.MAX_VALUE, (byte) 0, Byte.MAX_VALUE);
+             * p4.x();      // returns (byte) -128
+             * p4.y();      // returns (byte) 127
+             * p4.value();  // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1004,15 +1263,30 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with byte coordinates and integer value
-             * Points.D3.ByteIntPoint point = Points.D3.ByteIntPoint.of((byte) 5, (byte) 10, (byte) 15, 1000);
-             * byte x = point.x();  // 5
-             * byte y = point.y();  // 10
-             * byte z = point.z();  // 15
-             * int value = point.value();  // 1000
+             * // Basic: typical coordinates and large integer value
+             * Points.D3.ByteIntPoint p1 = Points.D3.ByteIntPoint.of((byte) 5, (byte) 10, (byte) 15, 1000);
+             * p1.x();      // returns (byte) 5
+             * p1.y();      // returns (byte) 10
+             * p1.z();      // returns (byte) 15
+             * p1.value();  // returns 1000
              *
-             * // Useful for small 3D grids with large counts
-             * Points.D3.ByteIntPoint voxelCount = Points.D3.ByteIntPoint.of((byte) 0, (byte) 0, (byte) 0, 1000000);
+             * // Basic: negative byte coordinates with positive value
+             * Points.D3.ByteIntPoint p2 = Points.D3.ByteIntPoint.of((byte) -5, (byte) -10, (byte) -15, 999999);
+             * p2.x();      // returns (byte) -5
+             * p2.value();  // returns 999999
+             *
+             * // Edge: all zero coordinates and zero value
+             * Points.D3.ByteIntPoint p3 = Points.D3.ByteIntPoint.of((byte) 0, (byte) 0, (byte) 0, 0);
+             * p3.value();  // returns 0
+             *
+             * // Edge: byte boundary coordinates and Integer boundary values
+             * Points.D3.ByteIntPoint p4 = Points.D3.ByteIntPoint.of(Byte.MIN_VALUE, Byte.MAX_VALUE, (byte) 0, Integer.MIN_VALUE);
+             * p4.x();      // returns (byte) -128
+             * p4.y();      // returns (byte) 127
+             * p4.value();  // returns -2147483648
+             *
+             * Points.D3.ByteIntPoint p5 = Points.D3.ByteIntPoint.of((byte) 1, (byte) 2, (byte) 3, Integer.MAX_VALUE);
+             * p5.value();  // returns 2147483647
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1047,16 +1321,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with byte coordinates and long value
-             * Points.D3.ByteLongPoint point = Points.D3.ByteLongPoint.of((byte) 3, (byte) 7, (byte) 11, 1000000000L);
-             * byte x = point.x();  // 3
-             * byte y = point.y();  // 7
-             * byte z = point.z();  // 11
-             * long value = point.value();  // 1000000000
+             * // Basic: typical coordinates and large long value
+             * Points.D3.ByteLongPoint p1 = Points.D3.ByteLongPoint.of((byte) 3, (byte) 7, (byte) 11, 1000000000L);
+             * p1.x();      // returns (byte) 3
+             * p1.y();      // returns (byte) 7
+             * p1.z();      // returns (byte) 11
+             * p1.value();  // returns 1000000000L
              *
-             * // Useful for small 3D grids with timestamps
-             * long timestamp = System.currentTimeMillis();
-             * Points.D3.ByteLongPoint voxelTime = Points.D3.ByteLongPoint.of((byte) 0, (byte) 0, (byte) 0, timestamp);
+             * // Basic: negative byte coordinates with long value
+             * Points.D3.ByteLongPoint p2 = Points.D3.ByteLongPoint.of((byte) -50, (byte) -60, (byte) -70, 5000000000L);
+             * p2.x();      // returns (byte) -50
+             * p2.value();  // returns 5000000000L
+             *
+             * // Edge: all zero coordinates and zero value
+             * Points.D3.ByteLongPoint p3 = Points.D3.ByteLongPoint.of((byte) 0, (byte) 0, (byte) 0, 0L);
+             * p3.value();  // returns 0L
+             *
+             * // Edge: byte boundary coords and Long boundary values
+             * Points.D3.ByteLongPoint p4 = Points.D3.ByteLongPoint.of(Byte.MIN_VALUE, Byte.MAX_VALUE, (byte) 0, Long.MIN_VALUE);
+             * p4.x();      // returns (byte) -128
+             * p4.value();  // returns -9223372036854775808L
+             *
+             * Points.D3.ByteLongPoint p5 = Points.D3.ByteLongPoint.of((byte) 1, (byte) 2, (byte) 3, Long.MAX_VALUE);
+             * p5.value();  // returns 9223372036854775807L
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1091,15 +1378,28 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with byte coordinates and double value
-             * Points.D3.ByteDoublePoint point = Points.D3.ByteDoublePoint.of((byte) 2, (byte) 4, (byte) 6, 3.14159);
-             * byte x = point.x();  // 2
-             * byte y = point.y();  // 4
-             * byte z = point.z();  // 6
-             * double value = point.value();  // 3.14159
+             * // Basic: typical coordinates and floating-point value
+             * Points.D3.ByteDoublePoint p1 = Points.D3.ByteDoublePoint.of((byte) 2, (byte) 4, (byte) 6, 3.14159);
+             * p1.x();      // returns (byte) 2
+             * p1.y();      // returns (byte) 4
+             * p1.z();      // returns (byte) 6
+             * p1.value();  // returns 3.14159
              *
-             * // Useful for small 3D grids with density values
-             * Points.D3.ByteDoublePoint voxelDensity = Points.D3.ByteDoublePoint.of((byte) 1, (byte) 1, (byte) 1, 0.85);
+             * // Basic: negative coordinates with fractional value
+             * Points.D3.ByteDoublePoint p2 = Points.D3.ByteDoublePoint.of((byte) -5, (byte) -10, (byte) -15, 0.85);
+             * p2.x();      // returns (byte) -5
+             * p2.value();  // returns 0.85
+             *
+             * // Edge: zero coordinates and zero value
+             * Points.D3.ByteDoublePoint p3 = Points.D3.ByteDoublePoint.of((byte) 0, (byte) 0, (byte) 0, 0.0);
+             * p3.value();  // returns 0.0
+             *
+             * // Edge: byte boundary coords and special double values
+             * Points.D3.ByteDoublePoint p4 = Points.D3.ByteDoublePoint.of(Byte.MIN_VALUE, Byte.MAX_VALUE, (byte) 0, Double.NaN);
+             * Double.isNaN(p4.value());  // returns true
+             *
+             * Points.D3.ByteDoublePoint p5 = Points.D3.ByteDoublePoint.of((byte) 1, (byte) 2, (byte) 3, Double.POSITIVE_INFINITY);
+             * p5.value();  // returns Double.POSITIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1136,17 +1436,27 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with byte coordinates and a String value
-             * Points.D3.ByteObjPoint<String> point = Points.D3.ByteObjPoint.of((byte) 1, (byte) 2, (byte) 3, "voxel");
-             * byte x = point.x();  // 1
-             * byte y = point.y();  // 2
-             * byte z = point.z();  // 3
-             * String value = point.value();  // "voxel"
+             * // Basic: byte coordinates with a String value
+             * Points.D3.ByteObjPoint<String> p1 = Points.D3.ByteObjPoint.of((byte) 1, (byte) 2, (byte) 3, "voxel");
+             * p1.x();      // returns (byte) 1
+             * p1.y();      // returns (byte) 2
+             * p1.z();      // returns (byte) 3
+             * p1.value();  // returns "voxel"
              *
-             * // Useful for small 3D grids with complex metadata
-             * record Material(String type, double density) {}
-             * Material material = new Material("iron", 7.87);
-             * Points.D3.ByteObjPoint<Material> voxelMaterial = Points.D3.ByteObjPoint.of((byte) 0, (byte) 0, (byte) 0, material);
+             * // Basic: negative coords with Integer wrapper value
+             * Points.D3.ByteObjPoint<Integer> p2 = Points.D3.ByteObjPoint.of((byte) -10, (byte) -20, (byte) -30, 42);
+             * p2.x();      // returns (byte) -10
+             * p2.value();  // returns 42
+             *
+             * // Edge: boundary byte coords and null value
+             * Points.D3.ByteObjPoint<String> p3 = Points.D3.ByteObjPoint.of(Byte.MIN_VALUE, Byte.MAX_VALUE, (byte) 0, null);
+             * p3.x();      // returns (byte) -128
+             * p3.y();      // returns (byte) 127
+             * p3.value();  // returns null
+             *
+             * // Edge: all zero coords and empty string
+             * Points.D3.ByteObjPoint<String> p4 = Points.D3.ByteObjPoint.of((byte) 0, (byte) 0, (byte) 0, "");
+             * p4.value();  // returns ""
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -1182,15 +1492,30 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with integer coordinates and byte value
-             * Points.D3.IntBytePoint point = Points.D3.IntBytePoint.of(100, 200, 300, (byte) 10);
-             * int x = point.x();  // 100
-             * int y = point.y();  // 200
-             * int z = point.z();  // 300
-             * byte value = point.value();  // 10
+             * // Basic: typical integer coordinates with byte value
+             * Points.D3.IntBytePoint p1 = Points.D3.IntBytePoint.of(100, 200, 300, (byte) 10);
+             * p1.x();      // returns 100
+             * p1.y();      // returns 200
+             * p1.z();      // returns 300
+             * p1.value();  // returns (byte) 10
              *
-             * // Useful for large 3D grids with small enumeration values
-             * Points.D3.IntBytePoint voxelType = Points.D3.IntBytePoint.of(1000, 2000, 3000, (byte) 3);  // type = 3
+             * // Basic: negative integer coordinates
+             * Points.D3.IntBytePoint p2 = Points.D3.IntBytePoint.of(-100, -200, -300, (byte) -5);
+             * p2.x();      // returns -100
+             * p2.value();  // returns (byte) -5
+             *
+             * // Edge: zero coordinates and zero byte value
+             * Points.D3.IntBytePoint p3 = Points.D3.IntBytePoint.of(0, 0, 0, (byte) 0);
+             * p3.value();  // returns (byte) 0
+             *
+             * // Edge: Integer boundary coordinates with byte boundary values
+             * Points.D3.IntBytePoint p4 = Points.D3.IntBytePoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, Byte.MIN_VALUE);
+             * p4.x();      // returns -2147483648
+             * p4.y();      // returns 2147483647
+             * p4.value();  // returns (byte) -128
+             *
+             * Points.D3.IntBytePoint p5 = Points.D3.IntBytePoint.of(1, 2, 3, Byte.MAX_VALUE);
+             * p5.value();  // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1226,18 +1551,31 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with integer coordinates and integer value
-             * Points.D3.IntIntPoint point = Points.D3.IntIntPoint.of(100, 200, 300, 400);
-             * int x = point.x();  // 100
-             * int y = point.y();  // 200
-             * int z = point.z();  // 300
-             * int value = point.value();  // 400
+             * // Basic: typical integer coordinates and value
+             * Points.D3.IntIntPoint p1 = Points.D3.IntIntPoint.of(100, 200, 300, 400);
+             * p1.x();      // returns 100
+             * p1.y();      // returns 200
+             * p1.z();      // returns 300
+             * p1.value();  // returns 400
              *
-             * // Common use case: 3D voxel grids with counts
-             * Points.D3.IntIntPoint voxel = Points.D3.IntIntPoint.of(10, 20, 30, 5000);
+             * // Basic: negative coordinates and value
+             * Points.D3.IntIntPoint p2 = Points.D3.IntIntPoint.of(-10, -20, -30, -100);
+             * p2.x();      // returns -10
+             * p2.value();  // returns -100
              *
-             * // 3D pathfinding with cost values
-             * Points.D3.IntIntPoint pathNode = Points.D3.IntIntPoint.of(5, 8, 12, 25);  // cost = 25
+             * // Edge: all zeros
+             * Points.D3.IntIntPoint p3 = Points.D3.IntIntPoint.of(0, 0, 0, 0);
+             * p3.x();      // returns 0
+             * p3.value();  // returns 0
+             *
+             * // Edge: Integer boundary values
+             * Points.D3.IntIntPoint p4 = Points.D3.IntIntPoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, Integer.MIN_VALUE);
+             * p4.x();      // returns -2147483648
+             * p4.y();      // returns 2147483647
+             * p4.value();  // returns -2147483648
+             *
+             * Points.D3.IntIntPoint p5 = Points.D3.IntIntPoint.of(1, 2, 3, Integer.MAX_VALUE);
+             * p5.value();  // returns 2147483647
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1272,19 +1610,30 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with integer coordinates and long value
-             * Points.D3.IntLongPoint point = Points.D3.IntLongPoint.of(50, 75, 100, 10000000000L);
-             * int x = point.x();  // 50
-             * int y = point.y();  // 75
-             * int z = point.z();  // 100
-             * long value = point.value();  // 10000000000
+             * // Basic: typical integer coordinates with long value
+             * Points.D3.IntLongPoint p1 = Points.D3.IntLongPoint.of(50, 75, 100, 10000000000L);
+             * p1.x();      // returns 50
+             * p1.y();      // returns 75
+             * p1.z();      // returns 100
+             * p1.value();  // returns 10000000000L
              *
-             * // Useful for 3D grids with timestamps
-             * long timestamp = System.currentTimeMillis();
-             * Points.D3.IntLongPoint voxelTime = Points.D3.IntLongPoint.of(10, 20, 30, timestamp);
+             * // Basic: negative coordinates with large long value
+             * Points.D3.IntLongPoint p2 = Points.D3.IntLongPoint.of(-50, -75, -100, 9876543210L);
+             * p2.x();      // returns -50
+             * p2.value();  // returns 9876543210L
              *
-             * // Track large identifiers in a 3D grid
-             * Points.D3.IntLongPoint voxelId = Points.D3.IntLongPoint.of(5, 8, 12, 9876543210L);
+             * // Edge: zero coordinates and zero long value
+             * Points.D3.IntLongPoint p3 = Points.D3.IntLongPoint.of(0, 0, 0, 0L);
+             * p3.value();  // returns 0L
+             *
+             * // Edge: Integer boundary coordinates and Long boundary values
+             * Points.D3.IntLongPoint p4 = Points.D3.IntLongPoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, Long.MIN_VALUE);
+             * p4.x();      // returns -2147483648
+             * p4.y();      // returns 2147483647
+             * p4.value();  // returns -9223372036854775808L
+             *
+             * Points.D3.IntLongPoint p5 = Points.D3.IntLongPoint.of(1, 2, 3, Long.MAX_VALUE);
+             * p5.value();  // returns 9223372036854775807L
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1319,19 +1668,28 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with integer coordinates and double value
-             * Points.D3.IntDoublePoint point = Points.D3.IntDoublePoint.of(10, 20, 30, 3.14159);
-             * int x = point.x();  // 10
-             * int y = point.y();  // 20
-             * int z = point.z();  // 30
-             * double value = point.value();  // 3.14159
+             * // Basic: typical integer coordinates with double value
+             * Points.D3.IntDoublePoint p1 = Points.D3.IntDoublePoint.of(10, 20, 30, 3.14159);
+             * p1.x();      // returns 10
+             * p1.y();      // returns 20
+             * p1.z();      // returns 30
+             * p1.value();  // returns 3.14159
              *
-             * // Useful for 3D grids with density values
-             * Points.D3.IntDoublePoint voxelDensity = Points.D3.IntDoublePoint.of(5, 8, 12, 0.85);
+             * // Basic: negative coordinates with fractional value
+             * Points.D3.IntDoublePoint p2 = Points.D3.IntDoublePoint.of(-10, -20, -30, 0.85);
+             * p2.x();      // returns -10
+             * p2.value();  // returns 0.85
              *
-             * // 3D distance-based calculations
-             * double distance = Math.sqrt(10 * 10 + 20 * 20 + 30 * 30);
-             * Points.D3.IntDoublePoint nodeDistance = Points.D3.IntDoublePoint.of(10, 20, 30, distance);
+             * // Edge: zero coordinates and zero double value
+             * Points.D3.IntDoublePoint p3 = Points.D3.IntDoublePoint.of(0, 0, 0, 0.0);
+             * p3.value();  // returns 0.0
+             *
+             * // Edge: Integer boundary coordinates and special double values
+             * Points.D3.IntDoublePoint p4 = Points.D3.IntDoublePoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, Double.NaN);
+             * Double.isNaN(p4.value());  // returns true
+             *
+             * Points.D3.IntDoublePoint p5 = Points.D3.IntDoublePoint.of(1, 2, 3, Double.NEGATIVE_INFINITY);
+             * p5.value();  // returns Double.NEGATIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1368,21 +1726,27 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with integer coordinates and a String value
-             * Points.D3.IntObjPoint<String> point = Points.D3.IntObjPoint.of(10, 20, 30, "block");
-             * int x = point.x();  // 10
-             * int y = point.y();  // 20
-             * int z = point.z();  // 30
-             * String value = point.value();  // "block"
+             * // Basic: integer coordinates with a String value
+             * Points.D3.IntObjPoint<String> p1 = Points.D3.IntObjPoint.of(10, 20, 30, "block");
+             * p1.x();      // returns 10
+             * p1.y();      // returns 20
+             * p1.z();      // returns 30
+             * p1.value();  // returns "block"
              *
-             * // 3D voxel grid with custom objects
-             * record Voxel(String material, double density, boolean solid) {}
-             * Voxel voxel = new Voxel("stone", 2.5, true);
-             * Points.D3.IntObjPoint<Voxel> gridVoxel = Points.D3.IntObjPoint.of(5, 8, 12, voxel);
+             * // Basic: negative coordinates with Integer wrapper value
+             * Points.D3.IntObjPoint<Integer> p2 = Points.D3.IntObjPoint.of(-10, -20, -30, 99);
+             * p2.x();      // returns -10
+             * p2.value();  // returns 99
              *
-             * // Store collections at 3D positions
-             * List<String> items = List.of("chest", "gold");
-             * Points.D3.IntObjPoint<List<String>> voxelItems = Points.D3.IntObjPoint.of(3, 7, 10, items);
+             * // Edge: Integer boundary coordinates and null value
+             * Points.D3.IntObjPoint<String> p3 = Points.D3.IntObjPoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, null);
+             * p3.x();      // returns -2147483648
+             * p3.y();      // returns 2147483647
+             * p3.value();  // returns null
+             *
+             * // Edge: zero coordinates and empty string value
+             * Points.D3.IntObjPoint<String> p4 = Points.D3.IntObjPoint.of(0, 0, 0, "");
+             * p4.value();  // returns ""
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -1418,15 +1782,30 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with long coordinates and byte value
-             * Points.D3.LongBytePoint point = Points.D3.LongBytePoint.of(1000000L, 2000000L, 3000000L, (byte) 5);
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * long z = point.z();  // 3000000
-             * byte value = point.value();  // 5
+             * // Basic: large long coordinates with byte value
+             * Points.D3.LongBytePoint p1 = Points.D3.LongBytePoint.of(1000000L, 2000000L, 3000000L, (byte) 5);
+             * p1.x();      // returns 1000000L
+             * p1.y();      // returns 2000000L
+             * p1.z();      // returns 3000000L
+             * p1.value();  // returns (byte) 5
              *
-             * // Useful for very large 3D grids with small enumeration values
-             * Points.D3.LongBytePoint voxelType = Points.D3.LongBytePoint.of(999999999L, 888888888L, 777777777L, (byte) 2);
+             * // Basic: negative long coordinates with negative byte value
+             * Points.D3.LongBytePoint p2 = Points.D3.LongBytePoint.of(-1000000L, -2000000L, -3000000L, (byte) -10);
+             * p2.x();      // returns -1000000L
+             * p2.value();  // returns (byte) -10
+             *
+             * // Edge: zero coordinates and zero byte value
+             * Points.D3.LongBytePoint p3 = Points.D3.LongBytePoint.of(0L, 0L, 0L, (byte) 0);
+             * p3.value();  // returns (byte) 0
+             *
+             * // Edge: Long boundary coordinates and byte boundary values
+             * Points.D3.LongBytePoint p4 = Points.D3.LongBytePoint.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L, Byte.MIN_VALUE);
+             * p4.x();      // returns -9223372036854775808L
+             * p4.y();      // returns 9223372036854775807L
+             * p4.value();  // returns (byte) -128
+             *
+             * Points.D3.LongBytePoint p5 = Points.D3.LongBytePoint.of(1L, 2L, 3L, Byte.MAX_VALUE);
+             * p5.value();  // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1461,15 +1840,30 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with long coordinates and integer value
-             * Points.D3.LongIntPoint point = Points.D3.LongIntPoint.of(1000000L, 2000000L, 3000000L, 500);
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * long z = point.z();  // 3000000
-             * int value = point.value();  // 500
+             * // Basic: large long coordinates with integer value
+             * Points.D3.LongIntPoint p1 = Points.D3.LongIntPoint.of(1000000L, 2000000L, 3000000L, 500);
+             * p1.x();      // returns 1000000L
+             * p1.y();      // returns 2000000L
+             * p1.z();      // returns 3000000L
+             * p1.value();  // returns 500
              *
-             * // Useful for very large 3D grids with counts or indices
-             * Points.D3.LongIntPoint voxelCount = Points.D3.LongIntPoint.of(999999999L, 888888888L, 777777777L, 1000000);
+             * // Basic: negative long coordinates with integer value
+             * Points.D3.LongIntPoint p2 = Points.D3.LongIntPoint.of(-1000000L, -2000000L, -3000000L, 1000000);
+             * p2.x();      // returns -1000000L
+             * p2.value();  // returns 1000000
+             *
+             * // Edge: zero coordinates and zero integer value
+             * Points.D3.LongIntPoint p3 = Points.D3.LongIntPoint.of(0L, 0L, 0L, 0);
+             * p3.value();  // returns 0
+             *
+             * // Edge: Long boundary coordinates and Integer boundary values
+             * Points.D3.LongIntPoint p4 = Points.D3.LongIntPoint.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L, Integer.MIN_VALUE);
+             * p4.x();      // returns -9223372036854775808L
+             * p4.y();      // returns 9223372036854775807L
+             * p4.value();  // returns -2147483648
+             *
+             * Points.D3.LongIntPoint p5 = Points.D3.LongIntPoint.of(1L, 2L, 3L, Integer.MAX_VALUE);
+             * p5.value();  // returns 2147483647
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1503,19 +1897,30 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with long coordinates and long value
-             * Points.D3.LongLongPoint point = Points.D3.LongLongPoint.of(1000000L, 2000000L, 3000000L, 4000000000L);
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * long z = point.z();  // 3000000
-             * long value = point.value();  // 4000000000
+             * // Basic: large long coordinates and long value
+             * Points.D3.LongLongPoint p1 = Points.D3.LongLongPoint.of(1000000L, 2000000L, 3000000L, 4000000000L);
+             * p1.x();      // returns 1000000L
+             * p1.y();      // returns 2000000L
+             * p1.z();      // returns 3000000L
+             * p1.value();  // returns 4000000000L
              *
-             * // Useful for very large 3D grids with timestamps
-             * long timestamp = System.currentTimeMillis();
-             * Points.D3.LongLongPoint voxelTime = Points.D3.LongLongPoint.of(999999999L, 888888888L, 777777777L, timestamp);
+             * // Basic: negative long coordinates and value
+             * Points.D3.LongLongPoint p2 = Points.D3.LongLongPoint.of(-1000000L, -2000000L, -3000000L, -9876543210L);
+             * p2.x();      // returns -1000000L
+             * p2.value();  // returns -9876543210L
              *
-             * // Large 3D coordinate space with large identifiers
-             * Points.D3.LongLongPoint voxelId = Points.D3.LongLongPoint.of(1L << 40, 1L << 41, 1L << 42, 1L << 50);
+             * // Edge: all zeros
+             * Points.D3.LongLongPoint p3 = Points.D3.LongLongPoint.of(0L, 0L, 0L, 0L);
+             * p3.value();  // returns 0L
+             *
+             * // Edge: Long boundary values for all fields
+             * Points.D3.LongLongPoint p4 = Points.D3.LongLongPoint.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L, Long.MIN_VALUE);
+             * p4.x();      // returns -9223372036854775808L
+             * p4.y();      // returns 9223372036854775807L
+             * p4.value();  // returns -9223372036854775808L
+             *
+             * Points.D3.LongLongPoint p5 = Points.D3.LongLongPoint.of(1L, 2L, 3L, Long.MAX_VALUE);
+             * p5.value();  // returns 9223372036854775807L
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1550,19 +1955,28 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with long coordinates and double value
-             * Points.D3.LongDoublePoint point = Points.D3.LongDoublePoint.of(1000000L, 2000000L, 3000000L, 3.14159);
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * long z = point.z();  // 3000000
-             * double value = point.value();  // 3.14159
+             * // Basic: large long coordinates with double value
+             * Points.D3.LongDoublePoint p1 = Points.D3.LongDoublePoint.of(1000000L, 2000000L, 3000000L, 3.14159);
+             * p1.x();      // returns 1000000L
+             * p1.y();      // returns 2000000L
+             * p1.z();      // returns 3000000L
+             * p1.value();  // returns 3.14159
              *
-             * // Useful for very large 3D grids with density or probability values
-             * Points.D3.LongDoublePoint voxelDensity = Points.D3.LongDoublePoint.of(999999999L, 888888888L, 777777777L, 0.85);
+             * // Basic: negative long coordinates with fractional value
+             * Points.D3.LongDoublePoint p2 = Points.D3.LongDoublePoint.of(-1000000L, -2000000L, -3000000L, 0.85);
+             * p2.x();      // returns -1000000L
+             * p2.value();  // returns 0.85
              *
-             * // Large 3D coordinate space with distance calculations
-             * double distance = Math.sqrt(1000000.0 * 1000000.0 + 2000000.0 * 2000000.0 + 3000000.0 * 3000000.0);
-             * Points.D3.LongDoublePoint voxelDistance = Points.D3.LongDoublePoint.of(1000000L, 2000000L, 3000000L, distance);
+             * // Edge: zero coordinates and zero double value
+             * Points.D3.LongDoublePoint p3 = Points.D3.LongDoublePoint.of(0L, 0L, 0L, 0.0);
+             * p3.value();  // returns 0.0
+             *
+             * // Edge: Long boundary coordinates and special double values
+             * Points.D3.LongDoublePoint p4 = Points.D3.LongDoublePoint.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L, Double.NaN);
+             * Double.isNaN(p4.value());  // returns true
+             *
+             * Points.D3.LongDoublePoint p5 = Points.D3.LongDoublePoint.of(1L, 2L, 3L, Double.POSITIVE_INFINITY);
+             * p5.value();  // returns Double.POSITIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1599,21 +2013,27 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with long coordinates and a String value
-             * Points.D3.LongObjPoint<String> point = Points.D3.LongObjPoint.of(1000000L, 2000000L, 3000000L, "region");
-             * long x = point.x();  // 1000000
-             * long y = point.y();  // 2000000
-             * long z = point.z();  // 3000000
-             * String value = point.value();  // "region"
+             * // Basic: long coordinates with a String value
+             * Points.D3.LongObjPoint<String> p1 = Points.D3.LongObjPoint.of(1000000L, 2000000L, 3000000L, "region");
+             * p1.x();      // returns 1000000L
+             * p1.y();      // returns 2000000L
+             * p1.z();      // returns 3000000L
+             * p1.value();  // returns "region"
              *
-             * // Very large 3D grid with custom objects
-             * record Chunk(String biome, int height, boolean generated) {}
-             * Chunk chunk = new Chunk("plains", 64, true);
-             * Points.D3.LongObjPoint<Chunk> gridChunk = Points.D3.LongObjPoint.of(999999999L, 888888888L, 777777777L, chunk);
+             * // Basic: negative long coordinates with Integer wrapper value
+             * Points.D3.LongObjPoint<Integer> p2 = Points.D3.LongObjPoint.of(-1000000L, -2000000L, -3000000L, 42);
+             * p2.x();      // returns -1000000L
+             * p2.value();  // returns 42
              *
-             * // 3D spatial indexing with metadata
-             * Map<String, Object> metadata = Map.of("type", "structure", "volume", 1000);
-             * Points.D3.LongObjPoint<Map<String, Object>> voxel = Points.D3.LongObjPoint.of(1L << 40, 1L << 41, 1L << 42, metadata);
+             * // Edge: Long boundary coordinates and null value
+             * Points.D3.LongObjPoint<String> p3 = Points.D3.LongObjPoint.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L, null);
+             * p3.x();      // returns -9223372036854775808L
+             * p3.y();      // returns 9223372036854775807L
+             * p3.value();  // returns null
+             *
+             * // Edge: zero coordinates and empty string
+             * Points.D3.LongObjPoint<String> p4 = Points.D3.LongObjPoint.of(0L, 0L, 0L, "");
+             * p4.value();  // returns ""
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -1649,15 +2069,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with double coordinates and byte value
-             * Points.D3.DoubleBytePoint point = Points.D3.DoubleBytePoint.of(10.5, 20.7, 30.9, (byte) 3);
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * double z = point.z();  // 30.9
-             * byte value = point.value();  // 3
+             * // Basic: double coordinates with positive byte value
+             * Points.D3.DoubleBytePoint p1 = Points.D3.DoubleBytePoint.of(10.5, 20.7, 30.9, (byte) 3);
+             * p1.x();      // returns 10.5
+             * p1.y();      // returns 20.7
+             * p1.z();      // returns 30.9
+             * p1.value();  // returns (byte) 3
              *
-             * // Useful for continuous 3D coordinate spaces with small enumeration values
-             * Points.D3.DoubleBytePoint region = Points.D3.DoubleBytePoint.of(3.14159, 2.71828, 1.41421, (byte) 1);
+             * // Basic: negative double coordinates with negative byte value
+             * Points.D3.DoubleBytePoint p2 = Points.D3.DoubleBytePoint.of(-3.14159, -2.71828, -1.41421, (byte) -5);
+             * p2.x();      // returns -3.14159
+             * p2.value();  // returns (byte) -5
+             *
+             * // Edge: zero double coordinates and zero byte value
+             * Points.D3.DoubleBytePoint p3 = Points.D3.DoubleBytePoint.of(0.0, 0.0, 0.0, (byte) 0);
+             * p3.value();  // returns (byte) 0
+             *
+             * // Edge: special double coordinates (NaN/Infinity) and byte boundary values
+             * Points.D3.DoubleBytePoint p4 = Points.D3.DoubleBytePoint.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NaN, Byte.MIN_VALUE);
+             * p4.value();            // returns (byte) -128
+             * Double.isNaN(p4.z());  // returns true
+             *
+             * Points.D3.DoubleBytePoint p5 = Points.D3.DoubleBytePoint.of(1.0, 2.0, 3.0, Byte.MAX_VALUE);
+             * p5.value();  // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1692,18 +2126,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with double coordinates and integer value
-             * Points.D3.DoubleIntPoint point = Points.D3.DoubleIntPoint.of(10.5, 20.7, 30.9, 100);
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * double z = point.z();  // 30.9
-             * int value = point.value();  // 100
+             * // Basic: double coordinates with integer value
+             * Points.D3.DoubleIntPoint p1 = Points.D3.DoubleIntPoint.of(10.5, 20.7, 30.9, 100);
+             * p1.x();      // returns 10.5
+             * p1.y();      // returns 20.7
+             * p1.z();      // returns 30.9
+             * p1.value();  // returns 100
              *
-             * // Useful for continuous 3D coordinate spaces with counts
-             * Points.D3.DoubleIntPoint sample = Points.D3.DoubleIntPoint.of(3.14159, 2.71828, 1.41421, 1000);
+             * // Basic: negative double coordinates with negative integer value
+             * Points.D3.DoubleIntPoint p2 = Points.D3.DoubleIntPoint.of(-3.14159, -2.71828, -1.41421, -500);
+             * p2.x();      // returns -3.14159
+             * p2.value();  // returns -500
              *
-             * // 3D physical coordinates with count values
-             * Points.D3.DoubleIntPoint position = Points.D3.DoubleIntPoint.of(1.5, 2.7, 3.9, 42);
+             * // Edge: zero coordinates and zero integer value
+             * Points.D3.DoubleIntPoint p3 = Points.D3.DoubleIntPoint.of(0.0, 0.0, 0.0, 0);
+             * p3.value();  // returns 0
+             *
+             * // Edge: special double coordinates and Integer boundary values
+             * Points.D3.DoubleIntPoint p4 = Points.D3.DoubleIntPoint.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, 0.0, Integer.MIN_VALUE);
+             * p4.value();  // returns -2147483648
+             * p4.x();      // returns Double.POSITIVE_INFINITY
+             *
+             * Points.D3.DoubleIntPoint p5 = Points.D3.DoubleIntPoint.of(1.0, 2.0, 3.0, Integer.MAX_VALUE);
+             * p5.value();  // returns 2147483647
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1738,19 +2183,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with double coordinates and long value
-             * Points.D3.DoubleLongPoint point = Points.D3.DoubleLongPoint.of(10.5, 20.7, 30.9, 1000000000L);
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * double z = point.z();  // 30.9
-             * long value = point.value();  // 1000000000
+             * // Basic: double coordinates with large long value
+             * Points.D3.DoubleLongPoint p1 = Points.D3.DoubleLongPoint.of(10.5, 20.7, 30.9, 1000000000L);
+             * p1.x();      // returns 10.5
+             * p1.y();      // returns 20.7
+             * p1.z();      // returns 30.9
+             * p1.value();  // returns 1000000000L
              *
-             * // Useful for continuous 3D coordinate spaces with timestamps
-             * long timestamp = System.currentTimeMillis();
-             * Points.D3.DoubleLongPoint sample = Points.D3.DoubleLongPoint.of(3.14159, 2.71828, 1.41421, timestamp);
+             * // Basic: negative double coordinates with large long value
+             * Points.D3.DoubleLongPoint p2 = Points.D3.DoubleLongPoint.of(-3.14159, -2.71828, -1.41421, 9876543210L);
+             * p2.x();      // returns -3.14159
+             * p2.value();  // returns 9876543210L
              *
-             * // 3D physical coordinates with large identifiers
-             * Points.D3.DoubleLongPoint position = Points.D3.DoubleLongPoint.of(1.5, 2.7, 3.9, 9876543210L);
+             * // Edge: zero coordinates and zero long value
+             * Points.D3.DoubleLongPoint p3 = Points.D3.DoubleLongPoint.of(0.0, 0.0, 0.0, 0L);
+             * p3.value();  // returns 0L
+             *
+             * // Edge: special double coordinates and Long boundary values
+             * Points.D3.DoubleLongPoint p4 = Points.D3.DoubleLongPoint.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, 0.0, Long.MIN_VALUE);
+             * p4.value();  // returns -9223372036854775808L
+             * p4.x();      // returns Double.POSITIVE_INFINITY
+             *
+             * Points.D3.DoubleLongPoint p5 = Points.D3.DoubleLongPoint.of(1.0, 2.0, 3.0, Long.MAX_VALUE);
+             * p5.value();  // returns 9223372036854775807L
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1784,22 +2239,29 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with double coordinates and double value
-             * Points.D3.DoubleDoublePoint point = Points.D3.DoubleDoublePoint.of(10.5, 20.7, 30.9, 3.14159);
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * double z = point.z();  // 30.9
-             * double value = point.value();  // 3.14159
+             * // Basic: typical double coordinates and double value
+             * Points.D3.DoubleDoublePoint p1 = Points.D3.DoubleDoublePoint.of(10.5, 20.7, 30.9, 3.14159);
+             * p1.x();      // returns 10.5
+             * p1.y();      // returns 20.7
+             * p1.z();      // returns 30.9
+             * p1.value();  // returns 3.14159
              *
-             * // Useful for continuous 3D spaces with density or probability values
-             * Points.D3.DoubleDoublePoint sample = Points.D3.DoubleDoublePoint.of(3.14159, 2.71828, 1.41421, 0.95);
+             * // Basic: negative double coordinates and fractional value
+             * Points.D3.DoubleDoublePoint p2 = Points.D3.DoubleDoublePoint.of(-3.14159, -2.71828, -1.41421, 0.95);
+             * p2.x();      // returns -3.14159
+             * p2.value();  // returns 0.95
              *
-             * // 3D physical coordinates with measurements
-             * Points.D3.DoubleDoublePoint position = Points.D3.DoubleDoublePoint.of(1.5, 2.7, 3.9, 22.5);
+             * // Edge: all zero coordinates and zero value
+             * Points.D3.DoubleDoublePoint p3 = Points.D3.DoubleDoublePoint.of(0.0, 0.0, 0.0, 0.0);
+             * p3.value();  // returns 0.0
              *
-             * // Mathematical calculations in 3D space
-             * double distance = Math.sqrt(10.5 * 10.5 + 20.7 * 20.7 + 30.9 * 30.9);
-             * Points.D3.DoubleDoublePoint vector = Points.D3.DoubleDoublePoint.of(10.5, 20.7, 30.9, distance);
+             * // Edge: special double values (NaN, Infinity) for both coords and value
+             * Points.D3.DoubleDoublePoint p4 = Points.D3.DoubleDoublePoint.of(Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NaN);
+             * Double.isNaN(p4.x());      // returns true
+             * Double.isNaN(p4.value());  // returns true
+             *
+             * Points.D3.DoubleDoublePoint p5 = Points.D3.DoubleDoublePoint.of(1.0, 2.0, 3.0, Double.NEGATIVE_INFINITY);
+             * p5.value();  // returns Double.NEGATIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1836,21 +2298,26 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * // Create a 3D point with double coordinates and a String value
-             * Points.D3.DoubleObjPoint<String> point = Points.D3.DoubleObjPoint.of(10.5, 20.7, 30.9, "marker");
-             * double x = point.x();  // 10.5
-             * double y = point.y();  // 20.7
-             * double z = point.z();  // 30.9
-             * String value = point.value();  // "marker"
+             * // Basic: double coordinates with a String value
+             * Points.D3.DoubleObjPoint<String> p1 = Points.D3.DoubleObjPoint.of(10.5, 20.7, 30.9, "marker");
+             * p1.x();      // returns 10.5
+             * p1.y();      // returns 20.7
+             * p1.z();      // returns 30.9
+             * p1.value();  // returns "marker"
              *
-             * // 3D physical space with custom objects
-             * record Particle(String type, double mass, double charge) {}
-             * Particle particle = new Particle("electron", 9.109e-31, -1.602e-19);
-             * Points.D3.DoubleObjPoint<Particle> position = Points.D3.DoubleObjPoint.of(1.5, 2.7, 3.9, particle);
+             * // Basic: negative double coordinates with Integer wrapper value
+             * Points.D3.DoubleObjPoint<Integer> p2 = Points.D3.DoubleObjPoint.of(-3.14159, -2.71828, -1.41421, 99);
+             * p2.x();      // returns -3.14159
+             * p2.value();  // returns 99
              *
-             * // Continuous 3D space with metadata
-             * Map<String, Object> metadata = Map.of("temperature", 22.5, "pressure", 101.3, "humidity", 65);
-             * Points.D3.DoubleObjPoint<Map<String, Object>> sensor = Points.D3.DoubleObjPoint.of(3.14159, 2.71828, 1.41421, metadata);
+             * // Edge: double coordinates and null value
+             * Points.D3.DoubleObjPoint<String> p3 = Points.D3.DoubleObjPoint.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NaN, null);
+             * p3.value();            // returns null
+             * Double.isNaN(p3.z());  // returns true
+             *
+             * // Edge: zero coordinates and empty string value
+             * Points.D3.DoubleObjPoint<String> p4 = Points.D3.DoubleObjPoint.of(0.0, 0.0, 0.0, "");
+             * p4.value();  // returns ""
              * }</pre>
              *
              * @param <T> the type of the value associated with this point

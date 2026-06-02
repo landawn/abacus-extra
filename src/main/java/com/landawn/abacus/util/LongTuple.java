@@ -53,7 +53,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple1 single = LongTuple.of(42L);
-     * long value = single._1;  // 42
+     * long value = single._1;            // returns 42
+     *
+     * LongTuple.LongTuple1 neg = LongTuple.of(-1L);
+     * long negValue = neg._1;            // returns -1
+     *
+     * LongTuple.LongTuple1 max = LongTuple.of(Long.MAX_VALUE);
+     * long maxValue = max._1;            // returns 9223372036854775807
+     *
+     * LongTuple.LongTuple1 zero = LongTuple.of(0L);
+     * zero.arity();                      // returns 1
      * }</pre>
      *
      * @param _1 the long value to store in the tuple
@@ -69,7 +78,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple2 pair = LongTuple.of(1L, 2L);
-     * long sum = pair._1 + pair._2;  // 3
+     * long sum = pair._1 + pair._2;  // returns 3
+     *
+     * LongTuple.LongTuple2 negPair = LongTuple.of(-5L, 5L);
+     * negPair.sum();                 // returns 0
+     *
+     * LongTuple.LongTuple2 same = LongTuple.of(7L, 7L);
+     * same.min();                    // returns 7
+     *
+     * LongTuple.LongTuple2 bounds = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE);
+     * bounds.arity();                // returns 2
      * }</pre>
      *
      * @param _1 the first long value
@@ -86,7 +104,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
-     * double average = triple.average();   // 2.0
+     * double average = triple.average();   // returns 2.0
+     *
+     * LongTuple.LongTuple3 desc = LongTuple.of(5L, 3L, 1L);
+     * desc.min();                          // returns 1
+     * desc.max();                          // returns 5
+     *
+     * LongTuple.LongTuple3 neg = LongTuple.of(-3L, 0L, 3L);
+     * neg.sum();                           // returns 0
+     *
+     * LongTuple.LongTuple3 allNeg = LongTuple.of(-3L, -2L, -1L);
+     * allNeg.median();                     // returns -2
      * }</pre>
      *
      * @param _1 the first long value
@@ -104,7 +132,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * // quad._1 == 1, quad._2 == 2, quad._3 == 3, quad._4 == 4
+     * quad._1;                        // returns 1
+     * quad._4;                        // returns 4
+     *
+     * LongTuple.LongTuple4 even = LongTuple.of(1L, 2L, 3L, 4L);
+     * even.median();                  // returns 2 (lower of the two middle values when sorted)
+     *
+     * LongTuple.LongTuple4 neg = LongTuple.of(-4L, -3L, -2L, -1L);
+     * neg.sum();                      // returns -10
+     *
+     * LongTuple.LongTuple4 mixed = LongTuple.of(0L, 0L, 0L, 0L);
+     * mixed.min();                    // returns 0
      * }</pre>
      *
      * @param _1 the first long value
@@ -123,7 +161,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple5 quint = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-     * // quint._5 == 5
+     * quint._5;                       // returns 5
+     * quint.sum();                    // returns 15
+     *
+     * LongTuple.LongTuple5 asc = LongTuple.of(10L, 20L, 30L, 40L, 50L);
+     * asc.median();                   // returns 30 (middle value when sorted)
+     *
+     * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -4L, -3L, -2L, -1L);
+     * neg.max();                      // returns -1
+     *
+     * LongTuple.LongTuple5 mixed = LongTuple.of(-2L, -1L, 0L, 1L, 2L);
+     * mixed.average();                // returns 0.0
      * }</pre>
      *
      * @param _1 the first long value
@@ -143,7 +191,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple6 sext = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-     * // sext._6 == 6
+     * sext._6;                        // returns 6
+     * sext.sum();                     // returns 21
+     *
+     * LongTuple.LongTuple6 even = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+     * even.median();                  // returns 3 (lower of the two middle values when sorted)
+     *
+     * LongTuple.LongTuple6 neg = LongTuple.of(-6L, -5L, -4L, -3L, -2L, -1L);
+     * neg.min();                      // returns -6
+     *
+     * LongTuple.LongTuple6 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L);
+     * zeros.average();                // returns 0.0
      * }</pre>
      *
      * @param _1 the first long value
@@ -164,7 +222,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple7 sept = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-     * // sept._7 == 7
+     * sept._7;                        // returns 7
+     * sept.sum();                     // returns 28
+     *
+     * LongTuple.LongTuple7 asc = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L, 70L);
+     * asc.median();                   // returns 40 (middle value when sorted)
+     *
+     * LongTuple.LongTuple7 allSame = LongTuple.of(5L, 5L, 5L, 5L, 5L, 5L, 5L);
+     * allSame.min();                  // returns 5
+     * allSame.max();                  // returns 5
+     *
+     * LongTuple.LongTuple7 neg = LongTuple.of(-7L, -6L, -5L, -4L, -3L, -2L, -1L);
+     * neg.average();                  // returns -4.0
      * }</pre>
      *
      * @param _1 the first long value
@@ -186,7 +255,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple8 oct = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-     * // oct._8 == 8
+     * oct._8;                         // returns 8
+     * oct.arity();                    // returns 8
+     *
+     * LongTuple.LongTuple8 asc = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+     * asc.sum();                      // returns 36
+     *
+     * LongTuple.LongTuple8 neg = LongTuple.of(-8L, -7L, -6L, -5L, -4L, -3L, -2L, -1L);
+     * neg.min();                      // returns -8
+     * neg.max();                      // returns -1
+     *
+     * LongTuple.LongTuple8 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+     * zeros.sum();                    // returns 0
      * }</pre>
      *
      * @param _1 the first long value
@@ -211,7 +291,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple9 non = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-     * // non._9 == 9
+     * non._9;                         // returns 9
+     * non.arity();                    // returns 9
+     *
+     * LongTuple.LongTuple9 asc = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+     * asc.sum();                      // returns 45
+     * asc.median();                   // returns 5 (middle element when sorted)
+     *
+     * LongTuple.LongTuple9 neg = LongTuple.of(-9L, -8L, -7L, -6L, -5L, -4L, -3L, -2L, -1L);
+     * neg.min();                      // returns -9
+     *
+     * LongTuple.LongTuple9 mixed = LongTuple.of(-4L, -3L, -2L, -1L, 0L, 1L, 2L, 3L, 4L);
+     * mixed.sum();                    // returns 0
      * }</pre>
      *
      * @param _1 the first long value
@@ -244,15 +335,23 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Create from array
+     * // Create a 3-element tuple from an array
      * long[] values = {1L, 2L, 3L};
      * LongTuple.LongTuple3 tuple = LongTuple.copyOf(values);
-     *
-     * // Empty array returns the shared empty tuple
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * tuple.sum();                                           // returns 6
      *
      * // Single element
      * LongTuple.LongTuple1 single = LongTuple.copyOf(new long[]{42L});
+     * single._1;                                            // returns 42
+     *
+     * // null or empty array returns the shared empty tuple (arity == 0)
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.arity();                                        // returns 0
+     * LongTuple<?> fromNull = LongTuple.copyOf(null);
+     * fromNull.arity();                                     // returns 0
+     *
+     * // Arrays longer than 9 elements throw
+     * LongTuple.copyOf(new long[10]);                       // throws IllegalArgumentException
      * }</pre>
      *
      * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
@@ -315,10 +414,19 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-     * long min = tuple.min();   // 1L
+     * long min = tuple.min();                          // returns 1
      *
      * LongTuple.LongTuple1 single = LongTuple.of(42L);
-     * long singleMin = single.min();   // 42L
+     * long singleMin = single.min();                   // returns 42
+     *
+     * LongTuple.LongTuple2 negPair = LongTuple.of(-10L, -5L);
+     * negPair.min();                                   // returns -10
+     *
+     * LongTuple.LongTuple2 bounds = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE);
+     * bounds.min();                                    // returns Long.MIN_VALUE
+     *
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.min();                                     // throws NoSuchElementException
      * }</pre>
      *
      * @return the minimum long value in this tuple
@@ -340,10 +448,19 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-     * long max = tuple.max();   // 3L
+     * long max = tuple.max();                          // returns 3
      *
      * LongTuple.LongTuple1 single = LongTuple.of(42L);
-     * long singleMax = single.max();   // 42L
+     * long singleMax = single.max();                   // returns 42
+     *
+     * LongTuple.LongTuple2 negPair = LongTuple.of(-10L, -5L);
+     * negPair.max();                                   // returns -5
+     *
+     * LongTuple.LongTuple2 bounds = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE);
+     * bounds.max();                                    // returns Long.MAX_VALUE
+     *
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.max();                                     // throws NoSuchElementException
      * }</pre>
      *
      * @return the maximum long value in this tuple
@@ -365,11 +482,25 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Odd-count tuple: middle value when sorted
      * LongTuple.LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-     * long median = tuple.median();   // 2L
+     * long median = tuple.median();                    // returns 2
      *
+     * // Even-count tuple: lower of the two middle values when sorted
      * LongTuple.LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * long median2 = quad.median();   // 2L (lower middle value)
+     * long median2 = quad.median();                    // returns 2
+     *
+     * // Single-element tuple: the element itself
+     * LongTuple.LongTuple1 single = LongTuple.of(42L);
+     * single.median();                                 // returns 42
+     *
+     * // Even pair: lower of the two
+     * LongTuple.LongTuple2 pair = LongTuple.of(1L, 3L);
+     * pair.median();                                   // returns 1
+     *
+     * // Empty tuple throws
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.median();                                  // throws NoSuchElementException
      * }</pre>
      *
      * @return the median long value in this tuple
@@ -393,10 +524,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long sum = tuple.sum();   // 6L
+     * long sum = tuple.sum();                          // returns 6
      *
      * LongTuple.LongTuple2 pair = LongTuple.of(100L, 200L);
-     * long total = pair.sum();  // 300L
+     * long total = pair.sum();                         // returns 300
+     *
+     * // Empty tuple returns 0
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.sum();                                     // returns 0
+     *
+     * // Overflow wraps silently (two's-complement)
+     * LongTuple.LongTuple2 overflow = LongTuple.of(Long.MAX_VALUE, 1L);
+     * overflow.sum();                                  // returns Long.MIN_VALUE
+     *
+     * // Negative values
+     * LongTuple.LongTuple2 neg = LongTuple.of(-3L, -7L);
+     * neg.sum();                                       // returns -10
      * }</pre>
      *
      * @return the sum of all long values in this tuple as a {@code long}
@@ -415,7 +558,23 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * double avg = tuple.average();   // 2.0
+     * double avg = tuple.average();                    // returns 2.0
+     *
+     * // Fractional result
+     * LongTuple.LongTuple2 pair = LongTuple.of(1L, 2L);
+     * pair.average();                                  // returns 1.5
+     *
+     * // Single-element tuple
+     * LongTuple.LongTuple1 single = LongTuple.of(7L);
+     * single.average();                                // returns 7.0
+     *
+     * // All-negative tuple
+     * LongTuple.LongTuple2 neg = LongTuple.of(-3L, -1L);
+     * neg.average();                                   // returns -2.0
+     *
+     * // Empty tuple throws
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.average();                                 // throws NoSuchElementException
      * }</pre>
      *
      * @return the arithmetic mean of all long values in this tuple as a {@code double}
@@ -436,10 +595,19 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple2 pair = LongTuple.of(1L, 2L);
-     * LongTuple.LongTuple2 reversedPair = pair.reverse();   // (2, 1)
+     * LongTuple.LongTuple2 reversedPair = pair.reverse();
+     * reversedPair.toString();                         // returns "(2, 1)"
      *
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * LongTuple.LongTuple3 reversed = tuple.reverse();   // (3, 2, 1)
+     * LongTuple.LongTuple3 reversed = tuple.reverse();
+     * reversed.toString();                             // returns "(3, 2, 1)"
+     *
+     * // Single-element tuple: reverse returns a new tuple with the same element
+     * LongTuple.LongTuple1 single = LongTuple.of(42L);
+     * single.reverse()._1;                            // returns 42
+     *
+     * // Original is unmodified (immutable)
+     * pair._1;                                        // still returns 1
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -457,12 +625,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * boolean has2 = tuple.contains(2L);   // true
-     * boolean has5 = tuple.contains(5L);   // false
+     * boolean has2 = tuple.contains(2L);               // returns true
+     * boolean has5 = tuple.contains(5L);               // returns false
      *
      * LongTuple.LongTuple2 pair = LongTuple.of(10L, 10L);
-     * boolean hasTen = pair.contains(10L);   // true
-     * boolean hasOne = pair.contains(1L);    // false
+     * pair.contains(10L);                              // returns true
+     * pair.contains(1L);                               // returns false
+     *
+     * // Negative value search
+     * LongTuple.LongTuple2 neg = LongTuple.of(-1L, -2L);
+     * neg.contains(-1L);                               // returns true
+     * neg.contains(1L);                                // returns false
+     *
+     * // Empty tuple never contains anything
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.contains(0L);                              // returns false
      * }</pre>
      *
      * @param valueToFind the long value to search for
@@ -481,11 +658,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long[] array = tuple.toArray();   // [1, 2, 3]
-     * array[0] = 99L;  // Does not modify the tuple
+     * long[] array = tuple.toArray();                  // returns [1, 2, 3]
+     *
+     * // Returned array is a defensive copy; mutating it does not affect the tuple
+     * array[0] = 99L;
+     * tuple._1;                                        // still returns 1
      *
      * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
-     * long[] pairArray = pair.toArray();   // [10, 20]
+     * long[] pairArray = pair.toArray();               // returns [10, 20]
+     *
+     * // Empty tuple returns a zero-length array
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.toArray().length;                          // returns 0
      * }</pre>
      *
      * @return a new {@code long[]} array containing all tuple elements in order
@@ -508,10 +692,20 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * LongList list = tuple.toList();
-     * list.add(4L);   // Adds to the list, tuple remains unchanged
+     * list.size();                                     // returns 3
+     * list.get(0);                                     // returns 1
+     *
+     * // Mutating the list does not change the tuple
+     * list.add(4L);
+     * tuple.arity();                                   // still returns 3
      *
      * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
-     * LongList pairList = pair.toList();   // [10, 20]
+     * LongList pairList = pair.toList();
+     * pairList.get(1);                                 // returns 20
+     *
+     * // Empty tuple returns an empty list
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.toList().size();                           // returns 0
      * }</pre>
      *
      * @return a new {@code LongList} containing all tuple elements in order
@@ -541,9 +735,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * //   Value: 3
      *
      * // Accumulate sum externally
-     * java.util.concurrent.atomic.AtomicLong total = new java.util.concurrent.atomic.AtomicLong();
-     * tuple.forEach(total::addAndGet);
-     * // total.get() == 6L
+     * long[] total = {0L};
+     * tuple.forEach(v -> total[0] += v);
+     * total[0];                                        // returns 6
+     *
+     * // Empty tuple: action is never called
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * long[] count = {0L};
+     * empty.forEach(v -> count[0]++);
+     * count[0];                                        // returns 0
+     *
+     * // Null action throws immediately
+     * tuple.forEach(null);                             // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
@@ -570,10 +773,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long sum = tuple.stream().sum();   // 6L
+     * long sum = tuple.stream().sum();                 // returns 6
      *
      * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
-     * long max = pair.stream().max().getAsLong();   // 20L
+     * long max = pair.stream().max().getAsLong();      // returns 20
+     *
+     * // Filter and count elements greater than 1
+     * long count = tuple.stream().filter(v -> v > 1L).count();   // returns 2
+     *
+     * // Empty tuple produces an empty stream
+     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * empty.stream().sum();                            // returns 0
      * }</pre>
      *
      * @return a sequential {@code LongStream} containing all tuple elements in order
@@ -591,6 +801,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * algorithm that ensures equal tuples have equal hash codes. This implementation
      * is consistent with {@link #equals(Object)}.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongTuple.LongTuple3 a = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 b = LongTuple.of(1L, 2L, 3L);
+     * a.hashCode() == b.hashCode();                    // returns true (equal tuples have equal hash codes)
+     *
+     * LongTuple.LongTuple2 c = LongTuple.of(1L, 2L);
+     * LongTuple.LongTuple3 d = LongTuple.of(1L, 2L, 3L);
+     * c.hashCode() == d.hashCode();                    // typically false (different arity)
+     *
+     * // Different element values produce different hash codes (generally)
+     * LongTuple.LongTuple2 e = LongTuple.of(1L, 2L);
+     * LongTuple.LongTuple2 f = LongTuple.of(2L, 1L);
+     * e.hashCode() == f.hashCode();                    // typically false (different order)
+     * }</pre>
      *
      * @return a hash code value for this tuple
      * @see #equals(Object)
@@ -612,6 +838,29 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * </ul>
      *
      * <p>This method is consistent with {@link #hashCode()}.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongTuple.LongTuple3 a = LongTuple.of(1L, 2L, 3L);
+     * LongTuple.LongTuple3 b = LongTuple.of(1L, 2L, 3L);
+     * a.equals(b);                                     // returns true
+     *
+     * // Same reference always equal
+     * a.equals(a);                                     // returns true
+     *
+     * // Different element order is not equal
+     * LongTuple.LongTuple2 c = LongTuple.of(1L, 2L);
+     * LongTuple.LongTuple2 d = LongTuple.of(2L, 1L);
+     * c.equals(d);                                     // returns false
+     *
+     * // Different arity is not equal even if elements overlap
+     * LongTuple.LongTuple2 e = LongTuple.of(1L, 2L);
+     * LongTuple.LongTuple3 f = LongTuple.of(1L, 2L, 3L);
+     * e.equals(f);                                     // returns false
+     *
+     * // null is never equal
+     * a.equals(null);                                  // returns false
+     * }</pre>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
@@ -638,12 +887,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
-     * <ul>
-     *   <li>{@code (1, 2, 3)} for a LongTuple.LongTuple3</li>
-     *   <li>{@code (1, 2)} for a LongTuple.LongTuple2</li>
-     *   <li>{@code (1)} for a LongTuple.LongTuple1</li>
-     *   <li>{@code ()} for an empty {@code LongTuple<?>}</li>
-     * </ul>
+     * <pre>{@code
+     * LongTuple.of(1L, 2L, 3L).toString();            // returns "(1, 2, 3)"
+     * LongTuple.of(1L, 2L).toString();                // returns "(1, 2)"
+     * LongTuple.of(1L).toString();                    // returns "(1)"
+     *
+     * // Empty tuple
+     * LongTuple.copyOf(new long[0]).toString();        // returns "()"
+     *
+     * // Negative values
+     * LongTuple.of(-3L, 0L, 3L).toString();           // returns "(-3, 0, 3)"
+     * }</pre>
      *
      * @return a string representation of this tuple
      */
@@ -814,6 +1068,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 1.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(42L);
+         * t.arity();                                       // returns 1
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-1L);
+         * neg.arity();                                     // returns 1
+         * }</pre>
+         *
          * @return 1
          */
         @Override
@@ -824,6 +1087,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value in this tuple.
          * For a single-element tuple, this is the element itself.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(42L);
+         * t.min();                                         // returns 42
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-5L);
+         * neg.min();                                       // returns -5
+         *
+         * LongTuple.LongTuple1 minVal = LongTuple.of(Long.MIN_VALUE);
+         * minVal.min();                                    // returns Long.MIN_VALUE
+         * }</pre>
          *
          * @return the single element value
          */
@@ -836,6 +1111,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the maximum value in this tuple.
          * For a single-element tuple, this is the element itself.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(42L);
+         * t.max();                                         // returns 42
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-5L);
+         * neg.max();                                       // returns -5
+         *
+         * LongTuple.LongTuple1 maxVal = LongTuple.of(Long.MAX_VALUE);
+         * maxVal.max();                                    // returns Long.MAX_VALUE
+         * }</pre>
+         *
          * @return the single element value
          */
         @Override
@@ -846,6 +1133,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the median value in this tuple.
          * For a single-element tuple, this is the element itself.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(42L);
+         * t.median();                                      // returns 42
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-5L);
+         * neg.median();                                    // returns -5
+         *
+         * LongTuple.LongTuple1 zero = LongTuple.of(0L);
+         * zero.median();                                   // returns 0
+         * }</pre>
          *
          * @return the single element value
          */
@@ -858,6 +1157,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the sum of all values in this tuple.
          * For a single-element tuple, this is the element itself.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(7L);
+         * long s = t.sum();   // returns 7L
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-3L);
+         * long sn = neg.sum();   // returns -3L
+         *
+         * LongTuple.LongTuple1 zero = LongTuple.of(0L);
+         * long sz = zero.sum();   // returns 0L
+         *
+         * LongTuple.LongTuple1 boundary = LongTuple.of(Long.MIN_VALUE);
+         * long sb = boundary.sum();   // returns Long.MIN_VALUE
+         * }</pre>
+         *
          * @return the single element value
          */
         @Override
@@ -868,6 +1182,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all values in this tuple.
          * For a single-element tuple, this is the element value converted to {@code double}.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(7L);
+         * double avg = t.average();   // returns 7.0
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-5L);
+         * double avgNeg = neg.average();   // returns -5.0
+         *
+         * LongTuple.LongTuple1 zero = LongTuple.of(0L);
+         * double avgZero = zero.average();   // returns 0.0
+         *
+         * LongTuple.LongTuple1 boundary = LongTuple.of(Long.MAX_VALUE);
+         * double avgMax = boundary.average();   // returns (double) Long.MAX_VALUE
+         * }</pre>
          *
          * @return {@code _1} converted to {@code double}
          */
@@ -880,6 +1209,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a new tuple with the same value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(42L);
+         * LongTuple.LongTuple1 rev = t.reverse();   // new tuple; rev._1 == 42L
+         *
+         * // reversed tuple is a distinct object
+         * LongTuple.LongTuple1 orig = LongTuple.of(1L);
+         * LongTuple.LongTuple1 r = orig.reverse();   // r != orig, r._1 == 1L
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-99L);
+         * LongTuple.LongTuple1 rn = neg.reverse();   // rn._1 == -99L
+         *
+         * LongTuple.LongTuple1 boundary = LongTuple.of(Long.MIN_VALUE);
+         * LongTuple.LongTuple1 rb = boundary.reverse();   // rb._1 == Long.MIN_VALUE
+         * }</pre>
+         *
          * @return a new LongTuple.LongTuple1 with the same value
          */
         @Override
@@ -889,6 +1234,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(5L);
+         * boolean yes = t.contains(5L);   // returns true
+         * boolean no  = t.contains(4L);   // returns false
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-9L);
+         * boolean hasNeg = neg.contains(-9L);   // returns true
+         * boolean hasMirror = neg.contains(9L); // returns false
+         * }</pre>
          *
          * @param valueToFind the long value to search for
          * @return {@code true} if the value equals _1, {@code false} otherwise
@@ -901,6 +1257,20 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 a = LongTuple.of(10L);
+         * LongTuple.LongTuple1 b = LongTuple.of(10L);
+         * int ha = a.hashCode();   // == Long.hashCode(10L)
+         * int hb = b.hashCode();   // == ha (equal tuples have equal hash codes)
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-1L);
+         * int hn = neg.hashCode();   // == Long.hashCode(-1L)
+         *
+         * LongTuple.LongTuple1 zero = LongTuple.of(0L);
+         * int hz = zero.hashCode();   // == Long.hashCode(0L)
+         * }</pre>
+         *
          * @return the hash code of the single element
          */
         @Override
@@ -910,6 +1280,20 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 a = LongTuple.of(10L);
+         * LongTuple.LongTuple1 b = LongTuple.of(10L);
+         * boolean eq = a.equals(b);    // returns true
+         *
+         * LongTuple.LongTuple1 c = LongTuple.of(20L);
+         * boolean ne = a.equals(c);    // returns false
+         *
+         * boolean self = a.equals(a);  // returns true (same reference)
+         *
+         * boolean nul = a.equals(null); // returns false
+         * }</pre>
          *
          * @param obj the object to compare with
          * @return {@code true} if the object is a LongTuple.LongTuple1 with the same element, {@code false} otherwise
@@ -927,6 +1311,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(42L);
+         * String s = t.toString();   // returns "(42)"
+         *
+         * LongTuple.LongTuple1 neg = LongTuple.of(-1L);
+         * String sn = neg.toString();   // returns "(-1)"
+         *
+         * LongTuple.LongTuple1 zero = LongTuple.of(0L);
+         * String sz = zero.toString();   // returns "(0)"
+         *
+         * LongTuple.LongTuple1 big = LongTuple.of(Long.MAX_VALUE);
+         * String sb = big.toString();   // returns "(9223372036854775807)"
+         * }</pre>
          *
          * @return a string in the format {@code "(_1)"}
          */
@@ -989,6 +1388,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 2.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(10L, 20L);
+         * int n = t.arity();   // returns 2
+         *
+         * LongTuple.LongTuple2 dup = LongTuple.of(5L, 5L);
+         * int nd = dup.arity();   // returns 2
+         * }</pre>
+         *
          * @return 2
          */
         @Override
@@ -999,6 +1407,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the two elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(1L, 2L);
+         * long mn = t.min();   // returns 1L
+         *
+         * LongTuple.LongTuple2 neg = LongTuple.of(-5L, 3L);
+         * long mnNeg = neg.min();   // returns -5L
+         *
+         * LongTuple.LongTuple2 dup = LongTuple.of(3L, 3L);
+         * long mnDup = dup.min();   // returns 3L (duplicates)
+         *
+         * LongTuple.LongTuple2 boundary = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE);
+         * long mnB = boundary.min();   // returns Long.MIN_VALUE
+         * }</pre>
+         *
          * @return the smaller of _1 and _2
          */
         @Override
@@ -1008,6 +1431,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum value among the two elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(1L, 2L);
+         * long mx = t.max();   // returns 2L
+         *
+         * LongTuple.LongTuple2 neg = LongTuple.of(-5L, 3L);
+         * long mxNeg = neg.max();   // returns 3L
+         *
+         * LongTuple.LongTuple2 dup = LongTuple.of(3L, 3L);
+         * long mxDup = dup.max();   // returns 3L (duplicates)
+         *
+         * LongTuple.LongTuple2 boundary = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE);
+         * long mxB = boundary.max();   // returns Long.MAX_VALUE
+         * }</pre>
          *
          * @return the larger of _1 and _2
          */
@@ -1020,6 +1458,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the median value of the two elements.
          * Because this tuple has an even number of elements, this returns the lower of {@code _1} and {@code _2}.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(1L, 2L);
+         * long med = t.median();   // returns 1L (lower-middle of sorted [1, 2])
+         *
+         * LongTuple.LongTuple2 rev = LongTuple.of(5L, -3L);
+         * long medRev = rev.median();   // returns -3L (lower-middle of sorted [-3, 5])
+         *
+         * LongTuple.LongTuple2 dup = LongTuple.of(4L, 4L);
+         * long medDup = dup.median();   // returns 4L
+         *
+         * LongTuple.LongTuple2 boundary = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE);
+         * long medB = boundary.median();   // returns Long.MIN_VALUE (lower-middle)
+         * }</pre>
+         *
          * @return the lower of {@code _1} and {@code _2}
          */
         @Override
@@ -1029,6 +1482,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of the two elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(1L, 2L);
+         * long s = t.sum();   // returns 3L
+         *
+         * LongTuple.LongTuple2 cancel = LongTuple.of(-5L, 5L);
+         * long sc = cancel.sum();   // returns 0L
+         *
+         * // overflow wraps silently (no exception)
+         * LongTuple.LongTuple2 overflow = LongTuple.of(Long.MAX_VALUE, 1L);
+         * long so = overflow.sum();   // returns Long.MIN_VALUE (wrap-around)
+         *
+         * LongTuple.LongTuple2 neg = LongTuple.of(-3L, -4L);
+         * long sn = neg.sum();   // returns -7L
+         * }</pre>
          *
          * @return _1 + _2 as a long
          */
@@ -1040,6 +1509,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of the two elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(1L, 2L);
+         * double avg = t.average();   // returns 1.5
+         *
+         * LongTuple.LongTuple2 cancel = LongTuple.of(-1L, 1L);
+         * double avgC = cancel.average();   // returns 0.0
+         *
+         * LongTuple.LongTuple2 same = LongTuple.of(6L, 6L);
+         * double avgS = same.average();   // returns 6.0
+         *
+         * LongTuple.LongTuple2 negPair = LongTuple.of(-10L, -4L);
+         * double avgN = negPair.average();   // returns -7.0
+         * }</pre>
+         *
          * @return (_1 + _2) / 2.0 as a double
          */
         @Override
@@ -1049,6 +1533,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(10L, 20L);
+         * LongTuple.LongTuple2 rev = t.reverse();   // rev._1 == 20L, rev._2 == 10L
+         *
+         * // reversed tuple is a distinct object
+         * LongTuple.LongTuple2 orig = LongTuple.of(1L, 2L);
+         * LongTuple.LongTuple2 r = orig.reverse();   // r != orig
+         *
+         * LongTuple.LongTuple2 dup = LongTuple.of(5L, 5L);
+         * LongTuple.LongTuple2 rd = dup.reverse();   // rd._1 == 5L, rd._2 == 5L
+         *
+         * LongTuple.LongTuple2 neg = LongTuple.of(-1L, 0L);
+         * LongTuple.LongTuple2 rn = neg.reverse();   // rn._1 == 0L, rn._2 == -1L
+         * }</pre>
          *
          * @return a new LongTuple.LongTuple2 with values (_2, _1)
          */
@@ -1060,6 +1560,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if either element equals the specified value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(10L, 20L);
+         * boolean has10 = t.contains(10L);   // returns true
+         * boolean has20 = t.contains(20L);   // returns true
+         * boolean has0  = t.contains(0L);    // returns false
+         *
+         * LongTuple.LongTuple2 dup = LongTuple.of(7L, 7L);
+         * boolean hasDup = dup.contains(7L);   // returns true
+         * boolean noVal  = dup.contains(6L);   // returns false
+         * }</pre>
+         *
          * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals _1 or _2
          */
@@ -1070,6 +1582,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(10L, 20L);
+         * long[] acc = {0L};
+         * t.forEach(v -> acc[0] += v);   // acc[0] == 30L after call
+         *
+         * LongTuple.LongTuple2 neg = LongTuple.of(-3L, -7L);
+         * long[] sum = {0L};
+         * neg.forEach(v -> sum[0] += v);   // sum[0] == -10L after call
+         * }</pre>
          *
          * @param <E> the type of exception that the action may throw
          * @param action the action to perform on each element
@@ -1095,10 +1618,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple2 pair = LongTuple.of(3L, 4L);
-         * pair.accept((a, b) -> System.out.println("Distance: " + Math.sqrt(a*a + b*b)));
+         * long[] result = {0L};
+         * pair.accept((a, b) -> result[0] = a + b);   // result[0] == 7L
          *
          * LongTuple.LongTuple2 coordinates = LongTuple.of(10L, 20L);
-         * coordinates.accept((x, y) -> System.out.println("Point at (" + x + ", " + y + ")"));
+         * long[] out = {0L};
+         * coordinates.accept((x, y) -> out[0] = x * y);   // out[0] == 200L
+         *
+         * // negative values
+         * LongTuple.LongTuple2 neg = LongTuple.of(-5L, -3L);
+         * long[] negOut = {0L};
+         * neg.accept((a, b) -> negOut[0] = a - b);   // negOut[0] == -2L
+         *
+         * // duplicate values
+         * LongTuple.LongTuple2 dup = LongTuple.of(7L, 7L);
+         * long[] dupOut = {0L};
+         * dup.accept((a, b) -> dupOut[0] = a + b);   // dupOut[0] == 14L
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1123,13 +1658,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple2 pair = LongTuple.of(10L, 3L);
-         * long remainder = pair.map((a, b) -> a % b);   // 1
+         * Long remainder = pair.map((a, b) -> a % b);   // returns 1L
          *
          * LongTuple.LongTuple2 dimensions = LongTuple.of(5L, 10L);
-         * Long area = dimensions.map((width, height) -> width * height);  // 50
+         * Long area = dimensions.map((width, height) -> width * height);   // returns 50L
          *
-         * LongTuple.LongTuple2 coords = LongTuple.of(3L, 4L);
-         * String result = coords.map((x, y) -> "(" + x + ", " + y + ")");  // "(3, 4)"
+         * // negative operands
+         * LongTuple.LongTuple2 neg = LongTuple.of(-6L, 2L);
+         * Long quot = neg.map((a, b) -> a / b);   // returns -3L
+         *
+         * // mapper may return null
+         * LongTuple.LongTuple2 zero = LongTuple.of(0L, 0L);
+         * String nullResult = zero.map((a, b) -> a == b ? null : "different");   // returns null
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1158,14 +1698,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
-         * Optional<LongTuple.LongTuple2> result = pair.filter((a, b) -> a < b);   // Optional containing the tuple
+         * Optional<LongTuple.LongTuple2> present = pair.filter((a, b) -> a < b);   // Optional containing the tuple
          *
          * LongTuple.LongTuple2 values = LongTuple.of(5L, 3L);
-         * Optional<LongTuple.LongTuple2> empty = values.filter((a, b) -> a < b);  // Empty Optional
+         * Optional<LongTuple.LongTuple2> empty = values.filter((a, b) -> a < b);   // empty Optional
          *
-         * LongTuple.LongTuple2 coords = LongTuple.of(10L, 10L);
-         * coords.filter((x, y) -> x == y)
-         *       .ifPresent(t -> System.out.println("Equal values!"));
+         * // negative values: -5 < 0 is true
+         * LongTuple.LongTuple2 neg = LongTuple.of(-5L, 0L);
+         * Optional<LongTuple.LongTuple2> negPresent = neg.filter((a, b) -> a < b);   // Optional containing the tuple
+         *
+         * // boundary: both equal Long.MAX_VALUE -> not strictly less
+         * LongTuple.LongTuple2 boundary = LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE);
+         * Optional<LongTuple.LongTuple2> boundEmpty = boundary.filter((a, b) -> a < b);   // empty Optional
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1183,6 +1727,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 a = LongTuple.of(3L, 4L);
+         * LongTuple.LongTuple2 b = LongTuple.of(3L, 4L);
+         * int ha = a.hashCode();   // == 31 * Long.hashCode(3L) + Long.hashCode(4L)
+         * int hb = b.hashCode();   // == ha (equal tuples have equal hash codes)
+         *
+         * // order matters: (3, 4) and (4, 3) have different hash codes
+         * LongTuple.LongTuple2 c = LongTuple.of(4L, 3L);
+         * int hc = c.hashCode();   // != ha
+         *
+         * LongTuple.LongTuple2 neg = LongTuple.of(-1L, -2L);
+         * int hn = neg.hashCode();   // == 31 * Long.hashCode(-1L) + Long.hashCode(-2L)
+         * }</pre>
+         *
          * @return 31 * Long.hashCode(_1) + Long.hashCode(_2)
          */
         @Override
@@ -1192,6 +1751,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 a = LongTuple.of(3L, 4L);
+         * LongTuple.LongTuple2 b = LongTuple.of(3L, 4L);
+         * boolean eq = a.equals(b);   // returns true
+         *
+         * // order matters
+         * LongTuple.LongTuple2 c = LongTuple.of(4L, 3L);
+         * boolean ne = a.equals(c);   // returns false
+         *
+         * boolean nul = a.equals(null);   // returns false
+         *
+         * boolean self = a.equals(a);   // returns true (same reference)
+         * }</pre>
          *
          * @param obj the object to compare with
          * @return {@code true} if the object is a LongTuple.LongTuple2 with the same elements in the same order, {@code false} otherwise
@@ -1209,6 +1783,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple2 t = LongTuple.of(1L, 2L);
+         * String s = t.toString();   // returns "(1, 2)"
+         *
+         * LongTuple.LongTuple2 neg = LongTuple.of(-1L, 0L);
+         * String sn = neg.toString();   // returns "(-1, 0)"
+         *
+         * LongTuple.LongTuple2 big = LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE);
+         * String sb = big.toString();   // returns "(9223372036854775807, -9223372036854775808)"
+         *
+         * LongTuple.LongTuple2 dup = LongTuple.of(5L, 5L);
+         * String sd = dup.toString();   // returns "(5, 5)"
+         * }</pre>
          *
          * @return a string in the format {@code "(_1, _2)"}
          */
@@ -1274,6 +1863,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 3.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(1L, 2L, 3L);
+         * int n = t.arity();   // returns 3
+         *
+         * LongTuple.LongTuple3 all = LongTuple.of(-1L, 0L, 1L);
+         * int na = all.arity();   // returns 3
+         * }</pre>
+         *
          * @return 3
          */
         @Override
@@ -1284,6 +1882,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the three elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(3L, 1L, 2L);
+         * long mn = t.min();   // returns 1L
+         *
+         * LongTuple.LongTuple3 neg = LongTuple.of(-9L, 0L, 5L);
+         * long mnN = neg.min();   // returns -9L
+         *
+         * LongTuple.LongTuple3 dup = LongTuple.of(4L, 4L, 4L);
+         * long mnD = dup.min();   // returns 4L (all same)
+         *
+         * LongTuple.LongTuple3 boundary = LongTuple.of(Long.MIN_VALUE, 0L, Long.MAX_VALUE);
+         * long mnB = boundary.min();   // returns Long.MIN_VALUE
+         * }</pre>
+         *
          * @return the smallest of _1, _2, and _3
          */
         @Override
@@ -1293,6 +1906,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum value among the three elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(3L, 1L, 2L);
+         * long mx = t.max();   // returns 3L
+         *
+         * LongTuple.LongTuple3 neg = LongTuple.of(-9L, 0L, 5L);
+         * long mxN = neg.max();   // returns 5L
+         *
+         * LongTuple.LongTuple3 dup = LongTuple.of(4L, 4L, 4L);
+         * long mxD = dup.max();   // returns 4L (all same)
+         *
+         * LongTuple.LongTuple3 boundary = LongTuple.of(Long.MIN_VALUE, 0L, Long.MAX_VALUE);
+         * long mxB = boundary.max();   // returns Long.MAX_VALUE
+         * }</pre>
          *
          * @return the largest of _1, _2, and _3
          */
@@ -1305,6 +1933,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the median value of the three elements.
          * Returns the middle value of {@code _1}, {@code _2}, and {@code _3} when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(3L, 1L, 2L);
+         * long med = t.median();   // returns 2L (middle of sorted [1, 2, 3])
+         *
+         * LongTuple.LongTuple3 neg = LongTuple.of(-9L, 0L, 5L);
+         * long medN = neg.median();   // returns 0L (middle of sorted [-9, 0, 5])
+         *
+         * LongTuple.LongTuple3 dup = LongTuple.of(7L, 7L, 7L);
+         * long medD = dup.median();   // returns 7L (all same)
+         *
+         * LongTuple.LongTuple3 sorted = LongTuple.of(1L, 2L, 3L);
+         * long medS = sorted.median();   // returns 2L
+         * }</pre>
+         *
          * @return the middle long value when sorted
          */
         @Override
@@ -1314,6 +1957,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all three elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(1L, 2L, 3L);
+         * long s = t.sum();   // returns 6L
+         *
+         * LongTuple.LongTuple3 cancel = LongTuple.of(-1L, 0L, 1L);
+         * long sc = cancel.sum();   // returns 0L
+         *
+         * // overflow wraps silently (no exception)
+         * LongTuple.LongTuple3 overflow = LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, 2L);
+         * long so = overflow.sum();   // wraps: Long.MAX_VALUE + Long.MAX_VALUE + 2L
+         *
+         * LongTuple.LongTuple3 neg = LongTuple.of(-1L, -2L, -3L);
+         * long sn = neg.sum();   // returns -6L
+         * }</pre>
          *
          * @return _1 + _2 + _3 as a long
          */
@@ -1325,6 +1984,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all three elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(1L, 2L, 3L);
+         * double avg = t.average();   // returns 2.0
+         *
+         * LongTuple.LongTuple3 cancel = LongTuple.of(-1L, 0L, 1L);
+         * double avgC = cancel.average();   // returns 0.0
+         *
+         * LongTuple.LongTuple3 same = LongTuple.of(6L, 6L, 6L);
+         * double avgS = same.average();   // returns 6.0
+         *
+         * LongTuple.LongTuple3 negTri = LongTuple.of(-3L, -6L, -9L);
+         * double avgN = negTri.average();   // returns -6.0
+         * }</pre>
+         *
          * @return (_1 + _2 + _3) / 3.0 as a double
          */
         @Override
@@ -1334,6 +2008,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(1L, 2L, 3L);
+         * LongTuple.LongTuple3 rev = t.reverse();   // rev._1==3L, rev._2==2L, rev._3==1L
+         *
+         * // reversed tuple is a distinct object
+         * LongTuple.LongTuple3 orig = LongTuple.of(10L, 20L, 30L);
+         * LongTuple.LongTuple3 r = orig.reverse();   // r != orig
+         *
+         * LongTuple.LongTuple3 dup = LongTuple.of(5L, 5L, 5L);
+         * LongTuple.LongTuple3 rd = dup.reverse();   // rd._1==5L, rd._2==5L, rd._3==5L
+         *
+         * LongTuple.LongTuple3 neg = LongTuple.of(-1L, 0L, 1L);
+         * LongTuple.LongTuple3 rn = neg.reverse();   // rn._1==1L, rn._2==0L, rn._3==-1L
+         * }</pre>
          *
          * @return a new LongTuple.LongTuple3 with values (_3, _2, _1)
          */
@@ -1345,6 +2035,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if any element equals the specified value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(1L, 2L, 3L);
+         * boolean has1 = t.contains(1L);   // returns true
+         * boolean has3 = t.contains(3L);   // returns true
+         * boolean has4 = t.contains(4L);   // returns false
+         *
+         * LongTuple.LongTuple3 dup = LongTuple.of(5L, 5L, 5L);
+         * boolean hasDup = dup.contains(5L);   // returns true
+         * boolean noVal  = dup.contains(0L);   // returns false
+         * }</pre>
+         *
          * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals _1, _2, or _3
          */
@@ -1355,6 +2057,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(1L, 2L, 3L);
+         * long[] acc = {0L};
+         * t.forEach(v -> acc[0] += v);   // acc[0] == 6L after call
+         *
+         * LongTuple.LongTuple3 neg = LongTuple.of(-1L, -2L, -3L);
+         * long[] sum = {0L};
+         * neg.forEach(v -> sum[0] += v);   // sum[0] == -6L after call
+         * }</pre>
          *
          * @param <E> the type of exception that the action may throw
          * @param action the action to perform on each element
@@ -1380,13 +2093,23 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * LongTuple.LongTuple3 triple = LongTuple.of(3L, 4L, 5L);
-         * triple.accept((a, b, c) -> {
-         *     if (a*a + b*b == c*c) System.out.println("Pythagorean triple!");
-         * });
+         * LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
+         * long[] result = {0L};
+         * triple.accept((a, b, c) -> result[0] = a + b + c);   // result[0] == 6L
          *
-         * LongTuple.LongTuple3 rgb = LongTuple.of(255L, 128L, 64L);
-         * rgb.accept((r, g, b) -> System.out.println("RGB(" + r + ", " + g + ", " + b + ")"));
+         * LongTuple.LongTuple3 coords = LongTuple.of(2L, 3L, 4L);
+         * long[] vol = {0L};
+         * coords.accept((l, w, h) -> vol[0] = l * w * h);   // vol[0] == 24L
+         *
+         * // negative values
+         * LongTuple.LongTuple3 neg = LongTuple.of(-1L, -2L, -3L);
+         * long[] negOut = {0L};
+         * neg.accept((a, b, c) -> negOut[0] = a + b + c);   // negOut[0] == -6L
+         *
+         * // duplicate values
+         * LongTuple.LongTuple3 dup = LongTuple.of(5L, 5L, 5L);
+         * long[] dupOut = {0L};
+         * dup.accept((a, b, c) -> dupOut[0] = a + b + c);   // dupOut[0] == 15L
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1412,13 +2135,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple3 triple = LongTuple.of(2L, 3L, 4L);
-         * long volume = triple.map((l, w, h) -> l * w * h);   // 24
-         *
-         * LongTuple.LongTuple3 dimensions = LongTuple.of(10L, 20L, 30L);
-         * String formatted = dimensions.map((x, y, z) -> x + "x" + y + "x" + z);  // "10x20x30"
+         * Long volume = triple.map((l, w, h) -> l * w * h);   // returns 24L
          *
          * LongTuple.LongTuple3 values = LongTuple.of(1L, 2L, 3L);
-         * Double avg = values.map((a, b, c) -> (a + b + c) / 3.0);  // 2.0
+         * Double avg = values.map((a, b, c) -> (a + b + c) / 3.0);   // returns 2.0
+         *
+         * // negative operands
+         * LongTuple.LongTuple3 neg = LongTuple.of(-1L, -2L, -3L);
+         * Long negSum = neg.map((a, b, c) -> a + b + c);   // returns -6L
+         *
+         * // mapper may return null
+         * LongTuple.LongTuple3 zero = LongTuple.of(0L, 0L, 0L);
+         * String nullResult = zero.map((a, b, c) -> a == 0 && b == 0 && c == 0 ? null : "non-zero");   // returns null
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1447,14 +2175,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
-         * Optional<LongTuple.LongTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
-         *
-         * LongTuple.LongTuple3 pythagorean = LongTuple.of(3L, 4L, 5L);
-         * pythagorean.filter((a, b, c) -> a*a + b*b == c*c)
-         *            .ifPresent(t -> System.out.println("Pythagorean triple found!"));
+         * Optional<LongTuple.LongTuple3> present = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
          *
          * LongTuple.LongTuple3 descending = LongTuple.of(5L, 4L, 3L);
-         * Optional<LongTuple.LongTuple3> empty = descending.filter((a, b, c) -> a < b && b < c);  // Empty Optional
+         * Optional<LongTuple.LongTuple3> empty = descending.filter((a, b, c) -> a < b && b < c);   // empty Optional
+         *
+         * // negative values: all negative, sum < 0 is true
+         * LongTuple.LongTuple3 neg = LongTuple.of(-3L, -2L, -1L);
+         * Optional<LongTuple.LongTuple3> negPresent = neg.filter((a, b, c) -> a + b + c < 0);   // Optional containing the tuple
+         *
+         * // duplicate values: a == b == c is true only when all same
+         * LongTuple.LongTuple3 dup = LongTuple.of(7L, 7L, 7L);
+         * Optional<LongTuple.LongTuple3> dupPresent = dup.filter((a, b, c) -> a == b && b == c);   // Optional containing the tuple
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1472,6 +2204,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 a = LongTuple.of(1L, 2L, 3L);
+         * LongTuple.LongTuple3 b = LongTuple.of(1L, 2L, 3L);
+         * int ha = a.hashCode();   // == (31 * (31 * Long.hashCode(1L) + Long.hashCode(2L))) + Long.hashCode(3L)
+         * int hb = b.hashCode();   // == ha (equal tuples have equal hash codes)
+         *
+         * // order matters: (1, 2, 3) and (3, 2, 1) have different hash codes
+         * LongTuple.LongTuple3 c = LongTuple.of(3L, 2L, 1L);
+         * int hc = c.hashCode();   // != ha
+         *
+         * LongTuple.LongTuple3 neg = LongTuple.of(-1L, 0L, 1L);
+         * int hn = neg.hashCode();   // consistent with equals
+         * }</pre>
+         *
          * @return (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2))) + Long.hashCode(_3)
          */
         @Override
@@ -1481,6 +2228,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 a = LongTuple.of(1L, 2L, 3L);
+         * LongTuple.LongTuple3 b = LongTuple.of(1L, 2L, 3L);
+         * boolean eq = a.equals(b);   // returns true
+         *
+         * // order matters
+         * LongTuple.LongTuple3 c = LongTuple.of(3L, 2L, 1L);
+         * boolean ne = a.equals(c);   // returns false
+         *
+         * boolean nul = a.equals(null);   // returns false
+         *
+         * boolean self = a.equals(a);   // returns true (same reference)
+         * }</pre>
          *
          * @param obj the object to compare with
          * @return {@code true} if the object is a LongTuple.LongTuple3 with the same elements in the same order, {@code false} otherwise
@@ -1498,6 +2260,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple3 t = LongTuple.of(1L, 2L, 3L);
+         * String s = t.toString();   // returns "(1, 2, 3)"
+         *
+         * LongTuple.LongTuple3 neg = LongTuple.of(-1L, 0L, 1L);
+         * String sn = neg.toString();   // returns "(-1, 0, 1)"
+         *
+         * LongTuple.LongTuple3 dup = LongTuple.of(5L, 5L, 5L);
+         * String sd = dup.toString();   // returns "(5, 5, 5)"
+         *
+         * LongTuple.LongTuple3 boundary = LongTuple.of(Long.MIN_VALUE, 0L, Long.MAX_VALUE);
+         * String sb = boundary.toString();   // returns "(-9223372036854775808, 0, 9223372036854775807)"
+         * }</pre>
          *
          * @return a string in the format {@code "(_1, _2, _3)"}
          */
@@ -1529,8 +2306,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * long sum = quad.sum();                  // 10L
-     * long min = quad.min();                  // 1L
+     * long sum = quad.sum();                            // 10L
+     * long min = quad.min();                            // 1L
      * LongTuple.LongTuple4 reversed = quad.reverse();   // (4, 3, 2, 1)
      * }</pre>
      */
@@ -1559,6 +2336,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 4.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(10L, 20L, 30L, 40L);
+         * int n = t.arity();   // 4
+         *
+         * LongTuple.LongTuple4 neg = LongTuple.of(-1L, -2L, -3L, -4L);
+         * int n2 = neg.arity();   // 4
+         * }</pre>
+         *
          * @return 4
          */
         @Override
@@ -1569,6 +2355,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the four elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(3L, 1L, 4L, 2L);
+         * long min = t.min();   // 1
+         *
+         * LongTuple.LongTuple4 neg = LongTuple.of(-5L, -3L, -10L, -1L);
+         * long minNeg = neg.min();   // -10
+         *
+         * LongTuple.LongTuple4 mixed = LongTuple.of(Long.MIN_VALUE, 0L, Long.MAX_VALUE, 1L);
+         * long minBound = mixed.min();   // Long.MIN_VALUE
+         *
+         * LongTuple.LongTuple4 dup = LongTuple.of(7L, 7L, 7L, 7L);
+         * long minDup = dup.min();   // 7
+         * }</pre>
+         *
          * @return the smallest of _1, _2, _3, and _4
          */
         @Override
@@ -1578,6 +2379,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum value among the four elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(3L, 1L, 4L, 2L);
+         * long max = t.max();   // 4
+         *
+         * LongTuple.LongTuple4 neg = LongTuple.of(-5L, -3L, -10L, -1L);
+         * long maxNeg = neg.max();   // -1
+         *
+         * LongTuple.LongTuple4 mixed = LongTuple.of(Long.MIN_VALUE, 0L, Long.MAX_VALUE, 1L);
+         * long maxBound = mixed.max();   // Long.MAX_VALUE
+         *
+         * LongTuple.LongTuple4 dup = LongTuple.of(7L, 7L, 7L, 7L);
+         * long maxDup = dup.max();   // 7
+         * }</pre>
          *
          * @return the largest of _1, _2, _3, and _4
          */
@@ -1590,6 +2406,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the median value of the four elements.
          * Because this tuple has an even number of elements, this returns the lower of the two middle values when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(1L, 2L, 3L, 4L);
+         * long med = t.median();   // 2  (sorted=[1,2,3,4], lower middle=2)
+         *
+         * LongTuple.LongTuple4 rev = LongTuple.of(4L, 3L, 2L, 1L);
+         * long medRev = rev.median();   // 2  (same elements, same result)
+         *
+         * LongTuple.LongTuple4 neg = LongTuple.of(-3L, -1L, 0L, 2L);
+         * long medNeg = neg.median();   // -1  (sorted=[-3,-1,0,2], lower middle=-1)
+         *
+         * LongTuple.LongTuple4 dup = LongTuple.of(5L, 5L, 5L, 5L);
+         * long medDup = dup.median();   // 5
+         * }</pre>
+         *
          * @return the lower-middle long value of the four elements
          */
         @Override
@@ -1599,6 +2430,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all four elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(1L, 2L, 3L, 4L);
+         * long sum = t.sum();   // 10
+         *
+         * LongTuple.LongTuple4 neg = LongTuple.of(-1L, -2L, -3L, -4L);
+         * long sumNeg = neg.sum();   // -10
+         *
+         * // Sum wraps silently on overflow - no exception is thrown
+         * LongTuple.LongTuple4 overflow = LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, 0L, 0L);
+         * long wrapped = overflow.sum();   // -2  (two's-complement wrap-around)
+         *
+         * LongTuple.LongTuple4 zeros = LongTuple.of(0L, 0L, 0L, 0L);
+         * long zeroSum = zeros.sum();   // 0
+         * }</pre>
          *
          * @return _1 + _2 + _3 + _4 as a long
          */
@@ -1610,6 +2457,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all four elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(1L, 2L, 3L, 4L);
+         * double avg = t.average();   // 2.5
+         *
+         * LongTuple.LongTuple4 neg = LongTuple.of(-3L, -1L, 0L, 2L);
+         * double avgNeg = neg.average();   // -0.5
+         *
+         * LongTuple.LongTuple4 zeros = LongTuple.of(0L, 0L, 0L, 0L);
+         * double avgZero = zeros.average();   // 0.0
+         *
+         * LongTuple.LongTuple4 dup = LongTuple.of(6L, 6L, 6L, 6L);
+         * double avgDup = dup.average();   // 6.0
+         * }</pre>
+         *
          * @return (_1 + _2 + _3 + _4) / 4.0 as a double
          */
         @Override
@@ -1619,6 +2481,28 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(1L, 2L, 3L, 4L);
+         * LongTuple.LongTuple4 rev = t.reverse();
+         * // rev._1==4, rev._2==3, rev._3==2, rev._4==1
+         * // rev.toString() returns "(4, 3, 2, 1)"
+         *
+         * LongTuple.LongTuple4 neg = LongTuple.of(-4L, -3L, -2L, -1L);
+         * LongTuple.LongTuple4 revNeg = neg.reverse();
+         * // revNeg.toString() returns "(-1, -2, -3, -4)"
+         *
+         * // Reversing a uniform tuple yields the same values
+         * LongTuple.LongTuple4 dup = LongTuple.of(7L, 7L, 7L, 7L);
+         * LongTuple.LongTuple4 revDup = dup.reverse();
+         * // revDup.toString() returns "(7, 7, 7, 7)"
+         *
+         * // reverse() returns a new instance, original is unchanged
+         * LongTuple.LongTuple4 orig = LongTuple.of(10L, 20L, 30L, 40L);
+         * LongTuple.LongTuple4 reversed = orig.reverse();
+         * boolean notSame = orig != reversed;   // true
+         * }</pre>
          *
          * @return a new LongTuple.LongTuple4 with values (_4, _3, _2, _1)
          */
@@ -1630,6 +2514,23 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if any element equals the specified value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(1L, 2L, 3L, 4L);
+         * boolean has3 = t.contains(3L);   // true
+         * boolean has9 = t.contains(9L);   // false
+         *
+         * // Negative values
+         * LongTuple.LongTuple4 neg = LongTuple.of(-4L, -3L, -2L, -1L);
+         * boolean hasNeg3 = neg.contains(-3L);   // true
+         * boolean hasZero = neg.contains(0L);    // false
+         *
+         * // Boundary values
+         * LongTuple.LongTuple4 bounds = LongTuple.of(Long.MIN_VALUE, 0L, Long.MAX_VALUE, 1L);
+         * boolean hasMin = bounds.contains(Long.MIN_VALUE);   // true
+         * boolean hasMax = bounds.contains(Long.MAX_VALUE);   // true
+         * }</pre>
+         *
          * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals any of the four elements
          */
@@ -1640,6 +2541,25 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(10L, 20L, 30L, 40L);
+         * long[] collected = new long[4];
+         * int[] idx = {0};
+         * t.forEach(v -> collected[idx[0]++] = v);
+         * // collected == [10, 20, 30, 40]
+         *
+         * // Negative values visited in order
+         * LongTuple.LongTuple4 neg = LongTuple.of(-4L, -3L, -2L, -1L);
+         * java.util.concurrent.atomic.AtomicLong sum = new java.util.concurrent.atomic.AtomicLong();
+         * neg.forEach(sum::addAndGet);
+         * // sum.get() == -10
+         *
+         * // Passing null throws IllegalArgumentException
+         * LongTuple.LongTuple4 t2 = LongTuple.of(1L, 2L, 3L, 4L);
+         * // t2.forEach(null);   // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that the action may throw
          * @param action the action to perform on each element
@@ -1661,6 +2581,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * The hash code is computed using a polynomial hash function
          * based on all four elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t1 = LongTuple.of(1L, 2L, 3L, 4L);
+         * LongTuple.LongTuple4 t2 = LongTuple.of(1L, 2L, 3L, 4L);
+         * boolean sameHash = t1.hashCode() == t2.hashCode();   // true (equal tuples have same hash)
+         *
+         * LongTuple.LongTuple4 t3 = LongTuple.of(4L, 3L, 2L, 1L);
+         * boolean diffHash = t1.hashCode() != t3.hashCode();   // true (different element order)
+         * }</pre>
+         *
          * @return a hash code based on all four elements
          */
         @Override
@@ -1672,6 +2602,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to another object for equality.
          * Two tuples are equal if they are both LongTuple.LongTuple4 instances
          * and all corresponding elements are equal.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t1 = LongTuple.of(1L, 2L, 3L, 4L);
+         * LongTuple.LongTuple4 t2 = LongTuple.of(1L, 2L, 3L, 4L);
+         * boolean eq = t1.equals(t2);   // true
+         *
+         * LongTuple.LongTuple4 t3 = LongTuple.of(4L, 3L, 2L, 1L);
+         * boolean neq = t1.equals(t3);   // false (different order)
+         *
+         * // Different arity - never equal
+         * LongTuple.LongTuple3 shorter = LongTuple.of(1L, 2L, 3L);
+         * boolean diffArity = t1.equals(shorter);   // false
+         *
+         * boolean notNull = t1.equals(null);   // false
+         * }</pre>
          *
          * @param obj the object to compare with
          * @return {@code true} if obj is a LongTuple.LongTuple4 with equal elements, {@code false} otherwise
@@ -1690,6 +2636,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          * The format is (_1, _2, _3, _4) where each element is displayed in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple4 t = LongTuple.of(1L, 2L, 3L, 4L);
+         * String s = t.toString();   // "(1, 2, 3, 4)"
+         *
+         * LongTuple.LongTuple4 neg = LongTuple.of(-4L, -3L, -2L, -1L);
+         * String sNeg = neg.toString();   // "(-4, -3, -2, -1)"
+         *
+         * LongTuple.LongTuple4 zeros = LongTuple.of(0L, 0L, 0L, 0L);
+         * String sZero = zeros.toString();   // "(0, 0, 0, 0)"
+         *
+         * LongTuple.LongTuple4 mixed = LongTuple.of(Long.MIN_VALUE, -1L, 0L, Long.MAX_VALUE);
+         * String sMixed = mixed.toString();   // "(-9223372036854775808, -1, 0, 9223372036854775807)"
+         * }</pre>
          *
          * @return a string representation in the format "(_1, _2, _3, _4)"
          */
@@ -1721,8 +2682,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-     * double avg = tuple.average();            // 3.0
-     * long median = tuple.median();            // 3
+     * double avg = tuple.average();                      // 3.0
+     * long median = tuple.median();                      // 3
      * LongTuple.LongTuple5 reversed = tuple.reverse();   // (5, 4, 3, 2, 1)
      * }</pre>
      */
@@ -1754,6 +2715,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 5.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(10L, 20L, 30L, 40L, 50L);
+         * int n = t.arity();   // 5
+         *
+         * LongTuple.LongTuple5 neg = LongTuple.of(-1L, -2L, -3L, -4L, -5L);
+         * int n2 = neg.arity();   // 5
+         * }</pre>
+         *
          * @return 5
          */
         @Override
@@ -1764,6 +2734,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the five elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(3L, 1L, 4L, 1L, 5L);
+         * long min = t.min();   // 1
+         *
+         * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -3L, -10L, -1L, -7L);
+         * long minNeg = neg.min();   // -10
+         *
+         * LongTuple.LongTuple5 bounds = LongTuple.of(Long.MIN_VALUE, 0L, 1L, 2L, Long.MAX_VALUE);
+         * long minBound = bounds.min();   // Long.MIN_VALUE
+         *
+         * LongTuple.LongTuple5 dup = LongTuple.of(9L, 9L, 9L, 9L, 9L);
+         * long minDup = dup.min();   // 9
+         * }</pre>
+         *
          * @return the smallest of _1, _2, _3, _4, and _5
          */
         @Override
@@ -1773,6 +2758,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum value among the five elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(3L, 1L, 4L, 1L, 5L);
+         * long max = t.max();   // 5
+         *
+         * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -3L, -10L, -1L, -7L);
+         * long maxNeg = neg.max();   // -1
+         *
+         * LongTuple.LongTuple5 bounds = LongTuple.of(Long.MIN_VALUE, 0L, 1L, 2L, Long.MAX_VALUE);
+         * long maxBound = bounds.max();   // Long.MAX_VALUE
+         *
+         * LongTuple.LongTuple5 dup = LongTuple.of(9L, 9L, 9L, 9L, 9L);
+         * long maxDup = dup.max();   // 9
+         * }</pre>
          *
          * @return the largest of _1, _2, _3, _4, and _5
          */
@@ -1785,6 +2785,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the median value of the five elements.
          * Returns the middle value of the five elements when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * long med = t.median();   // 3  (middle of sorted [1,2,3,4,5])
+         *
+         * LongTuple.LongTuple5 rev = LongTuple.of(5L, 4L, 3L, 2L, 1L);
+         * long medRev = rev.median();   // 3  (order of input does not matter)
+         *
+         * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -2L, 0L, 3L, 7L);
+         * long medNeg = neg.median();   // 0  (middle of sorted [-5,-2,0,3,7])
+         *
+         * LongTuple.LongTuple5 dup = LongTuple.of(4L, 4L, 4L, 4L, 4L);
+         * long medDup = dup.median();   // 4
+         * }</pre>
+         *
          * @return the middle long value when sorted
          */
         @Override
@@ -1794,6 +2809,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all five elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * long sum = t.sum();   // 15
+         *
+         * LongTuple.LongTuple5 neg = LongTuple.of(-1L, -2L, -3L, -4L, -5L);
+         * long sumNeg = neg.sum();   // -15
+         *
+         * // Sum wraps silently on overflow - no exception is thrown
+         * LongTuple.LongTuple5 overflow = LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, 0L, 0L, 0L);
+         * long wrapped = overflow.sum();   // -2  (two's-complement wrap-around)
+         *
+         * LongTuple.LongTuple5 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L);
+         * long zeroSum = zeros.sum();   // 0
+         * }</pre>
          *
          * @return _1 + _2 + _3 + _4 + _5 as a long
          */
@@ -1805,6 +2836,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all five elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * double avg = t.average();   // 3.0
+         *
+         * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -2L, 0L, 3L, 7L);
+         * double avgNeg = neg.average();   // 0.6
+         *
+         * LongTuple.LongTuple5 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L);
+         * double avgZero = zeros.average();   // 0.0
+         *
+         * LongTuple.LongTuple5 dup = LongTuple.of(8L, 8L, 8L, 8L, 8L);
+         * double avgDup = dup.average();   // 8.0
+         * }</pre>
+         *
          * @return (_1 + _2 + _3 + _4 + _5) / 5.0 as a double
          */
         @Override
@@ -1814,6 +2860,27 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * LongTuple.LongTuple5 rev = t.reverse();
+         * // rev.toString() returns "(5, 4, 3, 2, 1)"
+         *
+         * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -4L, -3L, -2L, -1L);
+         * LongTuple.LongTuple5 revNeg = neg.reverse();
+         * // revNeg.toString() returns "(-1, -2, -3, -4, -5)"
+         *
+         * // Reversing a uniform tuple yields the same values
+         * LongTuple.LongTuple5 dup = LongTuple.of(6L, 6L, 6L, 6L, 6L);
+         * LongTuple.LongTuple5 revDup = dup.reverse();
+         * // revDup.toString() returns "(6, 6, 6, 6, 6)"
+         *
+         * // reverse() returns a new instance, original is unchanged
+         * LongTuple.LongTuple5 orig = LongTuple.of(10L, 20L, 30L, 40L, 50L);
+         * LongTuple.LongTuple5 reversed = orig.reverse();
+         * boolean notSame = orig != reversed;   // true
+         * }</pre>
          *
          * @return a new LongTuple.LongTuple5 with values (_5, _4, _3, _2, _1)
          */
@@ -1825,6 +2892,23 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if any element equals the specified value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * boolean has3 = t.contains(3L);   // true
+         * boolean has9 = t.contains(9L);   // false
+         *
+         * // Negative values
+         * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -4L, -3L, -2L, -1L);
+         * boolean hasNeg3 = neg.contains(-3L);   // true
+         * boolean hasZero = neg.contains(0L);    // false
+         *
+         * // Duplicate elements - found if any match
+         * LongTuple.LongTuple5 dup = LongTuple.of(7L, 7L, 7L, 7L, 7L);
+         * boolean hasSeven = dup.contains(7L);   // true
+         * boolean hasEight = dup.contains(8L);   // false
+         * }</pre>
+         *
          * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals any of the five elements
          */
@@ -1835,6 +2919,25 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(10L, 20L, 30L, 40L, 50L);
+         * long[] collected = new long[5];
+         * int[] idx = {0};
+         * t.forEach(v -> collected[idx[0]++] = v);
+         * // collected == [10, 20, 30, 40, 50]
+         *
+         * // Accumulate sum over negative values
+         * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -4L, -3L, -2L, -1L);
+         * java.util.concurrent.atomic.AtomicLong sum = new java.util.concurrent.atomic.AtomicLong();
+         * neg.forEach(sum::addAndGet);
+         * // sum.get() == -15
+         *
+         * // Passing null throws IllegalArgumentException
+         * LongTuple.LongTuple5 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * // t2.forEach(null);   // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that the action may throw
          * @param action the action to perform on each element
@@ -1857,6 +2960,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * The hash code is computed using a polynomial hash function
          * based on all five elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * LongTuple.LongTuple5 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * boolean sameHash = t1.hashCode() == t2.hashCode();   // true (equal tuples have same hash)
+         *
+         * LongTuple.LongTuple5 t3 = LongTuple.of(5L, 4L, 3L, 2L, 1L);
+         * boolean diffHash = t1.hashCode() != t3.hashCode();   // true (different element order)
+         * }</pre>
+         *
          * @return a hash code based on all five elements
          */
         @Override
@@ -1868,6 +2981,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to another object for equality.
          * Two tuples are equal if they are both LongTuple.LongTuple5 instances
          * and all corresponding elements are equal.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * LongTuple.LongTuple5 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * boolean eq = t1.equals(t2);   // true
+         *
+         * LongTuple.LongTuple5 t3 = LongTuple.of(5L, 4L, 3L, 2L, 1L);
+         * boolean neq = t1.equals(t3);   // false (different order)
+         *
+         * // Different arity - never equal
+         * LongTuple.LongTuple4 shorter = LongTuple.of(1L, 2L, 3L, 4L);
+         * boolean diffArity = t1.equals(shorter);   // false
+         *
+         * boolean notNull = t1.equals(null);   // false
+         * }</pre>
          *
          * @param obj the object to compare with
          * @return {@code true} if obj is a LongTuple.LongTuple5 with equal elements, {@code false} otherwise
@@ -1886,6 +3015,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          * The format is (_1, _2, _3, _4, _5) where each element is displayed in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple5 t = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * String s = t.toString();   // "(1, 2, 3, 4, 5)"
+         *
+         * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -4L, -3L, -2L, -1L);
+         * String sNeg = neg.toString();   // "(-5, -4, -3, -2, -1)"
+         *
+         * LongTuple.LongTuple5 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L);
+         * String sZero = zeros.toString();   // "(0, 0, 0, 0, 0)"
+         *
+         * LongTuple.LongTuple5 mixed = LongTuple.of(Long.MIN_VALUE, -1L, 0L, 1L, Long.MAX_VALUE);
+         * String sMixed = mixed.toString();   // "(-9223372036854775808, -1, 0, 1, 9223372036854775807)"
+         * }</pre>
          *
          * @return a string representation in the format "(_1, _2, _3, _4, _5)"
          */
@@ -1952,6 +3096,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 6.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L);
+         * int n = t.arity();   // 6
+         *
+         * LongTuple.LongTuple6 neg = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L);
+         * int n2 = neg.arity();   // 6
+         * }</pre>
+         *
          * @return 6
          */
         @Override
@@ -1962,6 +3115,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the six elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(3L, 1L, 4L, 1L, 5L, 9L);
+         * long min = t.min();   // 1
+         *
+         * LongTuple.LongTuple6 neg = LongTuple.of(-5L, -3L, -10L, -1L, -7L, -2L);
+         * long minNeg = neg.min();   // -10
+         *
+         * LongTuple.LongTuple6 bounds = LongTuple.of(Long.MIN_VALUE, 0L, 1L, 2L, 3L, Long.MAX_VALUE);
+         * long minBound = bounds.min();   // Long.MIN_VALUE
+         *
+         * LongTuple.LongTuple6 dup = LongTuple.of(9L, 9L, 9L, 9L, 9L, 9L);
+         * long minDup = dup.min();   // 9
+         * }</pre>
+         *
          * @return the smallest of _1, _2, _3, _4, _5, and _6
          */
         @Override
@@ -1971,6 +3139,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum value among the six elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(3L, 1L, 4L, 1L, 5L, 9L);
+         * long max = t.max();   // 9
+         *
+         * LongTuple.LongTuple6 neg = LongTuple.of(-5L, -3L, -10L, -1L, -7L, -2L);
+         * long maxNeg = neg.max();   // -1
+         *
+         * LongTuple.LongTuple6 bounds = LongTuple.of(Long.MIN_VALUE, 0L, 1L, 2L, 3L, Long.MAX_VALUE);
+         * long maxBound = bounds.max();   // Long.MAX_VALUE
+         *
+         * LongTuple.LongTuple6 dup = LongTuple.of(9L, 9L, 9L, 9L, 9L, 9L);
+         * long maxDup = dup.max();   // 9
+         * }</pre>
          *
          * @return the largest of _1, _2, _3, _4, _5, and _6
          */
@@ -1983,6 +3166,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the median value of the six elements.
          * Because this tuple has an even number of elements, this returns the lower of the two middle values when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * long med = t.median();   // 3  (sorted=[1,2,3,4,5,6], lower middle=3)
+         *
+         * LongTuple.LongTuple6 rev = LongTuple.of(6L, 5L, 4L, 3L, 2L, 1L);
+         * long medRev = rev.median();   // 3  (same elements, same result)
+         *
+         * LongTuple.LongTuple6 neg = LongTuple.of(-3L, -2L, -1L, 0L, 1L, 2L);
+         * long medNeg = neg.median();   // -1  (sorted=[-3,-2,-1,0,1,2], lower middle=-1)
+         *
+         * LongTuple.LongTuple6 dup = LongTuple.of(5L, 5L, 5L, 5L, 5L, 5L);
+         * long medDup = dup.median();   // 5
+         * }</pre>
+         *
          * @return the lower-middle long value of the six elements
          */
         @Override
@@ -1992,6 +3190,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all six elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * long sum = t.sum();   // 21
+         *
+         * LongTuple.LongTuple6 neg = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L);
+         * long sumNeg = neg.sum();   // -21
+         *
+         * // Sum wraps silently on overflow - no exception is thrown
+         * LongTuple.LongTuple6 overflow = LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, 0L, 0L, 0L, 0L);
+         * long wrapped = overflow.sum();   // -2  (two's-complement wrap-around)
+         *
+         * LongTuple.LongTuple6 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L);
+         * long zeroSum = zeros.sum();   // 0
+         * }</pre>
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 as a long
          */
@@ -2003,6 +3217,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all six elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * double avg = t.average();   // 3.5
+         *
+         * LongTuple.LongTuple6 neg = LongTuple.of(-3L, -2L, -1L, 0L, 1L, 2L);
+         * double avgNeg = neg.average();   // -0.5
+         *
+         * LongTuple.LongTuple6 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L);
+         * double avgZero = zeros.average();   // 0.0
+         *
+         * LongTuple.LongTuple6 dup = LongTuple.of(7L, 7L, 7L, 7L, 7L, 7L);
+         * double avgDup = dup.average();   // 7.0
+         * }</pre>
+         *
          * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0 as a double
          */
         @Override
@@ -2012,6 +3241,27 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * LongTuple.LongTuple6 rev = t.reverse();
+         * // rev.toString() returns "(6, 5, 4, 3, 2, 1)"
+         *
+         * LongTuple.LongTuple6 neg = LongTuple.of(-6L, -5L, -4L, -3L, -2L, -1L);
+         * LongTuple.LongTuple6 revNeg = neg.reverse();
+         * // revNeg.toString() returns "(-1, -2, -3, -4, -5, -6)"
+         *
+         * // Reversing a uniform tuple yields the same values
+         * LongTuple.LongTuple6 dup = LongTuple.of(3L, 3L, 3L, 3L, 3L, 3L);
+         * LongTuple.LongTuple6 revDup = dup.reverse();
+         * // revDup.toString() returns "(3, 3, 3, 3, 3, 3)"
+         *
+         * // reverse() returns a new instance, original is unchanged
+         * LongTuple.LongTuple6 orig = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L);
+         * LongTuple.LongTuple6 reversed = orig.reverse();
+         * boolean notSame = orig != reversed;   // true
+         * }</pre>
          *
          * @return a new LongTuple.LongTuple6 with values (_6, _5, _4, _3, _2, _1)
          */
@@ -2023,6 +3273,23 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if any element equals the specified value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * boolean has4 = t.contains(4L);   // true
+         * boolean has9 = t.contains(9L);   // false
+         *
+         * // Negative values
+         * LongTuple.LongTuple6 neg = LongTuple.of(-6L, -5L, -4L, -3L, -2L, -1L);
+         * boolean hasNeg4 = neg.contains(-4L);   // true
+         * boolean hasZero = neg.contains(0L);    // false
+         *
+         * // Duplicate elements - found if any match
+         * LongTuple.LongTuple6 dup = LongTuple.of(7L, 7L, 7L, 7L, 7L, 7L);
+         * boolean hasSeven = dup.contains(7L);   // true
+         * boolean hasEight = dup.contains(8L);   // false
+         * }</pre>
+         *
          * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals any of the six elements
          */
@@ -2033,6 +3300,25 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L);
+         * long[] collected = new long[6];
+         * int[] idx = {0};
+         * t.forEach(v -> collected[idx[0]++] = v);
+         * // collected == [10, 20, 30, 40, 50, 60]
+         *
+         * // Accumulate sum over negative values
+         * LongTuple.LongTuple6 neg = LongTuple.of(-6L, -5L, -4L, -3L, -2L, -1L);
+         * java.util.concurrent.atomic.AtomicLong sum = new java.util.concurrent.atomic.AtomicLong();
+         * neg.forEach(sum::addAndGet);
+         * // sum.get() == -21
+         *
+         * // Passing null throws IllegalArgumentException
+         * LongTuple.LongTuple6 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * // t2.forEach(null);   // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that the action may throw
          * @param action the action to perform on each element
@@ -2056,6 +3342,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * The hash code is computed using a polynomial hash function
          * based on all six elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * LongTuple.LongTuple6 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * boolean sameHash = t1.hashCode() == t2.hashCode();   // true (equal tuples have same hash)
+         *
+         * LongTuple.LongTuple6 t3 = LongTuple.of(6L, 5L, 4L, 3L, 2L, 1L);
+         * boolean diffHash = t1.hashCode() != t3.hashCode();   // true (different element order)
+         * }</pre>
+         *
          * @return a hash code based on all six elements
          */
         @Override
@@ -2068,6 +3364,22 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to another object for equality.
          * Two tuples are equal if they are both LongTuple.LongTuple6 instances
          * and all corresponding elements are equal.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * LongTuple.LongTuple6 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * boolean eq = t1.equals(t2);   // true
+         *
+         * LongTuple.LongTuple6 t3 = LongTuple.of(6L, 5L, 4L, 3L, 2L, 1L);
+         * boolean neq = t1.equals(t3);   // false (different order)
+         *
+         * // Different arity - never equal
+         * LongTuple.LongTuple5 shorter = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+         * boolean diffArity = t1.equals(shorter);   // false
+         *
+         * boolean notNull = t1.equals(null);   // false
+         * }</pre>
          *
          * @param obj the object to compare with
          * @return {@code true} if obj is a LongTuple.LongTuple6 with equal elements, {@code false} otherwise
@@ -2086,6 +3398,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          * The format is (_1, _2, _3, _4, _5, _6) where each element is displayed in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple6 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+         * String s = t.toString();   // "(1, 2, 3, 4, 5, 6)"
+         *
+         * LongTuple.LongTuple6 neg = LongTuple.of(-6L, -5L, -4L, -3L, -2L, -1L);
+         * String sNeg = neg.toString();   // "(-6, -5, -4, -3, -2, -1)"
+         *
+         * LongTuple.LongTuple6 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L);
+         * String sZero = zeros.toString();   // "(0, 0, 0, 0, 0, 0)"
+         *
+         * LongTuple.LongTuple6 mixed = LongTuple.of(Long.MIN_VALUE, -1L, 0L, 1L, 2L, Long.MAX_VALUE);
+         * String sMixed = mixed.toString();   // "(-9223372036854775808, -1, 0, 1, 2, 9223372036854775807)"
+         * }</pre>
          *
          * @return a string representation in the format "(_1, _2, _3, _4, _5, _6)"
          */
@@ -2117,8 +3444,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-     * long sum = tuple.sum();                  // 28
-     * long median = tuple.median();            // 4
+     * long sum = tuple.sum();                            // 28
+     * long median = tuple.median();                      // 4
      * LongTuple.LongTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
      */
@@ -2156,6 +3483,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 7.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L, 70L);
+         * int n = t.arity();   // 7
+         *
+         * LongTuple.LongTuple7 neg = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L);
+         * int n2 = neg.arity();   // 7
+         * }</pre>
+         *
          * @return 7
          */
         @Override
@@ -2166,6 +3502,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the seven elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t.min(); // returns 1
+         * LongTuple.LongTuple7 t2 = LongTuple.of(-3L, -2L, -1L, 0L, 1L, 2L, 3L);
+         * t2.min(); // returns -3
+         * LongTuple.LongTuple7 t3 = LongTuple.of(Long.MIN_VALUE, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.min(); // returns Long.MIN_VALUE
+         * LongTuple.LongTuple7 t4 = LongTuple.of(5L, 5L, 5L, 5L, 5L, 5L, 5L);
+         * t4.min(); // returns 5
+         * }</pre>
+         *
          * @return the smallest of _1, _2, _3, _4, _5, _6, and _7
          */
         @Override
@@ -2175,6 +3523,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum value among the seven elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t.max(); // returns 7
+         * LongTuple.LongTuple7 t2 = LongTuple.of(-3L, -2L, -1L, 0L, 1L, 2L, 3L);
+         * t2.max(); // returns 3
+         * LongTuple.LongTuple7 t3 = LongTuple.of(Long.MAX_VALUE, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.max(); // returns Long.MAX_VALUE
+         * LongTuple.LongTuple7 t4 = LongTuple.of(-5L, -5L, -5L, -5L, -5L, -5L, -5L);
+         * t4.max(); // returns -5
+         * }</pre>
          *
          * @return the largest of _1, _2, _3, _4, _5, _6, and _7
          */
@@ -2187,6 +3547,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the median value of the seven elements.
          * Returns the middle value of the seven elements when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t.median(); // returns 4
+         * LongTuple.LongTuple7 t2 = LongTuple.of(-3L, -2L, -1L, 0L, 1L, 2L, 3L);
+         * t2.median(); // returns 0
+         * LongTuple.LongTuple7 t3 = LongTuple.of(7L, 6L, 5L, 4L, 3L, 2L, 1L);
+         * t3.median(); // returns 4  (order of input does not affect result)
+         * LongTuple.LongTuple7 t4 = LongTuple.of(-10L, -10L, -10L, 100L, 200L, 300L, 400L);
+         * t4.median(); // returns 100  (4th of 7 sorted values)
+         * }</pre>
+         *
          * @return the middle long value when sorted
          */
         @Override
@@ -2196,6 +3568,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all seven elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t.sum(); // returns 28
+         * LongTuple.LongTuple7 t2 = LongTuple.of(-3L, -2L, -1L, 0L, 1L, 2L, 3L);
+         * t2.sum(); // returns 0
+         * LongTuple.LongTuple7 t3 = LongTuple.of(Long.MAX_VALUE, 1L, 0L, 0L, 0L, 0L, 0L);
+         * t3.sum(); // returns Long.MIN_VALUE  (overflow wraps silently)
+         * LongTuple.LongTuple7 t4 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t4.sum(); // returns 0
+         * }</pre>
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 as a long
          */
@@ -2207,6 +3591,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all seven elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t.average(); // returns 4.0
+         * LongTuple.LongTuple7 t2 = LongTuple.of(-3L, -2L, -1L, 0L, 1L, 2L, 3L);
+         * t2.average(); // returns 0.0
+         * LongTuple.LongTuple7 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 7L);
+         * t3.average(); // returns 1.0
+         * LongTuple.LongTuple7 t4 = LongTuple.of(-7L, -6L, -5L, -4L, -3L, -2L, -1L);
+         * t4.average(); // returns -4.0
+         * }</pre>
+         *
          * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0 as a double
          */
         @Override
@@ -2217,6 +3613,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t.reverse();           // returns (7, 6, 5, 4, 3, 2, 1)
+         * t.reverse().reverse(); // returns (1, 2, 3, 4, 5, 6, 7)  (round-trip)
+         * LongTuple.LongTuple7 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L);
+         * t2.reverse(); // returns (-7, -6, -5, -4, -3, -2, -1)
+         * LongTuple.LongTuple7 t3 = LongTuple.of(5L, 5L, 5L, 5L, 5L, 5L, 5L);
+         * t3.reverse().equals(t3); // returns true  (all-duplicate tuple)
+         * }</pre>
+         *
          * @return a new LongTuple.LongTuple7 with values (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
@@ -2226,6 +3633,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if any element equals the specified value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t.contains(4L); // returns true
+         * t.contains(7L); // returns true  (boundary: last element)
+         * t.contains(0L); // returns false
+         * t.contains(8L); // returns false
+         * }</pre>
          *
          * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals any of the seven elements
@@ -2238,6 +3654,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L, 70L);
+         * long[] sum = {0};
+         * t.forEach(v -> sum[0] += v);
+         * sum[0]; // returns 280
+         * long[] count = {0};
+         * t.forEach(v -> count[0]++);
+         * count[0];        // returns 7
+         * t.forEach(null); // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that the action may throw
          * @param action the action to perform on each element
@@ -2262,6 +3690,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * The hash code is computed using a polynomial hash function
          * based on all seven elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * LongTuple.LongTuple7 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t1.hashCode() == t2.hashCode(); // returns true  (equal tuples have equal hash codes)
+         * LongTuple.LongTuple7 t3 = LongTuple.of(7L, 6L, 5L, 4L, 3L, 2L, 1L);
+         * t1.hashCode() == t3.hashCode(); // returns false  (different element order)
+         * LongTuple.LongTuple7 t4 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t4.hashCode() == LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L).hashCode(); // returns true
+         * }</pre>
+         *
          * @return a hash code based on all seven elements
          */
         @Override
@@ -2274,6 +3713,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to another object for equality.
          * Two tuples are equal if they are both LongTuple.LongTuple7 instances
          * and all corresponding elements are equal.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * LongTuple.LongTuple7 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t1.equals(t2); // returns true
+         * t1.equals(t1); // returns true  (reflexive)
+         * LongTuple.LongTuple7 t3 = LongTuple.of(7L, 6L, 5L, 4L, 3L, 2L, 1L);
+         * t1.equals(t3);   // returns false  (different element order)
+         * t1.equals(null); // returns false
+         * }</pre>
          *
          * @param obj the object to compare with
          * @return {@code true} if obj is a LongTuple.LongTuple7 with equal elements, {@code false} otherwise
@@ -2292,6 +3742,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          * The format is (_1, _2, _3, _4, _5, _6, _7) where each element is displayed in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+         * t.toString(); // returns "(1, 2, 3, 4, 5, 6, 7)"
+         * LongTuple.LongTuple7 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L);
+         * t2.toString(); // returns "(-1, -2, -3, -4, -5, -6, -7)"
+         * LongTuple.LongTuple7 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.toString(); // returns "(0, 0, 0, 0, 0, 0, 0)"
+         * LongTuple.LongTuple7 t4 = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L, 0L, 0L, 0L, 0L);
+         * t4.toString(); // returns "(-9223372036854775808, 9223372036854775807, 0, 0, 0, 0, 0)"
+         * }</pre>
          *
          * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7)"
          */
@@ -2368,6 +3830,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 8.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t.arity(); // returns 8
+         * LongTuple.LongTuple8 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L, -8L);
+         * t2.arity(); // returns 8
+         * LongTuple.LongTuple8 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.arity(); // returns 8
+         * }</pre>
+         *
          * @return 8
          */
         @Override
@@ -2378,6 +3850,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the eight elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t.min(); // returns 1
+         * LongTuple.LongTuple8 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 1L, 2L, 3L, 4L);
+         * t2.min(); // returns -4
+         * LongTuple.LongTuple8 t3 = LongTuple.of(Long.MIN_VALUE, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.min(); // returns Long.MIN_VALUE
+         * LongTuple.LongTuple8 t4 = LongTuple.of(3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L);
+         * t4.min(); // returns 3
+         * }</pre>
+         *
          * @return the smallest of _1, _2, _3, _4, _5, _6, _7, and _8
          */
         @Override
@@ -2387,6 +3871,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum value among the eight elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t.max(); // returns 8
+         * LongTuple.LongTuple8 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 1L, 2L, 3L, 4L);
+         * t2.max(); // returns 4
+         * LongTuple.LongTuple8 t3 = LongTuple.of(Long.MAX_VALUE, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.max(); // returns Long.MAX_VALUE
+         * LongTuple.LongTuple8 t4 = LongTuple.of(-3L, -3L, -3L, -3L, -3L, -3L, -3L, -3L);
+         * t4.max(); // returns -3
+         * }</pre>
          *
          * @return the largest of _1, _2, _3, _4, _5, _6, _7, and _8
          */
@@ -2399,6 +3895,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the median value of the eight elements.
          * Because this tuple has an even number of elements, this returns the lower of the two middle values when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t.median(); // returns 4  (sorted: [1,2,3,4,5,6,7,8], lower-middle = 4)
+         * LongTuple.LongTuple8 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 1L, 2L, 3L, 4L);
+         * t2.median(); // returns -1  (sorted: [-4,-3,-2,-1,1,2,3,4], lower-middle = -1)
+         * LongTuple.LongTuple8 t3 = LongTuple.of(8L, 7L, 6L, 5L, 4L, 3L, 2L, 1L);
+         * t3.median(); // returns 4  (order of input does not affect result)
+         * LongTuple.LongTuple8 t4 = LongTuple.of(-8L, -7L, -6L, -5L, -4L, -3L, -2L, -1L);
+         * t4.median(); // returns -5  (sorted: [-8,-7,-6,-5,-4,-3,-2,-1], lower-middle = -5)
+         * }</pre>
+         *
          * @return the lower-middle long value of the eight elements
          */
         @Override
@@ -2408,6 +3916,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all eight elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t.sum(); // returns 36
+         * LongTuple.LongTuple8 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 1L, 2L, 3L, 4L);
+         * t2.sum(); // returns 0
+         * LongTuple.LongTuple8 t3 = LongTuple.of(Long.MAX_VALUE, 1L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.sum(); // returns Long.MIN_VALUE  (overflow wraps silently)
+         * LongTuple.LongTuple8 t4 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t4.sum(); // returns 0
+         * }</pre>
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 as a long
          */
@@ -2419,6 +3939,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all eight elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t.average(); // returns 4.5
+         * LongTuple.LongTuple8 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 1L, 2L, 3L, 4L);
+         * t2.average(); // returns 0.0
+         * LongTuple.LongTuple8 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 8L);
+         * t3.average(); // returns 1.0
+         * LongTuple.LongTuple8 t4 = LongTuple.of(-8L, -7L, -6L, -5L, -4L, -3L, -2L, -1L);
+         * t4.average(); // returns -4.5
+         * }</pre>
+         *
          * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0 as a double
          */
         @Override
@@ -2429,6 +3961,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t.reverse();           // returns (8, 7, 6, 5, 4, 3, 2, 1)
+         * t.reverse().reverse(); // returns (1, 2, 3, 4, 5, 6, 7, 8)  (round-trip)
+         * LongTuple.LongTuple8 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L, -8L);
+         * t2.reverse(); // returns (-8, -7, -6, -5, -4, -3, -2, -1)
+         * LongTuple.LongTuple8 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.reverse().equals(t3); // returns true  (all-zero tuple)
+         * }</pre>
+         *
          * @return a new LongTuple.LongTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
@@ -2438,6 +3981,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if any element equals the specified value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t.contains(1L); // returns true  (boundary: first element)
+         * t.contains(8L); // returns true  (boundary: last element)
+         * t.contains(0L); // returns false
+         * t.contains(9L); // returns false
+         * }</pre>
          *
          * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals any of the eight elements
@@ -2450,6 +4002,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * long[] sum = {0};
+         * t.forEach(v -> sum[0] += v);
+         * sum[0]; // returns 36
+         * long[] count = {0};
+         * t.forEach(v -> count[0]++);
+         * count[0];        // returns 8
+         * t.forEach(null); // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that the action may throw
          * @param action the action to perform on each element
@@ -2475,6 +4039,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * The hash code is computed using a polynomial hash function
          * based on all eight elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * LongTuple.LongTuple8 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t1.hashCode() == t2.hashCode(); // returns true  (equal tuples have equal hash codes)
+         * LongTuple.LongTuple8 t3 = LongTuple.of(8L, 7L, 6L, 5L, 4L, 3L, 2L, 1L);
+         * t1.hashCode() == t3.hashCode(); // returns false  (different element order)
+         * LongTuple.LongTuple8 t4 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t4.hashCode() == LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L).hashCode(); // returns true
+         * }</pre>
+         *
          * @return a hash code based on all eight elements
          */
         @Override
@@ -2489,6 +4064,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to another object for equality.
          * Two tuples are equal if they are both LongTuple.LongTuple8 instances
          * and all corresponding elements are equal.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * LongTuple.LongTuple8 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t1.equals(t2); // returns true
+         * t1.equals(t1); // returns true  (reflexive)
+         * LongTuple.LongTuple8 t3 = LongTuple.of(8L, 7L, 6L, 5L, 4L, 3L, 2L, 1L);
+         * t1.equals(t3);   // returns false  (different element order)
+         * t1.equals(null); // returns false
+         * }</pre>
          *
          * @param obj the object to compare with
          * @return {@code true} if obj is a LongTuple.LongTuple8 with equal elements, {@code false} otherwise
@@ -2508,6 +4094,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          * The format is (_1, _2, _3, _4, _5, _6, _7, _8) where each element is displayed in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+         * t.toString(); // returns "(1, 2, 3, 4, 5, 6, 7, 8)"
+         * LongTuple.LongTuple8 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L, -8L);
+         * t2.toString(); // returns "(-1, -2, -3, -4, -5, -6, -7, -8)"
+         * LongTuple.LongTuple8 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.toString(); // returns "(0, 0, 0, 0, 0, 0, 0, 0)"
+         * LongTuple.LongTuple8 t4 = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t4.toString(); // returns "(-9223372036854775808, 9223372036854775807, 0, 0, 0, 0, 0, 0)"
+         * }</pre>
          *
          * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8)"
          */
@@ -2587,6 +4185,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 9.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t.arity(); // returns 9
+         * LongTuple.LongTuple9 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L, -8L, -9L);
+         * t2.arity(); // returns 9
+         * LongTuple.LongTuple9 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.arity(); // returns 9
+         * }</pre>
+         *
          * @return 9
          */
         @Override
@@ -2597,6 +4205,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the nine elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t.min(); // returns 1
+         * LongTuple.LongTuple9 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 0L, 1L, 2L, 3L, 4L);
+         * t2.min(); // returns -4
+         * LongTuple.LongTuple9 t3 = LongTuple.of(Long.MIN_VALUE, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.min(); // returns Long.MIN_VALUE
+         * LongTuple.LongTuple9 t4 = LongTuple.of(2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L);
+         * t4.min(); // returns 2
+         * }</pre>
+         *
          * @return the smallest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
          */
         @Override
@@ -2606,6 +4226,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum value among the nine elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t.max(); // returns 9
+         * LongTuple.LongTuple9 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 0L, 1L, 2L, 3L, 4L);
+         * t2.max(); // returns 4
+         * LongTuple.LongTuple9 t3 = LongTuple.of(Long.MAX_VALUE, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.max(); // returns Long.MAX_VALUE
+         * LongTuple.LongTuple9 t4 = LongTuple.of(-2L, -2L, -2L, -2L, -2L, -2L, -2L, -2L, -2L);
+         * t4.max(); // returns -2
+         * }</pre>
          *
          * @return the largest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
          */
@@ -2618,6 +4250,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns the median value of the nine elements.
          * Returns the middle value of the nine elements when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t.median(); // returns 5  (sorted: [1..9], middle = 5)
+         * LongTuple.LongTuple9 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 0L, 1L, 2L, 3L, 4L);
+         * t2.median(); // returns 0  (sorted: [-4..4], middle = 0)
+         * LongTuple.LongTuple9 t3 = LongTuple.of(9L, 8L, 7L, 6L, 5L, 4L, 3L, 2L, 1L);
+         * t3.median(); // returns 5  (order of input does not affect result)
+         * LongTuple.LongTuple9 t4 = LongTuple.of(-10L, -9L, -8L, -7L, -6L, -5L, -4L, -3L, -2L);
+         * t4.median(); // returns -6  (sorted: [-10..-2], middle = -6)
+         * }</pre>
+         *
          * @return the middle long value when sorted
          */
         @Override
@@ -2627,6 +4271,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all nine elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t.sum(); // returns 45
+         * LongTuple.LongTuple9 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 0L, 1L, 2L, 3L, 4L);
+         * t2.sum(); // returns 0
+         * LongTuple.LongTuple9 t3 = LongTuple.of(Long.MAX_VALUE, 1L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.sum(); // returns Long.MIN_VALUE  (overflow wraps silently)
+         * LongTuple.LongTuple9 t4 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t4.sum(); // returns 0
+         * }</pre>
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9 as a long
          */
@@ -2638,6 +4294,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all nine elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t.average(); // returns 5.0
+         * LongTuple.LongTuple9 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 0L, 1L, 2L, 3L, 4L);
+         * t2.average(); // returns 0.0
+         * LongTuple.LongTuple9 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 9L);
+         * t3.average(); // returns 1.0
+         * LongTuple.LongTuple9 t4 = LongTuple.of(-9L, -8L, -7L, -6L, -5L, -4L, -3L, -2L, -1L);
+         * t4.average(); // returns -5.0
+         * }</pre>
+         *
          * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0 as a double
          */
         @Override
@@ -2648,6 +4316,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t.reverse();           // returns (9, 8, 7, 6, 5, 4, 3, 2, 1)
+         * t.reverse().reverse(); // returns (1, 2, 3, 4, 5, 6, 7, 8, 9)  (round-trip)
+         * LongTuple.LongTuple9 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L, -8L, -9L);
+         * t2.reverse(); // returns (-9, -8, -7, -6, -5, -4, -3, -2, -1)
+         * LongTuple.LongTuple9 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.reverse().equals(t3); // returns true  (all-zero tuple)
+         * }</pre>
+         *
          * @return a new LongTuple.LongTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
@@ -2657,6 +4336,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if any element equals the specified value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t.contains(1L);  // returns true  (boundary: first element)
+         * t.contains(9L);  // returns true  (boundary: last element)
+         * t.contains(0L);  // returns false
+         * t.contains(10L); // returns false
+         * }</pre>
          *
          * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals any of the nine elements
@@ -2669,6 +4357,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * long[] sum = {0};
+         * t.forEach(v -> sum[0] += v);
+         * sum[0]; // returns 45
+         * long[] count = {0};
+         * t.forEach(v -> count[0]++);
+         * count[0];        // returns 9
+         * t.forEach(null); // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that the action may throw
          * @param action the action to perform on each element
@@ -2695,6 +4395,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * The hash code is computed using a polynomial hash function
          * based on all nine elements.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * LongTuple.LongTuple9 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t1.hashCode() == t2.hashCode(); // returns true  (equal tuples have equal hash codes)
+         * LongTuple.LongTuple9 t3 = LongTuple.of(9L, 8L, 7L, 6L, 5L, 4L, 3L, 2L, 1L);
+         * t1.hashCode() == t3.hashCode(); // returns false  (different element order)
+         * LongTuple.LongTuple9 t4 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t4.hashCode() == LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L).hashCode(); // returns true
+         * }</pre>
+         *
          * @return a hash code based on all nine elements
          */
         @Override
@@ -2709,6 +4420,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to another object for equality.
          * Two tuples are equal if they are both LongTuple.LongTuple9 instances
          * and all corresponding elements are equal.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * LongTuple.LongTuple9 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t1.equals(t2); // returns true
+         * t1.equals(t1); // returns true  (reflexive)
+         * LongTuple.LongTuple9 t3 = LongTuple.of(9L, 8L, 7L, 6L, 5L, 4L, 3L, 2L, 1L);
+         * t1.equals(t3);   // returns false  (different element order)
+         * t1.equals(null); // returns false
+         * }</pre>
          *
          * @param obj the object to compare with
          * @return {@code true} if obj is a LongTuple.LongTuple9 with equal elements, {@code false} otherwise
@@ -2728,6 +4450,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          * The format is (_1, _2, _3, _4, _5, _6, _7, _8, _9) where each element is displayed in order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+         * t.toString(); // returns "(1, 2, 3, 4, 5, 6, 7, 8, 9)"
+         * LongTuple.LongTuple9 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L, -8L, -9L);
+         * t2.toString(); // returns "(-1, -2, -3, -4, -5, -6, -7, -8, -9)"
+         * LongTuple.LongTuple9 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t3.toString(); // returns "(0, 0, 0, 0, 0, 0, 0, 0, 0)"
+         * LongTuple.LongTuple9 t4 = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+         * t4.toString(); // returns "(-9223372036854775808, 9223372036854775807, 0, 0, 0, 0, 0, 0, 0)"
+         * }</pre>
          *
          * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8, _9)"
          */

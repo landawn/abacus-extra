@@ -52,11 +52,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a ByteTuple.ByteTuple1 containing a single byte value.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple1 tuple = ByteTuple.of((byte) 10);
-     * byte value = tuple._1;  // 10
+     * ByteTuple.ByteTuple1 t1 = ByteTuple.of((byte) 10);
+     * byte value = t1._1;      // 10
+     * int arity = t1.arity();  // 1
+     *
+     * ByteTuple.ByteTuple1 t2 = ByteTuple.of((byte) -5);
+     * byte neg = t2._1;   // -5
+     *
+     * // boundary: minimum byte value
+     * ByteTuple.ByteTuple1 tMin = ByteTuple.of((byte) -128);
+     * byte minVal = tMin._1;   // -128
+     *
+     * // boundary: maximum byte value
+     * ByteTuple.ByteTuple1 tMax = ByteTuple.of((byte) 127);
+     * byte maxVal = tMax._1;   // 127
      * }</pre>
      *
      * @param _1 the byte value to store in the tuple
@@ -68,12 +80,27 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a ByteTuple.ByteTuple2 containing two byte values.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-     * byte first = tuple._1;  // 10
-     * byte second = tuple._2;  // 20
+     * ByteTuple.ByteTuple2 t = ByteTuple.of((byte) 10, (byte) 20);
+     * byte first = t._1;      // 10
+     * byte second = t._2;     // 20
+     * int arity = t.arity();  // 2
+     *
+     * ByteTuple.ByteTuple2 sorted = ByteTuple.of((byte) 5, (byte) 15);
+     * byte min = sorted.min();   // 5
+     * byte max = sorted.max();   // 15
+     *
+     * // boundary values
+     * ByteTuple.ByteTuple2 bounds = ByteTuple.of((byte) -128, (byte) 127);
+     * byte lo = bounds._1;   // -128
+     * byte hi = bounds._2;   // 127
+     *
+     * // both elements the same
+     * ByteTuple.ByteTuple2 same = ByteTuple.of((byte) 5, (byte) 5);
+     * byte sameMin = same.min();   // 5
+     * byte sameMax = same.max();   // 5
      * }</pre>
      *
      * @param _1 the first byte value
@@ -86,11 +113,25 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a ByteTuple.ByteTuple3 containing three byte values.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * byte third = tuple._3;  // 30
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * byte third = t._3;         // 30
+     * int arity = t.arity();     // 3
+     * byte median = t.median();  // 20 (middle when sorted)
+     *
+     * ByteTuple.ByteTuple3 t2 = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
+     * byte min = t2.min();   // 10
+     * byte max = t2.max();   // 30
+     *
+     * // negative values
+     * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -10, (byte) 0, (byte) 10);
+     * int sum = neg.sum();   // 0
+     *
+     * // all same value
+     * ByteTuple.ByteTuple3 same = ByteTuple.of((byte) 5, (byte) 5, (byte) 5);
+     * byte sameMedian = same.median();   // 5
      * }</pre>
      *
      * @param _1 the first byte value
@@ -107,10 +148,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-     * byte first = tuple._1;  // 10
-     * byte fourth = tuple._4;  // 40
-     * byte median = tuple.median();   // 20
+     * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+     * byte first = t._1;   // 10
+     * byte fourth = t._4;  // 40
+     * // even arity: median returns the lower middle of the sorted elements
+     * byte median = t.median();   // 20
+     *
+     * ByteTuple.ByteTuple4 t2 = ByteTuple.of((byte) 40, (byte) 30, (byte) 20, (byte) 10);
+     * byte min = t2.min();   // 10
+     * byte max = t2.max();   // 40
+     *
+     * // negative values
+     * ByteTuple.ByteTuple4 neg = ByteTuple.of((byte) -50, (byte) -10, (byte) 0, (byte) 50);
+     * // sorted: -50, -10, 0, 50 => lower middle => -10
+     * byte negMedian = neg.median();   // -10
+     *
+     * // boundary bytes
+     * ByteTuple.ByteTuple4 bounds = ByteTuple.of((byte) -128, (byte) -1, (byte) 0, (byte) 127);
+     * int boundsSum = bounds.sum();   // -2
      * }</pre>
      *
      * @param _1 the first byte value
@@ -128,10 +183,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
-     * byte first = tuple._1;  // 10
-     * byte fifth = tuple._5;  // 50
-     * int sum = tuple.sum();   // 150
+     * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
+     * byte first = t._1;         // 10
+     * byte fifth = t._5;         // 50
+     * int sum = t.sum();         // 150 (exceeds byte range; returned as int)
+     * byte median = t.median();  // 30 (middle element when sorted)
+     *
+     * // negative values with zero sum
+     * ByteTuple.ByteTuple5 neg = ByteTuple.of((byte) -10, (byte) -5, (byte) 0, (byte) 5, (byte) 10);
+     * int negSum = neg.sum();          // 0
+     * byte negMedian = neg.median();   // 0
+     *
+     * // all negative
+     * ByteTuple.ByteTuple5 allNeg = ByteTuple.of((byte) -50, (byte) -40, (byte) -30, (byte) -20, (byte) -10);
+     * byte allNegMin = allNeg.min();   // -50
+     * byte allNegMax = allNeg.max();   // -10
      * }</pre>
      *
      * @param _1 the first byte value
@@ -150,10 +216,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
-     * byte first = tuple._1;  // 10
-     * byte sixth = tuple._6;  // 60
-     * ByteTuple.ByteTuple6 reversed = tuple.reverse();   // (60, 50, 40, 30, 20, 10)
+     * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
+     * byte first = t._1;  // 10
+     * byte sixth = t._6;  // 60
+     * // reverse() returns a new tuple with elements in reverse order
+     * ByteTuple.ByteTuple6 reversed = t.reverse();   // (60, 50, 40, 30, 20, 10)
+     *
+     * ByteTuple.ByteTuple6 t2 = ByteTuple.of((byte) 60, (byte) 50, (byte) 40, (byte) 30, (byte) 20, (byte) 10);
+     * byte min = t2.min();   // 10
+     * byte max = t2.max();   // 60
+     *
+     * // negative values
+     * ByteTuple.ByteTuple6 neg = ByteTuple.of((byte) -3, (byte) -2, (byte) -1, (byte) 1, (byte) 2, (byte) 3);
+     * byte negMin = neg.min();   // -3
+     * byte negMax = neg.max();   // 3
+     *
+     * // contains check
+     * boolean found = t.contains((byte) 30);     // true
+     * boolean missing = t.contains((byte) 99);   // false
      * }</pre>
      *
      * @param _1 the first byte value
@@ -173,10 +253,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple7 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
-     * byte first = tuple._1;  // 10
-     * byte seventh = tuple._7;  // 70
-     * byte[] array = tuple.toArray();   // [10, 20, 30, 40, 50, 60, 70]
+     * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
+     * byte first = t._1;           // 10
+     * byte seventh = t._7;         // 70
+     * byte[] array = t.toArray();  // [10, 20, 30, 40, 50, 60, 70]
+     * byte median = t.median();    // 40 (middle of 7 elements when sorted)
+     *
+     * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 70, (byte) 60, (byte) 50, (byte) 40, (byte) 30, (byte) 20, (byte) 10);
+     * byte min = t2.min();   // 10
+     * byte max = t2.max();   // 70
+     *
+     * // all zeros
+     * ByteTuple.ByteTuple7 zeros = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+     * int zeroSum = zeros.sum();   // 0
+     *
+     * // contains check
+     * boolean found = t.contains((byte) 40);     // true
+     * boolean missing = t.contains((byte) 99);   // false
      * }</pre>
      *
      * @param _1 the first byte value
@@ -197,10 +290,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple8 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
-     * byte first = tuple._1;  // 10
-     * byte eighth = tuple._8;  // 80
-     * ByteList list = tuple.toList();
+     * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
+     * byte first = t._1;      // 10
+     * byte eighth = t._8;     // 80
+     * int arity = t.arity();  // 8
+     * int sum = t.sum();      // 360
+     *
+     * ByteList list = t.toList();
+     * int listSize = list.size();   // 8
+     *
+     * // negative boundary values
+     * ByteTuple.ByteTuple8 neg = ByteTuple.of((byte) -128, (byte) -64, (byte) -32, (byte) -16,
+     *                                          (byte) -8, (byte) -4, (byte) -2, (byte) -1);
+     * byte negMin = neg.min();   // -128
+     *
+     * // contains check
+     * boolean found = t.contains((byte) 50);     // true
+     * boolean missing = t.contains((byte) 99);   // false
      * }</pre>
      *
      * @param _1 the first byte value
@@ -224,10 +330,25 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple9 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
-     * byte first = tuple._1;  // 10
-     * byte ninth = tuple._9;  // 90
-     * int arity = tuple.arity();   // 9
+     * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50,
+     *                                        (byte) 60, (byte) 70, (byte) 80, (byte) 90);
+     * byte first = t._1;      // 10
+     * byte ninth = t._9;      // 90
+     * int arity = t.arity();  // 9
+     * int sum = t.sum();      // 450
+     *
+     * // median of 9 elements (odd): sorted [10..90], middle index 4 => 50
+     * byte median = t.median();   // 50
+     *
+     * // all negative values
+     * ByteTuple.ByteTuple9 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5,
+     *                                          (byte) -6, (byte) -7, (byte) -8, (byte) -9);
+     * byte negMin = neg.min();   // -9
+     * byte negMax = neg.max();   // -1
+     *
+     * // contains check
+     * boolean found = t.contains((byte) 50);     // true
+     * boolean missing = t.contains((byte) 99);   // false
      * }</pre>
      *
      * @param _1 the first byte value
@@ -259,15 +380,31 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Create from array
-     * byte[] values = {10, 20, 30};
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.copyOf(values);
+     * // typical: 3-element array
+     * byte[] values = {(byte) 10, (byte) 20, (byte) 30};
+     * ByteTuple.ByteTuple3 t3 = ByteTuple.copyOf(values);
+     * byte third = t3._3;   // 30
      *
-     * // Empty array returns ByteTuple<?>
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * // single element
+     * ByteTuple.ByteTuple1 t1 = ByteTuple.copyOf(new byte[]{(byte) 42});
+     * byte val = t1._1;   // 42
      *
-     * // Single element
-     * ByteTuple.ByteTuple1 single = ByteTuple.copyOf(new byte[]{(byte) 42});
+     * // null -> empty tuple (arity 0)
+     * ByteTuple<?> fromNull = ByteTuple.copyOf(null);
+     * int nullArity = fromNull.arity();   // 0
+     *
+     * // empty array -> empty tuple (arity 0)
+     * ByteTuple<?> fromEmpty = ByteTuple.copyOf(new byte[0]);
+     * int emptyArity = fromEmpty.arity();   // 0
+     *
+     * // mutation safety: modifying the source array does not affect the tuple
+     * byte[] src = {(byte) 1, (byte) 2};
+     * ByteTuple.ByteTuple2 t2 = ByteTuple.copyOf(src);
+     * src[0] = (byte) 99;
+     * byte unchanged = t2._1;   // 1
+     *
+     * // length > 9 -> throws IllegalArgumentException
+     * ByteTuple.copyOf(new byte[10]);   // throws IllegalArgumentException
      * }</pre>
      *
      * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
@@ -329,11 +466,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
-     * byte min = tuple.min();   // 10
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
+     * byte min = t.min();   // 10
      *
-     * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 15);
-     * byte minPair = pair.min();   // 5
+     * // single-element tuple
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 42);
+     * byte singleMin = single.min();   // 42
+     *
+     * // negative values
+     * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -5, (byte) -10, (byte) -1);
+     * byte negMin = neg.min();   // -10
+     *
+     * // boundary: byte range extremes
+     * ByteTuple.ByteTuple2 bounds = ByteTuple.of((byte) -128, (byte) 127);
+     * byte boundsMin = bounds.min();   // -128
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * empty.min();   // throws NoSuchElementException
      * }</pre>
      *
      * @return the minimum byte value in this tuple
@@ -354,11 +504,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
-     * byte max = tuple.max();   // 30
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
+     * byte max = t.max();   // 30
      *
-     * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 15);
-     * byte maxPair = pair.max();   // 15
+     * // single-element tuple
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 42);
+     * byte singleMax = single.max();   // 42
+     *
+     * // negative values
+     * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -5, (byte) -10, (byte) -1);
+     * byte negMax = neg.max();   // -1
+     *
+     * // boundary: byte range extremes
+     * ByteTuple.ByteTuple2 bounds = ByteTuple.of((byte) -128, (byte) 127);
+     * byte boundsMax = bounds.max();   // 127
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * empty.max();   // throws NoSuchElementException
      * }</pre>
      *
      * @return the maximum byte value in this tuple
@@ -380,13 +543,25 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Odd number of elements
-     * ByteTuple.ByteTuple3 tuple3 = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
-     * byte median = tuple3.median();   // 20 (middle value when sorted: 10, 20, 30)
+     * // odd number of elements: exact middle of sorted sequence
+     * ByteTuple.ByteTuple3 t3 = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
+     * byte median = t3.median();   // 20 (sorted: 10, 20, 30; index 1)
      *
-     * // Even number of elements
-     * ByteTuple.ByteTuple4 tuple4 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-     * byte median2 = tuple4.median();   // 20 (lower middle element)
+     * // even number of elements: lower middle of sorted sequence
+     * ByteTuple.ByteTuple4 t4 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+     * byte evenMedian = t4.median();   // 20 (sorted: 10, [20], 30, 40; lower of the two middles)
+     *
+     * // single element
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 7);
+     * byte singleMedian = single.median();   // 7
+     *
+     * // negative values
+     * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -30, (byte) -10, (byte) -20);
+     * byte negMedian = neg.median();   // -20 (sorted: -30, -20, -10)
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * empty.median();   // throws NoSuchElementException
      * }</pre>
      *
      * @return the median byte value in this tuple
@@ -409,11 +584,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * int sum = tuple.sum();   // 60
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * int sum = t.sum();   // 60
      *
-     * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 100, (byte) 50);
-     * int pairSum = pair.sum();   // 150 (exceeds byte range, so returned as int)
+     * // result can exceed byte range; int prevents overflow
+     * ByteTuple.ByteTuple2 large = ByteTuple.of((byte) 100, (byte) 50);
+     * int largeSum = large.sum();   // 150
+     *
+     * // negative values
+     * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -10, (byte) -20, (byte) -30);
+     * int negSum = neg.sum();   // -60
+     *
+     * // empty tuple -> 0
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * int emptySum = empty.sum();   // 0
      * }</pre>
      *
      * @return the sum of all byte values in this tuple as an {@code int}; {@code 0} for an empty tuple
@@ -432,11 +616,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * double avg = tuple.average();   // 20.0
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * double avg = t.average();   // 20.0
      *
+     * // non-integer average
      * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
-     * double avgPair = pair.average();   // 7.5
+     * double pairAvg = pair.average();   // 7.5
+     *
+     * // single element
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 42);
+     * double singleAvg = single.average();   // 42.0
+     *
+     * // negative and positive values
+     * ByteTuple.ByteTuple2 negPos = ByteTuple.of((byte) -10, (byte) 10);
+     * double negPosAvg = negPos.average();   // 0.0
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * empty.average();   // throws NoSuchElementException
      * }</pre>
      *
      * @return the average of all byte values in this tuple as a {@code double}
@@ -450,7 +647,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method returns a tuple containing all elements in reversed order. The original
+     * This method returns a NEW tuple containing all elements in reversed order. The original
      * tuple remains unchanged as tuples are immutable.
      * </p>
      *
@@ -459,8 +656,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 15);
      * ByteTuple.ByteTuple2 reversedPair = pair.reverse();   // (15, 5)
      *
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * ByteTuple.ByteTuple3 reversed = tuple.reverse();   // (30, 20, 10)
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * ByteTuple.ByteTuple3 reversed = t.reverse();   // (30, 20, 10)
+     *
+     * // single-element: reverse returns a new instance with the same value
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 42);
+     * ByteTuple.ByteTuple1 reversedSingle = single.reverse();   // (42)
+     *
+     * // empty tuple: reverse returns the same singleton empty tuple
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * int emptyArity = empty.reverse().arity();   // 0
      * }</pre>
      *
      * <p>For tuples of arity 0 or 1, the returned tuple is equal to this one (reversing has no effect).
@@ -480,13 +685,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * boolean has20 = tuple.contains((byte) 20);   // true
-     * boolean has40 = tuple.contains((byte) 40);   // false
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * boolean has20 = t.contains((byte) 20);   // true
+     * boolean has40 = t.contains((byte) 40);   // false
      *
-     * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
-     * boolean has5 = pair.contains((byte) 5);     // true
-     * boolean has15 = pair.contains((byte) 15);   // false
+     * // boundary values
+     * ByteTuple.ByteTuple2 bounds = ByteTuple.of((byte) -128, (byte) 127);
+     * boolean hasMin = bounds.contains((byte) -128);   // true
+     * boolean hasZero = bounds.contains((byte) 0);     // false
+     *
+     * // single-element
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 5);
+     * boolean hasMatch = single.contains((byte) 5);   // true
+     * boolean noMatch = single.contains((byte) 6);    // false
+     *
+     * // empty tuple always returns false
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * boolean emptyContains = empty.contains((byte) 0);   // false
      * }</pre>
      *
      * @param valueToFind the byte value to search for
@@ -504,12 +719,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * byte[] array = tuple.toArray();   // [10, 20, 30]
-     * array[0] = (byte) 99;  // Does not modify the tuple
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * byte[] array = t.toArray();   // [10, 20, 30]
      *
-     * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
-     * byte[] pairArray = pair.toArray();   // [5, 10]
+     * // mutation safety: modifying the returned array does not change the tuple
+     * array[0] = (byte) 99;
+     * byte unchanged = t._1;   // 10
+     *
+     * // single element
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 42);
+     * byte[] singleArr = single.toArray();   // [42]
+     *
+     * // empty tuple
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * byte[] emptyArr = empty.toArray();
+     * int emptyLen = emptyArr.length;   // 0
      * }</pre>
      *
      * @return a new byte array containing all tuple elements
@@ -530,12 +754,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * ByteList list = tuple.toList();
-     * list.add((byte) 40);   // Adds to the list, tuple remains unchanged
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * ByteList list = t.toList();
+     * int listSize = list.size();   // 3
+     * byte first = list.get(0);     // 10
      *
-     * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
-     * ByteList pairList = pair.toList();   // [5, 10]
+     * // modifying the list does not affect the tuple
+     * list.add((byte) 40);
+     * int tupleArity = t.arity();   // still 3
+     *
+     * // single element
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 5);
+     * ByteList singleList = single.toList();
+     * int singleSize = singleList.size();   // 1
+     *
+     * // empty tuple
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteList emptyList = empty.toList();
+     * int emptySize = emptyList.size();   // 0
      * }</pre>
      *
      * @return a new ByteList containing all tuple elements
@@ -557,14 +793,26 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * tuple.forEach(b -> System.out.println("Value: " + b));
-     * // Prints three lines: "Value: 10", "Value: 20", "Value: 30"
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      *
-     * // Sum values using external accumulator
-     * java.util.concurrent.atomic.AtomicInteger sum = new java.util.concurrent.atomic.AtomicInteger();
-     * tuple.forEach(sum::addAndGet);
-     * // sum is now 60
+     * // accumulate sum using external array
+     * int[] sum = {0};
+     * t.forEach(b -> sum[0] += b);
+     * // sum[0] is now 60
+     *
+     * // collect elements into a list
+     * java.util.List<Byte> collected = new java.util.ArrayList<>();
+     * t.forEach(b -> collected.add(b));
+     * // collected is [10, 20, 30]
+     *
+     * // empty tuple: consumer is never invoked
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * int[] count = {0};
+     * empty.forEach(b -> count[0]++);
+     * // count[0] remains 0
+     *
+     * // null action -> throws IllegalArgumentException
+     * t.forEach(null);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
@@ -592,12 +840,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * int sum = tuple.stream().sum();                            // 60
-     * long count = tuple.stream().filter(b -> b > 15).count();   // 2
+     * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * int sum = t.stream().sum();                            // 60
+     * long count = t.stream().filter(b -> b > 15).count();   // 2
      *
-     * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
-     * byte max = pair.stream().max().orElse((byte) 0);   // 10
+     * // single element
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 5);
+     * long singleCount = single.stream().count();   // 1
+     *
+     * // empty tuple
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * long emptyCount = empty.stream().count();   // 0
      * }</pre>
      *
      * @return a ByteStream containing all tuple elements
@@ -615,6 +868,22 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * algorithm that ensures equal tuples have equal hash codes. This implementation
      * is consistent with {@link #equals(Object)}.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteTuple.ByteTuple3 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+     * ByteTuple.ByteTuple3 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+     * // equal tuples have equal hash codes
+     * boolean sameHash = (t1.hashCode() == t2.hashCode());   // true
+     *
+     * // different values -> typically different hash codes
+     * ByteTuple.ByteTuple3 t3 = ByteTuple.of((byte) 1, (byte) 2, (byte) 4);
+     * // t1.hashCode() != t3.hashCode() in most cases (not guaranteed, but typical)
+     *
+     * // empty tuple has a stable hash code
+     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * int emptyHash = empty.hashCode();   // consistent across calls
+     * }</pre>
      *
      * @return a hash code value for this tuple
      */
@@ -638,6 +907,25 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p>This method is consistent with {@link #hashCode()}. The non-empty arity-specific subclasses
      * override this method with an equivalent but specialized implementation that compares fields directly.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteTuple.ByteTuple3 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+     * ByteTuple.ByteTuple3 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+     * boolean equal = t1.equals(t2);   // true
+     *
+     * // different values
+     * ByteTuple.ByteTuple3 t3 = ByteTuple.of((byte) 1, (byte) 2, (byte) 4);
+     * boolean notEqual = t1.equals(t3);   // false
+     *
+     * // different arity: never equal even with same prefix values
+     * ByteTuple.ByteTuple2 t4 = ByteTuple.of((byte) 1, (byte) 2);
+     * boolean arityDiff = t1.equals(t4);   // false
+     *
+     * // null and wrong type
+     * boolean nullCheck = t1.equals(null);          // false
+     * boolean typeCheck = t1.equals("(1, 2, 3)");   // false
+     * }</pre>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
@@ -663,12 +951,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
-     * <ul>
-     *   <li>{@code (10, 20, 30)} for a ByteTuple.ByteTuple3</li>
-     *   <li>{@code (5, 10)} for a ByteTuple.ByteTuple2</li>
-     *   <li>{@code (42)} for a ByteTuple.ByteTuple1</li>
-     *   <li>{@code ()} for an empty {@code ByteTuple<?>}</li>
-     * </ul>
+     * <pre>{@code
+     * String s3 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30).toString();   // "(10, 20, 30)"
+     * String s2 = ByteTuple.of((byte) 5, (byte) 10).toString();               // "(5, 10)"
+     * String s1 = ByteTuple.of((byte) 42).toString();                         // "(42)"
+     *
+     * // empty tuple
+     * String s0 = ByteTuple.copyOf(new byte[0]).toString();   // "()"
+     *
+     * // negative values
+     * String sNeg = ByteTuple.of((byte) -5, (byte) 0, (byte) 5).toString();   // "(-5, 0, 5)"
+     * }</pre>
      *
      * @return a string representation of this tuple
      */
@@ -836,9 +1129,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple1 tuple = ByteTuple.of((byte) 42);
-     * byte value = tuple._1;  // 42
-     * byte min = tuple.min();   // 42 (single element)
-     * byte max = tuple.max();   // 42 (single element)
+     * byte value = tuple._1;   // 42
+     * byte min = tuple.min();  // 42 (single element)
+     * byte max = tuple.max();  // 42 (single element)
      * }</pre>
      */
     public static final class ByteTuple1 extends ByteTuple<ByteTuple1> {
@@ -857,6 +1150,22 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 1.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 42);
+         * int arity = t.arity();   // 1
+         *
+         * ByteTuple.ByteTuple1 zero = ByteTuple.of((byte) 0);
+         * int zeroArity = zero.arity();   // 1
+         *
+         * // boundary byte values still yield arity 1
+         * ByteTuple.ByteTuple1 minByte = ByteTuple.of((byte) -128);
+         * int minArity = minByte.arity();   // 1
+         *
+         * ByteTuple.ByteTuple1 maxByte = ByteTuple.of((byte) 127);
+         * int maxArity = maxByte.arity();   // 1
+         * }</pre>
+         *
          * @return 1
          */
         @Override
@@ -867,6 +1176,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum byte value in this tuple.
          * Since this tuple contains only one element, it returns that element.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 42);
+         * byte min = t.min();   // 42
+         *
+         * ByteTuple.ByteTuple1 zero = ByteTuple.of((byte) 0);
+         * byte zeroMin = zero.min();   // 0
+         *
+         * // minimum byte value
+         * ByteTuple.ByteTuple1 minByte = ByteTuple.of((byte) -128);
+         * byte minMin = minByte.min();   // -128
+         *
+         * // maximum byte value
+         * ByteTuple.ByteTuple1 maxByte = ByteTuple.of((byte) 127);
+         * byte maxMin = maxByte.min();   // 127
+         * }</pre>
          *
          * @return the single byte value in this tuple
          */
@@ -879,6 +1205,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns the maximum byte value in this tuple.
          * Since this tuple contains only one element, it returns that element.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 42);
+         * byte max = t.max();   // 42
+         *
+         * ByteTuple.ByteTuple1 zero = ByteTuple.of((byte) 0);
+         * byte zeroMax = zero.max();   // 0
+         *
+         * // minimum byte value
+         * ByteTuple.ByteTuple1 minByte = ByteTuple.of((byte) -128);
+         * byte minMax = minByte.max();   // -128
+         *
+         * // maximum byte value
+         * ByteTuple.ByteTuple1 maxByte = ByteTuple.of((byte) 127);
+         * byte maxMax = maxByte.max();   // 127
+         * }</pre>
+         *
          * @return the single byte value in this tuple
          */
         @Override
@@ -889,6 +1232,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the median byte value in this tuple.
          * Since this tuple contains only one element, it returns that element.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 42);
+         * byte median = t.median();   // 42
+         *
+         * ByteTuple.ByteTuple1 zero = ByteTuple.of((byte) 0);
+         * byte zeroMedian = zero.median();   // 0
+         *
+         * // minimum byte value
+         * ByteTuple.ByteTuple1 minByte = ByteTuple.of((byte) -128);
+         * byte minMedian = minByte.median();   // -128
+         *
+         * // maximum byte value
+         * ByteTuple.ByteTuple1 maxByte = ByteTuple.of((byte) 127);
+         * byte maxMedian = maxByte.median();   // 127
+         * }</pre>
          *
          * @return the single byte value in this tuple
          */
@@ -901,6 +1261,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns the sum of all byte values in this tuple.
          * Since this tuple contains only one element, it returns that element widened to an {@code int}.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 5);
+         * t.sum();   // returns 5
+         *
+         * ByteTuple.of((byte) -3).sum();   // returns -3
+         *
+         * // boundary values
+         * ByteTuple.of(Byte.MAX_VALUE).sum();   // returns 127
+         * ByteTuple.of(Byte.MIN_VALUE).sum();   // returns -128
+         * }</pre>
+         *
          * @return the single byte value widened to an {@code int} (sign-extended)
          */
         @Override
@@ -911,6 +1283,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all byte values in this tuple.
          * Since this tuple contains only one element, it returns that element converted to a {@code double}.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 5);
+         * t.average();   // returns 5.0
+         *
+         * ByteTuple.of((byte) -3).average();   // returns -3.0
+         *
+         * // boundary values
+         * ByteTuple.of(Byte.MAX_VALUE).average();   // returns 127.0
+         * ByteTuple.of(Byte.MIN_VALUE).average();   // returns -128.0
+         * }</pre>
          *
          * @return the single byte value as a {@code double}
          */
@@ -923,6 +1307,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns a new ByteTuple.ByteTuple1 with the same element.
          * Since this tuple has only one element, reversing has no effect.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 7);
+         * ByteTuple.ByteTuple1 r = t.reverse();
+         * r._1;   // returns 7  (same value, new instance)
+         *
+         * // negative value
+         * ByteTuple.of((byte) -5).reverse()._1;   // returns -5
+         *
+         * // boundary
+         * ByteTuple.of(Byte.MIN_VALUE).reverse()._1;   // returns -128
+         * ByteTuple.of(Byte.MAX_VALUE).reverse()._1;   // returns 127
+         * }</pre>
+         *
          * @return a new ByteTuple.ByteTuple1 with the same element
          */
         @Override
@@ -932,6 +1330,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 42);
+         * t.contains((byte) 42);   // returns true
+         * t.contains((byte) 0);    // returns false
+         *
+         * // negative and boundary values
+         * ByteTuple.of((byte) -1).contains((byte) -1);              // returns true
+         * ByteTuple.of(Byte.MIN_VALUE).contains(Byte.MIN_VALUE);    // returns true
+         * ByteTuple.of(Byte.MIN_VALUE).contains(Byte.MAX_VALUE);    // returns false
+         * }</pre>
          *
          * @param valueToFind the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
@@ -944,6 +1354,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 10).hashCode();    // returns 10
+         * ByteTuple.of((byte) -1).hashCode();    // returns -1
+         *
+         * // boundary values
+         * ByteTuple.of(Byte.MIN_VALUE).hashCode();   // returns -128
+         * ByteTuple.of(Byte.MAX_VALUE).hashCode();   // returns 127
+         * }</pre>
+         *
          * @return the single byte element widened to an {@code int} (sign-extended)
          */
         @Override
@@ -953,6 +1373,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t1 = ByteTuple.of((byte) 5);
+         * ByteTuple.ByteTuple1 t2 = ByteTuple.of((byte) 5);
+         * t1.equals(t2);    // returns true
+         *
+         * ByteTuple.of((byte) 5).equals(ByteTuple.of((byte) 6));   // returns false
+         *
+         * // reflexivity and null/type checks
+         * t1.equals(t1);                                                       // returns true
+         * t1.equals(null);                                                     // returns false
+         * ByteTuple.of(Byte.MIN_VALUE).equals(ByteTuple.of(Byte.MIN_VALUE));   // returns true
+         * ByteTuple.of(Byte.MIN_VALUE).equals(ByteTuple.of(Byte.MAX_VALUE));   // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a ByteTuple.ByteTuple1 with the same element, {@code false} otherwise
@@ -970,6 +1405,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 5).toString();     // returns "(5)"
+         * ByteTuple.of((byte) -3).toString();    // returns "(-3)"
+         *
+         * // boundary values
+         * ByteTuple.of(Byte.MAX_VALUE).toString();    // returns "(127)"
+         * ByteTuple.of(Byte.MIN_VALUE).toString();    // returns "(-128)"
+         * }</pre>
          *
          * @return a string representation in the format "(element)"
          */
@@ -1006,7 +1451,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-     * byte first = tuple._1;  // 10
+     * byte first = tuple._1;   // 10
      * byte second = tuple._2;  // 20
      *
      * // Using functional operations
@@ -1033,6 +1478,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 2.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2).arity();   // returns 2
+         *
+         * // arity is constant regardless of element values
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).arity();   // returns 2
+         * ByteTuple.of((byte) 0, (byte) 0).arity();               // returns 2
+         * ByteTuple.of((byte) -1, (byte) -2).arity();             // returns 2
+         * }</pre>
+         *
          * @return 2
          */
         @Override
@@ -1042,6 +1497,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the minimum byte value in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 3, (byte) 7).min();    // returns 3
+         * ByteTuple.of((byte) 7, (byte) 3).min();    // returns 3
+         *
+         * // same values and boundary
+         * ByteTuple.of((byte) 5, (byte) 5).min();                       // returns 5
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).min();           // returns -128
+         * ByteTuple.of((byte) -5, (byte) -10).min();                    // returns -10
+         * }</pre>
          *
          * @return the smaller of the two byte values
          */
@@ -1053,6 +1519,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the maximum byte value in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 3, (byte) 7).max();    // returns 7
+         * ByteTuple.of((byte) 7, (byte) 3).max();    // returns 7
+         *
+         * // same values and boundary
+         * ByteTuple.of((byte) 5, (byte) 5).max();                       // returns 5
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).max();           // returns 127
+         * ByteTuple.of((byte) -5, (byte) -10).max();                    // returns -5
+         * }</pre>
+         *
          * @return the larger of the two byte values
          */
         @Override
@@ -1062,7 +1539,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element.
+         * For tuples with an even number of elements, returns the lower middle element of the sorted values.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // sorted(3, 7) -> lower middle = 3
+         * ByteTuple.of((byte) 3, (byte) 7).median();    // returns 3
+         * ByteTuple.of((byte) 7, (byte) 3).median();    // returns 3
+         *
+         * // same values
+         * ByteTuple.of((byte) 5, (byte) 5).median();    // returns 5
+         *
+         * // negative and boundary
+         * ByteTuple.of((byte) -5, (byte) -10).median();               // returns -10
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).median();      // returns -128
+         * }</pre>
          *
          * @return the median (lower) byte value
          */
@@ -1074,6 +1565,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the sum of all byte values in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 3, (byte) 7).sum();         // returns 10
+         * ByteTuple.of((byte) -5, (byte) 5).sum();        // returns 0
+         *
+         * // duplicate and boundary values
+         * ByteTuple.of((byte) 5, (byte) 5).sum();         // returns 10
+         * ByteTuple.of((byte) -5, (byte) -10).sum();      // returns -15
+         * // MIN_VALUE + MAX_VALUE = -128 + 127 = -1
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).sum();   // returns -1
+         * }</pre>
+         *
          * @return the sum of both byte values as an integer
          */
         @Override
@@ -1083,6 +1586,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all byte values in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 3, (byte) 7).average();          // returns 5.0
+         * ByteTuple.of((byte) -5, (byte) 5).average();         // returns 0.0
+         *
+         * // duplicate and boundary values
+         * ByteTuple.of((byte) 5, (byte) 5).average();          // returns 5.0
+         * ByteTuple.of((byte) -5, (byte) -10).average();       // returns -7.5
+         * // (-128 + 127) / 2 = -0.5
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).average();   // returns -0.5
+         * }</pre>
          *
          * @return the average of both byte values as a double
          */
@@ -1094,6 +1609,22 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new ByteTuple.ByteTuple2 with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple2 t = ByteTuple.of((byte) 3, (byte) 7);
+         * ByteTuple.ByteTuple2 r = t.reverse();
+         * r._1;   // returns 7
+         * r._2;   // returns 3
+         *
+         * // same element values - reverse is a new instance
+         * ByteTuple.of((byte) 5, (byte) 5).reverse()._1;   // returns 5
+         *
+         * // negative values
+         * ByteTuple.ByteTuple2 neg = ByteTuple.of((byte) -1, (byte) -2).reverse();
+         * neg._1;   // returns -2
+         * neg._2;   // returns -1
+         * }</pre>
+         *
          * @return a new ByteTuple.ByteTuple2 with elements swapped
          */
         @Override
@@ -1103,6 +1634,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple2 t = ByteTuple.of((byte) 3, (byte) 7);
+         * t.contains((byte) 3);    // returns true
+         * t.contains((byte) 7);    // returns true
+         * t.contains((byte) 5);    // returns false
+         *
+         * // boundary values
+         * ByteTuple.ByteTuple2 tb = ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE);
+         * tb.contains(Byte.MIN_VALUE);   // returns true
+         * tb.contains(Byte.MAX_VALUE);   // returns true
+         * tb.contains((byte) 0);         // returns false
+         * }</pre>
          *
          * @param valueToFind the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
@@ -1280,6 +1825,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // hashCode = 31 * _1 + _2
+         * ByteTuple.of((byte) 10, (byte) 20).hashCode();   // returns 31 * 10 + 20 = 330
+         * ByteTuple.of((byte) 0, (byte) 0).hashCode();     // returns 0
+         *
+         * // order matters: different order yields different hash
+         * ByteTuple.of((byte) 3, (byte) 7).hashCode();     // returns 31 * 3 + 7 = 100
+         * ByteTuple.of((byte) 7, (byte) 3).hashCode();     // returns 31 * 7 + 3 = 220
+         * }</pre>
+         *
          * @return a hash code value calculated from both elements
          */
         @Override
@@ -1289,6 +1845,19 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple2 t1 = ByteTuple.of((byte) 3, (byte) 7);
+         * t1.equals(ByteTuple.of((byte) 3, (byte) 7));   // returns true
+         * t1.equals(ByteTuple.of((byte) 7, (byte) 3));   // returns false  (order matters)
+         *
+         * // reflexivity and null/type checks
+         * t1.equals(t1);     // returns true
+         * t1.equals(null);   // returns false
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE)
+         *         .equals(ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE));   // returns true
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a ByteTuple.ByteTuple2 with the same elements in the same order, {@code false} otherwise
@@ -1306,6 +1875,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 3, (byte) 7).toString();          // returns "(3, 7)"
+         * ByteTuple.of((byte) -1, (byte) -2).toString();        // returns "(-1, -2)"
+         *
+         * // zero and boundary
+         * ByteTuple.of((byte) 0, (byte) 0).toString();               // returns "(0, 0)"
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).toString();   // returns "(-128, 127)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2)"
          */
@@ -1341,9 +1920,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * byte first = tuple._1;  // 10
+     * byte first = tuple._1;   // 10
      * byte second = tuple._2;  // 20
-     * byte third = tuple._3;  // 30
+     * byte third = tuple._3;   // 30
      *
      * // Using statistical operations
      * byte min = tuple.min();         // 10
@@ -1373,6 +1952,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 3.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).arity();   // returns 3
+         *
+         * // arity is constant regardless of element values
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).arity();   // returns 3
+         * ByteTuple.of((byte) 0, (byte) 0, (byte) 0).arity();               // returns 3
+         * ByteTuple.of((byte) -1, (byte) -2, (byte) -3).arity();            // returns 3
+         * }</pre>
+         *
          * @return 3
          */
         @Override
@@ -1383,6 +1972,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum byte value in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).min();    // returns 1
+         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).min(); // returns -10
+         *
+         * // all same and boundary
+         * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).min();                          // returns 5
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).min();              // returns -128
+         * }</pre>
+         *
          * @return the smallest of the three byte values
          */
         @Override
@@ -1392,6 +1991,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum byte value in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).max();    // returns 3
+         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).max(); // returns 0
+         *
+         * // all same and boundary
+         * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).max();                          // returns 5
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).max();              // returns 127
+         * }</pre>
          *
          * @return the largest of the three byte values
          */
@@ -1404,6 +2013,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns the median byte value in this tuple.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // sorted(1, 2, 3) -> middle = 2
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).median();   // returns 2
+         * ByteTuple.of((byte) 3, (byte) 1, (byte) 2).median();   // returns 2
+         *
+         * // all same
+         * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).median();   // returns 5
+         *
+         * // negative and boundary
+         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).median();              // returns -5
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).median();     // returns 0
+         * }</pre>
+         *
          * @return the middle byte value when sorted
          */
         @Override
@@ -1413,6 +2036,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all byte values in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).sum();         // returns 6
+         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).sum();      // returns -15
+         *
+         * // all same and boundary
+         * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).sum();         // returns 15
+         * // MIN_VALUE + 0 + MAX_VALUE = -128 + 0 + 127 = -1
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).sum();   // returns -1
+         * }</pre>
          *
          * @return the sum of all three byte values as an integer
          */
@@ -1424,6 +2058,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all byte values in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).average();          // returns 2.0
+         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).average();       // returns -5.0
+         *
+         * // all same
+         * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).average();          // returns 5.0
+         * // (-128 + 0 + 127) / 3 = -1/3 ~ -0.3333...
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).average();   // returns -1.0/3.0
+         * }</pre>
+         *
          * @return the average of all three byte values as a double
          */
         @Override
@@ -1434,6 +2079,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new ByteTuple.ByteTuple3 with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+         * ByteTuple.ByteTuple3 r = t.reverse();
+         * r._1;   // returns 3
+         * r._2;   // returns 2
+         * r._3;   // returns 1
+         *
+         * // negative and boundary
+         * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -1, (byte) 0, (byte) 1).reverse();
+         * neg._1;                                                                // returns 1
+         * neg._3;                                                                // returns -1
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).reverse()._1;   // returns 127
+         * }</pre>
+         *
          * @return a new ByteTuple.ByteTuple3 with the elements in reverse order
          */
         @Override
@@ -1443,6 +2103,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+         * t.contains((byte) 1);    // returns true
+         * t.contains((byte) 3);    // returns true
+         * t.contains((byte) 0);    // returns false
+         *
+         * // boundary values
+         * ByteTuple.ByteTuple3 tb = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE);
+         * tb.contains(Byte.MIN_VALUE);   // returns true
+         * tb.contains((byte) 0);         // returns true
+         * tb.contains((byte) 1);         // returns false
+         * }</pre>
          *
          * @param valueToFind the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
@@ -1635,6 +2309,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // hashCode = (31 * (31 * _1 + _2)) + _3
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).hashCode();   // returns (31 * (31 * 1 + 2)) + 3 = 1026
+         * ByteTuple.of((byte) 0, (byte) 0, (byte) 0).hashCode();   // returns 0
+         *
+         * // different order yields different hash
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).hashCode();   // returns 1026
+         * ByteTuple.of((byte) 3, (byte) 2, (byte) 1).hashCode();   // returns (31 * (31 * 3 + 2)) + 1 = 2946
+         * }</pre>
+         *
          * @return a hash code value calculated from all three elements
          */
         @Override
@@ -1644,6 +2329,19 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple3 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
+         * t1.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3));   // returns true
+         * t1.equals(ByteTuple.of((byte) 3, (byte) 2, (byte) 1));   // returns false  (order matters)
+         *
+         * // reflexivity and null/type checks
+         * t1.equals(t1);     // returns true
+         * t1.equals(null);   // returns false
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE)
+         *         .equals(ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE));   // returns true
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a ByteTuple.ByteTuple3 with the same elements in the same order, {@code false} otherwise
@@ -1661,6 +2359,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).toString();         // returns "(1, 2, 3)"
+         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).toString();      // returns "(-5, -10, 0)"
+         *
+         * // zero and boundary
+         * ByteTuple.of((byte) 0, (byte) 0, (byte) 0).toString();               // returns "(0, 0, 0)"
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).toString();   // returns "(-128, 0, 127)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3)"
          */
@@ -1695,9 +2403,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-     * byte first = tuple._1;  // 10
-     * byte fourth = tuple._4;  // 40
-     * byte median = tuple.median();   // 20
+     * byte first = tuple._1;         // 10
+     * byte fourth = tuple._4;        // 40
+     * byte median = tuple.median();  // 20
      * }</pre>
      */
     public static final class ByteTuple4 extends ByteTuple<ByteTuple4> {
@@ -1725,6 +2433,15 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 4.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * int n = t.arity();   // returns 4
+         *
+         * ByteTuple.ByteTuple4 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * int n2 = neg.arity();   // returns 4
+         * }</pre>
+         *
          * @return 4
          */
         @Override
@@ -1735,6 +2452,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum byte value in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 3, (byte) 1, (byte) 4, (byte) 2);
+         * byte m = t.min();   // returns (byte) 1
+         *
+         * ByteTuple.ByteTuple4 boundary = ByteTuple.of(Byte.MAX_VALUE, (byte) 0, Byte.MIN_VALUE, (byte) 5);
+         * byte m2 = boundary.min();   // returns Byte.MIN_VALUE (-128)
+         *
+         * ByteTuple.ByteTuple4 dup = ByteTuple.of((byte) -5, (byte) -5, (byte) -3, (byte) -3);
+         * byte m3 = dup.min();   // returns (byte) -5
+         *
+         * ByteTuple.ByteTuple4 allSame = ByteTuple.of((byte) 7, (byte) 7, (byte) 7, (byte) 7);
+         * byte m4 = allSame.min();   // returns (byte) 7
+         * }</pre>
+         *
          * @return the smallest of the four byte values
          */
         @Override
@@ -1744,6 +2476,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum byte value in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 3, (byte) 1, (byte) 4, (byte) 2);
+         * byte m = t.max();   // returns (byte) 4
+         *
+         * ByteTuple.ByteTuple4 boundary = ByteTuple.of(Byte.MAX_VALUE, (byte) 0, Byte.MIN_VALUE, (byte) 5);
+         * byte m2 = boundary.max();   // returns Byte.MAX_VALUE (127)
+         *
+         * ByteTuple.ByteTuple4 dup = ByteTuple.of((byte) -5, (byte) -5, (byte) -3, (byte) -3);
+         * byte m3 = dup.max();   // returns (byte) -3
+         *
+         * ByteTuple.ByteTuple4 allSame = ByteTuple.of((byte) 7, (byte) 7, (byte) 7, (byte) 7);
+         * byte m4 = allSame.max();   // returns (byte) 7
+         * }</pre>
          *
          * @return the largest of the four byte values
          */
@@ -1756,6 +2503,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns the median byte value in this tuple.
          * For tuples with an even number of elements, returns the lower middle element.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * byte med = t.median();   // returns (byte) 2  (lower middle of sorted [1,2,3,4])
+         *
+         * ByteTuple.ByteTuple4 rev = ByteTuple.of((byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * byte med2 = rev.median();   // returns (byte) 2  (same sorted result)
+         *
+         * ByteTuple.ByteTuple4 dup = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5);
+         * byte med3 = dup.median();   // returns (byte) 5
+         *
+         * ByteTuple.ByteTuple4 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, Byte.MAX_VALUE);
+         * byte med4 = neg.median();   // returns (byte) 0  (lower middle of sorted [-128,0,1,127])
+         * }</pre>
+         *
          * @return the median byte value
          */
         @Override
@@ -1766,6 +2528,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the sum of all byte values in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * int s = t.sum();   // returns 10
+         *
+         * ByteTuple.ByteTuple4 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4);
+         * int s2 = neg.sum();   // returns -10
+         *
+         * ByteTuple.ByteTuple4 boundary = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, Byte.MAX_VALUE);
+         * int s3 = boundary.sum();   // returns 0
+         *
+         * ByteTuple.ByteTuple4 allSame = ByteTuple.of((byte) 10, (byte) 10, (byte) 10, (byte) 10);
+         * int s4 = allSame.sum();   // returns 40
+         * }</pre>
+         *
          * @return the sum of all four byte values as an integer
          */
         @Override
@@ -1775,6 +2552,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all byte values in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * double avg = t.average();   // returns 2.5
+         *
+         * ByteTuple.ByteTuple4 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4);
+         * double avg2 = neg.average();   // returns -2.5
+         *
+         * ByteTuple.ByteTuple4 boundary = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, Byte.MAX_VALUE);
+         * double avg3 = boundary.average();   // returns 0.0
+         *
+         * ByteTuple.ByteTuple4 allSame = ByteTuple.of((byte) 10, (byte) 10, (byte) 10, (byte) 10);
+         * double avg4 = allSame.average();   // returns 10.0
+         * }</pre>
          *
          * @return the average of all four byte values as a double
          */
@@ -1789,7 +2581,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-         * ByteTuple.ByteTuple4 reversed = tuple.reverse();   // (40, 30, 20, 10)
+         * ByteTuple.ByteTuple4 reversed = tuple.reverse();   // returns (40, 30, 20, 10)
+         *
+         * ByteTuple.ByteTuple4 allSame = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5);
+         * ByteTuple.ByteTuple4 rev2 = allSame.reverse();   // returns (5, 5, 5, 5)
+         *
+         * ByteTuple.ByteTuple4 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, Byte.MAX_VALUE);
+         * ByteTuple.ByteTuple4 rev3 = neg.reverse();   // returns (127, 1, 0, -128)
+         *
+         * // reverse of a reverse yields the original
+         * ByteTuple.ByteTuple4 orig = ByteTuple.of((byte) -10, (byte) 20, (byte) -30, (byte) 40);
+         * boolean same = orig.equals(orig.reverse().reverse());   // returns true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple4 with the elements in reverse order
@@ -1801,6 +2603,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * boolean b1 = t.contains((byte) 3);   // returns true
+         * boolean b2 = t.contains((byte) 5);   // returns false
+         *
+         * ByteTuple.ByteTuple4 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, Byte.MAX_VALUE);
+         * boolean b3 = neg.contains(Byte.MIN_VALUE);   // returns true
+         * boolean b4 = neg.contains((byte) 1);         // returns false
+         * }</pre>
          *
          * @param valueToFind the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
@@ -1828,6 +2641,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
          * tuple.forEach(list::add);   // list contains [10, 20, 30, 40]
+         *
+         * // Sum using a counter
+         * int[] total = {0};
+         * tuple.forEach(b -> total[0] += b);   // total[0] == 100
+         *
+         * // Null action throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -1848,6 +2668,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * ByteTuple.ByteTuple4 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // returns true
+         *
+         * ByteTuple.ByteTuple4 t3 = ByteTuple.of((byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean diffHash = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
+         * }</pre>
+         *
          * @return a hash code value calculated from all four elements
          */
         @Override
@@ -1857,6 +2687,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * ByteTuple.ByteTuple4 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * boolean eq1 = t1.equals(t2);   // returns true
+         *
+         * ByteTuple.ByteTuple4 t3 = ByteTuple.of((byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean eq2 = t1.equals(t3);   // returns false (order matters)
+         *
+         * boolean eq3 = t1.equals(null);   // returns false
+         *
+         * ByteTuple.ByteTuple4 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, Byte.MAX_VALUE);
+         * boolean eq4 = neg.equals(ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, Byte.MAX_VALUE));   // returns true
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a ByteTuple.ByteTuple4 with the same elements in the same order, {@code false} otherwise
@@ -1874,6 +2719,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * String s = t.toString();   // returns "(1, 2, 3, 4)"
+         *
+         * ByteTuple.ByteTuple4 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4);
+         * String s2 = neg.toString();   // returns "(-1, -2, -3, -4)"
+         *
+         * ByteTuple.ByteTuple4 boundary = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, Byte.MAX_VALUE);
+         * String s3 = boundary.toString();   // returns "(-128, 0, -1, 127)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3, element4)"
          */
@@ -1910,7 +2767,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * ByteTuple.ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
      * byte first = tuple._1;  // 10
      * byte fifth = tuple._5;  // 50
-     * int sum = tuple.sum();   // 150
+     * int sum = tuple.sum();  // 150
      * }</pre>
      */
     public static final class ByteTuple5 extends ByteTuple<ByteTuple5> {
@@ -1941,6 +2798,15 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 5.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * int n = t.arity();   // returns 5
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * int n2 = neg.arity();   // returns 5
+         * }</pre>
+         *
          * @return 5
          */
         @Override
@@ -1951,6 +2817,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum byte value in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 3, (byte) 1, (byte) 5, (byte) 2, (byte) 4);
+         * byte m = t.min();   // returns (byte) 1
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * byte m2 = neg.min();   // returns Byte.MIN_VALUE (-128)
+         *
+         * ByteTuple.ByteTuple5 dup = ByteTuple.of((byte) -5, (byte) -5, (byte) -3, (byte) -3, (byte) -1);
+         * byte m3 = dup.min();   // returns (byte) -5
+         *
+         * ByteTuple.ByteTuple5 allSame = ByteTuple.of((byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7);
+         * byte m4 = allSame.min();   // returns (byte) 7
+         * }</pre>
+         *
          * @return the smallest of the five byte values
          */
         @Override
@@ -1960,6 +2841,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum byte value in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 3, (byte) 1, (byte) 5, (byte) 2, (byte) 4);
+         * byte m = t.max();   // returns (byte) 5
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * byte m2 = neg.max();   // returns Byte.MAX_VALUE (127)
+         *
+         * ByteTuple.ByteTuple5 dup = ByteTuple.of((byte) -5, (byte) -5, (byte) -3, (byte) -3, (byte) -1);
+         * byte m3 = dup.max();   // returns (byte) -1
+         *
+         * ByteTuple.ByteTuple5 allSame = ByteTuple.of((byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7);
+         * byte m4 = allSame.max();   // returns (byte) 7
+         * }</pre>
          *
          * @return the largest of the five byte values
          */
@@ -1972,6 +2868,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns the median byte value in this tuple.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * byte med = t.median();   // returns (byte) 3  (middle of sorted [1,2,3,4,5])
+         *
+         * ByteTuple.ByteTuple5 rev = ByteTuple.of((byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * byte med2 = rev.median();   // returns (byte) 3  (same sorted result)
+         *
+         * ByteTuple.ByteTuple5 dup = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
+         * byte med3 = dup.median();   // returns (byte) 5
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of((byte) -10, (byte) -5, (byte) 0, (byte) 5, (byte) 10);
+         * byte med4 = neg.median();   // returns (byte) 0
+         * }</pre>
+         *
          * @return the median byte value
          */
         @Override
@@ -1982,6 +2893,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the sum of all byte values in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * int s = t.sum();   // returns 15
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5);
+         * int s2 = neg.sum();   // returns -15
+         *
+         * ByteTuple.ByteTuple5 mixed = ByteTuple.of((byte) -10, (byte) -5, (byte) 0, (byte) 5, (byte) 10);
+         * int s3 = mixed.sum();   // returns 0
+         *
+         * ByteTuple.ByteTuple5 allSame = ByteTuple.of((byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10);
+         * int s4 = allSame.sum();   // returns 50
+         * }</pre>
+         *
          * @return the sum of all five byte values as an integer
          */
         @Override
@@ -1991,6 +2917,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all byte values in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * double avg = t.average();   // returns 3.0
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5);
+         * double avg2 = neg.average();   // returns -3.0
+         *
+         * ByteTuple.ByteTuple5 mixed = ByteTuple.of((byte) -10, (byte) -5, (byte) 0, (byte) 5, (byte) 10);
+         * double avg3 = mixed.average();   // returns 0.0
+         *
+         * ByteTuple.ByteTuple5 allSame = ByteTuple.of((byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10);
+         * double avg4 = allSame.average();   // returns 10.0
+         * }</pre>
          *
          * @return the average of all five byte values as a double
          */
@@ -2005,7 +2946,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
-         * ByteTuple.ByteTuple5 reversed = tuple.reverse();   // (50, 40, 30, 20, 10)
+         * ByteTuple.ByteTuple5 reversed = tuple.reverse();   // returns (50, 40, 30, 20, 10)
+         *
+         * ByteTuple.ByteTuple5 allSame = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
+         * ByteTuple.ByteTuple5 rev2 = allSame.reverse();   // returns (5, 5, 5, 5, 5)
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, (byte) -1, Byte.MAX_VALUE);
+         * ByteTuple.ByteTuple5 rev3 = neg.reverse();   // returns (127, -1, 1, 0, -128)
+         *
+         * // reverse of a reverse yields the original
+         * ByteTuple.ByteTuple5 orig = ByteTuple.of((byte) -10, (byte) 20, (byte) -30, (byte) 40, (byte) -50);
+         * boolean same = orig.equals(orig.reverse().reverse());   // returns true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple5 with the elements in reverse order
@@ -2017,6 +2968,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * boolean b1 = t.contains((byte) 3);   // returns true
+         * boolean b2 = t.contains((byte) 6);   // returns false
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, (byte) 1, Byte.MAX_VALUE);
+         * boolean b3 = neg.contains(Byte.MAX_VALUE);   // returns true
+         * boolean b4 = neg.contains((byte) 50);        // returns false
+         * }</pre>
          *
          * @param valueToFind the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
@@ -2044,6 +3006,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
          * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50]
+         *
+         * // Sum using a counter
+         * int[] total = {0};
+         * tuple.forEach(b -> total[0] += b);   // total[0] == 150
+         *
+         * // Null action throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -2065,6 +3034,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * ByteTuple.ByteTuple5 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // returns true
+         *
+         * ByteTuple.ByteTuple5 t3 = ByteTuple.of((byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean diffHash = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
+         * }</pre>
+         *
          * @return a hash code value calculated from all five elements
          */
         @Override
@@ -2074,6 +3053,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * ByteTuple.ByteTuple5 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * boolean eq1 = t1.equals(t2);   // returns true
+         *
+         * ByteTuple.ByteTuple5 t3 = ByteTuple.of((byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean eq2 = t1.equals(t3);   // returns false (order matters)
+         *
+         * boolean eq3 = t1.equals(null);   // returns false
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, (byte) 1, Byte.MAX_VALUE);
+         * boolean eq4 = neg.equals(ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, (byte) 1, Byte.MAX_VALUE));   // returns true
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a ByteTuple.ByteTuple5 with the same elements in the same order, {@code false} otherwise
@@ -2091,6 +3085,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+         * String s = t.toString();   // returns "(1, 2, 3, 4, 5)"
+         *
+         * ByteTuple.ByteTuple5 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5);
+         * String s2 = neg.toString();   // returns "(-1, -2, -3, -4, -5)"
+         *
+         * ByteTuple.ByteTuple5 boundary = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, (byte) 1, Byte.MAX_VALUE);
+         * String s3 = boundary.toString();   // returns "(-128, 0, -1, 1, 127)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3, element4, element5)"
          */
@@ -2125,9 +3131,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
-     * byte first = tuple._1;  // 10
-     * byte sixth = tuple._6;  // 60
-     * ByteTuple.ByteTuple6 reversed = tuple.reverse();   // (60, 50, 40, 30, 20, 10)
+     * byte first = tuple._1;                            // 10
+     * byte sixth = tuple._6;                            // 60
+     * ByteTuple.ByteTuple6 reversed = tuple.reverse();  // (60, 50, 40, 30, 20, 10)
      * }</pre>
      */
     public static final class ByteTuple6 extends ByteTuple<ByteTuple6> {
@@ -2161,6 +3167,15 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 6.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * int n = t.arity();   // returns 6
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * int n2 = neg.arity();   // returns 6
+         * }</pre>
+         *
          * @return 6
          */
         @Override
@@ -2171,6 +3186,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum byte value in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 3, (byte) 1, (byte) 5, (byte) 2, (byte) 4, (byte) 6);
+         * byte m = t.min();   // returns (byte) 1
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * byte m2 = neg.min();   // returns Byte.MIN_VALUE (-128)
+         *
+         * ByteTuple.ByteTuple6 dup = ByteTuple.of((byte) -5, (byte) -5, (byte) -3, (byte) -3, (byte) -1, (byte) -1);
+         * byte m3 = dup.min();   // returns (byte) -5
+         *
+         * ByteTuple.ByteTuple6 allSame = ByteTuple.of((byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7);
+         * byte m4 = allSame.min();   // returns (byte) 7
+         * }</pre>
+         *
          * @return the smallest of the six byte values
          */
         @Override
@@ -2180,6 +3210,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum byte value in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 3, (byte) 1, (byte) 5, (byte) 2, (byte) 4, (byte) 6);
+         * byte m = t.max();   // returns (byte) 6
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * byte m2 = neg.max();   // returns Byte.MAX_VALUE (127)
+         *
+         * ByteTuple.ByteTuple6 dup = ByteTuple.of((byte) -5, (byte) -5, (byte) -3, (byte) -3, (byte) -1, (byte) -1);
+         * byte m3 = dup.max();   // returns (byte) -1
+         *
+         * ByteTuple.ByteTuple6 allSame = ByteTuple.of((byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7);
+         * byte m4 = allSame.max();   // returns (byte) 7
+         * }</pre>
          *
          * @return the largest of the six byte values
          */
@@ -2192,6 +3237,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns the median byte value in this tuple.
          * For tuples with an even number of elements, returns the lower middle element.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * byte med = t.median();   // returns (byte) 3  (lower middle of sorted [1,2,3,4,5,6])
+         *
+         * ByteTuple.ByteTuple6 rev = ByteTuple.of((byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * byte med2 = rev.median();   // returns (byte) 3  (same sorted result)
+         *
+         * ByteTuple.ByteTuple6 dup = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
+         * byte med3 = dup.median();   // returns (byte) 5
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of((byte) -10, (byte) -5, (byte) -1, (byte) 1, (byte) 5, (byte) 10);
+         * byte med4 = neg.median();   // returns (byte) -1  (lower middle of sorted [-10,-5,-1,1,5,10])
+         * }</pre>
+         *
          * @return the median byte value
          */
         @Override
@@ -2202,6 +3262,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the sum of all byte values in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * int s = t.sum();   // returns 21
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6);
+         * int s2 = neg.sum();   // returns -21
+         *
+         * ByteTuple.ByteTuple6 mixed = ByteTuple.of((byte) -10, (byte) -5, (byte) -1, (byte) 1, (byte) 5, (byte) 10);
+         * int s3 = mixed.sum();   // returns 0
+         *
+         * ByteTuple.ByteTuple6 allSame = ByteTuple.of((byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10);
+         * int s4 = allSame.sum();   // returns 60
+         * }</pre>
+         *
          * @return the sum of all six byte values as an integer
          */
         @Override
@@ -2211,6 +3286,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all byte values in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * double avg = t.average();   // returns 3.5
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6);
+         * double avg2 = neg.average();   // returns -3.5
+         *
+         * ByteTuple.ByteTuple6 mixed = ByteTuple.of((byte) -10, (byte) -5, (byte) -1, (byte) 1, (byte) 5, (byte) 10);
+         * double avg3 = mixed.average();   // returns 0.0
+         *
+         * ByteTuple.ByteTuple6 allSame = ByteTuple.of((byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10);
+         * double avg4 = allSame.average();   // returns 10.0
+         * }</pre>
          *
          * @return the average of all six byte values as a double
          */
@@ -2225,7 +3315,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
-         * ByteTuple.ByteTuple6 reversed = tuple.reverse();   // (60, 50, 40, 30, 20, 10)
+         * ByteTuple.ByteTuple6 reversed = tuple.reverse();   // returns (60, 50, 40, 30, 20, 10)
+         *
+         * ByteTuple.ByteTuple6 allSame = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
+         * ByteTuple.ByteTuple6 rev2 = allSame.reverse();   // returns (5, 5, 5, 5, 5, 5)
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, (byte) -1, (byte) 0, Byte.MAX_VALUE);
+         * ByteTuple.ByteTuple6 rev3 = neg.reverse();   // returns (127, 0, -1, 1, 0, -128)
+         *
+         * // reverse of a reverse yields the original
+         * ByteTuple.ByteTuple6 orig = ByteTuple.of((byte) -10, (byte) 20, (byte) -30, (byte) 40, (byte) -50, (byte) 60);
+         * boolean same = orig.equals(orig.reverse().reverse());   // returns true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple6 with the elements in reverse order
@@ -2237,6 +3337,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * boolean b1 = t.contains((byte) 4);   // returns true
+         * boolean b2 = t.contains((byte) 7);   // returns false
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, (byte) 1, (byte) 0, Byte.MAX_VALUE);
+         * boolean b3 = neg.contains(Byte.MIN_VALUE);   // returns true
+         * boolean b4 = neg.contains((byte) 50);        // returns false
+         * }</pre>
          *
          * @param valueToFind the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
@@ -2264,6 +3375,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
          * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50, 60]
+         *
+         * // Sum using a counter
+         * int[] total = {0};
+         * tuple.forEach(b -> total[0] += b);   // total[0] == 210
+         *
+         * // Null action throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -2286,6 +3404,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * ByteTuple.ByteTuple6 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // returns true
+         *
+         * ByteTuple.ByteTuple6 t3 = ByteTuple.of((byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean diffHash = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
+         * }</pre>
+         *
          * @return a hash code value calculated from all six elements
          */
         @Override
@@ -2295,6 +3423,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * ByteTuple.ByteTuple6 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * boolean eq1 = t1.equals(t2);   // returns true
+         *
+         * ByteTuple.ByteTuple6 t3 = ByteTuple.of((byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean eq2 = t1.equals(t3);   // returns false (order matters)
+         *
+         * boolean eq3 = t1.equals(null);   // returns false
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, (byte) 1, (byte) 0, Byte.MAX_VALUE);
+         * boolean eq4 = neg.equals(ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, (byte) 1, (byte) 0, Byte.MAX_VALUE));   // returns true
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a ByteTuple.ByteTuple6 with the same elements in the same order, {@code false} otherwise
@@ -2312,6 +3455,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+         * String s = t.toString();   // returns "(1, 2, 3, 4, 5, 6)"
+         *
+         * ByteTuple.ByteTuple6 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6);
+         * String s2 = neg.toString();   // returns "(-1, -2, -3, -4, -5, -6)"
+         *
+         * ByteTuple.ByteTuple6 boundary = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) -1, (byte) 1, (byte) 0, Byte.MAX_VALUE);
+         * String s3 = boundary.toString();   // returns "(-128, 0, -1, 1, 0, 127)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3, element4, element5, element6)"
          */
@@ -2346,9 +3501,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple7 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
-     * byte first = tuple._1;  // 10
-     * byte seventh = tuple._7;  // 70
-     * byte[] array = tuple.toArray();   // [10, 20, 30, 40, 50, 60, 70]
+     * byte first = tuple._1;           // 10
+     * byte seventh = tuple._7;         // 70
+     * byte[] array = tuple.toArray();  // [10, 20, 30, 40, 50, 60, 70]
      * }</pre>
      */
     public static final class ByteTuple7 extends ByteTuple<ByteTuple7> {
@@ -2385,6 +3540,15 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 7.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * int n = t.arity();   // returns 7
+         *
+         * ByteTuple.ByteTuple7 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * int n2 = neg.arity();   // returns 7
+         * }</pre>
+         *
          * @return 7
          */
         @Override
@@ -2395,6 +3559,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum byte value in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * byte result = t.min();   // returns 1
+         *
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
+         * byte result2 = t2.min();   // returns 5 (all same)
+         *
+         * ByteTuple.ByteTuple7 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32);
+         * byte result3 = t3.min();   // returns -128 (Byte.MIN_VALUE)
+         *
+         * ByteTuple.ByteTuple7 t4 = ByteTuple.of((byte) -7, (byte) -6, (byte) -5, (byte) -4, (byte) -3, (byte) -2, (byte) -1);
+         * byte result4 = t4.min();   // returns -7
+         * }</pre>
+         *
          * @return the smallest of the seven byte values
          */
         @Override
@@ -2404,6 +3583,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum byte value in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * byte result = t.max();   // returns 7
+         *
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) -3, (byte) -3, (byte) -3, (byte) -3, (byte) -3, (byte) -3, (byte) -3);
+         * byte result2 = t2.max();   // returns -3 (all same)
+         *
+         * ByteTuple.ByteTuple7 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32);
+         * byte result3 = t3.max();   // returns 127 (Byte.MAX_VALUE)
+         *
+         * ByteTuple.ByteTuple7 t4 = ByteTuple.of((byte) -7, (byte) -6, (byte) -5, (byte) -4, (byte) -3, (byte) -2, (byte) -1);
+         * byte result4 = t4.max();   // returns -1
+         * }</pre>
          *
          * @return the largest of the seven byte values
          */
@@ -2416,6 +3610,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns the median byte value in this tuple.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * byte result = t.median();   // returns 4 (middle of sorted [1,2,3,4,5,6,7])
+         *
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7);
+         * byte result2 = t2.median();   // returns 7 (all same)
+         *
+         * ByteTuple.ByteTuple7 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32);
+         * byte result3 = t3.median();   // returns 1 (middle of sorted [-128,-1,0,1,32,64,127])
+         *
+         * ByteTuple.ByteTuple7 t4 = ByteTuple.of((byte) 7, (byte) 1, (byte) 5, (byte) 3, (byte) 9, (byte) 2, (byte) 4);
+         * byte result4 = t4.median();   // returns 4 (middle of sorted [1,2,3,4,5,7,9])
+         * }</pre>
+         *
          * @return the median byte value
          */
         @Override
@@ -2425,6 +3634,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all byte values in this tuple.
+         * The result is returned as an {@code int} to accommodate sums that may exceed
+         * the {@code byte} range (e.g., 127 * 7 = 889 fits in {@code int} but not {@code byte}).
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * int result = t.sum();   // returns 28
+         *
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * int result2 = t2.sum();   // returns 0
+         *
+         * ByteTuple.ByteTuple7 t3 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7);
+         * int result3 = t3.sum();   // returns -28
+         *
+         * ByteTuple.ByteTuple7 t4 = ByteTuple.of(Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE);
+         * int result4 = t4.sum();   // returns 889 (127 * 7, safely stored as int)
+         * }</pre>
          *
          * @return the sum of all seven byte values as an integer
          */
@@ -2435,6 +3661,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all byte values in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * double result = t.average();   // returns 4.0
+         *
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
+         * double result2 = t2.average();   // returns 5.0
+         *
+         * ByteTuple.ByteTuple7 t3 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * double result3 = t3.average();   // returns 0.0
+         *
+         * ByteTuple.ByteTuple7 t4 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7);
+         * double result4 = t4.average();   // returns -4.0
+         * }</pre>
          *
          * @return the average of all seven byte values as a double
          */
@@ -2448,8 +3689,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ByteTuple.ByteTuple7 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
-         * ByteTuple.ByteTuple7 reversed = tuple.reverse();   // (70, 60, 50, 40, 30, 20, 10)
+         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * ByteTuple.ByteTuple7 r = t.reverse();
+         * // r.toString() returns "(7, 6, 5, 4, 3, 2, 1)"
+         *
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) -3, (byte) -2, (byte) -1, (byte) 0, (byte) 1, (byte) 2, (byte) 3);
+         * ByteTuple.ByteTuple7 r2 = t2.reverse();
+         * // r2.toString() returns "(3, 2, 1, 0, -1, -2, -3)"
+         *
+         * // boundary values are preserved
+         * ByteTuple.ByteTuple7 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * ByteTuple.ByteTuple7 r3 = t3.reverse();
+         * // r3._7 == Byte.MIN_VALUE, r3._5 == Byte.MAX_VALUE
+         *
+         * // palindrome: reverse equals original
+         * ByteTuple.ByteTuple7 t4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * ByteTuple.ByteTuple7 r4 = t4.reverse();
+         * // r4.equals(t4) == true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple7 with the elements in reverse order
@@ -2461,6 +3717,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
+         * boolean a = t.contains((byte) 10);    // returns true (first element)
+         * boolean b = t.contains((byte) 70);    // returns true (last element)
+         * boolean c = t.contains((byte) 0);     // returns false
+         * boolean d = t.contains((byte) 100);   // returns false
+         *
+         * // boundary values
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32);
+         * boolean e = t2.contains(Byte.MIN_VALUE);   // returns true
+         * boolean f = t2.contains(Byte.MAX_VALUE);   // returns true
+         * boolean g = t2.contains((byte) 2);         // returns false
+         * }</pre>
          *
          * @param valueToFind the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
@@ -2481,14 +3752,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ByteTuple.ByteTuple7 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
+         * ByteTuple.ByteTuple7 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
          *
-         * // Print each element
-         * tuple.forEach(b -> System.out.println("Value: " + b));
-         *
-         * // Collect to list
+         * // Collect elements into a list
          * List<Byte> list = new ArrayList<>();
-         * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50, 60, 70]
+         * tuple.forEach(list::add);   // list contains [1, 2, 3, 4, 5, 6, 7]
+         *
+         * // Compute running sum
+         * int[] sum = {0};
+         * tuple.forEach(b -> sum[0] += b);   // sum[0] == 28
+         *
+         * // Passing null throws IllegalArgumentException
+         * tuple.forEach(null);   // throws IllegalArgumentException
+         *
+         * // Boundary values are passed as-is
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32);
+         * List<Byte> list2 = new ArrayList<>();
+         * t2.forEach(list2::add);   // list2 contains [-128, -1, 0, 1, 127, 64, 32]
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -2512,6 +3792,25 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * // equal tuples have same hash code
+         * boolean sameHash = t1.hashCode() == t2.hashCode();   // returns true
+         *
+         * // hash code is self-consistent
+         * boolean selfConsistent = t1.hashCode() == t1.hashCode();   // returns true
+         *
+         * // different element order produces different hash codes
+         * ByteTuple.ByteTuple7 t3 = ByteTuple.of((byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean diffHash = t1.hashCode() == t3.hashCode();   // returns false
+         *
+         * // negative values produce a well-defined int hash code
+         * ByteTuple.ByteTuple7 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7);
+         * boolean negDistinct = tNeg.hashCode() != t1.hashCode();   // returns true
+         * }</pre>
+         *
          * @return a hash code value calculated from all seven elements
          */
         @Override
@@ -2521,6 +3820,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * boolean eq = t1.equals(t2);   // returns true
+         *
+         * ByteTuple.ByteTuple7 t3 = ByteTuple.of((byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean neq = t1.equals(t3);   // returns false (different order)
+         *
+         * boolean self = t1.equals(t1);   // returns true (same reference)
+         *
+         * boolean nullCase = t1.equals(null);   // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a ByteTuple.ByteTuple7 with the same elements in the same order, {@code false} otherwise
@@ -2538,6 +3851,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+         * String s = t.toString();   // returns "(1, 2, 3, 4, 5, 6, 7)"
+         *
+         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7);
+         * String s2 = t2.toString();   // returns "(-1, -2, -3, -4, -5, -6, -7)"
+         *
+         * ByteTuple.ByteTuple7 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * String s3 = t3.toString();   // returns "(-128, 0, 127, 0, 0, 0, 0)"
+         *
+         * ByteTuple.ByteTuple7 t4 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * String s4 = t4.toString();   // returns "(0, 0, 0, 0, 0, 0, 0)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, ..., element7)"
          */
@@ -2572,7 +3900,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple8 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
-     * byte first = tuple._1;  // 10
+     * byte first = tuple._1;   // 10
      * byte eighth = tuple._8;  // 80
      * ByteList list = tuple.toList();
      * }</pre>
@@ -2617,6 +3945,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 8.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * int n = t.arity();   // returns 8
+         *
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
+         * int n2 = t2.arity();   // returns 8
+         *
+         * // arity is independent of element values - negative values
+         * ByteTuple.ByteTuple8 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8);
+         * int n3 = tNeg.arity();   // returns 8
+         *
+         * // boundary values make no difference
+         * ByteTuple.ByteTuple8 tBoundary = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1,
+         *         Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16);
+         * int n4 = tBoundary.arity();   // returns 8
+         * }</pre>
+         *
          * @return 8
          */
         @Override
@@ -2626,6 +3972,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the minimum byte value in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * byte result = t.min();   // returns 1
+         *
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) -5, (byte) -5, (byte) -5, (byte) -5, (byte) -5, (byte) -5, (byte) -5, (byte) -5);
+         * byte result2 = t2.min();   // returns -5 (all same)
+         *
+         * ByteTuple.ByteTuple8 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16);
+         * byte result3 = t3.min();   // returns -128 (Byte.MIN_VALUE)
+         *
+         * ByteTuple.ByteTuple8 t4 = ByteTuple.of((byte) -8, (byte) -7, (byte) -6, (byte) -5, (byte) -4, (byte) -3, (byte) -2, (byte) -1);
+         * byte result4 = t4.min();   // returns -8
+         * }</pre>
          *
          * @return the smallest of the eight byte values
          */
@@ -2637,6 +3998,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the maximum byte value in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * byte result = t.max();   // returns 8
+         *
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) -8, (byte) -7, (byte) -6, (byte) -5, (byte) -4, (byte) -3, (byte) -2, (byte) -1);
+         * byte result2 = t2.max();   // returns -1
+         *
+         * ByteTuple.ByteTuple8 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16);
+         * byte result3 = t3.max();   // returns 127 (Byte.MAX_VALUE)
+         *
+         * ByteTuple.ByteTuple8 t4 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * byte result4 = t4.max();   // returns 0
+         * }</pre>
+         *
          * @return the largest of the eight byte values
          */
         @Override
@@ -2646,7 +4022,25 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element.
+         * For tuples with an even number of elements, returns the lower middle element
+         * (the element at position {@code n/2 - 1} in the sorted order, 0-indexed).
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // 1-8 sorted -> [1,2,3,4,5,6,7,8]; even count: lower middle (index 3) = 4
+         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * byte result = t.median();   // returns 4
+         *
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3);
+         * byte result2 = t2.median();   // returns 3 (all same)
+         *
+         * // descending order - same result as ascending
+         * ByteTuple.ByteTuple8 t3 = ByteTuple.of((byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * byte result3 = t3.median();   // returns 4
+         *
+         * ByteTuple.ByteTuple8 t4 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16);
+         * byte result4 = t4.median();   // returns 1 (lower middle of sorted [-128,-1,0,1,16,32,64,127])
+         * }</pre>
          *
          * @return the median byte value
          */
@@ -2657,6 +4051,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all byte values in this tuple.
+         * The result is returned as an {@code int} to accommodate sums that may exceed
+         * the {@code byte} range (e.g., 127 * 8 = 1016 fits in {@code int} but not {@code byte}).
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * int result = t.sum();   // returns 36
+         *
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * int result2 = t2.sum();   // returns 0
+         *
+         * ByteTuple.ByteTuple8 t3 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8);
+         * int result3 = t3.sum();   // returns -36
+         *
+         * ByteTuple.ByteTuple8 t4 = ByteTuple.of(Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE,
+         *         Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE);
+         * int result4 = t4.sum();   // returns 1016 (127 * 8, safely stored as int)
+         * }</pre>
          *
          * @return the sum of all eight byte values as an integer
          */
@@ -2667,6 +4079,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all byte values in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * double result = t.average();   // returns 4.5
+         *
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) 6, (byte) 6, (byte) 6, (byte) 6, (byte) 6, (byte) 6, (byte) 6, (byte) 6);
+         * double result2 = t2.average();   // returns 6.0
+         *
+         * ByteTuple.ByteTuple8 t3 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * double result3 = t3.average();   // returns 0.0
+         *
+         * ByteTuple.ByteTuple8 t4 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8);
+         * double result4 = t4.average();   // returns -4.5
+         * }</pre>
          *
          * @return the average of all eight byte values as a double
          */
@@ -2680,8 +4107,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ByteTuple.ByteTuple8 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
-         * ByteTuple.ByteTuple8 reversed = tuple.reverse();   // (80, 70, 60, 50, 40, 30, 20, 10)
+         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * ByteTuple.ByteTuple8 r = t.reverse();
+         * // r.toString() returns "(8, 7, 6, 5, 4, 3, 2, 1)"
+         *
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) -4, (byte) -3, (byte) -2, (byte) -1, (byte) 0, (byte) 1, (byte) 2, (byte) 3);
+         * ByteTuple.ByteTuple8 r2 = t2.reverse();
+         * // r2.toString() returns "(3, 2, 1, 0, -1, -2, -3, -4)"
+         *
+         * // boundary values preserved
+         * ByteTuple.ByteTuple8 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * ByteTuple.ByteTuple8 r3 = t3.reverse();
+         * // r3._1 == Byte.MAX_VALUE, r3._8 == Byte.MIN_VALUE
+         *
+         * // palindrome: reverse equals original
+         * ByteTuple.ByteTuple8 t4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * ByteTuple.ByteTuple8 r4 = t4.reverse();
+         * // r4.equals(t4) == true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple8 with the elements in reverse order
@@ -2693,6 +4135,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
+         * boolean a = t.contains((byte) 10);    // returns true (first element)
+         * boolean b = t.contains((byte) 80);    // returns true (last element)
+         * boolean c = t.contains((byte) 0);     // returns false
+         * boolean d = t.contains((byte) -1);    // returns false
+         *
+         * // boundary values
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16);
+         * boolean e = t2.contains(Byte.MIN_VALUE);   // returns true
+         * boolean f = t2.contains(Byte.MAX_VALUE);   // returns true
+         * boolean g = t2.contains((byte) 2);         // returns false
+         * }</pre>
          *
          * @param valueToFind the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
@@ -2713,14 +4170,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ByteTuple.ByteTuple8 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
+         * ByteTuple.ByteTuple8 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
          *
-         * // Print each element
-         * tuple.forEach(b -> System.out.println("Value: " + b));
-         *
-         * // Collect to list
+         * // Collect elements into a list
          * List<Byte> list = new ArrayList<>();
-         * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50, 60, 70, 80]
+         * tuple.forEach(list::add);   // list contains [1, 2, 3, 4, 5, 6, 7, 8]
+         *
+         * // Compute sum via forEach
+         * int[] sum = {0};
+         * tuple.forEach(b -> sum[0] += b);   // sum[0] == 36
+         *
+         * // Passing null throws IllegalArgumentException
+         * tuple.forEach(null);   // throws IllegalArgumentException
+         *
+         * // Boundary values are passed as-is
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16);
+         * List<Byte> list2 = new ArrayList<>();
+         * t2.forEach(list2::add);   // list2 contains [-128, -1, 0, 1, 127, 64, 32, 16]
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -2745,6 +4211,25 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple8 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * // equal tuples have same hash code
+         * boolean sameHash = t1.hashCode() == t2.hashCode();   // returns true
+         *
+         * // hash code is self-consistent
+         * boolean selfConsistent = t1.hashCode() == t1.hashCode();   // returns true
+         *
+         * // different element order produces different hash codes
+         * ByteTuple.ByteTuple8 t3 = ByteTuple.of((byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean diffHash = t1.hashCode() == t3.hashCode();   // returns false
+         *
+         * // negative values produce a well-defined int hash code, distinct from positive counterpart
+         * ByteTuple.ByteTuple8 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8);
+         * boolean negDistinct = tNeg.hashCode() != t1.hashCode();   // returns true
+         * }</pre>
+         *
          * @return a hash code value calculated from all eight elements
          */
         @Override
@@ -2754,6 +4239,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple8 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * boolean eq = t1.equals(t2);   // returns true
+         *
+         * ByteTuple.ByteTuple8 t3 = ByteTuple.of((byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean neq = t1.equals(t3);   // returns false (different order)
+         *
+         * boolean self = t1.equals(t1);   // returns true (same reference)
+         *
+         * boolean nullCase = t1.equals(null);   // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a ByteTuple.ByteTuple8 with the same elements in the same order, {@code false} otherwise
@@ -2772,6 +4271,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+         * String s = t.toString();   // returns "(1, 2, 3, 4, 5, 6, 7, 8)"
+         *
+         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8);
+         * String s2 = t2.toString();   // returns "(-1, -2, -3, -4, -5, -6, -7, -8)"
+         *
+         * ByteTuple.ByteTuple8 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * String s3 = t3.toString();   // returns "(-128, 0, 127, 0, 0, 0, 0, 0)"
+         *
+         * ByteTuple.ByteTuple8 t4 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * String s4 = t4.toString();   // returns "(0, 0, 0, 0, 0, 0, 0, 0)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, ..., element8)"
          */
@@ -2806,9 +4320,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple9 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
-     * byte first = tuple._1;  // 10
-     * byte ninth = tuple._9;  // 90
-     * int arity = tuple.arity();   // 9
+     * byte first = tuple._1;      // 10
+     * byte ninth = tuple._9;      // 90
+     * int arity = tuple.arity();  // 9
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values
@@ -2854,6 +4368,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the number of elements in this tuple, which is always 9.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * int n = t.arity();   // returns 9
+         *
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
+         * int n2 = t2.arity();   // returns 9
+         *
+         * // arity is independent of element values - negative values
+         * ByteTuple.ByteTuple9 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8, (byte) -9);
+         * int n3 = tNeg.arity();   // returns 9
+         *
+         * // boundary values make no difference
+         * ByteTuple.ByteTuple9 tBoundary = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1,
+         *         Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16, (byte) 8);
+         * int n4 = tBoundary.arity();   // returns 9
+         * }</pre>
+         *
          * @return 9
          */
         @Override
@@ -2864,6 +4396,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum byte value in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * byte result = t.min();   // returns 1
+         *
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) -9, (byte) -9, (byte) -9, (byte) -9, (byte) -9, (byte) -9, (byte) -9, (byte) -9, (byte) -9);
+         * byte result2 = t2.min();   // returns -9 (all same)
+         *
+         * ByteTuple.ByteTuple9 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1,
+         *         Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16, (byte) 8);
+         * byte result3 = t3.min();   // returns -128 (Byte.MIN_VALUE)
+         *
+         * ByteTuple.ByteTuple9 t4 = ByteTuple.of((byte) -9, (byte) -8, (byte) -7, (byte) -6, (byte) -5,
+         *         (byte) -4, (byte) -3, (byte) -2, (byte) -1);
+         * byte result4 = t4.min();   // returns -9
+         * }</pre>
+         *
          * @return the smallest of the nine byte values
          */
         @Override
@@ -2873,6 +4422,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum byte value in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * byte result = t.max();   // returns 9
+         *
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 99, (byte) 99, (byte) 99, (byte) 99, (byte) 99, (byte) 99, (byte) 99, (byte) 99, (byte) 99);
+         * byte result2 = t2.max();   // returns 99 (all same)
+         *
+         * ByteTuple.ByteTuple9 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1,
+         *         Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16, (byte) 8);
+         * byte result3 = t3.max();   // returns 127 (Byte.MAX_VALUE)
+         *
+         * ByteTuple.ByteTuple9 t4 = ByteTuple.of((byte) -9, (byte) -8, (byte) -7, (byte) -6, (byte) -5,
+         *         (byte) -4, (byte) -3, (byte) -2, (byte) -1);
+         * byte result4 = t4.max();   // returns -1
+         * }</pre>
          *
          * @return the largest of the nine byte values
          */
@@ -2885,6 +4451,25 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Returns the median byte value in this tuple.
          * For tuples with an odd number of elements, returns the middle value when sorted.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // 1-9 sorted -> [1,2,3,4,5,6,7,8,9]; middle index 4 = 5
+         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * byte result = t.median();   // returns 5
+         *
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4);
+         * byte result2 = t2.median();   // returns 4 (all same)
+         *
+         * // boundary mix: sorted [-128,-1,0,1,8,16,32,64,127] -> middle index 4 = 8
+         * ByteTuple.ByteTuple9 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1,
+         *         Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16, (byte) 8);
+         * byte result3 = t3.median();   // returns 8
+         *
+         * // descending order - same result as ascending
+         * ByteTuple.ByteTuple9 t4 = ByteTuple.of((byte) 9, (byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * byte result4 = t4.median();   // returns 5
+         * }</pre>
+         *
          * @return the median byte value
          */
         @Override
@@ -2894,6 +4479,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the sum of all byte values in this tuple.
+         * The result is returned as an {@code int} to accommodate sums that may exceed
+         * the {@code byte} range (e.g., 127 * 9 = 1143 fits in {@code int} but not {@code byte}).
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * int result = t.sum();   // returns 45
+         *
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * int result2 = t2.sum();   // returns 0
+         *
+         * ByteTuple.ByteTuple9 t3 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8, (byte) -9);
+         * int result3 = t3.sum();   // returns -45
+         *
+         * ByteTuple.ByteTuple9 t4 = ByteTuple.of(Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE,
+         *         Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE);
+         * int result4 = t4.sum();   // returns 1143 (127 * 9, safely stored as int)
+         * }</pre>
          *
          * @return the sum of all nine byte values as an integer
          */
@@ -2904,6 +4507,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all byte values in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * double result = t.average();   // returns 5.0
+         *
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3);
+         * double result2 = t2.average();   // returns 3.0
+         *
+         * ByteTuple.ByteTuple9 t3 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * double result3 = t3.average();   // returns 0.0
+         *
+         * ByteTuple.ByteTuple9 t4 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8, (byte) -9);
+         * double result4 = t4.average();   // returns -5.0
+         * }</pre>
          *
          * @return the average of all nine byte values as a double
          */
@@ -2917,8 +4535,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ByteTuple.ByteTuple9 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
-         * ByteTuple.ByteTuple9 reversed = tuple.reverse();   // (90, 80, 70, 60, 50, 40, 30, 20, 10)
+         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * ByteTuple.ByteTuple9 r = t.reverse();
+         * // r.toString() returns "(9, 8, 7, 6, 5, 4, 3, 2, 1)"
+         *
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) -4, (byte) -3, (byte) -2, (byte) -1, (byte) 0, (byte) 1, (byte) 2, (byte) 3, (byte) 4);
+         * ByteTuple.ByteTuple9 r2 = t2.reverse();
+         * // r2.toString() returns "(4, 3, 2, 1, 0, -1, -2, -3, -4)"
+         *
+         * // boundary values preserved
+         * ByteTuple.ByteTuple9 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
+         * ByteTuple.ByteTuple9 r3 = t3.reverse();
+         * // r3._1 == Byte.MAX_VALUE, r3._9 == Byte.MIN_VALUE
+         *
+         * // palindrome: reverse equals original
+         * ByteTuple.ByteTuple9 t4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * ByteTuple.ByteTuple9 r4 = t4.reverse();
+         * // r4.equals(t4) == true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple9 with the elements in reverse order
@@ -2930,6 +4563,22 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
+         * boolean a = t.contains((byte) 10);    // returns true (first element)
+         * boolean b = t.contains((byte) 90);    // returns true (last element)
+         * boolean c = t.contains((byte) 0);     // returns false
+         * boolean d = t.contains((byte) -1);    // returns false
+         *
+         * // boundary values
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1,
+         *         Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16, (byte) 8);
+         * boolean e = t2.contains(Byte.MIN_VALUE);   // returns true
+         * boolean f = t2.contains(Byte.MAX_VALUE);   // returns true
+         * boolean g = t2.contains((byte) 2);         // returns false
+         * }</pre>
          *
          * @param valueToFind the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
@@ -2950,14 +4599,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ByteTuple.ByteTuple9 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
+         * ByteTuple.ByteTuple9 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
          *
-         * // Print each element
-         * tuple.forEach(b -> System.out.println("Value: " + b));
-         *
-         * // Collect to list
+         * // Collect elements into a list
          * List<Byte> list = new ArrayList<>();
-         * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50, 60, 70, 80, 90]
+         * tuple.forEach(list::add);   // list contains [1, 2, 3, 4, 5, 6, 7, 8, 9]
+         *
+         * // Compute sum via forEach
+         * int[] sum = {0};
+         * tuple.forEach(b -> sum[0] += b);   // sum[0] == 45
+         *
+         * // Passing null throws IllegalArgumentException
+         * tuple.forEach(null);   // throws IllegalArgumentException
+         *
+         * // Boundary values are passed as-is
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1,
+         *         Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16, (byte) 8);
+         * List<Byte> list2 = new ArrayList<>();
+         * t2.forEach(list2::add);   // list2 contains [-128, -1, 0, 1, 127, 64, 32, 16, 8]
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -2983,6 +4642,26 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple9 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * // equal tuples have same hash code
+         * boolean sameHash = t1.hashCode() == t2.hashCode();   // returns true
+         *
+         * // hash code is self-consistent
+         * boolean selfConsistent = t1.hashCode() == t1.hashCode();   // returns true
+         *
+         * // different element order produces different hash codes
+         * ByteTuple.ByteTuple9 t3 = ByteTuple.of((byte) 9, (byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean diffHash = t1.hashCode() == t3.hashCode();   // returns false
+         *
+         * // negative values produce a well-defined int hash code, distinct from positive counterpart
+         * ByteTuple.ByteTuple9 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5,
+         *         (byte) -6, (byte) -7, (byte) -8, (byte) -9);
+         * boolean negDistinct = tNeg.hashCode() != t1.hashCode();   // returns true
+         * }</pre>
+         *
          * @return a hash code value calculated from all nine elements
          */
         @Override
@@ -2992,6 +4671,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple9 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * boolean eq = t1.equals(t2);   // returns true
+         *
+         * ByteTuple.ByteTuple9 t3 = ByteTuple.of((byte) 9, (byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
+         * boolean neq = t1.equals(t3);   // returns false (different order)
+         *
+         * boolean self = t1.equals(t1);   // returns true (same reference)
+         *
+         * boolean nullCase = t1.equals(null);   // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a ByteTuple.ByteTuple9 with the same elements in the same order, {@code false} otherwise
@@ -3010,6 +4703,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+         * String s = t.toString();   // returns "(1, 2, 3, 4, 5, 6, 7, 8, 9)"
+         *
+         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8, (byte) -9);
+         * String s2 = t2.toString();   // returns "(-1, -2, -3, -4, -5, -6, -7, -8, -9)"
+         *
+         * ByteTuple.ByteTuple9 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * String s3 = t3.toString();   // returns "(-128, 0, 127, 0, 0, 0, 0, 0, 0)"
+         *
+         * ByteTuple.ByteTuple9 t4 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
+         * String s4 = t4.toString();   // returns "(0, 0, 0, 0, 0, 0, 0, 0, 0)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, ..., element9)"
          */

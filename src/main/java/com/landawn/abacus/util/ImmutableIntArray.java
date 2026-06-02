@@ -73,13 +73,24 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: wrap an existing array and read elements
      * int[] data = new int[] {10, 20, 30};
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(data);
-     * System.out.println(array.get(1));   // prints: 20
+     * array.get(0);   // returns 10
+     * array.get(1);   // returns 20
      *
-     * // CAUTION: Modifying the original array affects the ImmutableIntArray
+     * // Basic: wrap a single-element array
+     * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {7});
+     * single.length();   // returns 1
+     *
+     * // Edge: null input produces an empty wrapper (no exception)
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
+     * empty.length();   // returns 0
+     * empty.isEmpty();  // returns true
+     *
+     * // Edge: CAUTION - mutations to the source array are visible through the wrapper
      * data[1] = 99;
-     * System.out.println(array.get(1));   // prints: 99 (not recommended!)
+     * array.get(1);   // returns 99  (shared backing array - not a copy!)
      * }</pre>
      *
      * @param array the int array to wrap unsafely, or {@code null} to create an empty ImmutableIntArray
@@ -103,13 +114,23 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: copy an array and read its elements
      * int[] data = {10, 20, 30};
      * ImmutableIntArray array = ImmutableIntArray.copyOf(data);
-     * System.out.println(array.get(0));   // prints: 10
+     * array.get(0);   // returns 10
+     * array.get(2);   // returns 30
      *
-     * // Modifying the original array does NOT affect the ImmutableIntArray
+     * // Basic: copy a single-element array
+     * ImmutableIntArray single = ImmutableIntArray.copyOf(new int[] {42});
+     * single.get(0);   // returns 42
+     *
+     * // Edge: null input produces an empty wrapper (no exception)
+     * ImmutableIntArray empty = ImmutableIntArray.copyOf(null);
+     * empty.isEmpty();   // returns true
+     *
+     * // Edge: mutations to the original DO NOT affect the returned wrapper (defensive copy)
      * data[0] = 99;
-     * System.out.println(array.get(0));   // still prints: 10
+     * array.get(0);   // still returns 10
      * }</pre>
      *
      * @param array the int array to copy, or {@code null} to create an empty ImmutableIntArray
@@ -126,14 +147,21 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
-     * boolean result1 = empty.isEmpty();   // returns true
-     *
+     * // Basic: non-empty array
      * ImmutableIntArray nonEmpty = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3});
-     * boolean result2 = nonEmpty.isEmpty();   // returns false
+     * nonEmpty.isEmpty();   // returns false
      *
+     * // Basic: array with a single element is not empty
+     * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {0});
+     * single.isEmpty();   // returns false
+     *
+     * // Edge: explicit empty array
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+     * empty.isEmpty();   // returns true
+     *
+     * // Edge: null input is treated as empty
      * ImmutableIntArray fromNull = ImmutableIntArray.unsafeWrap(null);
-     * boolean result3 = fromNull.isEmpty();   // returns true (null becomes empty array)
+     * fromNull.isEmpty();   // returns true
      * }</pre>
      *
      * @return {@code true} if {@code length() == 0}; {@code false} otherwise
@@ -151,11 +179,21 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: three-element array
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3});
-     * int len = array.length();   // returns 3
+     * array.length();   // returns 3
      *
+     * // Basic: single-element array
+     * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {7});
+     * single.length();   // returns 1
+     *
+     * // Edge: null input maps to length 0
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
-     * int zero = empty.length();   // returns 0
+     * empty.length();   // returns 0
+     *
+     * // Edge: explicit empty array
+     * ImmutableIntArray explicit = ImmutableIntArray.unsafeWrap(new int[0]);
+     * explicit.length();   // returns 0
      * }</pre>
      *
      * @return the number of elements in this array; {@code 0} if empty
@@ -175,11 +213,25 @@ public final class ImmutableIntArray implements Immutable {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
-     * boolean found1 = array.contains(30);   // returns true
-     * boolean found2 = array.contains(99);   // returns false
      *
+     * // Basic: value present at interior position
+     * array.contains(30);   // returns true
+     *
+     * // Basic: value present at first/last position
+     * array.contains(10);   // returns true
+     * array.contains(50);   // returns true
+     *
+     * // Edge: value absent
+     * array.contains(99);   // returns false
+     *
+     * // Edge: empty array - always false
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
-     * boolean found3 = empty.contains(1);   // returns false
+     * empty.contains(1);   // returns false
+     *
+     * // Edge: negative values are matched correctly
+     * ImmutableIntArray neg = ImmutableIntArray.unsafeWrap(new int[] {-5, 0, 5});
+     * neg.contains(-5);   // returns true
+     * neg.contains(1);    // returns false
      * }</pre>
      *
      * @param value the value to search for
@@ -204,8 +256,21 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: minimum of a multi-element array
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {3, 1, 4, 1, 5});
-     * int min = array.min();   // 1
+     * array.min();   // returns 1
+     *
+     * // Basic: single-element array - the only element is the minimum
+     * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {42});
+     * single.min();   // returns 42
+     *
+     * // Edge: all-negative values
+     * ImmutableIntArray neg = ImmutableIntArray.unsafeWrap(new int[] {-3, -1, -4});
+     * neg.min();   // returns -4
+     *
+     * // Edge: empty array throws NoSuchElementException
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+     * empty.min();   // throws NoSuchElementException
      * }</pre>
      *
      * @return the minimum int value in this array
@@ -229,8 +294,21 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: maximum of a multi-element array
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {3, 1, 4, 1, 5});
-     * int max = array.max();   // 5
+     * array.max();   // returns 5
+     *
+     * // Basic: single-element array - the only element is the maximum
+     * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {-7});
+     * single.max();   // returns -7
+     *
+     * // Edge: all-negative values
+     * ImmutableIntArray neg = ImmutableIntArray.unsafeWrap(new int[] {-3, -1, -4});
+     * neg.max();   // returns -1
+     *
+     * // Edge: empty array throws NoSuchElementException
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+     * empty.max();   // throws NoSuchElementException
      * }</pre>
      *
      * @return the maximum int value in this array
@@ -257,11 +335,21 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sum of positive elements
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4});
-     * int sum = array.sum();   // 10
+     * array.sum();   // returns 10
      *
+     * // Basic: single-element sum equals that element
+     * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {100});
+     * single.sum();   // returns 100
+     *
+     * // Edge: empty array returns 0 (no exception)
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
-     * int zero = empty.sum();   // 0
+     * empty.sum();   // returns 0
+     *
+     * // Edge: negative elements are summed correctly
+     * ImmutableIntArray neg = ImmutableIntArray.unsafeWrap(new int[] {-1, -2, -3});
+     * neg.sum();   // returns -6
      * }</pre>
      *
      * @return the sum of all elements in this array as an {@code int}, or {@code 0} if empty
@@ -284,11 +372,21 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional average
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4});
-     * double avg = array.average();   // 2.5
+     * array.average();   // returns 2.5
      *
+     * // Basic: whole-number average
+     * ImmutableIntArray even = ImmutableIntArray.unsafeWrap(new int[] {2, 4, 6});
+     * even.average();   // returns 4.0
+     *
+     * // Edge: empty array returns 0.0 (no exception)
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
-     * double zero = empty.average();   // 0.0
+     * empty.average();   // returns 0.0
+     *
+     * // Edge: single-element average equals that element as double
+     * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {10});
+     * single.average();   // returns 10.0
      * }</pre>
      *
      * @return the average of all elements in this array as a {@code double}, or {@code 0D} if empty
@@ -310,9 +408,21 @@ public final class ImmutableIntArray implements Immutable {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {5, 10, 15, 20});
-     * int value = array.get(1);                 // returns 10
-     * int first = array.get(0);                 // returns 5
-     * int last = array.get(array.length() - 1);   // returns 20
+     *
+     * // Basic: access by various valid indices
+     * array.get(0);                    // returns 5
+     * array.get(1);                    // returns 10
+     * array.get(array.length() - 1);   // returns 20
+     *
+     * // Basic: access last element of single-element array
+     * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {42});
+     * single.get(0);   // returns 42
+     *
+     * // Edge: negative index throws ArrayIndexOutOfBoundsException
+     * array.get(-1);   // throws ArrayIndexOutOfBoundsException
+     *
+     * // Edge: index >= length() throws ArrayIndexOutOfBoundsException
+     * array.get(4);   // throws ArrayIndexOutOfBoundsException
      * }</pre>
      *
      * @param index the zero-based index of the element to retrieve; must be {@code >= 0} and {@code < length()}
@@ -339,19 +449,25 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4, 5});
      *
-     * // Print each element (one value per line)
-     * array.forEach(value -> System.out.println(value));
-     * // Output:
-     * // 1
-     * // 2
-     * // 3
-     * // 4
-     * // 5
-     *
-     * // Accumulate sum
+     * // Basic: accumulate a sum across all elements
      * int[] sum = {0};
      * array.forEach(value -> sum[0] += value);
-     * System.out.println(sum[0]);   // prints: 15
+     * sum[0];   // returns 15
+     *
+     * // Basic: collect each value into a list
+     * java.util.List<Integer> list = new java.util.ArrayList<>();
+     * array.forEach(value -> list.add(value));
+     * list.size();   // returns 5
+     * list.get(0);   // returns 1
+     *
+     * // Edge: empty array - action is never invoked
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+     * int[] count = {0};
+     * empty.forEach(v -> count[0]++);
+     * count[0];   // returns 0
+     *
+     * // Edge: null action throws IllegalArgumentException
+     * array.forEach(null);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that the action may throw
@@ -383,17 +499,29 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30});
      *
-     * // Print each element with its index
-     * array.forEachIndexed((index, value) ->
-     *     System.out.println("Index " + index + ": " + value));
-     * // Output:
-     * // Index 0: 10
-     * // Index 1: 20
-     * // Index 2: 30
+     * // Basic: capture (index, value) pairs into parallel arrays
+     * int[] indices = new int[3];
+     * int[] values = new int[3];
+     * array.forEachIndexed((index, value) -> {
+     *     indices[index] = index;
+     *     values[index] = value;
+     * });
+     * indices[2];   // returns 2
+     * values[2];    // returns 30
      *
-     * // Create a map of index to value
+     * // Basic: build a map from index to value
      * java.util.Map<Integer, Integer> map = new java.util.HashMap<>();
      * array.forEachIndexed((index, value) -> map.put(index, value));
+     * map.get(1);   // returns 20
+     *
+     * // Edge: empty array - action is never invoked
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+     * int[] count = {0};
+     * empty.forEachIndexed((i, v) -> count[0]++);
+     * count[0];   // returns 0
+     *
+     * // Edge: null action throws IllegalArgumentException
+     * array.forEachIndexed(null);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that the action may throw
@@ -432,21 +560,18 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4, 5});
      *
-     * // Calculate sum
-     * int sum = array.stream().sum();   // returns 15
+     * // Basic: sum all elements via stream terminal operation
+     * array.stream().sum();   // returns 15
      *
-     * // Find maximum
-     * int max = array.stream().max().orElse(0);   // returns 5
+     * // Basic: map each element to its square and sum
+     * array.stream().map(x -> x * x).sum();   // returns 55  (1+4+9+16+25)
      *
-     * // Filter and collect
-     * int[] evens = array.stream()
-     *     .filter(x -> x % 2 == 0)
-     *     .toArray();   // returns {2, 4}
+     * // Edge: filter to even elements and collect to array
+     * array.stream().filter(x -> x % 2 == 0).toArray();   // returns {2, 4}
      *
-     * // Map and sum
-     * int sumOfSquares = array.stream()
-     *     .map(x -> x * x)
-     *     .sum();   // returns 55 (1 + 4 + 9 + 16 + 25)
+     * // Edge: empty array produces an empty stream
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
+     * empty.stream().sum();   // returns 0
      * }</pre>
      *
      * @return an IntStream containing all elements of this ImmutableIntArray in order
@@ -468,14 +593,20 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
      *
-     * int[] range = array.copyOfRange(1, 4);
-     * // range contains {20, 30, 40} with length 3
+     * // Basic: interior slice
+     * array.copyOfRange(1, 4);   // returns {20, 30, 40}
      *
-     * int[] first3 = array.copyOfRange(0, 3);
-     * // first3 contains {10, 20, 30}
+     * // Basic: slice from the start
+     * array.copyOfRange(0, 3);   // returns {10, 20, 30}
      *
-     * int[] empty = array.copyOfRange(2, 2);
-     * // empty is an empty array with length 0
+     * // Edge: equal indices produce an empty array (no exception)
+     * array.copyOfRange(2, 2);   // returns {} (length 0)
+     *
+     * // Edge: toIndex > length() throws IndexOutOfBoundsException
+     * array.copyOfRange(0, 10);   // throws IndexOutOfBoundsException
+     *
+     * // Edge: fromIndex > toIndex throws IndexOutOfBoundsException
+     * array.copyOfRange(3, 1);   // throws IndexOutOfBoundsException
      * }</pre>
      *
      * @param fromIndex the starting index (inclusive) of the range to copy (must be {@code >= 0})
@@ -505,16 +636,23 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: two wrappers with the same contents have the same hash code
      * ImmutableIntArray array1 = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3});
      * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] {1, 2, 3});
+     * array1.hashCode() == array2.hashCode();   // returns true
      *
-     * int hash1 = array1.hashCode();
-     * int hash2 = array2.hashCode();
-     * System.out.println(hash1 == hash2);   // prints: true (equal arrays have same hash)
+     * // Basic: different order produces a different hash code
+     * ImmutableIntArray reversed = ImmutableIntArray.unsafeWrap(new int[] {3, 2, 1});
+     * array1.hashCode() == reversed.hashCode();   // returns false
      *
+     * // Edge: two empty wrappers have the same hash code
+     * ImmutableIntArray empty1 = ImmutableIntArray.unsafeWrap(new int[0]);
+     * ImmutableIntArray empty2 = ImmutableIntArray.copyOf(null);
+     * empty1.hashCode() == empty2.hashCode();   // returns true
+     *
+     * // Edge: distinct content typically (but not always) produces a distinct hash
      * ImmutableIntArray array3 = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 4});
-     * // Distinct content typically (but not always) produces a distinct hash code.
-     * System.out.println(hash1 == array3.hashCode());   // typically prints: false
+     * // array1.hashCode() == array3.hashCode() - typically false
      * }</pre>
      *
      * @return a hash code value for this ImmutableIntArray based on its contents
@@ -543,9 +681,21 @@ public final class ImmutableIntArray implements Immutable {
      * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] {1, 2, 3});
      * ImmutableIntArray array3 = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 4});
      *
-     * System.out.println(array1.equals(array2));                // prints: true
-     * System.out.println(array1.equals(array3));                // prints: false
-     * System.out.println(array1.equals(new int[] {1, 2, 3}));   // prints: false (a raw int[] is not an ImmutableIntArray)
+     * // Basic: same elements in same order - equal
+     * array1.equals(array2);   // returns true
+     *
+     * // Basic: same length but different content - not equal
+     * array1.equals(array3);   // returns false
+     *
+     * // Edge: a raw int[] is never equal to an ImmutableIntArray
+     * array1.equals(new int[] {1, 2, 3});   // returns false
+     *
+     * // Edge: null is never equal
+     * array1.equals(null);   // returns false
+     *
+     * // Edge: different lengths are not equal
+     * ImmutableIntArray shorter = ImmutableIntArray.unsafeWrap(new int[] {1, 2});
+     * array1.equals(shorter);   // returns false
      * }</pre>
      *
      * @param obj the object to compare with this ImmutableIntArray
@@ -567,15 +717,21 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: multi-element array
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3});
-     * System.out.println(array.toString());   // prints: [1, 2, 3]
-     * System.out.println(array);              // prints: [1, 2, 3]
+     * array.toString();   // returns "[1, 2, 3]"
      *
+     * // Basic: array with negative values
+     * ImmutableIntArray neg = ImmutableIntArray.unsafeWrap(new int[] {-1, 0, 1});
+     * neg.toString();   // returns "[-1, 0, 1]"
+     *
+     * // Edge: empty array
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
-     * System.out.println(empty);   // prints: []
+     * empty.toString();   // returns "[]"
      *
+     * // Edge: single-element array
      * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {42});
-     * System.out.println(single);   // prints: [42]
+     * single.toString();   // returns "[42]"
      * }</pre>
      *
      * @return a string representation of this ImmutableIntArray in the format {@code "[element1, element2, ...]"}

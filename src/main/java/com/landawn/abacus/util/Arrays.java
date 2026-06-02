@@ -61,18 +61,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: mixed-type elements
      * Object[] array = {"Hello", "World", 123};
      * String result = Arrays.println(array);
-     * // Prints to console and returns: "[Hello, World, 123]"
+     * // returns "[Hello, World, 123]"
      *
-     * // Null array
+     * // Single-element array
+     * Object[] single = {"only"};
+     * String singleResult = Arrays.println(single);
+     * // returns "[only]"
+     *
+     * // Null array (edge case)
      * String nullResult = Arrays.println((Object[]) null);
-     * // Prints "null"
+     * // returns "null"
      *
-     * // Empty array
+     * // Empty array (edge case)
      * Object[] empty = new Object[0];
      * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // returns "[]"
      * }</pre>
      *
      * <p>This method both prints the formatted string to the console and returns it for further use.</p>
@@ -111,23 +117,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: single-row array
+     * Object[][] single = {{"a", "b", "c"}};
+     * String singleResult = Arrays.println(single);
+     * // returns "[[a, b, c]]"
+     *
+     * // Multi-row with null and empty sub-arrays
      * Object[][] array = {{"Hello", "World"}, {123, 456}, null, {}, {"End"}};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[Hello, World],
-     * //  [123, 456],
-     * //  null,
-     * //  [],
-     * //  [End]]
+     * // returns "[[Hello, World],\n [123, 456],\n null,\n [],\n [End]]"
      *
-     * // Null array
+     * // Null array (edge case)
      * String nullResult = Arrays.println((Object[][]) null);
-     * // Prints "null"
+     * // returns "null"
      *
-     * // Empty array
+     * // Empty array (edge case)
      * Object[][] empty = new Object[0][];
      * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -163,24 +170,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Single-element at deepest level
+     * Object[][][] single = {{{"x"}}};
+     * String singleResult = Arrays.println(single);
+     * // returns "[[[x]]]"
+     *
+     * // Complex case with null and empty sub-arrays at multiple levels
      * Object[][][] array = {{{"A", "B"}, {"C"}}, {{"D"}, null, {}}, null};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[[A, B],
-     * //   [C]],
-     * //  [[D],
-     * //   null,
-     * //   []],
-     * //  null]
+     * // returns "[[[A, B],\n  [C]],\n [[D],\n  null,\n  []],\n null]"
      *
-     * // Null array
+     * // Null array (edge case)
      * String nullResult = Arrays.println((Object[][][]) null);
-     * // Prints "null"
+     * // returns "null"
      *
-     * // Empty array
+     * // Empty array (edge case)
      * Object[][][] empty = new Object[0][][];
      * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -203,9 +210,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: map boolean flags to strings
      * boolean[] flags = {true, false, true};
      * String[] strings = Arrays.mapToObj(flags, b -> b ? "YES" : "NO", String.class);
-     * // Result: ["YES", "NO", "YES"]
+     * // returns ["YES", "NO", "YES"]
+     *
+     * // Single-element array
+     * boolean[] single = {true};
+     * String[] singleResult = Arrays.mapToObj(single, b -> b ? "YES" : "NO", String.class);
+     * // returns ["YES"]
+     *
+     * // Null input (edge case) - returns empty array, not null
+     * String[] nullResult = Arrays.mapToObj((boolean[]) null, b -> b ? "YES" : "NO", String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty array
+     * String[] emptyResult = Arrays.mapToObj(new boolean[0], b -> b ? "YES" : "NO", String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -241,9 +262,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2 boolean grid to strings
      * boolean[][] grid = {{true, false}, {false, true}};
      * String[][] result = Arrays.mapToObj(grid, b -> b ? "YES" : "NO", String.class);
-     * // Result: {{"YES", "NO"}, {"NO", "YES"}}
+     * // returns {{"YES", "NO"}, {"NO", "YES"}}
+     *
+     * // Single-row grid
+     * boolean[][] single = {{true}};
+     * String[][] singleResult = Arrays.mapToObj(single, b -> b ? "1" : "0", String.class);
+     * // returns {{"1"}}
+     *
+     * // Null input (edge case) - returns empty 2-D array
+     * String[][] nullResult = Arrays.mapToObj((boolean[][]) null, b -> b ? "YES" : "NO", String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 2-D array
+     * String[][] emptyResult = Arrays.mapToObj(new boolean[0][], b -> b ? "YES" : "NO", String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -279,9 +314,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2×2 boolean cube to integers
      * boolean[][][] cube = {{{true, false}, {true, true}}, {{false, false}, {true, false}}};
      * Integer[][][] result = Arrays.mapToObj(cube, b -> b ? 1 : 0, Integer.class);
-     * // Result: {{{1, 0}, {1, 1}}, {{0, 0}, {1, 0}}}
+     * // returns {{{1, 0}, {1, 1}}, {{0, 0}, {1, 0}}}
+     *
+     * // Single-element at deepest level
+     * boolean[][][] single = {{{true}}};
+     * Integer[][][] singleResult = Arrays.mapToObj(single, b -> b ? 1 : 0, Integer.class);
+     * // returns {{{1}}}
+     *
+     * // Null input (edge case) - returns empty 3-D array
+     * Integer[][][] nullResult = Arrays.mapToObj((boolean[][][]) null, b -> b ? 1 : 0, Integer.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 3-D array
+     * Integer[][][] emptyResult = Arrays.mapToObj(new boolean[0][][], b -> b ? 1 : 0, Integer.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -316,9 +365,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: uppercase each character
      * char[] chars = {'a', 'b', 'c'};
      * String[] strings = Arrays.mapToObj(chars, c -> String.valueOf(c).toUpperCase(), String.class);
-     * // Result: ["A", "B", "C"]
+     * // returns ["A", "B", "C"]
+     *
+     * // Single-element array
+     * char[] single = {'z'};
+     * String[] singleResult = Arrays.mapToObj(single, c -> String.valueOf(c).toUpperCase(), String.class);
+     * // returns ["Z"]
+     *
+     * // Null input (edge case) - returns empty array
+     * String[] nullResult = Arrays.mapToObj((char[]) null, c -> String.valueOf(c), String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty array
+     * String[] emptyResult = Arrays.mapToObj(new char[0], c -> String.valueOf(c), String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -354,9 +417,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2 char grid to uppercase strings
      * char[][] grid = {{'a', 'b'}, {'c', 'd'}};
      * String[][] result = Arrays.mapToObj(grid, c -> String.valueOf(c).toUpperCase(), String.class);
-     * // Result: {{"A", "B"}, {"C", "D"}}
+     * // returns {{"A", "B"}, {"C", "D"}}
+     *
+     * // Single-row grid
+     * char[][] single = {{'x'}};
+     * String[][] singleResult = Arrays.mapToObj(single, c -> String.valueOf(c).toUpperCase(), String.class);
+     * // returns {{"X"}}
+     *
+     * // Null input (edge case) - returns empty 2-D array
+     * String[][] nullResult = Arrays.mapToObj((char[][]) null, c -> String.valueOf(c), String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 2-D array
+     * String[][] emptyResult = Arrays.mapToObj(new char[0][], c -> String.valueOf(c), String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -392,9 +469,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2×2 char cube to ASCII code integers
      * char[][][] cube = {{{'a', 'b'}, {'c', 'd'}}, {{'e', 'f'}, {'g', 'h'}}};
      * Integer[][][] result = Arrays.mapToObj(cube, c -> (int) c, Integer.class);
-     * // Result: {{{97, 98}, {99, 100}}, {{101, 102}, {103, 104}}}
+     * // returns {{{97, 98}, {99, 100}}, {{101, 102}, {103, 104}}}
+     *
+     * // Single-element at deepest level
+     * char[][][] single = {{{'a'}}};
+     * Integer[][][] singleResult = Arrays.mapToObj(single, c -> (int) c, Integer.class);
+     * // returns {{{97}}}
+     *
+     * // Null input (edge case) - returns empty 3-D array
+     * Integer[][][] nullResult = Arrays.mapToObj((char[][][]) null, c -> (int) c, Integer.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 3-D array
+     * Integer[][][] emptyResult = Arrays.mapToObj(new char[0][][], c -> (int) c, Integer.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -429,9 +520,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: format bytes as zero-padded hex strings
      * byte[] bytes = {1, 2, 3, 4};
      * String[] hex = Arrays.mapToObj(bytes, b -> String.format("%02X", b), String.class);
-     * // Result: ["01", "02", "03", "04"]
+     * // returns ["01", "02", "03", "04"]
+     *
+     * // Single-element: unsigned byte value
+     * byte[] single = {(byte) 255};
+     * Integer[] singleResult = Arrays.mapToObj(single, b -> (int) (b & 0xFF), Integer.class);
+     * // returns [255]
+     *
+     * // Null input (edge case) - returns empty array
+     * String[] nullResult = Arrays.mapToObj((byte[]) null, b -> String.format("%02X", b), String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty array
+     * String[] emptyResult = Arrays.mapToObj(new byte[0], b -> String.format("%02X", b), String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -467,9 +572,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2 byte grid to hex strings
      * byte[][] grid = {{1, 2}, {3, 4}};
      * String[][] result = Arrays.mapToObj(grid, b -> "0x" + Integer.toHexString(b), String.class);
-     * // Result: {{"0x1", "0x2"}, {"0x3", "0x4"}}
+     * // returns {{"0x1", "0x2"}, {"0x3", "0x4"}}
+     *
+     * // Single-row grid formatted as two-digit hex
+     * byte[][] single = {{10}};
+     * String[][] singleResult = Arrays.mapToObj(single, b -> String.format("%02X", b), String.class);
+     * // returns {{"0A"}}
+     *
+     * // Null input (edge case) - returns empty 2-D array
+     * String[][] nullResult = Arrays.mapToObj((byte[][]) null, b -> "0x" + b, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 2-D array
+     * String[][] emptyResult = Arrays.mapToObj(new byte[0][], b -> "0x" + b, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -505,9 +624,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2×2 byte cube scaled by 10
      * byte[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * Integer[][][] result = Arrays.mapToObj(cube, b -> (int) b * 10, Integer.class);
-     * // Result: {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}}
+     * // returns {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}}
+     *
+     * // Single-element at deepest level
+     * byte[][][] single = {{{5}}};
+     * Integer[][][] singleResult = Arrays.mapToObj(single, b -> (int) b * 10, Integer.class);
+     * // returns {{{50}}}
+     *
+     * // Null input (edge case) - returns empty 3-D array
+     * Integer[][][] nullResult = Arrays.mapToObj((byte[][][]) null, b -> (int) b * 10, Integer.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 3-D array
+     * Integer[][][] emptyResult = Arrays.mapToObj(new byte[0][][], b -> (int) b * 10, Integer.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -542,9 +675,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: prefix each value with a label
      * short[] values = {100, 200, 300};
      * String[] result = Arrays.mapToObj(values, s -> "Value: " + s, String.class);
-     * // Result: ["Value: 100", "Value: 200", "Value: 300"]
+     * // returns ["Value: 100", "Value: 200", "Value: 300"]
+     *
+     * // Single-element: max short value
+     * short[] single = {(short) 32767};
+     * String[] singleResult = Arrays.mapToObj(single, s -> "Value: " + s, String.class);
+     * // returns ["Value: 32767"]
+     *
+     * // Null input (edge case) - returns empty array
+     * String[] nullResult = Arrays.mapToObj((short[]) null, s -> "Value: " + s, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty array
+     * String[] emptyResult = Arrays.mapToObj(new short[0], s -> "Value: " + s, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -580,9 +727,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2 short grid doubled to integers
      * short[][] grid = {{10, 20}, {30, 40}};
      * Integer[][] result = Arrays.mapToObj(grid, s -> (int) s * 2, Integer.class);
-     * // Result: {{20, 40}, {60, 80}}
+     * // returns {{20, 40}, {60, 80}}
+     *
+     * // Single-row grid
+     * short[][] single = {{5}};
+     * Integer[][] singleResult = Arrays.mapToObj(single, s -> (int) s * 2, Integer.class);
+     * // returns {{10}}
+     *
+     * // Null input (edge case) - returns empty 2-D array
+     * Integer[][] nullResult = Arrays.mapToObj((short[][]) null, s -> (int) s * 2, Integer.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 2-D array
+     * Integer[][] emptyResult = Arrays.mapToObj(new short[0][], s -> (int) s * 2, Integer.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -618,9 +779,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2×2 short cube with hash prefix
      * short[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * String[][][] result = Arrays.mapToObj(cube, s -> "#" + s, String.class);
-     * // Result: {{{"#1", "#2"}, {"#3", "#4"}}, {{"#5", "#6"}, {"#7", "#8"}}}
+     * // returns {{{"#1", "#2"}, {"#3", "#4"}}, {{"#5", "#6"}, {"#7", "#8"}}}
+     *
+     * // Single-element at deepest level
+     * short[][][] single = {{{9}}};
+     * String[][][] singleResult = Arrays.mapToObj(single, s -> "#" + s, String.class);
+     * // returns {{{"#9"}}}
+     *
+     * // Null input (edge case) - returns empty 3-D array
+     * String[][][] nullResult = Arrays.mapToObj((short[][][]) null, s -> "#" + s, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 3-D array
+     * String[][][] emptyResult = Arrays.mapToObj(new short[0][][], s -> "#" + s, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -656,9 +831,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: label each integer
      * int[] numbers = {1, 2, 3};
      * String[] strings = Arrays.mapToObj(numbers, i -> "Number: " + i, String.class);
-     * // Result: ["Number: 1", "Number: 2", "Number: 3"]
+     * // returns ["Number: 1", "Number: 2", "Number: 3"]
+     *
+     * // Single-element array
+     * int[] single = {42};
+     * String[] singleResult = Arrays.mapToObj(single, i -> "Number: " + i, String.class);
+     * // returns ["Number: 42"]
+     *
+     * // Null input (edge case) - returns empty array
+     * String[] nullResult = Arrays.mapToObj((int[]) null, i -> "Number: " + i, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty array
+     * String[] emptyResult = Arrays.mapToObj(new int[0], i -> "Number: " + i, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -694,9 +883,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×3 int grid labelled as items
      * int[][] grid = {{1, 2, 3}, {4, 5, 6}};
      * String[][] result = Arrays.mapToObj(grid, i -> "Item " + i, String.class);
-     * // Result: {{"Item 1", "Item 2", "Item 3"}, {"Item 4", "Item 5", "Item 6"}}
+     * // returns {{"Item 1", "Item 2", "Item 3"}, {"Item 4", "Item 5", "Item 6"}}
+     *
+     * // Single-row grid
+     * int[][] single = {{7}};
+     * String[][] singleResult = Arrays.mapToObj(single, i -> "Item " + i, String.class);
+     * // returns {{"Item 7"}}
+     *
+     * // Null input (edge case) - returns empty 2-D array
+     * String[][] nullResult = Arrays.mapToObj((int[][]) null, i -> "Item " + i, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 2-D array
+     * String[][] emptyResult = Arrays.mapToObj(new int[0][], i -> "Item " + i, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -732,9 +935,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2×2 int cube scaled by 1.5
      * int[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * Double[][][] result = Arrays.mapToObj(cube, i -> i * 1.5, Double.class);
-     * // Result: {{{1.5, 3.0}, {4.5, 6.0}}, {{7.5, 9.0}, {10.5, 12.0}}}
+     * // returns {{{1.5, 3.0}, {4.5, 6.0}}, {{7.5, 9.0}, {10.5, 12.0}}}
+     *
+     * // Single-element at deepest level
+     * int[][][] single = {{{4}}};
+     * Double[][][] singleResult = Arrays.mapToObj(single, i -> i * 1.5, Double.class);
+     * // returns {{{6.0}}}
+     *
+     * // Null input (edge case) - returns empty 3-D array
+     * Double[][][] nullResult = Arrays.mapToObj((int[][][]) null, i -> i * 1.5, Double.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 3-D array
+     * Double[][][] emptyResult = Arrays.mapToObj(new int[0][][], i -> i * 1.5, Double.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -769,9 +986,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: scale large values to compact "M" notation
      * long[] values = {1000000L, 2000000L, 3000000L};
      * String[] result = Arrays.mapToObj(values, l -> l / 1000000 + "M", String.class);
-     * // Result: ["1M", "2M", "3M"]
+     * // returns ["1M", "2M", "3M"]
+     *
+     * // Single-element: value less than threshold rounds down
+     * long[] single = {999L};
+     * String[] singleResult = Arrays.mapToObj(single, l -> l / 1000 + "M", String.class);
+     * // returns ["0M"]
+     *
+     * // Null input (edge case) - returns empty array
+     * String[] nullResult = Arrays.mapToObj((long[]) null, l -> l + "L", String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty array
+     * String[] emptyResult = Arrays.mapToObj(new long[0], l -> l + "L", String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -807,9 +1038,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2 long grid formatted as IDs
      * long[][] grid = {{100L, 200L}, {300L, 400L}};
      * String[][] result = Arrays.mapToObj(grid, l -> "ID-" + l, String.class);
-     * // Result: {{"ID-100", "ID-200"}, {"ID-300", "ID-400"}}
+     * // returns {{"ID-100", "ID-200"}, {"ID-300", "ID-400"}}
+     *
+     * // Single-row grid
+     * long[][] single = {{500L}};
+     * String[][] singleResult = Arrays.mapToObj(single, l -> "ID-" + l, String.class);
+     * // returns {{"ID-500"}}
+     *
+     * // Null input (edge case) - returns empty 2-D array
+     * String[][] nullResult = Arrays.mapToObj((long[][]) null, l -> "ID-" + l, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 2-D array
+     * String[][] emptyResult = Arrays.mapToObj(new long[0][], l -> "ID-" + l, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -845,9 +1090,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2×2 long cube converted to BigInteger
      * long[][][] cube = {{{1L, 2L}, {3L, 4L}}, {{5L, 6L}, {7L, 8L}}};
      * java.math.BigInteger[][][] result = Arrays.mapToObj(cube, l -> java.math.BigInteger.valueOf(l), java.math.BigInteger.class);
-     * // Converts each long to BigInteger while maintaining three-dimensional structure
+     * // returns {{{BigInteger(1), BigInteger(2)}, {BigInteger(3), BigInteger(4)}},
+     * //          {{BigInteger(5), BigInteger(6)}, {BigInteger(7), BigInteger(8)}}}
+     *
+     * // Single-element at deepest level
+     * long[][][] single = {{{42L}}};
+     * java.math.BigInteger[][][] singleResult = Arrays.mapToObj(single, l -> java.math.BigInteger.valueOf(l), java.math.BigInteger.class);
+     * // returns {{{BigInteger(42)}}}
+     *
+     * // Null input (edge case) - returns empty 3-D array
+     * java.math.BigInteger[][][] nullResult = Arrays.mapToObj((long[][][]) null, l -> java.math.BigInteger.valueOf(l), java.math.BigInteger.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 3-D array
+     * java.math.BigInteger[][][] emptyResult = Arrays.mapToObj(new long[0][][], l -> java.math.BigInteger.valueOf(l), java.math.BigInteger.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -882,9 +1142,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: append unit suffix to temperature readings
      * float[] temperatures = {98.6f, 99.5f, 97.3f};
      * String[] result = Arrays.mapToObj(temperatures, t -> t + "°F", String.class);
-     * // Result: ["98.6°F", "99.5°F", "97.3°F"]
+     * // returns ["98.6°F", "99.5°F", "97.3°F"]
+     *
+     * // Single-element: convert to double
+     * float[] single = {1.0f};
+     * Double[] singleResult = Arrays.mapToObj(single, f -> (double) f, Double.class);
+     * // returns [1.0]
+     *
+     * // Null input (edge case) - returns empty array
+     * String[] nullResult = Arrays.mapToObj((float[]) null, f -> "" + f, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty array
+     * String[] emptyResult = Arrays.mapToObj(new float[0], f -> "" + f, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -920,9 +1194,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2 float grid formatted to one decimal place
      * float[][] grid = {{1.1f, 2.2f}, {3.3f, 4.4f}};
      * String[][] result = Arrays.mapToObj(grid, f -> String.format("%.1f", f), String.class);
-     * // Result: {{"1.1", "2.2"}, {"3.3", "4.4"}}
+     * // returns {{"1.1", "2.2"}, {"3.3", "4.4"}}
+     *
+     * // Single-row grid
+     * float[][] single = {{2.5f}};
+     * String[][] singleResult = Arrays.mapToObj(single, f -> String.format("%.1f", f), String.class);
+     * // returns {{"2.5"}}
+     *
+     * // Null input (edge case) - returns empty 2-D array
+     * String[][] nullResult = Arrays.mapToObj((float[][]) null, f -> "" + f, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 2-D array
+     * String[][] emptyResult = Arrays.mapToObj(new float[0][], f -> "" + f, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -958,9 +1246,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2×2 float cube doubled to doubles
      * float[][][] cube = {{{1.5f, 2.5f}, {3.5f, 4.5f}}, {{5.5f, 6.5f}, {7.5f, 8.5f}}};
      * Double[][][] result = Arrays.mapToObj(cube, f -> (double) f * 2, Double.class);
-     * // Result: {{{3.0, 5.0}, {7.0, 9.0}}, {{11.0, 13.0}, {15.0, 17.0}}}
+     * // returns {{{3.0, 5.0}, {7.0, 9.0}}, {{11.0, 13.0}, {15.0, 17.0}}}
+     *
+     * // Single-element at deepest level
+     * float[][][] single = {{{2.0f}}};
+     * Double[][][] singleResult = Arrays.mapToObj(single, f -> (double) f * 2, Double.class);
+     * // returns {{{4.0}}}
+     *
+     * // Null input (edge case) - returns empty 3-D array
+     * Double[][][] nullResult = Arrays.mapToObj((float[][][]) null, f -> (double) f * 2, Double.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 3-D array
+     * Double[][][] emptyResult = Arrays.mapToObj(new float[0][][], f -> (double) f * 2, Double.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
@@ -995,9 +1297,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: format doubles to one decimal place
      * double[] doubles = {1.5, 2.5, 3.5};
      * String[] strings = Arrays.mapToObj(doubles, d -> String.format("%.1f", d), String.class);
-     * // Result: ["1.5", "2.5", "3.5"]
+     * // returns ["1.5", "2.5", "3.5"]
+     *
+     * // Single-element formatted to two decimal places
+     * double[] single = {3.14};
+     * String[] singleResult = Arrays.mapToObj(single, d -> String.format("%.2f", d), String.class);
+     * // returns ["3.14"]
+     *
+     * // Null input (edge case) - returns empty array
+     * String[] nullResult = Arrays.mapToObj((double[]) null, d -> "" + d, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty array
+     * String[] emptyResult = Arrays.mapToObj(new double[0], d -> "" + d, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the resulting array.
@@ -1032,9 +1348,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×2 double grid formatted to one decimal place
      * double[][] doubles = {{1.5, 2.5}, {3.5, 4.5}};
      * String[][] strings = Arrays.mapToObj(doubles, d -> String.format("%.1f", d), String.class);
-     * // Result: {{"1.5", "2.5"}, {"3.5", "4.5"}}
+     * // returns {{"1.5", "2.5"}, {"3.5", "4.5"}}
+     *
+     * // Single-row grid
+     * double[][] single = {{9.9}};
+     * String[][] singleResult = Arrays.mapToObj(single, d -> String.format("%.1f", d), String.class);
+     * // returns {{"9.9"}}
+     *
+     * // Null input (edge case) - returns empty 2-D array
+     * String[][] nullResult = Arrays.mapToObj((double[][]) null, d -> "" + d, String.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 2-D array
+     * String[][] emptyResult = Arrays.mapToObj(new double[0][], d -> "" + d, String.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the resulting array.
@@ -1069,9 +1399,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: 2×1×2 double cube truncated to integers
      * double[][][] doubles = {{{1.1, 2.2}}, {{3.3, 4.4}}};
      * Integer[][][] integers = Arrays.mapToObj(doubles, d -> (int) d, Integer.class);
-     * // Result: {{{1, 2}}, {{3, 4}}}
+     * // returns {{{1, 2}}, {{3, 4}}}
+     *
+     * // Single-element at deepest level
+     * double[][][] single = {{{5.9}}};
+     * Integer[][][] singleResult = Arrays.mapToObj(single, d -> (int) d, Integer.class);
+     * // returns {{{5}}}
+     *
+     * // Null input (edge case) - returns empty 3-D array
+     * Integer[][][] nullResult = Arrays.mapToObj((double[][][]) null, d -> (int) d, Integer.class);
+     * // returns []  (length 0)
+     *
+     * // Empty input (edge case) - returns empty 3-D array
+     * Integer[][][] emptyResult = Arrays.mapToObj(new double[0][][], d -> (int) d, Integer.class);
+     * // returns []  (length 0)
      * }</pre>
      *
      * @param <T> the type of elements in the resulting array.
@@ -1106,9 +1450,30 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: multiply each element
      * int[] ints = {1, 2, 3};
-     * long[] longs = Arrays.mapToLong(ints, i -> i * 1000000000L);
-     * // Result: {1000000000L, 2000000000L, 3000000000L}
+     * long[] result = Arrays.mapToLong(ints, i -> (long) i * 2);
+     * // returns {2L, 4L, 6L}
+     *
+     * // Basic: scale to large values
+     * long[] big = Arrays.mapToLong(new int[]{1, 2, 3}, i -> i * 1000000000L);
+     * // returns {1000000000L, 2000000000L, 3000000000L}
+     *
+     * // Edge: null input returns empty array
+     * long[] fromNull = Arrays.mapToLong((int[]) null, i -> (long) i);
+     * // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * long[] fromEmpty = Arrays.mapToLong(new int[0], i -> (long) i);
+     * // returns {}
+     *
+     * // Edge: single-element array
+     * long[] single = Arrays.mapToLong(new int[]{42}, i -> (long) i * 2);
+     * // returns {84L}
+     *
+     * // Edge: negative values
+     * long[] neg = Arrays.mapToLong(new int[]{-5, 0, 5}, i -> (long) i * 10);
+     * // returns {-50L, 0L, 50L}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1140,9 +1505,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: scale each element by a billion
      * int[][] grid = {{1, 2}, {3, 4}};
      * long[][] result = Arrays.mapToLong(grid, i -> i * 1000000000L);
-     * // Result: {{1000000000L, 2000000000L}, {3000000000L, 4000000000L}}
+     * // returns {{1000000000L, 2000000000L}, {3000000000L, 4000000000L}}
+     *
+     * // Basic: negative and mixed values, squaring each element
+     * int[][] neg = {{-3, 0}, {3, -1}};
+     * long[][] squares = Arrays.mapToLong(neg, i -> (long) i * i);
+     * // returns {{9L, 0L}, {9L, 1L}}
+     *
+     * // Edge: null input returns empty array
+     * long[][] fromNull = Arrays.mapToLong((int[][]) null, i -> (long) i);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * long[][] fromEmpty = Arrays.mapToLong(new int[0][], i -> (long) i);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-cell 2D array
+     * long[][] single = Arrays.mapToLong(new int[][]{{7}}, i -> (long) i * 3);
+     * // returns {{21L}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1174,9 +1557,32 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: square each element
      * int[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * long[][][] result = Arrays.mapToLong(cube, i -> (long) i * i);
-     * // Result: {{{1L, 4L}, {9L, 16L}}, {{25L, 36L}, {49L, 64L}}}
+     * // returns {{{1L, 4L}, {9L, 16L}}, {{25L, 36L}, {49L, 64L}}}
+     *
+     * // Basic: scale by a constant
+     * int[][][] cube2 = {{{1, 2}, {3, 4}}};
+     * long[][][] scaled = Arrays.mapToLong(cube2, i -> (long) i * 10);
+     * // returns {{{10L, 20L}, {30L, 40L}}}
+     *
+     * // Edge: null input returns empty array
+     * long[][][] fromNull = Arrays.mapToLong((int[][][]) null, i -> (long) i);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * long[][][] fromEmpty = Arrays.mapToLong(new int[0][][], i -> (long) i);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-element 3D array
+     * long[][][] single = Arrays.mapToLong(new int[][][]{{{5}}}, i -> (long) i * 10);
+     * // returns {{{50L}}}
+     *
+     * // Edge: negative values
+     * int[][][] neg = {{{-2, 0}, {1, -4}}};
+     * long[][][] negSquares = Arrays.mapToLong(neg, i -> (long) i * i);
+     * // returns {{{4L, 0L}, {1L, 16L}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1208,9 +1614,30 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: divide to produce fractional doubles
      * int[] ints = {1, 2, 3};
-     * double[] doubles = Arrays.mapToDouble(ints, i -> i / 2.0);
-     * // Result: {0.5, 1.0, 1.5}
+     * double[] halves = Arrays.mapToDouble(ints, i -> i / 2.0);
+     * // returns {0.5, 1.0, 1.5}
+     *
+     * // Basic: apply Math.sqrt
+     * double[] roots = Arrays.mapToDouble(new int[]{4, 9, 16}, i -> Math.sqrt(i));
+     * // returns {2.0, 3.0, 4.0}
+     *
+     * // Edge: null input returns empty array
+     * double[] fromNull = Arrays.mapToDouble((int[]) null, i -> i / 2.0);
+     * // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * double[] fromEmpty = Arrays.mapToDouble(new int[0], i -> i / 2.0);
+     * // returns {}
+     *
+     * // Edge: single-element array
+     * double[] single = Arrays.mapToDouble(new int[]{4}, i -> Math.sqrt(i));
+     * // returns {2.0}
+     *
+     * // Edge: negative and zero values
+     * double[] neg = Arrays.mapToDouble(new int[]{-4, 0, 4}, i -> i * 0.25);
+     * // returns {-1.0, 0.0, 1.0}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1242,9 +1669,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: divide each element (produces repeating decimals)
      * int[][] grid = {{10, 20}, {30, 40}};
      * double[][] result = Arrays.mapToDouble(grid, i -> i / 3.0);
-     * // Result: {{3.33..., 6.66...}, {10.0, 13.33...}}
+     * // returns {{10/3.0, 20/3.0}, {30/3.0, 40/3.0}}
+     * // i.e.  {{3.3333..., 6.6666...}, {10.0, 13.3333...}}
+     *
+     * // Basic: negative and zero values
+     * int[][] neg = {{-2, 0}, {2, -4}};
+     * double[][] halved = Arrays.mapToDouble(neg, i -> i * 0.5);
+     * // returns {{-1.0, 0.0}, {1.0, -2.0}}
+     *
+     * // Edge: null input returns empty array
+     * double[][] fromNull = Arrays.mapToDouble((int[][]) null, i -> i / 3.0);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * double[][] fromEmpty = Arrays.mapToDouble(new int[0][], i -> i / 3.0);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-cell 2D array
+     * double[][] single = Arrays.mapToDouble(new int[][]{{9}}, i -> Math.sqrt(i));
+     * // returns {{3.0}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1276,9 +1722,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * // Basic: apply Math.sqrt to perfect squares
+     * int[][][] cube = {{{1, 4}, {9, 16}}, {{25, 36}, {49, 64}}};
      * double[][][] result = Arrays.mapToDouble(cube, i -> Math.sqrt(i));
-     * // Result: {{{1.0, 1.41...}, {1.73..., 2.0}}, {{2.23..., 2.44...}, {2.64..., 2.82...}}}
+     * // returns {{{1.0, 2.0}, {3.0, 4.0}}, {{5.0, 6.0}, {7.0, 8.0}}}
+     *
+     * // Basic: apply Math.sqrt to non-perfect squares
+     * int[][][] cube2 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * double[][][] roots = Arrays.mapToDouble(cube2, i -> Math.sqrt(i));
+     * // returns {{{1.0, 1.4142...}, {1.7320..., 2.0}}, {{2.2360..., 2.4494...}, {2.6457..., 2.8284...}}}
+     *
+     * // Edge: null input returns empty array
+     * double[][][] fromNull = Arrays.mapToDouble((int[][][]) null, i -> Math.sqrt(i));
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * double[][][] fromEmpty = Arrays.mapToDouble(new int[0][][], i -> Math.sqrt(i));
+     * // returns {} (length 0)
+     *
+     * // Edge: single-element 3D array
+     * double[][][] single = Arrays.mapToDouble(new int[][][]{{{100}}}, i -> Math.sqrt(i));
+     * // returns {{{10.0}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1310,9 +1774,30 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: divide each element to downscale
      * long[] longs = {1000L, 2000L, 3000L};
-     * int[] ints = Arrays.mapToInt(longs, l -> (int)(l / 1000));
-     * // Result: {1, 2, 3}
+     * int[] result = Arrays.mapToInt(longs, l -> (int)(l / 1000));
+     * // returns {1, 2, 3}
+     *
+     * // Basic: modulo operation
+     * int[] mod = Arrays.mapToInt(new long[]{999L, 1000L, 1001L}, l -> (int)(l % 100));
+     * // returns {99, 0, 1}
+     *
+     * // Edge: null input returns empty array
+     * int[] fromNull = Arrays.mapToInt((long[]) null, l -> (int) l);
+     * // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * int[] fromEmpty = Arrays.mapToInt(new long[0], l -> (int) l);
+     * // returns {}
+     *
+     * // Edge: single-element array
+     * int[] single = Arrays.mapToInt(new long[]{999L}, l -> (int)(l % 100));
+     * // returns {99}
+     *
+     * // Edge: negative and zero values
+     * int[] neg = Arrays.mapToInt(new long[]{-5L, 0L, 5L}, l -> (int)(l * 2));
+     * // returns {-10, 0, 10}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1345,9 +1830,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: divide each element by 10
      * long[][] grid = {{100L, 200L}, {300L, 400L}};
      * int[][] result = Arrays.mapToInt(grid, l -> (int) (l / 10));
-     * // Result: {{10, 20}, {30, 40}}
+     * // returns {{10, 20}, {30, 40}}
+     *
+     * // Basic: negative and zero values
+     * long[][] neg = {{-10L, 0L}, {10L, -5L}};
+     * int[][] shifted = Arrays.mapToInt(neg, l -> (int)(l + 1));
+     * // returns {{-9, 1}, {11, -4}}
+     *
+     * // Edge: null input returns empty array
+     * int[][] fromNull = Arrays.mapToInt((long[][]) null, l -> (int) l);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * int[][] fromEmpty = Arrays.mapToInt(new long[0][], l -> (int) l);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-cell 2D array
+     * int[][] single = Arrays.mapToInt(new long[][]{{42L}}, l -> (int)(l * 2));
+     * // returns {{84}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1380,9 +1883,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: divide each element by 1000
      * long[][][] cube = {{{1000L, 2000L}, {3000L, 4000L}}, {{5000L, 6000L}, {7000L, 8000L}}};
      * int[][][] result = Arrays.mapToInt(cube, l -> (int) (l / 1000));
-     * // Result: {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+     * // returns {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+     *
+     * // Basic: square each element (fitting within int range)
+     * long[][][] neg = {{{-3L, 0L}, {3L, -1L}}};
+     * int[][][] squares = Arrays.mapToInt(neg, l -> (int)(l * l));
+     * // returns {{{9, 0}, {9, 1}}}
+     *
+     * // Edge: null input returns empty array
+     * int[][][] fromNull = Arrays.mapToInt((long[][][]) null, l -> (int) l);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * int[][][] fromEmpty = Arrays.mapToInt(new long[0][][], l -> (int) l);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-element 3D array
+     * int[][][] single = Arrays.mapToInt(new long[][][]{{{100L}}}, l -> (int)(l / 10));
+     * // returns {{{10}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1415,9 +1936,30 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: divide each element to produce clean decimals
      * long[] values = {100L, 200L, 300L};
      * double[] result = Arrays.mapToDouble(values, l -> l / 100.0);
-     * // Result: {1.0, 2.0, 3.0}
+     * // returns {1.0, 2.0, 3.0}
+     *
+     * // Basic: multiply each element by a fraction
+     * double[] halved = Arrays.mapToDouble(new long[]{2L, 4L, 6L}, l -> l * 0.5);
+     * // returns {1.0, 2.0, 3.0}
+     *
+     * // Edge: null input returns empty array
+     * double[] fromNull = Arrays.mapToDouble((long[]) null, l -> l / 100.0);
+     * // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * double[] fromEmpty = Arrays.mapToDouble(new long[0], l -> l / 100.0);
+     * // returns {}
+     *
+     * // Edge: single-element array
+     * double[] single = Arrays.mapToDouble(new long[]{50L}, l -> l * 0.5);
+     * // returns {25.0}
+     *
+     * // Edge: negative and zero values
+     * double[] neg = Arrays.mapToDouble(new long[]{-100L, 0L, 100L}, l -> l / 100.0);
+     * // returns {-1.0, 0.0, 1.0}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1450,9 +1992,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: divide each element by 1000
      * long[][] grid = {{1000L, 2000L}, {3000L, 4000L}};
      * double[][] result = Arrays.mapToDouble(grid, l -> l / 1000.0);
-     * // Result: {{1.0, 2.0}, {3.0, 4.0}}
+     * // returns {{1.0, 2.0}, {3.0, 4.0}}
+     *
+     * // Basic: negative and zero values
+     * long[][] neg = {{-100L, 0L}, {100L, -50L}};
+     * double[][] normed = Arrays.mapToDouble(neg, l -> l / 100.0);
+     * // returns {{-1.0, 0.0}, {1.0, -0.5}}
+     *
+     * // Edge: null input returns empty array
+     * double[][] fromNull = Arrays.mapToDouble((long[][]) null, l -> l / 1000.0);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * double[][] fromEmpty = Arrays.mapToDouble(new long[0][], l -> l / 1000.0);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-cell 2D array
+     * double[][] single = Arrays.mapToDouble(new long[][]{{200L}}, l -> l * 0.01);
+     * // returns {{2.0}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1484,9 +2044,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: divide each element by 100
      * long[][][] cube = {{{100L, 200L}, {300L, 400L}}, {{500L, 600L}, {700L, 800L}}};
      * double[][][] result = Arrays.mapToDouble(cube, l -> l / 100.0);
-     * // Result: {{{1.0, 2.0}, {3.0, 4.0}}, {{5.0, 6.0}, {7.0, 8.0}}}
+     * // returns {{{1.0, 2.0}, {3.0, 4.0}}, {{5.0, 6.0}, {7.0, 8.0}}}
+     *
+     * // Basic: negative and zero values
+     * long[][][] neg = {{{-100L, 0L}, {100L, -200L}}};
+     * double[][][] normed = Arrays.mapToDouble(neg, l -> l / 100.0);
+     * // returns {{{-1.0, 0.0}, {1.0, -2.0}}}
+     *
+     * // Edge: null input returns empty array
+     * double[][][] fromNull = Arrays.mapToDouble((long[][][]) null, l -> l / 100.0);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * double[][][] fromEmpty = Arrays.mapToDouble(new long[0][][], l -> l / 100.0);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-element 3D array
+     * double[][][] single = Arrays.mapToDouble(new long[][][]{{{500L}}}, l -> l * 0.001);
+     * // returns {{{0.5}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1518,9 +2096,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: round each element
      * double[] doubles = {1.7, 2.3, 3.9};
-     * int[] ints = Arrays.mapToInt(doubles, d -> (int) Math.round(d));
-     * // Result: {2, 2, 4}
+     * int[] rounded = Arrays.mapToInt(doubles, d -> (int) Math.round(d));
+     * // returns {2, 2, 4}
+     *
+     * // Basic: truncate toward zero (cast truncates, does not round)
+     * int[] truncated = Arrays.mapToInt(new double[]{3.9, -3.9, 0.0}, d -> (int) d);
+     * // returns {3, -3, 0}
+     *
+     * // Edge: null input returns empty array
+     * int[] fromNull = Arrays.mapToInt((double[]) null, d -> (int) d);
+     * // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * int[] fromEmpty = Arrays.mapToInt(new double[0], d -> (int) d);
+     * // returns {}
+     *
+     * // Edge: single-element array
+     * int[] single = Arrays.mapToInt(new double[]{2.5}, d -> (int) Math.round(d));
+     * // returns {3}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1553,9 +2148,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: round each element
      * double[][] grid = {{1.5, 2.7}, {3.2, 4.9}};
-     * int[][] result = Arrays.mapToInt(grid, d -> (int) Math.round(d));
-     * // Result: {{2, 3}, {3, 5}}
+     * int[][] rounded = Arrays.mapToInt(grid, d -> (int) Math.round(d));
+     * // returns {{2, 3}, {3, 5}}
+     *
+     * // Basic: truncate toward zero (negative values truncate toward zero, not floor)
+     * double[][] neg = {{-1.9, 0.0}, {1.9, -3.1}};
+     * int[][] truncated = Arrays.mapToInt(neg, d -> (int) d);
+     * // returns {{-1, 0}, {1, -3}}
+     *
+     * // Edge: null input returns empty array
+     * int[][] fromNull = Arrays.mapToInt((double[][]) null, d -> (int) d);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * int[][] fromEmpty = Arrays.mapToInt(new double[0][], d -> (int) d);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-cell 2D array
+     * int[][] single = Arrays.mapToInt(new double[][]{{7.7}}, d -> (int) Math.round(d));
+     * // returns {{8}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1588,9 +2201,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: ceiling of each element
      * double[][][] cube = {{{1.5, 2.7}, {3.2, 4.9}}, {{5.1, 6.8}, {7.3, 8.6}}};
      * int[][][] result = Arrays.mapToInt(cube, d -> (int) Math.ceil(d));
-     * // Result: {{{2, 3}, {4, 5}}, {{6, 7}, {8, 9}}}
+     * // returns {{{2, 3}, {4, 5}}, {{6, 7}, {8, 9}}}
+     *
+     * // Basic: truncate toward zero (negative values: -1.9 -> -1, not -2)
+     * double[][][] neg = {{{-1.9, 0.0}, {1.1, -4.9}}};
+     * int[][][] truncated = Arrays.mapToInt(neg, d -> (int) d);
+     * // returns {{{-1, 0}, {1, -4}}}
+     *
+     * // Edge: null input returns empty array
+     * int[][][] fromNull = Arrays.mapToInt((double[][][]) null, d -> (int) d);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * int[][][] fromEmpty = Arrays.mapToInt(new double[0][][], d -> (int) d);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-element 3D array
+     * int[][][] single = Arrays.mapToInt(new double[][][]{{{3.7}}}, d -> (int) Math.ceil(d));
+     * // returns {{{4}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1623,9 +2254,30 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: convert price to cents by scaling and casting
      * double[] prices = {10.50, 20.75, 30.25};
      * long[] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
-     * // Result: {1050, 2075, 3025}
+     * // returns {1050L, 2075L, 3025L}
+     *
+     * // Basic: round to nearest long
+     * long[] rounded = Arrays.mapToLong(new double[]{2.5, 3.4, 4.6}, d -> Math.round(d));
+     * // returns {3L, 3L, 5L}
+     *
+     * // Edge: null input returns empty array
+     * long[] fromNull = Arrays.mapToLong((double[]) null, d -> (long) d);
+     * // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * long[] fromEmpty = Arrays.mapToLong(new double[0], d -> (long) d);
+     * // returns {}
+     *
+     * // Edge: single-element array
+     * long[] single = Arrays.mapToLong(new double[]{2.5}, d -> Math.round(d));
+     * // returns {3L}
+     *
+     * // Edge: cast truncates toward zero (-3.9 -> -3L, not -4L)
+     * long[] neg = Arrays.mapToLong(new double[]{-3.9, 0.0, 3.9}, d -> (long) d);
+     * // returns {-3L, 0L, 3L}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1658,9 +2310,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: convert prices to cents
      * double[][] prices = {{10.50, 20.75}, {30.25, 40.50}};
      * long[][] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
-     * // Result: {{1050, 2075}, {3025, 4050}}
+     * // returns {{1050L, 2075L}, {3025L, 4050L}}
+     *
+     * // Basic: truncate toward zero (negative: -2.9 -> -2L)
+     * double[][] neg = {{-2.9, 0.0}, {2.9, -5.1}};
+     * long[][] truncated = Arrays.mapToLong(neg, d -> (long) d);
+     * // returns {{-2L, 0L}, {2L, -5L}}
+     *
+     * // Edge: null input returns empty array
+     * long[][] fromNull = Arrays.mapToLong((double[][]) null, d -> (long) d);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * long[][] fromEmpty = Arrays.mapToLong(new double[0][], d -> (long) d);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-cell 2D array; cast truncates fractional part
+     * long[][] single = Arrays.mapToLong(new double[][]{{5.9}}, d -> (long) d);
+     * // returns {{5L}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1693,9 +2363,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: scale each element by 1000 (cast truncates fractional part)
      * double[][][] cube = {{{1.5, 2.7}, {3.2, 4.9}}, {{5.1, 6.8}, {7.3, 8.6}}};
      * long[][][] result = Arrays.mapToLong(cube, d -> (long) (d * 1000));
-     * // Result: {{{1500, 2700}, {3200, 4900}}, {{5100, 6800}, {7300, 8600}}}
+     * // returns {{{1500L, 2700L}, {3200L, 4900L}}, {{5100L, 6800L}, {7300L, 8600L}}}
+     *
+     * // Basic: negative and zero values; cast truncates toward zero
+     * double[][][] neg = {{{-1.5, 0.0}, {1.5, -2.7}}};
+     * long[][][] scaled = Arrays.mapToLong(neg, d -> (long) (d * 1000));
+     * // returns {{{-1500L, 0L}, {1500L, -2700L}}}
+     *
+     * // Edge: null input returns empty array
+     * long[][][] fromNull = Arrays.mapToLong((double[][][]) null, d -> (long) d);
+     * // returns {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * long[][][] fromEmpty = Arrays.mapToLong(new double[0][][], d -> (long) d);
+     * // returns {} (length 0)
+     *
+     * // Edge: single-element 3D array
+     * long[][][] single = Arrays.mapToLong(new double[][][]{{{3.14}}}, d -> (long) (d * 100));
+     * // returns {{{314L}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1728,9 +2416,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: negate all elements
      * boolean[] arr = {true, false, true};
      * Arrays.updateAll(arr, b -> !b);
      * // arr is now: [false, true, false]
+     *
+     * // All-false array toggled to all-true
+     * boolean[] all = {false, false};
+     * Arrays.updateAll(all, b -> !b);
+     * // all is now: [true, true]
+     *
+     * // Empty array - no-op, returns normally
+     * boolean[] empty = {};
+     * Arrays.updateAll(empty, b -> !b);
+     * // empty remains: []
+     *
+     * // Null array - no-op, returns normally
+     * Arrays.updateAll((boolean[]) null, b -> !b);
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -1757,9 +2459,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: negate all elements in each row
      * boolean[][] grid = {{true, false}, {false, true}};
      * Arrays.updateAll(grid, b -> !b);
      * // grid is now: {{false, true}, {true, false}}
+     *
+     * // Mixed-length rows
+     * boolean[][] mixed = {{true, false, true}, {false}};
+     * Arrays.updateAll(mixed, b -> !b);
+     * // mixed is now: {{false, true, false}, {true}}
+     *
+     * // Null array - no-op, returns normally
+     * Arrays.updateAll((boolean[][]) null, b -> !b);
+     *
+     * // Empty outer array - no-op, returns normally
+     * boolean[][] empty = {};
+     * Arrays.updateAll(empty, b -> !b);
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -1786,9 +2501,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: negate all elements in a 2×2×2 cube
      * boolean[][][] cube = {{{true, false}, {false, true}}, {{true, true}, {false, false}}};
      * Arrays.updateAll(cube, b -> !b);
      * // cube is now: {{{false, true}, {true, false}}, {{false, false}, {true, true}}}
+     *
+     * // Single-element cube
+     * boolean[][][] single = {{{true}}};
+     * Arrays.updateAll(single, b -> !b);
+     * // single is now: {{{false}}}
+     *
+     * // Null array - no-op, returns normally
+     * Arrays.updateAll((boolean[][][]) null, b -> !b);
+     *
+     * // Empty outer array - no-op, returns normally
+     * boolean[][][] empty = {};
+     * Arrays.updateAll(empty, b -> !b);
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -1815,9 +2543,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Replace all true elements with false
      * boolean[] arr = {true, false, true, false};
      * Arrays.replaceIf(arr, b -> b, false);
      * // arr is now: [false, false, false, false]
+     *
+     * // Replace only false elements with true (partial replacement)
+     * boolean[] arr2 = {true, false, true, false};
+     * Arrays.replaceIf(arr2, b -> !b, true);
+     * // arr2 is now: [true, true, true, true]
+     *
+     * // Null array - no-op, returns normally
+     * Arrays.replaceIf((boolean[]) null, b -> b, false);
+     *
+     * // Empty array - no-op, returns normally
+     * boolean[] empty = {};
+     * Arrays.replaceIf(empty, b -> b, false);
+     * // empty remains: []
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -1847,9 +2589,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Replace all true elements with false across every row
      * boolean[][] grid = {{true, false}, {true, false}};
      * Arrays.replaceIf(grid, b -> b, false);
      * // grid is now: {{false, false}, {false, false}}
+     *
+     * // Replace false elements only; true elements stay unchanged
+     * boolean[][] grid2 = {{true, false}, {false, true}};
+     * Arrays.replaceIf(grid2, b -> !b, true);
+     * // grid2 is now: {{true, true}, {true, true}}
+     *
+     * // Null array - no-op, returns normally
+     * Arrays.replaceIf((boolean[][]) null, b -> b, false);
+     *
+     * // Empty outer array - no-op, returns normally
+     * boolean[][] empty = {};
+     * Arrays.replaceIf(empty, b -> b, false);
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -1877,9 +2632,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Replace all false elements with true throughout the 3D cube
      * boolean[][][] cube = {{{true, false}, {true, false}}, {{false, true}, {false, true}}};
      * Arrays.replaceIf(cube, b -> !b, true);
      * // cube is now: {{{true, true}, {true, true}}, {{true, true}, {true, true}}}
+     *
+     * // Replace all true elements with false (invert from other direction)
+     * boolean[][][] cube2 = {{{true, false}}, {{false, true}}};
+     * Arrays.replaceIf(cube2, b -> b, false);
+     * // cube2 is now: {{{false, false}}, {{false, false}}}
+     *
+     * // Null array - no-op, returns normally
+     * Arrays.replaceIf((boolean[][][]) null, b -> b, false);
+     *
+     * // Empty outer array - no-op, returns normally
+     * boolean[][][] empty = {};
+     * Arrays.replaceIf(empty, b -> b, false);
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -1906,9 +2674,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * boolean[] arr = {true, false, true, false, true};
+     * // Even split: 4 elements into 2 columns => 2 rows
+     * boolean[] arr = {true, false, true, false};
      * boolean[][] reshaped = Arrays.reshape(arr, 2);
-     * // Result: [[true, false], [true, false], [true]]
+     * // reshaped: [[true, false], [true, false]]
+     *
+     * // Uneven split: 5 elements into 2 columns => 3 rows (last row has 1 element)
+     * boolean[] arr2 = {true, false, true, false, true};
+     * boolean[][] reshaped2 = Arrays.reshape(arr2, 2);
+     * // reshaped2: [[true, false], [true, false], [true]]
+     *
+     * // Null input returns empty 2D array
+     * boolean[][] fromNull = Arrays.reshape((boolean[]) null, 2);
+     * // fromNull: [] (length 0)
+     *
+     * // Non-positive columnCount throws IllegalArgumentException
+     * Arrays.reshape(new boolean[]{true, false}, 0);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape (can be {@code null}).
@@ -1940,9 +2721,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * boolean[] arr = {true, false, true, false, true, false};
+     * // Even case: 8 elements into blocks of 2 rows × 2 cols => 2 complete blocks
+     * boolean[] arr = {true, false, true, false, true, false, true, false};
      * boolean[][][] reshaped = Arrays.reshape(arr, 2, 2);
-     * // Result: {{{true, false}, {true, false}}, {{true, false}}}
+     * // reshaped: {{{true, false}, {true, false}}, {{true, false}, {true, false}}}
+     *
+     * // Uneven case: 6 elements into blocks of 2 rows × 2 cols
+     * // block 0: [[T,F],[T,F]] (4 elements), block 1: [[T,F]] (2 elements, only 1 row)
+     * boolean[] arr2 = {true, false, true, false, true, false};
+     * boolean[][][] reshaped2 = Arrays.reshape(arr2, 2, 2);
+     * // reshaped2: {{{true, false}, {true, false}}, {{true, false}}}
+     *
+     * // Null input returns empty 3D array
+     * boolean[][][] fromNull = Arrays.reshape((boolean[]) null, 2, 2);
+     * // fromNull: [] (length 0)
+     *
+     * // Non-positive rowCount or columnCount throws IllegalArgumentException
+     * Arrays.reshape(new boolean[]{true, false}, 0, 2);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape (can be {@code null}).
@@ -1981,9 +2776,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Typical case: concatenates all rows in order
      * boolean[][] arr = {{true, false}, {true}, {false, true}};
      * boolean[] flattened = Arrays.flatten(arr);
-     * // Result: {true, false, true, false, true}
+     * // flattened: [true, false, true, false, true]
+     *
+     * // Null and empty sub-arrays are skipped
+     * boolean[][] sparse = {{true, false}, null, {}, {true}};
+     * boolean[] result = Arrays.flatten(sparse);
+     * // result: [true, false, true]
+     *
+     * // Null input returns empty array
+     * boolean[] fromNull = Arrays.flatten((boolean[][]) null);
+     * // fromNull: [] (length 0)
+     *
+     * // Empty outer array returns empty array
+     * boolean[] fromEmpty = Arrays.flatten(new boolean[0][]);
+     * // fromEmpty: [] (length 0)
      * }</pre>
      *
      * @param a the two-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays).
@@ -2021,9 +2830,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Typical case: concatenates all sub-arrays depth-first
      * boolean[][][] cube = {{{true, false}, {true}}, {{false, true}}};
      * boolean[] flattened = Arrays.flatten(cube);
-     * // Result: {true, false, true, false, true}
+     * // flattened: [true, false, true, false, true]
+     *
+     * // Null and empty sub-arrays at any nesting level are skipped
+     * boolean[][][] sparse = {{{true, false}, null, {}}, null};
+     * boolean[] result = Arrays.flatten(sparse);
+     * // result: [true, false]
+     *
+     * // Null input returns empty array
+     * boolean[] fromNull = Arrays.flatten((boolean[][][]) null);
+     * // fromNull: [] (length 0)
+     *
+     * // Empty outer array returns empty array
+     * boolean[] fromEmpty = Arrays.flatten(new boolean[0][][]);
+     * // fromEmpty: [] (length 0)
      * }</pre>
      *
      * @param a the three-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
@@ -2068,9 +2891,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Flip all elements while preserving the 2D structure
      * boolean[][] arr = {{true, false}, {false, true}};
-     * Arrays.mutateAsFlat(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });   // Flips all elements
+     * Arrays.mutateAsFlat(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });
      * // arr is now: {{false, true}, {true, false}}
+     *
+     * // Set all elements to true via the flat view
+     * boolean[][] arr2 = {{false, false}, {false, false}};
+     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.fill(t, true));
+     * // arr2 is now: {{true, true}, {true, true}}
+     *
+     * // Null array is a no-op; action must not be null
+     * Arrays.mutateAsFlat((boolean[][]) null, t -> {});
+     *
+     * // Null action throws IllegalArgumentException
+     * Arrays.mutateAsFlat(new boolean[][]{{true}}, null);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -2109,9 +2944,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Flip all elements while preserving the 3D structure
      * boolean[][][] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}};
-     * Arrays.mutateAsFlat(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; });   // Flips all elements
-     * // cube's structure is preserved while values are inverted
+     * Arrays.mutateAsFlat(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; });
+     * // cube is now: {{{true, false}, {false, true}}, {{false, true}, {true, false}}}
+     *
+     * // Set all elements to false via the flat view
+     * boolean[][][] cube2 = {{{true, true}}, {{true}}};
+     * Arrays.mutateAsFlat(cube2, t -> java.util.Arrays.fill(t, false));
+     * // cube2 is now: {{{false, false}}, {{false}}}
+     *
+     * // Null array is a no-op; action must not be null
+     * Arrays.mutateAsFlat((boolean[][][]) null, t -> {});
+     *
+     * // Null action throws IllegalArgumentException
+     * Arrays.mutateAsFlat(new boolean[][][]{{{true}}}, null);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -2157,12 +3004,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * boolean[] a = {true, false, true, false};
+     * // AND two arrays of equal length
+     * boolean[] a = {true, false, true};
      * boolean[] b = {false, true, false};
      * boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
-     * // result: {false, false, false}
+     * // result: [false, false, false]
+     *
+     * // OR two arrays; result truncates to the shorter length (3)
+     * boolean[] a2 = {true, false, true, false};
+     * boolean[] b2 = {false, true, false};
+     * boolean[] result2 = Arrays.zip(a2, b2, (x, y) -> x || y);
+     * // result2: [true, true, true]  (length 3, 4th element of a2 is ignored)
+     *
+     * // Null array treated as empty - result is empty
+     * boolean[] fromNull = Arrays.zip((boolean[]) null, new boolean[]{true}, (x, y) -> x || y);
+     * // fromNull: [] (length 0)
+     *
+     * // Both empty - result is empty
+     * boolean[] fromEmpty = Arrays.zip(new boolean[]{}, new boolean[]{}, (x, y) -> x && y);
+     * // fromEmpty: [] (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -2194,12 +3056,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // OR: a is longer; missing b positions use defaultValueB=true
      * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true};
      * boolean[] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
-     * // result: {true, true, true, true} (using true for missing b elements)
+     * // Positions 0-1: T||F=T, F||T=T. Positions 2-3: a[i]||true(defB)=T,T
+     * // result: [true, true, true, true]
+     *
+     * // AND with equal-length arrays; defaults are never used
+     * boolean[] a2 = {true, false};
+     * boolean[] b2 = {false, true};
+     * boolean[] result2 = Arrays.zip(a2, b2, false, false, (x, y) -> x && y);
+     * // result2: [false, false]
+     *
+     * // Null first array: null treated as empty, all positions use defaultValueA=false
+     * boolean[] fromNull = Arrays.zip((boolean[]) null, new boolean[]{true, false}, false, false, (x, y) -> x || y);
+     * // fromNull: [true, false]
+     *
+     * // Both empty - result is empty
+     * boolean[] fromEmpty = Arrays.zip(new boolean[]{}, new boolean[]{}, false, false, (x, y) -> x || y);
+     * // fromEmpty: [] (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -2243,13 +3121,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // OR three arrays; result length equals shortest (2)
      * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true, false};
      * boolean[] c = {true, true};
      * boolean[] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
-     * // result: {true, true}
+     * // result: [true, true]  (c is shortest with length 2)
+     *
+     * // AND three equal-length arrays
+     * boolean[] a2 = {true, true};
+     * boolean[] b2 = {false, true};
+     * boolean[] c2 = {true, true};
+     * boolean[] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x && y && z);
+     * // result2: [false, true]
+     *
+     * // Null array treated as empty - result is empty
+     * boolean[] fromNull = Arrays.zip((boolean[]) null, new boolean[]{true}, new boolean[]{true}, (x, y, z) -> x || y || z);
+     * // fromNull: [] (length 0)
+     *
+     * // Empty array among the three - result is empty
+     * boolean[] fromEmpty = Arrays.zip(new boolean[]{}, new boolean[]{true}, new boolean[]{false}, (x, y, z) -> x || y || z);
+     * // fromEmpty: [] (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -2284,13 +3178,34 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // AND: max length 4 (from a). Missing b/c positions use defaults false/false
      * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true};
      * boolean[] c = {true, true, false};
-     * boolean[] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x && y && z);
-     * // result: {false, false, false, false} (using defaults for missing elements)
+     * boolean[] result = Arrays.zip(a, b, c, false, false, false, (x, y, z) -> x && y && z);
+     * // idx0: T&&F&&T=F, idx1: F&&T&&T=F, idx2: T&&false(defB)&&false(c[2])=F, idx3: F&&false(defB)&&false(defC)=F
+     * // result: [false, false, false, false]
+     *
+     * // OR with all-null inputs returns empty
+     * boolean[] fromNull = Arrays.zip((boolean[]) null, (boolean[]) null, (boolean[]) null, false, false, false, (x, y, z) -> x || y || z);
+     * // fromNull: [] (length 0)
+     *
+     * // XOR-like with defaults: b shorter, c shortest
+     * boolean[] a2 = {true, true, false};
+     * boolean[] b2 = {false, true};
+     * boolean[] c2 = {true};
+     * boolean[] result2 = Arrays.zip(a2, b2, c2, false, false, false, (x, y, z) -> x || y || z);
+     * // idx0: T||F||T=T, idx1: T||T||false(defC)=T, idx2: F||false(defB)||false(defC)=F
+     * // result2: [true, true, false]
+     *
+     * // Both arrays same length - defaults never used
+     * boolean[] a3 = {true, false};
+     * boolean[] b3 = {false, false};
+     * boolean[] c3 = {true, true};
+     * boolean[] result3 = Arrays.zip(a3, b3, c3, false, false, false, (x, y, z) -> x && y && z);
+     * // result3: [false, false]
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -2336,12 +3251,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // XOR corresponding rows; rows with different lengths are truncated
      * boolean[][] a = {{true, false}, {false, true, false}};
      * boolean[][] b = {{false, true, false}, {true, false}};
      * boolean[][] result = Arrays.zip(a, b, (x, y) -> x ^ y);
+     * // row 0: zip({T,F},{F,T,F}) => {T^F,F^T} = {T,T}  (min len 2)
+     * // row 1: zip({F,T,F},{T,F}) => {F^T,T^F} = {T,T}  (min len 2)
      * // result: {{true, true}, {true, true}}
+     *
+     * // Outer arrays of different lengths - result truncates to shorter (1 row)
+     * boolean[][] a2 = {{true}, {false}};
+     * boolean[][] b2 = {{false}};
+     * boolean[][] result2 = Arrays.zip(a2, b2, (x, y) -> x || y);
+     * // result2: {{true}}  (only 1 row)
+     *
+     * // Null array treated as empty - result is empty
+     * boolean[][] fromNull = Arrays.zip((boolean[][]) null, new boolean[][]{{true}}, (x, y) -> x || y);
+     * // fromNull: [] (length 0)
+     *
+     * // Empty outer array - result is empty
+     * boolean[][] fromEmpty = Arrays.zip(new boolean[0][], new boolean[][]{{true}}, (x, y) -> x || y);
+     * // fromEmpty: [] (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -2375,12 +3307,33 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // OR with defaults; b has 3 rows, a has 2 rows. Result has 3 rows (max)
      * boolean[][] a = {{true, false}, {false, true, false}};
      * boolean[][] b = {{false, true, false}, {true, false}, {true}};
      * boolean[][] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+     * // row 0: zip({T,F},{F,T,F},defA=F,defB=T,||): T||F=T, F||T=T, false||F=F => {T,T,F}
+     * // row 1: zip({F,T,F},{T,F},defA=F,defB=T,||): F||T=T, T||F=T, F||T(defB)=T => {T,T,T}
+     * // row 2: zip(null,{T},defA=F,defB=T,||): F||T=T => {T}
      * // result: {{true, true, false}, {true, true, true}, {true}}
+     *
+     * // Both null - result is empty
+     * boolean[][] fromNull = Arrays.zip((boolean[][]) null, (boolean[][]) null, false, false, (x, y) -> x || y);
+     * // fromNull: [] (length 0)
+     *
+     * // Equal-length outer arrays; defaults pad inner length mismatches
+     * boolean[][] a2 = {{true}};
+     * boolean[][] b2 = {{false, true}};
+     * boolean[][] result2 = Arrays.zip(a2, b2, false, false, (x, y) -> x || y);
+     * // row 0: zip({T},{F,T},defA=F,defB=F,||): T||F=T, false||T=T => {T,T}
+     * // result2: {{true, true}}
+     *
+     * // Symmetric: both same shape - defaults never used
+     * boolean[][] a3 = {{true, false}};
+     * boolean[][] b3 = {{false, true}};
+     * boolean[][] result3 = Arrays.zip(a3, b3, false, false, (x, y) -> x && y);
+     * // result3: {{false, false}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -2426,13 +3379,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // OR three 2D arrays; outer result truncates to shortest (2 rows)
      * boolean[][] a = {{true, false}, {false, true, false}};
      * boolean[][] b = {{false, true, false}, {true, false}};
      * boolean[][] c = {{true, true}, {false, false, true}};
      * boolean[][] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+     * // row 0: zip({T,F},{F,T,F},{T,T}) => {T,T}  (inner min 2)
+     * // row 1: zip({F,T,F},{T,F},{F,F,T}) => {T,T}  (inner min 2)
      * // result: {{true, true}, {true, true}}
+     *
+     * // c is the shortest outer array (1 row) - result has 1 row
+     * boolean[][] a2 = {{true}};
+     * boolean[][] b2 = {{false}, {true}};
+     * boolean[][] c2 = {{true}, {false}, {true}};
+     * boolean[][] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x && y && z);
+     * // result2: {{false}}  (only 1 row, T&&F&&T=F)
+     *
+     * // Null array treated as empty - result is empty
+     * boolean[][] fromNull = Arrays.zip((boolean[][]) null, new boolean[][]{{true}}, new boolean[][]{{false}}, (x, y, z) -> x || y || z);
+     * // fromNull: [] (length 0)
+     *
+     * // Empty outer array - result is empty
+     * boolean[][] fromEmpty = Arrays.zip(new boolean[0][], new boolean[][]{{true}}, new boolean[][]{{false}}, (x, y, z) -> x || y || z);
+     * // fromEmpty: [] (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -2467,13 +3438,38 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // AND with defaults; b has 3 rows (longest), c has 1 row (shortest). Result has 3 rows
      * boolean[][] a = {{true, false}, {false, true, false}};
      * boolean[][] b = {{false, true, false}, {true, false}, {true}};
      * boolean[][] c = {{true, true}};
      * boolean[][] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x && y && z);
+     * // row 0: zip({T,F},{F,T,F},{T,T},F,T,F,&&): T&&F&&T=F, F&&T&&T=F, false&&F&&false=F => {F,F,F}
+     * // row 1: zip({F,T,F},{T,F},null,F,T,F,&&): F&&T&&F(defC)=F, T&&F&&F(defC)=F, F&&T(defB)&&F(defC)=F => {F,F,F}
+     * // row 2: zip(null,{T},null,F,T,F,&&): false&&T&&F(defC)=F => {F}
      * // result: {{false, false, false}, {false, false, false}, {false}}
+     *
+     * // All null - result is empty
+     * boolean[][] fromNull = Arrays.zip((boolean[][]) null, (boolean[][]) null, (boolean[][]) null, false, false, false, (x, y, z) -> x && y && z);
+     * // fromNull: [] (length 0)
+     *
+     * // Symmetric (same shapes) - defaults never used
+     * boolean[][] a2 = {{true, false}};
+     * boolean[][] b2 = {{false, true}};
+     * boolean[][] c2 = {{true, true}};
+     * boolean[][] result2 = Arrays.zip(a2, b2, c2, false, false, false, (x, y, z) -> x || y || z);
+     * // result2: {{true, true}}
+     *
+     * // Outer arrays of varying sizes; defaults fill both outer and inner gaps
+     * boolean[][] a3 = {{true}};
+     * boolean[][] b3 = {{false, false}, {true}};
+     * boolean[][] c3 = {};
+     * boolean[][] result3 = Arrays.zip(a3, b3, c3, false, false, true, (x, y, z) -> x || y || z);
+     * // max outer = 2 (b3). c3 null/empty => defC=true for all
+     * // row 0: zip({T},{F,F},null,F,F,T,||): T||F||T=T, false||F||T=T => {T,T}
+     * // row 1: zip(null,{T},null,F,F,T,||): F||T||T=T => {T}
+     * // result3: {{true, true}, {true}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -2520,12 +3516,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // XOR two 3D arrays element-wise; all dimensions match
      * boolean[][][] a = {{{true, false}, {false, true}}, {{true, true}, {false, false}}};
      * boolean[][][] b = {{{false, true}, {true, false}}, {{false, false}, {true, true}}};
      * boolean[][][] result = Arrays.zip(a, b, (x, y) -> x ^ y);
+     * // All corresponding elements differ => all XOR results are true
      * // result: {{{true, true}, {true, true}}, {{true, true}, {true, true}}}
+     *
+     * // Outer arrays of different lengths - result truncates to shorter (1 block)
+     * boolean[][][] a2 = {{{true}}};
+     * boolean[][][] b2 = {{{false}}, {{true}}};
+     * boolean[][][] result2 = Arrays.zip(a2, b2, (x, y) -> x || y);
+     * // result2: {{{true}}}  (only 1 block)
+     *
+     * // Null array treated as empty - result is empty
+     * boolean[][][] fromNull = Arrays.zip((boolean[][][]) null, new boolean[][][]{{{true}}}, (x, y) -> x || y);
+     * // fromNull: [] (length 0)
+     *
+     * // Empty outer array - result is empty
+     * boolean[][][] fromEmpty = Arrays.zip(new boolean[0][][], new boolean[][][]{{{true}}}, (x, y) -> x || y);
+     * // fromEmpty: [] (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -2558,12 +3570,35 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // OR with defaults; b has 3 blocks (longest), result has 3 blocks
      * boolean[][][] a = {{{true, false}, {false, true}}, {{true, true}}};
      * boolean[][][] b = {{{false, true}, {true, false}}, {{false, false}, {true, true}}, {{false}}};
      * boolean[][][] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+     * // block 0: each pair of rows differs so OR = true for all 4 positions => {{T,T},{T,T}}
+     * // block 1: a[1]={{T,T}}, b[1]={{F,F},{T,T}}; zip with defA=F
+     * //   row 0: T||F=T, T||F=T => {T,T}; row 1: false||T=T, false||T=T => {T,T}
+     * // block 2: a missing => defA=false; zip(null,{{F}},F,T): false||F=F => {{F}}
      * // result: {{{true, true}, {true, true}}, {{true, true}, {true, true}}, {{false}}}
+     *
+     * // Both null - result is empty
+     * boolean[][][] fromNull = Arrays.zip((boolean[][][]) null, (boolean[][][]) null, false, false, (x, y) -> x || y);
+     * // fromNull: [] (length 0)
+     *
+     * // Equal-length outer arrays; defaults only pad inner dimension mismatches
+     * boolean[][][] a2 = {{{true}}};
+     * boolean[][][] b2 = {{{false, false}}};
+     * boolean[][][] result2 = Arrays.zip(a2, b2, false, false, (x, y) -> x || y);
+     * // block 0, row 0: zip({T},{F,F},F,F,||): T||F=T, false||F=F => {T,F}
+     * // result2: {{{true, false}}}
+     *
+     * // Shorter a; extra blocks from b use defaultValueA=false for all elements
+     * boolean[][][] a3 = {{{true, false}}};
+     * boolean[][][] b3 = {{{false, true}}, {{true}}};
+     * boolean[][][] result3 = Arrays.zip(a3, b3, false, false, (x, y) -> x && y);
+     * // block 0: T&&F=F, F&&T=F => {{F,F}}; block 1: zip(null,{{T}},F,F,&&): F&&T=F => {{F}}
+     * // result3: {{{false, false}}, {{false}}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -2609,13 +3644,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // OR three 3D arrays; outer result truncates to shortest (1 block)
+     * // Inner zip also truncates to shortest row count (1 row from a and c)
      * boolean[][][] a = {{{true, false}}};
      * boolean[][][] b = {{{false, true}, {true, false}}};
      * boolean[][][] c = {{{true, true}}};
      * boolean[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+     * // block 0: zip({{T,F}},{{F,T},{T,F}},{{T,T}}) -> min rows = 1
+     * // row 0: zip({T,F},{F,T},{T,T}) -> {T||F||T, F||T||T} = {T,T}
      * // result: {{{true, true}}}
+     *
+     * // All three same shape; result has same outer length
+     * boolean[][][] a2 = {{{true}}};
+     * boolean[][][] b2 = {{{false}}};
+     * boolean[][][] c2 = {{{true}}};
+     * boolean[][][] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x && y && z);
+     * // result2: {{{false}}}
+     *
+     * // Null array treated as empty - result is empty
+     * boolean[][][] fromNull = Arrays.zip((boolean[][][]) null, new boolean[][][]{{{true}}}, new boolean[][][]{{{true}}}, (x, y, z) -> x || y || z);
+     * // fromNull: [] (length 0)
+     *
+     * // Empty outer array - result is empty
+     * boolean[][][] fromEmpty = Arrays.zip(new boolean[0][][], new boolean[][][]{{{true}}}, new boolean[][][]{{{true}}}, (x, y, z) -> x || y || z);
+     * // fromEmpty: [] (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -2650,13 +3704,39 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // AND with defaults; b has 2 rows in block 0 - padded from a and c using defaults
      * boolean[][][] a = {{{true, false}}};
      * boolean[][][] b = {{{false, true}, {true, false}}};
      * boolean[][][] c = {{{true, true}}};
      * boolean[][][] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x && y && z);
+     * // block 0: max rows = 2 (from b)
+     * //   row 0: zip({T,F},{F,T},{T,T},F,T,F,&&): T&&F&&T=F, F&&T&&T=F => {F,F}
+     * //   row 1: zip(null,{T,F},null,F,T,F,&&): false&&T&&false=F, false&&F&&false=F => {F,F}
      * // result: {{{false, false}, {false, false}}}
+     *
+     * // All null - result is empty
+     * boolean[][][] fromNull = Arrays.zip((boolean[][][]) null, (boolean[][][]) null, (boolean[][][]) null, false, false, false, (x, y, z) -> x && y && z);
+     * // fromNull: [] (length 0)
+     *
+     * // Symmetric arrays - defaults never used
+     * boolean[][][] a2 = {{{true, false}}};
+     * boolean[][][] b2 = {{{false, true}}};
+     * boolean[][][] c2 = {{{true, true}}};
+     * boolean[][][] result2 = Arrays.zip(a2, b2, c2, false, false, false, (x, y, z) -> x || y || z);
+     * // block 0, row 0: T||F||T=T, F||T||T=T => {T,T}
+     * // result2: {{{true, true}}}
+     *
+     * // Different outer lengths: b has extra block; c is missing entirely; defaults fill gaps
+     * boolean[][][] a3 = {{{true}}};
+     * boolean[][][] b3 = {{{false}}, {{true}}};
+     * boolean[][][] c3 = {};
+     * boolean[][][] result3 = Arrays.zip(a3, b3, c3, false, false, true, (x, y, z) -> x && y && z);
+     * // max outer = 2 (b3). c3 empty => all positions use defC=true
+     * // block 0: zip({{T}},{{F}},null,F,F,T,&&): T&&F&&T=F => {{{F}}}
+     * // block 1: zip(null,{{T}},null,F,F,T,&&): F&&T&&T=F => {{{F}}}
+     * // result3: {{{false}}, {{false}}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -2695,9 +3775,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Typical case: 2 + 1 + 3 = 6 elements
      * boolean[][] arr = {{true, false}, {true}, {false, true, false}};
      * long count = Arrays.elementCount(arr);
-     * // Result: 6
+     * // count: 6
+     *
+     * // Null sub-arrays contribute 0
+     * boolean[][] sparse = {{true, false}, null, {true}};
+     * long count2 = Arrays.elementCount(sparse);
+     * // count2: 3
+     *
+     * // Null input returns 0
+     * long fromNull = Arrays.elementCount((boolean[][]) null);
+     * // fromNull: 0
+     *
+     * // Empty outer array returns 0
+     * long fromEmpty = Arrays.elementCount(new boolean[0][]);
+     * // fromEmpty: 0
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
@@ -2723,9 +3817,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Typical case: (2+1) + (1+2) = 6 elements
      * boolean[][][] arr = {{{true, false}, {true}}, {{false}, {true, false}}};
      * long count = Arrays.elementCount(arr);
-     * // Result: 6
+     * // count: 6
+     *
+     * // Null and empty sub-arrays at any level contribute 0
+     * boolean[][][] sparse = {{{true, false}, null}, null};
+     * long count2 = Arrays.elementCount(sparse);
+     * // count2: 2
+     *
+     * // Null input returns 0
+     * long fromNull = Arrays.elementCount((boolean[][][]) null);
+     * // fromNull: 0
+     *
+     * // Empty outer array returns 0
+     * long fromEmpty = Arrays.elementCount(new boolean[0][][]);
+     * // fromEmpty: 0
      * }</pre>
      *
      * @param a the three-dimensional boolean array (can be {@code null}).
@@ -2761,9 +3869,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Shortest row has length 1
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
      * int minLen = Arrays.minSubArrayLength(arr);
-     * // Result: 1
+     * // minLen: 1
+     *
+     * // Null sub-array is treated as length 0
+     * boolean[][] sparse = {{true, false}, null, {true}};
+     * int minLen2 = Arrays.minSubArrayLength(sparse);
+     * // minLen2: 0
+     *
+     * // Null input returns 0
+     * int fromNull = Arrays.minSubArrayLength((boolean[][]) null);
+     * // fromNull: 0
+     *
+     * // Empty outer array returns 0
+     * int fromEmpty = Arrays.minSubArrayLength(new boolean[0][]);
+     * // fromEmpty: 0
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
@@ -2789,9 +3911,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Longest row has length 3
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
      * int maxLen = Arrays.maxSubArrayLength(arr);
-     * // Result: 3
+     * // maxLen: 3
+     *
+     * // Null sub-array is treated as length 0; does not affect max if other rows are longer
+     * boolean[][] sparse = {{true, false}, null, {true, false, true}};
+     * int maxLen2 = Arrays.maxSubArrayLength(sparse);
+     * // maxLen2: 3
+     *
+     * // Null input returns 0
+     * int fromNull = Arrays.maxSubArrayLength((boolean[][]) null);
+     * // fromNull: 0
+     *
+     * // Empty outer array returns 0
+     * int fromEmpty = Arrays.maxSubArrayLength(new boolean[0][]);
+     * // fromEmpty: 0
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
@@ -2827,18 +3963,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic case: mixed true/false values
      * boolean[] array = {true, false, true};
      * String result = Arrays.println(array);
-     * // Prints to console and returns: "[true, false, true]"
+     * // Prints and returns: "[true, false, true]"
      *
-     * // Null array
+     * // Single-element array
+     * String single = Arrays.println(new boolean[]{false});
+     * // Prints and returns: "[false]"
+     *
+     * // Null array prints and returns "null"
      * String nullResult = Arrays.println((boolean[]) null);
-     * // Prints "null"
+     * // nullResult: "null"
      *
-     * // Empty array
-     * boolean[] empty = new boolean[0];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Empty array prints and returns "[]"
+     * String emptyResult = Arrays.println(new boolean[0]);
+     * // emptyResult: "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -2877,23 +4017,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * boolean[][] array = {{true, false, true}, {false, true}, null, {}, {true}};
+     * // Basic case: two rows; rows are separated by ",\n " in the output string
+     * boolean[][] array = {{true, false}, {false, true}};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[true, false, true],
-     * //  [false, true],
-     * //  null,
-     * //  [],
-     * //  [true]]
+     * // Prints and returns: "[[true, false],\n [false, true]]"
      *
-     * // Null array
+     * // Mixed rows including null and empty sub-arrays
+     * boolean[][] mixed = {{true}, null, {}};
+     * String mixed2D = Arrays.println(mixed);
+     * // Prints and returns: "[[true],\n null,\n []]"
+     *
+     * // Null array prints and returns "null"
      * String nullResult = Arrays.println((boolean[][]) null);
-     * // Prints "null"
+     * // nullResult: "null"
      *
-     * // Empty array
-     * boolean[][] empty = new boolean[0][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Empty outer array prints and returns "[]"
+     * String emptyResult = Arrays.println(new boolean[0][]);
+     * // emptyResult: "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -2973,24 +4113,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * boolean[][][] array = {{{true, false, true}, {false, true}}, {{true, false}, null, {}}, null};
+     * // Basic case: two blocks; blocks separated by ",\n "; rows within a block by ",\n  " (2 spaces)
+     * boolean[][][] array = {{{true, false}, {false, true}}, {{true}}};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[[true, false, true],
-     * //   [false, true]],
-     * //  [[true, false],
-     * //   null,
-     * //   []],
-     * //  null]
+     * // Prints and returns: "[[[true, false],\n  [false, true]],\n [[true]]]"
      *
-     * // Null array
+     * // Block with null and empty inner row; then a null block
+     * boolean[][][] mixed = {{{true}}, null};
+     * String mixed3D = Arrays.println(mixed);
+     * // Prints and returns: "[[[true]],\n null]"
+     *
+     * // Null array prints and returns "null"
      * String nullResult = Arrays.println((boolean[][][]) null);
-     * // Prints "null"
+     * // nullResult: "null"
      *
-     * // Empty array
-     * boolean[][][] empty = new boolean[0][][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Empty outer array prints and returns "[]"
+     * String emptyResult = Arrays.println(new boolean[0][][]);
+     * // emptyResult: "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -3074,9 +4213,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: increment every character by 1
      * char[] array = {'a', 'b', 'c'};
-     * Arrays.updateAll(array, c -> (char) (c + 1));
-     * // array becomes {'b', 'c', 'd'}
+     * Arrays.updateAll(array, c -> (char)(c + 1));
+     * // array is now {'b', 'c', 'd'}
+     *
+     * // Basic: convert to uppercase in-place
+     * char[] letters = {'h', 'e', 'l', 'l', 'o'};
+     * Arrays.updateAll(letters, c -> Character.toUpperCase(c));
+     * // letters is now {'H', 'E', 'L', 'L', 'O'}
+     *
+     * // Edge: null array - no-op, no exception thrown
+     * Arrays.updateAll((char[]) null, c -> (char)(c + 1));
+     * // no-op
+     *
+     * // Edge: empty array - no-op
+     * char[] empty = new char[0];
+     * Arrays.updateAll(empty, c -> (char)(c + 1));
+     * // empty remains length 0
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -3103,9 +4257,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: convert to uppercase across all sub-arrays
      * char[][] array = {{'a', 'b'}, {'c'}};
      * Arrays.updateAll(array, c -> Character.toUpperCase(c));
-     * // array becomes {{'A', 'B'}, {'C'}}
+     * // array is now {{'A', 'B'}, {'C'}}
+     *
+     * // Basic: shift every character by 1
+     * char[][] grid = {{'x', 'y'}, {'z'}};
+     * Arrays.updateAll(grid, c -> (char)(c + 1));
+     * // grid is now {{'y', 'z'}, {'{'}}
+     *
+     * // Edge: null array - no-op, no exception thrown
+     * Arrays.updateAll((char[][]) null, c -> Character.toUpperCase(c));
+     * // no-op
+     *
+     * // Edge: array with a null sub-array - null sub-array is skipped, non-null updated
+     * char[][] mixed = {null, {'a', 'b'}};
+     * Arrays.updateAll(mixed, c -> Character.toUpperCase(c));
+     * // mixed is now {null, {'A', 'B'}}
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -3132,9 +4301,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace every character with '*'
      * char[][][] array = {{{'a'}}, {{'b', 'c'}}};
      * Arrays.updateAll(array, c -> '*');
-     * // array becomes {{{'*'}}, {{'*', '*'}}}
+     * // array is now {{{'*'}}, {{'*', '*'}}}
+     *
+     * // Basic: convert to uppercase throughout all three levels
+     * char[][][] cube = {{{'x', 'y'}}, {{'z'}}};
+     * Arrays.updateAll(cube, c -> Character.toUpperCase(c));
+     * // cube is now {{{'X', 'Y'}}, {{'Z'}}}
+     *
+     * // Edge: null array - no-op, no exception thrown
+     * Arrays.updateAll((char[][][]) null, c -> '*');
+     * // no-op
+     *
+     * // Edge: empty array - no-op
+     * char[][][] empty = new char[0][][];
+     * Arrays.updateAll(empty, c -> '*');
+     * // empty remains length 0
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -3161,9 +4345,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace all occurrences of 'a' with 'x'
      * char[] array = {'a', 'b', 'c', 'a'};
      * Arrays.replaceIf(array, c -> c == 'a', 'x');
-     * // array becomes {'x', 'b', 'c', 'x'}
+     * // array is now {'x', 'b', 'c', 'x'}
+     *
+     * // Basic: replace all lowercase letters with '_'
+     * char[] mixed = {'A', 'b', 'C', 'd'};
+     * Arrays.replaceIf(mixed, c -> Character.isLowerCase(c), '_');
+     * // mixed is now {'A', '_', 'C', '_'}
+     *
+     * // Edge: null array - no-op, no exception thrown
+     * Arrays.replaceIf((char[]) null, c -> c == 'a', 'x');
+     * // no-op
+     *
+     * // Edge: no element matches the predicate - array unchanged
+     * char[] unchanged = {'b', 'c', 'd'};
+     * Arrays.replaceIf(unchanged, c -> c == 'a', 'x');
+     * // unchanged is still {'b', 'c', 'd'}
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -3193,9 +4392,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace all uppercase characters with 'U'
      * char[][] array = {{'a', 'b'}, {'c', 'A'}};
      * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'U');
-     * // array becomes {{'a', 'b'}, {'c', 'U'}}
+     * // array is now {{'a', 'b'}, {'c', 'U'}}
+     *
+     * // Basic: replace all vowels with '*' across sub-arrays
+     * char[][] grid = {{'a', 'b', 'e'}, {'i', 'o', 'u'}};
+     * Arrays.replaceIf(grid, c -> "aeiou".indexOf(c) >= 0, '*');
+     * // grid is now {{'*', 'b', '*'}, {'*', '*', '*'}}
+     *
+     * // Edge: null array - no-op, no exception thrown
+     * Arrays.replaceIf((char[][]) null, c -> Character.isUpperCase(c), 'U');
+     * // no-op
+     *
+     * // Edge: empty outer array - no-op
+     * char[][] empty = new char[0][];
+     * Arrays.replaceIf(empty, c -> Character.isUpperCase(c), 'U');
+     * // empty remains length 0
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -3223,9 +4437,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace all uppercase characters with 'X' across all levels
      * char[][][] array = {{{'a'}}, {{'B', 'c'}}};
      * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'X');
-     * // array becomes {{{'a'}}, {{'X', 'c'}}}
+     * // array is now {{{'a'}}, {{'X', 'c'}}}
+     *
+     * // Basic: replace digits with '0'
+     * char[][][] cube = {{{'1', 'a'}}, {{'b', '2'}}};
+     * Arrays.replaceIf(cube, c -> Character.isDigit(c), '0');
+     * // cube is now {{{'0', 'a'}}, {{'b', '0'}}}
+     *
+     * // Edge: null array - no-op, no exception thrown
+     * Arrays.replaceIf((char[][][]) null, c -> Character.isUpperCase(c), 'X');
+     * // no-op
+     *
+     * // Edge: empty outer array - no-op
+     * char[][][] empty = new char[0][][];
+     * Arrays.replaceIf(empty, c -> Character.isUpperCase(c), 'X');
+     * // empty remains length 0
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -3253,9 +4482,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: reshape into rows of 2 - last row may be shorter
      * char[] array = {'a', 'b', 'c', 'd', 'e'};
      * char[][] reshaped = Arrays.reshape(array, 2);
      * // reshaped is {{'a', 'b'}, {'c', 'd'}, {'e'}}
+     *
+     * // Basic: exact fit - no short last row
+     * char[] exact = {'a', 'b', 'c', 'd'};
+     * char[][] result = Arrays.reshape(exact, 2);
+     * // result is {{'a', 'b'}, {'c', 'd'}}
+     *
+     * // Edge: null array - returns empty two-dimensional array
+     * char[][] nullResult = Arrays.reshape((char[]) null, 3);
+     * // nullResult is {} (length 0)
+     *
+     * // Edge: non-positive columnCount - throws IllegalArgumentException
+     * Arrays.reshape(new char[]{'a'}, 0);
+     * // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional character array to reshape (can be {@code null}).
@@ -3288,9 +4531,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: reshape 7 chars into 2x2 blocks - trailing block may be smaller
      * char[] array = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
      * char[][][] reshaped = Arrays.reshape(array, 2, 2);
      * // reshaped is {{{'a', 'b'}, {'c', 'd'}}, {{'e', 'f'}, {'g'}}}
+     *
+     * // Basic: exact fit - 6 chars into 2 blocks of 3 columns each
+     * char[] exact = {'a', 'b', 'c', 'd', 'e', 'f'};
+     * char[][][] result = Arrays.reshape(exact, 1, 3);
+     * // result is {{{'a', 'b', 'c'}}, {{'d', 'e', 'f'}}}
+     *
+     * // Edge: null array - returns empty three-dimensional array
+     * char[][][] nullResult = Arrays.reshape((char[]) null, 2, 2);
+     * // nullResult is {} (length 0)
+     *
+     * // Edge: non-positive rowCount - throws IllegalArgumentException
+     * Arrays.reshape(new char[]{'a'}, 0, 2);
+     * // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional character array to reshape (can be {@code null}).
@@ -3329,9 +4586,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten with a null sub-array (which is skipped)
      * char[][] array = {{'a', 'b'}, null, {'c'}};
      * char[] flattened = Arrays.flatten(array);
      * // flattened is {'a', 'b', 'c'}
+     *
+     * // Basic: flatten uniform rows
+     * char[][] grid = {{'x', 'y'}, {'z', 'w'}};
+     * char[] result = Arrays.flatten(grid);
+     * // result is {'x', 'y', 'z', 'w'}
+     *
+     * // Edge: null array - returns empty array
+     * char[] nullResult = Arrays.flatten((char[][]) null);
+     * // nullResult is {} (length 0)
+     *
+     * // Edge: all sub-arrays are null or empty - returns empty array
+     * char[][] allNull = {null, new char[0], null};
+     * char[] emptyResult = Arrays.flatten(allNull);
+     * // emptyResult is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays).
@@ -3369,9 +4641,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten a 3D array - all elements concatenated in row-major order
      * char[][][] array = {{{'a'}, {'b'}}, {{'c', 'd'}}};
      * char[] flattened = Arrays.flatten(array);
      * // flattened is {'a', 'b', 'c', 'd'}
+     *
+     * // Basic: flatten with a null outer sub-array (which is skipped)
+     * char[][][] mixed = {null, {{'x', 'y'}}};
+     * char[] result = Arrays.flatten(mixed);
+     * // result is {'x', 'y'}
+     *
+     * // Edge: null array - returns empty array
+     * char[] nullResult = Arrays.flatten((char[][][]) null);
+     * // nullResult is {} (length 0)
+     *
+     * // Edge: empty outer array - returns empty array
+     * char[] emptyResult = Arrays.flatten(new char[0][][]);
+     * // emptyResult is {} (length 0)
      * }</pre>
      *
      * @param a the three-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
@@ -3416,9 +4702,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements globally across rows, then copy back in row order
      * char[][] array = {{'c', 'a'}, {'b'}};
      * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
-     * // array becomes {{'a', 'b'}, {'c'}}
+     * // array is now {{'a', 'b'}, {'c'}}
+     *
+     * // Basic: reverse elements globally, preserving row lengths
+     * char[][] grid = {{'d', 'c'}, {'b', 'a'}};
+     * Arrays.mutateAsFlat(grid, t -> {
+     *     for (int i = 0, j = t.length - 1; i < j; i++, j--) {
+     *         char tmp = t[i]; t[i] = t[j]; t[j] = tmp;
+     *     }
+     * });
+     * // grid is now {{'a', 'b'}, {'c', 'd'}}
+     *
+     * // Edge: null array - no-op, no exception thrown
+     * Arrays.mutateAsFlat((char[][]) null, t -> java.util.Arrays.sort(t));
+     * // no-op
+     *
+     * // Edge: single-element array - action applied to a one-element flat array
+     * char[][] single = {{'z'}};
+     * Arrays.mutateAsFlat(single, t -> java.util.Arrays.sort(t));
+     * // single is still {{'z'}}
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -3458,9 +4763,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements globally across all levels, then copy back preserving structure
      * char[][][] array = {{{'d', 'a'}}, {{'c'}, {'b'}}};
      * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
-     * // array becomes {{{'a', 'b'}}, {{'c'}, {'d'}}}
+     * // array is now {{{'a', 'b'}}, {{'c'}, {'d'}}}
+     *
+     * // Basic: fill all positions with 'z' using the flattened view
+     * char[][][] cube = {{{'a', 'b'}}, {{'c'}}};
+     * Arrays.mutateAsFlat(cube, t -> java.util.Arrays.fill(t, 'z'));
+     * // cube is now {{{'z', 'z'}}, {{'z'}}}
+     *
+     * // Edge: null array - no-op, no exception thrown
+     * Arrays.mutateAsFlat((char[][][]) null, t -> java.util.Arrays.sort(t));
+     * // no-op
+     *
+     * // Edge: empty outer array - no-op
+     * char[][][] empty = new char[0][][];
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     * // empty remains length 0
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -3506,12 +4826,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: combine element-wise; result truncates to shortest array (length 3)
      * char[] a = {'A', 'B', 'C', 'D'};
      * char[] b = {'X', 'Y', 'Z'};
      * char[] result = Arrays.zip(a, b, (x, y) -> (char)(x + y - 'A'));
      * // result: {'X', 'Z', '\\'}
+     *
+     * // Basic: same-length arrays - result has same length
+     * char[] p = {'A', 'B'};
+     * char[] q = {'a', 'b'};
+     * char[] result2 = Arrays.zip(p, q, (x, y) -> (char)(x + y - 'A'));
+     * // result2: {'a', 'c'}
+     *
+     * // Edge: null arrays - result is empty
+     * char[] nullResult = Arrays.zip((char[]) null, (char[]) null, (x, y) -> (char)(x + y - 'A'));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one empty array - result is empty (truncates to length 0)
+     * char[] emptyResult = Arrays.zip(new char[0], new char[]{'a'}, (x, y) -> (char)(x + y - 'A'));
+     * // emptyResult: {} (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -3543,12 +4878,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * char[] a = { 'A', 'B', 'C', 'D' };
-     * char[] b = { 'X', 'Y' };
-     * char[] result = Arrays.zip(a, b, '?', '!', (x, y) -> (char) (x + y - 'A'));
-     * // result: {'X', 'Z', '#', '$'} (using '!' for missing b elements)
+     * // Basic: a is longer; '!' pads missing b elements
+     * char[] a = {'A', 'B', 'C', 'D'};
+     * char[] b = {'X', 'Y'};
+     * char[] result = Arrays.zip(a, b, '?', '!', (x, y) -> (char)(x + y - 'A'));
+     * // result: {'X', 'Z', '#', '$'}
+     *
+     * // Basic: b is longer; '?' pads missing a elements
+     * char[] p = {'A'};
+     * char[] q = {'X', 'Y', 'Z'};
+     * char[] result2 = Arrays.zip(p, q, '?', '!', (x, y) -> (char)(x + y - 'A'));
+     * // result2: {'X', 'W', 'X'}
+     *
+     * // Edge: both null - result is empty
+     * char[] nullResult = Arrays.zip((char[]) null, (char[]) null, '?', '!', (x, y) -> (char)(x + y - 'A'));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: same length - defaults never applied; result length equals both inputs
+     * char[] same = Arrays.zip(new char[]{'A'}, new char[]{'X'}, '?', '!', (x, y) -> (char)(x + y - 'A'));
+     * // same: {'X'}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -3595,13 +4945,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: combine three arrays; result truncates to shortest (length 2)
      * char[] a = {'A', 'B', 'C', 'D'};
      * char[] b = {'X', 'Y', 'Z'};
      * char[] c = {'1', '3'};
      * char[] result = Arrays.zip(a, b, c, (x, y, z) -> (char)(x + y + z - 'A' - '0'));
      * // result: {'Y', ']'}
+     *
+     * // Basic: all same length - no truncation
+     * char[] p = {'A', 'B'};
+     * char[] q = {'X', 'Y'};
+     * char[] r = {'1', '2'};
+     * char[] result2 = Arrays.zip(p, q, r, (x, y, z) -> (char)(x + y + z - 'A' - '0'));
+     * // result2: {'Y', '\\'}
+     *
+     * // Edge: one null array - treated as empty, result is empty
+     * char[] nullResult = Arrays.zip((char[]) null, new char[]{'a'}, new char[]{'b'},
+     *         (x, y, z) -> (char)(x + y + z));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one empty array - result is empty
+     * char[] emptyResult = Arrays.zip(new char[0], new char[]{'A'}, new char[]{'X'},
+     *         (x, y, z) -> (char)(x + y + z - 'A' - '0'));
+     * // emptyResult: {} (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -3637,13 +5005,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: arrays of different lengths; defaults pad shorter arrays
      * char[] a = {'A', 'B', 'C', 'D'};
      * char[] b = {'X', 'Y'};
      * char[] c = {'1', '2', '3'};
      * char[] result = Arrays.zip(a, b, c, '?', '!', '0', (x, y, z) -> (char)(x + y + z - 'A' - '0'));
-     * // result: {'Y', '\\', '&', '$'} (using defaults for missing elements)
+     * // result: {'Y', '\\', '&', '$'}
+     *
+     * // Basic: all null arrays - result is empty
+     * char[] nullResult = Arrays.zip((char[]) null, (char[]) null, (char[]) null, '?', '!', '0',
+     *         (x, y, z) -> (char)(x + y + z - 'A' - '0'));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: only one array has data - defaults used for the other two
+     * char[] oneOnly = Arrays.zip(new char[]{'A'}, (char[]) null, (char[]) null, '?', '!', '0',
+     *         (x, y, z) -> (char)(x + y + z - 'A' - '0'));
+     * // oneOnly: {'A' + '!' + '0' - 'A' - '0'} = {'!'}
+     *
+     * // Edge: same-length arrays - defaults never applied
+     * char[] same = Arrays.zip(new char[]{'A'}, new char[]{'X'}, new char[]{'1'}, '?', '!', '0',
+     *         (x, y, z) -> (char)(x + y + z - 'A' - '0'));
+     * // same: {'Y'}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -3689,12 +5073,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length truncates to min(2,2)=2; inner lengths truncate independently
      * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
      * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}};
      * char[][] result = Arrays.zip(a, b, (x, y) -> (char)(x + y - 'A'));
      * // result: {{'X', 'Z'}, {'3', '5'}}
+     *
+     * // Basic: same-dimension arrays - no truncation at outer level
+     * char[][] p = {{'A'}, {'B'}};
+     * char[][] q = {{'a'}, {'b'}};
+     * char[][] result2 = Arrays.zip(p, q, (x, y) -> (char)(x + y - 'A'));
+     * // result2: {{'a'}, {'c'}}
+     *
+     * // Edge: null arrays - result is empty
+     * char[][] nullResult = Arrays.zip((char[][]) null, (char[][]) null, (x, y) -> (char)(x + y - 'A'));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one empty outer array - result is empty
+     * char[][] emptyResult = Arrays.zip(new char[0][], new char[][]{{'a'}}, (x, y) -> (char)(x + y - 'A'));
+     * // emptyResult: {} (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -3727,12 +5126,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length is max(2,3)=3; defaults pad shorter sub-arrays and missing rows
      * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
      * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}, {'3'}};
      * char[][] result = Arrays.zip(a, b, '?', '!', (x, y) -> (char)(x + y - 'A'));
      * // result: {{'X', 'Z', 'X'}, {'3', '5', '%'}, {'1'}}
+     *
+     * // Basic: both same outer length, different inner lengths - defaults pad inner
+     * char[][] p = {{'A', 'B', 'C'}};
+     * char[][] q = {{'X'}};
+     * char[][] result2 = Arrays.zip(p, q, '?', '!', (x, y) -> (char)(x + y - 'A'));
+     * // result2: {{'X', '"', '#'}}
+     *
+     * // Edge: null arrays - result is empty
+     * char[][] nullResult = Arrays.zip((char[][]) null, (char[][]) null, '?', '!',
+     *         (x, y) -> (char)(x + y - 'A'));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one null array - uses defaults for the missing outer rows
+     * char[][] oneNull = Arrays.zip((char[][]) null, new char[][]{{'X'}}, '?', '!',
+     *         (x, y) -> (char)(x + y - 'A'));
+     * // outer max(0,1)=1; row0: zip(null,{'X'},'?','!',...): ?+X-A=(63+88-65)='V' => {{'V'}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -3778,13 +5194,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length is min(2,2,2)=2; inner lengths truncate independently
      * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
      * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}};
      * char[][] c = {{'a', 'b'}, {'c', 'd', 'e'}};
      * char[][] result = Arrays.zip(a, b, c, (x, y, z) -> (char)((x + y + z) / 3));
      * // result: {{'S', 'T'}, {'G', 'H'}}
+     *
+     * // Basic: one-row arrays - outer min(1,1,1)=1
+     * char[][] p = {{'A', 'B'}};
+     * char[][] q = {{'X', 'Y'}};
+     * char[][] r = {{'a', 'b'}};
+     * char[][] result2 = Arrays.zip(p, q, r, (x, y, z) -> (char)((x + y + z) / 3));
+     * // result2: {{'S', 'T'}}
+     *
+     * // Edge: null arrays - result is empty
+     * char[][] nullResult = Arrays.zip((char[][]) null, (char[][]) null, (char[][]) null,
+     *         (x, y, z) -> (char)((x + y + z) / 3));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one empty outer array - result is empty
+     * char[][] emptyResult = Arrays.zip(new char[0][], new char[][]{{'A'}}, new char[][]{{'X'}},
+     *         (x, y, z) -> (char)((x + y + z) / 3));
+     * // emptyResult: {} (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -3820,13 +5254,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer max(2,3,1)=3; defaults pad missing outer rows and shorter inner arrays
      * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
      * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}, {'3'}};
      * char[][] c = {{'a', 'b'}};
      * char[][] result = Arrays.zip(a, b, c, '?', '!', '~', (x, y, z) -> (char)((x + y + z) / 3));
      * // result: {{'S', 'T', ']'}, {'P', 'Q', 'L'}, {'P'}}
+     *
+     * // Basic: all same shape - defaults never applied
+     * char[][] p = {{'A'}};
+     * char[][] q = {{'X'}};
+     * char[][] r = {{'a'}};
+     * char[][] result2 = Arrays.zip(p, q, r, '?', '!', '~', (x, y, z) -> (char)((x + y + z) / 3));
+     * // result2: {{'S'}}
+     *
+     * // Edge: all null arrays - result is empty
+     * char[][] nullResult = Arrays.zip((char[][]) null, (char[][]) null, (char[][]) null, '?', '!', '~',
+     *         (x, y, z) -> (char)((x + y + z) / 3));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one null array - treated as empty outer; defaults fill all missing rows
+     * char[][] oneNull = Arrays.zip((char[][]) null, new char[][]{{'X'}}, (char[][]) null, '?', '!', '~',
+     *         (x, y, z) -> (char)((x + y + z) / 3));
+     * // outer max(0,1,0)=1; row0: zip(null,{'X'},null,'?','!','~',...) -> (?+X+~)/3=(63+88+126)/3=92='\\' => {{'\\'}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -3873,12 +5325,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer min(2,2)=2; each level truncates to its respective min
      * char[][][] a = {{{'A', 'B'}, {'C', 'D'}}, {{'E', 'F'}, {'G', 'H'}}};
      * char[][][] b = {{{'1', '2'}, {'3', '4'}}, {{'5', '6'}, {'7', '8'}}};
      * char[][][] result = Arrays.zip(a, b, (x, y) -> (char)(x + y - 'A'));
      * // result: {{{'1', '3'}, {'5', '7'}}, {{'9', ';'}, {'=', '?'}}}
+     *
+     * // Basic: outer length truncates to min(1,2)=1
+     * char[][][] p = {{{'A', 'B'}}};
+     * char[][][] q = {{{'X', 'Y'}}, {{'Z'}}};
+     * char[][][] result2 = Arrays.zip(p, q, (x, y) -> (char)(x + y - 'A'));
+     * // result2: {{{'X', 'Z'}}}
+     *
+     * // Edge: null arrays - result is empty
+     * char[][][] nullResult = Arrays.zip((char[][][]) null, (char[][][]) null,
+     *         (x, y) -> (char)(x + y - 'A'));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one empty outer array - result is empty
+     * char[][][] emptyResult = Arrays.zip(new char[0][][], new char[][][]{{{'A'}}},
+     *         (x, y) -> (char)(x + y - 'A'));
+     * // emptyResult: {} (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -3911,12 +5380,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer max(2,3)=3; defaults pad missing blocks at all levels
      * char[][][] a = {{{'A', 'B'}, {'C', 'D'}}, {{'E', 'F'}}};
      * char[][][] b = {{{'1', '2'}, {'3', '4'}}, {{'5', '6'}, {'7', '8'}}, {{'9'}}};
-     * char[][][] result = Arrays.zip(a, b, 'A', '0', (x, y) -> (char) (x + y - 'A'));
+     * char[][][] result = Arrays.zip(a, b, 'A', '0', (x, y) -> (char)(x + y - 'A'));
      * // result: {{{'1', '3'}, {'5', '7'}}, {{'9', ';'}, {'7', '8'}}, {{'9'}}}
+     *
+     * // Basic: same shape - defaults never applied
+     * char[][][] p = {{{'A'}}};
+     * char[][][] q = {{{'X'}}};
+     * char[][][] result2 = Arrays.zip(p, q, 'A', '0', (x, y) -> (char)(x + y - 'A'));
+     * // result2: {{{'X'}}}
+     *
+     * // Edge: null arrays - result is empty
+     * char[][][] nullResult = Arrays.zip((char[][][]) null, (char[][][]) null, 'A', '0',
+     *         (x, y) -> (char)(x + y - 'A'));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one null - treated as all-missing; defaults fill everything from the other
+     * char[][][] oneNull = Arrays.zip((char[][][]) null, new char[][][]{{{'X'}}}, 'A', '0',
+     *         (x, y) -> (char)(x + y - 'A'));
+     * // outer max(0,1)=1; block0 row0: A+X-A='X' => {{{'X'}}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -3963,13 +5449,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer min(1,1,1)=1; inner min(1,2,1)=1; result has 1 block with 1 row
      * char[][][] a = {{{'A', 'B'}}};
      * char[][][] b = {{{'1', '2'}, {'3', '4'}}};
      * char[][][] c = {{{'a', 'b'}}};
      * char[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (char)((x + y + z) / 3));
      * // result: {{{'F', 'G'}}}
+     *
+     * // Basic: outer min(2,2,2)=2; each block processed independently
+     * char[][][] p = {{{'A'}}, {{'B'}}};
+     * char[][][] q = {{{'X'}}, {{'Y'}}};
+     * char[][][] r = {{{'a'}}, {{'b'}}};
+     * char[][][] result2 = Arrays.zip(p, q, r, (x, y, z) -> (char)((x + y + z) / 3));
+     * // block0: (A+X+a)/3=(65+88+97)/3=83='S'; block1: (B+Y+b)/3=(66+89+98)/3=84='T'
+     * // result2: {{{'S'}}, {{'T'}}}
+     *
+     * // Edge: null arrays - result is empty
+     * char[][][] nullResult = Arrays.zip((char[][][]) null, (char[][][]) null, (char[][][]) null,
+     *         (x, y, z) -> (char)((x + y + z) / 3));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one empty outer array - result is empty
+     * char[][][] emptyResult = Arrays.zip(new char[0][][], new char[][][]{{{'A'}}}, new char[][][]{{{'X'}}},
+     *         (x, y, z) -> (char)((x + y + z) / 3));
+     * // emptyResult: {} (length 0)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -4006,13 +5511,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer max(1,1,1)=1; inner max(1,2,1)=2; defaults pad missing rows/elements
      * char[][][] a = {{{'A', 'B'}}};
      * char[][][] b = {{{'1', '2'}, {'3', '4'}}};
      * char[][][] c = {{{'a', 'b'}}};
      * char[][][] result = Arrays.zip(a, b, c, '?', '!', '~', (x, y, z) -> (char)((x + y + z) / 3));
      * // result: {{{'F', 'G'}, {'P', 'P'}}}
+     *
+     * // Basic: all same shape - defaults never applied
+     * char[][][] p = {{{'A'}}};
+     * char[][][] q = {{{'X'}}};
+     * char[][][] r = {{{'a'}}};
+     * char[][][] result2 = Arrays.zip(p, q, r, '?', '!', '~', (x, y, z) -> (char)((x + y + z) / 3));
+     * // (A+X+a)/3=(65+88+97)/3=83='S' => {{{'S'}}}
+     *
+     * // Edge: null arrays - result is empty
+     * char[][][] nullResult = Arrays.zip((char[][][]) null, (char[][][]) null, (char[][][]) null, '?', '!', '~',
+     *         (x, y, z) -> (char)((x + y + z) / 3));
+     * // nullResult: {} (length 0)
+     *
+     * // Edge: one null array - treated as empty; defaults fill all missing positions
+     * char[][][] oneNull = Arrays.zip((char[][][]) null, new char[][][]{{{'X'}}}, (char[][][]) null, '?', '!', '~',
+     *         (x, y, z) -> (char)((x + y + z) / 3));
+     * // outer max(0,1,0)=1; block0 row0: (?+X+~)/3=(63+88+126)/3=92='\\' => {{{'\\'}}}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -4051,9 +5574,29 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: counts elements across sub-arrays, skipping null sub-array
      * char[][] array = {{'a', 'b'}, {'c'}, null};
      * long count = Arrays.elementCount(array);
      * // count is 3
+     *
+     * // Basic: all sub-arrays non-null
+     * char[][] full = {{'x', 'y', 'z'}, {'w'}};
+     * long count2 = Arrays.elementCount(full);
+     * // count2 is 4
+     *
+     * // Edge: null array - returns 0
+     * long nullCount = Arrays.elementCount((char[][]) null);
+     * // nullCount is 0
+     *
+     * // Edge: all sub-arrays are null - returns 0
+     * char[][] allNull = {null, null};
+     * long allNullCount = Arrays.elementCount(allNull);
+     * // allNullCount is 0
+     *
+     * // Edge: single element in one sub-array
+     * char[][] single = {{'z'}};
+     * long singleCount = Arrays.elementCount(single);
+     * // singleCount is 1
      * }</pre>
      *
      * @param a the two-dimensional character array to count (can be {@code null}).
@@ -4079,9 +5622,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: skips the null outer sub-array; counts 1+2+1=4 elements
      * char[][][] array = {{{'a'}, {'b', 'c'}}, null, {{'d'}}};
      * long count = Arrays.elementCount(array);
      * // count is 4
+     *
+     * // Basic: all sub-arrays present and non-empty
+     * char[][][] cube = {{{'x', 'y'}}, {{'z'}}};
+     * long count2 = Arrays.elementCount(cube);
+     * // count2 is 3
+     *
+     * // Edge: null array - returns 0
+     * long nullCount = Arrays.elementCount((char[][][]) null);
+     * // nullCount is 0
+     *
+     * // Edge: all outer sub-arrays are null - returns 0
+     * char[][][] allNull = {null, null};
+     * long allNullCount = Arrays.elementCount(allNull);
+     * // allNullCount is 0
      * }</pre>
      *
      * @param a the three-dimensional character array to count (can be {@code null}).
@@ -4117,9 +5675,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-array counts as length 0, which is the minimum
      * char[][] array = {{'a', 'b'}, {'c'}, null};
      * int minLen = Arrays.minSubArrayLength(array);
      * // minLen is 0
+     *
+     * // Basic: no null sub-arrays - returns the shortest non-null length
+     * char[][] noNull = {{'a', 'b', 'c'}, {'d', 'e'}};
+     * int minLen2 = Arrays.minSubArrayLength(noNull);
+     * // minLen2 is 2
+     *
+     * // Edge: null outer array - returns 0
+     * int nullResult = Arrays.minSubArrayLength((char[][]) null);
+     * // nullResult is 0
+     *
+     * // Edge: empty outer array - returns 0
+     * int emptyResult = Arrays.minSubArrayLength(new char[0][]);
+     * // emptyResult is 0
+     *
+     * // Edge: all single-element sub-arrays
+     * char[][] singles = {{'a'}, {'b'}};
+     * int singleMin = Arrays.minSubArrayLength(singles);
+     * // singleMin is 1
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null}).
@@ -4145,9 +5722,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-array treated as length 0; max is 3
      * char[][] array = {{'a'}, {'b', 'c', 'd'}, null};
      * int maxLen = Arrays.maxSubArrayLength(array);
      * // maxLen is 3
+     *
+     * // Basic: all sub-arrays same length
+     * char[][] uniform = {{'a', 'b'}, {'c', 'd'}};
+     * int maxLen2 = Arrays.maxSubArrayLength(uniform);
+     * // maxLen2 is 2
+     *
+     * // Edge: null outer array - returns 0
+     * int nullResult = Arrays.maxSubArrayLength((char[][]) null);
+     * // nullResult is 0
+     *
+     * // Edge: empty outer array - returns 0
+     * int emptyResult = Arrays.maxSubArrayLength(new char[0][]);
+     * // emptyResult is 0
+     *
+     * // Edge: only null sub-arrays - max is 0
+     * char[][] allNull = {null, null};
+     * int allNullMax = Arrays.maxSubArrayLength(allNull);
+     * // allNullMax is 0
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null}).
@@ -4183,18 +5779,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: prints and returns a comma-separated bracket notation
      * char[] array = {'H', 'e', 'l', 'l', 'o'};
      * String result = Arrays.println(array);
-     * // Prints to console and returns: "[H, e, l, l, o]"
+     * // Prints "[H, e, l, l, o]" and returns "[H, e, l, l, o]"
      *
-     * // Null array
+     * // Basic: single-element array
+     * char[] single = {'z'};
+     * String singleResult = Arrays.println(single);
+     * // Prints "[z]" and returns "[z]"
+     *
+     * // Edge: null array - prints "null" and returns "null"
      * String nullResult = Arrays.println((char[]) null);
-     * // Prints "null"
+     * // nullResult is "null"
      *
-     * // Empty array
+     * // Edge: empty array - prints "[]" and returns "[]"
      * char[] empty = new char[0];
      * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // emptyResult is "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -4233,23 +5835,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sub-arrays printed with comma-and-newline separation, null/empty handled
      * char[][] array = {{'a', 'b', 'c'}, {'d', 'e'}, null, {}, {'f'}};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[a, b, c],
-     * //  [d, e],
-     * //  null,
-     * //  [],
-     * //  [f]]
+     * // Prints and returns "[[a, b, c],\n [d, e],\n null,\n [],\n [f]]"
      *
-     * // Null array
+     * // Basic: simple two-row array
+     * char[][] simple = {{'x', 'y'}, {'z'}};
+     * String simple2 = Arrays.println(simple);
+     * // Prints and returns "[[x, y],\n [z]]"
+     *
+     * // Edge: null array - prints "null" and returns "null"
      * String nullResult = Arrays.println((char[][]) null);
-     * // Prints "null"
+     * // nullResult is "null"
      *
-     * // Empty array
+     * // Edge: empty outer array - prints "[]" and returns "[]"
      * char[][] empty = new char[0][];
      * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // emptyResult is "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -4329,24 +5932,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: deeply nested structure with null and empty at various levels
      * char[][][] array = {{{'a', 'b', 'c'}, {'d', 'e'}}, {{'f', 'g'}, null, {}}, null};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[[a, b, c],
-     * //   [d, e]],
-     * //  [[f, g],
-     * //   null,
-     * //   []],
-     * //  null]
+     * // Prints and returns "[[[a, b, c],\n  [d, e]],\n [[f, g],\n  null,\n  []],\n null]"
      *
-     * // Null array
+     * // Basic: simple three-dimensional array
+     * char[][][] simple = {{{'x', 'y'}, {'z'}}};
+     * String simple2 = Arrays.println(simple);
+     * // Prints and returns "[[[x, y],\n  [z]]]"
+     *
+     * // Edge: null array - prints "null" and returns "null"
      * String nullResult = Arrays.println((char[][][]) null);
-     * // Prints "null"
+     * // nullResult is "null"
      *
-     * // Empty array
+     * // Edge: empty outer array - prints "[]" and returns "[]"
      * char[][][] empty = new char[0][][];
      * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // emptyResult is "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -4430,9 +6033,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: square each element
      * byte[] arr = {1, 2, 3};
      * Arrays.updateAll(arr, b -> (byte)(b * b));
-     * // arr is now: [1, 4, 9]
+     * // arr is now [1, 4, 9]
+     *
+     * // Add a constant to each element
+     * byte[] arr2 = {10, 20, 30};
+     * Arrays.updateAll(arr2, b -> (byte)(b + 5));
+     * // arr2 is now [15, 25, 35]
+     *
+     * // Null array: no-op, no exception thrown
+     * Arrays.updateAll((byte[]) null, b -> (byte)(b + 1));
+     *
+     * // Empty array: no-op
+     * byte[] empty = {};
+     * Arrays.updateAll(empty, b -> (byte)(b + 1));
+     * // empty is still []
+     *
+     * // Byte wrap-around: (byte)(127 + 1) = -128
+     * byte[] boundary = {(byte) 127};
+     * Arrays.updateAll(boundary, b -> (byte)(b + 1));
+     * // boundary is now [-128]
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -4459,9 +6081,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: double each element
      * byte[][] grid = {{1, 2}, {3, 4}};
      * Arrays.updateAll(grid, b -> (byte)(b * 2));
-     * // grid is now: {{2, 4}, {6, 8}}
+     * // grid is now {{2, 4}, {6, 8}}
+     *
+     * // Negate each element
+     * byte[][] grid2 = {{5, 10}, {15, 20}};
+     * Arrays.updateAll(grid2, b -> (byte)(-b));
+     * // grid2 is now {{-5, -10}, {-15, -20}}
+     *
+     * // Null array: no-op, no exception thrown
+     * Arrays.updateAll((byte[][]) null, b -> (byte)(b + 1));
+     *
+     * // Array with null sub-array: null sub-array is skipped
+     * byte[][] withNull = {null, {1, 2}};
+     * Arrays.updateAll(withNull, b -> (byte)(b + 10));
+     * // withNull is now {null, [11, 12]}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -4488,9 +6124,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: add 10 to each element
      * byte[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * Arrays.updateAll(cube, b -> (byte)(b + 10));
-     * // cube is now: {{{11, 12}, {13, 14}}, {{15, 16}, {17, 18}}}
+     * // cube is now {{{11, 12}, {13, 14}}, {{15, 16}, {17, 18}}}
+     *
+     * // Zero-out all elements
+     * byte[][][] cube2 = {{{1, 2}}, {{3, 4}}};
+     * Arrays.updateAll(cube2, b -> (byte) 0);
+     * // cube2 is now {{{0, 0}}, {{0, 0}}}
+     *
+     * // Null array: no-op, no exception thrown
+     * Arrays.updateAll((byte[][][]) null, b -> (byte)(b + 1));
+     *
+     * // Array with null sub-array: null sub-array is skipped
+     * byte[][][] withNull = {null, {{5, 6}}};
+     * Arrays.updateAll(withNull, b -> (byte)(b + 10));
+     * // withNull is now {null, {{15, 16}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -4517,9 +6167,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace all 2s with 10
      * byte[] arr = {1, 2, 3, 2, 4};
-     * Arrays.replaceIf(arr, b -> b == 2, (byte)10);
-     * // arr is now: [1, 10, 3, 10, 4]
+     * Arrays.replaceIf(arr, b -> b == 2, (byte) 10);
+     * // arr is now [1, 10, 3, 10, 4]
+     *
+     * // Replace all negative values with 0
+     * byte[] arr2 = {-1, 5, -3, 7};
+     * Arrays.replaceIf(arr2, b -> b < 0, (byte) 0);
+     * // arr2 is now [0, 5, 0, 7]
+     *
+     * // Null array: no-op, no exception thrown
+     * Arrays.replaceIf((byte[]) null, b -> b == 2, (byte) 10);
+     *
+     * // Empty array: no-op
+     * byte[] empty = {};
+     * Arrays.replaceIf(empty, b -> b == 2, (byte) 10);
+     * // empty is still []
+     *
+     * // Predicate matches nothing: array unchanged
+     * byte[] arr3 = {1, 3, 5};
+     * Arrays.replaceIf(arr3, b -> b == 2, (byte) 10);
+     * // arr3 is still [1, 3, 5]
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -4549,9 +6218,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace all 2s with 10 across all rows
      * byte[][] grid = {{1, 2}, {3, 2}};
-     * Arrays.replaceIf(grid, b -> b == 2, (byte)10);
-     * // grid is now: {{1, 10}, {3, 10}}
+     * Arrays.replaceIf(grid, b -> b == 2, (byte) 10);
+     * // grid is now {{1, 10}, {3, 10}}
+     *
+     * // Clamp negative values to 0 across all rows
+     * byte[][] grid2 = {{-1, 5}, {3, -2}};
+     * Arrays.replaceIf(grid2, b -> b < 0, (byte) 0);
+     * // grid2 is now {{0, 5}, {3, 0}}
+     *
+     * // Null array: no-op, no exception thrown
+     * Arrays.replaceIf((byte[][]) null, b -> b == 2, (byte) 10);
+     *
+     * // Array with null sub-array: null sub-array is skipped
+     * byte[][] withNull = {null, {1, 2}};
+     * Arrays.replaceIf(withNull, b -> b == 2, (byte) 10);
+     * // withNull is now {null, [1, 10]}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -4579,9 +6262,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace all 2s with 0 throughout the cube
      * byte[][][] cube = {{{1, 2}, {3, 2}}, {{5, 2}, {7, 8}}};
-     * Arrays.replaceIf(cube, b -> b == 2, (byte)0);
-     * // cube is now: {{{1, 0}, {3, 0}}, {{5, 0}, {7, 8}}}
+     * Arrays.replaceIf(cube, b -> b == 2, (byte) 0);
+     * // cube is now {{{1, 0}, {3, 0}}, {{5, 0}, {7, 8}}}
+     *
+     * // Clamp values above 5 to 5 throughout the cube
+     * byte[][][] cube2 = {{{1, 7}}, {{3, 9}}};
+     * Arrays.replaceIf(cube2, b -> b > 5, (byte) 5);
+     * // cube2 is now {{{1, 5}}, {{3, 5}}}
+     *
+     * // Null array: no-op, no exception thrown
+     * Arrays.replaceIf((byte[][][]) null, b -> b == 2, (byte) 0);
+     *
+     * // Array with null 2D sub-array: null sub-array is skipped
+     * byte[][][] withNull = {null, {{5, 2}}};
+     * Arrays.replaceIf(withNull, b -> b == 2, (byte) 0);
+     * // withNull is now {null, {{5, 0}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -4608,9 +6305,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null and empty sub-arrays are skipped
      * byte[][] arr = {{1, 2}, null, {3}, {4, 5}};
      * byte[] flattened = Arrays.flatten(arr);
-     * // Result: {1, 2, 3, 4, 5}
+     * // flattened: [1, 2, 3, 4, 5]
+     *
+     * // Regular 2D array
+     * byte[][] grid = {{10, 20}, {30, 40}};
+     * byte[] flat = Arrays.flatten(grid);
+     * // flat: [10, 20, 30, 40]
+     *
+     * // Null array returns empty
+     * byte[] r1 = Arrays.flatten((byte[][]) null);
+     * // r1: []
+     *
+     * // Empty array returns empty
+     * byte[] r2 = Arrays.flatten(new byte[0][]);
+     * // r2: []
+     *
+     * // All sub-arrays null: returns empty
+     * byte[] r3 = Arrays.flatten(new byte[][]{null, null});
+     * // r3: []
      * }</pre>
      *
      * @param a the two-dimensional byte array to flatten (can be {@code null}).
@@ -4647,9 +6362,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-arrays at any level are skipped
      * byte[][][] cube = {{{1, 2}, {3}}, null, {{4, 5}}};
      * byte[] flattened = Arrays.flatten(cube);
-     * // Result: {1, 2, 3, 4, 5}
+     * // flattened: [1, 2, 3, 4, 5]
+     *
+     * // Regular 3D array
+     * byte[][][] cube2 = {{{10, 20}}, {{30, 40}, {50}}};
+     * byte[] flat2 = Arrays.flatten(cube2);
+     * // flat2: [10, 20, 30, 40, 50]
+     *
+     * // Null array returns empty
+     * byte[] r1 = Arrays.flatten((byte[][][]) null);
+     * // r1: []
+     *
+     * // Empty array returns empty
+     * byte[] r2 = Arrays.flatten(new byte[0][][]);
+     * // r2: []
+     *
+     * // All sub-arrays null: returns empty
+     * byte[] r3 = Arrays.flatten(new byte[][][]{null, null});
+     * // r3: []
      * }</pre>
      *
      * @param a the three-dimensional byte array to flatten (can be {@code null}).
@@ -4692,9 +6425,25 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements globally, preserve 2D structure
      * byte[][] arr = {{3, 1}, {4, 2}};
-     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));   // Sorts all elements
-     * // arr becomes: {{1, 2}, {3, 4}}
+     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
+     * // arr is now {{1, 2}, {3, 4}}
+     *
+     * // Replace all elements with 0 in-place
+     * byte[][] arr2 = {{5, 3}, {8, 1}};
+     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.fill(t, (byte) 0));
+     * // arr2 is now {{0, 0}, {0, 0}}
+     *
+     * // Null array: no-op, no exception thrown
+     * Arrays.mutateAsFlat((byte[][]) null, t -> java.util.Arrays.sort(t));
+     *
+     * // Empty array: no-op
+     * byte[][] empty = {};
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     *
+     * // Null action: throws IllegalArgumentException
+     * Arrays.mutateAsFlat(new byte[][]{{1, 2}}, null);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -4733,9 +6482,25 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements globally, preserve 3D structure
      * byte[][][] cube = {{{3, 1}, {4, 2}}, {{6, 5}, {8, 7}}};
-     * Arrays.mutateAsFlat(cube, arr -> java.util.Arrays.sort(arr));   // Sorts all elements
-     * // cube's structure is preserved but elements are sorted
+     * Arrays.mutateAsFlat(cube, arr -> java.util.Arrays.sort(arr));
+     * // cube is now {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+     *
+     * // Zero-out all elements in-place
+     * byte[][][] cube2 = {{{5, 3}}, {{8, 1}}};
+     * Arrays.mutateAsFlat(cube2, arr -> java.util.Arrays.fill(arr, (byte) 0));
+     * // cube2 is now {{{0, 0}}, {{0, 0}}}
+     *
+     * // Null array: no-op, no exception thrown
+     * Arrays.mutateAsFlat((byte[][][]) null, arr -> java.util.Arrays.sort(arr));
+     *
+     * // Empty array: no-op
+     * byte[][][] empty = {};
+     * Arrays.mutateAsFlat(empty, arr -> java.util.Arrays.sort(arr));
+     *
+     * // Null action: throws IllegalArgumentException
+     * Arrays.mutateAsFlat(new byte[][][]{{{1}}}, null);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -4777,9 +6542,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: uneven division - last row is partial
      * byte[] arr = {1, 2, 3, 4, 5};
      * byte[][] reshaped = Arrays.reshape(arr, 2);
-     * // Result: {{1, 2}, {3, 4}, {5}}
+     * // reshaped: [[1, 2], [3, 4], [5]]
+     *
+     * // Even division
+     * byte[] arr2 = {1, 2, 3, 4};
+     * byte[][] r2 = Arrays.reshape(arr2, 2);
+     * // r2: [[1, 2], [3, 4]]
+     *
+     * // Null input: returns empty 2D array
+     * byte[][] r3 = Arrays.reshape((byte[]) null, 3);
+     * // r3 has length 0
+     *
+     * // Empty input: returns empty 2D array
+     * byte[][] r4 = Arrays.reshape(new byte[]{}, 3);
+     * // r4 has length 0
+     *
+     * // Non-positive columnCount: throws IllegalArgumentException
+     * Arrays.reshape(new byte[]{1, 2}, 0);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional byte array to reshape (can be {@code null} or empty).
@@ -4812,9 +6594,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 6 elements into 2x2 blocks - last block is partial
      * byte[] arr = {1, 2, 3, 4, 5, 6};
      * byte[][][] reshaped = Arrays.reshape(arr, 2, 2);
-     * // Result: {{{1, 2}, {3, 4}}, {{5, 6}}}
+     * // reshaped: [[[1, 2], [3, 4]], [[5, 6]]]
+     *
+     * // Evenly divisible: 8 elements into 2x2 blocks
+     * byte[] arr2 = {1, 2, 3, 4, 5, 6, 7, 8};
+     * byte[][][] r2 = Arrays.reshape(arr2, 2, 2);
+     * // r2: [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+     *
+     * // Null input: returns empty 3D array
+     * byte[][][] r3 = Arrays.reshape((byte[]) null, 2, 2);
+     * // r3 has length 0
+     *
+     * // Empty input: returns empty 3D array
+     * byte[][][] r4 = Arrays.reshape(new byte[]{}, 2, 2);
+     * // r4 has length 0
+     *
+     * // Non-positive rowCount or columnCount: throws IllegalArgumentException
+     * Arrays.reshape(new byte[]{1, 2}, 0, 2);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional byte array to reshape (can be {@code null} or empty).
@@ -4853,12 +6652,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: truncates to shortest - a has 4 elements, b has 3
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6, 7};
-     * byte[] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
-     * // result: {6, 8, 10}
+     * byte[] result = Arrays.zip(a, b, (x, y) -> (byte)(x + y));
+     * // result: [6, 8, 10]
+     *
+     * // Same-length arrays: all elements are zipped
+     * byte[] a2 = {1, 2, 3};
+     * byte[] b2 = {4, 5, 6};
+     * byte[] r2 = Arrays.zip(a2, b2, (x, y) -> (byte)(x + y));
+     * // r2: [5, 7, 9]
+     *
+     * // One null array: result is empty
+     * byte[] r3 = Arrays.zip((byte[]) null, new byte[]{1, 2}, (x, y) -> (byte)(x + y));
+     * // r3: []
+     *
+     * // Both empty: result is empty
+     * byte[] r4 = Arrays.zip(new byte[]{}, new byte[]{}, (x, y) -> (byte)(x + y));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -4886,12 +6700,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: a is longer; b is padded with defaultValueB=10
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6};
-     * byte[] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte) (x + y));
-     * // result: {6, 8, 13, 14} (using 10 for missing b elements)
+     * byte[] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte)(x + y));
+     * // result: [6, 8, 13, 14]  (i=2: 3+10=13, i=3: 4+10=14)
+     *
+     * // b is longer; a is padded with defaultValueA=0
+     * byte[] a2 = {1};
+     * byte[] b2 = {5, 6, 7};
+     * byte[] r2 = Arrays.zip(a2, b2, (byte) 0, (byte) 10, (x, y) -> (byte)(x + y));
+     * // r2: [6, 6, 7]  (i=1: 0+6=6, i=2: 0+7=7)
+     *
+     * // Both null: result is empty
+     * byte[] r3 = Arrays.zip((byte[]) null, (byte[]) null, (byte) 0, (byte) 10, (x, y) -> (byte)(x + y));
+     * // r3: []
+     *
+     * // Single element each: straightforward
+     * byte[] r4 = Arrays.zip(new byte[]{5}, new byte[]{3}, (byte) 0, (byte) 0, (x, y) -> (byte)(x + y));
+     * // r4: [8]
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -4933,13 +6762,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: truncates to shortest - c has only 2 elements
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6, 7};
      * byte[] c = {8, 9};
-     * byte[] result = Arrays.zip(a, b, c, (x, y, z) -> (byte) (x + y + z));
-     * // result: {14, 17}
+     * byte[] result = Arrays.zip(a, b, c, (x, y, z) -> (byte)(x + y + z));
+     * // result: [14, 17]  (i=0: 1+5+8=14, i=1: 2+6+9=17)
+     *
+     * // Same-length arrays: all elements are zipped
+     * byte[] a2 = {1, 2};
+     * byte[] b2 = {3, 4};
+     * byte[] c2 = {5, 6};
+     * byte[] r2 = Arrays.zip(a2, b2, c2, (x, y, z) -> (byte)(x + y + z));
+     * // r2: [9, 12]
+     *
+     * // One null array: result is empty
+     * byte[] r3 = Arrays.zip((byte[]) null, new byte[]{1}, new byte[]{2}, (x, y, z) -> (byte)(x + y + z));
+     * // r3: []
+     *
+     * // All empty: result is empty
+     * byte[] r4 = Arrays.zip(new byte[]{}, new byte[]{}, new byte[]{}, (x, y, z) -> (byte)(x + y + z));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -4970,13 +6815,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: pads to longest (a, length 4); i=2: 3+10+10=23, i=3: 4+10+20=34
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6};
      * byte[] c = {8, 9, 10};
-     * byte[] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte) (x + y + z));
-     * // result: {14, 17, 23, 34} (using defaults for missing elements)
+     * byte[] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte)(x + y + z));
+     * // result: [14, 17, 23, 34]
+     *
+     * // Only c is longest; pads a and b with their defaults
+     * byte[] a2 = {1};
+     * byte[] b2 = {2};
+     * byte[] c2 = {3, 4, 5};
+     * byte[] r2 = Arrays.zip(a2, b2, c2, (byte) 10, (byte) 20, (byte) 30, (x, y, z) -> (byte)(x + y + z));
+     * // r2: [6, 34, 35]  (i=0: 1+2+3=6, i=1: 10+20+4=34, i=2: 10+20+5=35)
+     *
+     * // All null: result is empty
+     * byte[] r3 = Arrays.zip((byte[]) null, (byte[]) null, (byte[]) null,
+     *         (byte) 0, (byte) 0, (byte) 0, (x, y, z) -> (byte)(x + y + z));
+     * // r3: []
+     *
+     * // Single element each: straightforward
+     * byte[] r4 = Arrays.zip(new byte[]{1}, new byte[]{2}, new byte[]{3},
+     *         (byte) 0, (byte) 0, (byte) 0, (x, y, z) -> (byte)(x + y + z));
+     * // r4: [6]
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -5017,12 +6880,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer truncates to min(2,2)=2; each row truncates to shortest inner
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}};
-     * byte[][] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
-     * // result: {{6, 8}, {11, 13}}
+     * byte[][] result = Arrays.zip(a, b, (x, y) -> (byte)(x + y));
+     * // result: [[6, 8], [11, 13]]
+     * // row0: min(2,3)=2 -> {1+5,2+6}={6,8}; row1: min(3,2)=2 -> {3+8,4+9}={11,13}
+     *
+     * // Single matching row
+     * byte[][] a2 = {{1, 2}};
+     * byte[][] b2 = {{3, 4}};
+     * byte[][] r2 = Arrays.zip(a2, b2, (x, y) -> (byte)(x + y));
+     * // r2: [[4, 6]]
+     *
+     * // Null first array: result is empty
+     * byte[][] r3 = Arrays.zip((byte[][]) null, new byte[][]{{1}}, (x, y) -> (byte)(x + y));
+     * // r3: []
+     *
+     * // Both empty: result is empty
+     * byte[][] r4 = Arrays.zip(new byte[][]{}, new byte[][]{}, (x, y) -> (byte)(x + y));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -5050,12 +6929,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b has 3 rows, a has 2; row2 uses null for a
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}, {10}};
-     * byte[][] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte) (x + y));
-     * // result: {{6, 8, 7}, {11, 13, 15}, {10}}
+     * byte[][] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte)(x + y));
+     * // result: [[6, 8, 7], [11, 13, 15], [10]]
+     * // row0: {1+5,2+6,0+7}={6,8,7}; row1: {3+8,4+9,5+10}={11,13,15}; row2: {0+10}={10}
+     *
+     * // Same-length: no padding needed
+     * byte[][] a2 = {{1}};
+     * byte[][] b2 = {{2}};
+     * byte[][] r2 = Arrays.zip(a2, b2, (byte) 0, (byte) 0, (x, y) -> (byte)(x + y));
+     * // r2: [[3]]
+     *
+     * // Both null: result is empty
+     * byte[][] r3 = Arrays.zip((byte[][]) null, (byte[][]) null, (byte) 0, (byte) 0, (x, y) -> (byte)(x + y));
+     * // r3: []
+     *
+     * // Both empty: result is empty
+     * byte[][] r4 = Arrays.zip(new byte[][]{}, new byte[][]{}, (byte) 0, (byte) 0, (x, y) -> (byte)(x + y));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -5097,13 +6992,30 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: all outer arrays have 2 rows; each row truncates to shortest inner
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}};
      * byte[][] c = {{10, 11}, {12, 13, 14}};
-     * byte[][] result = Arrays.zip(a, b, c, (x, y, z) -> (byte) (x + y + z));
-     * // result: {{16, 19}, {23, 26}}
+     * byte[][] result = Arrays.zip(a, b, c, (x, y, z) -> (byte)(x + y + z));
+     * // result: [[16, 19], [23, 26]]
+     * // row0: min(2,3,2)=2 -> {1+5+10,2+6+11}={16,19}; row1: min(3,2,3)=2 -> {3+8+12,4+9+13}={23,26}
+     *
+     * // Single matching row
+     * byte[][] a2 = {{1}};
+     * byte[][] b2 = {{2}};
+     * byte[][] c2 = {{3}};
+     * byte[][] r2 = Arrays.zip(a2, b2, c2, (x, y, z) -> (byte)(x + y + z));
+     * // r2: [[6]]
+     *
+     * // Null first array: result is empty
+     * byte[][] r3 = Arrays.zip((byte[][]) null, new byte[][]{{1}}, new byte[][]{{2}}, (x, y, z) -> (byte)(x + y + z));
+     * // r3: []
+     *
+     * // All empty: result is empty
+     * byte[][] r4 = Arrays.zip(new byte[][]{}, new byte[][]{}, new byte[][]{}, (x, y, z) -> (byte)(x + y + z));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -5134,13 +7046,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b has 3 rows, a has 2, c has 1; shorter arrays use null for extra rows
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * byte[][] c = {{10, 11}};
-     * byte[][] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte) (x + y + z));
-     * // result: {{16, 19, 27}, {31, 33, 35}, {30}}
+     * byte[][] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte)(x + y + z));
+     * // result: [[16, 19, 27], [31, 33, 35], [30]]
+     * // row0: {1+5+10,2+6+11,0+7+20}={16,19,27}; row1: {3+8+20,4+9+20,5+10+20}={31,33,35}; row2: {0+10+20}={30}
+     *
+     * // Same-length arrays: no padding needed
+     * byte[][] a2 = {{1}};
+     * byte[][] b2 = {{2}};
+     * byte[][] c2 = {{3}};
+     * byte[][] r2 = Arrays.zip(a2, b2, c2, (byte) 0, (byte) 0, (byte) 0, (x, y, z) -> (byte)(x + y + z));
+     * // r2: [[6]]
+     *
+     * // All null: result is empty
+     * byte[][] r3 = Arrays.zip((byte[][]) null, (byte[][]) null, (byte[][]) null,
+     *         (byte) 0, (byte) 0, (byte) 0, (x, y, z) -> (byte)(x + y + z));
+     * // r3: []
+     *
+     * // All empty: result is empty
+     * byte[][] r4 = Arrays.zip(new byte[][]{}, new byte[][]{}, new byte[][]{},
+     *         (byte) 0, (byte) 0, (byte) 0, (x, y, z) -> (byte)(x + y + z));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -5182,12 +7113,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: both outer arrays have 2 slices; inner zipping truncates to shortest row
      * byte[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * byte[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
-     * byte[][][] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
-     * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {77, 88}}}
+     * byte[][][] result = Arrays.zip(a, b, (x, y) -> (byte)(x + y));
+     * // result: [[[11, 22], [33, 44]], [[55, 66], [77, 88]]]
+     *
+     * // Single element per slice
+     * byte[][][] a2 = {{{1}}};
+     * byte[][][] b2 = {{{2}}};
+     * byte[][][] r2 = Arrays.zip(a2, b2, (x, y) -> (byte)(x + y));
+     * // r2: [[[3]]]
+     *
+     * // Null first array: result is empty
+     * byte[][][] r3 = Arrays.zip((byte[][][]) null, new byte[][][]{{{1}}}, (x, y) -> (byte)(x + y));
+     * // r3: []
+     *
+     * // Both empty: result is empty
+     * byte[][][] r4 = Arrays.zip(new byte[][][]{}, new byte[][][]{}, (x, y) -> (byte)(x + y));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -5215,12 +7161,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b has 3 slices, a has 2; slice[1] uses null for a's missing row, slice[2] uses null for a
      * byte[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * byte[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
-     * byte[][][] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte) (x + y));
-     * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
+     * byte[][][] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte)(x + y));
+     * // result: [[[11, 22], [33, 44]], [[55, 66], [70, 80]], [[90]]]
+     * // slice[1][1]: zip(null,{70,80},0,10) -> {70, 80}; slice[2][0]: zip(null,{90},0,10) -> {90}
+     *
+     * // Single element per slice
+     * byte[][][] a2 = {{{1}}};
+     * byte[][][] b2 = {{{2}}};
+     * byte[][][] r2 = Arrays.zip(a2, b2, (byte) 0, (byte) 0, (x, y) -> (byte)(x + y));
+     * // r2: [[[3]]]
+     *
+     * // Both null: result is empty
+     * byte[][][] r3 = Arrays.zip((byte[][][]) null, (byte[][][]) null, (byte) 0, (byte) 0, (x, y) -> (byte)(x + y));
+     * // r3: []
+     *
+     * // Both empty: result is empty
+     * byte[][][] r4 = Arrays.zip(new byte[][][]{}, new byte[][][]{}, (byte) 0, (byte) 0, (x, y) -> (byte)(x + y));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -5262,13 +7224,30 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer truncates to min(1,1,1)=1; inner rows truncate to shortest
      * byte[][][] a = {{{1, 2}}};
      * byte[][][] b = {{{11, 12}, {13, 14}}};
      * byte[][][] c = {{{21, 22}}};
-     * byte[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (byte) (x + y + z));
-     * // result: {{{33, 36}}}
+     * byte[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (byte)(x + y + z));
+     * // result: [[[33, 36]]]
+     * // slice[0]: zip2D({1,2},{11,12},{21,22}): min rows=1 -> {1+11+21,2+12+22}={33,36}
+     *
+     * // Single element per slice
+     * byte[][][] a2 = {{{1}}};
+     * byte[][][] b2 = {{{2}}};
+     * byte[][][] c2 = {{{3}}};
+     * byte[][][] r2 = Arrays.zip(a2, b2, c2, (x, y, z) -> (byte)(x + y + z));
+     * // r2: [[[6]]]
+     *
+     * // Null first array: result is empty
+     * byte[][][] r3 = Arrays.zip((byte[][][]) null, new byte[][][]{{{1}}}, new byte[][][]{{{2}}}, (x, y, z) -> (byte)(x + y + z));
+     * // r3: []
+     *
+     * // All empty: result is empty
+     * byte[][][] r4 = Arrays.zip(new byte[][][]{}, new byte[][][]{}, new byte[][][]{}, (x, y, z) -> (byte)(x + y + z));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -5299,13 +7278,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b has 2 rows in slice[0]; a and c have 1 row; extra row uses defaults for a and c
      * byte[][][] a = {{{1, 2}}};
      * byte[][][] b = {{{11, 12}, {13, 14}}};
      * byte[][][] c = {{{21, 22}}};
-     * byte[][][] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte) (x + y + z));
-     * // result: {{{33, 36}, {33, 34}}}
+     * byte[][][] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte)(x + y + z));
+     * // result: [[[33, 36], [33, 34]]]
+     * // row0: {1+11+21,2+12+22}={33,36}; row1: zip(null,{13,14},null,0,10,20) -> {0+13+20,0+14+20}={33,34}
+     *
+     * // Single element per slice
+     * byte[][][] a2 = {{{1}}};
+     * byte[][][] b2 = {{{2}}};
+     * byte[][][] c2 = {{{3}}};
+     * byte[][][] r2 = Arrays.zip(a2, b2, c2, (byte) 0, (byte) 0, (byte) 0, (x, y, z) -> (byte)(x + y + z));
+     * // r2: [[[6]]]
+     *
+     * // All null: result is empty
+     * byte[][][] r3 = Arrays.zip((byte[][][]) null, (byte[][][]) null, (byte[][][]) null,
+     *         (byte) 0, (byte) 0, (byte) 0, (x, y, z) -> (byte)(x + y + z));
+     * // r3: []
+     *
+     * // All empty: result is empty
+     * byte[][][] r4 = Arrays.zip(new byte[][][]{}, new byte[][][]{}, new byte[][][]{},
+     *         (byte) 0, (byte) 0, (byte) 0, (x, y, z) -> (byte)(x + y + z));
+     * // r4: []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -5344,8 +7342,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-arrays count as 0
      * byte[][] array = {{1, 2, 3}, null, {4, 5}};
      * long count = Arrays.elementCount(array);   // returns 5
+     *
+     * // All elements in each row
+     * byte[][] grid = {{1, 2}, {3, 4}, {5, 6}};
+     * long count2 = Arrays.elementCount(grid);   // returns 6
+     *
+     * // Null array: returns 0
+     * long count3 = Arrays.elementCount((byte[][]) null);   // returns 0
+     *
+     * // Empty array: returns 0
+     * long count4 = Arrays.elementCount(new byte[0][]);   // returns 0
+     *
+     * // All null sub-arrays: returns 0
+     * long count5 = Arrays.elementCount(new byte[][]{null, null});   // returns 0
      * }</pre>
      *
      * @param a the two-dimensional byte array (can be {@code null} or empty).
@@ -5372,8 +7384,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null/empty sub-arrays at any level are skipped
      * byte[][][] array = {{{1, 2}, {3}}, {{4, 5, 6}}};
      * long count = Arrays.elementCount(array);   // returns 6
+     *
+     * // With null 2D sub-array
+     * byte[][][] array2 = {null, {{1, 2}}};
+     * long count2 = Arrays.elementCount(array2);   // returns 2
+     *
+     * // Null array: returns 0
+     * long count3 = Arrays.elementCount((byte[][][]) null);   // returns 0
+     *
+     * // Empty array: returns 0
+     * long count4 = Arrays.elementCount(new byte[0][][]);   // returns 0
      * }</pre>
      *
      * @param a the three-dimensional byte array (can be {@code null} or empty).
@@ -5411,8 +7434,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: shortest sub-array has 2 elements
      * byte[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
      * int minLen = Arrays.minSubArrayLength(array);   // returns 2
+     *
+     * // Single sub-array
+     * byte[][] single = {{1, 2, 3}};
+     * int minLen2 = Arrays.minSubArrayLength(single);   // returns 3
+     *
+     * // Null sub-array is treated as length 0
+     * byte[][] withNull = {{1, 2, 3}, null, {4, 5}};
+     * int minLen3 = Arrays.minSubArrayLength(withNull);   // returns 0
+     *
+     * // Null array: returns 0
+     * int minLen4 = Arrays.minSubArrayLength((byte[][]) null);   // returns 0
+     *
+     * // Empty array: returns 0
+     * int minLen5 = Arrays.minSubArrayLength(new byte[0][]);   // returns 0
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null} or empty).
@@ -5440,8 +7478,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-array is treated as length 0; longest has 4 elements
      * byte[][] array = {{1, 2}, null, {3, 4, 5, 6}};
      * int maxLen = Arrays.maxSubArrayLength(array);   // returns 4
+     *
+     * // Single sub-array
+     * byte[][] single = {{1, 2, 3}};
+     * int maxLen2 = Arrays.maxSubArrayLength(single);   // returns 3
+     *
+     * // All null sub-arrays: returns 0
+     * byte[][] allNull = {null, null};
+     * int maxLen3 = Arrays.maxSubArrayLength(allNull);   // returns 0
+     *
+     * // Null array: returns 0
+     * int maxLen4 = Arrays.maxSubArrayLength((byte[][]) null);   // returns 0
+     *
+     * // Empty array: returns 0
+     * int maxLen5 = Arrays.maxSubArrayLength(new byte[0][]);   // returns 0
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null} or empty).
@@ -5478,18 +7531,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: prints and returns the string representation
      * byte[] array = {1, 2, 3, 4, 5};
      * String result = Arrays.println(array);
-     * // Prints to console and returns: "[1, 2, 3, 4, 5]"
+     * // Prints "[1, 2, 3, 4, 5]" and result: "[1, 2, 3, 4, 5]"
      *
-     * // Null array
+     * // Single element
+     * byte[] single = {42};
+     * String r2 = Arrays.println(single);
+     * // Prints "[42]" and r2: "[42]"
+     *
+     * // Null array: prints and returns "null"
      * String nullResult = Arrays.println((byte[]) null);
-     * // Prints "null"
+     * // nullResult: "null"
      *
-     * // Empty array
+     * // Empty array: prints and returns "[]"
      * byte[] empty = new byte[0];
      * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // emptyResult: "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -5528,23 +7587,25 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: prints each row on its own line with separators
      * byte[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[1, 2, 3],
-     * //  [4, 5],
-     * //  null,
-     * //  [],
-     * //  [6]]
+     * // Prints to console and result starts with "[[1, 2, 3]," and ends with "[6]]"
+     * // (null sub-arrays appear as "null", empty sub-arrays as "[]")
      *
-     * // Null array
+     * // Simple 2-row array
+     * byte[][] grid = {{1, 2}, {3, 4}};
+     * String r2 = Arrays.println(grid);
+     * // r2 starts with "[[1, 2]," and ends with "[3, 4]]"
+     *
+     * // Null array: prints and returns "null"
      * String nullResult = Arrays.println((byte[][]) null);
-     * // Prints "null"
+     * // nullResult: "null"
      *
-     * // Empty array
+     * // Empty array: prints and returns "[]"
      * byte[][] empty = new byte[0][];
      * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // emptyResult: "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -5624,24 +7685,25 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: prints with line separators between slices and within each 2D slice
      * byte[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[[1, 2, 3],
-     * //   [4, 5]],
-     * //  [[6, 7],
-     * //   null,
-     * //   []],
-     * //  null]
+     * // Prints to console; result starts with "[[[1, 2, 3]," and ends with "null]"
+     * // (null 2D sub-arrays appear as "null", empty ones as "[]")
      *
-     * // Null array
+     * // Single element
+     * byte[][][] single = {{{1}}};
+     * String r2 = Arrays.println(single);
+     * // r2: "[[[1]]]"
+     *
+     * // Null array: prints and returns "null"
      * String nullResult = Arrays.println((byte[][][]) null);
-     * // Prints "null"
+     * // nullResult: "null"
      *
-     * // Empty array
+     * // Empty array: prints and returns "[]"
      * byte[][][] empty = new byte[0][][];
      * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // emptyResult: "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -5725,8 +7787,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: square each element
      * short[] array = {1, 2, 3};
-     * Arrays.updateAll(array, x -> (short)(x * x));   // array becomes [1, 4, 9]
+     * Arrays.updateAll(array, x -> (short)(x * x));
+     * // array is now {1, 4, 9}
+     *
+     * // Basic: negate each element
+     * short[] neg = {5, -3, 0};
+     * Arrays.updateAll(neg, x -> (short)(-x));
+     * // neg is now {-5, 3, 0}
+     *
+     * // Edge: null array - no-op, no exception
+     * Arrays.updateAll((short[]) null, x -> (short)(x + 1));
+     *
+     * // Edge: empty array - no-op
+     * short[] empty = {};
+     * Arrays.updateAll(empty, x -> (short)(x + 1));
+     * // empty remains {}
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5753,8 +7830,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: add 10 to every element
      * short[][] array = {{1, 2}, {3, 4}};
-     * Arrays.updateAll(array, x -> (short)(x + 10));   // array becomes {{11, 12}, {13, 14}}
+     * Arrays.updateAll(array, x -> (short)(x + 10));
+     * // array is now {{11, 12}, {13, 14}}
+     *
+     * // Basic: double every element with uneven rows
+     * short[][] uneven = {{1}, {2, 3, 4}};
+     * Arrays.updateAll(uneven, x -> (short)(x * 2));
+     * // uneven is now {{2}, {4, 6, 8}}
+     *
+     * // Edge: null array - no-op
+     * Arrays.updateAll((short[][]) null, x -> (short)(x + 1));
+     *
+     * // Edge: array with a null sub-array - null row is skipped without error
+     * short[][] withNull = {null, {3, 4}};
+     * Arrays.updateAll(withNull, x -> (short)(x + 1));
+     * // withNull[0] is still null; withNull[1] is now {4, 5}
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5781,8 +7873,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: double every element
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * Arrays.updateAll(array, x -> (short)(x * 2));   // all elements doubled
+     * Arrays.updateAll(array, x -> (short)(x * 2));
+     * // array is now {{{2, 4}}, {{6, 8}}}
+     *
+     * // Basic: single-element cube
+     * short[][][] single = {{{(short) 7}}};
+     * Arrays.updateAll(single, x -> (short)(x - 3));
+     * // single is now {{{4}}}
+     *
+     * // Edge: null array - no-op
+     * Arrays.updateAll((short[][][]) null, x -> (short)(x + 1));
+     *
+     * // Edge: empty array - no-op
+     * short[][][] empty = {};
+     * Arrays.updateAll(empty, x -> (short)(x + 1));
+     * // empty remains {}
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5809,8 +7916,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: zero out elements greater than 3
      * short[] array = {1, 2, 3, 4, 5};
-     * Arrays.replaceIf(array, x -> x > 3, (short)0);   // array becomes [1, 2, 3, 0, 0]
+     * Arrays.replaceIf(array, x -> x > 3, (short) 0);
+     * // array is now {1, 2, 3, 0, 0}
+     *
+     * // Basic: no element matches - array unchanged
+     * short[] unchanged = {1, 2, 3};
+     * Arrays.replaceIf(unchanged, x -> x > 10, (short) 99);
+     * // unchanged remains {1, 2, 3}
+     *
+     * // Edge: null array - no-op
+     * Arrays.replaceIf((short[]) null, x -> x > 0, (short) 0);
+     *
+     * // Edge: empty array - no-op
+     * short[] empty = {};
+     * Arrays.replaceIf(empty, x -> x > 0, (short) 0);
+     * // empty remains {}
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -5839,8 +7961,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: zero out even elements
      * short[][] array = {{1, 2}, {3, 4}};
-     * Arrays.replaceIf(array, x -> x % 2 == 0, (short)0);   // array becomes {{1, 0}, {3, 0}}
+     * Arrays.replaceIf(array, x -> x % 2 == 0, (short) 0);
+     * // array is now {{1, 0}, {3, 0}}
+     *
+     * // Basic: all elements match - entire array replaced
+     * short[][] allFive = {{5, 5}, {5}};
+     * Arrays.replaceIf(allFive, x -> x == 5, (short) 0);
+     * // allFive is now {{0, 0}, {0}}
+     *
+     * // Edge: null array - no-op
+     * Arrays.replaceIf((short[][]) null, x -> x > 0, (short) 0);
+     *
+     * // Edge: empty array - no-op
+     * short[][] empty = {};
+     * Arrays.replaceIf(empty, x -> x > 0, (short) 0);
+     * // empty remains {}
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -5867,8 +8004,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace elements less than 3 with 10
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * Arrays.replaceIf(array, x -> x < 3, (short)10);   // replaces 1 and 2 with 10
+     * Arrays.replaceIf(array, x -> x < 3, (short) 10);
+     * // array is now {{{10, 10}}, {{3, 4}}}
+     *
+     * // Basic: single-element replacement
+     * short[][][] single = {{{(short) 7}}};
+     * Arrays.replaceIf(single, x -> x == 7, (short) 99);
+     * // single is now {{{99}}}
+     *
+     * // Edge: null array - no-op
+     * Arrays.replaceIf((short[][][]) null, x -> x > 0, (short) 0);
+     *
+     * // Edge: empty array - no-op
+     * short[][][] empty = {};
+     * Arrays.replaceIf(empty, x -> x > 0, (short) 0);
+     * // empty remains {}
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -5895,8 +8047,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 5 elements into 2 columns - last row is partial
      * short[] array = {1, 2, 3, 4, 5};
-     * short[][] reshaped = Arrays.reshape(array, 2);   // returns {{1, 2}, {3, 4}, {5}}
+     * short[][] reshaped = Arrays.reshape(array, 2);
+     * // returns {{1, 2}, {3, 4}, {5}}
+     *
+     * // Basic: 4 elements into 2 columns - evenly divides
+     * short[] even = {1, 2, 3, 4};
+     * short[][] reshapedEven = Arrays.reshape(even, 2);
+     * // returns {{1, 2}, {3, 4}}
+     *
+     * // Edge: null array - returns empty 2D array
+     * short[][] fromNull = Arrays.reshape((short[]) null, 2);
+     * // fromNull.length == 0
+     *
+     * // Edge: non-positive columnCount - throws IllegalArgumentException
+     * Arrays.reshape(new short[]{1, 2}, 0);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the array to reshape (can be {@code null} or empty).
@@ -5929,8 +8095,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 8 elements into blocks of 2 rows × 2 columns
      * short[] array = {1, 2, 3, 4, 5, 6, 7, 8};
-     * short[][][] reshaped = Arrays.reshape(array, 2, 2);   // returns {{{1,2},{3,4}}, {{5,6},{7,8}}}
+     * short[][][] reshaped = Arrays.reshape(array, 2, 2);
+     * // returns {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+     *
+     * // Basic: 5 elements into blocks of 2 rows × 2 columns - last block is partial
+     * short[] partial = {1, 2, 3, 4, 5};
+     * short[][][] partialReshaped = Arrays.reshape(partial, 2, 2);
+     * // returns {{{1, 2}, {3, 4}}, {{5}}}
+     *
+     * // Edge: null array - returns empty 3D array
+     * short[][][] fromNull = Arrays.reshape((short[]) null, 2, 2);
+     * // fromNull.length == 0
+     *
+     * // Edge: non-positive rowCount or columnCount - throws IllegalArgumentException
+     * Arrays.reshape(new short[]{1, 2}, 0, 2);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the array to reshape (can be {@code null} or empty).
@@ -5970,8 +8150,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten a regular 2D array
      * short[][] array = {{1, 2}, {3, 4, 5}};
-     * short[] flat = Arrays.flatten(array);   // returns {1, 2, 3, 4, 5}
+     * short[] flat = Arrays.flatten(array);
+     * // returns {1, 2, 3, 4, 5}
+     *
+     * // Basic: null and empty sub-arrays are skipped
+     * short[][] mixed = {{1, 2}, null, {}, {3}};
+     * short[] flatMixed = Arrays.flatten(mixed);
+     * // returns {1, 2, 3}
+     *
+     * // Edge: null array - returns empty array
+     * short[] fromNull = Arrays.flatten((short[][]) null);
+     * // fromNull.length == 0
+     *
+     * // Edge: empty outer array - returns empty array
+     * short[] fromEmpty = Arrays.flatten(new short[0][]);
+     * // fromEmpty.length == 0
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
@@ -6009,8 +8204,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten a regular 3D array
      * short[][][] array = {{{1, 2}, {3}}, {{4, 5}}};
-     * short[] flat = Arrays.flatten(array);   // returns {1, 2, 3, 4, 5}
+     * short[] flat = Arrays.flatten(array);
+     * // returns {1, 2, 3, 4, 5}
+     *
+     * // Basic: null and empty sub-arrays at any level are skipped
+     * short[][][] mixed = {null, {{1, 2}, null, {}}, {{3}}};
+     * short[] flatMixed = Arrays.flatten(mixed);
+     * // returns {1, 2, 3}
+     *
+     * // Edge: null array - returns empty array
+     * short[] fromNull = Arrays.flatten((short[][][]) null);
+     * // fromNull.length == 0
+     *
+     * // Edge: empty outer array - returns empty array
+     * short[] fromEmpty = Arrays.flatten(new short[0][][]);
+     * // fromEmpty.length == 0
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
@@ -6053,8 +8263,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements globally across the 2D array
      * short[][] array = {{3, 1}, {4, 2}};
-     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));   // sorts all elements across sub-arrays
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
+     * // array is now {{1, 2}, {3, 4}}
+     *
+     * // Basic: null sub-arrays are skipped; only non-null rows participate and are updated
+     * short[][] withNull = {null, {3, 1}};
+     * Arrays.mutateAsFlat(withNull, t -> java.util.Arrays.sort(t));
+     * // withNull[0] is still null; withNull[1] is now {1, 3}
+     *
+     * // Edge: null outer array - no-op
+     * Arrays.mutateAsFlat((short[][]) null, t -> java.util.Arrays.sort(t));
+     *
+     * // Edge: empty outer array - no-op
+     * short[][] empty = {};
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     * // empty remains {}
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -6091,8 +8316,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements globally across the 3D array
      * short[][][] array = {{{5, 2}}, {{3, 1}}};
-     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));   // sorts all elements across all sub-arrays
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
+     * // array is now {{{1, 2}}, {{3, 5}}}
+     *
+     * // Basic: null sub-arrays at any level are skipped; non-null rows are updated in place
+     * short[][][] withNull = {null, {{4, 2}, null}, {{1}}};
+     * Arrays.mutateAsFlat(withNull, t -> java.util.Arrays.sort(t));
+     * // elements 4, 2, 1 sorted to 1, 2, 4
+     * // withNull[0] is still null; withNull[1][0] is {1, 2}; withNull[2][0] is {4}
+     *
+     * // Edge: null outer array - no-op
+     * Arrays.mutateAsFlat((short[][][]) null, t -> java.util.Arrays.sort(t));
+     *
+     * // Edge: empty outer array - no-op
+     * short[][][] empty = {};
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     * // empty remains {}
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -6134,12 +8375,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: add corresponding elements, result length = min(4, 3) = 3
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6, 7};
-     * short[] result = Arrays.zip(a, b, (x, y) -> (short) (x + y));
+     * short[] result = Arrays.zip(a, b, (x, y) -> (short)(x + y));
      * // result: {6, 8, 10}
+     *
+     * // Basic: multiply corresponding elements, equal-length arrays
+     * short[] x = {1, 2, 3};
+     * short[] y = {4, 5, 6};
+     * short[] product = Arrays.zip(x, y, (p, q) -> (short)(p * q));
+     * // product: {4, 10, 18}
+     *
+     * // Edge: one null array - result is empty
+     * short[] empty = Arrays.zip((short[]) null, new short[]{1, 2}, (p, q) -> (short)(p + q));
+     * // empty.length == 0
+     *
+     * // Edge: both empty - result is empty
+     * short[] bothEmpty = Arrays.zip(new short[0], new short[0], (p, q) -> (short)(p + q));
+     * // bothEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -6167,12 +8423,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: a is longer - missing b elements use defaultValueB = 10
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6};
-     * short[] result = Arrays.zip(a, b, (short) 0, (short) 10, (x, y) -> (short) (x + y));
-     * // result: {6, 8, 13, 14} (using 10 for missing b elements)
+     * short[] result = Arrays.zip(a, b, (short) 0, (short) 10, (x, y) -> (short)(x + y));
+     * // result: {6, 8, 13, 14}
+     *
+     * // Basic: b is longer - missing a elements use defaultValueA = 0
+     * short[] a2 = {1};
+     * short[] b2 = {5, 6, 7};
+     * short[] result2 = Arrays.zip(a2, b2, (short) 0, (short) 10, (x, y) -> (short)(x + y));
+     * // result2: {6, 6, 7}  (1+5, 0+6, 0+7)
+     *
+     * // Edge: one null array - treated as empty; pads with default
+     * short[] fromNull = Arrays.zip((short[]) null, new short[]{5, 6}, (short) 0, (short) 10, (x, y) -> (short)(x + y));
+     * // fromNull: {5, 6}  (0+5, 0+6)
+     *
+     * // Edge: both null - result is empty
+     * short[] bothNull = Arrays.zip((short[]) null, (short[]) null, (short) 0, (short) 10, (x, y) -> (short)(x + y));
+     * // bothNull.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -6214,13 +8485,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: result length = min(4, 3, 2) = 2
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6, 7};
      * short[] c = {8, 9};
-     * short[] result = Arrays.zip(a, b, c, (x, y, z) -> (short) (x + y + z));
+     * short[] result = Arrays.zip(a, b, c, (x, y, z) -> (short)(x + y + z));
      * // result: {14, 17}
+     *
+     * // Basic: equal-length arrays - all elements combined
+     * short[] a2 = {1, 2};
+     * short[] b2 = {3, 4};
+     * short[] c2 = {5, 6};
+     * short[] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> (short)(x + y + z));
+     * // result2: {9, 12}
+     *
+     * // Edge: one null array - result is empty (shortest = 0)
+     * short[] empty = Arrays.zip(new short[]{1, 2}, (short[]) null, new short[]{3, 4},
+     *         (x, y, z) -> (short)(x + y + z));
+     * // empty.length == 0
+     *
+     * // Edge: one empty array - result is empty
+     * short[] fromEmpty = Arrays.zip(new short[]{1, 2}, new short[]{3}, new short[0],
+     *         (x, y, z) -> (short)(x + y + z));
+     * // fromEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -6251,13 +8540,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: result length = max(4, 2, 3) = 4; missing elements use defaults
+     * // i=0: 1+5+8=14, i=1: 2+6+9=17, i=2: 3+10+10=23, i=3: 4+10+20=34
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6};
      * short[] c = {8, 9, 10};
-     * short[] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short) (x + y + z));
-     * // result: {14, 17, 23, 34} (using defaults for missing elements)
+     * short[] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
+     * // result: {14, 17, 23, 34}
+     *
+     * // Basic: one null array - treated as empty; its default fills all positions
+     * // b is null: i=0: 1+10+3=14, i=1: 2+10+4=16
+     * short[] fromNull = Arrays.zip(new short[]{1, 2}, (short[]) null, new short[]{3, 4},
+     *         (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
+     * // fromNull: {14, 16}
+     *
+     * // Edge: all null - result is empty
+     * short[] allNull = Arrays.zip((short[]) null, (short[]) null, (short[]) null,
+     *         (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
+     * // allNull.length == 0
+     *
+     * // Edge: single-element arrays
+     * short[] single = Arrays.zip(new short[]{(short) 1}, new short[]{(short) 2}, new short[]{(short) 3},
+     *         (short) 0, (short) 0, (short) 0, (x, y, z) -> (short)(x + y + z));
+     * // single: {6}
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -6298,12 +8605,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length = min(2, 2) = 2; each row zipped to its shorter length
+     * // row 0: zip({1,2},{5,6,7}) -> min=2 -> {6, 8}
+     * // row 1: zip({3,4,5},{8,9}) -> min=2 -> {11, 13}
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}};
-     * short[][] result = Arrays.zip(a, b, (x, y) -> (short) (x + y));
+     * short[][] result = Arrays.zip(a, b, (x, y) -> (short)(x + y));
      * // result: {{6, 8}, {11, 13}}
+     *
+     * // Basic: a has fewer rows - outer length = min(1, 2) = 1
+     * short[][] a2 = {{1, 2}};
+     * short[][] b2 = {{5, 6}, {7, 8}};
+     * short[][] result2 = Arrays.zip(a2, b2, (x, y) -> (short)(x + y));
+     * // result2: {{6, 8}}
+     *
+     * // Edge: one null array - result is empty (outer min = 0)
+     * short[][] empty = Arrays.zip((short[][]) null, new short[][]{{1, 2}}, (x, y) -> (short)(x + y));
+     * // empty.length == 0
+     *
+     * // Edge: both empty - result is empty
+     * short[][] bothEmpty = Arrays.zip(new short[0][], new short[0][], (x, y) -> (short)(x + y));
+     * // bothEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -6331,12 +8655,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length = max(2, 3) = 3; defaults pad both outer and inner arrays
+     * // row 0: zip({1,2},{5,6,7},0,10) -> {6, 8, 7}    (1+5, 2+6, 0+7)
+     * // row 1: zip({3,4,5},{8,9},0,10) -> {11, 13, 15}  (3+8, 4+9, 5+10)
+     * // row 2: zip(null,{10},0,10)     -> {10}           (0+10)
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}, {10}};
-     * short[][] result = Arrays.zip(a, b, (short) 0, (short) 10, (x, y) -> (short) (x + y));
+     * short[][] result = Arrays.zip(a, b, (short) 0, (short) 10, (x, y) -> (short)(x + y));
      * // result: {{6, 8, 7}, {11, 13, 15}, {10}}
+     *
+     * // Basic: a is null - treated as empty; b's rows zipped against defaultValueA
+     * // row 0: zip(null,{5,6},0,10) -> {5, 6}  (0+5, 0+6)
+     * short[][] fromNull = Arrays.zip((short[][]) null, new short[][]{{5, 6}}, (short) 0, (short) 10,
+     *         (x, y) -> (short)(x + y));
+     * // fromNull: {{5, 6}}
+     *
+     * // Edge: both null - result is empty
+     * short[][] bothNull = Arrays.zip((short[][]) null, (short[][]) null, (short) 0, (short) 10,
+     *         (x, y) -> (short)(x + y));
+     * // bothNull.length == 0
+     *
+     * // Edge: both empty - result is empty
+     * short[][] bothEmpty = Arrays.zip(new short[0][], new short[0][], (short) 0, (short) 10,
+     *         (x, y) -> (short)(x + y));
+     * // bothEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -6378,13 +8722,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length = min(2, 2, 2) = 2; each row truncates to shortest sub-array
+     * // row 0: zip({1,2},{5,6,7},{10,11}) -> min=2 -> {16, 19}  (1+5+10, 2+6+11)
+     * // row 1: zip({3,4,5},{8,9},{12,13,14}) -> min=2 -> {23, 26}  (3+8+12, 4+9+13)
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}};
      * short[][] c = {{10, 11}, {12, 13, 14}};
-     * short[][] result = Arrays.zip(a, b, c, (x, y, z) -> (short) (x + y + z));
+     * short[][] result = Arrays.zip(a, b, c, (x, y, z) -> (short)(x + y + z));
      * // result: {{16, 19}, {23, 26}}
+     *
+     * // Basic: single-element rows
+     * short[][] result2 = Arrays.zip(new short[][]{{(short) 1}}, new short[][]{{(short) 2}},
+     *         new short[][]{{(short) 3}}, (x, y, z) -> (short)(x + y + z));
+     * // result2: {{6}}
+     *
+     * // Edge: one null array - outer min = 0, result is empty
+     * short[][] empty = Arrays.zip((short[][]) null, new short[][]{{1, 2}}, new short[][]{{3, 4}},
+     *         (x, y, z) -> (short)(x + y + z));
+     * // empty.length == 0
+     *
+     * // Edge: one empty outer array - result is empty
+     * short[][] fromEmpty = Arrays.zip(new short[0][], new short[][]{{1}}, new short[][]{{2}},
+     *         (x, y, z) -> (short)(x + y + z));
+     * // fromEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -6415,13 +8777,33 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length = max(2, 3, 1) = 3; defaults fill missing rows and inner elements
+     * // row 0: zip({1,2},{5,6,7},{10,11},0,10,20) -> max=3 -> {16, 19, 27}  (1+5+10, 2+6+11, 0+7+20)
+     * // row 1: zip({3,4,5},{8,9},null,0,10,20)   -> max=3 -> {31, 33, 35}  (3+8+20, 4+9+20, 5+10+20)
+     * // row 2: zip(null,{10},null,0,10,20)        -> max=1 -> {30}           (0+10+20)
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * short[][] c = {{10, 11}};
-     * short[][] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short) (x + y + z));
+     * short[][] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
      * // result: {{16, 19, 27}, {31, 33, 35}, {30}}
+     *
+     * // Basic: a is only array with data - b and c use defaults
+     * // row 0: zip({1,2},null,null,0,10,20) -> {1+10+20, 2+10+20} = {31, 32}
+     * short[][] onlyA = Arrays.zip(new short[][]{{1, 2}}, new short[0][], new short[0][],
+     *         (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
+     * // onlyA: {{31, 32}}
+     *
+     * // Edge: all null - result is empty
+     * short[][] allNull = Arrays.zip((short[][]) null, (short[][]) null, (short[][]) null,
+     *         (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
+     * // allNull.length == 0
+     *
+     * // Edge: all empty - result is empty
+     * short[][] allEmpty = Arrays.zip(new short[0][], new short[0][], new short[0][],
+     *         (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
+     * // allEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -6463,12 +8845,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length = min(2, 2) = 2; each 2D slice zipped pair-wise
      * short[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * short[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
-     * short[][][] result = Arrays.zip(a, b, (x, y) -> (short) (x + y));
+     * short[][][] result = Arrays.zip(a, b, (x, y) -> (short)(x + y));
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {77, 88}}}
+     *
+     * // Basic: a has fewer outer blocks - outer length = min(1, 2) = 1
+     * short[][][] a2 = {{{1, 2}}};
+     * short[][][] b2 = {{{5, 6}}, {{7, 8}}};
+     * short[][][] result2 = Arrays.zip(a2, b2, (x, y) -> (short)(x + y));
+     * // result2: {{{6, 8}}}
+     *
+     * // Edge: one null array - result is empty
+     * short[][][] empty = Arrays.zip((short[][][]) null, new short[][][]{{{1, 2}}},
+     *         (x, y) -> (short)(x + y));
+     * // empty.length == 0
+     *
+     * // Edge: one empty outer array - result is empty
+     * short[][][] fromEmpty = Arrays.zip(new short[0][][], new short[][][]{{{1}}},
+     *         (x, y) -> (short)(x + y));
+     * // fromEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -6497,12 +8896,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length = max(2, 3) = 3; defaults fill missing slices and inner elements
+     * // slice 0: zip({{1,2},{3,4}}, {{10,20},{30,40}}, 0, 10) -> {{11,22},{33,44}}
+     * // slice 1: zip({{5,6}}, {{50,60},{70,80}}, 0, 10) -> {{55,66},{70,80}}  (null row uses default)
+     * // slice 2: zip(null, {{90}}, 0, 10) -> {{90}}  (0+90)
      * short[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * short[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
-     * short[][][] result = Arrays.zip(a, b, (short) 0, (short) 10, (x, y) -> (short) (x + y));
+     * short[][][] result = Arrays.zip(a, b, (short) 0, (short) 10, (x, y) -> (short)(x + y));
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
+     *
+     * // Basic: one null array - treated as empty; b fills with defaultValueA
+     * short[][][] fromNull = Arrays.zip((short[][][]) null, new short[][][]{{{5, 6}}},
+     *         (short) 0, (short) 10, (x, y) -> (short)(x + y));
+     * // fromNull: {{{5, 6}}}
+     *
+     * // Edge: both null - result is empty
+     * short[][][] bothNull = Arrays.zip((short[][][]) null, (short[][][]) null,
+     *         (short) 0, (short) 10, (x, y) -> (short)(x + y));
+     * // bothNull.length == 0
+     *
+     * // Edge: both empty - result is empty
+     * short[][][] bothEmpty = Arrays.zip(new short[0][][], new short[0][][],
+     *         (short) 0, (short) 10, (x, y) -> (short)(x + y));
+     * // bothEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -6544,13 +8962,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length = min(1, 1, 1) = 1
+     * // slice 0: zip2D({{1,2}}, {{11,12},{13,14}}, {{21,22}}) -> outer min=1; row 0: {33, 36}
      * short[][][] a = {{{1, 2}}};
      * short[][][] b = {{{11, 12}, {13, 14}}};
      * short[][][] c = {{{21, 22}}};
-     * short[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (short) (x + y + z));
+     * short[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (short)(x + y + z));
      * // result: {{{33, 36}}}
+     *
+     * // Basic: single-element slices
+     * short[][][] result2 = Arrays.zip(new short[][][]{{{(short) 1}}},
+     *         new short[][][]{{{(short) 2}}}, new short[][][]{{{(short) 3}}},
+     *         (x, y, z) -> (short)(x + y + z));
+     * // result2: {{{6}}}
+     *
+     * // Edge: one null array - outer min = 0, result is empty
+     * short[][][] empty = Arrays.zip((short[][][]) null, new short[][][]{{{1}}}, new short[][][]{{{2}}},
+     *         (x, y, z) -> (short)(x + y + z));
+     * // empty.length == 0
+     *
+     * // Edge: one empty outer array - result is empty
+     * short[][][] fromEmpty = Arrays.zip(new short[0][][], new short[][][]{{{1}}}, new short[][][]{{{2}}},
+     *         (x, y, z) -> (short)(x + y + z));
+     * // fromEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -6581,13 +9017,35 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length = max(1, 1, 1) = 1
+     * // slice 0: zip2D({{1,2}}, {{11,12},{13,14}}, {{21,22}}, 0, 10, 20)
+     * //   inner max=2; row 0: zip({1,2},{11,12},{21,22},0,10,20) -> {33, 36}
+     * //              row 1: zip(null,{13,14},null,0,10,20) -> {33, 34}  (0+13+20, 0+14+20)
      * short[][][] a = {{{1, 2}}};
      * short[][][] b = {{{11, 12}, {13, 14}}};
      * short[][][] c = {{{21, 22}}};
-     * short[][][] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short) (x + y + z));
+     * short[][][] result = Arrays.zip(a, b, c, (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
      * // result: {{{33, 36}, {33, 34}}}
+     *
+     * // Basic: one null array - treated as empty; its default fills all positions
+     * // b is null; slice 0: zip2D({{5,6}}, null, {{1,2}}, 0, 10, 20)
+     * //   row 0: zip({5,6},null,{1,2},0,10,20) -> {5+10+1, 6+10+2} = {16, 18}
+     * short[][][] fromNull = Arrays.zip(new short[][][]{{{5, 6}}}, (short[][][]) null,
+     *         new short[][][]{{{1, 2}}}, (short) 0, (short) 10, (short) 20,
+     *         (x, y, z) -> (short)(x + y + z));
+     * // fromNull: {{{16, 18}}}
+     *
+     * // Edge: all null - result is empty
+     * short[][][] allNull = Arrays.zip((short[][][]) null, (short[][][]) null, (short[][][]) null,
+     *         (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
+     * // allNull.length == 0
+     *
+     * // Edge: all empty - result is empty
+     * short[][][] allEmpty = Arrays.zip(new short[0][][], new short[0][][], new short[0][][],
+     *         (short) 0, (short) 10, (short) 20, (x, y, z) -> (short)(x + y + z));
+     * // allEmpty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -6626,9 +9084,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-arrays count as 0
      * short[][] array = {{1, 2, 3}, {4, 5}, null, {6, 7, 8, 9}};
      * long count = Arrays.elementCount(array);
-     * // count will be 9 (3 + 2 + 0 + 4)
+     * // count == 9  (3 + 2 + 0 + 4)
+     *
+     * // Basic: uniform rows
+     * short[][] uniform = {{1, 2}, {3, 4}, {5, 6}};
+     * long count2 = Arrays.elementCount(uniform);
+     * // count2 == 6
+     *
+     * // Edge: null array - returns 0
+     * long fromNull = Arrays.elementCount((short[][]) null);
+     * // fromNull == 0
+     *
+     * // Edge: all-null sub-arrays - returns 0
+     * long allNull = Arrays.elementCount(new short[][]{null, null});
+     * // allNull == 0
      * }</pre>
      *
      * @param a the two-dimensional array to count elements in (can be {@code null} or empty).
@@ -6655,9 +9127,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-arrays at any level are counted as 0
      * short[][][] cube = {{{1, 2}, {3, 4, 5}}, null, {{6, 7}}};
      * long count = Arrays.elementCount(cube);
-     * // count will be 7 ((2+3) from the first slice, 0 for the null slice, 2 from the third slice)
+     * // count == 7  (2+3 from first slice, 0 for null slice, 2 from third slice)
+     *
+     * // Basic: only null and empty sub-arrays in inner level
+     * short[][][] mixed = {null, {{1, 2}, null, {}}, {{3}}};
+     * long count2 = Arrays.elementCount(mixed);
+     * // count2 == 3  (0 for null slice, 2+0+0=2 for second slice, 1 for third)
+     *
+     * // Edge: null array - returns 0
+     * long fromNull = Arrays.elementCount((short[][][]) null);
+     * // fromNull == 0
+     *
+     * // Edge: all nulls at all levels - returns 0
+     * long allNull = Arrays.elementCount(new short[][][]{null, {null, null}});
+     * // allNull == 0
      * }</pre>
      *
      * @param a the three-dimensional array to count elements in (can be {@code null} or empty).
@@ -6695,9 +9181,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: shortest sub-array has 2 elements
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
      * int minLen = Arrays.minSubArrayLength(array);
-     * // minLen will be 2
+     * // minLen == 2
+     *
+     * // Basic: null sub-array is treated as length 0 - result is 0
+     * short[][] withNull = {{1, 2}, null, {3}};
+     * int minWithNull = Arrays.minSubArrayLength(withNull);
+     * // minWithNull == 0
+     *
+     * // Edge: null array - returns 0
+     * int fromNull = Arrays.minSubArrayLength((short[][]) null);
+     * // fromNull == 0
+     *
+     * // Edge: empty outer array - returns 0
+     * int fromEmpty = Arrays.minSubArrayLength(new short[0][]);
+     * // fromEmpty == 0
      * }</pre>
      *
      * @param a the two-dimensional array to examine (can be {@code null} or empty).
@@ -6725,9 +9225,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: longest sub-array has 4 elements
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
      * int maxLen = Arrays.maxSubArrayLength(array);
-     * // maxLen will be 4
+     * // maxLen == 4
+     *
+     * // Basic: null sub-array is treated as length 0 - does not affect max if other rows exist
+     * short[][] withNull = {{1, 2}, null};
+     * int maxWithNull = Arrays.maxSubArrayLength(withNull);
+     * // maxWithNull == 2
+     *
+     * // Edge: null array - returns 0
+     * int fromNull = Arrays.maxSubArrayLength((short[][]) null);
+     * // fromNull == 0
+     *
+     * // Edge: empty outer array - returns 0
+     * int fromEmpty = Arrays.maxSubArrayLength(new short[0][]);
+     * // fromEmpty == 0
      * }</pre>
      *
      * @param a the two-dimensional array to examine (can be {@code null} or empty).
@@ -6764,18 +9278,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: array with multiple elements
      * short[] array = {1, 2, 3, 4, 5};
      * String result = Arrays.println(array);
-     * // Prints to console and returns: "[1, 2, 3, 4, 5]"
+     * // prints and returns "[1, 2, 3, 4, 5]"
      *
-     * // Null array
+     * // Basic: single-element array
+     * short[] single = {(short) 42};
+     * String singleResult = Arrays.println(single);
+     * // prints and returns "[42]"
+     *
+     * // Edge: null array
      * String nullResult = Arrays.println((short[]) null);
-     * // Prints "null"
+     * // prints and returns "null"
      *
-     * // Empty array
-     * short[] empty = new short[0];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: empty array
+     * String emptyResult = Arrays.println(new short[0]);
+     * // prints and returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -6814,23 +9333,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: array with mixed rows (including null and empty sub-arrays)
      * short[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
+     * // prints and returns:
      * // [[1, 2, 3],
      * //  [4, 5],
      * //  null,
      * //  [],
      * //  [6]]
      *
-     * // Null array
-     * String nullResult = Arrays.println((short[][]) null);
-     * // Prints "null"
+     * // Basic: regular 2D array (rows separated by comma + newline + space)
+     * short[][] regular = {{1, 2}, {3, 4}};
+     * String regular2DResult = Arrays.println(regular);
+     * // prints and returns "[[1, 2],\n [3, 4]]"
      *
-     * // Empty array
-     * short[][] empty = new short[0][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: null array
+     * String nullResult = Arrays.println((short[][]) null);
+     * // prints and returns "null"
+     *
+     * // Edge: empty outer array
+     * String emptyResult = Arrays.println(new short[0][]);
+     * // prints and returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -6910,9 +9434,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 3D array with mixed sub-arrays (null, empty) at various levels
      * short[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
+     * // prints and returns:
      * // [[[1, 2, 3],
      * //   [4, 5]],
      * //  [[6, 7],
@@ -6920,14 +9445,18 @@ public sealed class Arrays permits Arrays.f {
      * //   []],
      * //  null]
      *
-     * // Null array
-     * String nullResult = Arrays.println((short[][][]) null);
-     * // Prints "null"
+     * // Basic: simple 3D array with one element per slice
+     * short[][][] simple = {{{1, 2}}};
+     * String simpleResult = Arrays.println(simple);
+     * // prints and returns "[[[1, 2]]]"
      *
-     * // Empty array
-     * short[][][] empty = new short[0][][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: null array
+     * String nullResult = Arrays.println((short[][][]) null);
+     * // prints and returns "null"
+     *
+     * // Edge: empty outer array
+     * String emptyResult = Arrays.println(new short[0][][]);
+     * // prints and returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -7011,9 +9540,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: square each element
      * int[] arr = {1, 2, 3};
      * Arrays.updateAll(arr, x -> x * x);
      * // arr is now [1, 4, 9]
+     *
+     * // Basic: negate each element
+     * int[] arr2 = {-1, 0, 5};
+     * Arrays.updateAll(arr2, x -> -x);
+     * // arr2 is now [1, 0, -5]
+     *
+     * // Edge: single-element array
+     * int[] single = {42};
+     * Arrays.updateAll(single, x -> x * 2);
+     * // single is now [84]
+     *
+     * // Edge: null array - no-op, no exception
+     * Arrays.updateAll((int[]) null, x -> x + 1);
+     *
+     * // Edge: empty array - no-op
+     * int[] empty = new int[0];
+     * Arrays.updateAll(empty, x -> x + 1);
+     * // empty remains []
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -7040,9 +9588,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: add 10 to every element
      * int[][] arr = {{1, 2}, {3, 4}};
      * Arrays.updateAll(arr, x -> x + 10);
      * // arr is now {{11, 12}, {13, 14}}
+     *
+     * // Basic: multiply each element by itself
+     * int[][] arr2 = {{1, 2}, {3, 4}};
+     * Arrays.updateAll(arr2, x -> x * x);
+     * // arr2 is now {{1, 4}, {9, 16}}
+     *
+     * // Edge: null array - no-op, no exception
+     * Arrays.updateAll((int[][]) null, x -> x + 1);
+     *
+     * // Edge: empty array - no-op
+     * int[][] empty = new int[0][];
+     * Arrays.updateAll(empty, x -> x + 1);
+     *
+     * // Edge: array with null row - null row is skipped
+     * int[][] withNull = {null, {3, 4}};
+     * Arrays.updateAll(withNull, x -> x * 2);
+     * // withNull[0] is null (unchanged), withNull[1] is now [6, 8]
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -7069,9 +9635,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: double every element
      * int[][][] arr = {{{1, 2}}, {{3, 4}}};
      * Arrays.updateAll(arr, x -> x * 2);
      * // arr is now {{{2, 4}}, {{6, 8}}}
+     *
+     * // Basic: add a constant to every element
+     * int[][][] arr2 = {{{10, 20}}, {{30, 40}}};
+     * Arrays.updateAll(arr2, x -> x + 5);
+     * // arr2 is now {{{15, 25}}, {{35, 45}}}
+     *
+     * // Edge: null array - no-op, no exception
+     * Arrays.updateAll((int[][][]) null, x -> x + 1);
+     *
+     * // Edge: empty array - no-op
+     * int[][][] empty = new int[0][][];
+     * Arrays.updateAll(empty, x -> x + 1);
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -7098,9 +9677,32 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: zero out all even elements
      * int[] arr = {1, 2, 3, 4, 5};
      * Arrays.replaceIf(arr, x -> x % 2 == 0, 0);
      * // arr is now [1, 0, 3, 0, 5]
+     *
+     * // Basic: clamp large values to 99
+     * int[] arr2 = {10, 200, 30, 400};
+     * Arrays.replaceIf(arr2, x -> x > 100, 99);
+     * // arr2 is now [10, 99, 30, 99]
+     *
+     * // Edge: no elements match - array unchanged
+     * int[] arr3 = {1, 3, 5};
+     * Arrays.replaceIf(arr3, x -> x % 2 == 0, 0);
+     * // arr3 is now [1, 3, 5]
+     *
+     * // Edge: null array - no-op, no exception
+     * Arrays.replaceIf((int[]) null, x -> x > 0, 0);
+     *
+     * // Edge: empty array - no-op
+     * int[] empty = new int[0];
+     * Arrays.replaceIf(empty, x -> x > 0, 0);
+     *
+     * // Edge: single-element match
+     * int[] single = {7};
+     * Arrays.replaceIf(single, x -> x > 5, 99);
+     * // single is now [99]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -7132,9 +9734,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace elements greater than 2 with 10
      * int[][] arr = {{1, 2}, {3, 4}};
      * Arrays.replaceIf(arr, x -> x > 2, 10);
      * // arr is now {{1, 2}, {10, 10}}
+     *
+     * // Basic: zero out negative values
+     * int[][] arr2 = {{-1, 2}, {-3, 4}};
+     * Arrays.replaceIf(arr2, x -> x < 0, 0);
+     * // arr2 is now {{0, 2}, {0, 4}}
+     *
+     * // Edge: null array - no-op, no exception
+     * Arrays.replaceIf((int[][]) null, x -> x > 0, 0);
+     *
+     * // Edge: empty array - no-op
+     * int[][] empty = new int[0][];
+     * Arrays.replaceIf(empty, x -> x > 0, 0);
+     *
+     * // Edge: row with null - null row is skipped silently
+     * int[][] withNull = {null, {3, 4}};
+     * Arrays.replaceIf(withNull, x -> x > 2, 10);
+     * // withNull[0] is null (unchanged), withNull[1] is now [10, 10]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -7164,9 +9784,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: zero out elements less than 3
      * int[][][] arr = {{{1, 2}}, {{3, 4}}};
      * Arrays.replaceIf(arr, x -> x < 3, 0);
      * // arr is now {{{0, 0}}, {{3, 4}}}
+     *
+     * // Basic: replace odd values with -1
+     * int[][][] arr2 = {{{1, 2}}, {{3, 4}}};
+     * Arrays.replaceIf(arr2, x -> x % 2 != 0, -1);
+     * // arr2 is now {{{-1, 2}}, {{-1, 4}}}
+     *
+     * // Edge: null array - no-op, no exception
+     * Arrays.replaceIf((int[][][]) null, x -> x > 0, 0);
+     *
+     * // Edge: empty array - no-op
+     * int[][][] empty = new int[0][][];
+     * Arrays.replaceIf(empty, x -> x > 0, 0);
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -7196,9 +9829,31 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 7 elements into 3 columns - last row is partial
      * int[] arr = {1, 2, 3, 4, 5, 6, 7};
      * int[][] result = Arrays.reshape(arr, 3);
      * // result is {{1, 2, 3}, {4, 5, 6}, {7}}
+     *
+     * // Basic: evenly divisible - no partial row
+     * int[] arr2 = {1, 2, 3, 4, 5, 6};
+     * int[][] result2 = Arrays.reshape(arr2, 2);
+     * // result2 is {{1, 2}, {3, 4}, {5, 6}}
+     *
+     * // Basic: single column
+     * int[] arr3 = {10, 20, 30};
+     * int[][] result3 = Arrays.reshape(arr3, 1);
+     * // result3 is {{10}, {20}, {30}}
+     *
+     * // Edge: null input returns empty 2D array
+     * int[][] empty = Arrays.reshape((int[]) null, 3);
+     * // empty.length == 0
+     *
+     * // Edge: empty input returns empty 2D array
+     * int[][] empty2 = Arrays.reshape(new int[0], 3);
+     * // empty2.length == 0
+     *
+     * // Edge: columnCount <= 0 throws IllegalArgumentException
+     * Arrays.reshape(new int[]{1, 2, 3}, 0); // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null} or empty).
@@ -7234,9 +9889,29 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 8 elements into 2-row × 2-column blocks
      * int[] arr = {1, 2, 3, 4, 5, 6, 7, 8};
      * int[][][] result = Arrays.reshape(arr, 2, 2);
      * // result is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+     *
+     * // Basic: 7 elements into 2-row × 2-column blocks - last block/row is partial
+     * int[] arr2 = {1, 2, 3, 4, 5, 6, 7};
+     * int[][][] result2 = Arrays.reshape(arr2, 2, 2);
+     * // result2 is {{{1, 2}, {3, 4}}, {{5, 6}, {7}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * int[][][] empty = Arrays.reshape((int[]) null, 2, 3);
+     * // empty.length == 0
+     *
+     * // Edge: empty input returns empty 3D array
+     * int[][][] empty2 = Arrays.reshape(new int[0], 2, 3);
+     * // empty2.length == 0
+     *
+     * // Edge: rowCount <= 0 throws IllegalArgumentException
+     * Arrays.reshape(new int[]{1, 2}, 0, 2); // throws IllegalArgumentException
+     *
+     * // Edge: columnCount <= 0 throws IllegalArgumentException
+     * Arrays.reshape(new int[]{1, 2}, 2, 0); // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null} or empty).
@@ -7278,9 +9953,32 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten uniform rows
      * int[][] arr = {{1, 2, 3}, {4, 5}, {6, 7, 8}};
      * int[] result = Arrays.flatten(arr);
-     * // result is {1, 2, 3, 4, 5, 6, 7, 8}
+     * // result is [1, 2, 3, 4, 5, 6, 7, 8]
+     *
+     * // Basic: rows of different lengths
+     * int[][] arr2 = {{10, 20}, {30}};
+     * int[] result2 = Arrays.flatten(arr2);
+     * // result2 is [10, 20, 30]
+     *
+     * // Edge: null and empty sub-arrays are skipped
+     * int[][] withGaps = {{1, 2}, null, {}, {3}};
+     * int[] result3 = Arrays.flatten(withGaps);
+     * // result3 is [1, 2, 3]
+     *
+     * // Edge: null input returns empty array
+     * int[] empty = Arrays.flatten((int[][]) null);
+     * // empty.length == 0
+     *
+     * // Edge: empty 2D array returns empty array
+     * int[] empty2 = Arrays.flatten(new int[0][]);
+     * // empty2.length == 0
+     *
+     * // Edge: all-null rows return empty array
+     * int[] empty3 = Arrays.flatten(new int[][]{ null, null });
+     * // empty3.length == 0
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
@@ -7320,9 +10018,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten ragged 3D array
      * int[][][] arr = {{{1, 2}, {3}}, {{4, 5, 6}}};
      * int[] result = Arrays.flatten(arr);
-     * // result is {1, 2, 3, 4, 5, 6}
+     * // result is [1, 2, 3, 4, 5, 6]
+     *
+     * // Basic: uniform 3D array
+     * int[][][] arr2 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * int[] result2 = Arrays.flatten(arr2);
+     * // result2 is [1, 2, 3, 4, 5, 6, 7, 8]
+     *
+     * // Edge: null 2D slices and null/empty 1D rows are skipped
+     * int[][][] withGaps = {null, {{1, 2}, null, {}}, {{3}}};
+     * int[] result3 = Arrays.flatten(withGaps);
+     * // result3 is [1, 2, 3]
+     *
+     * // Edge: null input returns empty array
+     * int[] empty = Arrays.flatten((int[][][]) null);
+     * // empty.length == 0
+     *
+     * // Edge: empty 3D array returns empty array
+     * int[] empty2 = Arrays.flatten(new int[0][][]);
+     * // empty2.length == 0
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
@@ -7368,9 +10085,25 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements across rows, values distributed back by row length
      * int[][] arr = {{3, 1, 4}, {1, 5, 9}};
      * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
      * // arr is now {{1, 1, 3}, {4, 5, 9}}
+     *
+     * // Basic: single row
+     * int[][] arr2 = {{5, 2, 8}};
+     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.sort(t));
+     * // arr2 is now {{2, 5, 8}}
+     *
+     * // Edge: null array - no-op, no exception
+     * Arrays.mutateAsFlat((int[][]) null, t -> java.util.Arrays.sort(t));
+     *
+     * // Edge: empty array - no-op
+     * int[][] empty = new int[0][];
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     *
+     * // Edge: null action throws IllegalArgumentException
+     * Arrays.mutateAsFlat(new int[][]{{1, 2}}, null); // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -7411,9 +10144,25 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements globally and distribute back into original 3D shape
      * int[][][] arr = {{{5, 2}}, {{8, 1}}};
      * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
      * // arr is now {{{1, 2}}, {{5, 8}}}
+     *
+     * // Basic: sort a ragged 3D array globally
+     * int[][][] arr2 = {{{9, 3}}, {{7, 1, 5}}};
+     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.sort(t));
+     * // arr2 is now {{{1, 3}}, {{5, 7, 9}}}
+     *
+     * // Edge: null array - no-op, no exception
+     * Arrays.mutateAsFlat((int[][][]) null, t -> java.util.Arrays.sort(t));
+     *
+     * // Edge: empty array - no-op
+     * int[][][] empty = new int[0][][];
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     *
+     * // Edge: null action throws IllegalArgumentException
+     * Arrays.mutateAsFlat(new int[][][]{{{1, 2}}}, null); // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -7452,15 +10201,34 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two int arrays using the provided zip function.
      * The operation stops when the shorter array is exhausted.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: add corresponding elements, stops at shorter array
      * int[] a = {1, 2, 3, 4};
      * int[] b = {5, 6, 7};
      * int[] result = Arrays.zip(a, b, (x, y) -> x + y);
-     * // result: {6, 8, 10}
+     * // result: [6, 8, 10]
+     *
+     * // Basic: multiply, equal-length arrays
+     * int[] a2 = {1, 2};
+     * int[] b2 = {3, 4};
+     * int[] result2 = Arrays.zip(a2, b2, (x, y) -> x * y);
+     * // result2: [3, 8]
+     *
+     * // Edge: null first array - result is empty
+     * int[] empty = Arrays.zip((int[]) null, new int[]{1, 2}, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: empty first array - result is empty
+     * int[] empty2 = Arrays.zip(new int[0], new int[]{1, 2}, (x, y) -> x + y);
+     * // empty2.length == 0
+     *
+     * // Edge: both null - result is empty
+     * int[] empty3 = Arrays.zip((int[]) null, (int[]) null, (x, y) -> x + y);
+     * // empty3.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -7485,15 +10253,30 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two int arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: a is longer; missing b elements use defaultValueB=10
      * int[] a = {1, 2, 3, 4};
      * int[] b = {5, 6};
      * int[] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
-     * // result: {6, 8, 13, 14} (using 10 for missing b elements)
+     * // result: [6, 8, 13, 14]
+     *
+     * // Basic: b is longer; missing a elements use defaultValueA=0
+     * int[] a2 = {1, 2};
+     * int[] b2 = {5, 6, 7, 8};
+     * int[] result2 = Arrays.zip(a2, b2, 0, 10, (x, y) -> x + y);
+     * // result2: [6, 8, 7, 8]
+     *
+     * // Edge: null a treated as empty; result length = b.length
+     * int[] result3 = Arrays.zip((int[]) null, new int[]{1, 2}, 0, 10, (x, y) -> x + y);
+     * // result3: [1, 2]  (0+1, 0+2)
+     *
+     * // Edge: both null - result is empty
+     * int[] empty = Arrays.zip((int[]) null, (int[]) null, 0, 10, (x, y) -> x + y);
+     * // empty.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -7532,16 +10315,32 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three int arrays using the provided zip function.
      * The operation stops when the shortest array is exhausted.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: add elements; result truncates to shortest array (c with length 2)
      * int[] a = {1, 2, 3, 4};
      * int[] b = {5, 6, 7};
      * int[] c = {8, 9};
      * int[] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
-     * // result: {14, 17}
+     * // result: [14, 17]
+     *
+     * // Basic: equal-length arrays
+     * int[] a2 = {1, 2};
+     * int[] b2 = {10, 20};
+     * int[] c2 = {100, 200};
+     * int[] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x + y + z);
+     * // result2: [111, 222]
+     *
+     * // Edge: null c - result is empty
+     * int[] empty = Arrays.zip(new int[]{1, 2}, new int[]{3, 4}, (int[]) null, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: empty b - result is empty
+     * int[] empty2 = Arrays.zip(new int[]{1, 2}, new int[0], new int[]{3, 4}, (x, y, z) -> x + y + z);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -7568,16 +10367,33 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three int arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: a longest; missing b uses defaultB=10, missing c uses defaultC=20
+     * // i=0: 1+5+8=14, i=1: 2+6+9=17, i=2: 3+10+10=23, i=3: 4+10+20=34
      * int[] a = {1, 2, 3, 4};
      * int[] b = {5, 6};
      * int[] c = {8, 9, 10};
      * int[] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
-     * // result: {14, 17, 23, 34} (using defaults for missing elements)
+     * // result: [14, 17, 23, 34]
+     *
+     * // Basic: equal-length arrays, defaults never used
+     * int[] a2 = {1, 2};
+     * int[] b2 = {3, 4};
+     * int[] c2 = {5, 6};
+     * int[] result2 = Arrays.zip(a2, b2, c2, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // result2: [9, 12]
+     *
+     * // Edge: all null - result is empty
+     * int[] empty = Arrays.zip((int[]) null, (int[]) null, (int[]) null, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: all empty - result is empty
+     * int[] empty2 = Arrays.zip(new int[0], new int[0], new int[0], 0, 10, 20, (x, y, z) -> x + y + z);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -7615,15 +10431,30 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two two-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: each row is zipped to the min inner length
      * int[][] a = {{1, 2}, {3, 4, 5}};
      * int[][] b = {{5, 6, 7}, {8, 9}};
      * int[][] result = Arrays.zip(a, b, (x, y) -> x + y);
      * // result: {{6, 8}, {11, 13}}
+     *
+     * // Basic: outer truncates to shorter (1 row)
+     * int[][] a2 = {{1, 2}};
+     * int[][] b2 = {{3, 4}, {5, 6}};
+     * int[][] result2 = Arrays.zip(a2, b2, (x, y) -> x + y);
+     * // result2: {{4, 6}}
+     *
+     * // Edge: null first array - result is empty
+     * int[][] empty = Arrays.zip((int[][]) null, new int[][]{{1, 2}}, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: empty first array - result is empty
+     * int[][] empty2 = Arrays.zip(new int[0][], new int[][]{{1, 2}}, (x, y) -> x + y);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -7648,15 +10479,31 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two two-dimensional int arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b has one extra outer row; inner rows pad with defaults
+     * // row0: zip({1,2},{5,6,7},0,10) -> {6,8,7}
+     * // row1: zip({3,4,5},{8,9},0,10) -> {11,13,15}
+     * // row2: zip(null,{10},0,10)     -> {10}
      * int[][] a = {{1, 2}, {3, 4, 5}};
      * int[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * int[][] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
      * // result: {{6, 8, 7}, {11, 13, 15}, {10}}
+     *
+     * // Basic: null a treated as empty; result length = b.length
+     * int[][] result2 = Arrays.zip((int[][]) null, new int[][]{{1, 2}}, 0, 10, (x, y) -> x + y);
+     * // result2: {{1, 2}}  (0+1, 0+2)
+     *
+     * // Edge: both null - result is empty
+     * int[][] empty = Arrays.zip((int[][]) null, (int[][]) null, 0, 10, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: both empty - result is empty
+     * int[][] empty2 = Arrays.zip(new int[0][], new int[0][], 0, 10, (x, y) -> x + y);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -7695,16 +10542,34 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: inner zip truncates to shortest inner row per position
+     * // row0: zip({1,2},{5,6,7},{10,11}) -> {16,19}
+     * // row1: zip({3,4,5},{8,9},{12,13,14}) -> {23,26}
      * int[][] a = {{1, 2}, {3, 4, 5}};
      * int[][] b = {{5, 6, 7}, {8, 9}};
      * int[][] c = {{10, 11}, {12, 13, 14}};
      * int[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
      * // result: {{16, 19}, {23, 26}}
+     *
+     * // Basic: equal-length rows
+     * int[][] a2 = {{1, 2}};
+     * int[][] b2 = {{10, 20}};
+     * int[][] c2 = {{100, 200}};
+     * int[][] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x + y + z);
+     * // result2: {{111, 222}}
+     *
+     * // Edge: null c - result is empty
+     * int[][] empty = Arrays.zip(new int[][]{{1, 2}}, new int[][]{{3, 4}}, (int[][]) null, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: empty b - result is empty
+     * int[][] empty2 = Arrays.zip(new int[][]{{1}}, new int[0][], new int[][]{{2}}, (x, y, z) -> x + y + z);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -7732,16 +10597,35 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional int arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b has 3 rows, a has 2, c has 1; defaults fill missing outer rows and inner columns
+     * // row0: zip({1,2},{5,6,7},{10,11},0,10,20) -> {16,19,27}
+     * // row1: zip({3,4,5},{8,9},null,0,10,20)    -> {31,33,35}
+     * // row2: zip(null,{10},null,0,10,20)         -> {30}
      * int[][] a = {{1, 2}, {3, 4, 5}};
      * int[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * int[][] c = {{10, 11}};
      * int[][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
      * // result: {{16, 19, 27}, {31, 33, 35}, {30}}
+     *
+     * // Basic: all same outer length, defaults only used for inner padding
+     * int[][] a2 = {{1}};
+     * int[][] b2 = {{2, 3}};
+     * int[][] c2 = {{4}};
+     * int[][] result2 = Arrays.zip(a2, b2, c2, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // result2: {{7, 3}}  (1+2+4=7, 0+3+0=3)
+     *
+     * // Edge: all null - result is empty
+     * int[][] empty = Arrays.zip((int[][]) null, (int[][]) null, (int[][]) null, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: all empty - result is empty
+     * int[][] empty2 = Arrays.zip(new int[0][], new int[0][], new int[0][], 0, 10, 20, (x, y, z) -> x + y + z);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -7780,15 +10664,30 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: equal-length outer arrays; each 2D slice zipped element-wise
      * int[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * int[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
      * int[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {77, 88}}}
+     *
+     * // Basic: single-element outer
+     * int[][][] a2 = {{{1, 2}}};
+     * int[][][] b2 = {{{3, 4}}};
+     * int[][][] result2 = Arrays.zip(a2, b2, (x, y) -> x * y);
+     * // result2: {{{3, 8}}}
+     *
+     * // Edge: null first array - result is empty
+     * int[][][] empty = Arrays.zip((int[][][]) null, new int[][][]{{{1}}}, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: empty first array - result is empty
+     * int[][][] empty2 = Arrays.zip(new int[0][][], new int[][][]{{{1}}}, (x, y) -> x + y);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -7813,15 +10712,31 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional int arrays using the provided zip function, with default values
      * for missing elements at all array levels.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b has one extra outer slice; missing a rows use defaultA=0
+     * // slice0: zip({{1,2},{3,4}},{{10,20},{30,40}},0,10) -> {{11,22},{33,44}}
+     * // slice1: zip({{5,6}},{{50,60},{70,80}},0,10) -> {{55,66},{70,80}}
+     * // slice2: zip(null,{{90}},0,10) -> {{90}}  (0+90)
      * int[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * int[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
      * int[][][] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
+     *
+     * // Basic: null a treated as empty; result = b's content with defaultA applied
+     * int[][][] result2 = Arrays.zip((int[][][]) null, new int[][][]{{{1}}}, 0, 10, (x, y) -> x + y);
+     * // result2: {{{1}}}  (0+1)
+     *
+     * // Edge: both null - result is empty
+     * int[][][] empty = Arrays.zip((int[][][]) null, (int[][][]) null, 0, 10, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: both empty - result is empty
+     * int[][][] empty2 = Arrays.zip(new int[0][][], new int[0][][], 0, 10, (x, y) -> x + y);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -7860,16 +10775,33 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer truncates to 1 (shortest); inner truncates to min inner length
+     * // slice0: zip({{1,2}},{{11,12},{13,14}},{{21,22}}) -> zip row0: {33,36}
      * int[][][] a = {{{1, 2}}};
      * int[][][] b = {{{11, 12}, {13, 14}}};
      * int[][][] c = {{{21, 22}}};
      * int[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
      * // result: {{{33, 36}}}
+     *
+     * // Basic: equal outer lengths
+     * int[][][] a2 = {{{1, 2}}, {{3, 4}}};
+     * int[][][] b2 = {{{5, 6}}, {{7, 8}}};
+     * int[][][] c2 = {{{9, 10}}, {{11, 12}}};
+     * int[][][] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x + y + z);
+     * // result2: {{{15, 18}}, {{21, 24}}}
+     *
+     * // Edge: null a - result is empty
+     * int[][][] empty = Arrays.zip((int[][][]) null, new int[][][]{{{1}}}, new int[][][]{{{2}}}, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: empty b - result is empty
+     * int[][][] empty2 = Arrays.zip(new int[][][]{{{1}}}, new int[0][][], new int[][][]{{{2}}}, (x, y, z) -> x + y + z);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -7897,16 +10829,34 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional int arrays using the provided zip function, with default values
      * for missing elements at all array levels.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b has 2 rows in its only slice, a and c have 1; defaults fill missing rows/cols
+     * // slice0 row0: zip({1,2},{11,12},{21,22},0,10,20) -> {33,36}
+     * // slice0 row1: zip(null,{13,14},null,0,10,20)     -> {33,34}  (0+13+20, 0+14+20)
      * int[][][] a = {{{1, 2}}};
      * int[][][] b = {{{11, 12}, {13, 14}}};
      * int[][][] c = {{{21, 22}}};
      * int[][][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
      * // result: {{{33, 36}, {33, 34}}}
+     *
+     * // Basic: equal shapes, defaults never used
+     * int[][][] a2 = {{{1}}};
+     * int[][][] b2 = {{{2}}};
+     * int[][][] c2 = {{{3}}};
+     * int[][][] result2 = Arrays.zip(a2, b2, c2, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // result2: {{{6}}}
+     *
+     * // Edge: all null - result is empty
+     * int[][][] empty = Arrays.zip((int[][][]) null, (int[][][]) null, (int[][][]) null, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: all empty - result is empty
+     * int[][][] empty2 = Arrays.zip(new int[0][][], new int[0][][], new int[0][][], 0, 10, 20, (x, y, z) -> x + y + z);
+     * // empty2.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -7945,9 +10895,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: mixed row lengths; null and empty rows contribute 0
      * int[][] a = {{1, 2}, {3, 4, 5}, null, {}};
      * long count = Arrays.elementCount(a);
-     * // count will be 5
+     * // count == 5
+     *
+     * // Basic: single row
+     * long count2 = Arrays.elementCount(new int[][]{{10, 20, 30}});
+     * // count2 == 3
+     *
+     * // Edge: null input
+     * long count3 = Arrays.elementCount((int[][]) null);
+     * // count3 == 0
+     *
+     * // Edge: empty 2D array
+     * long count4 = Arrays.elementCount(new int[0][]);
+     * // count4 == 0
+     *
+     * // Edge: all rows are null
+     * long count5 = Arrays.elementCount(new int[][]{ null, null });
+     * // count5 == 0
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null}).
@@ -7974,9 +10941,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null 2D slice is skipped; counts 1+2+3 = 6
      * int[][][] a = {{{1}, {2, 3}}, null, {{4, 5, 6}}};
      * long count = Arrays.elementCount(a);
-     * // count will be 6
+     * // count == 6
+     *
+     * // Basic: uniform 3D array
+     * int[][][] a2 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * long count2 = Arrays.elementCount(a2);
+     * // count2 == 8
+     *
+     * // Edge: null input
+     * long count3 = Arrays.elementCount((int[][][]) null);
+     * // count3 == 0
+     *
+     * // Edge: empty 3D array
+     * long count4 = Arrays.elementCount(new int[0][][]);
+     * // count4 == 0
+     *
+     * // Edge: all-null slices
+     * long count5 = Arrays.elementCount(new int[][][]{null, null});
+     * // count5 == 0
      * }</pre>
      *
      * @param a the three-dimensional integer array (can be {@code null}).
@@ -8013,9 +10998,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-array counts as length 0 - that is the minimum
      * int[][] a = {{1, 2, 3}, {4, 5}, null, {6}};
      * int minLen = Arrays.minSubArrayLength(a);
-     * // minLen will be 0
+     * // minLen == 0
+     *
+     * // Basic: no null rows - returns shortest non-null row
+     * int[][] a2 = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
+     * int minLen2 = Arrays.minSubArrayLength(a2);
+     * // minLen2 == 2
+     *
+     * // Edge: null input
+     * int minLen3 = Arrays.minSubArrayLength((int[][]) null);
+     * // minLen3 == 0
+     *
+     * // Edge: empty 2D array
+     * int minLen4 = Arrays.minSubArrayLength(new int[0][]);
+     * // minLen4 == 0
+     *
+     * // Edge: single row
+     * int minLen5 = Arrays.minSubArrayLength(new int[][]{{1, 2, 3}});
+     * // minLen5 == 3
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null} or empty).
@@ -8042,9 +11045,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-array has length 0, so max is the longest non-null row
      * int[][] a = {{1}, {2, 3}, null, {4, 5, 6}};
      * int maxLen = Arrays.maxSubArrayLength(a);
-     * // maxLen will be 3
+     * // maxLen == 3
+     *
+     * // Basic: all-null rows - max is 0
+     * int maxLen2 = Arrays.maxSubArrayLength(new int[][]{ null, null });
+     * // maxLen2 == 0
+     *
+     * // Edge: null input
+     * int maxLen3 = Arrays.maxSubArrayLength((int[][]) null);
+     * // maxLen3 == 0
+     *
+     * // Edge: empty 2D array
+     * int maxLen4 = Arrays.maxSubArrayLength(new int[0][]);
+     * // maxLen4 == 0
+     *
+     * // Edge: single row
+     * int maxLen5 = Arrays.maxSubArrayLength(new int[][]{{1, 2, 3, 4, 5}});
+     * // maxLen5 == 5
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null} or empty).
@@ -8081,18 +11101,25 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[] array = {1, 2, 3, 4, 5};
-     * String result = Arrays.println(array);
-     * // Prints to console and returns: "[1, 2, 3, 4, 5]"
+     * // Basic: standard array
+     * String result = Arrays.println(new int[]{1, 2, 3, 4, 5});
+     * // prints and returns "[1, 2, 3, 4, 5]"
      *
-     * // Null array
+     * // Basic: single element
+     * String result2 = Arrays.println(new int[]{42});
+     * // prints and returns "[42]"
+     *
+     * // Basic: negative values
+     * String result3 = Arrays.println(new int[]{-1, -2, 3});
+     * // prints and returns "[-1, -2, 3]"
+     *
+     * // Edge: null array
      * String nullResult = Arrays.println((int[]) null);
-     * // Prints "null"
+     * // prints and returns "null"
      *
-     * // Empty array
-     * int[] empty = new int[0];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: empty array
+     * String emptyResult = Arrays.println(new int[0]);
+     * // prints and returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -8115,44 +11142,42 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Prints a string representation of a two-dimensional integer array to the console and returns the string.
-     * 
+     *
      * <p>This method formats a two-dimensional integer array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
-     * 
+     *
      * <p>The output format follows this pattern:</p>
      * <ul>
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
-     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Non-empty array: "[[element1, element2],\n [element3, element4]]" (newline between rows)</li>
      *   <li>Null sub-array: "null" within the outer brackets</li>
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
-     * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[1, 2, 3],
-     * //  [4, 5],
-     * //  null,
-     * //  [],
-     * //  [6]]
-     * 
-     * // Null array
+     * // Basic: single row
+     * String result = Arrays.println(new int[][]{{1, 2, 3}});
+     * // prints and returns "[[1, 2, 3]]"
+     *
+     * // Basic: multiple rows (each row on its own line after the first)
+     * String result2 = Arrays.println(new int[][]{{1, 2, 3}, {4, 5}});
+     * // prints and returns "[[1, 2, 3],\n [4, 5]]"
+     *
+     * // Edge: null array
      * String nullResult = Arrays.println((int[][]) null);
-     * // Prints "null"
-     * 
-     * // Empty array
-     * int[][] empty = new int[0][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // prints and returns "null"
+     *
+     * // Edge: empty array
+     * String emptyResult = Arrays.println(new int[0][]);
+     * // prints and returns "[]"
      * }</pre>
-     * 
+     *
      * <p><b>Note:</b> This method both prints to the console and returns
      * the formatted string for potential further use.</p>
-     * 
+     *
      * @param a the two-dimensional integer array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
      * @see #println(int[]) for one-dimensional array printing
@@ -8218,7 +11243,7 @@ public sealed class Arrays permits Arrays.f {
      * <ul>
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
-     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Non-empty array: outer 2D slices separated by newline + one space; inner 1D rows within a slice separated by newline + two spaces</li>
      *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
      *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
      *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
@@ -8227,24 +11252,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
-     * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[[1, 2, 3],
-     * //   [4, 5]],
-     * //  [[6, 7],
-     * //   null,
-     * //   []],
-     * //  null]
+     * // Basic: single element
+     * String result = Arrays.println(new int[][][]{{{42}}});
+     * // prints and returns "[[[42]]]"
      *
-     * // Null array
+     * // Basic: two 2D slices, each with two 1D rows
+     * String result2 = Arrays.println(new int[][][]{{{1, 2}, {3, 4}}, {{5, 6}}});
+     * // prints and returns "[[[1, 2],\n  [3, 4]],\n [[5, 6]]]"
+     *
+     * // Edge: null array
      * String nullResult = Arrays.println((int[][][]) null);
-     * // Prints "null"
+     * // prints and returns "null"
      *
-     * // Empty array
-     * int[][][] empty = new int[0][][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: empty array
+     * String emptyResult = Arrays.println(new int[0][][]);
+     * // prints and returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -8328,9 +11350,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] array = {1L, 2L, 3L};
-     * Arrays.updateAll(array, x -> x * x);
-     * // array is now [1L, 4L, 9L]
+     * long[] a = {1L, 2L, 3L};
+     * Arrays.updateAll(a, x -> x * x);
+     * // a is now [1, 4, 9]
+     *
+     * long[] b = {-5L, 0L, 10L};
+     * Arrays.updateAll(b, x -> x * 2L);
+     * // b is now [-10, 0, 20]
+     *
+     * // null array => no-op, no exception
+     * Arrays.updateAll((long[]) null, x -> x + 1L);
+     *
+     * // empty array => no-op
+     * long[] empty = new long[0];
+     * Arrays.updateAll(empty, x -> x + 1L);
+     * // empty is still []
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -8357,9 +11391,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] array = {{1L, 2L}, {3L, 4L}};
-     * Arrays.updateAll(array, x -> -x);
-     * // array is now {{-1L, -2L}, {-3L, -4L}}
+     * long[][] a = {{1L, 2L}, {3L, 4L}};
+     * Arrays.updateAll(a, x -> -x);
+     * // a is now [[-1, -2], [-3, -4]]
+     *
+     * long[][] b = {{10L}, {20L, 30L}};
+     * Arrays.updateAll(b, x -> x + 1L);
+     * // b is now [[11], [21, 31]]
+     *
+     * // null outer array => no-op, no exception
+     * Arrays.updateAll((long[][]) null, x -> x * 2L);
+     *
+     * // empty outer array => no-op
+     * long[][] empty = new long[0][];
+     * Arrays.updateAll(empty, x -> x * 2L);
+     * // empty is still []
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -8386,9 +11432,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] array = {{{1L}, {2L}}, {{3L}, {4L}}};
-     * Arrays.updateAll(array, x -> x + 1);
-     * // array is now {{{2L}, {3L}}, {{4L}, {5L}}}
+     * long[][][] a = {{{1L}, {2L}}, {{3L}, {4L}}};
+     * Arrays.updateAll(a, x -> x + 1L);
+     * // a is now [[[2], [3]], [[4], [5]]]
+     *
+     * long[][][] b = {{{-1L, -2L}}, {{3L}}};
+     * Arrays.updateAll(b, x -> Math.abs(x));
+     * // b is now [[[1, 2]], [[3]]]
+     *
+     * // null outer array => no-op, no exception
+     * Arrays.updateAll((long[][][]) null, x -> x * 2L);
+     *
+     * // empty outer array => no-op
+     * long[][][] empty = new long[0][][];
+     * Arrays.updateAll(empty, x -> x * 2L);
+     * // empty is still []
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -8415,9 +11473,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] array = {1L, 2L, 3L, 4L, 5L};
-     * Arrays.replaceIf(array, x -> x % 2 == 0, 0L);
-     * // array is now [1L, 0L, 3L, 0L, 5L]
+     * long[] a = {1L, 2L, 3L, 4L, 5L};
+     * Arrays.replaceIf(a, x -> x % 2 == 0, 0L);
+     * // a is now [1, 0, 3, 0, 5]
+     *
+     * long[] b = {-3L, 0L, 7L, -1L};
+     * Arrays.replaceIf(b, x -> x < 0, 99L);
+     * // b is now [99, 0, 7, 99]
+     *
+     * // null array => no-op, no exception
+     * Arrays.replaceIf((long[]) null, x -> true, 0L);
+     *
+     * // empty array => no-op
+     * long[] empty = new long[0];
+     * Arrays.replaceIf(empty, x -> true, 99L);
+     * // empty is still []
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -8445,9 +11515,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] array = {{1L, -2L}, {3L, -4L}};
-     * Arrays.replaceIf(array, x -> x < 0, 0L);
-     * // array is now {{1L, 0L}, {3L, 0L}}
+     * long[][] a = {{1L, -2L}, {3L, -4L}};
+     * Arrays.replaceIf(a, x -> x < 0, 0L);
+     * // a is now [[1, 0], [3, 0]]
+     *
+     * long[][] b = {{10L, 20L}, {5L, 30L}};
+     * Arrays.replaceIf(b, x -> x > 15L, -1L);
+     * // b is now [[10, -1], [5, -1]]
+     *
+     * // null outer array => no-op, no exception
+     * Arrays.replaceIf((long[][]) null, x -> true, 0L);
+     *
+     * // empty outer array => no-op
+     * long[][] empty = new long[0][];
+     * Arrays.replaceIf(empty, x -> true, 99L);
+     * // empty is still []
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -8473,9 +11555,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] array = {{{1L, 2L}}, {{-3L, 4L}}};
-     * Arrays.replaceIf(array, x -> x < 0, 99L);
-     * // array is now {{{1L, 2L}}, {{99L, 4L}}}
+     * long[][][] a = {{{1L, 2L}}, {{-3L, 4L}}};
+     * Arrays.replaceIf(a, x -> x < 0, 99L);
+     * // a is now [[[1, 2]], [[99, 4]]]
+     *
+     * long[][][] b = {{{0L, 100L}}, {{50L, 200L}}};
+     * Arrays.replaceIf(b, x -> x > 50L, 0L);
+     * // b is now [[[0, 0]], [[50, 0]]]
+     *
+     * // null outer array => no-op, no exception
+     * Arrays.replaceIf((long[][][]) null, x -> true, 0L);
+     *
+     * // empty outer array => no-op
+     * long[][][] empty = new long[0][][];
+     * Arrays.replaceIf(empty, x -> true, 99L);
+     * // empty is still []
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -8502,9 +11596,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] array = {1, 2, 3, 4, 5, 6, 7};
-     * long[][] reshaped = Arrays.reshape(array, 3);
-     * // reshaped is {{1, 2, 3}, {4, 5, 6}, {7}}
+     * long[] a = {1L, 2L, 3L, 4L, 5L, 6L, 7L};
+     * long[][] r1 = Arrays.reshape(a, 3);
+     * // r1 is [[1, 2, 3], [4, 5, 6], [7]]  (last row shorter)
+     *
+     * long[] b = {1L, 2L, 3L, 4L};
+     * long[][] r2 = Arrays.reshape(b, 2);
+     * // r2 is [[1, 2], [3, 4]]  (perfect fit)
+     *
+     * // null input => empty 2-d array
+     * long[][] r3 = Arrays.reshape((long[]) null, 3);
+     * // r3.length == 0
+     *
+     * // columnCount <= 0 => throws IllegalArgumentException
+     * Arrays.reshape(new long[]{1L, 2L}, 0);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null} or empty).
@@ -8537,9 +11642,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-     * long[][][] reshaped = Arrays.reshape(array, 2, 2);
-     * // reshaped is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9}}}
+     * long[] a = {1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L};
+     * long[][][] r1 = Arrays.reshape(a, 2, 2);
+     * // r1 is [[[1, 2], [3, 4]], [[5, 6], [7, 8]], [[9]]]
+     * // block size = 2*2 = 4; last block has 1 element, 1 row
+     *
+     * long[] b = {1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L};
+     * long[][][] r2 = Arrays.reshape(b, 2, 2);
+     * // r2 is [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]  (perfect fit)
+     *
+     * // null input => empty 3-d array
+     * long[][][] r3 = Arrays.reshape((long[]) null, 2, 2);
+     * // r3.length == 0
+     *
+     * // rowCount or columnCount <= 0 => throws IllegalArgumentException
+     * Arrays.reshape(new long[]{1L}, 0, 2);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null} or empty).
@@ -8577,9 +11694,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] array = {{1L, 2L}, {3L, 4L, 5L}};
-     * long[] flattened = Arrays.flatten(array);
-     * // flattened is {1L, 2L, 3L, 4L, 5L}
+     * long[][] a = {{1L, 2L}, {3L, 4L, 5L}};
+     * long[] r1 = Arrays.flatten(a);
+     * // r1 is [1, 2, 3, 4, 5]
+     *
+     * long[][] b = {{10L}, {20L, 30L}, {40L}};
+     * long[] r2 = Arrays.flatten(b);
+     * // r2 is [10, 20, 30, 40]
+     *
+     * // null input => empty array
+     * long[] r3 = Arrays.flatten((long[][]) null);
+     * // r3 is []
+     *
+     * // null/empty sub-arrays are skipped
+     * long[][] c = {null, {}, {7L, 8L}};
+     * long[] r4 = Arrays.flatten(c);
+     * // r4 is [7, 8]
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
@@ -8615,9 +11745,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] array = {{{1L, 2L}}, {{3L, 4L}, {5L}}};
-     * long[] flattened = Arrays.flatten(array);
-     * // flattened is {1L, 2L, 3L, 4L, 5L}
+     * long[][][] a = {{{1L, 2L}}, {{3L, 4L}, {5L}}};
+     * long[] r1 = Arrays.flatten(a);
+     * // r1 is [1, 2, 3, 4, 5]
+     *
+     * long[][][] b = {{{10L, 20L}, {30L}}, {{40L}}};
+     * long[] r2 = Arrays.flatten(b);
+     * // r2 is [10, 20, 30, 40]
+     *
+     * // null input => empty array
+     * long[] r3 = Arrays.flatten((long[][][]) null);
+     * // r3 is []
+     *
+     * // null/empty sub-arrays at any level are skipped
+     * long[][][] c = new long[][][]{null, {{}, {9L}}};
+     * long[] r4 = Arrays.flatten(c);
+     * // r4 is [9]
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
@@ -8659,9 +11802,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] array = {{3L, 1L}, {4L, 2L}};
-     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
-     * // array is now {{1L, 2L}, {3L, 4L}}
+     * long[][] a = {{3L, 1L}, {4L, 2L}};
+     * Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
+     * // flattened [3,1,4,2] sorted to [1,2,3,4], copied back row-by-row
+     * // a is now [[1, 2], [3, 4]]
+     *
+     * long[][] b = {{1L, 2L, 3L}};
+     * Arrays.mutateAsFlat(b, t -> { long tmp = t[0]; t[0] = t[2]; t[2] = tmp; });
+     * // b is now [[3, 2, 1]]
+     *
+     * // null array => no-op, no exception
+     * Arrays.mutateAsFlat((long[][]) null, t -> java.util.Arrays.sort(t));
+     *
+     * // empty outer array => no-op
+     * long[][] empty = new long[0][];
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     * // empty is still []
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -8698,9 +11854,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] array = {{{3L}, {1L}}, {{4L, 2L}}};
-     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
-     * // array is now {{{1L}, {2L}}, {{3L, 4L}}}
+     * long[][][] a = {{{3L}, {1L}}, {{4L, 2L}}};
+     * Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
+     * // flattened [3,1,4,2] sorted to [1,2,3,4], copied back element-by-element
+     * // a is now [[[1], [2]], [[3, 4]]]
+     *
+     * long[][][] b = {{{10L, 5L}}, {{8L, 3L}}};
+     * Arrays.mutateAsFlat(b, t -> java.util.Arrays.sort(t));
+     * // flattened [10,5,8,3] sorted to [3,5,8,10]
+     * // b is now [[[3, 5]], [[8, 10]]]
+     *
+     * // null array => no-op, no exception
+     * Arrays.mutateAsFlat((long[][][]) null, t -> java.util.Arrays.sort(t));
+     *
+     * // empty outer array => no-op
+     * long[][][] empty = new long[0][][];
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     * // empty is still []
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -8742,12 +11912,25 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] a = {1, 2, 3, 4};
-     * long[] b = {5, 6, 7};
-     * long[] result = Arrays.zip(a, b, (x, y) -> x + y);
-     * // result: {6, 8, 10}
+     * long[] a = {1L, 2L, 3L, 4L};
+     * long[] b = {5L, 6L, 7L};
+     * long[] r1 = Arrays.zip(a, b, (x, y) -> x + y);
+     * // r1 is [6, 8, 10]  (truncated to shorter length 3)
+     *
+     * long[] c = {10L, 20L};
+     * long[] d = {1L, 2L};
+     * long[] r2 = Arrays.zip(c, d, (x, y) -> x - y);
+     * // r2 is [9, 18]  (equal-length arrays)
+     *
+     * // both null => empty result
+     * long[] r3 = Arrays.zip((long[]) null, (long[]) null, (x, y) -> x + y);
+     * // r3 is []
+     *
+     * // one empty => empty result
+     * long[] r4 = Arrays.zip(new long[0], new long[]{1L, 2L}, (x, y) -> x + y);
+     * // r4 is []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -8775,12 +11958,25 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] a = {1, 2, 3, 4};
-     * long[] b = {5, 6};
-     * long[] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
-     * // result: {6, 8, 13, 14} (using 10 for missing b elements)
+     * long[] a = {1L, 2L, 3L, 4L};
+     * long[] b = {5L, 6L};
+     * long[] r1 = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
+     * // r1 is [6, 8, 13, 14]  (b padded with defaultValueB=10: 3+10=13, 4+10=14)
+     *
+     * long[] c = {1L};
+     * long[] d = {5L, 6L, 7L};
+     * long[] r2 = Arrays.zip(c, d, 0L, 10L, (x, y) -> x + y);
+     * // r2 is [6, 6, 7]  (a padded with defaultValueA=0: 0+6=6, 0+7=7)
+     *
+     * // both null => empty result
+     * long[] r3 = Arrays.zip((long[]) null, (long[]) null, 0L, 0L, (x, y) -> x + y);
+     * // r3 is []
+     *
+     * // equal lengths => defaults never used, result length equals inputs
+     * long[] r4 = Arrays.zip(new long[]{1L, 2L}, new long[]{3L, 4L}, 0L, 0L, (x, y) -> x + y);
+     * // r4 is [4, 6]
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -8822,13 +12018,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] a = {1, 2, 3, 4};
-     * long[] b = {5, 6, 7};
-     * long[] c = {8, 9};
-     * long[] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
-     * // result: {14, 17}
+     * long[] a = {1L, 2L, 3L, 4L};
+     * long[] b = {5L, 6L, 7L};
+     * long[] c = {8L, 9L};
+     * long[] r1 = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+     * // r1 is [14, 17]  (truncated to shortest length 2: 1+5+8=14, 2+6+9=17)
+     *
+     * long[] d = {1L, 2L};
+     * long[] e = {3L, 4L};
+     * long[] f = {5L, 6L};
+     * long[] r2 = Arrays.zip(d, e, f, (x, y, z) -> x + y + z);
+     * // r2 is [9, 12]  (equal-length: 1+3+5=9, 2+4+6=12)
+     *
+     * // all null => empty result
+     * long[] r3 = Arrays.zip((long[]) null, (long[]) null, (long[]) null, (x, y, z) -> x + y + z);
+     * // r3 is []
+     *
+     * // one empty => empty result
+     * long[] r4 = Arrays.zip(new long[]{1L}, new long[]{2L}, new long[0], (x, y, z) -> x + y + z);
+     * // r4 is []
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -8859,13 +12069,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] a = {1, 2, 3, 4};
-     * long[] b = {5, 6};
-     * long[] c = {8, 9, 10};
-     * long[] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
-     * // result: {14, 17, 23, 34} (using defaults for missing elements)
+     * long[] a = {1L, 2L, 3L, 4L};
+     * long[] b = {5L, 6L};
+     * long[] c = {8L, 9L, 10L};
+     * long[] r1 = Arrays.zip(a, b, c, 0L, 10L, 20L, (x, y, z) -> x + y + z);
+     * // r1 is [14, 17, 23, 34]
+     * // idx0: 1+5+8=14; idx1: 2+6+9=17; idx2: 3+10+10=23; idx3: 4+10+20=34
+     *
+     * long[] d = {1L};
+     * long[] e = {5L, 6L};
+     * long[] f = {8L, 9L};
+     * long[] r2 = Arrays.zip(d, e, f, 0L, 10L, 20L, (x, y, z) -> x + y + z);
+     * // r2 is [14, 15]  (idx0: 1+5+8=14; idx1: 0+6+9=15)
+     *
+     * // all null => empty result
+     * long[] r3 = Arrays.zip((long[]) null, (long[]) null, (long[]) null, 0L, 0L, 0L, (x, y, z) -> x + y + z);
+     * // r3 is []
+     *
+     * // equal lengths => defaults never used
+     * long[] r4 = Arrays.zip(new long[]{1L}, new long[]{2L}, new long[]{3L}, 0L, 0L, 0L, (x, y, z) -> x + y + z);
+     * // r4 is [6]
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -8906,12 +12131,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] a = {{1, 2}, {3, 4, 5}};
-     * long[][] b = {{5, 6, 7}, {8, 9}};
-     * long[][] result = Arrays.zip(a, b, (x, y) -> x + y);
-     * // result: {{6, 8}, {11, 13}}
+     * long[][] a = {{1L, 2L}, {3L, 4L, 5L}};
+     * long[][] b = {{5L, 6L, 7L}, {8L, 9L}};
+     * long[][] r1 = Arrays.zip(a, b, (x, y) -> x + y);
+     * // r1 is [[6, 8], [11, 13]]
+     * // outer truncated to min(2,2)=2; each row truncated to shorter inner length
+     *
+     * long[][] c = {{10L, 20L}, {30L}};
+     * long[][] d = {{1L, 2L}, {3L, 4L}};
+     * long[][] r2 = Arrays.zip(c, d, (x, y) -> x - y);
+     * // r2 is [[9, 18], [27]]
+     *
+     * // both null => empty outer result
+     * long[][] r3 = Arrays.zip((long[][]) null, (long[][]) null, (x, y) -> x + y);
+     * // r3.length == 0
+     *
+     * // a has more rows => result truncated to b's length
+     * long[][] a2 = {{1L}, {2L}, {3L}};
+     * long[][] b2 = {{10L}};
+     * long[][] r4 = Arrays.zip(a2, b2, (x, y) -> x + y);
+     * // r4 is [[11]]
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -8939,12 +12180,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] a = {{1, 2}, {3, 4, 5}};
-     * long[][] b = {{5, 6, 7}, {8, 9}, {10}};
-     * long[][] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
-     * // result: {{6, 8, 7}, {11, 13, 15}, {10}}
+     * long[][] a = {{1L, 2L}, {3L, 4L, 5L}};
+     * long[][] b = {{5L, 6L, 7L}, {8L, 9L}, {10L}};
+     * long[][] r1 = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
+     * // r1 is [[6, 8, 7], [11, 13, 15], [10]]
+     * // row0: zip({1,2},{5,6,7},0,10): 6,8,7; row1: zip({3,4,5},{8,9},0,10): 11,13,15
+     * // row2 (only in b): zip(null,{10},0,10): 10
+     *
+     * long[][] c = {{1L}};
+     * long[][] d = {{5L}, {6L}};
+     * long[][] r2 = Arrays.zip(c, d, 0L, 10L, (x, y) -> x + y);
+     * // r2 is [[6], [6]]  (row1: zip(null,{6},0,10)=0+6=6)
+     *
+     * // both null => empty outer result
+     * long[][] r3 = Arrays.zip((long[][]) null, (long[][]) null, 0L, 0L, (x, y) -> x + y);
+     * // r3.length == 0
+     *
+     * // empty outer => empty result
+     * long[][] r4 = Arrays.zip(new long[0][], new long[0][], 0L, 0L, (x, y) -> x + y);
+     * // r4.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -8986,13 +12242,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] a = {{1, 2}, {3, 4, 5}};
-     * long[][] b = {{5, 6, 7}, {8, 9}};
-     * long[][] c = {{10, 11}, {12, 13, 14}};
-     * long[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
-     * // result: {{16, 19}, {23, 26}}
+     * long[][] a = {{1L, 2L}, {3L, 4L, 5L}};
+     * long[][] b = {{5L, 6L, 7L}, {8L, 9L}};
+     * long[][] c = {{10L, 11L}, {12L, 13L, 14L}};
+     * long[][] r1 = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+     * // r1 is [[16, 19], [23, 26]]
+     * // row0: zip({1,2},{5,6,7},{10,11}): 16,19; row1: zip({3,4,5},{8,9},{12,13,14}): 23,26
+     *
+     * long[][] d = {{1L}};
+     * long[][] e = {{2L}, {3L}};
+     * long[][] f = {{4L}, {5L}, {6L}};
+     * long[][] r2 = Arrays.zip(d, e, f, (x, y, z) -> x + y + z);
+     * // r2 is [[7]]  (outer truncated to min(1,2,3)=1)
+     *
+     * // all null => empty outer result
+     * long[][] r3 = Arrays.zip((long[][]) null, (long[][]) null, (long[][]) null, (x, y, z) -> x + y + z);
+     * // r3.length == 0
+     *
+     * // empty outer => empty result
+     * long[][] r4 = Arrays.zip(new long[0][], new long[0][], new long[0][], (x, y, z) -> x + y + z);
+     * // r4.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -9023,13 +12294,30 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] a = {{1, 2}, {3, 4, 5}};
-     * long[][] b = {{5, 6, 7}, {8, 9}, {10}};
-     * long[][] c = {{10, 11}};
-     * long[][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
-     * // result: {{16, 19, 27}, {31, 33, 35}, {30}}
+     * long[][] a = {{1L, 2L}, {3L, 4L, 5L}};
+     * long[][] b = {{5L, 6L, 7L}, {8L, 9L}, {10L}};
+     * long[][] c = {{10L, 11L}};
+     * long[][] r1 = Arrays.zip(a, b, c, 0L, 10L, 20L, (x, y, z) -> x + y + z);
+     * // r1 is [[16, 19, 27], [31, 33, 35], [30]]
+     * // row0: zip({1,2},{5,6,7},{10,11},0,10,20): 16,19,27
+     * // row1: zip({3,4,5},{8,9},null,0,10,20): 31,33,35
+     * // row2: zip(null,{10},null,0,10,20): 30
+     *
+     * long[][] d = {{1L}};
+     * long[][] e = {{2L}};
+     * long[][] f = {{3L}, {4L}};
+     * long[][] r2 = Arrays.zip(d, e, f, 0L, 0L, 0L, (x, y, z) -> x + y + z);
+     * // r2 is [[6], [4]]  (row1: zip(null,null,{4},0,0,0)=0+0+4=4)
+     *
+     * // all null => empty outer result
+     * long[][] r3 = Arrays.zip((long[][]) null, (long[][]) null, (long[][]) null, 0L, 0L, 0L, (x, y, z) -> x + y + z);
+     * // r3.length == 0
+     *
+     * // empty outer => empty result
+     * long[][] r4 = Arrays.zip(new long[0][], new long[0][], new long[0][], 0L, 0L, 0L, (x, y, z) -> x + y + z);
+     * // r4.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -9071,12 +12359,25 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
-     * long[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
-     * long[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
-     * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {77, 88}}}
+     * long[][][] a = {{{1L, 2L}, {3L, 4L}}, {{5L, 6L}, {7L, 8L}}};
+     * long[][][] b = {{{10L, 20L}, {30L, 40L}}, {{50L, 60L}, {70L, 80L}}};
+     * long[][][] r1 = Arrays.zip(a, b, (x, y) -> x + y);
+     * // r1 is [[[11, 22], [33, 44]], [[55, 66], [77, 88]]]
+     *
+     * long[][][] c = {{{1L}}};
+     * long[][][] d = {{{2L}}, {{3L}}};
+     * long[][][] r2 = Arrays.zip(c, d, (x, y) -> x + y);
+     * // r2 is [[[3]]]  (outer truncated to min(1,2)=1)
+     *
+     * // both null => empty outer result
+     * long[][][] r3 = Arrays.zip((long[][][]) null, (long[][][]) null, (x, y) -> x + y);
+     * // r3.length == 0
+     *
+     * // empty outer => empty result
+     * long[][][] r4 = Arrays.zip(new long[0][][], new long[0][][], (x, y) -> x + y);
+     * // r4.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -9104,12 +12405,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
-     * long[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
-     * long[][][] result = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
-     * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
+     * long[][][] a = {{{1L, 2L}, {3L, 4L}}, {{5L, 6L}}};
+     * long[][][] b = {{{10L, 20L}, {30L, 40L}}, {{50L, 60L}, {70L, 80L}}, {{90L}}};
+     * long[][][] r1 = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
+     * // r1 is [[[11, 22], [33, 44]], [[55, 66], [70, 80]], [[90]]]
+     * // block0: zip(a[0],b[0]): full match; block1: a[1] shorter (1 row vs 2)
+     * // block2: a absent, b[2]={{90}}: zip(null,{90},0,10)={90}
+     *
+     * long[][][] c = {{{1L}}};
+     * long[][][] d = {{{2L}}, {{3L}}};
+     * long[][][] r2 = Arrays.zip(c, d, 0L, 10L, (x, y) -> x + y);
+     * // r2 is [[[3]], [[3]]]  (block1: zip(null,{3},0,10)=0+3=3)
+     *
+     * // both null => empty outer result
+     * long[][][] r3 = Arrays.zip((long[][][]) null, (long[][][]) null, 0L, 0L, (x, y) -> x + y);
+     * // r3.length == 0
+     *
+     * // empty outer => empty result
+     * long[][][] r4 = Arrays.zip(new long[0][][], new long[0][][], 0L, 0L, (x, y) -> x + y);
+     * // r4.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -9151,13 +12467,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] a = {{{1, 2}}};
-     * long[][][] b = {{{11, 12}, {13, 14}}};
-     * long[][][] c = {{{21, 22}}};
-     * long[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
-     * // result: {{{33, 36}}}
+     * long[][][] a = {{{1L, 2L}}};
+     * long[][][] b = {{{11L, 12L}, {13L, 14L}}};
+     * long[][][] c = {{{21L, 22L}}};
+     * long[][][] r1 = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+     * // r1 is [[[33, 36]]]
+     * // block0: zip(a[0],b[0],c[0]) - each is a row, truncated to shortest: 1+11+21=33, 2+12+22=36
+     *
+     * long[][][] d = {{{1L}}, {{2L}}};
+     * long[][][] e = {{{3L}}};
+     * long[][][] f = {{{5L}}, {{6L}}, {{7L}}};
+     * long[][][] r2 = Arrays.zip(d, e, f, (x, y, z) -> x + y + z);
+     * // r2 is [[[9]]]  (outer truncated to min(2,1,3)=1)
+     *
+     * // all null => empty outer result
+     * long[][][] r3 = Arrays.zip((long[][][]) null, (long[][][]) null, (long[][][]) null, (x, y, z) -> x + y + z);
+     * // r3.length == 0
+     *
+     * // empty outer => empty result
+     * long[][][] r4 = Arrays.zip(new long[0][][], new long[0][][], new long[0][][], (x, y, z) -> x + y + z);
+     * // r4.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -9188,13 +12519,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] a = {{{1, 2}}};
-     * long[][][] b = {{{11, 12}, {13, 14}}};
-     * long[][][] c = {{{21, 22}}};
-     * long[][][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
-     * // result: {{{33, 36}, {33, 34}}}
+     * long[][][] a = {{{1L, 2L}}};
+     * long[][][] b = {{{11L, 12L}, {13L, 14L}}};
+     * long[][][] c = {{{21L, 22L}}};
+     * long[][][] r1 = Arrays.zip(a, b, c, 0L, 10L, 20L, (x, y, z) -> x + y + z);
+     * // r1 is [[[33, 36], [33, 34]]]
+     * // block0: zip(a[0],b[0],c[0],0,10,20) with max rows=2:
+     * //   row0: 1+11+21=33, 2+12+22=36; row1: zip(null,{13,14},null): 0+13+20=33, 0+14+20=34
+     *
+     * long[][][] d = {{{1L}}};
+     * long[][][] e = {{{2L}}, {{3L}}};
+     * long[][][] f = {{{4L}}};
+     * long[][][] r2 = Arrays.zip(d, e, f, 0L, 10L, 20L, (x, y, z) -> x + y + z);
+     * // r2 is [[[7]], [[23]]]  (block1: zip(null,{3},null,0,10,20)=0+3+20=23)
+     *
+     * // all null => empty outer result
+     * long[][][] r3 = Arrays.zip((long[][][]) null, (long[][][]) null, (long[][][]) null, 0L, 0L, 0L, (x, y, z) -> x + y + z);
+     * // r3.length == 0
+     *
+     * // empty outer => empty result
+     * long[][][] r4 = Arrays.zip(new long[0][][], new long[0][][], new long[0][][], 0L, 0L, 0L, (x, y, z) -> x + y + z);
+     * // r4.length == 0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -9233,9 +12580,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] array = {{1, 2}, {3, 4, 5}, null};
-     * long count = Arrays.elementCount(array);
-     * // count is 5
+     * long[][] a = {{1L, 2L}, {3L, 4L, 5L}, null};
+     * long r1 = Arrays.elementCount(a);
+     * // r1 is 5  (null sub-array treated as 0 elements)
+     *
+     * long[][] b = {{10L}, {20L, 30L}, {40L, 50L, 60L}};
+     * long r2 = Arrays.elementCount(b);
+     * // r2 is 6
+     *
+     * // null input => 0
+     * long r3 = Arrays.elementCount((long[][]) null);
+     * // r3 is 0
+     *
+     * // all null sub-arrays => 0
+     * long r4 = Arrays.elementCount(new long[][]{null, null});
+     * // r4 is 0
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null} or empty).
@@ -9262,9 +12621,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] array = {{{1}, {2, 3}}, null, {{4, 5, 6}}};
-     * long count = Arrays.elementCount(array);
-     * // count is 6
+     * long[][][] a = {{{1L}, {2L, 3L}}, null, {{4L, 5L, 6L}}};
+     * long r1 = Arrays.elementCount(a);
+     * // r1 is 6  (null mid-level sub-array skipped)
+     *
+     * long[][][] b = {{{1L, 2L}}, {{3L, 4L}, {5L}}};
+     * long r2 = Arrays.elementCount(b);
+     * // r2 is 5
+     *
+     * // null input => 0
+     * long r3 = Arrays.elementCount((long[][][]) null);
+     * // r3 is 0
+     *
+     * // all null mid-level => 0
+     * long r4 = Arrays.elementCount(new long[][][]{null, null});
+     * // r4 is 0
      * }</pre>
      *
      * @param a the three-dimensional long array (can be {@code null} or empty).
@@ -9302,8 +12673,20 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L, 2L, 3L}, {4L, 5L}, null, {6L}};
-     * int minLen = Arrays.minSubArrayLength(a);
-     * // minLen will be 0
+     * int r1 = Arrays.minSubArrayLength(a);
+     * // r1 is 0  (null sub-array treated as length 0)
+     *
+     * long[][] b = {{1L, 2L}, {3L, 4L, 5L}, {6L}};
+     * int r2 = Arrays.minSubArrayLength(b);
+     * // r2 is 1
+     *
+     * // null input => 0
+     * int r3 = Arrays.minSubArrayLength((long[][]) null);
+     * // r3 is 0
+     *
+     * // empty input => 0
+     * int r4 = Arrays.minSubArrayLength(new long[0][]);
+     * // r4 is 0
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null} or empty).
@@ -9331,8 +12714,20 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L}, {2L, 3L}, null, {4L, 5L, 6L}};
-     * int maxLen = Arrays.maxSubArrayLength(a);
-     * // maxLen will be 3
+     * int r1 = Arrays.maxSubArrayLength(a);
+     * // r1 is 3  (null sub-array treated as length 0)
+     *
+     * long[][] b = {{1L, 2L}, {3L, 4L, 5L}, {6L}};
+     * int r2 = Arrays.maxSubArrayLength(b);
+     * // r2 is 3
+     *
+     * // null input => 0
+     * int r3 = Arrays.maxSubArrayLength((long[][]) null);
+     * // r3 is 0
+     *
+     * // all null sub-arrays => 0
+     * int r4 = Arrays.maxSubArrayLength(new long[][]{null, null});
+     * // r4 is 0
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null} or empty).
@@ -9369,18 +12764,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] array = {1L, 2L, 3L, 4L, 5L};
-     * String result = Arrays.println(array);
-     * // Prints to console and returns: "[1, 2, 3, 4, 5]"
+     * long[] a = {1L, 2L, 3L, 4L, 5L};
+     * String r1 = Arrays.println(a);
+     * // prints and returns "[1, 2, 3, 4, 5]"
      *
-     * // Null array
-     * String nullResult = Arrays.println((long[]) null);
-     * // Prints "null"
+     * long[] b = {42L};
+     * String r2 = Arrays.println(b);
+     * // prints and returns "[42]"
      *
-     * // Empty array
-     * long[] empty = new long[0];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // null array => "null"
+     * String r3 = Arrays.println((long[]) null);
+     * // prints and returns "null"
+     *
+     * // empty array => "[]"
+     * String r4 = Arrays.println(new long[0]);
+     * // prints and returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -9419,27 +12817,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] array = {{1L, 2L, 3L}, {4L, 5L}, null, {}, {6L}};
-     * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[1, 2, 3],
-     * //  [4, 5],
-     * //  null,
-     * //  [],
-     * //  [6]]
+     * long[][] a = {{1L, 2L, 3L}, {4L, 5L}};
+     * String r1 = Arrays.println(a);
+     * // prints and returns "[[1, 2, 3],\n [4, 5]]"
+     * // (rows separated by ",\n " for readability)
      *
-     * // Null array
-     * String nullResult = Arrays.println((long[][]) null);
-     * // Prints "null"
+     * long[][] b = {{10L}};
+     * String r2 = Arrays.println(b);
+     * // prints and returns "[[10]]"
      *
-     * // Empty array
-     * long[][] empty = new long[0][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // null input => "null"
+     * String r3 = Arrays.println((long[][]) null);
+     * // prints and returns "null"
+     *
+     * // empty outer array => "[]"
+     * String r4 = Arrays.println(new long[0][]);
+     * // prints and returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
-     * the formatted string for potential further use.</p>
+     * the formatted string for potential further use. Null sub-arrays are
+     * represented as "null" and empty sub-arrays as "[]" within the output.</p>
      *
      * @param a the two-dimensional long array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
@@ -9515,29 +12913,27 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][][] array = {{{1L, 2L, 3L}, {4L, 5L}}, {{6L, 7L}, null, {}}, null};
-     * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[[1, 2, 3],
-     * //   [4, 5]],
-     * //  [[6, 7],
-     * //   null,
-     * //   []],
-     * //  null]
+     * long[][][] a = {{{1L, 2L}, {3L}}, {{4L, 5L}}};
+     * String r1 = Arrays.println(a);
+     * // prints and returns "[[[1, 2],\n  [3]],\n [[4, 5]]]"
+     * // (2-d blocks separated by ",\n "; inner rows by ",\n  ")
      *
-     * // Null array
-     * String nullResult = Arrays.println((long[][][]) null);
-     * // Prints "null"
+     * long[][][] b = {{{42L}}};
+     * String r2 = Arrays.println(b);
+     * // prints and returns "[[[42]]]"
      *
-     * // Empty array
-     * long[][][] empty = new long[0][][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // null input => "null"
+     * String r3 = Arrays.println((long[][][]) null);
+     * // prints and returns "null"
+     *
+     * // empty outer array => "[]"
+     * String r4 = Arrays.println(new long[0][][]);
+     * // prints and returns "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
-     * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
+     * the formatted string for potential further use. Null sub-arrays at any level are
+     * represented as "null" and empty sub-arrays as "[]" within the output.</p>
      *
      * @param a the three-dimensional long array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
@@ -9616,8 +13012,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[] array = {1.0f, -2.0f, 3.0f};
-     * Arrays.updateAll(array, x -> Math.abs(x));   // array becomes [1.0f, 2.0f, 3.0f]
+     * // Basic: negate all elements
+     * float[] a = {1.0f, -2.0f, 3.0f};
+     * Arrays.updateAll(a, x -> Math.abs(x));
+     * // a is now [1.0, 2.0, 3.0]
+     *
+     * // Basic: square all elements
+     * float[] b = {2.0f, 3.0f, 4.0f};
+     * Arrays.updateAll(b, x -> x * x);
+     * // b is now [4.0, 9.0, 16.0]
+     *
+     * // Edge: null array - no-op
+     * Arrays.updateAll((float[]) null, x -> x + 1.0f);   // no exception, nothing happens
+     *
+     * // Edge: NaN and Infinity are passed through the operator unchanged in character
+     * float[] c = {1.0f, Float.NaN, 3.0f};
+     * Arrays.updateAll(c, x -> x * 2.0f);
+     * // c[0] is 2.0, c[1] is NaN (NaN * 2 == NaN), c[2] is 6.0
+     *
+     * // Edge: divide by zero produces Infinity
+     * float[] d = {1.0f, 2.0f};
+     * Arrays.updateAll(d, x -> x / 0f);
+     * // d is now [Infinity, Infinity]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -9644,8 +13060,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: square all elements
      * float[][] grid = {{1.0f, -2.0f}, {-3.0f, 4.0f}};
-     * Arrays.updateAll(grid, x -> x * x);   // grid becomes {{1.0f, 4.0f}, {9.0f, 16.0f}}
+     * Arrays.updateAll(grid, x -> x * x);
+     * // grid is now {{1.0, 4.0}, {9.0, 16.0}}
+     *
+     * // Basic: multiply all elements by -1
+     * float[][] g2 = {{2.0f, 3.0f}, {4.0f, 5.0f}};
+     * Arrays.updateAll(g2, x -> -x);
+     * // g2 is now {{-2.0, -3.0}, {-4.0, -5.0}}
+     *
+     * // Edge: null array - no-op
+     * Arrays.updateAll((float[][]) null, x -> x + 1.0f);   // no exception, nothing happens
+     *
+     * // Edge: NaN propagates through the operator
+     * float[][] g3 = {{Float.NaN, 2.0f}};
+     * Arrays.updateAll(g3, x -> x * 2.0f);
+     * // g3[0][0] is NaN (NaN * 2 == NaN), g3[0][1] is 4.0
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -9672,8 +13103,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: negate all elements
      * float[][][] cube = {{{-1.0f}}, {{2.0f}}};
-     * Arrays.updateAll(cube, x -> -x);   // cube becomes {{{1.0f}}, {{-2.0f}}}
+     * Arrays.updateAll(cube, x -> -x);
+     * // cube is now {{{1.0}}, {{-2.0}}}
+     *
+     * // Basic: add 10 to all elements
+     * float[][][] c2 = {{{1.0f, 2.0f}}, {{3.0f}}};
+     * Arrays.updateAll(c2, x -> x + 10.0f);
+     * // c2 is now {{{11.0, 12.0}}, {{13.0}}}
+     *
+     * // Edge: null array - no-op
+     * Arrays.updateAll((float[][][]) null, x -> x * 2.0f);   // no exception, nothing happens
+     *
+     * // Edge: NaN remains NaN; divide by zero produces Infinity
+     * float[][][] c3 = {{{Float.NaN, 1.0f}}};
+     * Arrays.updateAll(c3, x -> x / 0f);
+     * // c3[0][0][0] is NaN (NaN / 0 == NaN), c3[0][0][1] is Infinity
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -9700,8 +13146,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[] array = {1.0f, -2.0f, 3.0f, -4.0f};
-     * Arrays.replaceIf(array, x -> x < 0, 0.0f);   // array becomes [1.0f, 0.0f, 3.0f, 0.0f]
+     * // Basic: replace negative values with zero
+     * float[] a = {1.0f, -2.0f, 3.0f, -4.0f};
+     * Arrays.replaceIf(a, x -> x < 0, 0.0f);
+     * // a is now [1.0, 0.0, 3.0, 0.0]
+     *
+     * // Basic: replace values greater than 2 with a sentinel
+     * float[] b = {1.0f, 2.0f, 3.0f, 4.0f};
+     * Arrays.replaceIf(b, x -> x > 2.0f, -1.0f);
+     * // b is now [1.0, 2.0, -1.0, -1.0]
+     *
+     * // Edge: null array - no-op
+     * Arrays.replaceIf((float[]) null, x -> x < 0, 0.0f);   // no exception, nothing happens
+     *
+     * // Edge: replace NaN values (NaN != NaN, so use Float.isNaN)
+     * float[] c = {1.0f, Float.NaN, 3.0f};
+     * Arrays.replaceIf(c, v -> Float.isNaN(v), 0.0f);
+     * // c is now [1.0, 0.0, 3.0]
+     *
+     * // Edge: replace Infinity
+     * float[] d = {Float.POSITIVE_INFINITY, 2.0f};
+     * Arrays.replaceIf(d, v -> Float.isInfinite(v), 99.0f);
+     * // d is now [99.0, 2.0]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -9730,8 +13196,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace non-positive values with 99
      * float[][] grid = {{1.0f, -2.0f}, {0.0f, -4.0f}};
-     * Arrays.replaceIf(grid, x -> x <= 0, 99.0f);   // grid becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
+     * Arrays.replaceIf(grid, x -> x <= 0, 99.0f);
+     * // grid is now {{1.0, 99.0}, {99.0, 99.0}}
+     *
+     * // Basic: clamp values above a threshold
+     * float[][] g2 = {{5.0f, 1.0f}, {3.0f, 8.0f}};
+     * Arrays.replaceIf(g2, x -> x > 4.0f, 4.0f);
+     * // g2 is now {{4.0, 1.0}, {3.0, 4.0}}
+     *
+     * // Edge: null array - no-op
+     * Arrays.replaceIf((float[][]) null, x -> x < 0, 0.0f);   // no exception, nothing happens
+     *
+     * // Edge: replace NaN values using Float.isNaN (NaN != NaN so direct comparison won't work)
+     * float[][] g3 = {{Float.NaN, 2.0f}, {Float.POSITIVE_INFINITY, -1.0f}};
+     * Arrays.replaceIf(g3, v -> Float.isNaN(v), 0.0f);
+     * // g3[0] is now [0.0, 2.0]; g3[1][0] remains Infinity
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -9758,8 +13239,28 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace positive values with zero
      * float[][][] cube = {{{1f, -2f}}, {{-3f, 4f}}};
-     * Arrays.replaceIf(cube, x -> x > 0, 0.0f);   // cube becomes {{{0.0f, -2.0f}}, {{-3.0f, 0.0f}}}
+     * Arrays.replaceIf(cube, x -> x > 0, 0.0f);
+     * // cube is now {{{0.0, -2.0}}, {{-3.0, 0.0}}}
+     *
+     * // Basic: replace all values below a threshold
+     * float[][][] c2 = {{{5.0f, 2.0f}}, {{1.0f, 8.0f}}};
+     * Arrays.replaceIf(c2, x -> x < 3.0f, 0.0f);
+     * // c2 is now {{{5.0, 0.0}}, {{0.0, 8.0}}}
+     *
+     * // Edge: null array - no-op
+     * Arrays.replaceIf((float[][][]) null, x -> x > 0, 0.0f);   // no exception, nothing happens
+     *
+     * // Edge: replace NaN values (must use Float.isNaN - NaN != NaN)
+     * float[][][] c3 = {{{Float.NaN, 1.0f}}};
+     * Arrays.replaceIf(c3, v -> Float.isNaN(v), -1.0f);
+     * // c3[0][0] is now [-1.0, 1.0]
+     *
+     * // Edge: replace Infinity values
+     * float[][][] c4 = {{{Float.POSITIVE_INFINITY, 1.0f}}};
+     * Arrays.replaceIf(c4, v -> Float.isInfinite(v), 0.0f);
+     * // c4[0][0] is now [0.0, 1.0]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -9787,8 +13288,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 7 elements, 3 columns - last row is partial
      * float[] array = {1, 2, 3, 4, 5, 6, 7};
-     * float[][] grid = Arrays.reshape(array, 3);   // returns {{1, 2, 3}, {4, 5, 6}, {7}}
+     * float[][] grid = Arrays.reshape(array, 3);
+     * // grid is {{1, 2, 3}, {4, 5, 6}, {7}}
+     *
+     * // Basic: evenly divisible case
+     * float[] a2 = {1.0f, 2.0f, 3.0f, 4.0f};
+     * float[][] g2 = Arrays.reshape(a2, 2);
+     * // g2 is {{1.0, 2.0}, {3.0, 4.0}}
+     *
+     * // Edge: null input returns empty 2D array
+     * float[][] result = Arrays.reshape((float[]) null, 3);
+     * // result is float[0][] (length 0)
+     *
+     * // Edge: non-positive columnCount throws IllegalArgumentException
+     * Arrays.reshape(new float[]{1, 2}, 0);   // throws IllegalArgumentException
+     * Arrays.reshape(new float[]{1, 2}, -1);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
@@ -9822,8 +13338,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 7 elements into blocks of 2 rows x 2 cols (last block/row may be partial)
      * float[] array = {1, 2, 3, 4, 5, 6, 7};
-     * float[][][] cube = Arrays.reshape(array, 2, 2);   // returns {{{1,2},{3,4}},{{5,6},{7}}}
+     * float[][][] cube = Arrays.reshape(array, 2, 2);
+     * // cube is {{{1,2},{3,4}},{{5,6},{7}}}
+     *
+     * // Basic: exactly fills 2 blocks of 2x2
+     * float[] a2 = {1, 2, 3, 4, 5, 6, 7, 8};
+     * float[][][] c2 = Arrays.reshape(a2, 2, 2);
+     * // c2 is {{{1,2},{3,4}},{{5,6},{7,8}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * float[][][] result = Arrays.reshape((float[]) null, 2, 2);
+     * // result is float[0][][] (length 0)
+     *
+     * // Edge: non-positive rowCount or columnCount throws IllegalArgumentException
+     * Arrays.reshape(new float[]{1, 2}, 0, 2);   // throws IllegalArgumentException
+     * Arrays.reshape(new float[]{1, 2}, 2, -1);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
@@ -9863,8 +13394,29 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten a uniform 2D array
      * float[][] grid = {{1.0f, 2.0f}, {3.0f, 4.0f}};
-     * float[] array = Arrays.flatten(grid);   // returns {1.0f, 2.0f, 3.0f, 4.0f}
+     * float[] array = Arrays.flatten(grid);
+     * // array is {1.0, 2.0, 3.0, 4.0}
+     *
+     * // Basic: jagged sub-arrays are concatenated in order
+     * float[][] g2 = {{1.0f}, {2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}};
+     * float[] a2 = Arrays.flatten(g2);
+     * // a2 is {1.0, 2.0, 3.0, 4.0, 5.0, 6.0}
+     *
+     * // Edge: null input returns empty array
+     * float[] r1 = Arrays.flatten((float[][]) null);
+     * // r1 is {} (length 0)
+     *
+     * // Edge: null and empty sub-arrays are skipped
+     * float[][] g3 = {{1.0f, 2.0f}, null, {}, {3.0f}};
+     * float[] a3 = Arrays.flatten(g3);
+     * // a3 is {1.0, 2.0, 3.0}
+     *
+     * // Edge: NaN and Infinity values are preserved
+     * float[][] g4 = {{Float.NaN}, {Float.POSITIVE_INFINITY}};
+     * float[] a4 = Arrays.flatten(g4);
+     * // a4[0] is NaN, a4[1] is Infinity
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
@@ -9902,8 +13454,29 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten a uniform 3D array
      * float[][][] cube = {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}};
-     * float[] array = Arrays.flatten(cube);   // returns {1.0f, 2.0f, 3.0f, 4.0f}
+     * float[] array = Arrays.flatten(cube);
+     * // array is {1.0, 2.0, 3.0, 4.0}
+     *
+     * // Basic: jagged sub-arrays are concatenated in depth-first order
+     * float[][][] c2 = {{{1.0f, 2.0f}}, {{3.0f}, {4.0f, 5.0f}}};
+     * float[] a2 = Arrays.flatten(c2);
+     * // a2 is {1.0, 2.0, 3.0, 4.0, 5.0}
+     *
+     * // Edge: null input returns empty array
+     * float[] r1 = Arrays.flatten((float[][][]) null);
+     * // r1 is {} (length 0)
+     *
+     * // Edge: null and empty sub-arrays at any level are skipped
+     * float[][][] c3 = {{{1.0f}}, null, {{}, {2.0f}}};
+     * float[] a3 = Arrays.flatten(c3);
+     * // a3 is {1.0, 2.0}
+     *
+     * // Edge: NaN and Infinity values are preserved
+     * float[][][] c4 = {{{Float.NaN, Float.POSITIVE_INFINITY}}};
+     * float[] a4 = Arrays.flatten(c4);
+     * // a4[0] is NaN, a4[1] is Infinity
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
@@ -9947,8 +13520,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements globally across sub-arrays
      * float[][] grid = {{4.0f, 1.0f}, {3.0f, 2.0f}};
-     * Arrays.mutateAsFlat(grid, N::sort);   // grid becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * Arrays.mutateAsFlat(grid, N::sort);
+     * // grid is now {{1.0, 2.0}, {3.0, 4.0}}
+     *
+     * // Basic: negate all elements via flat view
+     * float[][] g2 = {{3.0f, 1.0f}, {2.0f}};
+     * Arrays.mutateAsFlat(g2, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = -arr[i]; });
+     * // g2 is now {{-3.0, -1.0}, {-2.0}}
+     *
+     * // Edge: null array - no-op (action is not called)
+     * Arrays.mutateAsFlat((float[][]) null, N::sort);   // no exception, nothing happens
+     *
+     * // Edge: NaN is placed last after sort (standard Java float sort behavior)
+     * float[][] g3 = {{Float.NaN, 1.0f}, {3.0f, 2.0f}};
+     * Arrays.mutateAsFlat(g3, arr -> java.util.Arrays.sort(arr));
+     * // Flat sorted order: [1.0, 2.0, 3.0, NaN]; copied back: g3[0]={1.0,2.0}, g3[1]={3.0,NaN}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -9987,8 +13575,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sort all elements globally across all sub-arrays
      * float[][][] cube = {{{4.0f, 1.0f}}, {{3.0f, 2.0f}}};
-     * Arrays.mutateAsFlat(cube, N::sort);   // cube becomes {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     * Arrays.mutateAsFlat(cube, N::sort);
+     * // cube is now {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     *
+     * // Basic: double all elements via flat view
+     * float[][][] c2 = {{{5.0f, 3.0f}}, {{1.0f, 2.0f}}};
+     * Arrays.mutateAsFlat(c2, arr -> { for (int i = 0; i < arr.length; i++) arr[i] *= 2; });
+     * // c2 is now {{{10.0, 6.0}}, {{2.0, 4.0}}}
+     *
+     * // Edge: null array - no-op (action is not called)
+     * Arrays.mutateAsFlat((float[][][]) null, N::sort);   // no exception, nothing happens
+     *
+     * // Edge: NaN is placed last after sort (standard Java float sort behavior)
+     * float[][][] c3 = {{{Float.NaN, 1.0f}}, {{3.0f, 2.0f}}};
+     * Arrays.mutateAsFlat(c3, arr -> java.util.Arrays.sort(arr));
+     * // Flat sorted order: [1.0, 2.0, 3.0, NaN]; c3[0][0]={1.0,2.0}, c3[1][0]={3.0,NaN}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -10030,12 +13633,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: result truncated to shorter array length
      * float[] a = {1, 2, 3, 4};
      * float[] b = {5, 6, 7};
      * float[] result = Arrays.zip(a, b, (x, y) -> x + y);
      * // result: {6, 8, 10}
+     *
+     * // Basic: equal-length arrays - all elements are paired
+     * float[] a2 = {1.0f, 2.0f, 3.0f};
+     * float[] b2 = {4.0f, 5.0f, 6.0f};
+     * float[] r2 = Arrays.zip(a2, b2, (x, y) -> x * y);
+     * // r2: {4.0, 10.0, 18.0}
+     *
+     * // Edge: null array treated as empty - result is empty
+     * float[] r3 = Arrays.zip((float[]) null, new float[]{1, 2}, (x, y) -> x + y);
+     * // r3: {} (length 0)
+     *
+     * // Edge: NaN propagates; Infinity + finite = Infinity
+     * float[] a4 = {Float.NaN, 2.0f};
+     * float[] b4 = {1.0f, Float.POSITIVE_INFINITY};
+     * float[] r4 = Arrays.zip(a4, b4, (x, y) -> x + y);
+     * // r4[0] is NaN, r4[1] is Infinity
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -10063,12 +13683,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b is shorter; missing b elements use defaultValueB=10
      * float[] a = {1, 2, 3, 4};
      * float[] b = {5, 6};
      * float[] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
-     * // result: {6, 8, 13, 14} (using 10 for missing b elements)
+     * // result: {6, 8, 13, 14}
+     *
+     * // Basic: a is shorter; missing a elements use defaultValueA=0
+     * float[] a2 = {1.0f};
+     * float[] b2 = {5.0f, 6.0f, 7.0f};
+     * float[] r2 = Arrays.zip(a2, b2, 0, 10, (x, y) -> x + y);
+     * // r2: {6.0, 16.0, 17.0}
+     *
+     * // Edge: null treated as empty; b elements zipped with defaultValueA
+     * float[] r3 = Arrays.zip((float[]) null, new float[]{5, 6}, 0, 10, (x, y) -> x + y);
+     * // r3: {5, 6}   (0+5, 0+6)
+     *
+     * // Edge: NaN propagates through the zip function
+     * float[] a4 = {Float.NaN, 2.0f};
+     * float[] b4 = {1.0f};
+     * float[] r4 = Arrays.zip(a4, b4, 0, 10, (x, y) -> x + y);
+     * // r4[0] is NaN (NaN+1), r4[1] is 12.0 (2+defaultValueB=10)
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -10110,13 +13747,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: result truncated to the shortest array length
      * float[] a = {1, 2, 3, 4};
      * float[] b = {5, 6, 7};
      * float[] c = {8, 9};
      * float[] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
      * // result: {14, 17}
+     *
+     * // Basic: equal-length arrays - all elements paired
+     * float[] a2 = {1.0f, 2.0f};
+     * float[] b2 = {3.0f, 4.0f};
+     * float[] c2 = {5.0f, 6.0f};
+     * float[] r2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x + y + z);
+     * // r2: {9.0, 12.0}
+     *
+     * // Edge: any null array treated as empty - result is empty
+     * float[] r3 = Arrays.zip((float[]) null, new float[]{1}, new float[]{2}, (x, y, z) -> x + y + z);
+     * // r3: {} (length 0)
+     *
+     * // Edge: NaN propagates; Infinity arithmetic produces Infinity
+     * float[] a4 = {Float.NaN, 2.0f};
+     * float[] b4 = {1.0f, 3.0f};
+     * float[] c4 = {4.0f, Float.POSITIVE_INFINITY};
+     * float[] r4 = Arrays.zip(a4, b4, c4, (x, y, z) -> x + y + z);
+     * // r4[0] is NaN, r4[1] is Infinity
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -10147,13 +13803,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: pads shorter arrays with respective defaults to reach the longest length
      * float[] a = {1, 2, 3, 4};
      * float[] b = {5, 6};
      * float[] c = {8, 9, 10};
      * float[] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
-     * // result: {14, 17, 23, 34} (using defaults for missing elements)
+     * // result: {14, 17, 23, 34}
+     *
+     * // Basic: all same length - no defaults needed
+     * float[] a2 = {1.0f, 2.0f};
+     * float[] b2 = {3.0f, 4.0f};
+     * float[] c2 = {5.0f, 6.0f};
+     * float[] r2 = Arrays.zip(a2, b2, c2, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // r2: {9.0, 12.0}
+     *
+     * // Edge: all null - result is empty
+     * float[] r3 = Arrays.zip((float[]) null, (float[]) null, (float[]) null, 1, 2, 3, (x, y, z) -> x + y + z);
+     * // r3: {} (length 0)
+     *
+     * // Edge: NaN propagates through the operator
+     * float[] a4 = {Float.NaN};
+     * float[] b4 = {1.0f};
+     * float[] c4 = {2.0f};
+     * float[] r4 = Arrays.zip(a4, b4, c4, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // r4[0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -10194,12 +13869,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length truncated to shorter; inner rows also truncated to their shorter
      * float[][] a = {{1, 2}, {3, 4, 5}};
      * float[][] b = {{5, 6, 7}, {8, 9}};
      * float[][] result = Arrays.zip(a, b, (x, y) -> x + y);
      * // result: {{6, 8}, {11, 13}}
+     *
+     * // Basic: equal outer length - both rows processed
+     * float[][] a2 = {{1.0f, 2.0f}, {3.0f, 4.0f}};
+     * float[][] b2 = {{5.0f, 6.0f}, {7.0f, 8.0f}};
+     * float[][] r2 = Arrays.zip(a2, b2, (x, y) -> x + y);
+     * // r2: {{6.0, 8.0}, {10.0, 12.0}}
+     *
+     * // Edge: null treated as empty - result is empty
+     * float[][] r3 = Arrays.zip((float[][]) null, new float[][]{{1}}, (x, y) -> x + y);
+     * // r3: float[0][] (length 0)
+     *
+     * // Edge: NaN propagates element-wise
+     * float[][] a4 = {{Float.NaN, 2.0f}};
+     * float[][] b4 = {{1.0f, 3.0f}};
+     * float[][] r4 = Arrays.zip(a4, b4, (x, y) -> x + y);
+     * // r4[0][0] is NaN, r4[0][1] is 5.0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -10227,12 +13919,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer and inner lengths padded to the longer with respective defaults
      * float[][] a = {{1, 2}, {3, 4, 5}};
      * float[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * float[][] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
      * // result: {{6, 8, 7}, {11, 13, 15}, {10}}
+     *
+     * // Basic: b is missing; a row padded with defaultValueB for all elements
+     * float[][] a2 = {{1.0f, 2.0f}};
+     * float[][] b2 = {};
+     * float[][] r2 = Arrays.zip(a2, b2, 0, 10, (x, y) -> x + y);
+     * // r2: {{11.0, 12.0}}   (each a2 element + defaultValueB=10)
+     *
+     * // Edge: null outer treated as empty; b rows zipped with null (defaultValueA fills in)
+     * float[][] r3 = Arrays.zip((float[][]) null, new float[][]{{5}}, 0, 10, (x, y) -> x + y);
+     * // r3: {{5}}   (0+5)
+     *
+     * // Edge: NaN in a sub-array propagates through the zip
+     * float[][] a4 = {{Float.NaN}};
+     * float[][] b4 = {{1.0f}};
+     * float[][] r4 = Arrays.zip(a4, b4, 0, 0, (x, y) -> x + y);
+     * // r4[0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -10274,13 +13983,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer and inner lengths truncated to the shortest at each level
      * float[][] a = {{1, 2}, {3, 4, 5}};
      * float[][] b = {{5, 6, 7}, {8, 9}};
      * float[][] c = {{10, 11}, {12, 13, 14}};
      * float[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
      * // result: {{16, 19}, {23, 26}}
+     *
+     * // Basic: all equal-length
+     * float[][] a2 = {{1.0f}, {2.0f}};
+     * float[][] b2 = {{3.0f}, {4.0f}};
+     * float[][] c2 = {{5.0f}, {6.0f}};
+     * float[][] r2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x + y + z);
+     * // r2: {{9.0}, {12.0}}
+     *
+     * // Edge: any null outer treated as empty - result is empty
+     * float[][] r3 = Arrays.zip((float[][]) null, new float[][]{{1}}, new float[][]{{2}}, (x, y, z) -> x + y + z);
+     * // r3: float[0][] (length 0)
+     *
+     * // Edge: NaN in an element propagates element-wise
+     * float[][] a4 = {{Float.NaN}};
+     * float[][] b4 = {{1.0f}};
+     * float[][] c4 = {{2.0f}};
+     * float[][] r4 = Arrays.zip(a4, b4, c4, (x, y, z) -> x + y + z);
+     * // r4[0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -10311,13 +14039,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: padded to the longest outer and inner lengths using respective defaults
      * float[][] a = {{1, 2}, {3, 4, 5}};
      * float[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * float[][] c = {{10, 11}};
      * float[][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
      * // result: {{16, 19, 27}, {31, 33, 35}, {30}}
+     *
+     * // Basic: all same length - no defaults applied
+     * float[][] a2 = {{1.0f}, {2.0f}};
+     * float[][] b2 = {{3.0f}, {4.0f}};
+     * float[][] c2 = {{5.0f}, {6.0f}};
+     * float[][] r2 = Arrays.zip(a2, b2, c2, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // r2: {{9.0}, {12.0}}
+     *
+     * // Edge: all null - result is empty
+     * float[][] r3 = Arrays.zip((float[][]) null, (float[][]) null, (float[][]) null, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // r3: float[0][] (length 0)
+     *
+     * // Edge: NaN in an element propagates through the operator
+     * float[][] a4 = {{Float.NaN}};
+     * float[][] b4 = {{1.0f}};
+     * float[][] c4 = {{2.0f}};
+     * float[][] r4 = Arrays.zip(a4, b4, c4, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // r4[0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -10359,12 +14106,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: equal-sized 3D arrays - all elements paired
      * float[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * float[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
      * float[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {77, 88}}}
+     *
+     * // Basic: truncated to shorter outer length
+     * float[][][] a2 = {{{1, 2}}, {{3, 4}}};
+     * float[][][] b2 = {{{5, 6}}};
+     * float[][][] r2 = Arrays.zip(a2, b2, (x, y) -> x + y);
+     * // r2: {{{6, 8}}}   (only 1 outer block, since b2 has 1)
+     *
+     * // Edge: null treated as empty - result is empty
+     * float[][][] r3 = Arrays.zip((float[][][]) null, new float[][][]{{{1}}}, (x, y) -> x + y);
+     * // r3: float[0][][] (length 0)
+     *
+     * // Edge: NaN propagates element-wise through the operation
+     * float[][][] a4 = {{{Float.NaN, 1.0f}}};
+     * float[][][] b4 = {{{2.0f, 3.0f}}};
+     * float[][][] r4 = Arrays.zip(a4, b4, (x, y) -> x + y);
+     * // r4[0][0][0] is NaN, r4[0][0][1] is 4.0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -10393,10 +14157,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: padded to the longer outer and inner lengths using defaults
      * float[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * float[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
      * float[][][] result = Arrays.zip(a, b, 0f, 10f, (x, y) -> x + y);
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
+     *
+     * // Basic: both same length - no defaults applied
+     * float[][][] a2 = {{{1.0f}}};
+     * float[][][] b2 = {{{2.0f}}};
+     * float[][][] r2 = Arrays.zip(a2, b2, 0f, 0f, (x, y) -> x + y);
+     * // r2: {{{3.0}}}
+     *
+     * // Edge: null treated as empty; b blocks paired with defaultValueA
+     * float[][][] r3 = Arrays.zip((float[][][]) null, new float[][][]{{{5}}}, 0f, 10f, (x, y) -> x + y);
+     * // r3: {{{5}}}   (0+5)
+     *
+     * // Edge: NaN in a sub-element propagates through the operator
+     * float[][][] a4 = {{{Float.NaN}}};
+     * float[][][] b4 = {{{1.0f}}};
+     * float[][][] r4 = Arrays.zip(a4, b4, 0f, 0f, (x, y) -> x + y);
+     * // r4[0][0][0] is NaN
      * }</pre>
      *
      * @param <E> the type of exception that the zip function may throw.
@@ -10440,13 +14221,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length truncated to shortest; inner levels also truncated to their shortest
      * float[][][] a = {{{1, 2}}};
      * float[][][] b = {{{11, 12}, {13, 14}}};
      * float[][][] c = {{{21, 22}}};
      * float[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
      * // result: {{{33, 36}}}
+     *
+     * // Basic: equal-length inputs - all elements paired
+     * float[][][] a2 = {{{1.0f}}, {{2.0f}}};
+     * float[][][] b2 = {{{3.0f}}, {{4.0f}}};
+     * float[][][] c2 = {{{5.0f}}, {{6.0f}}};
+     * float[][][] r2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x + y + z);
+     * // r2: {{{9.0}}, {{12.0}}}
+     *
+     * // Edge: any null outer treated as empty - result is empty
+     * float[][][] r3 = Arrays.zip((float[][][]) null, new float[][][]{{{1}}}, new float[][][]{{{2}}}, (x, y, z) -> x + y + z);
+     * // r3: float[0][][] (length 0)
+     *
+     * // Edge: NaN propagates element-wise
+     * float[][][] a4 = {{{Float.NaN}}};
+     * float[][][] b4 = {{{1.0f}}};
+     * float[][][] c4 = {{{2.0f}}};
+     * float[][][] r4 = Arrays.zip(a4, b4, c4, (x, y, z) -> x + y + z);
+     * // r4[0][0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -10477,13 +14277,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: padded at all levels to the longest using respective defaults
      * float[][][] a = {{{1, 2}}};
      * float[][][] b = {{{11, 12}, {13, 14}}};
      * float[][][] c = {{{21, 22}}};
      * float[][][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
      * // result: {{{33, 36}, {33, 34}}}
+     *
+     * // Basic: equal-length at all levels - no defaults applied
+     * float[][][] a2 = {{{1.0f}}};
+     * float[][][] b2 = {{{2.0f}}};
+     * float[][][] c2 = {{{3.0f}}};
+     * float[][][] r2 = Arrays.zip(a2, b2, c2, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // r2: {{{6.0}}}
+     *
+     * // Edge: all null - result is empty
+     * float[][][] r3 = Arrays.zip((float[][][]) null, (float[][][]) null, (float[][][]) null, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // r3: float[0][][] (length 0)
+     *
+     * // Edge: NaN propagates element-wise
+     * float[][][] a4 = {{{Float.NaN}}};
+     * float[][][] b4 = {{{1.0f}}};
+     * float[][][] c4 = {{{2.0f}}};
+     * float[][][] r4 = Arrays.zip(a4, b4, c4, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // r4[0][0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -10522,8 +14341,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-arrays count as 0
      * float[][] grid = {{1.0f}, {2.0f, 3.0f}, null};
-     * long count = Arrays.elementCount(grid);   // count is 3
+     * long count = Arrays.elementCount(grid);
+     * // count is 3
+     *
+     * // Basic: all non-null sub-arrays
+     * float[][] g2 = {{1.0f, 2.0f}, {3.0f, 4.0f, 5.0f}};
+     * long c2 = Arrays.elementCount(g2);
+     * // c2 is 5
+     *
+     * // Edge: null input returns 0
+     * long c3 = Arrays.elementCount((float[][]) null);
+     * // c3 is 0
+     *
+     * // Edge: all null sub-arrays - total is 0
+     * float[][] g4 = {null, null};
+     * long c4 = Arrays.elementCount(g4);
+     * // c4 is 0
      * }</pre>
      *
      * @param a the two-dimensional array to count elements in (can be {@code null}).
@@ -10549,8 +14384,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null at any level contributes 0 elements
      * float[][][] cube = {{{1.0f}}, {{2.0f, 3.0f}, null}, null};
-     * long count = Arrays.elementCount(cube);   // count is 3
+     * long count = Arrays.elementCount(cube);
+     * // count is 3
+     *
+     * // Basic: fully populated cube
+     * float[][][] c2 = {{{1.0f, 2.0f}}, {{3.0f, 4.0f, 5.0f}}};
+     * long c2count = Arrays.elementCount(c2);
+     * // c2count is 5
+     *
+     * // Edge: null input returns 0
+     * long c3 = Arrays.elementCount((float[][][]) null);
+     * // c3 is 0
+     *
+     * // Edge: all-null outer and inner arrays - total is 0
+     * float[][][] c4 = {null, null};
+     * long c4count = Arrays.elementCount(c4);
+     * // c4count is 0
      * }</pre>
      *
      * @param a the three-dimensional array to count elements in (can be {@code null}).
@@ -10586,8 +14437,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-array counted as length 0, so minimum is 0
      * float[][] grid = {{1.0f, 2.0f}, {3.0f}, null};
-     * int minLen = Arrays.minSubArrayLength(grid);   // minLen is 0
+     * int minLen = Arrays.minSubArrayLength(grid);
+     * // minLen is 0
+     *
+     * // Basic: no null sub-arrays - minimum is shortest non-null
+     * float[][] g2 = {{1.0f, 2.0f}, {3.0f}};
+     * int m2 = Arrays.minSubArrayLength(g2);
+     * // m2 is 1
+     *
+     * // Edge: null input returns 0
+     * int m3 = Arrays.minSubArrayLength((float[][]) null);
+     * // m3 is 0
+     *
+     * // Edge: empty outer array returns 0
+     * int m4 = Arrays.minSubArrayLength(new float[0][]);
+     * // m4 is 0
      * }</pre>
      *
      * @param a the two-dimensional array to inspect (can be {@code null}).
@@ -10613,8 +14479,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-array counted as length 0; max is the longest non-null
      * float[][] grid = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
-     * int maxLen = Arrays.maxSubArrayLength(grid);   // maxLen is 3
+     * int maxLen = Arrays.maxSubArrayLength(grid);
+     * // maxLen is 3
+     *
+     * // Basic: uniform-length sub-arrays
+     * float[][] g2 = {{1.0f, 2.0f}, {3.0f, 4.0f}};
+     * int m2 = Arrays.maxSubArrayLength(g2);
+     * // m2 is 2
+     *
+     * // Edge: null input returns 0
+     * int m3 = Arrays.maxSubArrayLength((float[][]) null);
+     * // m3 is 0
+     *
+     * // Edge: all null sub-arrays - maximum is 0
+     * float[][] g4 = {null, null};
+     * int m4 = Arrays.maxSubArrayLength(g4);
+     * // m4 is 0
      * }</pre>
      *
      * @param a the two-dimensional array to inspect (can be {@code null}).
@@ -10650,18 +14532,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: prints and returns a formatted float array string
      * float[] array = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
      * String result = Arrays.println(array);
-     * // Prints to console and returns: "[1.1, 2.2, 3.3, 4.4, 5.5]"
+     * // Prints "[1.1, 2.2, 3.3, 4.4, 5.5]" and result equals "[1.1, 2.2, 3.3, 4.4, 5.5]"
      *
-     * // Null array
+     * // Basic: single-element array
+     * String r2 = Arrays.println(new float[]{42.0f});
+     * // Prints "[42.0]" and r2 equals "[42.0]"
+     *
+     * // Edge: null array returns and prints "null"
      * String nullResult = Arrays.println((float[]) null);
-     * // Prints "null"
+     * // Prints "null" and nullResult equals "null"
      *
-     * // Empty array
-     * float[] empty = new float[0];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: empty array returns and prints "[]"
+     * String emptyResult = Arrays.println(new float[0]);
+     * // Prints "[]" and emptyResult equals "[]"
+     *
+     * // Edge: NaN and Infinity are formatted as "NaN" and "Infinity"
+     * String r3 = Arrays.println(new float[]{1.0f, Float.NaN, Float.POSITIVE_INFINITY});
+     * // Prints "[1.0, NaN, Infinity]" and r3 equals "[1.0, NaN, Infinity]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -10700,23 +14590,31 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: mixed null/empty sub-arrays; rows are separated by comma + newline
      * float[][] array = {{1.1f, 2.2f, 3.3f}, {4.4f, 5.5f}, null, {}, {6.6f}};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
+     * // Prints and returns:
      * // [[1.1, 2.2, 3.3],
      * //  [4.4, 5.5],
      * //  null,
      * //  [],
      * //  [6.6]]
      *
-     * // Null array
-     * String nullResult = Arrays.println((float[][]) null);
-     * // Prints "null"
+     * // Basic: single-row array (no newline separators needed)
+     * String r2 = Arrays.println(new float[][]{{1.0f, 2.0f}});
+     * // Prints "[[1.0, 2.0]]" and r2 equals "[[1.0, 2.0]]"
      *
-     * // Empty array
-     * float[][] empty = new float[0][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: null array returns and prints "null"
+     * String nullResult = Arrays.println((float[][]) null);
+     * // Prints "null" and nullResult equals "null"
+     *
+     * // Edge: empty outer array returns and prints "[]"
+     * String emptyResult = Arrays.println(new float[0][]);
+     * // Prints "[]" and emptyResult equals "[]"
+     *
+     * // Edge: NaN and Infinity are formatted as "NaN" and "Infinity"
+     * String r3 = Arrays.println(new float[][]{{Float.NaN, Float.POSITIVE_INFINITY}});
+     * // Prints "[[NaN, Infinity]]" and r3 equals "[[NaN, Infinity]]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -10796,9 +14694,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: mixed null/empty sub-arrays at multiple levels; blocks separated by comma + newline
      * float[][][] array = {{{1.1f, 2.2f, 3.3f}, {4.4f, 5.5f}}, {{6.6f, 7.7f}, null, {}}, null};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
+     * // Prints and returns:
      * // [[[1.1, 2.2, 3.3],
      * //   [4.4, 5.5]],
      * //  [[6.6, 7.7],
@@ -10806,14 +14705,21 @@ public sealed class Arrays permits Arrays.f {
      * //   []],
      * //  null]
      *
-     * // Null array
-     * String nullResult = Arrays.println((float[][][]) null);
-     * // Prints "null"
+     * // Basic: single block, single row (no separators needed)
+     * String r2 = Arrays.println(new float[][][]{{{1.0f, 2.0f}}});
+     * // Prints "[[[1.0, 2.0]]]" and r2 equals "[[[1.0, 2.0]]]"
      *
-     * // Empty array
-     * float[][][] empty = new float[0][][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: null array returns and prints "null"
+     * String nullResult = Arrays.println((float[][][]) null);
+     * // Prints "null" and nullResult equals "null"
+     *
+     * // Edge: empty outer array returns and prints "[]"
+     * String emptyResult = Arrays.println(new float[0][][]);
+     * // Prints "[]" and emptyResult equals "[]"
+     *
+     * // Edge: NaN and Infinity are formatted as "NaN" and "Infinity"
+     * String r3 = Arrays.println(new float[][][]{{{Float.NaN, Float.POSITIVE_INFINITY}}});
+     * // Prints "[[[NaN, Infinity]]]" and r3 equals "[[[NaN, Infinity]]]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -10897,9 +14803,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: negate all elements
      * double[] array = {1.0, -2.0, 3.0};
      * Arrays.updateAll(array, x -> Math.abs(x));
      * // array is now [1.0, 2.0, 3.0]
+     *
+     * // Basic: square all elements
+     * double[] squares = {1.0, 2.0, 3.0};
+     * Arrays.updateAll(squares, x -> x * x);
+     * // squares is now [1.0, 4.0, 9.0]
+     *
+     * // Edge: null array is a no-op
+     * Arrays.updateAll((double[]) null, x -> x + 1);
+     * // no effect, no exception
+     *
+     * // Edge: Infinity propagates - division by zero produces Infinity/NaN
+     * double[] edge = {1.0, 0.0};
+     * Arrays.updateAll(edge, x -> x / 0.0);
+     * // edge[0] is Infinity, edge[1] is NaN
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -10926,9 +14847,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: take square root of all elements
      * double[][] grid = {{1.0, 4.0}, {9.0, 16.0}};
      * Arrays.updateAll(grid, x -> Math.sqrt(x));
      * // grid is now {{1.0, 2.0}, {3.0, 4.0}}
+     *
+     * // Basic: double all elements
+     * double[][] grid2 = {{1.0, 2.0}, {3.0, 4.0}};
+     * Arrays.updateAll(grid2, x -> x * 2);
+     * // grid2 is now {{2.0, 4.0}, {6.0, 8.0}}
+     *
+     * // Edge: null array is a no-op
+     * Arrays.updateAll((double[][]) null, x -> x + 1);
+     * // no effect, no exception
+     *
+     * // Edge: NaN element - replace NaN with 0.0
+     * double[][] withNaN = {{Double.NaN, 1.0}};
+     * Arrays.updateAll(withNaN, x -> Double.isNaN(x) ? 0.0 : x);
+     * // withNaN is now {{0.0, 1.0}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -10955,9 +14891,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: round all elements
      * double[][][] cube = {{{1.1}, {2.8}}, {{3.3}, {4.6}}};
      * Arrays.updateAll(cube, x -> (double) Math.round(x));
      * // cube is now {{{1.0}, {3.0}}, {{3.0}, {5.0}}}
+     *
+     * // Basic: negate all elements
+     * double[][][] cube2 = {{{1.0, 2.0}}, {{3.0}}};
+     * Arrays.updateAll(cube2, x -> -x);
+     * // cube2 is now {{{-1.0, -2.0}}, {{-3.0}}}
+     *
+     * // Edge: null array is a no-op
+     * Arrays.updateAll((double[][][]) null, x -> x + 1);
+     * // no effect, no exception
+     *
+     * // Edge: Infinity propagates - multiplying Infinity stays Infinity
+     * double[][][] inf = {{{Double.POSITIVE_INFINITY}}};
+     * Arrays.updateAll(inf, x -> x * 2);
+     * // inf[0][0][0] is still Infinity
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -10984,9 +14935,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace negatives with zero
      * double[] array = {1.0, -2.0, 3.0, -4.0};
      * Arrays.replaceIf(array, x -> x < 0, 0.0);
      * // array is now [1.0, 0.0, 3.0, 0.0]
+     *
+     * // Basic: clamp values above threshold
+     * double[] capped = {1.0, 5.0, 3.0, 8.0};
+     * Arrays.replaceIf(capped, x -> x > 4.0, 4.0);
+     * // capped is now [1.0, 4.0, 3.0, 4.0]
+     *
+     * // Edge: replace NaN values with 0.0
+     * double[] withNaN = {1.0, Double.NaN, 3.0};
+     * Arrays.replaceIf(withNaN, v -> Double.isNaN(v), 0.0);
+     * // withNaN is now [1.0, 0.0, 3.0]
+     *
+     * // Edge: null array is a no-op
+     * Arrays.replaceIf((double[]) null, x -> x < 0, 0.0);
+     * // no effect, no exception
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -11016,9 +14982,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace NaN elements with 0.0
      * double[][] grid = {{1.0, -2.0}, {Double.NaN, 4.0}};
      * Arrays.replaceIf(grid, x -> Double.isNaN(x), 0.0);
      * // grid is now {{1.0, -2.0}, {0.0, 4.0}}
+     *
+     * // Basic: replace negatives with 0.0
+     * double[][] grid2 = {{1.0, -2.0}, {-3.0, 4.0}};
+     * Arrays.replaceIf(grid2, x -> x < 0, 0.0);
+     * // grid2 is now {{1.0, 0.0}, {0.0, 4.0}}
+     *
+     * // Edge: null array is a no-op
+     * Arrays.replaceIf((double[][]) null, x -> x < 0, 0.0);
+     * // no effect, no exception
+     *
+     * // Edge: replace Infinity with a sentinel
+     * double[][] withInf = {{Double.POSITIVE_INFINITY, 1.0}};
+     * Arrays.replaceIf(withInf, v -> !Double.isFinite(v), -1.0);
+     * // withInf is now {{-1.0, 1.0}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -11046,9 +15027,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: replace Infinity with -1.0
      * double[][][] cube = {{{1.0}, {Double.POSITIVE_INFINITY}}, {{3.0}, {-4.0}}};
      * Arrays.replaceIf(cube, x -> !Double.isFinite(x), -1.0);
      * // cube is now {{{1.0}, {-1.0}}, {{3.0}, {-4.0}}}
+     *
+     * // Basic: replace negatives with 0.0
+     * double[][][] cube2 = {{{-1.0, 2.0}}};
+     * Arrays.replaceIf(cube2, x -> x < 0, 0.0);
+     * // cube2 is now {{{0.0, 2.0}}}
+     *
+     * // Edge: null array is a no-op
+     * Arrays.replaceIf((double[][][]) null, x -> x < 0, 0.0);
+     * // no effect, no exception
+     *
+     * // Edge: replace NaN with 0.0
+     * double[][][] withNaN = {{{Double.NaN, 2.0}}};
+     * Arrays.replaceIf(withNaN, x -> Double.isNaN(x), 0.0);
+     * // withNaN is now {{{0.0, 2.0}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -11076,9 +15072,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: reshape into rows of 3; last row is shorter
      * double[] array = {1, 2, 3, 4, 5, 6, 7};
      * double[][] grid = Arrays.reshape(array, 3);
      * // grid is now {{1, 2, 3}, {4, 5, 6}, {7}}
+     *
+     * // Basic: exact-fit reshape (no partial row)
+     * double[] exact = {1, 2, 3, 4};
+     * double[][] grid2 = Arrays.reshape(exact, 2);
+     * // grid2 is now {{1, 2}, {3, 4}}
+     *
+     * // Edge: null or empty array returns empty 2-D array
+     * double[][] empty = Arrays.reshape((double[]) null, 3);
+     * // empty.length == 0
+     *
+     * // Edge: columnCount <= 0 throws IllegalArgumentException
+     * // Arrays.reshape(new double[]{1.0, 2.0}, 0); // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
@@ -11112,9 +15121,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: reshape into blocks of 2 rows x 3 cols; last row may be partial
      * double[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
      * double[][][] cube = Arrays.reshape(array, 2, 3);
      * // cube is now {{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10}}}
+     *
+     * // Basic: exact-fit - 6 elements into 2 rows x 3 cols
+     * double[] exact = {1, 2, 3, 4, 5, 6};
+     * double[][][] cube2 = Arrays.reshape(exact, 2, 3);
+     * // cube2 is now {{{1, 2, 3}, {4, 5, 6}}}
+     *
+     * // Edge: null or empty array returns empty 3-D array
+     * double[][][] empty = Arrays.reshape((double[]) null, 2, 3);
+     * // empty.length == 0
+     *
+     * // Edge: rowCount <= 0 throws IllegalArgumentException
+     * // Arrays.reshape(new double[]{1.0}, 0, 2); // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
@@ -11153,9 +15175,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten uniform 2D grid
      * double[][] grid = {{1.0, 2.0}, {3.0, 4.0}};
      * double[] array = Arrays.flatten(grid);
-     * // array is now {1.0, 2.0, 3.0, 4.0}
+     * // array is {1.0, 2.0, 3.0, 4.0}
+     *
+     * // Basic: flatten jagged grid
+     * double[][] jagged = {{1.0, 2.0}, {3.0}};
+     * double[] flat = Arrays.flatten(jagged);
+     * // flat is {1.0, 2.0, 3.0}
+     *
+     * // Edge: null and empty sub-arrays are skipped
+     * double[][] withNulls = {{1.0, 2.0}, null, {}, {3.0}};
+     * double[] result = Arrays.flatten(withNulls);
+     * // result is {1.0, 2.0, 3.0}
+     *
+     * // Edge: null input returns empty array
+     * double[] empty = Arrays.flatten((double[][]) null);
+     * // empty.length == 0
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
@@ -11192,9 +15229,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: flatten a 3D array
      * double[][][] cube = {{{1.0}, {2.0, 3.0}}, {{4.0}}};
      * double[] array = Arrays.flatten(cube);
-     * // array is now {1.0, 2.0, 3.0, 4.0}
+     * // array is {1.0, 2.0, 3.0, 4.0}
+     *
+     * // Basic: flatten with NaN/Infinity values preserved
+     * double[][][] withSpecial = {{{Double.NaN, Double.POSITIVE_INFINITY}}};
+     * double[] flat = Arrays.flatten(withSpecial);
+     * // flat[0] is NaN, flat[1] is Infinity
+     *
+     * // Edge: null and empty sub-arrays at any level are skipped
+     * double[][][] sparse = {null, {null, {}, {5.0, 6.0}}, {{7.0}}};
+     * double[] result = Arrays.flatten(sparse);
+     * // result is {5.0, 6.0, 7.0}
+     *
+     * // Edge: null input returns empty array
+     * double[] empty = Arrays.flatten((double[][][]) null);
+     * // empty.length == 0
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
@@ -11238,9 +15290,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: global sort across the entire 2D grid
      * double[][] grid = {{5.0, 2.0}, {8.0, 1.0}};
      * Arrays.mutateAsFlat(grid, arr -> java.util.Arrays.sort(arr));
      * // grid is now {{1.0, 2.0}, {5.0, 8.0}}
+     *
+     * // Basic: negate all elements via the flat view
+     * double[][] grid2 = {{3.0, 1.0, 2.0}};
+     * Arrays.mutateAsFlat(grid2, arr -> java.util.Arrays.sort(arr));
+     * // grid2 is now {{1.0, 2.0, 3.0}}
+     *
+     * // Edge: null array is a no-op
+     * Arrays.mutateAsFlat((double[][]) null, arr -> java.util.Arrays.sort(arr));
+     * // no effect, no exception
+     *
+     * // Edge: empty array is a no-op
+     * double[][] empty = {};
+     * Arrays.mutateAsFlat(empty, arr -> java.util.Arrays.sort(arr));
+     * // empty.length == 0, no exception
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -11279,9 +15346,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: global sort across the entire 3D cube
      * double[][][] cube = {{{9.0, 2.0}}, {{5.0}, {1.0}}};
      * Arrays.mutateAsFlat(cube, arr -> java.util.Arrays.sort(arr));
      * // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
+     *
+     * // Basic: sort a single block
+     * double[][][] cube2 = {{{4.0, 1.0}}};
+     * Arrays.mutateAsFlat(cube2, arr -> java.util.Arrays.sort(arr));
+     * // cube2 is now {{{1.0, 4.0}}}
+     *
+     * // Edge: null array is a no-op
+     * Arrays.mutateAsFlat((double[][][]) null, arr -> java.util.Arrays.sort(arr));
+     * // no effect, no exception
+     *
+     * // Edge: empty array is a no-op
+     * double[][][] empty = {};
+     * Arrays.mutateAsFlat(empty, arr -> java.util.Arrays.sort(arr));
+     * // empty.length == 0, no exception
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -11323,12 +15405,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sum pairs; result truncated to shorter array length
      * double[] a = {1, 2, 3, 4};
      * double[] b = {5, 6, 7};
      * double[] result = Arrays.zip(a, b, (x, y) -> x + y);
-     * // result: {6, 8, 10}
+     * // result: {6.0, 8.0, 10.0}
+     *
+     * // Basic: multiply pairs
+     * double[] c = {2.0, 3.0};
+     * double[] d = {4.0, 5.0};
+     * double[] product = Arrays.zip(c, d, (x, y) -> x * y);
+     * // product: {8.0, 15.0}
+     *
+     * // Edge: one null array -> empty result
+     * double[] empty = Arrays.zip((double[]) null, new double[]{1.0}, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: Infinity + NaN -> NaN
+     * double[] inf = {Double.POSITIVE_INFINITY};
+     * double[] nan = {Double.NaN};
+     * double[] special = Arrays.zip(inf, nan, (x, y) -> x + y);
+     * // special[0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -11356,12 +15455,25 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: a is longer; missing b positions use defaultValueB=10
      * double[] a = {1, 2, 3, 4};
      * double[] b = {5, 6};
      * double[] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
-     * // result: {6, 8, 13, 14} (using 10 for missing b elements)
+     * // result: {6.0, 8.0, 13.0, 14.0}
+     *
+     * // Basic: b is longer; missing a positions use defaultValueA=0.0
+     * double[] result2 = Arrays.zip((double[]) null, new double[]{3.0}, 0.0, 10.0, (x, y) -> x + y);
+     * // result2: {3.0}   (defaultValueA=0.0 paired with b[0]=3.0)
+     *
+     * // Edge: both null -> empty result
+     * double[] empty = Arrays.zip((double[]) null, (double[]) null, 0.0, 10.0, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: Infinity in actual elements propagates
+     * double[] withInf = Arrays.zip(new double[]{Double.POSITIVE_INFINITY}, new double[]{1.0}, 0.0, 10.0, (x, y) -> x + y);
+     * // withInf[0] is Infinity
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -11403,13 +15515,26 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sum triples; result truncated to shortest array length
      * double[] a = {1, 2, 3, 4};
      * double[] b = {5, 6, 7};
      * double[] c = {8, 9};
      * double[] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
-     * // result: {14, 17}
+     * // result: {14.0, 17.0}
+     *
+     * // Basic: all arrays same length
+     * double[] r = Arrays.zip(new double[]{1.0}, new double[]{2.0}, new double[]{3.0}, (x, y, z) -> x + y + z);
+     * // r: {6.0}
+     *
+     * // Edge: one null array -> empty result
+     * double[] empty = Arrays.zip((double[]) null, new double[]{1.0}, new double[]{2.0}, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: Infinity in one input propagates
+     * double[] inf = Arrays.zip(new double[]{Double.POSITIVE_INFINITY}, new double[]{1.0}, new double[]{2.0}, (x, y, z) -> x + y + z);
+     * // inf[0] is Infinity
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -11440,13 +15565,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: a is longest; shorter arrays use their own defaults
+     * // index 2: a[2]=3, defaultB=10, c[2]=10 -> 23; index 3: a[3]=4, defaultB=10, defaultC=20 -> 34
      * double[] a = {1, 2, 3, 4};
      * double[] b = {5, 6};
      * double[] c = {8, 9, 10};
      * double[] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
-     * // result: {14, 17, 23, 34} (using defaults for missing elements)
+     * // result: {14.0, 17.0, 23.0, 34.0}
+     *
+     * // Basic: all arrays null -> empty result
+     * double[] empty = Arrays.zip((double[]) null, (double[]) null, (double[]) null, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: null a; b and c provide all elements using defaultA=0
+     * double[] r2 = Arrays.zip((double[]) null, new double[]{1, 2}, new double[]{3, 4}, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // r2: {4.0, 6.0}
+     *
+     * // Edge: NaN in one position propagates to result
+     * double[] nan = Arrays.zip(new double[]{Double.NaN}, new double[]{1.0}, new double[]{2.0}, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // nan[0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
@@ -11487,12 +15626,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: jagged rows - each row truncated to shorter sub-array
      * double[][] a = {{1, 2}, {3, 4, 5}};
      * double[][] b = {{5, 6, 7}, {8, 9}};
      * double[][] result = Arrays.zip(a, b, (x, y) -> x + y);
-     * // result: {{6, 8}, {11, 13}}
+     * // result: {{6.0, 8.0}, {11.0, 13.0}}
+     *
+     * // Basic: equal-sized 2D arrays
+     * double[][] a2 = {{1.0, 2.0}, {3.0, 4.0}};
+     * double[][] b2 = {{10.0, 20.0}, {30.0, 40.0}};
+     * double[][] result2 = Arrays.zip(a2, b2, (x, y) -> x + y);
+     * // result2: {{11.0, 22.0}, {33.0, 44.0}}
+     *
+     * // Edge: one null array -> empty result
+     * double[][] empty = Arrays.zip((double[][]) null, new double[][]{{1.0}}, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: NaN propagates through zip
+     * double[][] withNaN = Arrays.zip(new double[][]{{Double.NaN}}, new double[][]{{1.0}}, (x, y) -> x + y);
+     * // withNaN[0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -11520,12 +15674,30 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b is longer; extra rows of b zip against null a rows using defaultValueA=0
+     * // row 0: zip({1,2},{5,6,7},0,10) -> {6.0,8.0,7.0}
+     * // row 1: zip({3,4,5},{8,9},0,10) -> {11.0,13.0,15.0}
+     * // row 2: zip(null,{10},0,10)      -> {10.0}
      * double[][] a = {{1, 2}, {3, 4, 5}};
      * double[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * double[][] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
-     * // result: {{6, 8, 7}, {11, 13, 15}, {10}}
+     * // result: {{6.0, 8.0, 7.0}, {11.0, 13.0, 15.0}, {10.0}}
+     *
+     * // Basic: equal-length outer arrays
+     * double[][] a2 = {{1.0}, {2.0}};
+     * double[][] b2 = {{3.0}, {4.0}};
+     * double[][] result2 = Arrays.zip(a2, b2, 0, 10, (x, y) -> x + y);
+     * // result2: {{4.0}, {6.0}}
+     *
+     * // Edge: both null -> empty result
+     * double[][] empty = Arrays.zip((double[][]) null, (double[][]) null, 0, 10, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: Infinity in sub-array element propagates
+     * double[][] inf = Arrays.zip(new double[][]{{Double.POSITIVE_INFINITY, 1.0}}, new double[][]{{2.0, 3.0}}, 0, 10, (x, y) -> x + y);
+     * // inf[0][0] is Infinity, inf[0][1] is 4.0
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -11567,13 +15739,29 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 3 jagged 2D arrays; each row truncated to shortest sub-array
      * double[][] a = {{1, 2}, {3, 4, 5}};
      * double[][] b = {{5, 6, 7}, {8, 9}};
      * double[][] c = {{10, 11}, {12, 13, 14}};
      * double[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
-     * // result: {{16, 19}, {23, 26}}
+     * // result: {{16.0, 19.0}, {23.0, 26.0}}
+     *
+     * // Basic: equal-sized 2D arrays
+     * double[][] a2 = {{1.0}, {2.0}};
+     * double[][] b2 = {{3.0}, {4.0}};
+     * double[][] c2 = {{5.0}, {6.0}};
+     * double[][] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x + y + z);
+     * // result2: {{9.0}, {12.0}}
+     *
+     * // Edge: one null array -> empty result
+     * double[][] empty = Arrays.zip((double[][]) null, new double[][]{{1.0}}, new double[][]{{2.0}}, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: Infinity propagates to result
+     * double[][] inf = Arrays.zip(new double[][]{{Double.POSITIVE_INFINITY}}, new double[][]{{1.0}}, new double[][]{{2.0}}, (x, y, z) -> x + y + z);
+     * // inf[0][0] is Infinity
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -11604,13 +15792,32 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b is longest (3 rows); missing outer rows use null sub-array, missing inner positions use defaults
+     * // row 0: zip({1,2},{5,6,7},{10,11},0,10,20) -> {16.0,19.0,27.0}
+     * // row 1: zip({3,4,5},{8,9},null,0,10,20)    -> {31.0,33.0,35.0}
+     * // row 2: zip(null,{10},null,0,10,20)         -> {30.0}
      * double[][] a = {{1, 2}, {3, 4, 5}};
      * double[][] b = {{5, 6, 7}, {8, 9}, {10}};
      * double[][] c = {{10, 11}};
      * double[][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
-     * // result: {{16, 19, 27}, {31, 33, 35}, {30}}
+     * // result: {{16.0, 19.0, 27.0}, {31.0, 33.0, 35.0}, {30.0}}
+     *
+     * // Basic: all arrays same size
+     * double[][] a2 = {{1.0}};
+     * double[][] b2 = {{2.0}};
+     * double[][] c2 = {{3.0}};
+     * double[][] result2 = Arrays.zip(a2, b2, c2, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // result2: {{6.0}}
+     *
+     * // Edge: all null -> empty result
+     * double[][] empty = Arrays.zip((double[][]) null, (double[][]) null, (double[][]) null, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: NaN in sub-array element propagates
+     * double[][] nan = Arrays.zip(new double[][]{{Double.NaN}}, new double[][]{{1.0}}, new double[][]{{2.0}}, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // nan[0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
@@ -11652,12 +15859,27 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: sum corresponding elements; outer length = shorter array (2)
      * double[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * double[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
      * double[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
-     * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {77, 88}}}
+     * // result: {{{11.0, 22.0}, {33.0, 44.0}}, {{55.0, 66.0}, {77.0, 88.0}}}
+     *
+     * // Basic: multiply corresponding elements
+     * double[][][] a2 = {{{2.0}}};
+     * double[][][] b2 = {{{3.0}}};
+     * double[][][] product = Arrays.zip(a2, b2, (x, y) -> x * y);
+     * // product: {{{6.0}}}
+     *
+     * // Edge: one null array -> empty result
+     * double[][][] empty = Arrays.zip((double[][][]) null, new double[][][]{{{1.0}}}, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: NaN propagates through the zip
+     * double[][][] nan = Arrays.zip(new double[][][]{{{Double.NaN}}}, new double[][][]{{{1.0}}}, (x, y) -> x + y);
+     * // nan[0][0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -11686,10 +15908,28 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: b has 3 blocks; missing a rows use defaultValueA=0.0
+     * // block 0: zip({1,2},{3,4}) with ({10,20},{30,40}) -> {{11,22},{33,44}}
+     * // block 1: zip({5,6},null) with ({50,60},{70,80}) -> {{55,66},{70,80}}
+     * // block 2: zip(null,{90})                          -> {{90}}
      * double[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * double[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
      * double[][][] result = Arrays.zip(a, b, 0.0, 10.0, (x, y) -> x + y);
-     * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
+     * // result: {{{11.0, 22.0}, {33.0, 44.0}}, {{55.0, 66.0}, {70.0, 80.0}}, {{90.0}}}
+     *
+     * // Basic: equal-sized 3D arrays
+     * double[][][] a2 = {{{1.0}}};
+     * double[][][] b2 = {{{2.0}}};
+     * double[][][] result2 = Arrays.zip(a2, b2, 0.0, 10.0, (x, y) -> x + y);
+     * // result2: {{{3.0}}}
+     *
+     * // Edge: both null -> empty result
+     * double[][][] empty = Arrays.zip((double[][][]) null, (double[][][]) null, 0.0, 10.0, (x, y) -> x + y);
+     * // empty.length == 0
+     *
+     * // Edge: Infinity in actual element propagates
+     * double[][][] inf = Arrays.zip(new double[][][]{{{Double.POSITIVE_INFINITY}}}, new double[][][]{{{1.0}}}, 0.0, 10.0, (x, y) -> x + y);
+     * // inf[0][0][0] is Infinity
      * }</pre>
      *
      * @param <E> the type of exception that the zip function may throw.
@@ -11733,13 +15973,30 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: outer length = 1 (min of all); inner zip truncates to shorter sub-array
+     * // block 0: zip2D({1,2},null,{11,12},{13,14},{21,22},null) -> truncated to {{33,36}}
      * double[][][] a = {{{1, 2}}};
      * double[][][] b = {{{11, 12}, {13, 14}}};
      * double[][][] c = {{{21, 22}}};
      * double[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
-     * // result: {{{33, 36}}}
+     * // result: {{{33.0, 36.0}}}
+     *
+     * // Basic: all equal size
+     * double[][][] a2 = {{{1.0}}};
+     * double[][][] b2 = {{{2.0}}};
+     * double[][][] c2 = {{{3.0}}};
+     * double[][][] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x + y + z);
+     * // result2: {{{6.0}}}
+     *
+     * // Edge: one null array -> empty result
+     * double[][][] empty = Arrays.zip((double[][][]) null, new double[][][]{{{1.0}}}, new double[][][]{{{2.0}}}, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: NaN propagates through the zip
+     * double[][][] nan = Arrays.zip(new double[][][]{{{Double.NaN}}}, new double[][][]{{{1.0}}}, new double[][][]{{{2.0}}}, (x, y, z) -> x + y + z);
+     * // nan[0][0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -11770,13 +16027,31 @@ public sealed class Arrays permits Arrays.f {
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: all have 1 outer block; b has 2 rows; missing a/c rows use defaults
+     * // block 0 row 0: zip({1,2},{11,12},{21,22},0,10,20) -> {33.0,36.0}
+     * // block 0 row 1: zip(null,{13,14},null,0,10,20)     -> {33.0,34.0}
      * double[][][] a = {{{1, 2}}};
      * double[][][] b = {{{11, 12}, {13, 14}}};
      * double[][][] c = {{{21, 22}}};
      * double[][][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
-     * // result: {{{33, 36}, {33, 34}}}
+     * // result: {{{33.0, 36.0}, {33.0, 34.0}}}
+     *
+     * // Basic: equal-sized 3D arrays
+     * double[][][] a2 = {{{1.0}}};
+     * double[][][] b2 = {{{2.0}}};
+     * double[][][] c2 = {{{3.0}}};
+     * double[][][] result2 = Arrays.zip(a2, b2, c2, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // result2: {{{6.0}}}
+     *
+     * // Edge: all null -> empty result
+     * double[][][] empty = Arrays.zip((double[][][]) null, (double[][][]) null, (double[][][]) null, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // empty.length == 0
+     *
+     * // Edge: NaN in actual element propagates
+     * double[][][] nan = Arrays.zip(new double[][][]{{{Double.NaN}}}, new double[][][]{{{1.0}}}, new double[][][]{{{2.0}}}, 0, 10, 20, (x, y, z) -> x + y + z);
+     * // nan[0][0][0] is NaN
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
@@ -11814,9 +16089,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null and empty sub-arrays contribute 0 to the count
      * double[][] grid = {{1, 2}, {3, 4, 5}, null, {}};
      * long count = Arrays.elementCount(grid);
      * // count is 5
+     *
+     * // Basic: uniform grid
+     * double[][] grid2 = {{1.0, 2.0}, {3.0, 4.0}};
+     * long count2 = Arrays.elementCount(grid2);
+     * // count2 is 4
+     *
+     * // Edge: null array returns 0
+     * long zero = Arrays.elementCount((double[][]) null);
+     * // zero is 0
+     *
+     * // Edge: all-null sub-arrays return 0
+     * double[][] allNull = {null, null};
+     * long zeroAllNull = Arrays.elementCount(allNull);
+     * // zeroAllNull is 0
      * }</pre>
      *
      * @param a the two-dimensional array (can be {@code null}).
@@ -11841,9 +16131,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null 2D blocks are skipped
      * double[][][] cube = {{{1}, {2, 3}}, null, {{4}}};
      * long count = Arrays.elementCount(cube);
      * // count is 4
+     *
+     * // Basic: uniform 3D array
+     * double[][][] cube2 = {{{1.0, 2.0}}, {{3.0, 4.0}}};
+     * long count2 = Arrays.elementCount(cube2);
+     * // count2 is 4
+     *
+     * // Edge: null array returns 0
+     * long zero = Arrays.elementCount((double[][][]) null);
+     * // zero is 0
+     *
+     * // Edge: all-null sub-arrays return 0
+     * double[][][] allNull = {null, null};
+     * long zeroAllNull = Arrays.elementCount(allNull);
+     * // zeroAllNull is 0
      * }</pre>
      *
      * @param a the three-dimensional array (can be {@code null}).
@@ -11879,9 +16184,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-array counts as length 0
      * double[][] grid = {{1, 2, 3}, {4, 5}, null};
      * int minLen = Arrays.minSubArrayLength(grid);
      * // minLen is 0
+     *
+     * // Basic: no null sub-arrays - returns the smallest non-null length
+     * double[][] grid2 = {{1, 2, 3}, {4, 5}};
+     * int minLen2 = Arrays.minSubArrayLength(grid2);
+     * // minLen2 is 2
+     *
+     * // Edge: null input returns 0
+     * int zero = Arrays.minSubArrayLength((double[][]) null);
+     * // zero is 0
+     *
+     * // Edge: empty outer array returns 0
+     * int zeroEmpty = Arrays.minSubArrayLength(new double[0][]);
+     * // zeroEmpty is 0
      * }</pre>
      *
      * @param a the two-dimensional array (can be {@code null}).
@@ -11907,9 +16226,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: null sub-array counts as length 0; max is the longest non-null row
      * double[][] grid = {{1, 2, 3}, {4, 5}, null};
      * int maxLen = Arrays.maxSubArrayLength(grid);
      * // maxLen is 3
+     *
+     * // Basic: uniform rows
+     * double[][] grid2 = {{1.0, 2.0}, {3.0, 4.0}};
+     * int maxLen2 = Arrays.maxSubArrayLength(grid2);
+     * // maxLen2 is 2
+     *
+     * // Edge: null input returns 0
+     * int zero = Arrays.maxSubArrayLength((double[][]) null);
+     * // zero is 0
+     *
+     * // Edge: all null sub-arrays return 0
+     * double[][] allNull = {null, null};
+     * int zeroAllNull = Arrays.maxSubArrayLength(allNull);
+     * // zeroAllNull is 0
      * }</pre>
      *
      * @param a the two-dimensional array (can be {@code null}).
@@ -11945,18 +16279,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: standard non-empty array
      * double[] array = {1.1, 2.2, 3.3, 4.4, 5.5};
      * String result = Arrays.println(array);
-     * // Prints to console and returns: "[1.1, 2.2, 3.3, 4.4, 5.5]"
+     * // result is "[1.1, 2.2, 3.3, 4.4, 5.5]"
      *
-     * // Null array
+     * // Basic: single-element array
+     * String single = Arrays.println(new double[]{42.0});
+     * // single is "[42.0]"
+     *
+     * // Edge: null array -> "null"
      * String nullResult = Arrays.println((double[]) null);
-     * // Prints "null"
+     * // nullResult is "null"
      *
-     * // Empty array
-     * double[] empty = new double[0];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: empty array -> "[]"
+     * String emptyResult = Arrays.println(new double[0]);
+     * // emptyResult is "[]"
+     *
+     * // Edge: NaN and Infinity are rendered as their standard string forms
+     * String special = Arrays.println(new double[]{1.0, Double.NaN, Double.POSITIVE_INFINITY});
+     * // special is "[1.0, NaN, Infinity]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -11995,23 +16337,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: mixed rows including null and empty sub-arrays
      * double[][] array = {{1.1, 2.2, 3.3}, {4.4, 5.5}, null, {}, {6.6}};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[1.1, 2.2, 3.3],
-     * //  [4.4, 5.5],
-     * //  null,
-     * //  [],
-     * //  [6.6]]
+     * // result starts with "[[1.1, 2.2, 3.3]," and ends with "[6.6]]"
      *
-     * // Null array
+     * // Basic: single-element row with NaN
+     * String nan = Arrays.println(new double[][]{{Double.NaN}});
+     * // nan is "[[NaN]]"
+     *
+     * // Edge: null input -> "null"
      * String nullResult = Arrays.println((double[][]) null);
-     * // Prints "null"
+     * // nullResult is "null"
      *
-     * // Empty array
-     * double[][] empty = new double[0][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: empty outer array -> "[]"
+     * String emptyResult = Arrays.println(new double[0][]);
+     * // emptyResult is "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -12091,24 +16432,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: 3D with null and empty sub-arrays at inner levels
      * double[][][] array = {{{1.1, 2.2, 3.3}, {4.4, 5.5}}, {{6.6, 7.7}, null, {}}, null};
      * String result = Arrays.println(array);
-     * // Prints to console and returns:
-     * // [[[1.1, 2.2, 3.3],
-     * //   [4.4, 5.5]],
-     * //  [[6.6, 7.7],
-     * //   null,
-     * //   []],
-     * //  null]
+     * // result starts with "[[[1.1, 2.2, 3.3]," and ends with "null]"
      *
-     * // Null array
+     * // Basic: single block with NaN and Infinity
+     * String special = Arrays.println(new double[][][]{{{Double.NaN, Double.POSITIVE_INFINITY}}});
+     * // result contains "NaN" and "Infinity"
+     *
+     * // Edge: null input -> "null"
      * String nullResult = Arrays.println((double[][][]) null);
-     * // Prints "null"
+     * // nullResult is "null"
      *
-     * // Empty array
-     * double[][][] empty = new double[0][][];
-     * String emptyResult = Arrays.println(empty);
-     * // Prints "[]"
+     * // Edge: empty outer array -> "[]"
+     * String emptyResult = Arrays.println(new double[0][][]);
+     * // emptyResult is "[]"
      * }</pre>
      *
      * <p><b>Note:</b> This method both prints to the console and returns
@@ -12191,9 +16530,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: typical mix of positive, zero, and negative bytes
      * byte[] bytes = {1, 0, -1, 5};
-     * boolean[] bools = Arrays.toBoolean(bytes);
-     * // bools is {true, false, false, true}
+     * boolean[] bools = Arrays.toBoolean(bytes); // returns {true, false, false, true}
+     *
+     * // Basic: all-positive bytes
+     * boolean[] allTrue = Arrays.toBoolean(new byte[]{3, 127}); // returns {true, true}
+     *
+     * // Edge: null input returns empty array
+     * boolean[] fromNull = Arrays.toBoolean((byte[]) null); // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * boolean[] fromEmpty = Arrays.toBoolean(new byte[0]); // returns {}
+     *
+     * // Edge: zero and negative values both become false
+     * boolean[] negs = Arrays.toBoolean(new byte[]{0, -1, -127}); // returns {false, false, false}
+     *
+     * // Edge: boundary values - Byte.MIN_VALUE (-128) is negative, Byte.MAX_VALUE (127) is positive
+     * boolean[] bounds = Arrays.toBoolean(new byte[]{Byte.MIN_VALUE, Byte.MAX_VALUE}); // returns {false, true}
      * }</pre>
      *
      * @param a the array of bytes to convert. Can be {@code null}.
@@ -12225,9 +16579,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: typical jagged structure with positive, zero, and negative bytes
      * byte[][] bytes = {{1, 0}, {-1, 2}};
-     * boolean[][] bools = Arrays.toBoolean(bytes);
-     * // bools is {{true, false}, {false, true}}
+     * boolean[][] bools = Arrays.toBoolean(bytes); // returns {{true, false}, {false, true}}
+     *
+     * // Basic: single-element rows
+     * boolean[][] singles = Arrays.toBoolean(new byte[][]{{5}, {0}}); // returns {{true}, {false}}
+     *
+     * // Edge: null input returns empty outer array
+     * boolean[][] fromNull = Arrays.toBoolean((byte[][]) null); // returns {}
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty boolean array
+     * boolean[][] inner = Arrays.toBoolean(new byte[][]{null, new byte[0], new byte[]{-1, 1}});
+     * // returns {[], [], {false, true}}
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
@@ -12259,9 +16623,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: three-dimensional jagged structure
      * byte[][][] bytes = {{{1, 0}, {-1}}, {{2, 0}}};
      * boolean[][][] bools = Arrays.toBoolean(bytes);
-     * // bools is {{{true, false}, {false}}, {{true, false}}}
+     * // returns {{{true, false}, {false}}, {{true, false}}}
+     *
+     * // Basic: all-positive values throughout
+     * boolean[][][] allTrue = Arrays.toBoolean(new byte[][][]{{{3, 7}}});
+     * // returns {{{true, true}}}
+     *
+     * // Edge: null input returns empty outer array
+     * boolean[][][] fromNull = Arrays.toBoolean((byte[][][]) null); // returns {}
+     *
+     * // Edge: empty outer array returns empty outer array
+     * boolean[][][] fromEmpty = Arrays.toBoolean(new byte[0][][]); // returns {}
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert. Can be {@code null}.
@@ -12291,9 +16666,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: typical mix of positive, zero, and negative integers
      * int[] ints = {1, 0, -1, 5};
-     * boolean[] bools = Arrays.toBoolean(ints);
-     * // bools is {true, false, false, true}
+     * boolean[] bools = Arrays.toBoolean(ints); // returns {true, false, false, true}
+     *
+     * // Basic: large positive value and Integer.MAX_VALUE are both true
+     * boolean[] allTrue = Arrays.toBoolean(new int[]{100, Integer.MAX_VALUE}); // returns {true, true}
+     *
+     * // Edge: null input returns empty array
+     * boolean[] fromNull = Arrays.toBoolean((int[]) null); // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * boolean[] fromEmpty = Arrays.toBoolean(new int[0]); // returns {}
+     *
+     * // Edge: zero and negatives (including Integer.MIN_VALUE) all become false
+     * boolean[] negs = Arrays.toBoolean(new int[]{0, -1, Integer.MIN_VALUE}); // returns {false, false, false}
      * }</pre>
      *
      * @param a the array of integers to convert. Can be {@code null}.
@@ -12325,9 +16712,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: jagged rows with mixed signs
      * int[][] ints = {{1, 0}, {-1, 5}};
-     * boolean[][] bools = Arrays.toBoolean(ints);
-     * // bools is {{true, false}, {false, true}}
+     * boolean[][] bools = Arrays.toBoolean(ints); // returns {{true, false}, {false, true}}
+     *
+     * // Basic: all-positive rows
+     * boolean[][] allTrue = Arrays.toBoolean(new int[][]{{2, 3}, {4, 5}});
+     * // returns {{true, true}, {true, true}}
+     *
+     * // Edge: null input returns empty outer array
+     * boolean[][] fromNull = Arrays.toBoolean((int[][]) null); // returns {}
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty boolean array
+     * boolean[][] inner = Arrays.toBoolean(new int[][]{null, new int[0]});
+     * // returns {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of integers to convert. Can be {@code null}.
@@ -12359,9 +16757,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: three-dimensional jagged structure with mixed signs
      * int[][][] ints = {{{1, 0}, {-1}}, {{5, 0}}};
      * boolean[][][] bools = Arrays.toBoolean(ints);
-     * // bools is {{{true, false}, {false}}, {{true, false}}}
+     * // returns {{{true, false}, {false}}, {{true, false}}}
+     *
+     * // Basic: all-positive values
+     * boolean[][][] allTrue = Arrays.toBoolean(new int[][][]{{{1, 2}, {3}}});
+     * // returns {{{true, true}, {true}}}
+     *
+     * // Edge: null input returns empty outer array
+     * boolean[][][] fromNull = Arrays.toBoolean((int[][][]) null); // returns {}
+     *
+     * // Edge: empty outer array returns empty outer array
+     * boolean[][][] fromEmpty = Arrays.toBoolean(new int[0][][]); // returns {}
      * }</pre>
      *
      * @param a the three-dimensional array of integers to convert. Can be {@code null}.
@@ -12392,9 +16801,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: ASCII uppercase letters
      * int[] ints = {65, 66, 67};
-     * char[] chars = Arrays.toChar(ints);
-     * // chars is {'A', 'B', 'C'}
+     * char[] chars = Arrays.toChar(ints); // returns {'A', 'B', 'C'}
+     *
+     * // Basic: ASCII digit characters
+     * char[] digits = Arrays.toChar(new int[]{48, 49, 50}); // returns {'0', '1', '2'}
+     *
+     * // Edge: null input returns empty array
+     * char[] fromNull = Arrays.toChar((int[]) null); // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * char[] fromEmpty = Arrays.toChar(new int[0]); // returns {}
+     *
+     * // Edge: 0 casts to the null character '\0'
+     * char[] nullChar = Arrays.toChar(new int[]{0}); // returns {'\0'}
+     *
+     * // Edge: 65535 casts to '\uFFFF' (max char value)
+     * char[] maxChar = Arrays.toChar(new int[]{65535}); // returns {'\uFFFF'}
      * }</pre>
      *
      * @param a the array of integers to convert. Can be {@code null}.
@@ -12425,9 +16849,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: uppercase letter rows
      * int[][] ints = {{65, 66}, {67, 68}};
-     * char[][] chars = Arrays.toChar(ints);
-     * // chars is {{'A', 'B'}, {'C', 'D'}}
+     * char[][] chars = Arrays.toChar(ints); // returns {{'A', 'B'}, {'C', 'D'}}
+     *
+     * // Basic: lowercase letter rows
+     * char[][] lower = Arrays.toChar(new int[][]{{97, 98}, {99}});
+     * // returns {{'a', 'b'}, {'c'}}
+     *
+     * // Edge: null input returns empty outer array
+     * char[][] fromNull = Arrays.toChar((int[][]) null); // returns {}
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty char array
+     * char[][] inner = Arrays.toChar(new int[][]{null, new int[0]});
+     * // returns {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of integers to convert. Can be {@code null}.
@@ -12458,9 +16893,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: three-dimensional jagged structure of ASCII letters
      * int[][][] ints = {{{65, 66}, {67}}, {{68, 69}}};
      * char[][][] chars = Arrays.toChar(ints);
-     * // chars is {{{'A', 'B'}, {'C'}}, {{'D', 'E'}}}
+     * // returns {{{'A', 'B'}, {'C'}}, {{'D', 'E'}}}
+     *
+     * // Basic: mixed uppercase and lowercase
+     * char[][][] mixed = Arrays.toChar(new int[][][]{{{97}}, {{98, 99}}});
+     * // returns {{{'a'}}, {{'b', 'c'}}}
+     *
+     * // Edge: null input returns empty outer array
+     * char[][][] fromNull = Arrays.toChar((int[][][]) null); // returns {}
+     *
+     * // Edge: empty outer array returns empty outer array
+     * char[][][] fromEmpty = Arrays.toChar(new int[0][][]); // returns {}
      * }</pre>
      *
      * @param a the three-dimensional array of integers to convert. Can be {@code null}.
@@ -12489,9 +16935,21 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: mixed true and false values
      * boolean[] bools = {true, false, true};
-     * byte[] bytes = Arrays.toByte(bools);
-     * // bytes is {1, 0, 1}
+     * byte[] bytes = Arrays.toByte(bools); // returns {1, 0, 1}
+     *
+     * // Basic: all-true array
+     * byte[] allOnes = Arrays.toByte(new boolean[]{true, true, true}); // returns {1, 1, 1}
+     *
+     * // Edge: null input returns empty array
+     * byte[] fromNull = Arrays.toByte((boolean[]) null); // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * byte[] fromEmpty = Arrays.toByte(new boolean[0]); // returns {}
+     *
+     * // Edge: all-false array
+     * byte[] allZeros = Arrays.toByte(new boolean[]{false, false}); // returns {0, 0}
      * }</pre>
      *
      * @param a the array of booleans to convert. Can be {@code null}.
@@ -12523,9 +16981,19 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: typical jagged structure with mixed values
      * boolean[][] bools = {{true, false}, {true, true}};
-     * byte[][] bytes = Arrays.toByte(bools);
-     * // bytes is {{1, 0}, {1, 1}}
+     * byte[][] bytes = Arrays.toByte(bools); // returns {{1, 0}, {1, 1}}
+     *
+     * // Basic: single-element rows
+     * byte[][] singles = Arrays.toByte(new boolean[][]{{false}, {true}}); // returns {{0}, {1}}
+     *
+     * // Edge: null input returns empty outer array
+     * byte[][] fromNull = Arrays.toByte((boolean[][]) null); // returns {}
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty byte array
+     * byte[][] inner = Arrays.toByte(new boolean[][]{null, new boolean[0]});
+     * // returns {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of booleans to convert. Can be {@code null}.
@@ -12557,9 +17025,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: three-dimensional jagged structure with mixed values
      * boolean[][][] bools = {{{true, false}, {true}}, {{false, false}}};
      * byte[][][] bytes = Arrays.toByte(bools);
-     * // bytes is {{{1, 0}, {1}}, {{0, 0}}}
+     * // returns {{{1, 0}, {1}}, {{0, 0}}}
+     *
+     * // Basic: all-true values
+     * byte[][][] allOnes = Arrays.toByte(new boolean[][][]{{{true, true}}});
+     * // returns {{{1, 1}}}
+     *
+     * // Edge: null input returns empty outer array
+     * byte[][][] fromNull = Arrays.toByte((boolean[][][]) null); // returns {}
+     *
+     * // Edge: empty outer array returns empty outer array
+     * byte[][][] fromEmpty = Arrays.toByte(new boolean[0][][]); // returns {}
      * }</pre>
      *
      * @param a the three-dimensional array of booleans to convert. Can be {@code null}.
@@ -12589,9 +17068,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: typical positive bytes - sign-extended to short, values unchanged
      * byte[] bytes = {10, 20, 30};
-     * short[] shorts = Arrays.toShort(bytes);
-     * // shorts is {10, 20, 30}
+     * short[] shorts = Arrays.toShort(bytes); // returns {10, 20, 30}
+     *
+     * // Basic: includes a negative byte - sign-extended, so -1 stays -1
+     * short[] withNeg = Arrays.toShort(new byte[]{(byte) -1, 5, (byte) -128});
+     * // returns {-1, 5, -128}
+     *
+     * // Edge: null input returns empty array
+     * short[] fromNull = Arrays.toShort((byte[]) null); // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * short[] fromEmpty = Arrays.toShort(new byte[0]); // returns {}
+     *
+     * // Edge: Byte.MAX_VALUE (127) and Byte.MIN_VALUE (-128) boundary values
+     * short[] bounds = Arrays.toShort(new byte[]{Byte.MAX_VALUE, Byte.MIN_VALUE});
+     * // returns {127, -128}
+     *
+     * // Edge: zero
+     * short[] zero = Arrays.toShort(new byte[]{0}); // returns {0}
      * }</pre>
      *
      * @param a the array of bytes to convert. Can be {@code null}.
@@ -12622,9 +17118,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive bytes in a jagged structure
      * byte[][] bytes = {{10, 20}, {30, 40}};
-     * short[][] shorts = Arrays.toShort(bytes);
-     * // shorts is {{10, 20}, {30, 40}}
+     * short[][] shorts = Arrays.toShort(bytes); // returns {{10, 20}, {30, 40}}
+     *
+     * // Basic: includes a negative byte - sign-extended to short
+     * short[][] withNeg = Arrays.toShort(new byte[][]{{(byte) -1, 5}, {0}});
+     * // returns {{-1, 5}, {0}}
+     *
+     * // Edge: null input returns empty outer array
+     * short[][] fromNull = Arrays.toShort((byte[][]) null); // returns {}
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty short array
+     * short[][] inner = Arrays.toShort(new byte[][]{null, new byte[0]});
+     * // returns {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
@@ -12655,9 +17162,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: three-dimensional jagged structure with positive bytes
      * byte[][][] bytes = {{{10, 20}, {30}}, {{40, 50}}};
      * short[][][] shorts = Arrays.toShort(bytes);
-     * // shorts is {{{10, 20}, {30}}, {{40, 50}}}
+     * // returns {{{10, 20}, {30}}, {{40, 50}}}
+     *
+     * // Basic: includes a negative byte - sign-extended to short
+     * short[][][] withNeg = Arrays.toShort(new byte[][][]{{{(byte) -1, 0}}});
+     * // returns {{{-1, 0}}}
+     *
+     * // Edge: null input returns empty outer array
+     * short[][][] fromNull = Arrays.toShort((byte[][][]) null); // returns {}
+     *
+     * // Edge: empty outer array returns empty outer array
+     * short[][][] fromEmpty = Arrays.toShort(new byte[0][][]); // returns {}
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert. Can be {@code null}.
@@ -12686,9 +17204,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: mixed true and false values
      * boolean[] bools = {true, false, true};
-     * int[] ints = Arrays.toInt(bools);
-     * // ints is {1, 0, 1}
+     * int[] ints = Arrays.toInt(bools); // returns {1, 0, 1}
+     *
+     * // Basic: all-false values
+     * int[] allZeros = Arrays.toInt(new boolean[]{false, false}); // returns {0, 0}
+     *
+     * // Edge: null input returns empty array
+     * int[] fromNull = Arrays.toInt((boolean[]) null); // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * int[] fromEmpty = Arrays.toInt(new boolean[0]); // returns {}
+     *
+     * // Edge: single-element arrays
+     * int[] singleTrue = Arrays.toInt(new boolean[]{true});   // returns {1}
+     * int[] singleFalse = Arrays.toInt(new boolean[]{false}); // returns {0}
      * }</pre>
      *
      * @param a the array of booleans to convert. Can be {@code null}.
@@ -12720,9 +17251,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: typical jagged structure with mixed values
      * boolean[][] bools = {{true, false}, {true, true}};
-     * int[][] ints = Arrays.toInt(bools);
-     * // ints is {{1, 0}, {1, 1}}
+     * int[][] ints = Arrays.toInt(bools); // returns {{1, 0}, {1, 1}}
+     *
+     * // Basic: all-false rows
+     * int[][] allZero = Arrays.toInt(new boolean[][]{{false, false}, {false}});
+     * // returns {{0, 0}, {0}}
+     *
+     * // Edge: null input returns empty outer array
+     * int[][] fromNull = Arrays.toInt((boolean[][]) null); // returns {}
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty int array
+     * int[][] inner = Arrays.toInt(new boolean[][]{null, new boolean[0]});
+     * // returns {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of booleans to convert. Can be {@code null}.
@@ -12754,9 +17296,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: three-dimensional jagged structure with mixed values
      * boolean[][][] bools = {{{true, false}, {true}}, {{false, false}}};
      * int[][][] ints = Arrays.toInt(bools);
-     * // ints is {{{1, 0}, {1}}, {{0, 0}}}
+     * // returns {{{1, 0}, {1}}, {{0, 0}}}
+     *
+     * // Basic: all-true values
+     * int[][][] allOne = Arrays.toInt(new boolean[][][]{{{true, true}}});
+     * // returns {{{1, 1}}}
+     *
+     * // Edge: null input returns empty outer array
+     * int[][][] fromNull = Arrays.toInt((boolean[][][]) null); // returns {}
+     *
+     * // Edge: empty outer array returns empty outer array
+     * int[][][] fromEmpty = Arrays.toInt(new boolean[0][][]); // returns {}
      * }</pre>
      *
      * @param a the three-dimensional array of booleans to convert. Can be {@code null}.
@@ -12787,9 +17340,24 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: uppercase letters produce their ASCII/Unicode code points
      * char[] chars = {'A', 'B', 'C'};
-     * int[] ints = Arrays.toInt(chars);
-     * // ints is {65, 66, 67}
+     * int[] ints = Arrays.toInt(chars); // returns {65, 66, 67}
+     *
+     * // Basic: digit characters
+     * int[] digits = Arrays.toInt(new char[]{'0', '9'}); // returns {48, 57}
+     *
+     * // Edge: null input returns empty array
+     * int[] fromNull = Arrays.toInt((char[]) null); // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * int[] fromEmpty = Arrays.toInt(new char[0]); // returns {}
+     *
+     * // Edge: null character '\0' produces 0
+     * int[] nullChar = Arrays.toInt(new char[]{'\0'}); // returns {0}
+     *
+     * // Edge: max char value '\uFFFF' produces 65535
+     * int[] maxChar = Arrays.toInt(new char[]{'\uFFFF'}); // returns {65535}
      * }</pre>
      *
      * @param a the array of chars to convert. Can be {@code null}.
@@ -12821,9 +17389,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: uppercase letters in a jagged structure
      * char[][] chars = {{'A', 'B'}, {'C', 'D'}};
-     * int[][] ints = Arrays.toInt(chars);
-     * // ints is {{65, 66}, {67, 68}}
+     * int[][] ints = Arrays.toInt(chars); // returns {{65, 66}, {67, 68}}
+     *
+     * // Basic: lowercase letters
+     * int[][] lower = Arrays.toInt(new char[][]{{'a', 'z'}});
+     * // returns {{97, 122}}
+     *
+     * // Edge: null input returns empty outer array
+     * int[][] fromNull = Arrays.toInt((char[][]) null); // returns {}
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty int array
+     * int[][] inner = Arrays.toInt(new char[][]{null, new char[0]});
+     * // returns {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of chars to convert. Can be {@code null}.
@@ -12854,9 +17433,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: three-dimensional jagged structure of ASCII letters
      * char[][][] chars = {{{'A', 'B'}, {'C'}}, {{'D', 'E'}}};
      * int[][][] ints = Arrays.toInt(chars);
-     * // ints is {{{65, 66}, {67}}, {{68, 69}}}
+     * // returns {{{65, 66}, {67}}, {{68, 69}}}
+     *
+     * // Basic: digit characters
+     * int[][][] digits = Arrays.toInt(new char[][][]{{{'0', '9'}}});
+     * // returns {{{48, 57}}}
+     *
+     * // Edge: null input returns empty outer array
+     * int[][][] fromNull = Arrays.toInt((char[][][]) null); // returns {}
+     *
+     * // Edge: empty outer array returns empty outer array
+     * int[][][] fromEmpty = Arrays.toInt(new char[0][][]); // returns {}
      * }</pre>
      *
      * @param a the three-dimensional array of chars to convert. Can be {@code null}.
@@ -12885,9 +17475,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: typical positive bytes - sign-extended to int, values unchanged
      * byte[] bytes = {10, 20, 30};
-     * int[] ints = Arrays.toInt(bytes);
-     * // ints is {10, 20, 30}
+     * int[] ints = Arrays.toInt(bytes); // returns {10, 20, 30}
+     *
+     * // Basic: includes negative bytes - sign-extended, so -1 stays -1
+     * int[] withNeg = Arrays.toInt(new byte[]{(byte) -1, 0, (byte) -128});
+     * // returns {-1, 0, -128}
+     *
+     * // Edge: null input returns empty array
+     * int[] fromNull = Arrays.toInt((byte[]) null); // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * int[] fromEmpty = Arrays.toInt(new byte[0]); // returns {}
+     *
+     * // Edge: Byte.MAX_VALUE (127) and Byte.MIN_VALUE (-128) boundary values
+     * int[] bounds = Arrays.toInt(new byte[]{Byte.MAX_VALUE, Byte.MIN_VALUE});
+     * // returns {127, -128}
+     *
+     * // Edge: zero
+     * int[] zero = Arrays.toInt(new byte[]{0}); // returns {0}
      * }</pre>
      *
      * @param a the array of bytes to convert. Can be {@code null}.
@@ -12918,9 +17525,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive bytes in a jagged structure
      * byte[][] bytes = {{10, 20}, {30, 40}};
-     * int[][] ints = Arrays.toInt(bytes);
-     * // ints is {{10, 20}, {30, 40}}
+     * int[][] ints = Arrays.toInt(bytes); // returns {{10, 20}, {30, 40}}
+     *
+     * // Basic: includes negative bytes - sign-extended to int
+     * int[][] withNeg = Arrays.toInt(new byte[][]{{(byte) -1, 5}, {0}});
+     * // returns {{-1, 5}, {0}}
+     *
+     * // Edge: null input returns empty outer array
+     * int[][] fromNull = Arrays.toInt((byte[][]) null); // returns {}
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty int array
+     * int[][] inner = Arrays.toInt(new byte[][]{null, new byte[0]});
+     * // returns {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
@@ -12951,9 +17569,20 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: three-dimensional jagged structure with positive bytes
      * byte[][][] bytes = {{{10, 20}, {30}}, {{40, 50}}};
      * int[][][] ints = Arrays.toInt(bytes);
-     * // ints is {{{10, 20}, {30}}, {{40, 50}}}
+     * // returns {{{10, 20}, {30}}, {{40, 50}}}
+     *
+     * // Basic: includes a negative byte - sign-extended to int
+     * int[][][] withNeg = Arrays.toInt(new byte[][][]{{{(byte) -1, 0}}});
+     * // returns {{{-1, 0}}}
+     *
+     * // Edge: null input returns empty outer array
+     * int[][][] fromNull = Arrays.toInt((byte[][][]) null); // returns {}
+     *
+     * // Edge: empty outer array returns empty outer array
+     * int[][][] fromEmpty = Arrays.toInt(new byte[0][][]); // returns {}
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert. Can be {@code null}.
@@ -12982,9 +17611,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: typical positive shorts - sign-extended to int, values unchanged
      * short[] shorts = {100, 200, 300};
-     * int[] ints = Arrays.toInt(shorts);
-     * // ints is {100, 200, 300}
+     * int[] ints = Arrays.toInt(shorts); // returns {100, 200, 300}
+     *
+     * // Basic: includes negative shorts - sign-extended, so -1 stays -1
+     * int[] withNeg = Arrays.toInt(new short[]{(short) -1, 0, (short) -32768});
+     * // returns {-1, 0, -32768}
+     *
+     * // Edge: null input returns empty array
+     * int[] fromNull = Arrays.toInt((short[]) null); // returns {}
+     *
+     * // Edge: empty input returns empty array
+     * int[] fromEmpty = Arrays.toInt(new short[0]); // returns {}
+     *
+     * // Edge: Short.MAX_VALUE (32767) and Short.MIN_VALUE (-32768) boundary values
+     * int[] bounds = Arrays.toInt(new short[]{Short.MAX_VALUE, Short.MIN_VALUE});
+     * // returns {32767, -32768}
+     *
+     * // Edge: zero
+     * int[] zero = Arrays.toInt(new short[]{0}); // returns {0}
      * }</pre>
      *
      * @param a the array of shorts to convert. Can be {@code null}.
@@ -13015,9 +17661,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive values are widened losslessly
      * short[][] shorts = {{100, 200}, {300, 400}};
      * int[][] ints = Arrays.toInt(shorts);
      * // ints is {{100, 200}, {300, 400}}
+     *
+     * // Basic: negative values are sign-extended correctly
+     * short[][] neg = {{-1, -32768}, {0, 32767}};
+     * int[][] negInts = Arrays.toInt(neg);
+     * // negInts is {{-1, -32768}, {0, 32767}}
+     *
+     * // Edge: null input returns empty 2D array
+     * int[][] fromNull = Arrays.toInt((short[][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 2D array
+     * int[][] fromEmpty = Arrays.toInt(new short[0][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional array of shorts to convert. Can be {@code null}.
@@ -13048,9 +17708,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive values are widened losslessly through all nesting levels
      * short[][][] shorts = {{{100, 200}, {300}}, {{400, 500}}};
      * int[][][] ints = Arrays.toInt(shorts);
      * // ints is {{{100, 200}, {300}}, {{400, 500}}}
+     *
+     * // Basic: negative values are sign-extended correctly at all levels
+     * short[][][] neg = {{{-1, -32768}}};
+     * int[][][] negInts = Arrays.toInt(neg);
+     * // negInts is {{{-1, -32768}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * int[][][] fromNull = Arrays.toInt((short[][][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 3D array
+     * int[][][] fromEmpty = Arrays.toInt(new short[0][][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the three-dimensional array of shorts to convert. Can be {@code null}.
@@ -13081,9 +17755,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional part is discarded (truncation toward zero)
      * float[] floats = {1.1f, 2.9f, -3.5f};
      * int[] ints = Arrays.toInt(floats);
      * // ints is {1, 2, -3}
+     *
+     * // Basic: values very close to the next integer still truncate, not round
+     * float[] nearInt = {3.9f, -3.9f};
+     * int[] nearIntResult = Arrays.toInt(nearInt);
+     * // nearIntResult is {3, -3}
+     *
+     * // Edge: null input returns empty array
+     * int[] fromNull = Arrays.toInt((float[]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * int[] fromEmpty = Arrays.toInt(new float[0]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the array of floats to convert. Can be {@code null}.
@@ -13116,9 +17804,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional parts are truncated toward zero in each row
      * float[][] floats = {{1.1f, 2.9f}, {-3.5f, 4.2f}};
      * int[][] ints = Arrays.toInt(floats);
      * // ints is {{1, 2}, {-3, 4}}
+     *
+     * // Basic: values close to next integer still truncate, not round
+     * float[][] nearInt = {{3.9f, -3.9f}};
+     * int[][] nearIntResult = Arrays.toInt(nearInt);
+     * // nearIntResult is {{3, -3}}
+     *
+     * // Edge: null input returns empty 2D array
+     * int[][] fromNull = Arrays.toInt((float[][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 2D array
+     * int[][] fromEmpty = Arrays.toInt(new float[0][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional array of floats to convert. Can be {@code null}.
@@ -13150,9 +17852,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional parts are truncated toward zero at all nesting levels
      * float[][][] floats = {{{1.1f, 2.9f}, {3.5f}}, {{-4.2f, 5.8f}}};
      * int[][][] ints = Arrays.toInt(floats);
      * // ints is {{{1, 2}, {3}}, {{-4, 5}}}
+     *
+     * // Basic: negative near-integer values still truncate toward zero
+     * float[][][] neg = {{{-3.9f, -0.1f}}};
+     * int[][][] negInts = Arrays.toInt(neg);
+     * // negInts is {{{-3, 0}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * int[][][] fromNull = Arrays.toInt((float[][][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 3D array
+     * int[][][] fromEmpty = Arrays.toInt(new float[0][][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the three-dimensional array of floats to convert. Can be {@code null}.
@@ -13183,9 +17899,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional part is discarded (truncation toward zero)
      * double[] doubles = {1.1, 2.9, -3.5};
      * int[] ints = Arrays.toInt(doubles);
      * // ints is {1, 2, -3}
+     *
+     * // Basic: values very close to the next integer still truncate, not round
+     * double[] nearInt = {3.9, -3.9};
+     * int[] nearIntResult = Arrays.toInt(nearInt);
+     * // nearIntResult is {3, -3}
+     *
+     * // Edge: null input returns empty array
+     * int[] fromNull = Arrays.toInt((double[]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * int[] fromEmpty = Arrays.toInt(new double[0]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the array of doubles to convert. Can be {@code null}.
@@ -13218,9 +17948,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional parts are truncated toward zero in each row
      * double[][] doubles = {{1.1, 2.9}, {-3.5, 4.2}};
      * int[][] ints = Arrays.toInt(doubles);
      * // ints is {{1, 2}, {-3, 4}}
+     *
+     * // Basic: values close to the next integer still truncate, not round
+     * double[][] nearInt = {{3.9, -3.9}};
+     * int[][] nearIntResult = Arrays.toInt(nearInt);
+     * // nearIntResult is {{3, -3}}
+     *
+     * // Edge: null input returns empty 2D array
+     * int[][] fromNull = Arrays.toInt((double[][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 2D array
+     * int[][] fromEmpty = Arrays.toInt(new double[0][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional array of doubles to convert. Can be {@code null}.
@@ -13252,9 +17996,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional parts are truncated toward zero at all nesting levels
      * double[][][] doubles = {{{1.1, 2.9}, {3.5}}, {{-4.2, 5.8}}};
      * int[][][] ints = Arrays.toInt(doubles);
      * // ints is {{{1, 2}, {3}}, {{-4, 5}}}
+     *
+     * // Basic: negative near-integer values still truncate toward zero
+     * double[][][] neg = {{{-3.9, -0.1}}};
+     * int[][][] negInts = Arrays.toInt(neg);
+     * // negInts is {{{-3, 0}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * int[][][] fromNull = Arrays.toInt((double[][][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 3D array
+     * int[][][] fromEmpty = Arrays.toInt(new double[0][][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the three-dimensional array of doubles to convert. Can be {@code null}.
@@ -13283,9 +18041,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive bytes are widened losslessly
      * byte[] bytes = {10, 20, 30};
      * long[] longs = Arrays.toLong(bytes);
      * // longs is {10L, 20L, 30L}
+     *
+     * // Basic: negative bytes are sign-extended correctly
+     * byte[] neg = {-1, -128};
+     * long[] negLongs = Arrays.toLong(neg);
+     * // negLongs is {-1L, -128L}
+     *
+     * // Edge: null input returns empty array
+     * long[] fromNull = Arrays.toLong((byte[]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * long[] fromEmpty = Arrays.toLong(new byte[0]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the array of bytes to convert. Can be {@code null}.
@@ -13316,9 +18088,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive bytes are widened losslessly in each row
      * byte[][] bytes = {{10, 20}, {30, 40}};
      * long[][] longs = Arrays.toLong(bytes);
      * // longs is {{10L, 20L}, {30L, 40L}}
+     *
+     * // Basic: negative bytes are sign-extended correctly
+     * byte[][] neg = {{-1, -128}, {0}};
+     * long[][] negLongs = Arrays.toLong(neg);
+     * // negLongs is {{-1L, -128L}, {0L}}
+     *
+     * // Edge: null input returns empty 2D array
+     * long[][] fromNull = Arrays.toLong((byte[][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 2D array
+     * long[][] fromEmpty = Arrays.toLong(new byte[0][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
@@ -13349,9 +18135,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive bytes are widened losslessly at all nesting levels
      * byte[][][] bytes = {{{10, 20}, {30}}, {{40, 50}}};
      * long[][][] longs = Arrays.toLong(bytes);
      * // longs is {{{10L, 20L}, {30L}}, {{40L, 50L}}}
+     *
+     * // Basic: negative bytes are sign-extended correctly at all levels
+     * byte[][][] neg = {{{-1, -128}}};
+     * long[][][] negLongs = Arrays.toLong(neg);
+     * // negLongs is {{{-1L, -128L}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * long[][][] fromNull = Arrays.toLong((byte[][][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 3D array
+     * long[][][] fromEmpty = Arrays.toLong(new byte[0][][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert. Can be {@code null}.
@@ -13380,9 +18180,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive shorts are widened losslessly
      * short[] source = {1, 2, 3};
      * long[] result = Arrays.toLong(source);
      * // result is {1L, 2L, 3L}
+     *
+     * // Basic: negative shorts are sign-extended correctly
+     * short[] neg = {-1, -32768};
+     * long[] negResult = Arrays.toLong(neg);
+     * // negResult is {-1L, -32768L}
+     *
+     * // Edge: null input returns empty array
+     * long[] fromNull = Arrays.toLong((short[]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * long[] fromEmpty = Arrays.toLong(new short[0]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
@@ -13413,9 +18227,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive shorts are widened losslessly in each row
      * short[][] source = {{1, 2}, {3, 4}};
      * long[][] result = Arrays.toLong(source);
      * // result is {{1L, 2L}, {3L, 4L}}
+     *
+     * // Basic: negative shorts are sign-extended correctly
+     * short[][] neg = {{-1, -32768}, {0}};
+     * long[][] negResult = Arrays.toLong(neg);
+     * // negResult is {{-1L, -32768L}, {0L}}
+     *
+     * // Edge: null input returns empty 2D array
+     * long[][] fromNull = Arrays.toLong((short[][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 2D array
+     * long[][] fromEmpty = Arrays.toLong(new short[0][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
@@ -13446,9 +18274,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive shorts are widened losslessly at all nesting levels
      * short[][][] source = {{{1, 2}}, {{3, 4}}};
      * long[][][] result = Arrays.toLong(source);
      * // result is {{{1L, 2L}}, {{3L, 4L}}}
+     *
+     * // Basic: negative shorts are sign-extended correctly at all levels
+     * short[][][] neg = {{{-1, -32768}}};
+     * long[][][] negResult = Arrays.toLong(neg);
+     * // negResult is {{{-1L, -32768L}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * long[][][] fromNull = Arrays.toLong((short[][][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 3D array
+     * long[][][] fromEmpty = Arrays.toLong(new short[0][][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
@@ -13477,9 +18319,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive ints are widened losslessly
      * int[] source = {1, 2, 3};
      * long[] result = Arrays.toLong(source);
      * // result is {1L, 2L, 3L}
+     *
+     * // Basic: negative ints are sign-extended correctly
+     * int[] neg = {-1, Integer.MIN_VALUE};
+     * long[] negResult = Arrays.toLong(neg);
+     * // negResult is {-1L, -2147483648L}
+     *
+     * // Edge: null input returns empty array
+     * long[] fromNull = Arrays.toLong((int[]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * long[] fromEmpty = Arrays.toLong(new int[0]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
@@ -13510,9 +18366,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive ints are widened losslessly in each row
      * int[][] source = {{1, 2}, {3, 4}};
      * long[][] result = Arrays.toLong(source);
      * // result is {{1L, 2L}, {3L, 4L}}
+     *
+     * // Basic: negative ints are sign-extended correctly
+     * int[][] neg = {{-1, Integer.MIN_VALUE}, {0}};
+     * long[][] negResult = Arrays.toLong(neg);
+     * // negResult is {{-1L, -2147483648L}, {0L}}
+     *
+     * // Edge: null input returns empty 2D array
+     * long[][] fromNull = Arrays.toLong((int[][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 2D array
+     * long[][] fromEmpty = Arrays.toLong(new int[0][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
@@ -13543,9 +18413,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive ints are widened losslessly at all nesting levels
      * int[][][] source = {{{1, 2}}, {{3, 4}}};
      * long[][][] result = Arrays.toLong(source);
      * // result is {{{1L, 2L}}, {{3L, 4L}}}
+     *
+     * // Basic: negative ints are sign-extended correctly at all levels
+     * int[][][] neg = {{{-1, Integer.MIN_VALUE}}};
+     * long[][][] negResult = Arrays.toLong(neg);
+     * // negResult is {{{-1L, -2147483648L}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * long[][][] fromNull = Arrays.toLong((int[][][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 3D array
+     * long[][][] fromEmpty = Arrays.toLong(new int[0][][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
@@ -13577,9 +18461,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional part is discarded (truncation toward zero)
      * float[] source = {1.1f, 2.9f, 3.5f};
      * long[] result = Arrays.toLong(source);
      * // result is {1L, 2L, 3L}
+     *
+     * // Basic: negative values also truncate toward zero
+     * float[] neg = {-3.7f, -0.9f};
+     * long[] negResult = Arrays.toLong(neg);
+     * // negResult is {-3L, 0L}
+     *
+     * // Edge: null input returns empty array
+     * long[] fromNull = Arrays.toLong((float[]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * long[] fromEmpty = Arrays.toLong(new float[0]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
@@ -13612,9 +18510,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional parts are truncated toward zero in each row
      * float[][] source = {{1.1f, 2.9f}, {3.5f, 4.0f}};
      * long[][] result = Arrays.toLong(source);
      * // result is {{1L, 2L}, {3L, 4L}}
+     *
+     * // Basic: negative values also truncate toward zero
+     * float[][] neg = {{-3.7f, -0.9f}};
+     * long[][] negResult = Arrays.toLong(neg);
+     * // negResult is {{-3L, 0L}}
+     *
+     * // Edge: null input returns empty 2D array
+     * long[][] fromNull = Arrays.toLong((float[][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 2D array
+     * long[][] fromEmpty = Arrays.toLong(new float[0][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
@@ -13647,9 +18559,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional parts are truncated toward zero at all nesting levels
      * float[][][] source = {{{1.1f, 2.9f}}, {{3.5f, 4.0f}}};
      * long[][][] result = Arrays.toLong(source);
      * // result is {{{1L, 2L}}, {{3L, 4L}}}
+     *
+     * // Basic: negative values also truncate toward zero at all levels
+     * float[][][] neg = {{{-3.7f, -0.9f}}};
+     * long[][][] negResult = Arrays.toLong(neg);
+     * // negResult is {{{-3L, 0L}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * long[][][] fromNull = Arrays.toLong((float[][][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 3D array
+     * long[][][] fromEmpty = Arrays.toLong(new float[0][][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
@@ -13681,9 +18607,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional part is discarded (truncation toward zero)
      * double[] source = {1.1, 2.9, 3.5};
      * long[] result = Arrays.toLong(source);
      * // result is {1L, 2L, 3L}
+     *
+     * // Basic: negative values also truncate toward zero
+     * double[] neg = {-3.7, -0.9};
+     * long[] negResult = Arrays.toLong(neg);
+     * // negResult is {-3L, 0L}
+     *
+     * // Edge: null input returns empty array
+     * long[] fromNull = Arrays.toLong((double[]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * long[] fromEmpty = Arrays.toLong(new double[0]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code double} array to convert. Can be {@code null}.
@@ -13716,9 +18656,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional parts are truncated toward zero in each row
      * double[][] source = {{1.1, 2.9}, {3.5, 4.0}};
      * long[][] result = Arrays.toLong(source);
      * // result is {{1L, 2L}, {3L, 4L}}
+     *
+     * // Basic: negative values also truncate toward zero
+     * double[][] neg = {{-3.7, -0.9}};
+     * long[][] negResult = Arrays.toLong(neg);
+     * // negResult is {{-3L, 0L}}
+     *
+     * // Edge: null input returns empty 2D array
+     * long[][] fromNull = Arrays.toLong((double[][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 2D array
+     * long[][] fromEmpty = Arrays.toLong(new double[0][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code double} array to convert. Can be {@code null}.
@@ -13751,9 +18705,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: fractional parts are truncated toward zero at all nesting levels
      * double[][][] source = {{{1.1, 2.9}}, {{3.5, 4.0}}};
      * long[][][] result = Arrays.toLong(source);
      * // result is {{{1L, 2L}}, {{3L, 4L}}}
+     *
+     * // Basic: negative values also truncate toward zero at all levels
+     * double[][][] neg = {{{-3.7, -0.9}}};
+     * long[][][] negResult = Arrays.toLong(neg);
+     * // negResult is {{{-3L, 0L}}}
+     *
+     * // Edge: null input returns empty 3D array
+     * long[][][] fromNull = Arrays.toLong((double[][][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 3D array
+     * long[][][] fromEmpty = Arrays.toLong(new double[0][][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code double} array to convert. Can be {@code null}.
@@ -13782,9 +18750,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive bytes are widened to float losslessly
      * byte[] source = {1, 2, 3};
      * float[] result = Arrays.toFloat(source);
      * // result is {1.0f, 2.0f, 3.0f}
+     *
+     * // Basic: negative bytes are sign-extended and widened correctly
+     * byte[] neg = {-1, -128};
+     * float[] negResult = Arrays.toFloat(neg);
+     * // negResult is {-1.0f, -128.0f}
+     *
+     * // Edge: null input returns empty array
+     * float[] fromNull = Arrays.toFloat((byte[]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty array
+     * float[] fromEmpty = Arrays.toFloat(new byte[0]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -13815,9 +18797,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic: positive bytes are widened to float losslessly in each row
      * byte[][] source = {{1, 2}, {3, 4}};
      * float[][] result = Arrays.toFloat(source);
      * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     *
+     * // Basic: negative bytes are sign-extended and widened correctly
+     * byte[][] neg = {{-1, -128}, {0}};
+     * float[][] negResult = Arrays.toFloat(neg);
+     * // negResult is {{-1.0f, -128.0f}, {0.0f}}
+     *
+     * // Edge: null input returns empty 2D array
+     * float[][] fromNull = Arrays.toFloat((byte[][]) null);
+     * // fromNull is {} (length 0)
+     *
+     * // Edge: empty input returns empty 2D array
+     * float[][] fromEmpty = Arrays.toFloat(new byte[0][]);
+     * // fromEmpty is {} (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -13848,9 +18844,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * byte[][][] source = {{{1, 2}}, {{3, 4}}};
      * float[][][] result = Arrays.toFloat(source);
      * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     *
+     * // Negative byte values
+     * byte[][][] neg = {{{-5, -128}}, {{127, 0}}};
+     * float[][][] r2 = Arrays.toFloat(neg);
+     * // r2 is {{{-5.0f, -128.0f}}, {{127.0f, 0.0f}}}
+     *
+     * // null input returns empty array
+     * float[][][] r3 = Arrays.toFloat((byte[][][]) null);
+     * // r3 is float[0][][]  (length 0)
+     *
+     * // empty input returns empty array
+     * float[][][] r4 = Arrays.toFloat(new byte[0][][]);
+     * // r4 is float[0][][]  (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -13879,9 +18889,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * short[] source = {1, 2, 3};
      * float[] result = Arrays.toFloat(source);
      * // result is {1.0f, 2.0f, 3.0f}
+     *
+     * // Negative values
+     * float[] r2 = Arrays.toFloat(new short[]{-3, -100});
+     * // r2 is {-3.0f, -100.0f}
+     *
+     * // null input returns empty array
+     * float[] r3 = Arrays.toFloat((short[]) null);
+     * // r3 is float[0]  (length 0)
+     *
+     * // empty input returns empty array
+     * float[] r4 = Arrays.toFloat(new short[0]);
+     * // r4 is float[0]  (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
@@ -13912,9 +18935,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * short[][] source = {{1, 2}, {3, 4}};
      * float[][] result = Arrays.toFloat(source);
      * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     *
+     * // Negative values
+     * float[][] r2 = Arrays.toFloat(new short[][]{{-1, -2}, {-3, -4}});
+     * // r2 is {{-1.0f, -2.0f}, {-3.0f, -4.0f}}
+     *
+     * // null input returns empty array
+     * float[][] r3 = Arrays.toFloat((short[][]) null);
+     * // r3 is float[0][]  (length 0)
+     *
+     * // empty input returns empty array
+     * float[][] r4 = Arrays.toFloat(new short[0][]);
+     * // r4 is float[0][]  (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
@@ -13945,9 +18981,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * short[][][] source = {{{1, 2}}, {{3, 4}}};
      * float[][][] result = Arrays.toFloat(source);
      * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     *
+     * // Negative values
+     * float[][][] r2 = Arrays.toFloat(new short[][][]{{{-10, -20}}, {{-30, -40}}});
+     * // r2 is {{{-10.0f, -20.0f}}, {{-30.0f, -40.0f}}}
+     *
+     * // null input returns empty array
+     * float[][][] r3 = Arrays.toFloat((short[][][]) null);
+     * // r3 is float[0][][]  (length 0)
+     *
+     * // empty input returns empty array
+     * float[][][] r4 = Arrays.toFloat(new short[0][][]);
+     * // r4 is float[0][][]  (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
@@ -13978,9 +19027,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * int[] source = {1, 2, 3};
      * float[] result = Arrays.toFloat(source);
      * // result is {1.0f, 2.0f, 3.0f}
+     *
+     * // Negative values
+     * float[] r2 = Arrays.toFloat(new int[]{-5, -100});
+     * // r2 is {-5.0f, -100.0f}
+     *
+     * // null input returns empty array
+     * float[] r3 = Arrays.toFloat((int[]) null);
+     * // r3 is float[0]  (length 0)
+     *
+     * // Large value loses precision: 16777217 = 2^24 + 1 rounds to 2^24 as float
+     * float[] r4 = Arrays.toFloat(new int[]{16777217});
+     * // r4 is {1.6777216E7f}  (precision loss: rounds to 2^24)
      * }</pre>
      *
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
@@ -14012,9 +19074,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * int[][] source = {{1, 2}, {3, 4}};
      * float[][] result = Arrays.toFloat(source);
      * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     *
+     * // Negative values
+     * float[][] r2 = Arrays.toFloat(new int[][]{{-1, -2}, {-3, -4}});
+     * // r2 is {{-1.0f, -2.0f}, {-3.0f, -4.0f}}
+     *
+     * // null input returns empty array
+     * float[][] r3 = Arrays.toFloat((int[][]) null);
+     * // r3 is float[0][]  (length 0)
+     *
+     * // empty input returns empty array
+     * float[][] r4 = Arrays.toFloat(new int[0][]);
+     * // r4 is float[0][]  (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
@@ -14045,9 +19120,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * int[][][] source = {{{1, 2}}, {{3, 4}}};
      * float[][][] result = Arrays.toFloat(source);
      * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     *
+     * // Negative values
+     * float[][][] r2 = Arrays.toFloat(new int[][][]{{{-1, -2}}, {{-3, -4}}});
+     * // r2 is {{{-1.0f, -2.0f}}, {{-3.0f, -4.0f}}}
+     *
+     * // null input returns empty array
+     * float[][][] r3 = Arrays.toFloat((int[][][]) null);
+     * // r3 is float[0][][]  (length 0)
+     *
+     * // empty input returns empty array
+     * float[][][] r4 = Arrays.toFloat(new int[0][][]);
+     * // r4 is float[0][][]  (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
@@ -14078,9 +19166,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] source = {1L, 2L, 16777217L};
+     * // Basic conversion (small exact values)
+     * long[] source = {1L, 2L, -3L};
      * float[] result = Arrays.toFloat(source);
-     * // result is {1.0f, 2.0f, 1.6777216E7f} (the third element loses precision)
+     * // result is {1.0f, 2.0f, -3.0f}
+     *
+     * // Large value loses precision: 16777217L = 2^24 + 1 rounds to 2^24 as float
+     * float[] r2 = Arrays.toFloat(new long[]{16777217L});
+     * // r2 is {1.6777216E7f}  (precision loss)
+     *
+     * // null input returns empty array
+     * float[] r3 = Arrays.toFloat((long[]) null);
+     * // r3 is float[0]  (length 0)
+     *
+     * // empty input returns empty array
+     * float[] r4 = Arrays.toFloat(new long[0]);
+     * // r4 is float[0]  (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
@@ -14112,9 +19213,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * long[][] source = {{1L, 2L}, {3L, 4L}};
      * float[][] result = Arrays.toFloat(source);
      * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     *
+     * // Negative values
+     * float[][] r2 = Arrays.toFloat(new long[][]{{-1L, -2L}, {-3L, -4L}});
+     * // r2 is {{-1.0f, -2.0f}, {-3.0f, -4.0f}}
+     *
+     * // null input returns empty array
+     * float[][] r3 = Arrays.toFloat((long[][]) null);
+     * // r3 is float[0][]  (length 0)
+     *
+     * // empty input returns empty array
+     * float[][] r4 = Arrays.toFloat(new long[0][]);
+     * // r4 is float[0][]  (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
@@ -14145,9 +19259,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * long[][][] source = {{{1L, 2L}}, {{3L, 4L}}};
      * float[][][] result = Arrays.toFloat(source);
      * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     *
+     * // Negative values
+     * float[][][] r2 = Arrays.toFloat(new long[][][]{{{-1L, -2L}}, {{-3L, -4L}}});
+     * // r2 is {{{-1.0f, -2.0f}}, {{-3.0f, -4.0f}}}
+     *
+     * // null input returns empty array
+     * float[][][] r3 = Arrays.toFloat((long[][][]) null);
+     * // r3 is float[0][][]  (length 0)
+     *
+     * // empty input returns empty array
+     * float[][][] r4 = Arrays.toFloat(new long[0][][]);
+     * // r4 is float[0][][]  (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
@@ -14176,9 +19303,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * byte[] source = {1, 2, 3};
      * double[] result = Arrays.toDouble(source);
      * // result is {1.0, 2.0, 3.0}
+     *
+     * // Negative and boundary byte values
+     * double[] r2 = Arrays.toDouble(new byte[]{-5, -128, 127});
+     * // r2 is {-5.0, -128.0, 127.0}
+     *
+     * // null input returns empty array
+     * double[] r3 = Arrays.toDouble((byte[]) null);
+     * // r3 is double[0]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[] r4 = Arrays.toDouble(new byte[0]);
+     * // r4 is double[0]  (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -14209,9 +19349,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * byte[][] source = {{1, 2}, {3, 4}};
      * double[][] result = Arrays.toDouble(source);
      * // result is {{1.0, 2.0}, {3.0, 4.0}}
+     *
+     * // Negative values
+     * double[][] r2 = Arrays.toDouble(new byte[][]{{-1, -2}, {-3, -4}});
+     * // r2 is {{-1.0, -2.0}, {-3.0, -4.0}}
+     *
+     * // null input returns empty array
+     * double[][] r3 = Arrays.toDouble((byte[][]) null);
+     * // r3 is double[0][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][] r4 = Arrays.toDouble(new byte[0][]);
+     * // r4 is double[0][]  (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -14242,9 +19395,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * byte[][][] source = {{{1, 2}}, {{3, 4}}};
      * double[][][] result = Arrays.toDouble(source);
      * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     *
+     * // Negative values
+     * double[][][] r2 = Arrays.toDouble(new byte[][][]{{{-5, -10}}, {{-15, -20}}});
+     * // r2 is {{{-5.0, -10.0}}, {{-15.0, -20.0}}}
+     *
+     * // null input returns empty array
+     * double[][][] r3 = Arrays.toDouble((byte[][][]) null);
+     * // r3 is double[0][][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][][] r4 = Arrays.toDouble(new byte[0][][]);
+     * // r4 is double[0][][]  (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -14273,9 +19439,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * short[] source = {1, 2, 3};
      * double[] result = Arrays.toDouble(source);
      * // result is {1.0, 2.0, 3.0}
+     *
+     * // Negative values
+     * double[] r2 = Arrays.toDouble(new short[]{-3, -100});
+     * // r2 is {-3.0, -100.0}
+     *
+     * // null input returns empty array
+     * double[] r3 = Arrays.toDouble((short[]) null);
+     * // r3 is double[0]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[] r4 = Arrays.toDouble(new short[0]);
+     * // r4 is double[0]  (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
@@ -14306,9 +19485,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * short[][] source = {{1, 2}, {3, 4}};
      * double[][] result = Arrays.toDouble(source);
      * // result is {{1.0, 2.0}, {3.0, 4.0}}
+     *
+     * // Negative values
+     * double[][] r2 = Arrays.toDouble(new short[][]{{-1, -2}, {-3, -4}});
+     * // r2 is {{-1.0, -2.0}, {-3.0, -4.0}}
+     *
+     * // null input returns empty array
+     * double[][] r3 = Arrays.toDouble((short[][]) null);
+     * // r3 is double[0][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][] r4 = Arrays.toDouble(new short[0][]);
+     * // r4 is double[0][]  (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
@@ -14339,9 +19531,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * short[][][] source = {{{1, 2}}, {{3, 4}}};
      * double[][][] result = Arrays.toDouble(source);
      * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     *
+     * // Negative values
+     * double[][][] r2 = Arrays.toDouble(new short[][][]{{{-10, -20}}, {{-30, -40}}});
+     * // r2 is {{{-10.0, -20.0}}, {{-30.0, -40.0}}}
+     *
+     * // null input returns empty array
+     * double[][][] r3 = Arrays.toDouble((short[][][]) null);
+     * // r3 is double[0][][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][][] r4 = Arrays.toDouble(new short[0][][]);
+     * // r4 is double[0][][]  (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
@@ -14371,9 +19576,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * int[] source = {1, 2, 3};
      * double[] result = Arrays.toDouble(source);
      * // result is {1.0, 2.0, 3.0}
+     *
+     * // Negative and large values (all exact)
+     * double[] r2 = Arrays.toDouble(new int[]{-5, -1000000, Integer.MAX_VALUE});
+     * // r2 is {-5.0, -1000000.0, 2.147483647E9}
+     *
+     * // null input returns empty array
+     * double[] r3 = Arrays.toDouble((int[]) null);
+     * // r3 is double[0]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[] r4 = Arrays.toDouble(new int[0]);
+     * // r4 is double[0]  (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
@@ -14405,9 +19623,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * int[][] source = {{1, 2}, {3, 4}};
      * double[][] result = Arrays.toDouble(source);
      * // result is {{1.0, 2.0}, {3.0, 4.0}}
+     *
+     * // Negative values
+     * double[][] r2 = Arrays.toDouble(new int[][]{{-1, -2}, {-3, -4}});
+     * // r2 is {{-1.0, -2.0}, {-3.0, -4.0}}
+     *
+     * // null input returns empty array
+     * double[][] r3 = Arrays.toDouble((int[][]) null);
+     * // r3 is double[0][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][] r4 = Arrays.toDouble(new int[0][]);
+     * // r4 is double[0][]  (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
@@ -14438,9 +19669,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * int[][][] source = {{{1, 2}}, {{3, 4}}};
      * double[][][] result = Arrays.toDouble(source);
      * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     *
+     * // Negative values
+     * double[][][] r2 = Arrays.toDouble(new int[][][]{{{-1, -2}}, {{-3, -4}}});
+     * // r2 is {{{-1.0, -2.0}}, {{-3.0, -4.0}}}
+     *
+     * // null input returns empty array
+     * double[][][] r3 = Arrays.toDouble((int[][][]) null);
+     * // r3 is double[0][][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][][] r4 = Arrays.toDouble(new int[0][][]);
+     * // r4 is double[0][][]  (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
@@ -14471,9 +19715,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[] source = {1L, 2L, 9007199254740992L};
+     * // Basic conversion (small exact values)
+     * long[] source = {1L, 2L, -3L};
      * double[] result = Arrays.toDouble(source);
-     * // result is {1.0, 2.0, 9.007199254740992E15}
+     * // result is {1.0, 2.0, -3.0}
+     *
+     * // Large value exactly representable: 2^53 = 9007199254740992L
+     * double[] r2 = Arrays.toDouble(new long[]{9007199254740992L});
+     * // r2 is {9.007199254740992E15}
+     *
+     * // null input returns empty array
+     * double[] r3 = Arrays.toDouble((long[]) null);
+     * // r3 is double[0]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[] r4 = Arrays.toDouble(new long[0]);
+     * // r4 is double[0]  (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
@@ -14505,9 +19762,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * long[][] source = {{1L, 2L}, {3L, 4L}};
      * double[][] result = Arrays.toDouble(source);
      * // result is {{1.0, 2.0}, {3.0, 4.0}}
+     *
+     * // Negative values
+     * double[][] r2 = Arrays.toDouble(new long[][]{{-1L, -2L}, {-3L, -4L}});
+     * // r2 is {{-1.0, -2.0}, {-3.0, -4.0}}
+     *
+     * // null input returns empty array
+     * double[][] r3 = Arrays.toDouble((long[][]) null);
+     * // r3 is double[0][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][] r4 = Arrays.toDouble(new long[0][]);
+     * // r4 is double[0][]  (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
@@ -14538,9 +19808,22 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Basic conversion
      * long[][][] source = {{{1L, 2L}}, {{3L, 4L}}};
      * double[][][] result = Arrays.toDouble(source);
      * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     *
+     * // Negative values
+     * double[][][] r2 = Arrays.toDouble(new long[][][]{{{-1L, -2L}}, {{-3L, -4L}}});
+     * // r2 is {{{-1.0, -2.0}}, {{-3.0, -4.0}}}
+     *
+     * // null input returns empty array
+     * double[][][] r3 = Arrays.toDouble((long[][][]) null);
+     * // r3 is double[0][][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][][] r4 = Arrays.toDouble(new long[0][][]);
+     * // r4 is double[0][][]  (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
@@ -14570,10 +19853,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[] source = {1.1f, 2.2f, 3.3f};
+     * // Exact float values widen without surprise
+     * float[] source = {1.5f, 2.25f, -0.5f};
      * double[] result = Arrays.toDouble(source);
-     * // result is approximately {1.100000023841858, 2.200000047683716, 3.299999952316284}
-     * // (the original 1.1f is itself an approximation of 1.1)
+     * // result is {1.5, 2.25, -0.5}
+     *
+     * // Non-exact floats expose their internal approximation on widening
+     * float[] source2 = {1.1f, 2.2f, 3.3f};
+     * double[] result2 = Arrays.toDouble(source2);
+     * // result2 is {1.100000023841858, 2.200000047683716, 3.299999952316284}
+     *
+     * // null input returns empty array
+     * double[] r3 = Arrays.toDouble((float[]) null);
+     * // r3 is double[0]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[] r4 = Arrays.toDouble(new float[0]);
+     * // r4 is double[0]  (length 0)
      * }</pre>
      *
      * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
@@ -14604,9 +19900,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][] source = {{1.1f, 2.2f}, {3.3f, 4.4f}};
+     * // Exact float values
+     * float[][] source = {{1.5f, 2.25f}, {-0.5f, 4.0f}};
      * double[][] result = Arrays.toDouble(source);
-     * // result is a two-dimensional double array with converted values.
+     * // result is {{1.5, 2.25}, {-0.5, 4.0}}
+     *
+     * // Non-exact floats expose their approximation on widening
+     * float[][] source2 = {{1.1f, 2.2f}, {3.3f, 4.4f}};
+     * double[][] result2 = Arrays.toDouble(source2);
+     * // result2 is {{1.100000023841858, 2.200000047683716}, {3.299999952316284, 4.400000095367432}}
+     *
+     * // null input returns empty array
+     * double[][] r3 = Arrays.toDouble((float[][]) null);
+     * // r3 is double[0][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][] r4 = Arrays.toDouble(new float[0][]);
+     * // r4 is double[0][]  (length 0)
      * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
@@ -14637,9 +19947,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[][][] source = {{{1.1f, 2.2f}}, {{3.3f, 4.4f}}};
+     * // Exact float values
+     * float[][][] source = {{{1.5f, 2.25f}}, {{-0.5f, 4.0f}}};
      * double[][][] result = Arrays.toDouble(source);
-     * // result is a three-dimensional double array with converted values.
+     * // result is {{{1.5, 2.25}}, {{-0.5, 4.0}}}
+     *
+     * // Non-exact floats expose their approximation on widening
+     * float[][][] source2 = {{{1.1f, 2.2f}}, {{3.3f, 4.4f}}};
+     * double[][][] result2 = Arrays.toDouble(source2);
+     * // result2 is {{{1.100000023841858, 2.200000047683716}}, {{3.299999952316284, 4.400000095367432}}}
+     *
+     * // null input returns empty array
+     * double[][][] r3 = Arrays.toDouble((float[][][]) null);
+     * // r3 is double[0][][]  (length 0)
+     *
+     * // empty input returns empty array
+     * double[][][] r4 = Arrays.toDouble(new float[0][][]);
+     * // r4 is double[0][][]  (length 0)
      * }</pre>
      *
      * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
@@ -14700,9 +20024,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse strings to integers
          * String[] strings = {"1", "2", "3"};
          * Integer[] ints = Arrays.f.map(strings, Integer::valueOf, Integer.class);
-         * // Result: [1, 2, 3]
+         * // returns [1, 2, 3]
+         *
+         * // basic: extract string lengths
+         * String[] words = {"hi", "hello"};
+         * Integer[] lens = Arrays.f.map(words, String::length, Integer.class);
+         * // returns [2, 5]
+         *
+         * // edge: null input -> empty array of targetElementType
+         * Integer[] r1 = Arrays.f.map((String[]) null, Integer::valueOf, Integer.class);
+         * // returns []  (length 0)
+         *
+         * // edge: empty input -> empty array of targetElementType
+         * Integer[] r2 = Arrays.f.map(new String[0], Integer::valueOf, Integer.class);
+         * // returns []  (length 0)
+         *
+         * // edge: single-element array
+         * String[] single = {"42"};
+         * Integer[] r3 = Arrays.f.map(single, Integer::valueOf, Integer.class);
+         * // returns [42]
          * }</pre>
          *
          * @param <T> the type of elements in the input array.
@@ -14736,9 +20079,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: test string length threshold
          * String[] words = {"hello", "hi", "world"};
          * boolean[] longWords = Arrays.f.mapToBoolean(words, s -> s.length() > 3);
-         * // Result: [true, false, true]
+         * // returns [true, false, true]
+         *
+         * // basic: test for a specific value
+         * String[] flags = {"yes", "no", "yes"};
+         * boolean[] isYes = Arrays.f.mapToBoolean(flags, s -> s.equals("yes"));
+         * // returns [true, false, true]
+         *
+         * // edge: null input -> empty boolean[]
+         * boolean[] r1 = Arrays.f.mapToBoolean((String[]) null, s -> s.isEmpty());
+         * // returns []  (length 0)
+         *
+         * // edge: empty input -> empty boolean[]
+         * boolean[] r2 = Arrays.f.mapToBoolean(new String[0], s -> s.isEmpty());
+         * // returns []  (length 0)
+         *
+         * // edge: single-element array
+         * String[] single = {"yes"};
+         * boolean[] r3 = Arrays.f.mapToBoolean(single, s -> s.equals("yes"));
+         * // returns [true]
          * }</pre>
          *
          * @param <T> the type of elements in the input array.
@@ -14769,9 +20131,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: extract the first character of each string
          * String[] words = {"apple", "banana", "cherry"};
          * char[] firstChars = Arrays.f.mapToChar(words, s -> s.charAt(0));
-         * // Result: ['a', 'b', 'c']
+         * // returns ['a', 'b', 'c']
+         *
+         * // basic: extract the last character of each string
+         * String[] words2 = {"xyz", "abc"};
+         * char[] lastChars = Arrays.f.mapToChar(words2, s -> s.charAt(s.length() - 1));
+         * // returns ['z', 'c']
+         *
+         * // edge: null input -> empty char[]
+         * char[] r1 = Arrays.f.mapToChar((String[]) null, s -> s.charAt(0));
+         * // returns []  (length 0)
+         *
+         * // edge: empty input -> empty char[]
+         * char[] r2 = Arrays.f.mapToChar(new String[0], s -> s.charAt(0));
+         * // returns []  (length 0)
+         *
+         * // edge: single-element array
+         * String[] single = {"xyz"};
+         * char[] r3 = Arrays.f.mapToChar(single, s -> s.charAt(2));
+         * // returns ['z']
          * }</pre>
          *
          * @param <T> the type of elements in the input array.
@@ -14802,9 +20183,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse numeric strings to byte values
          * String[] numbers = {"10", "20", "30"};
          * byte[] bytes = Arrays.f.mapToByte(numbers, Byte::parseByte);
-         * // Result: [10, 20, 30]
+         * // returns [10, 20, 30]
+         *
+         * // basic: map to byte boundary value
+         * String[] max = {"127", "-128"};
+         * byte[] bounds = Arrays.f.mapToByte(max, Byte::parseByte);
+         * // returns [127, -128]
+         *
+         * // edge: null input -> empty byte[]
+         * byte[] r1 = Arrays.f.mapToByte((String[]) null, Byte::parseByte);
+         * // returns []  (length 0)
+         *
+         * // edge: empty input -> empty byte[]
+         * byte[] r2 = Arrays.f.mapToByte(new String[0], Byte::parseByte);
+         * // returns []  (length 0)
+         *
+         * // edge: single-element array
+         * String[] single = {"127"};
+         * byte[] r3 = Arrays.f.mapToByte(single, Byte::parseByte);
+         * // returns [127]
          * }</pre>
          *
          * @param <T> the type of elements in the input array.
@@ -14835,9 +20235,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse numeric strings to short values
          * String[] numbers = {"100", "200", "300"};
          * short[] shorts = Arrays.f.mapToShort(numbers, Short::parseShort);
-         * // Result: [100, 200, 300]
+         * // returns [100, 200, 300]
+         *
+         * // basic: map to short boundary value
+         * String[] max = {"32767"};
+         * short[] bounds = Arrays.f.mapToShort(max, Short::parseShort);
+         * // returns [32767]
+         *
+         * // edge: null input -> empty short[]
+         * short[] r1 = Arrays.f.mapToShort((String[]) null, Short::parseShort);
+         * // returns []  (length 0)
+         *
+         * // edge: empty input -> empty short[]
+         * short[] r2 = Arrays.f.mapToShort(new String[0], Short::parseShort);
+         * // returns []  (length 0)
+         *
+         * // edge: single-element array
+         * String[] single = {"32767"};
+         * short[] r3 = Arrays.f.mapToShort(single, Short::parseShort);
+         * // returns [32767]
          * }</pre>
          *
          * @param <T> the type of elements in the input array.
@@ -14869,9 +20288,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse numeric strings to int values
          * String[] numbers = {"10", "20", "30"};
          * int[] ints = Arrays.f.mapToInt(numbers, Integer::parseInt);
-         * // Result: [10, 20, 30]
+         * // returns [10, 20, 30]
+         *
+         * // basic: extract string lengths
+         * String[] words = {"hi", "hello", "hey"};
+         * int[] lengths = Arrays.f.mapToInt(words, String::length);
+         * // returns [2, 5, 3]
+         *
+         * // edge: null input -> empty int[]
+         * int[] r1 = Arrays.f.mapToInt((String[]) null, Integer::parseInt);
+         * // returns []  (length 0)
+         *
+         * // edge: empty input -> empty int[]
+         * int[] r2 = Arrays.f.mapToInt(new String[0], Integer::parseInt);
+         * // returns []  (length 0)
+         *
+         * // edge: single-element array
+         * String[] single = {"42"};
+         * int[] r3 = Arrays.f.mapToInt(single, Integer::parseInt);
+         * // returns [42]
          * }</pre>
          *
          * @param <T> the type of elements in the input array.
@@ -14903,9 +20341,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse numeric strings to long values
          * String[] numbers = {"1000", "2000", "3000"};
          * long[] longs = Arrays.f.mapToLong(numbers, Long::parseLong);
-         * // Result: [1000L, 2000L, 3000L]
+         * // returns [1000L, 2000L, 3000L]
+         *
+         * // basic: map large values beyond int range
+         * String[] big = {"9999999999", "1000000000000"};
+         * long[] bigs = Arrays.f.mapToLong(big, Long::parseLong);
+         * // returns [9999999999L, 1000000000000L]
+         *
+         * // edge: null input -> empty long[]
+         * long[] r1 = Arrays.f.mapToLong((String[]) null, Long::parseLong);
+         * // returns []  (length 0)
+         *
+         * // edge: empty input -> empty long[]
+         * long[] r2 = Arrays.f.mapToLong(new String[0], Long::parseLong);
+         * // returns []  (length 0)
+         *
+         * // edge: single-element array
+         * String[] single = {"9999999999"};
+         * long[] r3 = Arrays.f.mapToLong(single, Long::parseLong);
+         * // returns [9999999999L]
          * }</pre>
          *
          * @param <T> the type of elements in the input array.
@@ -14937,9 +20394,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse decimal strings to float values
          * String[] numbers = {"1.5", "2.5", "3.5"};
          * float[] floats = Arrays.f.mapToFloat(numbers, Float::parseFloat);
-         * // Result: [1.5f, 2.5f, 3.5f]
+         * // returns [1.5f, 2.5f, 3.5f]
+         *
+         * // basic: map zero and negative values
+         * String[] mixed = {"0.0", "-1.5"};
+         * float[] r = Arrays.f.mapToFloat(mixed, Float::parseFloat);
+         * // returns [0.0f, -1.5f]
+         *
+         * // edge: null input -> empty float[]
+         * float[] r1 = Arrays.f.mapToFloat((String[]) null, Float::parseFloat);
+         * // returns []  (length 0)
+         *
+         * // edge: empty input -> empty float[]
+         * float[] r2 = Arrays.f.mapToFloat(new String[0], Float::parseFloat);
+         * // returns []  (length 0)
+         *
+         * // edge: single-element array
+         * String[] single = {"0.0"};
+         * float[] r3 = Arrays.f.mapToFloat(single, Float::parseFloat);
+         * // returns [0.0f]
          * }</pre>
          *
          * @param <T> the type of elements in the input array.
@@ -14971,9 +20447,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse decimal strings to double values
          * String[] numbers = {"1.5", "2.5", "3.5"};
          * double[] doubles = Arrays.f.mapToDouble(numbers, Double::parseDouble);
-         * // Result: [1.5, 2.5, 3.5]
+         * // returns [1.5, 2.5, 3.5]
+         *
+         * // basic: parse Pi and Euler's number
+         * String[] consts = {"3.14159265358979", "2.71828182845905"};
+         * double[] vals = Arrays.f.mapToDouble(consts, Double::parseDouble);
+         * // returns [3.14159265358979, 2.71828182845905]
+         *
+         * // edge: null input -> empty double[]
+         * double[] r1 = Arrays.f.mapToDouble((String[]) null, Double::parseDouble);
+         * // returns []  (length 0)
+         *
+         * // edge: empty input -> empty double[]
+         * double[] r2 = Arrays.f.mapToDouble(new String[0], Double::parseDouble);
+         * // returns []  (length 0)
+         *
+         * // edge: single-element array
+         * String[] single = {"3.14"};
+         * double[] r3 = Arrays.f.mapToDouble(single, Double::parseDouble);
+         * // returns [3.14]
          * }</pre>
          *
          * @param <T> the type of elements in the input array.
@@ -15029,9 +20524,24 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: upper-case every string in a 2D array
          * String[][] array = {{"hello", "world"}, {"foo", "bar"}};
-         * ff.updateAll(array, str -> str.toUpperCase());
+         * Arrays.ff.updateAll(array, str -> str.toUpperCase());
          * // array is now {{"HELLO", "WORLD"}, {"FOO", "BAR"}}
+         *
+         * // Typical: double every integer in a 2D array
+         * Integer[][] nums = {{1, 2}, {3, 4}};
+         * Arrays.ff.updateAll(nums, x -> x * 2);
+         * // nums is now {{2, 4}, {6, 8}}
+         *
+         * // Edge: null array is a no-op (no exception thrown)
+         * Arrays.ff.updateAll((String[][]) null, str -> str.toUpperCase());
+         * // no exception, no effect
+         *
+         * // Edge: null or empty sub-arrays are skipped
+         * String[][] jagged = {{"a", "b"}, null, {"c"}};
+         * Arrays.ff.updateAll(jagged, s -> s + "!");
+         * // jagged is now {{"a!", "b!"}, null, {"c!"}}
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -15065,9 +20575,24 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: replace null elements with a sentinel value
          * Integer[][] array = {{1, null, 3}, {null, 5, 6}};
-         * ff.replaceIf(array, val -> val == null, 0);
+         * Arrays.ff.replaceIf(array, val -> val == null, 0);
          * // array is now {{1, 0, 3}, {0, 5, 6}}
+         *
+         * // Typical: cap values above a threshold
+         * Integer[][] scores = {{80, 110, 95}, {120, 75}};
+         * Arrays.ff.replaceIf(scores, val -> val > 100, 100);
+         * // scores is now {{80, 100, 95}, {100, 75}}
+         *
+         * // Edge: null array is a no-op (no exception thrown)
+         * Arrays.ff.replaceIf((Integer[][]) null, val -> val == null, 0);
+         * // no exception, no effect
+         *
+         * // Edge: no elements match - array is left unchanged
+         * Integer[][] noop = {{1, 2}, {3, 4}};
+         * Arrays.ff.replaceIf(noop, val -> val > 100, -1);
+         * // noop is still {{1, 2}, {3, 4}}
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -15105,9 +20630,24 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: 7 elements into rows of 3 (last row is shorter)
          * Integer[] array = {1, 2, 3, 4, 5, 6, 7};
-         * Integer[][] reshaped = ff.reshape(array, 3);
+         * Integer[][] reshaped = Arrays.ff.reshape(array, 3);
          * // reshaped is {{1, 2, 3}, {4, 5, 6}, {7}}
+         *
+         * // Typical: exact fit - 4 elements into 2 columns
+         * Integer[] even = {1, 2, 3, 4};
+         * Integer[][] grid = Arrays.ff.reshape(even, 2);
+         * // grid is {{1, 2}, {3, 4}}
+         *
+         * // Edge: empty input produces an empty 2D array
+         * Integer[] empty = {};
+         * Integer[][] result = Arrays.ff.reshape(empty, 3);
+         * // result has length 0
+         *
+         * // Edge: null input or non-positive column count throws
+         * Arrays.ff.reshape((Integer[]) null, 3);    // throws IllegalArgumentException
+         * Arrays.ff.reshape(new Integer[]{1, 2}, 0); // throws IllegalArgumentException
          * }</pre>
          *
          * @param <T> the component type of the array.
@@ -15145,9 +20685,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: jagged 2D array -> flat 1D array in row-major order
          * Integer[][] array = {{1, 2}, {3, 4, 5}, {6}};
-         * Integer[] flattened = ff.flatten(array);
+         * Integer[] flattened = Arrays.ff.flatten(array);
          * // flattened is {1, 2, 3, 4, 5, 6}
+         *
+         * // Typical: null sub-arrays are skipped (not treated as elements)
+         * Integer[][] jagged = {{1, 2}, null, {3}};
+         * Integer[] result = Arrays.ff.flatten(jagged);
+         * // result is {1, 2, 3}
+         *
+         * // Edge: empty outer array (length 0) returns an empty 1D array
+         * Integer[][] empty = new Integer[0][];
+         * Integer[] r2 = Arrays.ff.flatten(empty);
+         * // r2 has length 0
+         *
+         * // Edge: null input throws
+         * Arrays.ff.flatten((Integer[][]) null); // throws IllegalArgumentException
          * }</pre>
          *
          * @param <T> the component type of the array elements.
@@ -15186,9 +20740,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: sort all elements globally (preserving original row lengths)
          * Integer[][] array = {{3, 1, 4}, {1, 5, 9}};
-         * ff.mutateAsFlat(array, arr -> java.util.Arrays.sort(arr));
+         * Arrays.ff.mutateAsFlat(array, arr -> java.util.Arrays.sort(arr));
          * // array is now {{1, 1, 3}, {4, 5, 9}}
+         *
+         * // Typical: reverse all elements across the 2D array
+         * String[][] words = {{"c", "a"}, {"b"}};
+         * Arrays.ff.mutateAsFlat(words, arr -> {
+         *     for (int i = 0, j = arr.length - 1; i < j; i++, j--) {
+         *         String tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+         *     }
+         * });
+         * // words is now {{"b", "a"}, {"c"}}
+         *
+         * // Edge: null array is a no-op (no exception thrown)
+         * Arrays.ff.mutateAsFlat((Integer[][]) null, arr -> java.util.Arrays.sort(arr));
+         * // no exception, no effect
+         *
+         * // Edge: single-element array - action runs on a 1-element flat array
+         * Integer[][] single = {{42}};
+         * Arrays.ff.mutateAsFlat(single, arr -> {});   // no-op action
+         * // single is still {{42}}
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -15221,16 +20794,32 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of a two-dimensional array to a new value using the provided function.
-         * The mapping preserves the structure of the original array.
+         * Returns a NEW array; the original array is not modified.
          *
          * <p>This method creates a new array with the same dimensions as the input array,
-         * where each element is the result of applying the function to the corresponding input element.</p>
+         * where each element is the result of applying the function to the corresponding input element.
+         * The element type of the result is inferred from {@code a} and widened as needed to hold every
+         * mapped value.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: double every integer (returns a new array; original is unchanged)
          * Integer[][] array = {{1, 2}, {3, 4}};
-         * Integer[][] doubled = ff.map(array, x -> x * 2);
-         * // doubled is {{2, 4}, {6, 8}}
+         * Integer[][] doubled = Arrays.ff.map(array, x -> x * 2);
+         * // doubled is {{2, 4}, {6, 8}}; array is still {{1, 2}, {3, 4}}
+         *
+         * // Typical: transform strings to upper-case
+         * String[][] words = {{"hello", "world"}, {"foo", "bar"}};
+         * String[][] upper = Arrays.ff.map(words, s -> s.toUpperCase());
+         * // upper is {{"HELLO", "WORLD"}, {"FOO", "BAR"}}
+         *
+         * // Edge: single-element 2D array
+         * Integer[][] single = {{7}};
+         * Integer[][] result = Arrays.ff.map(single, x -> x + 1);
+         * // result is {{8}}
+         *
+         * // Edge: null input throws NullPointerException (cannot infer element type)
+         * Arrays.ff.map((Integer[][]) null, x -> x * 2); // throws NullPointerException
          * }</pre>
          *
          * @param <T> the type of elements in both source and result arrays.
@@ -15251,17 +20840,32 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a new type using the provided function.
          * This method allows transformation between different element types.
-         * 
+         *
          * <p>The resulting array has the same structure as the input array but with elements
-         * of the target type.</p>
-         * 
+         * of the target type. If the input is {@code null} or empty, an empty 2D array of the target
+         * type is returned.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: parse String matrix into Integer matrix
          * String[][] array = {{"1", "2"}, {"3", "4"}};
-         * Integer[][] numbers = ff.map(array, Integer::parseInt, Integer.class);
+         * Integer[][] numbers = Arrays.ff.map(array, Integer::parseInt, Integer.class);
          * // numbers is {{1, 2}, {3, 4}}
+         *
+         * // Typical: extract lengths of strings
+         * String[][] words = {{"hi", "hello"}, {"bye"}};
+         * Integer[][] lengths = Arrays.ff.map(words, String::length, Integer.class);
+         * // lengths is {{2, 5}, {3}}
+         *
+         * // Edge: null input returns an empty 2D array (no exception)
+         * Integer[][] r1 = Arrays.ff.map((String[][]) null, Integer::parseInt, Integer.class);
+         * // r1 has length 0
+         *
+         * // Edge: empty input returns an empty 2D array
+         * Integer[][] r2 = Arrays.ff.map(new String[0][], Integer::parseInt, Integer.class);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the source array.
          * @param <R> the type of elements in the result array.
          * @param <E> the type of exception that may be thrown by the function.
@@ -15290,14 +20894,28 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a boolean value using the provided predicate.
          * This method is useful for creating boolean masks or condition arrays.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: create an even-number mask
          * Integer[][] array = {{1, 2, 3}, {4, 5, 6}};
-         * boolean[][] evens = ff.mapToBoolean(array, x -> x % 2 == 0);
+         * boolean[][] evens = Arrays.ff.mapToBoolean(array, x -> x % 2 == 0);
          * // evens is {{false, true, false}, {true, false, true}}
+         *
+         * // Typical: mark non-null cells
+         * String[][] cells = {{"a", null}, {null, "b"}};
+         * boolean[][] nonNull = Arrays.ff.mapToBoolean(cells, s -> s != null);
+         * // nonNull is {{true, false}, {false, true}}
+         *
+         * // Edge: null input returns an empty 2D boolean array
+         * boolean[][] r1 = Arrays.ff.mapToBoolean((Integer[][]) null, x -> x > 0);
+         * // r1 has length 0
+         *
+         * // Edge: empty input returns an empty 2D boolean array
+         * boolean[][] r2 = Arrays.ff.mapToBoolean(new Integer[0][], x -> x > 0);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
@@ -15323,14 +20941,28 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a char value using the provided function.
          * This method is useful for character-based transformations.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: extract first character from each string
          * String[][] array = {{"apple", "banana"}, {"cat", "dog"}};
-         * char[][] firstChars = ff.mapToChar(array, s -> s.charAt(0));
+         * char[][] firstChars = Arrays.ff.mapToChar(array, s -> s.charAt(0));
          * // firstChars is {{'a', 'b'}, {'c', 'd'}}
+         *
+         * // Typical: extract last character from each string
+         * String[][] words = {{"hello", "world"}};
+         * char[][] lastChars = Arrays.ff.mapToChar(words, s -> s.charAt(s.length() - 1));
+         * // lastChars is {{'o', 'd'}}
+         *
+         * // Edge: null input returns an empty 2D char array
+         * char[][] r1 = Arrays.ff.mapToChar((String[][]) null, s -> s.charAt(0));
+         * // r1 has length 0
+         *
+         * // Edge: empty input returns an empty 2D char array
+         * char[][] r2 = Arrays.ff.mapToChar(new String[0][], s -> s.charAt(0));
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
@@ -15356,14 +20988,28 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a byte value using the provided function.
          * This method is useful for byte-level transformations or data compression.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: extract the byte value of each Integer
          * Integer[][] array = {{10, 20}, {30, 40}};
-         * byte[][] bytes = ff.mapToByte(array, Integer::byteValue);
+         * byte[][] bytes = Arrays.ff.mapToByte(array, Integer::byteValue);
          * // bytes is {{10, 20}, {30, 40}}
+         *
+         * // Typical: convert ASCII character codes to bytes
+         * Character[][] chars = {{'A', 'B'}, {'C', 'D'}};
+         * byte[][] codes = Arrays.ff.mapToByte(chars, c -> (byte) c.charValue());
+         * // codes is {{65, 66}, {67, 68}}
+         *
+         * // Edge: null input returns an empty 2D byte array
+         * byte[][] r1 = Arrays.ff.mapToByte((Integer[][]) null, Integer::byteValue);
+         * // r1 has length 0
+         *
+         * // Edge: empty input returns an empty 2D byte array
+         * byte[][] r2 = Arrays.ff.mapToByte(new Integer[0][], Integer::byteValue);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
@@ -15389,14 +21035,28 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a short value using the provided function.
          * This method provides type-safe conversion to short primitive arrays.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: extract the short value of each Integer
          * Integer[][] array = {{100, 200}, {300, 400}};
-         * short[][] shorts = ff.mapToShort(array, Integer::shortValue);
+         * short[][] shorts = Arrays.ff.mapToShort(array, Integer::shortValue);
          * // shorts is {{100, 200}, {300, 400}}
+         *
+         * // Typical: convert Long values to short (narrowing)
+         * Long[][] longs = {{1000L, 2000L}, {3000L}};
+         * short[][] sv = Arrays.ff.mapToShort(longs, Long::shortValue);
+         * // sv is {{1000, 2000}, {3000}}
+         *
+         * // Edge: null input returns an empty 2D short array
+         * short[][] r1 = Arrays.ff.mapToShort((Integer[][]) null, Integer::shortValue);
+         * // r1 has length 0
+         *
+         * // Edge: empty input returns an empty 2D short array
+         * short[][] r2 = Arrays.ff.mapToShort(new Integer[0][], Integer::shortValue);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
@@ -15422,14 +21082,28 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to an int value using the provided function.
          * This is one of the most commonly used primitive mapping operations.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: parse string matrix into int matrix
          * String[][] array = {{"10", "20"}, {"30", "40"}};
-         * int[][] numbers = ff.mapToInt(array, Integer::parseInt);
+         * int[][] numbers = Arrays.ff.mapToInt(array, Integer::parseInt);
          * // numbers is {{10, 20}, {30, 40}}
+         *
+         * // Typical: get string length for each cell
+         * String[][] words = {{"hi", "hello"}, {"bye"}};
+         * int[][] lengths = Arrays.ff.mapToInt(words, String::length);
+         * // lengths is {{2, 5}, {3}}
+         *
+         * // Edge: null input returns an empty 2D int array
+         * int[][] r1 = Arrays.ff.mapToInt((String[][]) null, Integer::parseInt);
+         * // r1 has length 0
+         *
+         * // Edge: empty input returns an empty 2D int array
+         * int[][] r2 = Arrays.ff.mapToInt(new String[0][], Integer::parseInt);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
@@ -15455,14 +21129,28 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a long value using the provided function.
          * This method is useful for converting to long primitive arrays for large numeric values.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: parse large number strings into long matrix
          * String[][] array = {{"1000000", "2000000"}, {"3000000", "4000000"}};
-         * long[][] longs = ff.mapToLong(array, Long::parseLong);
+         * long[][] longs = Arrays.ff.mapToLong(array, Long::parseLong);
          * // longs is {{1000000L, 2000000L}, {3000000L, 4000000L}}
+         *
+         * // Typical: widen Integer values to long
+         * Integer[][] ints = {{10, 20}, {30, 40}};
+         * long[][] widened = Arrays.ff.mapToLong(ints, Integer::longValue);
+         * // widened is {{10L, 20L}, {30L, 40L}}
+         *
+         * // Edge: null input returns an empty 2D long array
+         * long[][] r1 = Arrays.ff.mapToLong((String[][]) null, Long::parseLong);
+         * // r1 has length 0
+         *
+         * // Edge: empty input returns an empty 2D long array
+         * long[][] r2 = Arrays.ff.mapToLong(new String[0][], Long::parseLong);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
@@ -15488,14 +21176,28 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a float value using the provided function.
          * This method enables conversion to floating-point primitive arrays.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: parse float strings into float matrix
          * String[][] array = {{"1.5", "2.5"}, {"3.5", "4.5"}};
-         * float[][] floats = ff.mapToFloat(array, Float::parseFloat);
+         * float[][] floats = Arrays.ff.mapToFloat(array, Float::parseFloat);
          * // floats is {{1.5f, 2.5f}, {3.5f, 4.5f}}
+         *
+         * // Typical: convert Integer values to float
+         * Integer[][] ints = {{1, 2}, {3, 4}};
+         * float[][] fv = Arrays.ff.mapToFloat(ints, Integer::floatValue);
+         * // fv is {{1.0f, 2.0f}, {3.0f, 4.0f}}
+         *
+         * // Edge: null input returns an empty 2D float array
+         * float[][] r1 = Arrays.ff.mapToFloat((String[][]) null, Float::parseFloat);
+         * // r1 has length 0
+         *
+         * // Edge: empty input returns an empty 2D float array
+         * float[][] r2 = Arrays.ff.mapToFloat(new String[0][], Float::parseFloat);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
@@ -15521,14 +21223,28 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a double value using the provided function.
          * This method provides the highest precision for numeric conversions.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: parse double strings into double matrix
          * String[][] array = {{"1.234", "2.345"}, {"3.456", "4.567"}};
-         * double[][] doubles = ff.mapToDouble(array, Double::parseDouble);
+         * double[][] doubles = Arrays.ff.mapToDouble(array, Double::parseDouble);
          * // doubles is {{1.234, 2.345}, {3.456, 4.567}}
+         *
+         * // Typical: convert Integer values to double
+         * Integer[][] ints = {{1, 2}, {3, 4}};
+         * double[][] dv = Arrays.ff.mapToDouble(ints, Integer::doubleValue);
+         * // dv is {{1.0, 2.0}, {3.0, 4.0}}
+         *
+         * // Edge: null input returns an empty 2D double array
+         * double[][] r1 = Arrays.ff.mapToDouble((String[][]) null, Double::parseDouble);
+         * // r1 has length 0
+         *
+         * // Edge: empty input returns an empty 2D double array
+         * double[][] r2 = Arrays.ff.mapToDouble(new String[0][], Double::parseDouble);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
@@ -15553,19 +21269,36 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Combines corresponding elements from two two-dimensional arrays using a binary function.
-         * The result has dimensions equal to the minimum dimensions of the input arrays.
-         * 
+         * The result has dimensions equal to the minimum dimensions of the input arrays; extra elements
+         * in either array are silently ignored.
+         *
          * <p>This method pairs elements at the same positions and applies the zip function.
-         * If arrays have different dimensions, extra elements are ignored.</p>
-         * 
+         * Both the outer length and the inner (row) length are truncated to the shorter of the two arrays.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: element-wise sum of two same-size 2D arrays
          * Integer[][] a = {{1, 2}, {3, 4}};
          * Integer[][] b = {{10, 20}, {30, 40}};
-         * Integer[][] sums = ff.zip(a, b, (x, y) -> x + y);
+         * Integer[][] sums = Arrays.ff.zip(a, b, (x, y) -> x + y);
          * // sums is {{11, 22}, {33, 44}}
+         *
+         * // Typical: jagged arrays - each row truncates to the shorter row
+         * Integer[][] a2 = {{1, 2, 3}, {4, 5}};
+         * Integer[][] b2 = {{10, 20}, {30, 40, 50}};
+         * Integer[][] r = Arrays.ff.zip(a2, b2, (x, y) -> x + y);
+         * // r is {{11, 22}, {34, 45}}  (row0: min(3,2)=2; row1: min(2,3)=2)
+         *
+         * // Edge: b has fewer outer rows - outer length truncates to min(2,1)=1
+         * Integer[][] a3 = {{1, 2}, {3, 4}};
+         * Integer[][] b3 = {{10, 20}};
+         * Integer[][] r2 = Arrays.ff.zip(a3, b3, (x, y) -> x + y);
+         * // r2 is {{11, 22}}  (second row of a3 is ignored)
+         *
+         * // Edge: null a throws IllegalArgumentException
+         * Arrays.ff.zip((Integer[][]) null, b, (x, y) -> x + y); // throws IllegalArgumentException
          * }</pre>
-         * 
+         *
          * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <E> the type of exception that may be thrown by the zip function.
@@ -15587,16 +21320,32 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Combines corresponding elements from two two-dimensional arrays into a new array of a specified type.
-         * This method allows the result type to differ from the input types.
-         * 
+         * This method allows the result type to differ from the input types. The result dimensions are
+         * equal to the minimum dimensions of the two input arrays; extra elements are silently ignored.
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: concatenate integer and string at each position
          * Integer[][] a = {{1, 2}, {3, 4}};
          * String[][] b = {{"a", "b"}, {"c", "d"}};
-         * String[][] combined = ff.zip(a, b, (i, s) -> i + s, String.class);
+         * String[][] combined = Arrays.ff.zip(a, b, (i, s) -> i + s, String.class);
          * // combined is {{"1a", "2b"}, {"3c", "4d"}}
+         *
+         * // Typical: build formatted cells from two different-typed matrices
+         * Integer[][] nums = {{10, 20}};
+         * String[][] labels = {{"X", "Y"}, {"Z"}};
+         * String[][] tagged = Arrays.ff.zip(nums, labels, (n, l) -> n + l, String.class);
+         * // tagged is {{"10X", "20Y"}}  (outer truncates to min(1,2)=1)
+         *
+         * // Edge: null a returns an empty 2D array of the target type
+         * String[][] r1 = Arrays.ff.zip((Integer[][]) null, b, (i, s) -> i + s, String.class);
+         * // r1 has length 0
+         *
+         * // Edge: null b returns an empty 2D array of the target type
+         * String[][] r2 = Arrays.ff.zip(a, (String[][]) null, (i, s) -> i + s, String.class);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <A> the element type of the first array.
          * @param <B> the element type of the second array.
          * @param <R> the element type of the result array.
@@ -15633,19 +21382,37 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Combines elements from two two-dimensional arrays with default values for missing elements.
-         * The result has dimensions equal to the maximum dimensions of the input arrays.
-         * 
-         * <p>When one array is shorter than the other, the default values are used
-         * for the missing elements during combination.</p>
-         * 
+         * The result has dimensions equal to the maximum dimensions of the input arrays; missing positions
+         * in the shorter array are filled with the corresponding default value before applying the function.
+         *
+         * <p>When one array is shorter than the other (outer or inner), the default value for that array is
+         * substituted for the missing element. Both outer and inner lengths pad independently to the maximum.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: rows of different inner lengths - shorter row pads with default
          * Integer[][] a = {{1, 2}, {3}};
          * Integer[][] b = {{10}, {30, 40}};
-         * Integer[][] sums = ff.zip(a, b, 0, 0, (x, y) -> x + y);
+         * Integer[][] sums = Arrays.ff.zip(a, b, 0, 0, (x, y) -> x + y);
          * // sums is {{11, 2}, {33, 40}}
+         * // row 0: max(2,1)=2 -> [1+10=11, 2+0=2]
+         * // row 1: max(1,2)=2 -> [3+30=33, 0+40=40]
+         *
+         * // Typical: a has fewer outer rows than b - missing rows treated as null (use defaultA)
+         * Integer[][] a2 = {{1, 2}};
+         * Integer[][] b2 = {{10}, {30, 40}};
+         * Integer[][] r = Arrays.ff.zip(a2, b2, 0, 0, (x, y) -> x + y);
+         * // r is {{11, 2}, {30, 40}}  (row 1 of a2 is missing -> zip(null, b2[1], 0, 0, ...) = [0+30, 0+40])
+         *
+         * // Edge: both null - throws because element type cannot be inferred
+         * Arrays.ff.zip((Integer[][]) null, (Integer[][]) null, (Integer) null, (Integer) null,
+         *               (x, y) -> x + y); // throws IllegalArgumentException
+         *
+         * // Edge: a is null but defaultValueA is non-null - type inferred from defaultValueA
+         * Integer[][] r2 = Arrays.ff.zip((Integer[][]) null, b, 0, 0, (x, y) -> x + y);
+         * // r2 contains only rows from b, each element combined with 0 (defaultA)
          * }</pre>
-         * 
+         *
          * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <E> the type of exception that may be thrown by the zip function.
@@ -15668,19 +21435,37 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Combines elements from two two-dimensional arrays into a result array of a specified type,
-         * using default values for missing elements.
-         * 
-         * <p>This is the most flexible zip operation, allowing different input and output types
-         * while handling arrays of different sizes gracefully.</p>
-         * 
+         * using default values for missing elements. This is the most flexible binary zip operation,
+         * allowing different input and output types while handling arrays of different sizes gracefully.
+         *
+         * <p>Result dimensions equal the maximum of the two input dimensions. When one side is shorter,
+         * its default value is substituted. Both outer and inner dimensions pad independently.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: different types, different row lengths - pads with defaults
          * Integer[][] a = {{1}, {2, 3}};
          * String[][] b = {{"X", "Y"}, {"Z"}};
-         * String[][] result = ff.zip(a, b, 0, "-", (i, s) -> i + s, String.class);
+         * String[][] result = Arrays.ff.zip(a, b, 0, "-", (i, s) -> i + s, String.class);
          * // result is {{"1X", "0Y"}, {"2Z", "3-"}}
+         * // row 0: max(1,2)=2 -> ["1X", "0Y"]
+         * // row 1: max(2,1)=2 -> ["2Z", "3-"]
+         *
+         * // Typical: both null inputs return an empty result
+         * String[][] r = Arrays.ff.zip((Integer[][]) null, (String[][]) null, 0, "-",
+         *                              (i, s) -> i + s, String.class);
+         * // r has length 0
+         *
+         * // Edge: a is null, b has 2 rows - zip(null, b[i], 0, "-", ...) for each row
+         * String[][] r2 = Arrays.ff.zip((Integer[][]) null, b, 0, "-", (i, s) -> i + s, String.class);
+         * // r2 is {{"0X", "0Y"}, {"0Z"}}  (all a-side elements are 0 = defaultA)
+         *
+         * // Edge: single-row, single-column arrays
+         * String[][] r3 = Arrays.ff.zip(new Integer[][]{{5}}, new String[][]{{"!"}},
+         *                               0, "-", (i, s) -> i + s, String.class);
+         * // r3 is {{"5!"}}
          * }</pre>
-         * 
+         *
          * @param <A> the element type of the first array.
          * @param <B> the element type of the second array.
          * @param <R> the element type of the result array.
@@ -15721,17 +21506,34 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Combines corresponding elements from three two-dimensional arrays using a tri-function.
-         * The result has dimensions equal to the minimum dimensions of all input arrays.
-         * 
+         * The result has dimensions equal to the minimum dimensions of all three input arrays;
+         * extra elements in any array are silently ignored.
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: element-wise sum of three same-size 2D arrays
          * Integer[][] a = {{1, 2}, {3, 4}};
          * Integer[][] b = {{10, 20}, {30, 40}};
          * Integer[][] c = {{100, 200}, {300, 400}};
-         * Integer[][] sums = ff.zip(a, b, c, (x, y, z) -> x + y + z);
+         * Integer[][] sums = Arrays.ff.zip(a, b, c, (x, y, z) -> x + y + z);
          * // sums is {{111, 222}, {333, 444}}
+         *
+         * // Typical: a has only 1 row - outer truncates to min(1,2,2)=1
+         * Integer[][] a2 = {{1, 2}};
+         * Integer[][] b2 = {{10, 20}, {30, 40}};
+         * Integer[][] c2 = {{100, 200}, {300, 400}};
+         * Integer[][] r = Arrays.ff.zip(a2, b2, c2, (x, y, z) -> x + y + z);
+         * // r is {{111, 222}}
+         *
+         * // Edge: null a throws IllegalArgumentException
+         * Arrays.ff.zip((Integer[][]) null, b, c, (x, y, z) -> x + y + z);
+         * // throws IllegalArgumentException
+         *
+         * // Edge: one of b or c is null - treated as empty, outer length is min(lenA,0,lenC)=0
+         * Integer[][] r2 = Arrays.ff.zip(a, (Integer[][]) null, c, (x, y, z) -> x + y + z);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
@@ -15755,17 +21557,37 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Combines elements from three two-dimensional arrays into a new array of a specified type.
-         * This method allows flexible type transformation when combining three arrays.
-         * 
+         * This method allows flexible type transformation when combining three arrays. The result
+         * dimensions are equal to the minimum dimensions of all three input arrays.
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: format a label from three different typed matrices
          * Integer[][] a = {{1}, {2}};
          * Double[][] b = {{1.5, 2.5}, {3.5}};
          * String[][] c = {{"A"}, {"B", "C"}};
-         * String[][] result = ff.zip(a, b, c, (i, d, s) -> i + ":" + d + ":" + s, String.class);
+         * String[][] result = Arrays.ff.zip(a, b, c, (i, d, s) -> i + ":" + d + ":" + s, String.class);
          * // result is {{"1:1.5:A"}, {"2:3.5:B"}}
+         * // row 0: min(1,2,1)=1; row 1: min(1,1,2)=1
+         *
+         * // Typical: combine three matrices of same size
+         * Integer[][] x = {{1, 2}, {3, 4}};
+         * Integer[][] y = {{10, 20}, {30, 40}};
+         * Integer[][] z = {{100, 200}, {300, 400}};
+         * String[][] labels = Arrays.ff.zip(x, y, z, (a2, b2, c2) -> a2 + "+" + b2 + "+" + c2, String.class);
+         * // labels is {{"1+10+100", "2+20+200"}, {"3+30+300", "4+40+400"}}
+         *
+         * // Edge: null a returns an empty 2D result (outer = min(0,...) = 0)
+         * String[][] r1 = Arrays.ff.zip((Integer[][]) null, b, c,
+         *                               (i, d, s) -> i + ":" + d + ":" + s, String.class);
+         * // r1 has length 0
+         *
+         * // Edge: null b returns an empty 2D result
+         * String[][] r2 = Arrays.ff.zip(a, (Double[][]) null, c,
+         *                               (i, d, s) -> i + ":" + d + ":" + s, String.class);
+         * // r2 has length 0
          * }</pre>
-         * 
+         *
          * @param <A> the element type of the first array.
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
@@ -15806,17 +21628,37 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Combines elements from three two-dimensional arrays with default values for missing elements.
-         * The result has dimensions equal to the maximum dimensions of all input arrays.
-         * 
+         * The result has dimensions equal to the maximum dimensions of all input arrays; missing positions
+         * are filled with the corresponding default values before applying the function.
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: b has only 1 row, a and c have 2 rows
          * Integer[][] a = {{1}, {2, 3}};
          * Integer[][] b = {{10, 20}};
          * Integer[][] c = {{100}, {200, 300}};
-         * Integer[][] sums = ff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+         * Integer[][] sums = Arrays.ff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
          * // sums is {{111, 20}, {202, 303}}
+         * // row 0: max(1,2,1)=2 -> [1+10+100=111, 0+20+0=20]
+         * // row 1: b is missing -> zip(a[1], null, c[1], ...) -> max(2,0,2)=2 -> [2+0+200=202, 3+0+300=303]
+         *
+         * // Typical: all same size with a defaulted inner element
+         * Integer[][] a2 = {{5, 6}};
+         * Integer[][] b2 = {{1}};
+         * Integer[][] c2 = {{10, 20}};
+         * Integer[][] r = Arrays.ff.zip(a2, b2, c2, 0, 0, 0, (x, y, z) -> x + y + z);
+         * // r is {{16, 26}}  (row 0: max(2,1,2)=2 -> [5+1+10=16, 6+0+20=26])
+         *
+         * // Edge: all null inputs - throws because element type cannot be inferred
+         * Arrays.ff.zip((Integer[][]) null, (Integer[][]) null, (Integer[][]) null,
+         *               (Integer) null, (Integer) null, (Integer) null,
+         *               (x, y, z) -> x + y + z); // throws IllegalArgumentException
+         *
+         * // Edge: a is null but defaultValueA is non-null - type inferred from defaultValueA
+         * Integer[][] r2 = Arrays.ff.zip((Integer[][]) null, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+         * // r2 combines b and c rows with a-side always contributing 0
          * }</pre>
-         * 
+         *
          * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
@@ -15842,18 +21684,39 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Combines elements from three two-dimensional arrays into a result array of a specified type,
-         * using default values for missing elements. This is the most flexible three-array zip operation.
-         * 
+         * using default values for missing elements. This is the most flexible three-array zip operation,
+         * allowing different input and output types while padding to the maximum dimensions.
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: three arrays of different sizes and types - pads to max dimensions
          * Integer[][] a = {{1}};
          * String[][] b = {{"X", "Y"}};
          * Double[][] c = {{0.5}, {1.5, 2.5}};
-         * String[][] result = ff.zip(a, b, c, 0, "-", 0.0, 
-         *                           (i, s, d) -> i + s + d, String.class);
+         * String[][] result = Arrays.ff.zip(a, b, c, 0, "-", 0.0,
+         *                                   (i, s, d) -> i + s + d, String.class);
          * // result is {{"1X0.5", "0Y0.0"}, {"0-1.5", "0-2.5"}}
+         * // outer = max(1,1,2) = 2
+         * // row 0: max(1,2,1)=2 -> ["1X0.5", "0Y0.0"]
+         * // row 1: a and b missing -> zip(null,null,c[1]) -> ["0-1.5", "0-2.5"]
+         *
+         * // Typical: all null inputs return empty result
+         * String[][] r = Arrays.ff.zip((Integer[][]) null, (String[][]) null, (Double[][]) null,
+         *                              0, "-", 0.0, (i, s, d) -> i + s + d, String.class);
+         * // r has length 0
+         *
+         * // Edge: single-element arrays
+         * String[][] r2 = Arrays.ff.zip(new Integer[][]{{2}}, new String[][]{{"!"}},
+         *                               new Double[][]{{3.0}}, 0, "-", 0.0,
+         *                               (i, s, d) -> i + s + d, String.class);
+         * // r2 is {{"2!3.0"}}
+         *
+         * // Edge: a is null - all a-side elements use defaultValueA (0)
+         * String[][] r3 = Arrays.ff.zip((Integer[][]) null, b, c, 0, "-", 0.0,
+         *                               (i, s, d) -> i + s + d, String.class);
+         * // r3 is {{"0X0.5", "0Y0.0"}, {"0-1.5", "0-2.5"}}
          * }</pre>
-         * 
+         *
          * @param <A> the element type of the first array.
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
@@ -16083,10 +21946,10 @@ public sealed class Arrays permits Arrays.f {
          * over marker interfaces and {@link Object}.  Lower scores are preferred.
          *
          * <ul>
-         *   <li>3 — {@link Object} (least preferred)</li>
-         *   <li>2 — a marker interface (no declared methods)</li>
-         *   <li>1 — a non-marker interface</li>
-         *   <li>0 — a concrete class (most preferred)</li>
+         *   <li>3 - {@link Object} (least preferred)</li>
+         *   <li>2 - a marker interface (no declared methods)</li>
+         *   <li>1 - a non-marker interface</li>
+         *   <li>0 - a concrete class (most preferred)</li>
          * </ul>
          *
          * @param type the candidate type to score.
@@ -16238,14 +22101,29 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Calculates the total number of elements across all sub-arrays in a two-dimensional array.
          * This method correctly handles jagged arrays and counts null sub-arrays as having zero elements.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: jagged array including a null sub-array
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * long total = ff.elementCount(array);
-         * // total is 6 (3 + 2 + 0 + 1)
+         * long total = Arrays.ff.elementCount(array);
+         * // total is 6  (3 + 2 + 0 + 1)
+         *
+         * // Typical: uniform 2x3 matrix
+         * Object[][] grid = {{1, 2, 3}, {4, 5, 6}};
+         * long count = Arrays.ff.elementCount(grid);
+         * // count is 6
+         *
+         * // Edge: null input returns 0
+         * long r1 = Arrays.ff.elementCount(null);
+         * // r1 is 0
+         *
+         * // Edge: all sub-arrays are null - still returns 0
+         * Object[][] allNull = {null, null};
+         * long r2 = Arrays.ff.elementCount(allNull);
+         * // r2 is 0
          * }</pre>
-         * 
+         *
          * @param a the two-dimensional array to count elements in (can be {@code null}).
          * @return the total number of elements across all sub-arrays, or 0 if the array is {@code null}.
          */
@@ -16266,14 +22144,28 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Finds the minimum length among all sub-arrays in a two-dimensional array.
          * Null sub-arrays are treated as having length 0.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: null sub-array lowers the minimum to 0
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * int minLen = ff.minSubArrayLength(array);
-         * // minLen is 0 (due to the null sub-array)
+         * int minLen = Arrays.ff.minSubArrayLength(array);
+         * // minLen is 0  (null sub-array counts as length 0)
+         *
+         * // Typical: jagged array without nulls
+         * Object[][] jagged = {{1, 2, 3}, {4, 5}, {6}};
+         * int min2 = Arrays.ff.minSubArrayLength(jagged);
+         * // min2 is 1  (shortest non-null row has 1 element)
+         *
+         * // Edge: null input returns 0
+         * int r1 = Arrays.ff.minSubArrayLength(null);
+         * // r1 is 0
+         *
+         * // Edge: empty outer array returns 0
+         * int r2 = Arrays.ff.minSubArrayLength(new Object[0][]);
+         * // r2 is 0
          * }</pre>
-         * 
+         *
          * @param a the two-dimensional array to examine (can be {@code null}).
          * @return the minimum sub-array length, or 0 if the array is {@code null} or empty.
          */
@@ -16294,14 +22186,29 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Finds the maximum length among all sub-arrays in a two-dimensional array.
          * Null sub-arrays are treated as having length 0.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic: jagged array including a null sub-array
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * int maxLen = ff.maxSubArrayLength(array);
-         * // maxLen is 3 (from the first sub-array)
+         * int maxLen = Arrays.ff.maxSubArrayLength(array);
+         * // maxLen is 3  (from the first sub-array)
+         *
+         * // Typical: all rows the same length
+         * Object[][] uniform = {{1, 2}, {3, 4}, {5, 6}};
+         * int max2 = Arrays.ff.maxSubArrayLength(uniform);
+         * // max2 is 2
+         *
+         * // Edge: null input returns 0
+         * int r1 = Arrays.ff.maxSubArrayLength(null);
+         * // r1 is 0
+         *
+         * // Edge: single-element array
+         * Object[][] single = {{42}};
+         * int r2 = Arrays.ff.maxSubArrayLength(single);
+         * // r2 is 1
          * }</pre>
-         * 
+         *
          * @param a the two-dimensional array to examine (can be {@code null}).
          * @return the maximum sub-array length, or 0 if the array is {@code null} or empty.
          */
@@ -16418,9 +22325,24 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: uppercase all strings
          * String[][][] arr = {{{"hello", "world"}}, {{"foo", "bar"}}};
-         * fff.updateAll(arr, str -> str.toUpperCase());
+         * Arrays.fff.updateAll(arr, str -> str.toUpperCase());
          * // arr is now {{{"HELLO", "WORLD"}}, {{"FOO", "BAR"}}}
+         *
+         * // basic: double all integers
+         * Integer[][][] nums = {{{1, 2}}, {{3, 4}}};
+         * Arrays.fff.updateAll(nums, n -> n * 2);
+         * // nums is now {{{2, 4}}, {{6, 8}}}
+         *
+         * // edge: null array is a no-op - no exception thrown
+         * Arrays.fff.updateAll((String[][][]) null, str -> str.toUpperCase());
+         * // no-op, no exception
+         *
+         * // edge: empty array is a no-op
+         * String[][][] empty = new String[0][][];
+         * Arrays.fff.updateAll(empty, str -> str.toUpperCase());
+         * // empty remains unchanged, length still 0
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -16449,9 +22371,24 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: replace null slots with 0
          * Integer[][][] arr = {{{1, 2, null}}, {{3, null, 5}}};
-         * fff.replaceIf(arr, val -> val == null, 0);
+         * Arrays.fff.replaceIf(arr, val -> val == null, 0);
          * // arr is now {{{1, 2, 0}}, {{3, 0, 5}}}
+         *
+         * // basic: replace all negatives with zero
+         * Integer[][][] nums = {{{-1, 2}}, {{-3, 4}}};
+         * Arrays.fff.replaceIf(nums, val -> val < 0, 0);
+         * // nums is now {{{0, 2}}, {{0, 4}}}
+         *
+         * // edge: null array is a no-op - no exception thrown
+         * Arrays.fff.replaceIf((Integer[][][]) null, val -> val == null, 0);
+         * // no-op, no exception
+         *
+         * // edge: predicate matches nothing - array unchanged
+         * Integer[][][] noMatch = {{{1, 2, 3}}};
+         * Arrays.fff.replaceIf(noMatch, val -> val > 100, 99);
+         * // noMatch is still {{{1, 2, 3}}}
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -16482,9 +22419,21 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: 8 elements into 2 slices of 2x2
          * Integer[] flat = {1, 2, 3, 4, 5, 6, 7, 8};
-         * Integer[][][] reshaped = fff.reshape(flat, 2, 2);
+         * Integer[][][] reshaped = Arrays.fff.reshape(flat, 2, 2);
          * // reshaped is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+         *
+         * // basic: 6 elements into 2 slices of 1x3
+         * String[] names = {"a", "b", "c", "d", "e", "f"};
+         * String[][][] named = Arrays.fff.reshape(names, 1, 3);
+         * // named is {{{"a", "b", "c"}}, {{"d", "e", "f"}}}
+         *
+         * // edge: null array throws IllegalArgumentException
+         * Arrays.fff.reshape((Integer[]) null, 2, 2); // throws IllegalArgumentException
+         *
+         * // edge: rowCount <= 0 throws IllegalArgumentException
+         * Arrays.fff.reshape(new Integer[]{1, 2}, 0, 2); // throws IllegalArgumentException
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -16530,9 +22479,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: jagged 3D array to 1D
          * Integer[][][] cube = {{{1, 2}}, {{3}}, {{4, 5, 6}}};
-         * Integer[] flat = fff.flatten(cube);
+         * Integer[] flat = Arrays.fff.flatten(cube);
          * // flat is {1, 2, 3, 4, 5, 6}
+         *
+         * // basic: single-element array
+         * String[][][] single = {{{"hello"}}};
+         * String[] result = Arrays.fff.flatten(single);
+         * // result is {"hello"}
+         *
+         * // edge: null array throws IllegalArgumentException
+         * Arrays.fff.flatten((Integer[][][]) null); // throws IllegalArgumentException
+         *
+         * // edge: empty outer array returns empty 1D array
+         * Integer[][][] empty = new Integer[0][][];
+         * Integer[] emptyFlat = Arrays.fff.flatten(empty);
+         * // emptyFlat.length == 0
          * }</pre>
          *
          * @param <T> the component type of the array elements.
@@ -16579,9 +22542,24 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: sort all elements across the full 3D structure
          * Integer[][][] arr = {{{5, 2}}, {{9, 1}}, {{3, 7}}};
-         * fff.mutateAsFlat(arr, flat -> java.util.Arrays.sort(flat));
+         * Arrays.fff.mutateAsFlat(arr, flat -> java.util.Arrays.sort(flat));
          * // arr is now {{{1, 2}}, {{3, 5}}, {{7, 9}}}
+         *
+         * // basic: fill every slot with a fixed value via flat index
+         * String[][][] names = {{{"a", "b"}}, {{"c", "d"}}};
+         * Arrays.fff.mutateAsFlat(names, flat -> java.util.Arrays.fill(flat, "x"));
+         * // names is now {{{"x", "x"}}, {{"x", "x"}}}
+         *
+         * // edge: null array is a no-op - no exception thrown
+         * Arrays.fff.mutateAsFlat((Integer[][][]) null, flat -> java.util.Arrays.sort(flat));
+         * // no-op, no exception
+         *
+         * // edge: empty array is a no-op
+         * Integer[][][] empty = new Integer[0][][];
+         * Arrays.fff.mutateAsFlat(empty, flat -> java.util.Arrays.sort(flat));
+         * // empty remains unchanged, length still 0
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -16627,9 +22605,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: double all integers
          * Integer[][][] numbers = {{{1, 2}}, {{3, 4}}};
-         * Integer[][][] doubled = fff.map(numbers, n -> n * 2);
+         * Integer[][][] doubled = Arrays.fff.map(numbers, n -> n * 2);
          * // doubled is {{{2, 4}}, {{6, 8}}}
+         *
+         * // basic: uppercase all strings
+         * String[][][] words = {{{"hello"}}, {{"world"}}};
+         * String[][][] upper = Arrays.fff.map(words, String::toUpperCase);
+         * // upper is {{{"HELLO"}}, {{"WORLD"}}}
+         *
+         * // edge: null array throws NullPointerException
+         * Arrays.fff.map((Integer[][][]) null, n -> n * 2); // throws NullPointerException
+         *
+         * // edge: single-element array
+         * Integer[][][] single = {{{7}}};
+         * Integer[][][] result = Arrays.fff.map(single, n -> n + 1);
+         * // result is {{{8}}}
          * }</pre>
          *
          * @param <T> the type of elements in both source and result arrays.
@@ -16658,9 +22650,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse string integers to Integer objects
          * String[][][] strings = {{{"1", "2"}}, {{"3", "4"}}};
-         * Integer[][][] numbers = fff.map(strings, Integer::parseInt, Integer.class);
+         * Integer[][][] numbers = Arrays.fff.map(strings, Integer::parseInt, Integer.class);
          * // numbers is {{{1, 2}}, {{3, 4}}}
+         *
+         * // basic: extract string lengths
+         * String[][][] words = {{{"hi", "hello"}}, {{"world"}}};
+         * Integer[][][] lengths = Arrays.fff.map(words, String::length, Integer.class);
+         * // lengths is {{{2, 5}}, {{5}}}
+         *
+         * // edge: null array returns empty 3D array (length 0)
+         * Integer[][][] result = Arrays.fff.map((String[][][]) null, Integer::parseInt, Integer.class);
+         * // result.length == 0
+         *
+         * // edge: empty array returns empty 3D array
+         * Integer[][][] empty = Arrays.fff.map(new String[0][][], Integer::parseInt, Integer.class);
+         * // empty.length == 0
          * }</pre>
          *
          * @param <T> the type of elements in the source array.
@@ -16698,9 +22704,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: even-number mask
          * Integer[][][] numbers = {{{1, 2, 3}}, {{4, 5, 6}}};
-         * boolean[][][] evenMask = fff.mapToBoolean(numbers, n -> n % 2 == 0);
+         * boolean[][][] evenMask = Arrays.fff.mapToBoolean(numbers, n -> n % 2 == 0);
          * // evenMask is {{{false, true, false}}, {{true, false, true}}}
+         *
+         * // basic: check for null slots
+         * String[][][] words = {{{"hi", null}}, {{"bye"}}};
+         * boolean[][][] notNull = Arrays.fff.mapToBoolean(words, s -> s != null);
+         * // notNull is {{{true, false}}, {{true}}}
+         *
+         * // edge: null array returns empty boolean[][][] (length 0)
+         * boolean[][][] result = Arrays.fff.mapToBoolean((Integer[][][]) null, n -> n % 2 == 0);
+         * // result.length == 0
+         *
+         * // edge: empty array returns empty boolean[][][]
+         * boolean[][][] empty = Arrays.fff.mapToBoolean(new Integer[0][][], n -> n % 2 == 0);
+         * // empty.length == 0
          * }</pre>
          *
          * @param <T> the type of elements in the source array.
@@ -16734,9 +22754,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: extract first character from each string
          * String[][][] words = {{{"apple", "banana"}}, {{"cat", "dog"}}};
-         * char[][][] firstLetters = fff.mapToChar(words, s -> s.charAt(0));
+         * char[][][] firstLetters = Arrays.fff.mapToChar(words, s -> s.charAt(0));
          * // firstLetters is {{{'a', 'b'}}, {{'c', 'd'}}}
+         *
+         * // basic: extract last character
+         * String[][][] tails = {{{"xyz"}}, {{"abc"}}};
+         * char[][][] lastLetters = Arrays.fff.mapToChar(tails, s -> s.charAt(s.length() - 1));
+         * // lastLetters is {{{'z'}}, {{'c'}}}
+         *
+         * // edge: null array returns empty char[][][] (length 0)
+         * char[][][] result = Arrays.fff.mapToChar((String[][][]) null, s -> s.charAt(0));
+         * // result.length == 0
+         *
+         * // edge: empty array returns empty char[][][]
+         * char[][][] empty = Arrays.fff.mapToChar(new String[0][][], s -> s.charAt(0));
+         * // empty.length == 0
          * }</pre>
          *
          * @param <T> the type of elements in the source array.
@@ -16771,9 +22805,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: convert Integer values to byte
          * Integer[][][] numbers = {{{10, 20}}, {{30, 40}}};
-         * byte[][][] bytes = fff.mapToByte(numbers, Integer::byteValue);
+         * byte[][][] bytes = Arrays.fff.mapToByte(numbers, Integer::byteValue);
          * // bytes is {{{10, 20}}, {{30, 40}}}
+         *
+         * // basic: parse string to byte
+         * String[][][] strs = {{{"1", "127"}}, {{"-1"}}};
+         * byte[][][] parsed = Arrays.fff.mapToByte(strs, Byte::parseByte);
+         * // parsed is {{{1, 127}}, {{-1}}}
+         *
+         * // edge: null array returns empty byte[][][] (length 0)
+         * byte[][][] result = Arrays.fff.mapToByte((Integer[][][]) null, Integer::byteValue);
+         * // result.length == 0
+         *
+         * // edge: empty array returns empty byte[][][]
+         * byte[][][] empty = Arrays.fff.mapToByte(new Integer[0][][], Integer::byteValue);
+         * // empty.length == 0
          * }</pre>
          *
          * @param <T> the type of elements in the source array.
@@ -16808,9 +22856,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: convert Integer values to short
          * Integer[][][] numbers = {{{100, 200}}, {{300, 400}}};
-         * short[][][] shorts = fff.mapToShort(numbers, Integer::shortValue);
+         * short[][][] shorts = Arrays.fff.mapToShort(numbers, Integer::shortValue);
          * // shorts is {{{100, 200}}, {{300, 400}}}
+         *
+         * // basic: parse string to short
+         * String[][][] strs = {{{"1000", "2000"}}, {{"-500"}}};
+         * short[][][] parsed = Arrays.fff.mapToShort(strs, Short::parseShort);
+         * // parsed is {{{1000, 2000}}, {{-500}}}
+         *
+         * // edge: null array returns empty short[][][] (length 0)
+         * short[][][] result = Arrays.fff.mapToShort((Integer[][][]) null, Integer::shortValue);
+         * // result.length == 0
+         *
+         * // edge: empty array returns empty short[][][]
+         * short[][][] empty = Arrays.fff.mapToShort(new Integer[0][][], Integer::shortValue);
+         * // empty.length == 0
          * }</pre>
          *
          * @param <T> the type of elements in the source array.
@@ -16845,9 +22907,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse string integers
          * String[][][] stringNumbers = {{{"1", "2"}}, {{"3", "4"}}};
-         * int[][][] integers = fff.mapToInt(stringNumbers, Integer::parseInt);
+         * int[][][] integers = Arrays.fff.mapToInt(stringNumbers, Integer::parseInt);
          * // integers is {{{1, 2}}, {{3, 4}}}
+         *
+         * // basic: extract string length as int
+         * String[][][] words = {{{"hi", "hello"}}, {{"world"}}};
+         * int[][][] lens = Arrays.fff.mapToInt(words, String::length);
+         * // lens is {{{2, 5}}, {{5}}}
+         *
+         * // edge: null array returns empty int[][][] (length 0)
+         * int[][][] result = Arrays.fff.mapToInt((String[][][]) null, Integer::parseInt);
+         * // result.length == 0
+         *
+         * // edge: empty array returns empty int[][][]
+         * int[][][] empty = Arrays.fff.mapToInt(new String[0][][], Integer::parseInt);
+         * // empty.length == 0
          * }</pre>
          *
          * @param <T> the type of elements in the source array.
@@ -16882,9 +22958,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: parse string timestamps to long
          * String[][][] timestamps = {{{"1000000"}}, {{"2000000"}}};
-         * long[][][] longs = fff.mapToLong(timestamps, Long::parseLong);
+         * long[][][] longs = Arrays.fff.mapToLong(timestamps, Long::parseLong);
          * // longs is {{{1000000L}}, {{2000000L}}}
+         *
+         * // basic: unbox Long to long
+         * Long[][][] boxed = {{{100L, 200L}}, {{300L}}};
+         * long[][][] unboxed = Arrays.fff.mapToLong(boxed, Long::longValue);
+         * // unboxed is {{{100L, 200L}}, {{300L}}}
+         *
+         * // edge: null array returns empty long[][][] (length 0)
+         * long[][][] result = Arrays.fff.mapToLong((String[][][]) null, Long::parseLong);
+         * // result.length == 0
+         *
+         * // edge: empty array returns empty long[][][]
+         * long[][][] empty = Arrays.fff.mapToLong(new String[0][][], Long::parseLong);
+         * // empty.length == 0
          * }</pre>
          *
          * @param <T> the type of elements in the source array.
@@ -16919,9 +23009,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * String[][][] decimals = {{{"1.5", "2.7"}}, {{"3.14", "4.2"}}};
-         * float[][][] floats = fff.mapToFloat(decimals, Float::parseFloat);
-         * // floats is {{{1.5f, 2.7f}}, {{3.14f, 4.2f}}}
+         * // basic: parse string decimal values to float
+         * String[][][] decimals = {{{"1.5", "2.5"}}, {{"3.0"}}};
+         * float[][][] floats = Arrays.fff.mapToFloat(decimals, Float::parseFloat);
+         * // floats is {{{1.5f, 2.5f}}, {{3.0f}}}
+         *
+         * // basic: unbox Float to float
+         * Float[][][] boxed = {{{0.1f, 0.2f}}, {{0.3f}}};
+         * float[][][] unboxed = Arrays.fff.mapToFloat(boxed, Float::floatValue);
+         * // unboxed is {{{0.1f, 0.2f}}, {{0.3f}}}
+         *
+         * // edge: null array returns empty float[][][] (length 0)
+         * float[][][] result = Arrays.fff.mapToFloat((String[][][]) null, Float::parseFloat);
+         * // result.length == 0
+         *
+         * // edge: empty array returns empty float[][][]
+         * float[][][] empty = Arrays.fff.mapToFloat(new String[0][][], Float::parseFloat);
+         * // empty.length == 0
          * }</pre>
          *
          * @param <T> the type of elements in the source array.
@@ -16956,9 +23060,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * String[][][] scientificData = {{{"1.23e10", "4.56e-5"}}, {{"7.89e15"}}};
-         * double[][][] doubles = fff.mapToDouble(scientificData, Double::parseDouble);
-         * // doubles is {{{1.23e10, 4.56e-5}}, {{7.89e15}}}
+         * // basic: parse string decimal values to double
+         * String[][][] data = {{{"1.5", "2.5"}}, {{"3.0"}}};
+         * double[][][] doubles = Arrays.fff.mapToDouble(data, Double::parseDouble);
+         * // doubles is {{{1.5, 2.5}}, {{3.0}}}
+         *
+         * // basic: unbox Double to double
+         * Double[][][] boxed = {{{1.1, 2.2}}, {{3.3}}};
+         * double[][][] unboxed = Arrays.fff.mapToDouble(boxed, Double::doubleValue);
+         * // unboxed is {{{1.1, 2.2}}, {{3.3}}}
+         *
+         * // edge: null array returns empty double[][][] (length 0)
+         * double[][][] result = Arrays.fff.mapToDouble((String[][][]) null, Double::parseDouble);
+         * // result.length == 0
+         *
+         * // edge: empty array returns empty double[][][]
+         * double[][][] empty = Arrays.fff.mapToDouble(new String[0][][], Double::parseDouble);
+         * // empty.length == 0
          * }</pre>
          *
          * @param <T> the type of elements in the source array.
@@ -16993,10 +23111,27 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: element-wise sum
          * Integer[][][] a = {{{1, 2}}, {{3, 4}}};
          * Integer[][][] b = {{{10, 20}}, {{30, 40}}};
-         * Integer[][][] sum = fff.zip(a, b, (x, y) -> x + y);
+         * Integer[][][] sum = Arrays.fff.zip(a, b, (x, y) -> x + y);
          * // sum is {{{11, 22}}, {{33, 44}}}
+         *
+         * // basic: element-wise product
+         * Integer[][][] p = {{{2, 3}}};
+         * Integer[][][] q = {{{4, 5}}};
+         * Integer[][][] product = Arrays.fff.zip(p, q, (x, y) -> x * y);
+         * // product is {{{8, 15}}}
+         *
+         * // edge: b is shorter - result truncates to min outer length
+         * Integer[][][] x = {{{1, 2}}, {{3, 4}}};
+         * Integer[][][] y = {{{10, 20}}};
+         * Integer[][][] truncated = Arrays.fff.zip(x, y, (u, v) -> u + v);
+         * // truncated.length == 1 (only first slice combined)
+         *
+         * // edge: null b treated as empty - result has length 0
+         * Integer[][][] empty = Arrays.fff.zip(a, (Integer[][][]) null, (u, v) -> u + v);
+         * // empty.length == 0
          * }</pre>
          *
          * @param <A> the element type of the first array and the result.
@@ -17029,10 +23164,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: combine int and string into new string
          * Integer[][][] numbers = {{{1, 2}}};
          * String[][][] strings = {{{"a", "b"}}};
-         * String[][][] combined = fff.zip(numbers, strings, (n, s) -> n + s, String.class);
+         * String[][][] combined = Arrays.fff.zip(numbers, strings, (n, s) -> n + s, String.class);
          * // combined is {{{"1a", "2b"}}}
+         *
+         * // basic: concatenate two string arrays
+         * String[][][] left = {{{"hello"}}, {{"foo"}}};
+         * String[][][] right = {{{"world"}}, {{"bar"}}};
+         * String[][][] joined = Arrays.fff.zip(left, right, (l, r) -> l + r, String.class);
+         * // joined is {{{"helloworld"}}, {{"foobar"}}}
+         *
+         * // edge: both null - result has length 0
+         * String[][][] empty = Arrays.fff.zip((Integer[][][]) null, (String[][][]) null,
+         *         (n, s) -> n + s, String.class);
+         * // empty.length == 0
+         *
+         * // edge: truncates to min outer length
+         * Integer[][][] a2 = {{{1}}, {{2}}};
+         * String[][][] b2 = {{{"x"}}};
+         * String[][][] trunc = Arrays.fff.zip(a2, b2, (n, s) -> n + s, String.class);
+         * // trunc.length == 1
          * }</pre>
          *
          * @param <A> the element type of the first array.
@@ -17070,10 +23223,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: a shorter than b - b's extra slice uses defaultValueA=0
          * Integer[][][] a = {{{1, 2}}};
          * Integer[][][] b = {{{10}}, {{20, 30}}};
-         * Integer[][][] result = fff.zip(a, b, 0, 0, (x, y) -> x + y);
+         * Integer[][][] result = Arrays.fff.zip(a, b, 0, 0, (x, y) -> x + y);
          * // result is {{{11, 2}}, {{20, 30}}}
+         *
+         * // basic: equal-size arrays with matching elements
+         * Integer[][][] p = {{{5, 6}}};
+         * Integer[][][] q = {{{1, 2}}};
+         * Integer[][][] same = Arrays.fff.zip(p, q, 0, 0, (x, y) -> x + y);
+         * // same is {{{6, 8}}}
+         *
+         * // edge: both null - result has length 0
+         * Integer[][][] empty = Arrays.fff.zip((Integer[][][]) null, (Integer[][][]) null,
+         *         0, 0, (x, y) -> x + y);
+         * // empty.length == 0
+         *
+         * // edge: inner padding when one inner array is shorter
+         * Integer[][][] s = {{{5}}};
+         * Integer[][][] t = {{{3, 7}}};
+         * Integer[][][] padded = Arrays.fff.zip(s, t, 0, 0, (x, y) -> x + y);
+         * // padded is {{{8, 7}}}  (5+3=8; 0+7=7 because s has only 1 element)
          * }</pre>
          *
          * @param <A> the element type of the first array and the result.
@@ -17106,11 +23277,28 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: a shorter than b outer dim - missing a rows use defaultValueA=0
          * Integer[][][] nums = {{{1}}};
          * String[][][] strs = {{{"a", "b"}}, {{"c"}}};
-         * String[][][] result = fff.zip(nums, strs, 0, "x", 
-         *                               (n, s) -> n + "-" + s, String.class);
+         * String[][][] result = Arrays.fff.zip(nums, strs, 0, "x",
+         *         (n, s) -> n + "-" + s, String.class);
          * // result is {{{"1-a", "0-b"}}, {{"0-c"}}}
+         *
+         * // basic: equal-size arrays
+         * Integer[][][] a2 = {{{1, 2}}};
+         * String[][][] b2 = {{{"x", "y"}}};
+         * String[][][] eq = Arrays.fff.zip(a2, b2, 0, "z", (n, s) -> n + s, String.class);
+         * // eq is {{{"1x", "2y"}}}
+         *
+         * // edge: both null - result has length 0
+         * String[][][] empty = Arrays.fff.zip((Integer[][][]) null, (String[][][]) null,
+         *         0, "x", (n, s) -> n + s, String.class);
+         * // empty.length == 0
+         *
+         * // edge: only b has elements - a's missing positions use defaultValueA
+         * Integer[][][] onlyB = Arrays.fff.zip((Integer[][][]) null, strs, 0, "x",
+         *         (n, s) -> n + s, Integer.class);
+         * // onlyB uses 0 for every A element
          * }</pre>
          *
          * @param <A> the element type of the first array.
@@ -17161,11 +23349,30 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: element-wise three-way sum
          * Integer[][][] a = {{{1, 2}}};
          * Integer[][][] b = {{{10, 20}}};
          * Integer[][][] c = {{{100, 200}}};
-         * Integer[][][] sum = fff.zip(a, b, c, (x, y, z) -> x + y + z);
+         * Integer[][][] sum = Arrays.fff.zip(a, b, c, (x, y, z) -> x + y + z);
          * // sum is {{{111, 222}}}
+         *
+         * // basic: weighted sum across slices
+         * Integer[][][] w1 = {{{1}}, {{2}}};
+         * Integer[][][] w2 = {{{3}}, {{4}}};
+         * Integer[][][] w3 = {{{5}}, {{6}}};
+         * Integer[][][] ws = Arrays.fff.zip(w1, w2, w3, (x, y, z) -> x + y + z);
+         * // ws is {{{9}}, {{12}}}
+         *
+         * // edge: one array is null - result has length 0 (truncated to min)
+         * Integer[][][] nullC = Arrays.fff.zip(a, b, (Integer[][][]) null, (x, y, z) -> x + y + z);
+         * // nullC.length == 0
+         *
+         * // edge: truncates to the shortest outer dimension
+         * Integer[][][] t1 = {{{1, 2}}, {{3}}};
+         * Integer[][][] t2 = {{{10}}};
+         * Integer[][][] t3 = {{{100, 200}}};
+         * Integer[][][] trunc = Arrays.fff.zip(t1, t2, t3, (x, y, z) -> x + y + z);
+         * // trunc.length == 1 (min outer = 1)
          * }</pre>
          *
          * @param <A> the element type of the first array and the result.
@@ -17199,12 +23406,32 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: combine three different types into a string
          * Integer[][][] nums = {{{1}}};
          * String[][][] strs = {{{"a"}}};
          * Double[][][] dbls = {{{2.5}}};
-         * String[][][] result = fff.zip(nums, strs, dbls, 
-         *                               (n, s, d) -> n + s + d, String.class);
+         * String[][][] result = Arrays.fff.zip(nums, strs, dbls,
+         *         (n, s, d) -> n + s + d, String.class);
          * // result is {{{"1a2.5"}}}
+         *
+         * // basic: two slices combined
+         * Integer[][][] a2 = {{{1}}, {{2}}};
+         * String[][][] b2 = {{{"x"}}, {{"y"}}};
+         * Double[][][] c2 = {{{0.1}}, {{0.2}}};
+         * String[][][] r2 = Arrays.fff.zip(a2, b2, c2, (n, s, d) -> n + s + d, String.class);
+         * // r2 is {{{"1x0.1"}}, {{"2y0.2"}}}
+         *
+         * // edge: all null - result has length 0
+         * String[][][] empty = Arrays.fff.zip((Integer[][][]) null, (String[][][]) null,
+         *         (Double[][][]) null, (n, s, d) -> n + s + d, String.class);
+         * // empty.length == 0
+         *
+         * // edge: truncates to min outer length across all three
+         * Integer[][][] t1 = {{{1}}, {{2}}};
+         * String[][][] t2 = {{{"a"}}};
+         * Double[][][] t3 = {{{1.0}}};
+         * String[][][] trunc = Arrays.fff.zip(t1, t2, t3, (n, s, d) -> n + s + d, String.class);
+         * // trunc.length == 1
          * }</pre>
          *
          * @param <A> the element type of the first array.
@@ -17245,11 +23472,29 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: a shorter outer dim than c - extra slices from c use defaultA=0 and defaultB=0
          * Integer[][][] a = {{{1}}};
          * Integer[][][] b = {{{10, 20}}};
          * Integer[][][] c = {{{}}, {{100}}};
-         * Integer[][][] result = fff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+         * Integer[][][] result = Arrays.fff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
          * // result is {{{11, 20}}, {{100}}}
+         *
+         * // basic: all equal-sized arrays
+         * Integer[][][] e1 = {{{1, 2}}};
+         * Integer[][][] e2 = {{{3, 4}}};
+         * Integer[][][] e3 = {{{5, 6}}};
+         * Integer[][][] eq = Arrays.fff.zip(e1, e2, e3, 0, 0, 0, (x, y, z) -> x + y + z);
+         * // eq is {{{9, 12}}}
+         *
+         * // edge: all null - result has length 0
+         * Integer[][][] empty = Arrays.fff.zip((Integer[][][]) null, (Integer[][][]) null,
+         *         (Integer[][][]) null, 0, 0, 0, (x, y, z) -> x + y + z);
+         * // empty.length == 0
+         *
+         * // edge: single element from only one array
+         * Integer[][][] single = Arrays.fff.zip((Integer[][][]) null, (Integer[][][]) null,
+         *         new Integer[][][]{{{42}}}, 0, 0, 0, (x, y, z) -> x + y + z);
+         * // single is {{{42}}}
          * }</pre>
          *
          * @param <A> the element type of the first array and the result.
@@ -17285,12 +23530,32 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: mixed types with padding from defaults
          * Integer[][][] a = {{{1}}};
          * String[][][] b = {{{"a", "b"}}};
          * Double[][][] c = {{{1.1}}, {{2.2}}};
-         * String[][][] result = fff.zip(a, b, c, 0, "x", 0.0,
-         *                               (i, s, d) -> i + s + d, String.class);
+         * String[][][] result = Arrays.fff.zip(a, b, c, 0, "x", 0.0,
+         *         (i, s, d) -> i + s + d, String.class);
          * // result is {{{"1a1.1", "0b0.0"}}, {{"0x2.2"}}}
+         *
+         * // basic: all equal-sized arrays with type conversion
+         * Integer[][][] a2 = {{{5}}};
+         * String[][][] b2 = {{{"!"}}};
+         * Double[][][] c2 = {{{0.5}}};
+         * String[][][] r2 = Arrays.fff.zip(a2, b2, c2, 0, "x", 0.0,
+         *         (n, s, d) -> n + s + d, String.class);
+         * // r2 is {{{"5!0.5"}}}
+         *
+         * // edge: all null - result has length 0
+         * String[][][] empty = Arrays.fff.zip((Integer[][][]) null, (String[][][]) null,
+         *         (Double[][][]) null, 0, "x", 0.0, (n, s, d) -> n + s + d, String.class);
+         * // empty.length == 0
+         *
+         * // edge: only c has elements - a and b positions use their defaults
+         * Double[][][] cOnly = {{{3.0}}};
+         * String[][][] fromC = Arrays.fff.zip((Integer[][][]) null, (String[][][]) null, cOnly,
+         *         0, "z", 0.0, (n, s, d) -> n + s + d, String.class);
+         * // fromC is {{{"0z3.0"}}}
          * }</pre>
          *
          * @param <A> the element type of the first array.
@@ -17368,9 +23633,23 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // basic: jagged array with null 2D sub-array (skipped)
          * Object[][][] array = {{{1, 2}, {3}}, null, {{4, 5, 6}}};
-         * long count = fff.elementCount(array);
-         * // count is 6 (elements: 1, 2, 3, 4, 5, 6)
+         * long count = Arrays.fff.elementCount(array);
+         * // count is 6  (null sub-array at index 1 contributes 0)
+         *
+         * // basic: uniform 2x2x2 cube
+         * Integer[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+         * long cubeCount = Arrays.fff.elementCount(cube);
+         * // cubeCount is 8
+         *
+         * // edge: null array returns 0
+         * long zero = Arrays.fff.elementCount(null);
+         * // zero == 0
+         *
+         * // edge: empty outer array returns 0
+         * long emptyCount = Arrays.fff.elementCount(new Object[0][][]);
+         * // emptyCount == 0
          * }</pre>
          *
          * @param a the three-dimensional array to count elements in (can be {@code null}).

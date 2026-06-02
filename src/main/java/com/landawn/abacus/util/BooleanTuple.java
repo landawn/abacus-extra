@@ -53,8 +53,19 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple.BooleanTuple1 tuple = BooleanTuple.of(true);
-     * boolean value = tuple._1;  // true
+     * BooleanTuple.BooleanTuple1 t = BooleanTuple.of(true);
+     * boolean value = t._1;                // true
+     * int arity = t.arity();               // 1
+     *
+     * BooleanTuple.BooleanTuple1 f = BooleanTuple.of(false);
+     * boolean fVal = f._1;                 // false
+     * String s = f.toString();             // "(false)"
+     *
+     * boolean hasTrue = t.contains(true);   // true
+     * boolean hasFalse = t.contains(false); // false
+     *
+     * BooleanTuple.BooleanTuple1 rev = t.reverse();
+     * boolean revVal = rev._1;             // true (single-element reverse unchanged)
      * }</pre>
      *
      * @param _1 the boolean value to store in the tuple
@@ -69,9 +80,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
-     * boolean first = tuple._1;  // true
-     * boolean second = tuple._2;  // false
+     * BooleanTuple.BooleanTuple2 t = BooleanTuple.of(true, false);
+     * boolean first = t._1;                // true
+     * boolean second = t._2;               // false
+     * String s = t.toString();             // "(true, false)"
+     *
+     * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+     * boolean hasFalse = allFalse.contains(false); // true
+     * boolean hasTrue = allFalse.contains(true);   // false
+     *
+     * BooleanTuple.BooleanTuple2 allTrue = BooleanTuple.of(true, true);
+     * BooleanTuple.BooleanTuple2 rev = allTrue.reverse();
+     * String revStr = rev.toString();      // "(true, true)"
+     *
+     * BooleanTuple.BooleanTuple2 mixed = BooleanTuple.of(true, false);
+     * BooleanTuple.BooleanTuple2 mixedRev = mixed.reverse();
+     * String mixedRevStr = mixedRev.toString(); // "(false, true)"
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -87,8 +111,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * boolean third = tuple._3;  // true
+     * BooleanTuple.BooleanTuple3 t = BooleanTuple.of(true, false, true);
+     * boolean first = t._1;               // true
+     * boolean second = t._2;              // false
+     * boolean third = t._3;               // true
+     * String s = t.toString();            // "(true, false, true)"
+     *
+     * // all-false tuple
+     * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
+     * boolean hasTrue = allFalse.contains(true);    // false
+     * boolean hasFalse = allFalse.contains(false);  // true
+     * String af = allFalse.toString();              // "(false, false, false)"
+     *
+     * // reverse
+     * BooleanTuple.BooleanTuple3 r = BooleanTuple.of(true, false, false);
+     * String revStr = r.reverse().toString(); // "(false, false, true)"
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -105,10 +142,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-     * boolean first = tuple._1;  // true
-     * boolean fourth = tuple._4;  // false
-     * BooleanTuple.BooleanTuple4 reversed = tuple.reverse();   // (false, true, false, true)
+     * BooleanTuple.BooleanTuple4 t = BooleanTuple.of(true, false, true, false);
+     * boolean first = t._1;                         // true
+     * boolean fourth = t._4;                        // false
+     * String s = t.toString();                      // "(true, false, true, false)"
+     * BooleanTuple.BooleanTuple4 rev = t.reverse(); // (false, true, false, true)
+     * String revStr = rev.toString();               // "(false, true, false, true)"
+     *
+     * // all-true tuple
+     * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
+     * boolean hasFalse = allTrue.contains(false);  // false
+     * boolean[] arr = allTrue.toArray();           // [true, true, true, true]
+     *
+     * // all-false tuple
+     * BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
+     * boolean hasTrue = allFalse.contains(true);    // false
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -126,10 +174,20 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-     * boolean first = tuple._1;  // true
-     * boolean fifth = tuple._5;  // true
-     * boolean contains = tuple.contains(false);   // true
+     * BooleanTuple.BooleanTuple5 t = BooleanTuple.of(true, false, true, false, true);
+     * boolean first = t._1;                      // true
+     * boolean fifth = t._5;                      // true
+     * boolean containsFalse = t.contains(false); // true
+     * String s = t.toString();                   // "(true, false, true, false, true)"
+     *
+     * // palindrome - reverse equals original
+     * BooleanTuple.BooleanTuple5 rev = t.reverse();
+     * String revStr = rev.toString();        // "(true, false, true, false, true)"
+     *
+     * // all-false
+     * BooleanTuple.BooleanTuple5 allFalse = BooleanTuple.of(false, false, false, false, false);
+     * boolean hasTrue = allFalse.contains(true);  // false
+     * int arity = allFalse.arity();               // 5
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -148,10 +206,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-     * boolean first = tuple._1;  // true
-     * boolean sixth = tuple._6;  // false
-     * BooleanTuple.BooleanTuple6 reversed = tuple.reverse();   // (false, true, false, true, false, true)
+     * BooleanTuple.BooleanTuple6 t = BooleanTuple.of(true, false, true, false, true, false);
+     * boolean first = t._1;                  // true
+     * boolean sixth = t._6;                  // false
+     * String s = t.toString();               // "(true, false, true, false, true, false)"
+     * BooleanTuple.BooleanTuple6 rev = t.reverse();
+     * String revStr = rev.toString();        // "(false, true, false, true, false, true)"
+     *
+     * // all-true
+     * BooleanTuple.BooleanTuple6 allTrue = BooleanTuple.of(true, true, true, true, true, true);
+     * boolean hasFalse = allTrue.contains(false); // false
+     * int arity = allTrue.arity();                // 6
+     *
+     * // all-false
+     * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
+     * boolean hasTrue = allFalse.contains(true);  // false
+     * boolean[] arr = allFalse.toArray();         // [false, false, false, false, false, false]
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -171,10 +241,20 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-     * boolean first = tuple._1;  // true
-     * boolean seventh = tuple._7;  // true
-     * boolean[] array = tuple.toArray();   // [true, false, true, false, true, false, true]
+     * BooleanTuple.BooleanTuple7 t = BooleanTuple.of(true, false, true, false, true, false, true);
+     * boolean first = t._1;                    // true
+     * boolean seventh = t._7;                  // true
+     * boolean[] array = t.toArray();           // [true, false, true, false, true, false, true]
+     * int arity = t.arity();                   // 7
+     *
+     * // all-true
+     * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
+     * boolean hasFalse = allTrue.contains(false); // false
+     *
+     * // all-false
+     * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
+     * boolean hasTrue = allFalse.contains(true);  // false
+     * boolean[] falseArr = allFalse.toArray();    // [false, false, false, false, false, false, false]
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -196,10 +276,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-     * boolean first = tuple._1;  // true
-     * boolean eighth = tuple._8;  // false
-     * BooleanList list = tuple.toList();
+     * BooleanTuple.BooleanTuple8 t = BooleanTuple.of(true, false, true, false, true, false, true, false);
+     * boolean first = t._1;                 // true
+     * boolean eighth = t._8;                // false
+     * int arity = t.arity();                // 8
+     * BooleanList list = t.toList();        // [true, false, true, false, true, false, true, false]
+     *
+     * // all-true
+     * BooleanTuple.BooleanTuple8 allTrue =
+     *         BooleanTuple.of(true, true, true, true, true, true, true, true);
+     * boolean hasTrue = allTrue.contains(true);   // true
+     * boolean hasFalse = allTrue.contains(false); // false
+     *
+     * // all-false
+     * BooleanTuple.BooleanTuple8 allFalse =
+     *         BooleanTuple.of(false, false, false, false, false, false, false, false);
+     * boolean[] arr = allFalse.toArray();    // [false, false, false, false, false, false, false, false]
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -224,10 +316,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-     * boolean first = tuple._1;  // true
-     * boolean ninth = tuple._9;  // true
-     * int arity = tuple.arity();   // 9
+     * BooleanTuple.BooleanTuple9 t = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+     * boolean first = t._1;                  // true
+     * boolean ninth = t._9;                  // true
+     * int arity = t.arity();                 // 9
+     * String s = t.toString();               // "(true, false, true, false, true, false, true, false, true)"
+     *
+     * // all-true (maximum arity)
+     * BooleanTuple.BooleanTuple9 allTrue =
+     *         BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+     * boolean hasTrue = allTrue.contains(true);   // true
+     * boolean hasFalse = allTrue.contains(false); // false
+     *
+     * // all-false
+     * BooleanTuple.BooleanTuple9 allFalse =
+     *         BooleanTuple.of(false, false, false, false, false, false, false, false, false);
+     * boolean[] arr = allFalse.toArray(); // [false, false, false, false, false, false, false, false, false]
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -259,15 +363,27 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Create from array
+     * // Create from 3-element array
      * boolean[] values = {true, false, true};
-     * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.copyOf(values);
-     *
-     * // Empty or null array returns an empty BooleanTuple
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanTuple<?> t3 = BooleanTuple.copyOf(values);
+     * int arity3 = t3.arity();                // 3
+     * String s3 = t3.toString();              // "(true, false, true)"
      *
      * // Single element
-     * BooleanTuple.BooleanTuple1 single = BooleanTuple.copyOf(new boolean[]{true});
+     * BooleanTuple<?> t1 = BooleanTuple.copyOf(new boolean[]{true});
+     * int arity1 = t1.arity();                // 1
+     *
+     * // Empty array returns empty tuple
+     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * int emptyArity = empty.arity();         // 0
+     * String emptyStr = empty.toString();     // "()"
+     *
+     * // null array also returns empty tuple
+     * BooleanTuple<?> fromNull = BooleanTuple.copyOf(null);
+     * int nullArity = fromNull.arity();       // 0
+     *
+     * // length > 9 throws IllegalArgumentException
+     * // BooleanTuple.copyOf(new boolean[10]); // throws IllegalArgumentException
      * }</pre>
      *
      * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
@@ -330,10 +446,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple2 pair = BooleanTuple.of(true, false);
-     * BooleanTuple.BooleanTuple2 reversedPair = pair.reverse();   // (false, true)
+     * BooleanTuple.BooleanTuple2 reversedPair = pair.reverse();
+     * String revStr = reversedPair.toString();          // "(false, true)"
      *
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * BooleanTuple.BooleanTuple3 reversed = tuple.reverse();   // (true, false, true) - palindrome
+     * BooleanTuple.BooleanTuple3 reversed = tuple.reverse();
+     * String palStr = reversed.toString();              // "(true, false, true)" - palindrome
+     *
+     * // edge: empty tuple reverses to itself
+     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * String emptyRev = empty.reverse().toString();     // "()"
+     *
+     * // edge: single-element reverse has same value
+     * BooleanTuple.BooleanTuple1 single = BooleanTuple.of(false);
+     * BooleanTuple.BooleanTuple1 singleRev = single.reverse();
+     * boolean revVal = singleRev._1;                   // false
      * }</pre>
      *
      * <p>For tuples of arity 0 or 1, the returned tuple is equal to this one (reversing has no effect).
@@ -354,12 +481,18 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * boolean hasTrue = tuple.contains(true);     // true
-     * boolean hasFalse = tuple.contains(false);   // true
+     * boolean hasTrue = tuple.contains(true);      // true
+     * boolean hasFalse = tuple.contains(false);    // true
      *
+     * // all-true: contains(false) returns false
      * BooleanTuple.BooleanTuple2 flags = BooleanTuple.of(true, true);
-     * boolean allHaveTrue = flags.contains(true);     // true
-     * boolean anyFalse = flags.contains(false);       // false
+     * boolean allHaveTrue = flags.contains(true);  // true
+     * boolean anyFalse = flags.contains(false);    // false
+     *
+     * // edge: empty tuple never contains any value
+     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * boolean emptyHasTrue = empty.contains(true);   // false
+     * boolean emptyHasFalse = empty.contains(false); // false
      * }</pre>
      *
      * @param valueToFind the boolean value to search for
@@ -378,11 +511,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * boolean[] array = tuple.toArray();   // [true, false, true]
-     * array[0] = false;  // Does not modify the tuple
+     * boolean[] array = tuple.toArray();    // [true, false, true]
+     * array[0] = false;                     // Does not modify the tuple
+     * boolean still = tuple.contains(true); // true
      *
      * BooleanTuple.BooleanTuple2 pair = BooleanTuple.of(true, false);
-     * boolean[] pairArray = pair.toArray();   // [true, false]
+     * boolean[] pairArray = pair.toArray(); // [true, false]
+     *
+     * // edge: empty tuple returns zero-length array
+     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * boolean[] emptyArr = empty.toArray(); // []
+     * int len = emptyArr.length;            // 0
+     *
+     * // edge: single false element
+     * BooleanTuple.BooleanTuple1 single = BooleanTuple.of(false);
+     * boolean[] singleArr = single.toArray(); // [false]
      * }</pre>
      *
      * @return a new boolean array containing all tuple elements
@@ -404,11 +547,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * BooleanList list = tuple.toList();
-     * list.add(false);   // Adds to the list, tuple remains unchanged
+     * BooleanList list = tuple.toList();      // [true, false, true]
+     * int size = list.size();                 // 3
+     * list.add(false);                        // Adds to the list, tuple remains unchanged
      *
+     * // all-true tuple
      * BooleanTuple.BooleanTuple2 flags = BooleanTuple.of(true, true);
-     * BooleanList flagList = flags.toList();   // [true, true]
+     * BooleanList flagList = flags.toList();  // [true, true]
+     * boolean first = flagList.get(0);        // true
+     *
+     * // edge: empty tuple produces empty list
+     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanList emptyList = empty.toList();
+     * int emptySize = emptyList.size();       // 0
+     *
+     * // edge: single false element
+     * BooleanTuple.BooleanTuple1 single = BooleanTuple.of(false);
+     * BooleanList singleList = single.toList();
+     * boolean val = singleList.get(0);        // false
      * }</pre>
      *
      * @return a new BooleanList containing all tuple elements
@@ -438,6 +594,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
      * tuple.forEach(b -> { if (b) count.incrementAndGet(); });
      * // count is now 2
+     *
+     * // edge: empty tuple - consumer is never called
+     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * java.util.concurrent.atomic.AtomicInteger emptyCount = new java.util.concurrent.atomic.AtomicInteger();
+     * empty.forEach(b -> emptyCount.incrementAndGet());
+     * // emptyCount is still 0
+     *
+     * // edge: null action throws IllegalArgumentException
+     * // tuple.forEach(null); // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
@@ -471,6 +636,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * BooleanTuple.BooleanTuple2 flags = BooleanTuple.of(true, false);
      * boolean anyTrue = flags.stream().anyMatch(b -> b);   // true
+     *
+     * // edge: empty tuple stream has count 0
+     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * long emptyCount = empty.stream().count();             // 0
+     *
+     * // edge: all-false tuple - allMatch(b -> !b) returns true
+     * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+     * boolean allNegated = allFalse.stream().allMatch(b -> !b); // true
      * }</pre>
      *
      * @return a Stream containing all tuple elements as Boolean objects
@@ -488,6 +661,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * algorithm that ensures equal tuples have equal hash codes. This implementation
      * is consistent with {@link #equals(Object)}.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanTuple.BooleanTuple2 a = BooleanTuple.of(true, false);
+     * BooleanTuple.BooleanTuple2 b = BooleanTuple.of(true, false);
+     * boolean same = (a.hashCode() == b.hashCode()); // true (equal tuples have equal hash codes)
+     *
+     * BooleanTuple.BooleanTuple1 t = BooleanTuple.of(true);
+     * int h = t.hashCode();               // 1231 (Boolean.hashCode(true))
+     *
+     * BooleanTuple.BooleanTuple1 f = BooleanTuple.of(false);
+     * int hf = f.hashCode();              // 1237 (Boolean.hashCode(false))
+     *
+     * // edge: empty tuple has a consistent hash code
+     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * int emptyHash1 = empty.hashCode();
+     * int emptyHash2 = empty.hashCode();
+     * boolean consistent = (emptyHash1 == emptyHash2); // true
+     * }</pre>
      *
      * @return a hash code value for this tuple
      */
@@ -510,6 +702,23 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * <p>This method is consistent with {@link #hashCode()}. The non-empty arity-specific subclasses
      * override this method with an equivalent but specialized implementation that compares fields directly.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanTuple.BooleanTuple2 a = BooleanTuple.of(true, false);
+     * BooleanTuple.BooleanTuple2 b = BooleanTuple.of(true, false);
+     * boolean eq = a.equals(b);            // true
+     *
+     * BooleanTuple.BooleanTuple2 c = BooleanTuple.of(false, true);
+     * boolean neq = a.equals(c);           // false (different order)
+     *
+     * // edge: different arities are never equal
+     * BooleanTuple.BooleanTuple1 t1 = BooleanTuple.of(true);
+     * boolean diffArity = t1.equals(a);   // false
+     *
+     * // edge: null comparison
+     * boolean nullEq = a.equals(null);     // false
+     * }</pre>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
@@ -535,12 +744,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
-     * <ul>
-     *   <li>{@code (true, false, true)} for a BooleanTuple.BooleanTuple3</li>
-     *   <li>{@code (true, false)} for a BooleanTuple.BooleanTuple2</li>
-     *   <li>{@code (true)} for a BooleanTuple.BooleanTuple1</li>
-     *   <li>{@code ()} for an empty {@code BooleanTuple<?>}</li>
-     * </ul>
+     * <pre>{@code
+     * BooleanTuple.BooleanTuple3 t3 = BooleanTuple.of(true, false, true);
+     * String s3 = t3.toString();           // "(true, false, true)"
+     *
+     * BooleanTuple.BooleanTuple2 t2 = BooleanTuple.of(true, false);
+     * String s2 = t2.toString();           // "(true, false)"
+     *
+     * BooleanTuple.BooleanTuple1 t1 = BooleanTuple.of(true);
+     * String s1 = t1.toString();           // "(true)"
+     *
+     * // edge: empty tuple
+     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * String empty0 = empty.toString();    // "()"
+     *
+     * // edge: all-false tuple
+     * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+     * String sAll = allFalse.toString();   // "(false, false)"
+     * }</pre>
      *
      * @return a string representation of this tuple
      */
@@ -647,7 +868,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple1 tuple = BooleanTuple.of(true);
-     * boolean value = tuple._1;  // true
+     * boolean value = tuple._1;               // true
      * boolean reversed = tuple.reverse()._1;  // true (same for single element)
      * }</pre>
      */
@@ -667,6 +888,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns the number of elements in this tuple, which is always 1.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple1 t = BooleanTuple.of(true);
+         * int arity = t.arity();   // 1
+         *
+         * BooleanTuple.BooleanTuple1 f = BooleanTuple.of(false);
+         * int arityF = f.arity();  // 1
+         * }</pre>
+         *
          * @return 1
          */
         @Override
@@ -679,6 +909,17 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Since this tuple has only one element, reversing has no effect on the contained value;
          * however, a new instance is still returned for consistency with the {@link #reverse()} contract.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple1 t = BooleanTuple.of(true);
+         * BooleanTuple.BooleanTuple1 rev = t.reverse();
+         * boolean val = rev._1;   // true (single-element reverse is unchanged)
+         *
+         * BooleanTuple.BooleanTuple1 f = BooleanTuple.of(false);
+         * BooleanTuple.BooleanTuple1 revF = f.reverse();
+         * boolean valF = revF._1; // false
+         * }</pre>
+         *
          * @return a new BooleanTuple.BooleanTuple1 with the same element
          */
         @Override
@@ -688,6 +929,17 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Checks if this tuple contains the specified boolean value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple1 t = BooleanTuple.of(true);
+         * boolean hasTrue = t.contains(true);   // true
+         * boolean hasFalse = t.contains(false); // false
+         *
+         * BooleanTuple.BooleanTuple1 f = BooleanTuple.of(false);
+         * boolean fHasFalse = f.contains(false); // true
+         * boolean fHasTrue = f.contains(true);   // false
+         * }</pre>
          *
          * @param valueToFind the boolean value to search for
          * @return {@code true} if the element equals valueToFind, {@code false} otherwise
@@ -700,6 +952,19 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple1 t = BooleanTuple.of(true);
+         * int h = t.hashCode();   // 1231 (same as Boolean.hashCode(true))
+         *
+         * BooleanTuple.BooleanTuple1 f = BooleanTuple.of(false);
+         * int hf = f.hashCode();  // 1237 (same as Boolean.hashCode(false))
+         *
+         * // equal tuples have same hash code
+         * BooleanTuple.BooleanTuple1 t2 = BooleanTuple.of(true);
+         * boolean sameHash = (t.hashCode() == t2.hashCode()); // true
+         * }</pre>
+         *
          * @return {@code 1231} if {@code _1} is {@code true}, {@code 1237} otherwise (the same values used by {@link Boolean#hashCode(boolean)})
          */
         @Override
@@ -709,6 +974,23 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple1 a = BooleanTuple.of(true);
+         * BooleanTuple.BooleanTuple1 b = BooleanTuple.of(true);
+         * boolean eq = a.equals(b);    // true
+         *
+         * BooleanTuple.BooleanTuple1 c = BooleanTuple.of(false);
+         * boolean neq = a.equals(c);   // false
+         *
+         * // edge: null returns false
+         * boolean nullEq = a.equals(null); // false
+         *
+         * // edge: different arity never equal
+         * BooleanTuple.BooleanTuple2 t2 = BooleanTuple.of(true, false);
+         * boolean diffArity = a.equals(t2); // false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple1 with the same element, {@code false} otherwise
@@ -726,6 +1008,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple1 t = BooleanTuple.of(true);
+         * String s = t.toString();   // "(true)"
+         *
+         * BooleanTuple.BooleanTuple1 f = BooleanTuple.of(false);
+         * String sf = f.toString();  // "(false)"
+         * }</pre>
          *
          * @return a string representation in the format "(element)"
          */
@@ -762,7 +1053,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
-     * boolean first = tuple._1;  // true
+     * boolean first = tuple._1;   // true
      * boolean second = tuple._2;  // false
      *
      * // Using functional operations
@@ -789,6 +1080,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns the number of elements in this tuple, which is always 2.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple2 t = BooleanTuple.of(true, false);
+         * int arity = t.arity();              // 2
+         *
+         * BooleanTuple.BooleanTuple2 allTrue = BooleanTuple.of(true, true);
+         * int arityAll = allTrue.arity();     // 2
+         * }</pre>
+         *
          * @return 2
          */
         @Override
@@ -798,6 +1098,20 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple2 t = BooleanTuple.of(true, false);
+         * BooleanTuple.BooleanTuple2 rev = t.reverse();
+         * boolean r1 = rev._1;       // false
+         * boolean r2 = rev._2;       // true
+         * String s = rev.toString(); // "(false, true)"
+         *
+         * // all-same: reverse equals original
+         * BooleanTuple.BooleanTuple2 allTrue = BooleanTuple.of(true, true);
+         * BooleanTuple.BooleanTuple2 revAll = allTrue.reverse();
+         * String revAllStr = revAll.toString(); // "(true, true)"
+         * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple2 with the elements in reverse order
          */
@@ -809,6 +1123,23 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Checks if this tuple contains the specified boolean value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple2 mixed = BooleanTuple.of(true, false);
+         * mixed.contains(true)    // returns true
+         * mixed.contains(false)   // returns true
+         *
+         * // All-true tuple: false is absent
+         * BooleanTuple.BooleanTuple2 allTrue = BooleanTuple.of(true, true);
+         * allTrue.contains(true)    // returns true
+         * allTrue.contains(false)   // returns false
+         *
+         * // All-false tuple: true is absent
+         * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+         * allFalse.contains(true)   // returns false
+         * allFalse.contains(false)  // returns true
+         * }</pre>
+         *
          * @param valueToFind the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
@@ -819,6 +1150,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
+         * List<Boolean> list = new ArrayList<>();
+         * tuple.forEach(b -> list.add(b));   // list becomes [true, false]
+         *
+         * // Count true values
+         * BooleanTuple.BooleanTuple2 flags = BooleanTuple.of(true, true);
+         * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
+         * flags.forEach(b -> { if (b) count.incrementAndGet(); });
+         * // count is now 2
+         *
+         * // All-false: count stays 0
+         * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+         * java.util.concurrent.atomic.AtomicInteger count2 = new java.util.concurrent.atomic.AtomicInteger();
+         * allFalse.forEach(b -> { if (b) count2.incrementAndGet(); });
+         * // count2 is 0
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown
          * @param action the action to be performed for each element
@@ -846,9 +1196,17 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
          * tuple.accept((a, b) -> System.out.println(a + " AND " + b));   // prints "true AND false"
          *
-         * // Using with external state
-         * List<String> results = new ArrayList<>();
-         * tuple.accept((a, b) -> results.add(String.format("a=%s, b=%s", a, b)));
+         * // Record both values into an array
+         * boolean[] out = new boolean[2];
+         * tuple.accept((a, b) -> { out[0] = a; out[1] = b; });   // out[0]=true, out[1]=false
+         *
+         * // All-false pair: action still fires with (false, false)
+         * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+         * allFalse.accept((a, b) -> System.out.println(a || b));   // prints "false"
+         *
+         * // Same-value pair: detect equal values
+         * BooleanTuple.BooleanTuple2 same = BooleanTuple.of(true, true);
+         * same.accept((a, b) -> System.out.println(a == b));   // prints "true"
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -873,9 +1231,19 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
-         * boolean and = tuple.map((a, b) -> a && b);   // false
-         * boolean or = tuple.map((a, b) -> a || b);    // true
-         * String str = tuple.map((a, b) -> String.format("(%s, %s)", a, b));   // "(true, false)"
+         * boolean and = tuple.map((a, b) -> a && b);                     // returns false
+         * boolean or  = tuple.map((a, b) -> a || b);                     // returns true
+         * String str  = tuple.map((a, b) -> "(" + a + ", " + b + ")");   // returns "(true, false)"
+         *
+         * // XOR of the two values
+         * boolean xor = tuple.map((a, b) -> a ^ b);   // returns true
+         *
+         * // Mapper returning null is allowed (@MayReturnNull)
+         * Object nullResult = tuple.map((a, b) -> null);   // returns null
+         *
+         * // All-false pair
+         * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+         * boolean neitherTrue = allFalse.map((a, b) -> a || b);   // returns false
          * }</pre>
          *
          * @param <U> the type of the result returned by the mapper function
@@ -905,12 +1273,18 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
-         * u.Optional<BooleanTuple.BooleanTuple2> result = tuple.filter((a, b) -> a || b);   // Optional containing the tuple
-         * u.Optional<BooleanTuple.BooleanTuple2> empty = tuple.filter((a, b) -> a && b);    // Optional.empty()
+         * u.Optional<BooleanTuple.BooleanTuple2> present = tuple.filter((a, b) -> a || b);   // Optional containing the tuple
+         * u.Optional<BooleanTuple.BooleanTuple2> empty   = tuple.filter((a, b) -> a && b);   // Optional.empty()
          *
-         * // Chaining with map
-         * tuple.filter((a, b) -> a != b)
-         *      .ifPresent(t -> System.out.println("Values are different"));
+         * // Different values: predicate matches
+         * u.Optional<BooleanTuple.BooleanTuple2> diffVals = tuple.filter((a, b) -> a != b);   // Optional containing tuple
+         *
+         * // All-false pair: OR predicate never matches
+         * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+         * u.Optional<BooleanTuple.BooleanTuple2> noMatch = allFalse.filter((a, b) -> a || b);   // Optional.empty()
+         *
+         * // All-same pair: equality predicate matches
+         * u.Optional<BooleanTuple.BooleanTuple2> sameMatch = allFalse.filter((a, b) -> a == b);   // Optional containing tuple
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
@@ -928,6 +1302,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple2 t1 = BooleanTuple.of(true, false);
+         * BooleanTuple.BooleanTuple2 t2 = BooleanTuple.of(true, false);
+         * t1.hashCode() == t2.hashCode()   // returns true (equal tuples have equal hash codes)
+         * t1.hashCode()                    // returns 39398
+         *
+         * // Different order yields different hash
+         * BooleanTuple.BooleanTuple2 reversed = BooleanTuple.of(false, true);
+         * t1.hashCode() == reversed.hashCode()   // returns false
+         *
+         * // All-false
+         * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+         * allFalse.hashCode()   // returns 39584
+         * }</pre>
+         *
          * @return a hash code value calculated from both elements
          */
         @Override
@@ -937,6 +1327,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple2 t1 = BooleanTuple.of(true, false);
+         * BooleanTuple.BooleanTuple2 t2 = BooleanTuple.of(true, false);
+         * t1.equals(t2)   // returns true
+         * t1.equals(t1)   // returns true (reflexive)
+         *
+         * // Different order is not equal
+         * BooleanTuple.BooleanTuple2 reversed = BooleanTuple.of(false, true);
+         * t1.equals(reversed)   // returns false
+         *
+         * // Null and non-tuple types are never equal
+         * t1.equals(null)              // returns false
+         * t1.equals("(true, false)")   // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple2 with the same elements in the same order, {@code false} otherwise
@@ -954,6 +1360,18 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple2 t = BooleanTuple.of(true, false);
+         * t.toString()   // returns "(true, false)"
+         *
+         * BooleanTuple.BooleanTuple2 allTrue = BooleanTuple.of(true, true);
+         * allTrue.toString()   // returns "(true, true)"
+         *
+         * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
+         * allFalse.toString()   // returns "(false, false)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2)"
          */
@@ -989,9 +1407,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * boolean first = tuple._1;  // true
+     * boolean first = tuple._1;   // true
      * boolean second = tuple._2;  // false
-     * boolean third = tuple._3;  // true
+     * boolean third = tuple._3;   // true
      *
      * // Using functional operations
      * boolean allTrue = tuple.map((a, b, c) -> a && b && c);   // false
@@ -1020,6 +1438,19 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns the number of elements in this tuple, which is always 3.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+         * tuple.arity()   // returns 3
+         *
+         * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
+         * allFalse.arity()   // returns 3
+         *
+         * // Arity is fixed regardless of element values
+         * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
+         * allTrue.arity()   // returns 3
+         * }</pre>
+         *
          * @return 3
          */
         @Override
@@ -1029,6 +1460,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, false);
+         * BooleanTuple.BooleanTuple3 reversed = tuple.reverse();
+         * reversed.toString()   // returns "(false, false, true)"
+         *
+         * // Palindrome: reversing yields the same sequence
+         * BooleanTuple.BooleanTuple3 palindrome = BooleanTuple.of(true, false, true);
+         * palindrome.reverse().toString()   // returns "(true, false, true)"
+         *
+         * // All-same values: reverse is identical in value
+         * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
+         * allTrue.reverse().toString()   // returns "(true, true, true)"
+         *
+         * // reverse() returns a NEW instance (not the same object)
+         * palindrome.reverse() != palindrome   // true
+         * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple3 with the elements in reverse order
          */
@@ -1040,6 +1489,23 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Checks if this tuple contains the specified boolean value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple3 mixed = BooleanTuple.of(true, false, true);
+         * mixed.contains(true)    // returns true
+         * mixed.contains(false)   // returns true
+         *
+         * // All-true tuple: false is absent
+         * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
+         * allTrue.contains(true)    // returns true
+         * allTrue.contains(false)   // returns false
+         *
+         * // All-false tuple: true is absent
+         * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
+         * allFalse.contains(true)   // returns false
+         * allFalse.contains(false)  // returns true
+         * }</pre>
+         *
          * @param valueToFind the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
@@ -1050,6 +1516,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+         * List<Boolean> list = new ArrayList<>();
+         * tuple.forEach(b -> list.add(b));   // list becomes [true, false, true]
+         *
+         * // Count true values
+         * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
+         * tuple.forEach(b -> { if (b) count.incrementAndGet(); });
+         * // count is 2
+         *
+         * // All-false: count stays 0
+         * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
+         * java.util.concurrent.atomic.AtomicInteger count2 = new java.util.concurrent.atomic.AtomicInteger();
+         * allFalse.forEach(b -> { if (b) count2.incrementAndGet(); });
+         * // count2 is 0
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown
          * @param action the action to be performed for each element
@@ -1076,15 +1560,19 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-         * tuple.accept((a, b, c) -> System.out.println(a + ", " + b + ", " + c));
+         * tuple.accept((a, b, c) -> System.out.println(a + ", " + b + ", " + c));   // prints "true, false, true"
          *
-         * // Counting true values
-         * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
-         * tuple.accept((a, b, c) -> {
-         *     if (a) count.incrementAndGet();
-         *     if (b) count.incrementAndGet();
-         *     if (c) count.incrementAndGet();
-         * });
+         * // Record all three values into an array
+         * boolean[] out = new boolean[3];
+         * tuple.accept((a, b, c) -> { out[0] = a; out[1] = b; out[2] = c; });   // out[0]=true, out[1]=false, out[2]=true
+         *
+         * // All-false triple: action still fires with (false, false, false)
+         * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
+         * allFalse.accept((a, b, c) -> System.out.println(a || b || c));   // prints "false"
+         *
+         * // All-true triple: AND result is true
+         * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
+         * allTrue.accept((a, b, c) -> System.out.println(a && b && c));   // prints "true"
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -1110,9 +1598,17 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-         * boolean and = tuple.map((a, b, c) -> a && b && c);   // false
-         * boolean or = tuple.map((a, b, c) -> a || b || c);    // true
-         * int trueCount = tuple.map((a, b, c) -> (a ? 1 : 0) + (b ? 1 : 0) + (c ? 1 : 0));   // 2
+         * boolean and = tuple.map((a, b, c) -> a && b && c);                                 // returns false
+         * boolean or  = tuple.map((a, b, c) -> a || b || c);                                 // returns true
+         * int trueCount = tuple.map((a, b, c) -> (a ? 1 : 0) + (b ? 1 : 0) + (c ? 1 : 0));   // returns 2
+         *
+         * // Mapper returning null is allowed (@MayReturnNull)
+         * Object nullResult = tuple.map((a, b, c) -> null);   // returns null
+         *
+         * // All-false: AND and OR both false
+         * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
+         * allFalse.map((a, b, c) -> a && b && c)   // returns false
+         * allFalse.map((a, b, c) -> a || b || c)   // returns false
          * }</pre>
          *
          * @param <U> the type of the result returned by the mapper function
@@ -1142,13 +1638,18 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-         * u.Optional<BooleanTuple.BooleanTuple3> result = tuple.filter((a, b, c) -> a || c);   // Optional containing the tuple
-         * u.Optional<BooleanTuple.BooleanTuple3> empty = tuple.filter((a, b, c) -> a && b && c);    // Optional.empty()
+         * u.Optional<BooleanTuple.BooleanTuple3> present = tuple.filter((a, b, c) -> a || c);       // Optional containing the tuple
+         * u.Optional<BooleanTuple.BooleanTuple3> empty   = tuple.filter((a, b, c) -> a && b && c);  // Optional.empty()
          *
-         * // Chaining operations
-         * tuple.filter((a, b, c) -> a != b || b != c)
-         *      .map(t -> t.map((x, y, z) -> x || y || z))
-         *      .ifPresent(anyTrue -> System.out.println("At least one is true"));
+         * // Mixed values: not-all-equal predicate matches
+         * u.Optional<BooleanTuple.BooleanTuple3> mixed = tuple.filter((a, b, c) -> a != b || b != c);   // Optional containing tuple
+         *
+         * // All-false triple: OR predicate never matches
+         * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
+         * u.Optional<BooleanTuple.BooleanTuple3> noMatch = allFalse.filter((a, b, c) -> a || b || c);   // Optional.empty()
+         *
+         * // All-same values: equality predicate matches
+         * u.Optional<BooleanTuple.BooleanTuple3> sameMatch = allFalse.filter((a, b, c) -> a == b && b == c);   // Optional containing tuple
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
@@ -1166,6 +1667,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple3 t1 = BooleanTuple.of(true, false, true);
+         * BooleanTuple.BooleanTuple3 t2 = BooleanTuple.of(true, false, true);
+         * t1.hashCode() == t2.hashCode()   // returns true (equal tuples have equal hash codes)
+         * t1.hashCode()                    // returns 1222569
+         *
+         * // Different values yield different hash
+         * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
+         * t1.hashCode() == allTrue.hashCode()   // returns false
+         *
+         * // All-false
+         * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
+         * allFalse.hashCode()   // returns 1228341
+         * }</pre>
+         *
          * @return a hash code value calculated from all three elements
          */
         @Override
@@ -1175,6 +1692,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple3 t1 = BooleanTuple.of(true, false, true);
+         * BooleanTuple.BooleanTuple3 t2 = BooleanTuple.of(true, false, true);
+         * t1.equals(t2)   // returns true
+         * t1.equals(t1)   // returns true (reflexive)
+         *
+         * // Different first element
+         * BooleanTuple.BooleanTuple3 t3 = BooleanTuple.of(false, false, true);
+         * t1.equals(t3)   // returns false
+         *
+         * // Null and different arity are never equal
+         * t1.equals(null)                          // returns false
+         * t1.equals(BooleanTuple.of(true, false))  // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple3 with the same elements in the same order, {@code false} otherwise
@@ -1192,6 +1725,18 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple3 t = BooleanTuple.of(true, false, true);
+         * t.toString()   // returns "(true, false, true)"
+         *
+         * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
+         * allTrue.toString()   // returns "(true, true, true)"
+         *
+         * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
+         * allFalse.toString()   // returns "(false, false, false)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3)"
          */
@@ -1226,9 +1771,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-     * boolean first = tuple._1;  // true
-     * boolean fourth = tuple._4;  // false
-     * boolean hasTrue = tuple.contains(true);   // true
+     * boolean first = tuple._1;                // true
+     * boolean fourth = tuple._4;               // false
+     * boolean hasTrue = tuple.contains(true);  // true
      * }</pre>
      */
     public static final class BooleanTuple4 extends BooleanTuple<BooleanTuple4> {
@@ -1256,6 +1801,19 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns the number of elements in this tuple, which is always 4.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
+         * tuple.arity()   // returns 4
+         *
+         * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
+         * allTrue.arity()   // returns 4
+         *
+         * // Arity is independent of element values
+         * BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
+         * allFalse.arity()   // returns 4
+         * }</pre>
+         *
          * @return 4
          */
         @Override
@@ -1269,7 +1827,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-         * BooleanTuple.BooleanTuple4 reversed = tuple.reverse();   // (false, true, false, true)
+         * BooleanTuple.BooleanTuple4 reversed = tuple.reverse();
+         * reversed.toString()   // returns "(false, true, false, true)"
+         *
+         * // All-same values: reverse looks identical
+         * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
+         * allTrue.reverse().toString()   // returns "(true, true, true, true)"
+         *
+         * // reverse() returns a NEW instance
+         * tuple.reverse() != tuple   // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple4 with the elements in reverse order
@@ -1282,6 +1848,23 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Checks if this tuple contains the specified boolean value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple4 mixed = BooleanTuple.of(true, false, true, false);
+         * mixed.contains(true)    // returns true
+         * mixed.contains(false)   // returns true
+         *
+         * // All-true: false is absent
+         * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
+         * allTrue.contains(true)    // returns true
+         * allTrue.contains(false)   // returns false
+         *
+         * // All-false: true is absent
+         * BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
+         * allFalse.contains(true)   // returns false
+         * allFalse.contains(false)  // returns true
+         * }</pre>
+         *
          * @param valueToFind the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
@@ -1292,6 +1875,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
+         * List<Boolean> list = new ArrayList<>();
+         * tuple.forEach(b -> list.add(b));   // list becomes [true, false, true, false]
+         *
+         * // Count true values
+         * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
+         * tuple.forEach(b -> { if (b) count.incrementAndGet(); });
+         * // count is 2
+         *
+         * // All-false: count stays 0
+         * BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
+         * java.util.concurrent.atomic.AtomicInteger count2 = new java.util.concurrent.atomic.AtomicInteger();
+         * allFalse.forEach(b -> { if (b) count2.incrementAndGet(); });
+         * // count2 is 0
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown
          * @param action the action to be performed for each element
@@ -1311,6 +1912,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple4 t1 = BooleanTuple.of(true, false, true, false);
+         * BooleanTuple.BooleanTuple4 t2 = BooleanTuple.of(true, false, true, false);
+         * t1.hashCode() == t2.hashCode()   // returns true (equal tuples have equal hash codes)
+         *
+         * // Different order yields different hash
+         * BooleanTuple.BooleanTuple4 reversed = BooleanTuple.of(false, true, false, true);
+         * t1.hashCode() == reversed.hashCode()   // returns false
+         *
+         * // All-true
+         * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
+         * allTrue.hashCode()   // returns 37895104
+         * }</pre>
+         *
          * @return a hash code value calculated from all four elements
          */
         @Override
@@ -1320,6 +1936,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple4 t1 = BooleanTuple.of(true, false, true, false);
+         * BooleanTuple.BooleanTuple4 t2 = BooleanTuple.of(true, false, true, false);
+         * t1.equals(t2)   // returns true
+         * t1.equals(t1)   // returns true (reflexive)
+         *
+         * // Different first element is not equal
+         * BooleanTuple.BooleanTuple4 t3 = BooleanTuple.of(false, false, true, false);
+         * t1.equals(t3)   // returns false
+         *
+         * // Null and different arity are never equal
+         * t1.equals(null)                                    // returns false
+         * t1.equals(BooleanTuple.of(true, false, true))      // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple4 with the same elements in the same order, {@code false} otherwise
@@ -1337,6 +1969,18 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple4 t = BooleanTuple.of(true, false, true, false);
+         * t.toString()   // returns "(true, false, true, false)"
+         *
+         * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
+         * allTrue.toString()   // returns "(true, true, true, true)"
+         *
+         * BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
+         * allFalse.toString()   // returns "(false, false, false, false)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3, element4)"
          */
@@ -1371,9 +2015,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-     * boolean first = tuple._1;  // true
-     * boolean fifth = tuple._5;  // true
-     * boolean hasFalse = tuple.contains(false);   // true
+     * boolean first = tuple._1;                  // true
+     * boolean fifth = tuple._5;                  // true
+     * boolean hasFalse = tuple.contains(false);  // true
      * }</pre>
      */
     public static final class BooleanTuple5 extends BooleanTuple<BooleanTuple5> {
@@ -1404,6 +2048,19 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns the number of elements in this tuple, which is always 5.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
+         * tuple.arity()   // returns 5
+         *
+         * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
+         * allTrue.arity()   // returns 5
+         *
+         * // Arity is independent of element values
+         * BooleanTuple.BooleanTuple5 allFalse = BooleanTuple.of(false, false, false, false, false);
+         * allFalse.arity()   // returns 5
+         * }</pre>
+         *
          * @return 5
          */
         @Override
@@ -1416,8 +2073,20 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-         * BooleanTuple.BooleanTuple5 reversed = tuple.reverse();   // (true, false, true, false, true) - palindrome
+         * // Palindrome: reversing yields the same sequence
+         * BooleanTuple.BooleanTuple5 palindrome = BooleanTuple.of(true, false, true, false, true);
+         * palindrome.reverse().toString()   // returns "(true, false, true, false, true)"
+         *
+         * // Non-palindrome: reversed differs from original
+         * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, false, false, false);
+         * tuple.reverse().toString()   // returns "(false, false, false, false, true)"
+         *
+         * // All-same: reverse is identical in value
+         * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
+         * allTrue.reverse().toString()   // returns "(true, true, true, true, true)"
+         *
+         * // reverse() returns a NEW instance
+         * palindrome.reverse() != palindrome   // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple5 with the elements in reverse order
@@ -1430,6 +2099,23 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Checks if this tuple contains the specified boolean value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple5 mixed = BooleanTuple.of(true, false, true, false, true);
+         * mixed.contains(true)    // returns true
+         * mixed.contains(false)   // returns true
+         *
+         * // All-true: false is absent
+         * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
+         * allTrue.contains(true)    // returns true
+         * allTrue.contains(false)   // returns false
+         *
+         * // All-false: true is absent
+         * BooleanTuple.BooleanTuple5 allFalse = BooleanTuple.of(false, false, false, false, false);
+         * allFalse.contains(true)   // returns false
+         * allFalse.contains(false)  // returns true
+         * }</pre>
+         *
          * @param valueToFind the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
@@ -1440,6 +2126,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
+         * List<Boolean> list = new ArrayList<>();
+         * tuple.forEach(b -> list.add(b));   // list becomes [true, false, true, false, true]
+         *
+         * // Count true values
+         * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
+         * tuple.forEach(b -> { if (b) count.incrementAndGet(); });
+         * // count is 3
+         *
+         * // All-false: count stays 0
+         * BooleanTuple.BooleanTuple5 allFalse = BooleanTuple.of(false, false, false, false, false);
+         * java.util.concurrent.atomic.AtomicInteger count2 = new java.util.concurrent.atomic.AtomicInteger();
+         * allFalse.forEach(b -> { if (b) count2.incrementAndGet(); });
+         * // count2 is 0
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown
          * @param action the action to be performed for each element
@@ -1460,6 +2164,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple5 t1 = BooleanTuple.of(true, false, true, false, true);
+         * BooleanTuple.BooleanTuple5 t2 = BooleanTuple.of(true, false, true, false, true);
+         * t1.hashCode() == t2.hashCode()   // returns true (equal tuples have equal hash codes)
+         *
+         * // Different values yield different hash
+         * BooleanTuple.BooleanTuple5 t3 = BooleanTuple.of(false, true, false, true, false);
+         * t1.hashCode() == t3.hashCode()   // returns false
+         *
+         * // All-true
+         * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
+         * allTrue.hashCode()   // returns 1174749455
+         * }</pre>
+         *
          * @return a hash code value calculated from all five elements
          */
         @Override
@@ -1469,6 +2188,22 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple5 t1 = BooleanTuple.of(true, false, true, false, true);
+         * BooleanTuple.BooleanTuple5 t2 = BooleanTuple.of(true, false, true, false, true);
+         * t1.equals(t2)   // returns true
+         * t1.equals(t1)   // returns true (reflexive)
+         *
+         * // Different last element is not equal
+         * BooleanTuple.BooleanTuple5 t3 = BooleanTuple.of(true, false, true, false, false);
+         * t1.equals(t3)   // returns false
+         *
+         * // Null and different arity are never equal
+         * t1.equals(null)                                         // returns false
+         * t1.equals(BooleanTuple.of(true, false, true, false))    // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple5 with the same elements in the same order, {@code false} otherwise
@@ -1486,6 +2221,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Basic: alternating true/false
+         * BooleanTuple.BooleanTuple5 t = BooleanTuple.of(true, false, true, false, true);
+         * String s = t.toString();             // returns "(true, false, true, false, true)"
+         *
+         * // Basic: all false
+         * BooleanTuple.BooleanTuple5 t2 = BooleanTuple.of(false, false, false, false, false);
+         * String s2 = t2.toString();           // returns "(false, false, false, false, false)"
+         *
+         * // Edge: all true
+         * BooleanTuple.BooleanTuple5 t3 = BooleanTuple.of(true, true, true, true, true);
+         * String s3 = t3.toString();           // returns "(true, true, true, true, true)"
+         *
+         * // Edge: false-leading pattern
+         * BooleanTuple.BooleanTuple5 t4 = BooleanTuple.of(false, true, false, true, false);
+         * String s4 = t4.toString();           // returns "(false, true, false, true, false)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3, element4, element5)"
          */
@@ -1520,9 +2274,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-     * boolean first = tuple._1;  // true
-     * boolean sixth = tuple._6;  // false
-     * BooleanTuple.BooleanTuple6 reversed = tuple.reverse();   // (false, true, false, true, false, true)
+     * boolean first = tuple._1;                               // true
+     * boolean sixth = tuple._6;                               // false
+     * BooleanTuple.BooleanTuple6 reversed = tuple.reverse();  // (false, true, false, true, false, true)
      * }</pre>
      */
     public static final class BooleanTuple6 extends BooleanTuple<BooleanTuple6> {
@@ -1556,6 +2310,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns the number of elements in this tuple, which is always 6.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
+         * int n = tuple.arity();   // returns 6
+         *
+         * // All-true tuple also has arity 6
+         * BooleanTuple.BooleanTuple6 allTrue = BooleanTuple.of(true, true, true, true, true, true);
+         * int n2 = allTrue.arity();   // returns 6
+         *
+         * // All-false tuple also has arity 6
+         * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
+         * int n3 = allFalse.arity();   // returns 6
+         *
+         * // Arity is independent of element values
+         * BooleanTuple.BooleanTuple6 mixed = BooleanTuple.of(true, false, false, true, true, false);
+         * int n4 = mixed.arity();   // returns 6
+         * }</pre>
+         *
          * @return 6
          */
         @Override
@@ -1568,8 +2340,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic reversal of alternating values
          * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-         * BooleanTuple.BooleanTuple6 reversed = tuple.reverse();   // (false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple6 reversed = tuple.reverse();   // returns (false, true, false, true, false, true)
+         *
+         * // Reversing all-true tuple yields same result
+         * BooleanTuple.BooleanTuple6 allTrue = BooleanTuple.of(true, true, true, true, true, true);
+         * BooleanTuple.BooleanTuple6 rev2 = allTrue.reverse();   // returns (true, true, true, true, true, true)
+         *
+         * // Reversing all-false tuple yields same result
+         * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
+         * BooleanTuple.BooleanTuple6 rev3 = allFalse.reverse();   // returns (false, false, false, false, false, false)
+         *
+         * // Reversing a mixed tuple; result is a different object
+         * BooleanTuple.BooleanTuple6 mixed = BooleanTuple.of(true, false, false, true, false, true);
+         * BooleanTuple.BooleanTuple6 rev4 = mixed.reverse();   // returns (true, false, true, false, false, true)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple6 with the elements in reverse order
@@ -1582,6 +2367,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Checks if this tuple contains the specified boolean value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Tuple with mixed values contains both true and false
+         * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
+         * boolean hasTrue = tuple.contains(true);    // returns true
+         * boolean hasFalse = tuple.contains(false);  // returns true
+         *
+         * // All-true tuple does not contain false
+         * BooleanTuple.BooleanTuple6 allTrue = BooleanTuple.of(true, true, true, true, true, true);
+         * boolean t2 = allTrue.contains(true);    // returns true
+         * boolean f2 = allTrue.contains(false);   // returns false
+         *
+         * // All-false tuple does not contain true
+         * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
+         * boolean f3 = allFalse.contains(false);  // returns true
+         * boolean t3 = allFalse.contains(true);   // returns false
+         * }</pre>
+         *
          * @param valueToFind the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
@@ -1592,6 +2395,27 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Collect all elements into a list
+         * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
+         * java.util.List<Boolean> list = new java.util.ArrayList<>();
+         * tuple.forEach(list::add);   // list becomes [true, false, true, false, true, false]
+         *
+         * // Count how many elements are true
+         * BooleanTuple.BooleanTuple6 allTrue = BooleanTuple.of(true, true, true, true, true, true);
+         * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
+         * allTrue.forEach(v -> { if (v) count.incrementAndGet(); });   // count becomes 6
+         *
+         * // All-false tuple: count of true remains 0
+         * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
+         * java.util.concurrent.atomic.AtomicInteger count2 = new java.util.concurrent.atomic.AtomicInteger();
+         * allFalse.forEach(v -> { if (v) count2.incrementAndGet(); });   // count2 remains 0
+         *
+         * // Null action throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown
          * @param action the action to be performed for each element
@@ -1613,6 +2437,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Alternating true/false tuple
+         * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
+         * int h1 = tuple.hashCode();   // returns 2063042866
+         *
+         * // All-true tuple has a distinct hash
+         * BooleanTuple.BooleanTuple6 allTrue = BooleanTuple.of(true, true, true, true, true, true);
+         * int h2 = allTrue.hashCode();   // returns 2057495968
+         *
+         * // All-false tuple has a distinct hash
+         * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
+         * int h3 = allFalse.hashCode();   // returns -2059970592
+         *
+         * // Equal tuples always produce the same hash code
+         * BooleanTuple.BooleanTuple6 copy = BooleanTuple.of(true, false, true, false, true, false);
+         * boolean sameHash = tuple.hashCode() == copy.hashCode();   // returns true
+         * }</pre>
+         *
          * @return a hash code value calculated from all six elements
          */
         @Override
@@ -1623,6 +2466,26 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple6 t1 = BooleanTuple.of(true, false, true, false, true, false);
+         * BooleanTuple.BooleanTuple6 t2 = BooleanTuple.of(true, false, true, false, true, false);
+         * BooleanTuple.BooleanTuple6 t3 = BooleanTuple.of(false, true, false, true, false, true);
+         *
+         * // Equal tuples with identical element values
+         * boolean eq1 = t1.equals(t2);   // returns true
+         *
+         * // Different element values yield false
+         * boolean eq2 = t1.equals(t3);   // returns false
+         *
+         * // Reflexive: a tuple equals itself
+         * boolean eq3 = t1.equals(t1);   // returns true
+         *
+         * // Comparison with null or different type returns false
+         * boolean eq4 = t1.equals(null);             // returns false
+         * boolean eq5 = t1.equals("not a tuple");    // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple6 with the same elements in the same order, {@code false} otherwise
@@ -1640,6 +2503,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Alternating values
+         * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
+         * String s = tuple.toString();   // returns "(true, false, true, false, true, false)"
+         *
+         * // All-true tuple
+         * BooleanTuple.BooleanTuple6 allTrue = BooleanTuple.of(true, true, true, true, true, true);
+         * String s2 = allTrue.toString();   // returns "(true, true, true, true, true, true)"
+         *
+         * // All-false tuple
+         * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
+         * String s3 = allFalse.toString();   // returns "(false, false, false, false, false, false)"
+         *
+         * // Mixed tuple with duplicates
+         * BooleanTuple.BooleanTuple6 mixed = BooleanTuple.of(true, true, false, false, true, false);
+         * String s4 = mixed.toString();   // returns "(true, true, false, false, true, false)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3, element4, element5, element6)"
          */
@@ -1674,9 +2556,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-     * boolean first = tuple._1;  // true
-     * boolean seventh = tuple._7;  // true
-     * boolean[] array = tuple.toArray();   // [true, false, true, false, true, false, true]
+     * boolean first = tuple._1;           // true
+     * boolean seventh = tuple._7;         // true
+     * boolean[] array = tuple.toArray();  // [true, false, true, false, true, false, true]
      * }</pre>
      */
     public static final class BooleanTuple7 extends BooleanTuple<BooleanTuple7> {
@@ -1713,6 +2595,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns the number of elements in this tuple, which is always 7.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
+         * int n = tuple.arity();   // returns 7
+         *
+         * // All-true tuple also has arity 7
+         * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
+         * int n2 = allTrue.arity();   // returns 7
+         *
+         * // All-false tuple also has arity 7
+         * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
+         * int n3 = allFalse.arity();   // returns 7
+         *
+         * // Arity is independent of element values
+         * BooleanTuple.BooleanTuple7 mixed = BooleanTuple.of(true, false, false, true, false, true, false);
+         * int n4 = mixed.arity();   // returns 7
+         * }</pre>
+         *
          * @return 7
          */
         @Override
@@ -1725,8 +2625,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-         * BooleanTuple.BooleanTuple7 reversed = tuple.reverse();   // (true, false, true, false, true, false, true) - palindrome
+         * // Alternating-value tuple; reverse is not equal to original
+         * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, false);
+         * BooleanTuple.BooleanTuple7 reversed = tuple.reverse();   // returns (false, false, true, false, true, false, true)
+         *
+         * // Palindrome tuple reverses to itself
+         * BooleanTuple.BooleanTuple7 palindrome = BooleanTuple.of(true, false, true, false, true, false, true);
+         * BooleanTuple.BooleanTuple7 rev2 = palindrome.reverse();   // returns (true, false, true, false, true, false, true)
+         *
+         * // All-true tuple reverses to itself
+         * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
+         * BooleanTuple.BooleanTuple7 rev3 = allTrue.reverse();   // returns (true, true, true, true, true, true, true)
+         *
+         * // All-false tuple reverses to itself
+         * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
+         * BooleanTuple.BooleanTuple7 rev4 = allFalse.reverse();   // returns (false, false, false, false, false, false, false)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple7 with the elements in reverse order
@@ -1739,6 +2652,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Checks if this tuple contains the specified boolean value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Tuple with mixed values contains both true and false
+         * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
+         * boolean hasTrue = tuple.contains(true);    // returns true
+         * boolean hasFalse = tuple.contains(false);  // returns true
+         *
+         * // All-true tuple does not contain false
+         * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
+         * boolean t2 = allTrue.contains(true);    // returns true
+         * boolean f2 = allTrue.contains(false);   // returns false
+         *
+         * // All-false tuple does not contain true
+         * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
+         * boolean f3 = allFalse.contains(false);  // returns true
+         * boolean t3 = allFalse.contains(true);   // returns false
+         * }</pre>
+         *
          * @param valueToFind the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
@@ -1750,6 +2681,27 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Collect all elements into a list
+         * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
+         * java.util.List<Boolean> list = new java.util.ArrayList<>();
+         * tuple.forEach(list::add);   // list becomes [true, false, true, false, true, false, true]
+         *
+         * // Count how many elements are true
+         * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
+         * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
+         * allTrue.forEach(v -> { if (v) count.incrementAndGet(); });   // count becomes 7
+         *
+         * // All-false tuple: count of true remains 0
+         * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
+         * java.util.concurrent.atomic.AtomicInteger count2 = new java.util.concurrent.atomic.AtomicInteger();
+         * allFalse.forEach(v -> { if (v) count2.incrementAndGet(); });   // count2 remains 0
+         *
+         * // Null action throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown
          * @param action the action to be performed for each element
@@ -1772,6 +2724,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Alternating true/false tuple
+         * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
+         * int h1 = tuple.hashCode();   // returns -470179363
+         *
+         * // All-true tuple has a distinct hash
+         * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
+         * int h2 = allTrue.hashCode();   // returns -642133201
+         *
+         * // All-false tuple has a distinct hash
+         * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
+         * int h3 = allFalse.hashCode();   // returns 565422325
+         *
+         * // Equal tuples always produce the same hash code
+         * BooleanTuple.BooleanTuple7 copy = BooleanTuple.of(true, false, true, false, true, false, true);
+         * boolean sameHash = tuple.hashCode() == copy.hashCode();   // returns true
+         * }</pre>
+         *
          * @return a hash code value calculated from all seven elements
          */
         @Override
@@ -1784,6 +2755,26 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple7 t1 = BooleanTuple.of(true, false, true, false, true, false, true);
+         * BooleanTuple.BooleanTuple7 t2 = BooleanTuple.of(true, false, true, false, true, false, true);
+         * BooleanTuple.BooleanTuple7 t3 = BooleanTuple.of(false, true, false, true, false, true, false);
+         *
+         * // Equal tuples with identical element values
+         * boolean eq1 = t1.equals(t2);   // returns true
+         *
+         * // Different element values yield false
+         * boolean eq2 = t1.equals(t3);   // returns false
+         *
+         * // Reflexive: a tuple equals itself
+         * boolean eq3 = t1.equals(t1);   // returns true
+         *
+         * // Comparison with null or different type returns false
+         * boolean eq4 = t1.equals(null);             // returns false
+         * boolean eq5 = t1.equals("not a tuple");    // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple7 with the same elements in the same order, {@code false} otherwise
@@ -1801,6 +2792,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Alternating values
+         * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
+         * String s = tuple.toString();   // returns "(true, false, true, false, true, false, true)"
+         *
+         * // All-true tuple
+         * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
+         * String s2 = allTrue.toString();   // returns "(true, true, true, true, true, true, true)"
+         *
+         * // All-false tuple
+         * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
+         * String s3 = allFalse.toString();   // returns "(false, false, false, false, false, false, false)"
+         *
+         * // Mixed tuple with duplicates
+         * BooleanTuple.BooleanTuple7 mixed = BooleanTuple.of(true, true, false, false, true, false, true);
+         * String s4 = mixed.toString();   // returns "(true, true, false, false, true, false, true)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3, element4, element5, element6, element7)"
          */
@@ -1835,7 +2845,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-     * boolean first = tuple._1;  // true
+     * boolean first = tuple._1;   // true
      * boolean eighth = tuple._8;  // false
      * BooleanList list = tuple.toList();
      * }</pre>
@@ -1881,6 +2891,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns the number of elements in this tuple, which is always 8.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
+         * int n = tuple.arity();   // returns 8
+         *
+         * // All-true tuple also has arity 8
+         * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
+         * int n2 = allTrue.arity();   // returns 8
+         *
+         * // All-false tuple also has arity 8
+         * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
+         * int n3 = allFalse.arity();   // returns 8
+         *
+         * // Arity is independent of element values
+         * BooleanTuple.BooleanTuple8 mixed = BooleanTuple.of(true, false, false, true, false, true, false, true);
+         * int n4 = mixed.arity();   // returns 8
+         * }</pre>
+         *
          * @return 8
          */
         @Override
@@ -1893,8 +2921,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
+         * // Basic reversal of alternating values
          * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-         * BooleanTuple.BooleanTuple8 reversed = tuple.reverse();   // (false, true, false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple8 reversed = tuple.reverse();   // returns (false, true, false, true, false, true, false, true)
+         *
+         * // All-true tuple reverses to itself
+         * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
+         * BooleanTuple.BooleanTuple8 rev2 = allTrue.reverse();   // returns (true, true, true, true, true, true, true, true)
+         *
+         * // All-false tuple reverses to itself
+         * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
+         * BooleanTuple.BooleanTuple8 rev3 = allFalse.reverse();   // returns (false, false, false, false, false, false, false, false)
+         *
+         * // Asymmetric tuple; reversal is a different tuple
+         * BooleanTuple.BooleanTuple8 asym = BooleanTuple.of(true, false, false, false, false, false, false, true);
+         * BooleanTuple.BooleanTuple8 rev4 = asym.reverse();   // returns (true, false, false, false, false, false, false, true)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple8 with the elements in reverse order
@@ -1907,6 +2948,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Checks if this tuple contains the specified boolean value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Tuple with mixed values contains both true and false
+         * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
+         * boolean hasTrue = tuple.contains(true);    // returns true
+         * boolean hasFalse = tuple.contains(false);  // returns true
+         *
+         * // All-true tuple does not contain false
+         * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
+         * boolean t2 = allTrue.contains(true);    // returns true
+         * boolean f2 = allTrue.contains(false);   // returns false
+         *
+         * // All-false tuple does not contain true
+         * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
+         * boolean f3 = allFalse.contains(false);  // returns true
+         * boolean t3 = allFalse.contains(true);   // returns false
+         * }</pre>
+         *
          * @param valueToFind the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
@@ -1918,6 +2977,27 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Collect all elements into a list
+         * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
+         * java.util.List<Boolean> list = new java.util.ArrayList<>();
+         * tuple.forEach(list::add);   // list becomes [true, false, true, false, true, false, true, false]
+         *
+         * // Count how many elements are true
+         * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
+         * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
+         * allTrue.forEach(v -> { if (v) count.incrementAndGet(); });   // count becomes 8
+         *
+         * // All-false tuple: count of true remains 0
+         * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
+         * java.util.concurrent.atomic.AtomicInteger count2 = new java.util.concurrent.atomic.AtomicInteger();
+         * allFalse.forEach(v -> { if (v) count2.incrementAndGet(); });   // count2 remains 0
+         *
+         * // Null action throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown
          * @param action the action to be performed for each element
@@ -1941,6 +3021,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Alternating true/false tuple
+         * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
+         * int h1 = tuple.hashCode();   // returns -1690657128
+         *
+         * // All-true tuple has a distinct hash
+         * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
+         * int h2 = allTrue.hashCode();   // returns 1568708480
+         *
+         * // All-false tuple has a distinct hash
+         * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
+         * int h3 = allFalse.hashCode();   // returns 348224128
+         *
+         * // Equal tuples always produce the same hash code
+         * BooleanTuple.BooleanTuple8 copy = BooleanTuple.of(true, false, true, false, true, false, true, false);
+         * boolean sameHash = tuple.hashCode() == copy.hashCode();   // returns true
+         * }</pre>
+         *
          * @return a hash code value calculated from all eight elements
          */
         @Override
@@ -1953,6 +3052,26 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple8 t1 = BooleanTuple.of(true, false, true, false, true, false, true, false);
+         * BooleanTuple.BooleanTuple8 t2 = BooleanTuple.of(true, false, true, false, true, false, true, false);
+         * BooleanTuple.BooleanTuple8 t3 = BooleanTuple.of(false, true, false, true, false, true, false, true);
+         *
+         * // Equal tuples with identical element values
+         * boolean eq1 = t1.equals(t2);   // returns true
+         *
+         * // Different element values yield false
+         * boolean eq2 = t1.equals(t3);   // returns false
+         *
+         * // Reflexive: a tuple equals itself
+         * boolean eq3 = t1.equals(t1);   // returns true
+         *
+         * // Comparison with null or different type returns false
+         * boolean eq4 = t1.equals(null);             // returns false
+         * boolean eq5 = t1.equals("not a tuple");    // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple8 with the same elements in the same order, {@code false} otherwise
@@ -1971,6 +3090,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Alternating values
+         * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
+         * String s = tuple.toString();   // returns "(true, false, true, false, true, false, true, false)"
+         *
+         * // All-true tuple
+         * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
+         * String s2 = allTrue.toString();   // returns "(true, true, true, true, true, true, true, true)"
+         *
+         * // All-false tuple
+         * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
+         * String s3 = allFalse.toString();   // returns "(false, false, false, false, false, false, false, false)"
+         *
+         * // Mixed tuple with duplicates
+         * BooleanTuple.BooleanTuple8 mixed = BooleanTuple.of(true, true, false, false, true, false, true, false);
+         * String s4 = mixed.toString();   // returns "(true, true, false, false, true, false, true, false)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, ..., element8)"
          */
@@ -2005,9 +3143,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-     * boolean first = tuple._1;  // true
-     * boolean ninth = tuple._9;  // true
-     * int arity = tuple.arity();   // 9
+     * boolean first = tuple._1;   // true
+     * boolean ninth = tuple._9;   // true
+     * int arity = tuple.arity();  // 9
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
@@ -2054,6 +3192,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns the number of elements in this tuple, which is always 9.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * int n = tuple.arity();   // returns 9
+         *
+         * // All-true tuple also has arity 9
+         * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+         * int n2 = allTrue.arity();   // returns 9
+         *
+         * // All-false tuple also has arity 9
+         * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
+         * int n3 = allFalse.arity();   // returns 9
+         *
+         * // Arity is independent of element values
+         * BooleanTuple.BooleanTuple9 mixed = BooleanTuple.of(true, false, false, true, false, true, false, true, false);
+         * int n4 = mixed.arity();   // returns 9
+         * }</pre>
+         *
          * @return 9
          */
         @Override
@@ -2066,8 +3222,21 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-         * BooleanTuple.BooleanTuple9 reversed = tuple.reverse();   // (true, false, true, false, true, false, true, false, true) - palindrome
+         * // Palindrome tuple reverses to itself
+         * BooleanTuple.BooleanTuple9 palindrome = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * BooleanTuple.BooleanTuple9 rev1 = palindrome.reverse();   // returns (true, false, true, false, true, false, true, false, true)
+         *
+         * // Non-palindrome reversal
+         * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, false, false, false, false, false, false, false);
+         * BooleanTuple.BooleanTuple9 rev2 = tuple.reverse();   // returns (false, false, false, false, false, false, false, false, true)
+         *
+         * // All-true tuple reverses to itself
+         * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+         * BooleanTuple.BooleanTuple9 rev3 = allTrue.reverse();   // returns (true, true, true, true, true, true, true, true, true)
+         *
+         * // All-false tuple reverses to itself
+         * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
+         * BooleanTuple.BooleanTuple9 rev4 = allFalse.reverse();   // returns (false, false, false, false, false, false, false, false, false)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple9 with the elements in reverse order
@@ -2080,6 +3249,24 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Checks if this tuple contains the specified boolean value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Tuple with mixed values contains both true and false
+         * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * boolean hasTrue = tuple.contains(true);    // returns true
+         * boolean hasFalse = tuple.contains(false);  // returns true
+         *
+         * // All-true tuple does not contain false
+         * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+         * boolean t2 = allTrue.contains(true);    // returns true
+         * boolean f2 = allTrue.contains(false);   // returns false
+         *
+         * // All-false tuple does not contain true
+         * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
+         * boolean f3 = allFalse.contains(false);  // returns true
+         * boolean t3 = allFalse.contains(true);   // returns false
+         * }</pre>
+         *
          * @param valueToFind the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
@@ -2091,6 +3278,27 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Collect all elements into a list
+         * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * java.util.List<Boolean> list = new java.util.ArrayList<>();
+         * tuple.forEach(list::add);   // list becomes [true, false, true, false, true, false, true, false, true]
+         *
+         * // Count how many elements are true
+         * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+         * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
+         * allTrue.forEach(v -> { if (v) count.incrementAndGet(); });   // count becomes 9
+         *
+         * // All-false tuple: count of true remains 0
+         * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
+         * java.util.concurrent.atomic.AtomicInteger count2 = new java.util.concurrent.atomic.AtomicInteger();
+         * allFalse.forEach(v -> { if (v) count2.incrementAndGet(); });   // count2 remains 0
+         *
+         * // Null action throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown
          * @param action the action to be performed for each element
@@ -2115,6 +3323,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns a hash code value for this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Alternating true/false tuple
+         * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * int h1 = tuple.hashCode();   // returns -870762185
+         *
+         * // All-true tuple has a distinct hash
+         * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+         * int h2 = allTrue.hashCode();   // returns 1385323855
+         *
+         * // All-false tuple has a distinct hash
+         * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
+         * int h3 = allFalse.hashCode();   // returns -2089952683
+         *
+         * // Equal tuples always produce the same hash code
+         * BooleanTuple.BooleanTuple9 copy = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * boolean sameHash = tuple.hashCode() == copy.hashCode();   // returns true
+         * }</pre>
+         *
          * @return a hash code value calculated from all nine elements
          */
         @Override
@@ -2127,6 +3354,26 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * BooleanTuple.BooleanTuple9 t1 = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * BooleanTuple.BooleanTuple9 t2 = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * BooleanTuple.BooleanTuple9 t3 = BooleanTuple.of(false, true, false, true, false, true, false, true, false);
+         *
+         * // Equal tuples with identical element values
+         * boolean eq1 = t1.equals(t2);   // returns true
+         *
+         * // Different element values yield false
+         * boolean eq2 = t1.equals(t3);   // returns false
+         *
+         * // Reflexive: a tuple equals itself
+         * boolean eq3 = t1.equals(t1);   // returns true
+         *
+         * // Comparison with null or different type returns false
+         * boolean eq4 = t1.equals(null);             // returns false
+         * boolean eq5 = t1.equals("not a tuple");    // returns false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a BooleanTuple.BooleanTuple9 with the same elements in the same order, {@code false} otherwise
@@ -2145,6 +3392,25 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Returns a string representation of this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // Alternating values
+         * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * String s = tuple.toString();   // returns "(true, false, true, false, true, false, true, false, true)"
+         *
+         * // All-true tuple
+         * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+         * String s2 = allTrue.toString();   // returns "(true, true, true, true, true, true, true, true, true)"
+         *
+         * // All-false tuple
+         * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
+         * String s3 = allFalse.toString();   // returns "(false, false, false, false, false, false, false, false, false)"
+         *
+         * // Mixed tuple with duplicates
+         * BooleanTuple.BooleanTuple9 mixed = BooleanTuple.of(true, true, false, false, true, false, true, false, true);
+         * String s4 = mixed.toString();   // returns "(true, true, false, false, true, false, true, false, true)"
+         * }</pre>
          *
          * @return a string representation in the format "(element1, element2, ..., element9)"
          */
