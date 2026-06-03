@@ -131,7 +131,7 @@ def fix_file(filepath):
     return False, 0
 
 def main():
-    base_path = sys.argv[1] if len(sys.argv) > 1 else 'src/main/java/com/landawn/abacus/util'
+    base_path = sys.argv[1] if len(sys.argv) > 1 else 'src/main/java'
     
     files = []
     if os.path.isfile(base_path) and base_path.endswith('.java'):
