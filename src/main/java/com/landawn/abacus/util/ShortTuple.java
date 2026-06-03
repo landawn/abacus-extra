@@ -458,7 +458,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @see #median()
      */
     public short min() {
-        return N.min(elements());
+        final short[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.min(arr);
     }
 
     /**
@@ -492,7 +498,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @see #median()
      */
     public short max() {
-        return N.max(elements());
+        final short[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.max(arr);
     }
 
     /**
@@ -527,7 +539,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @see N#median(short...)
      */
     public short median() {
-        return N.median(elements());
+        final short[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.median(arr);
     }
 
     /**
@@ -591,7 +609,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @see #sum()
      */
     public double average() {
-        return N.average(elements());
+        final short[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.average(arr);
     }
 
     /**

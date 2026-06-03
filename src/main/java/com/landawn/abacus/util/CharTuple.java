@@ -404,7 +404,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @see #median()
      */
     public char min() {
-        return N.min(elements());
+        final char[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.min(arr);
     }
 
     /**
@@ -439,7 +445,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @see #median()
      */
     public char max() {
-        return N.max(elements());
+        final char[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.max(arr);
     }
 
     /**
@@ -476,7 +488,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @see N#median(char...)
      */
     public char median() {
-        return N.median(elements());
+        final char[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.median(arr);
     }
 
     /**
@@ -544,7 +562,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @see #sum()
      */
     public double average() {
-        return N.average(elements());
+        final char[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.average(arr);
     }
 
     /**

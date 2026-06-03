@@ -211,6 +211,41 @@ class IntTupleTest extends TestBase {
     }
 
     @Test
+    public void testInheritedAggregateEmptyBehavior() {
+        class EmptyIntTuple extends IntTuple<EmptyIntTuple> {
+            private final int[] values = new int[0];
+
+            @Override
+            public int arity() {
+                return 0;
+            }
+
+            @Override
+            public EmptyIntTuple reverse() {
+                return this;
+            }
+
+            @Override
+            public boolean contains(final int valueToFind) {
+                return false;
+            }
+
+            @Override
+            protected int[] elements() {
+                return values;
+            }
+        }
+
+        final EmptyIntTuple tuple = new EmptyIntTuple();
+
+        assertThrows(NoSuchElementException.class, tuple::min);
+        assertThrows(NoSuchElementException.class, tuple::max);
+        assertThrows(NoSuchElementException.class, tuple::median);
+        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0, tuple.sum());
+    }
+
+    @Test
     public void testReverse() {
         // Test Tuple0
         IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);

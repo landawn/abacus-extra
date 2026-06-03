@@ -404,6 +404,23 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
     }
 
+    private static double averageOf(final long... values) {
+        if (values.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        final int count = values.length;
+        long quotientSum = 0;
+        long remainderSum = 0;
+
+        for (final long value : values) {
+            quotientSum += value / count;
+            remainderSum += value % count;
+        }
+
+        return quotientSum + ((double) remainderSum) / count;
+    }
+
     /**
      * Returns the minimum long value in this tuple.
      * <p>
@@ -435,7 +452,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @see #median()
      */
     public long min() {
-        return N.min(elements());
+        final long[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.min(arr);
     }
 
     /**
@@ -469,7 +492,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @see #median()
      */
     public long max() {
-        return N.max(elements());
+        final long[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.max(arr);
     }
 
     /**
@@ -510,7 +539,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @see N#median(long...)
      */
     public long median() {
-        return N.median(elements());
+        final long[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.median(arr);
     }
 
     /**
@@ -582,7 +617,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @see #sum()
      */
     public double average() {
-        return N.average(elements());
+        return averageOf(elements());
     }
 
     /**
@@ -1528,7 +1563,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(_1, _2);
+            return averageOf(_1, _2);
         }
 
         /**
@@ -2003,7 +2038,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(_1, _2, _3);
+            return averageOf(_1, _2, _3);
         }
 
         /**
@@ -2476,7 +2511,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(_1, _2, _3, _4);
+            return averageOf(_1, _2, _3, _4);
         }
 
         /**
@@ -2855,7 +2890,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(_1, _2, _3, _4, _5);
+            return averageOf(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -3236,7 +3271,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6);
+            return averageOf(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3607,7 +3642,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7);
+            return averageOf(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -3955,7 +3990,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+            return averageOf(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4310,7 +4345,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return averageOf(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**

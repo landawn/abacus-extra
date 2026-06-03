@@ -306,6 +306,41 @@ class CharTupleTest extends TestBase {
     }
 
     @Test
+    public void testInheritedAggregateEmptyBehavior() {
+        class EmptyCharTuple extends CharTuple<EmptyCharTuple> {
+            private final char[] values = new char[0];
+
+            @Override
+            public int arity() {
+                return 0;
+            }
+
+            @Override
+            public EmptyCharTuple reverse() {
+                return this;
+            }
+
+            @Override
+            public boolean contains(final char valueToFind) {
+                return false;
+            }
+
+            @Override
+            protected char[] elements() {
+                return values;
+            }
+        }
+
+        final EmptyCharTuple tuple = new EmptyCharTuple();
+
+        assertThrows(NoSuchElementException.class, tuple::min);
+        assertThrows(NoSuchElementException.class, tuple::max);
+        assertThrows(NoSuchElementException.class, tuple::median);
+        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0, tuple.sum());
+    }
+
+    @Test
     public void testZeroArgConstructorsForCoverage() {
         final CharTuple1 tuple1 = new CharTuple1();
         final CharTuple2 tuple2 = new CharTuple2();

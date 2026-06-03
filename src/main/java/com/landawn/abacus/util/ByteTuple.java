@@ -492,7 +492,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @see #median()
      */
     public byte min() {
-        return N.min(elements());
+        final byte[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.min(arr);
     }
 
     /**
@@ -530,7 +536,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @see #median()
      */
     public byte max() {
-        return N.max(elements());
+        final byte[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.max(arr);
     }
 
     /**
@@ -571,7 +583,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @see N#median(byte...)
      */
     public byte median() {
-        return N.median(elements());
+        final byte[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.median(arr);
     }
 
     /**
@@ -641,7 +659,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @see #sum()
      */
     public double average() {
-        return N.average(elements());
+        final byte[] arr = elements();
+
+        if (arr.length == 0) {
+            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+        }
+
+        return N.average(arr);
     }
 
     /**

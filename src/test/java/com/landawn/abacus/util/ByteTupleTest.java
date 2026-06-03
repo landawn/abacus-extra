@@ -207,6 +207,41 @@ class ByteTupleTest extends TestBase {
     }
 
     @Test
+    public void testInheritedAggregateEmptyBehavior() {
+        class EmptyByteTuple extends ByteTuple<EmptyByteTuple> {
+            private final byte[] values = new byte[0];
+
+            @Override
+            public int arity() {
+                return 0;
+            }
+
+            @Override
+            public EmptyByteTuple reverse() {
+                return this;
+            }
+
+            @Override
+            public boolean contains(final byte valueToFind) {
+                return false;
+            }
+
+            @Override
+            protected byte[] elements() {
+                return values;
+            }
+        }
+
+        final EmptyByteTuple tuple = new EmptyByteTuple();
+
+        assertThrows(NoSuchElementException.class, tuple::min);
+        assertThrows(NoSuchElementException.class, tuple::max);
+        assertThrows(NoSuchElementException.class, tuple::median);
+        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0, tuple.sum());
+    }
+
+    @Test
     public void testReverse() {
         // Test Tuple0
         ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);

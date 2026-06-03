@@ -210,6 +210,55 @@ class LongTupleTest extends TestBase {
     }
 
     @Test
+    public void testInheritedAggregateEmptyBehavior() {
+        class EmptyLongTuple extends LongTuple<EmptyLongTuple> {
+            private final long[] values = new long[0];
+
+            @Override
+            public int arity() {
+                return 0;
+            }
+
+            @Override
+            public EmptyLongTuple reverse() {
+                return this;
+            }
+
+            @Override
+            public boolean contains(final long valueToFind) {
+                return false;
+            }
+
+            @Override
+            protected long[] elements() {
+                return values;
+            }
+        }
+
+        final EmptyLongTuple tuple = new EmptyLongTuple();
+
+        assertThrows(NoSuchElementException.class, tuple::min);
+        assertThrows(NoSuchElementException.class, tuple::max);
+        assertThrows(NoSuchElementException.class, tuple::median);
+        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0L, tuple.sum());
+    }
+
+    @Test
+    public void testAverageDoesNotOverflow() {
+        assertEquals((double) Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE).average());
+        assertEquals((double) Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE).average());
+        assertEquals(-0.5d, LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE).average());
+
+        LongTuple.LongTuple8 tuple8 = LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE, 1L, -1L, 5L, -5L, 9L, -9L);
+        assertEquals(-0.125d, tuple8.average());
+
+        LongTuple.LongTuple9 tuple9 = LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE,
+                Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE);
+        assertEquals((double) Long.MAX_VALUE, tuple9.average());
+    }
+
+    @Test
     public void testReverse() {
         // Test Tuple0
         LongTuple.LongTuple0 empty = LongTuple.copyOf(new long[0]);
@@ -489,6 +538,7 @@ class LongTupleTest extends TestBase {
         assertEquals(2L, tuple.median());
         assertEquals(10L, tuple.sum());
         assertEquals(2.5, tuple.average());
+        assertEquals(-0.5d, new DerivedLongTuple(Long.MAX_VALUE, Long.MIN_VALUE).average());
         assertTrue(tuple.contains(3L));
         assertFalse(tuple.contains(8L));
         assertEquals(4L, tuple.toArray()[0]);

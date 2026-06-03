@@ -211,6 +211,41 @@ class ShortTupleTest extends TestBase {
     }
 
     @Test
+    public void testInheritedAggregateEmptyBehavior() {
+        class EmptyShortTuple extends ShortTuple<EmptyShortTuple> {
+            private final short[] values = new short[0];
+
+            @Override
+            public int arity() {
+                return 0;
+            }
+
+            @Override
+            public EmptyShortTuple reverse() {
+                return this;
+            }
+
+            @Override
+            public boolean contains(final short valueToFind) {
+                return false;
+            }
+
+            @Override
+            protected short[] elements() {
+                return values;
+            }
+        }
+
+        final EmptyShortTuple tuple = new EmptyShortTuple();
+
+        assertThrows(NoSuchElementException.class, tuple::min);
+        assertThrows(NoSuchElementException.class, tuple::max);
+        assertThrows(NoSuchElementException.class, tuple::median);
+        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0, tuple.sum());
+    }
+
+    @Test
     public void testReverse() {
         // Test Tuple0
         ShortTuple.ShortTuple0 empty = ShortTuple.copyOf(new short[0]);
