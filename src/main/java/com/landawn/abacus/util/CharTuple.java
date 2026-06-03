@@ -34,6 +34,13 @@ import com.landawn.abacus.util.stream.CharStream;
  *
  * @param <TP> the concrete {@code CharTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
+ * @see BooleanTuple
+ * @see ByteTuple
+ * @see ShortTuple
+ * @see IntTuple
+ * @see LongTuple
+ * @see FloatTuple
+ * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
@@ -56,9 +63,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * CharTuple.CharTuple1 t = CharTuple.of('A');
      * char value = t._1;                   // 'A'
-     * int sum = t.sum();                   // 65 ('A' code point)
+     * int sum = t.sum();                   // 65 ('A' code unit)
      *
-     * // Edge: null char (code point 0)
+     * // Edge: null char (code unit 0)
      * CharTuple.CharTuple1 t2 = CharTuple.of('\0');
      * char v2 = t2._1;                     // '\0'
      * int s2 = t2.sum();                   // 0
@@ -294,9 +301,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Creates a CharTuple from an array of char values.
      * <p>
      * The size of the returned tuple depends on the length of the input array.
-     * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty {@code CharTuple<?>}. For arrays with 1-9 elements, returns
-     * the corresponding CharTuple.CharTuple1-9 instance.
+     * This factory method supports arrays with 0 to 9 elements. For {@code null} or empty
+     * arrays, returns the shared empty tuple. For arrays with 1-9 elements, returns the
+     * corresponding {@code CharTuple1}..{@code CharTuple9} instance. The values are copied
+     * into the new tuple; subsequent modifications to the input array do not affect it.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -327,10 +335,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
      *
-     * @param <TP> the base {@code CharTuple} type or matching arity-specific subtype expected by the caller
-     * @param values the array of char values (must have length 0-9), may be {@code null}
-     * @return a CharTuple of appropriate size containing the array values, or an empty CharTuple if the array is {@code null} or empty
-     * @throws IllegalArgumentException if the array has more than 9 elements
+     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
+     * @param values the array of char values; may be {@code null} or empty, in which case the shared empty tuple is returned
+     * @return a {@code CharTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
+     * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(char)
      */
     @SuppressWarnings("deprecation")
@@ -426,7 +434,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * CharTuple.CharTuple3 t = CharTuple.of('Z', 'A', 'M');
      * char max = t.max();                  // 'Z'
      *
-     * // Basic: lowercase chars have higher code points than uppercase
+     * // Basic: lowercase chars have higher code units than uppercase
      * CharTuple.CharTuple2 t2 = CharTuple.of('Z', 'a');
      * char max2 = t2.max();               // 'a' (97 > 90)
      *
@@ -519,7 +527,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
      * int emptySum = empty.sum();           // 0
      *
-     * // Edge: single null char '\0' - code point is 0
+     * // Edge: single null char '\0' - code unit is 0
      * CharTuple.CharTuple1 t3 = CharTuple.of('\0');
      * int nullCharSum = t3.sum();           // 0
      * }</pre>
@@ -738,7 +746,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * int notCalled = cnt[0];              // 0
      *
      * // Edge: null action throws IllegalArgumentException
-     * t.forEach(null);                     // throws IllegalArgumentException
+     * // t.forEach(null);                     // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
@@ -913,25 +921,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the internal array containing all char elements in this tuple.
      * <p>
-     * This method provides direct access to the underlying char array used by the tuple.
-     * Subclasses implement this method to return their internal storage; concrete subclasses
-     * typically lazily initialize and cache the array on first access. The returned array
-     * must not be modified, as it is shared and cached by the tuple implementation.
-     * For safe array access, use {@link #toArray()} instead, which returns a defensive copy.
+     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
      *
-     * @return the internal array of char elements (never {@code null}; empty for an empty tuple)
+     * @return the internal array of char elements
      */
     protected abstract char[] elements();
 
     /**
-     * An empty CharTuple containing no elements.
+     * An empty CharTuple containing no elements (arity 0).
      * <p>
-     * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
-     * with a single shared instance returned by {@link #copyOf(char[])} when given a {@code null}
-     * or empty array. The class itself is package-private; instances are always observed through
-     * the public type {@code CharTuple<?>}. {@link #sum()} returns 0, while {@link #min()},
-     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link NoSuchElementException}.
+     * This package-private class is exposed only through the base {@code CharTuple} type
+     * via the singleton instance returned by {@link #copyOf(char[])} when invoked with a
+     * {@code null} or zero-length array. {@link #sum()} returns 0, while {@link #min()},
+     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
     static final class CharTuple0 extends CharTuple<CharTuple0> {
@@ -1141,7 +1146,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple1 t = CharTuple.of('A');
          * char min = t.min();              // 'A'
          *
-         * // Edge: the null char ('\0', code point 0) is valid and returned as-is
+         * // Edge: the null char ('\0', code unit 0) is valid and returned as-is
          * CharTuple.CharTuple1 t2 = CharTuple.of('\0');
          * char min2 = t2.min();            // '\0'
          * }</pre>
@@ -1211,7 +1216,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple1 tupleLower = CharTuple.of('a');   // 'a' = 97
          * int sumLower = tupleLower.sum();                       // 97
          *
-         * // Boundary: max char (code point 65535)
+         * // Boundary: max char (code unit 65535)
          * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');   // '\uFFFF' = 65535
          * int sumMax = tupleMax.sum();                              // 65535
          * }</pre>
@@ -1239,7 +1244,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple1 tupleLower = CharTuple.of('a');  // 'a' = 97
          * double avgLower = tupleLower.average();               // 97.0
          *
-         * // Boundary: max char (code point 65535)
+         * // Boundary: max char (code unit 65535)
          * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');   // '\uFFFF' = 65535
          * double avgMax = tupleMax.average();                       // 65535.0
          * }</pre>
@@ -1670,7 +1675,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(c -> list.add(c));
          * // list is ['A', 'B']
          *
-         * // Sum char code points: 'A'=65, 'B'=66
+         * // Sum char code units: 'A'=65, 'B'=66
          * int[] total = {0};
          * tuple.forEach(c -> total[0] += c);
          * int sum = total[0];   // 131
@@ -1751,7 +1756,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple2 zTuple = CharTuple.of('Z', 'A');
          * int diff = zTuple.map((a, b) -> (int) a - (int) b);   // 25
          *
-         * // Sum of code points: 'A'=65, 'B'=66
+         * // Sum of code units: 'A'=65, 'B'=66
          * int sumVal = tuple.map((a, b) -> (int) a + (int) b);   // 131
          *
          * // Duplicate chars: concatenation
@@ -2177,7 +2182,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(c -> list.add(c));
          * // list is ['A', 'B', 'C']
          *
-         * // Sum char code points: 65+66+67
+         * // Sum char code units: 65+66+67
          * int[] total = {0};
          * tuple.forEach(c -> total[0] += c);
          * int sum = total[0];   // 198
@@ -2255,7 +2260,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
          * String result = tuple.map((a, b, c) -> "" + a + b + c);   // "ABC"
          *
-         * // Sum of code points: char arithmetic widens to int
+         * // Sum of code units: char arithmetic widens to int
          * int sumVal = tuple.map((a, b, c) -> (int) a + b + c);   // 198
          *
          * // Duplicate chars - concatenated
@@ -2565,7 +2570,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the sum of all char values in this tuple as an int (sum of code points).
+         * Returns the sum of all char values in this tuple.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2685,7 +2690,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(c -> list.add(c));
          * // list is ['A', 'B', 'C', 'D']
          *
-         * // Sum char code points: 65+66+67+68
+         * // Sum char code units: 65+66+67+68
          * int[] total = {0};
          * tuple.forEach(c -> total[0] += c);
          * int sum = total[0];                  // 266
@@ -2697,7 +2702,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * int dupTotal = dupSum[0];            // 360
          *
          * // Edge: null action throws IllegalArgumentException
-         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * // tuple.forEach(null);                 // throws IllegalArgumentException
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -2968,7 +2973,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the sum of all char values in this tuple as an int (sum of code points).
+         * Returns the sum of all char values in this tuple.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3087,7 +3092,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(c -> list.add(c));
          * // list is ['A', 'B', 'C', 'D', 'E']
          *
-         * // Sum char code points: 65+66+67+68+69
+         * // Sum char code units: 65+66+67+68+69
          * int[] total = {0};
          * tuple.forEach(c -> total[0] += c);
          * int sum = total[0];                  // 335
@@ -3099,7 +3104,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * int dupTotal = dupSum[0];            // 450
          *
          * // Edge: null action throws IllegalArgumentException
-         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * // tuple.forEach(null);                 // throws IllegalArgumentException
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -3374,7 +3379,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the sum of all char values in this tuple as an int (sum of code points).
+         * Returns the sum of all char values in this tuple.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3493,7 +3498,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(c -> list.add(c));
          * // list is ['A', 'B', 'C', 'D', 'E', 'F']
          *
-         * // Sum char code points: 65+66+67+68+69+70
+         * // Sum char code units: 65+66+67+68+69+70
          * int[] total = {0};
          * tuple.forEach(c -> total[0] += c);
          * int sum = total[0];                  // 405
@@ -3505,7 +3510,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * int dupTotal = dupSum[0];            // 540
          *
          * // Edge: null action throws IllegalArgumentException
-         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * // tuple.forEach(null);                 // throws IllegalArgumentException
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -3904,7 +3909,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(c -> list.add(c));
          * // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G']
          *
-         * // Sum char code points: 65+66+67+68+69+70+71
+         * // Sum char code units: 65+66+67+68+69+70+71
          * int[] total = {0};
          * tuple.forEach(c -> total[0] += c);
          * int sum = total[0];                  // 476
@@ -3916,7 +3921,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * int dupTotal = dupSum[0];            // 630
          *
          * // Edge: null action throws IllegalArgumentException
-         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * // tuple.forEach(null);                 // throws IllegalArgumentException
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -4323,7 +4328,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(c -> list.add(c));
          * // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
          *
-         * // Sum char code points: 65+66+67+68+69+70+71+72
+         * // Sum char code units: 65+66+67+68+69+70+71+72
          * int[] total = {0};
          * tuple.forEach(c -> total[0] += c);
          * int sum = total[0];                  // 548
@@ -4335,7 +4340,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * int dupTotal = dupSum[0];            // 720
          *
          * // Edge: null action throws IllegalArgumentException
-         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * // tuple.forEach(null);                 // throws IllegalArgumentException
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -4746,7 +4751,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(c -> list.add(c));
          * // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
          *
-         * // Sum char code points: 65+66+67+68+69+70+71+72+73
+         * // Sum char code units: 65+66+67+68+69+70+71+72+73
          * int[] total = {0};
          * tuple.forEach(c -> total[0] += c);
          * int sum = total[0];                  // 621
@@ -4758,7 +4763,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * int dupTotal = dupSum[0];            // 810
          *
          * // Edge: null action throws IllegalArgumentException
-         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * // tuple.forEach(null);                 // throws IllegalArgumentException
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action

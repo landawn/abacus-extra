@@ -29,8 +29,12 @@ import com.landawn.abacus.util.stream.LongStream;
  *
  * @param <TP> the concrete {@code LongTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
+ * @see BooleanTuple
+ * @see ByteTuple
+ * @see CharTuple
  * @see ShortTuple
  * @see IntTuple
+ * @see FloatTuple
  * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
@@ -781,7 +785,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * count[0];                                        // returns 0
      *
      * // Null action throws immediately
-     * tuple.forEach(null);                             // throws IllegalArgumentException
+     * // tuple.forEach(null);                             // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
@@ -942,20 +946,25 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the cached array view of the tuple contents.
+     * Returns the internal array containing all long elements in this tuple.
      * <p>
-     * Implementations lazily initialize this array on first access and then reuse it on subsequent
-     * calls. The returned array is therefore a live internal cache, not a defensive copy.
+     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
      *
-     * @return the array of long elements stored in this tuple
+     * @return the internal array of long elements
      */
     protected abstract long[] elements();
 
     /**
-     * An empty tuple containing no elements.
-     * This class is used to represent a tuple with zero elements
-     * and is returned by {@link #copyOf(long[])} when passed a {@code null} or empty array.
+     * An empty LongTuple containing no elements (arity 0).
+     * <p>
+     * This package-private class is exposed only through the base {@code LongTuple} type
+     * via the singleton instance returned by {@link #copyOf(long[])} when invoked with a
+     * {@code null} or zero-length array. {@link #sum()} returns 0L, while {@link #min()},
+     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link java.util.NoSuchElementException}.
+     * </p>
      */
     static final class LongTuple0 extends LongTuple<LongTuple0> {
 
@@ -1629,8 +1638,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * neg.forEach(v -> sum[0] += v);   // sum[0] == -10L after call
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2104,8 +2113,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * neg.forEach(v -> sum[0] += v);   // sum[0] == -6L after call
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2596,8 +2605,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * // t2.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2974,8 +2983,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * // t2.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -3355,8 +3364,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * // t2.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -3699,11 +3708,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * long[] count = {0};
          * t.forEach(v -> count[0]++);
          * count[0];        // returns 7
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -4047,11 +4056,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * long[] count = {0};
          * t.forEach(v -> count[0]++);
          * count[0];        // returns 8
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -4402,11 +4411,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * long[] count = {0};
          * t.forEach(v -> count[0]++);
          * count[0];        // returns 9
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */

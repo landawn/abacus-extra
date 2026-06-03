@@ -29,9 +29,13 @@ import com.landawn.abacus.util.stream.ShortStream;
  *
  * @param <TP> the concrete {@code ShortTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
+ * @see BooleanTuple
  * @see ByteTuple
+ * @see CharTuple
  * @see IntTuple
  * @see LongTuple
+ * @see FloatTuple
+ * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {
@@ -383,9 +387,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * {@link ClassCastException} at the assignment site.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
-     * @param values the array of short values (must have length 0-9), may be {@code null}
-     * @return a ShortTuple of appropriate size containing the array values, or the empty ShortTuple if the array is {@code null} or empty
-     * @throws IllegalArgumentException if the array has more than 9 elements
+     * @param values the array of short values; may be {@code null} or empty, in which case the shared empty tuple is returned
+     * @return a {@code ShortTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
+     * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(short)
      */
     @SuppressWarnings("deprecation")
@@ -783,10 +787,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * cnt.get();                         // returns 0
      *
      * // Edge: null action throws
-     * t.forEach(null);                   // throws IllegalArgumentException
+     * // t.forEach(null);                   // throws IllegalArgumentException
      * }</pre>
      *
-     * @param <E> the type of exception that the action may throw
+     * @param <E> the type of exception that may be thrown by the action
      * @param action the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
@@ -944,16 +948,14 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the cached array view of the tuple contents.
+     * Returns the internal array containing all short elements in this tuple.
      * <p>
-     * Implementations lazily initialize this array on first access and then reuse it on subsequent
-     * calls. The returned array is a live internal cache, not a defensive copy. Callers must not
-     * modify it; mutation would corrupt the tuple's apparent immutability and the result of
-     * {@link #hashCode()}.
+     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
      *
-     * @return the internal {@code short[]} array of elements stored in this tuple (never {@code null};
-     *         length equals {@link #arity()})
+     * @return the internal array of short elements
      */
     protected abstract short[] elements();
 
@@ -1684,7 +1686,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * // count[0] == 2
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
@@ -2177,7 +2179,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * // count[0] == 3
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
@@ -2634,10 +2636,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * int[] sum = {0};
          * t2.forEach(v -> sum[0] += v); // sum[0] becomes 2
          *
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
@@ -2971,10 +2973,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * int[] sum = {0};
          * t2.forEach(v -> sum[0] += v); // sum[0] becomes 0
          *
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
@@ -3312,10 +3314,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * int[] sum = {0};
          * t2.forEach(v -> sum[0] += v); // sum[0] becomes 0
          *
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
@@ -3667,10 +3669,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * t2.forEach(v -> { if (v < 0) count[0]++; });   // count[0] == 7 (all negative)
          *
          * // throws IllegalArgumentException if action is null
-         * t.forEach(null);   // throws IllegalArgumentException
+         * // t.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
@@ -4041,10 +4043,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * t2.forEach(v -> { if (v < 0) count[0]++; });   // count[0] == 8 (all negative)
          *
          * // throws IllegalArgumentException if action is null
-         * t.forEach(null);   // throws IllegalArgumentException
+         * // t.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
@@ -4421,10 +4423,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * t2.forEach(v -> { if (v < 0) count[0]++; });   // count[0] == 9 (all negative)
          *
          * // throws IllegalArgumentException if action is null
-         * t.forEach(null);   // throws IllegalArgumentException
+         * // t.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception

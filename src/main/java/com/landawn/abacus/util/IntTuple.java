@@ -29,8 +29,13 @@ import com.landawn.abacus.util.stream.IntStream;
  *
  * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
+ * @see BooleanTuple
+ * @see ByteTuple
+ * @see CharTuple
  * @see ShortTuple
  * @see LongTuple
+ * @see FloatTuple
+ * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
@@ -726,7 +731,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * // no exception thrown
      *
      * // null action throws IllegalArgumentException immediately
-     * IntTuple.of(1).forEach(null);  // throws IllegalArgumentException
+     * // IntTuple.of(1).forEach(null);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
@@ -884,20 +889,25 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the cached array view of the tuple contents.
+     * Returns the internal array containing all int elements in this tuple.
      * <p>
-     * Implementations lazily initialize this array on first access and then reuse it on subsequent
-     * calls. The returned array is therefore a live internal cache, not a defensive copy.
+     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
      *
-     * @return the array of int elements stored in this tuple
+     * @return the internal array of int elements
      */
     protected abstract int[] elements();
 
     /**
-     * An empty tuple containing no elements.
-     * This class is used to represent a tuple with zero elements
-     * and is returned by {@link #copyOf(int[])} when passed a {@code null} or empty array.
+     * An empty IntTuple containing no elements (arity 0).
+     * <p>
+     * This package-private class is exposed only through the base {@code IntTuple} type
+     * via the singleton instance returned by {@link #copyOf(int[])} when invoked with a
+     * {@code null} or zero-length array. {@link #sum()} returns 0, while {@link #min()},
+     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link java.util.NoSuchElementException}.
+     * </p>
      */
     static final class IntTuple0 extends IntTuple<IntTuple0> {
 
@@ -1482,7 +1492,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * IntTuple.of(-5, 5).forEach(v -> sum[0] += v);    // sum[0] == 0
          *
          * // null action - throws exception
-         * IntTuple.of(3, 5).forEach(null);    // throws IllegalArgumentException
+         * // IntTuple.of(3, 5).forEach(null);    // throws IllegalArgumentException
          *
          * // boundary values
          * int[] store = new int[2]; int[] idx = {0};
@@ -1490,8 +1500,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * // store[0] == Integer.MIN_VALUE, store[1] == Integer.MAX_VALUE
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform on each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -1884,7 +1894,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * IntTuple.of(-1, 0, 1).forEach(v -> sum[0] += v);    // sum[0] == 0
          *
          * // null action - throws exception
-         * IntTuple.of(1, 2, 3).forEach(null);    // throws IllegalArgumentException
+         * // IntTuple.of(1, 2, 3).forEach(null);    // throws IllegalArgumentException
          *
          * // boundary values - all three elements visited in order
          * int[] store = new int[3]; int[] idx = {0};
@@ -1892,8 +1902,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * // store[0] == Integer.MIN_VALUE, store[1] == 0, store[2] == Integer.MAX_VALUE
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform on each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2129,10 +2139,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t = IntTuple.of(1, 2, 3, 4);
          * t.arity(); // returns 4
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-1, 0, 1, 2);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-1, 0, 1, 2);
          * t2.arity(); // returns 4
          * }</pre>
          *
@@ -2148,16 +2158,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(3, 1, 4, 2);
+         * IntTuple.IntTuple4 t = IntTuple.of(3, 1, 4, 2);
          * t.min(); // returns 1
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-5, -1, 0, 10);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-5, -1, 0, 10);
          * t2.min(); // returns -5
          *
-         * IntTuple.IntTuple4 t3 = (IntTuple.IntTuple4) IntTuple.of(Integer.MIN_VALUE, 0, 1, 2);
+         * IntTuple.IntTuple4 t3 = IntTuple.of(Integer.MIN_VALUE, 0, 1, 2);
          * t3.min(); // returns Integer.MIN_VALUE
          *
-         * IntTuple.IntTuple4 t4 = (IntTuple.IntTuple4) IntTuple.of(5, 5, 5, 5);
+         * IntTuple.IntTuple4 t4 = IntTuple.of(5, 5, 5, 5);
          * t4.min(); // returns 5
          * }</pre>
          *
@@ -2173,16 +2183,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(3, 1, 4, 2);
+         * IntTuple.IntTuple4 t = IntTuple.of(3, 1, 4, 2);
          * t.max(); // returns 4
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-5, -1, 0, 10);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-5, -1, 0, 10);
          * t2.max(); // returns 10
          *
-         * IntTuple.IntTuple4 t3 = (IntTuple.IntTuple4) IntTuple.of(0, 1, 2, Integer.MAX_VALUE);
+         * IntTuple.IntTuple4 t3 = IntTuple.of(0, 1, 2, Integer.MAX_VALUE);
          * t3.max(); // returns Integer.MAX_VALUE
          *
-         * IntTuple.IntTuple4 t4 = (IntTuple.IntTuple4) IntTuple.of(5, 5, 5, 5);
+         * IntTuple.IntTuple4 t4 = IntTuple.of(5, 5, 5, 5);
          * t4.max(); // returns 5
          * }</pre>
          *
@@ -2199,16 +2209,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(3, 1, 4, 2);
+         * IntTuple.IntTuple4 t = IntTuple.of(3, 1, 4, 2);
          * t.median(); // returns 2  (sorted: [1,2,3,4], lower-middle = index 1 = 2)
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-1, 5, -3, 0);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-1, 5, -3, 0);
          * t2.median(); // returns -1  (sorted: [-3,-1,0,5], lower-middle = index 1 = -1)
          *
-         * IntTuple.IntTuple4 t3 = (IntTuple.IntTuple4) IntTuple.of(7, 7, 7, 7);
+         * IntTuple.IntTuple4 t3 = IntTuple.of(7, 7, 7, 7);
          * t3.median(); // returns 7  (all equal)
          *
-         * IntTuple.IntTuple4 t4 = (IntTuple.IntTuple4) IntTuple.of(Integer.MAX_VALUE, 0, 1, Integer.MIN_VALUE);
+         * IntTuple.IntTuple4 t4 = IntTuple.of(Integer.MAX_VALUE, 0, 1, Integer.MIN_VALUE);
          * t4.median(); // returns 0  (sorted: [MIN,0,1,MAX], lower-middle = 0)
          * }</pre>
          *
@@ -2224,16 +2234,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t = IntTuple.of(1, 2, 3, 4);
          * t.sum(); // returns 10
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-1, -2, 3, 4);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-1, -2, 3, 4);
          * t2.sum(); // returns 4
          *
-         * IntTuple.IntTuple4 t3 = (IntTuple.IntTuple4) IntTuple.of(0, 0, 0, 0);
+         * IntTuple.IntTuple4 t3 = IntTuple.of(0, 0, 0, 0);
          * t3.sum(); // returns 0
          *
-         * IntTuple.IntTuple4 t4 = (IntTuple.IntTuple4) IntTuple.of(Integer.MAX_VALUE, 1, 0, 0);
+         * IntTuple.IntTuple4 t4 = IntTuple.of(Integer.MAX_VALUE, 1, 0, 0);
          * t4.sum(); // throws ArithmeticException (overflow)
          * }</pre>
          *
@@ -2250,16 +2260,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t = IntTuple.of(1, 2, 3, 4);
          * t.average(); // returns 2.5
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-2, -1, 1, 2);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-2, -1, 1, 2);
          * t2.average(); // returns 0.0
          *
-         * IntTuple.IntTuple4 t3 = (IntTuple.IntTuple4) IntTuple.of(5, 5, 5, 5);
+         * IntTuple.IntTuple4 t3 = IntTuple.of(5, 5, 5, 5);
          * t3.average(); // returns 5.0
          *
-         * IntTuple.IntTuple4 t4 = (IntTuple.IntTuple4) IntTuple.of(0, 0, 0, 4);
+         * IntTuple.IntTuple4 t4 = IntTuple.of(0, 0, 0, 4);
          * t4.average(); // returns 1.0
          * }</pre>
          *
@@ -2275,16 +2285,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t = IntTuple.of(1, 2, 3, 4);
          * t.reverse().toString(); // returns "(4, 3, 2, 1)"
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-1, 0, 5, -3);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-1, 0, 5, -3);
          * t2.reverse().toString(); // returns "(-3, 5, 0, -1)"
          *
-         * IntTuple.IntTuple4 t3 = (IntTuple.IntTuple4) IntTuple.of(9, 9, 9, 9);
+         * IntTuple.IntTuple4 t3 = IntTuple.of(9, 9, 9, 9);
          * t3.reverse().toString(); // returns "(9, 9, 9, 9)"  (palindrome)
          *
-         * IntTuple.IntTuple4 t4 = (IntTuple.IntTuple4) IntTuple.of(Integer.MIN_VALUE, 0, 0, Integer.MAX_VALUE);
+         * IntTuple.IntTuple4 t4 = IntTuple.of(Integer.MIN_VALUE, 0, 0, Integer.MAX_VALUE);
          * t4.reverse()._1; // returns Integer.MAX_VALUE
          * }</pre>
          *
@@ -2300,14 +2310,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t = IntTuple.of(1, 2, 3, 4);
          * t.contains(1); // returns true
          * t.contains(4); // returns true
          *
          * t.contains(0); // returns false
          * t.contains(5); // returns false
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-5, 0, 3, 10);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-5, 0, 3, 10);
          * t2.contains(-5); // returns true
          * t2.contains(-1); // returns false
          * }</pre>
@@ -2325,22 +2335,22 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t = IntTuple.of(1, 2, 3, 4);
          * List<Integer> result = new ArrayList<>();
          * t.forEach(result::add); // result becomes [1, 2, 3, 4]
          *
          * int[] sum = {0};
          * t.forEach(v -> sum[0] += v); // sum[0] becomes 10
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-1, 0, 5, -3);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-1, 0, 5, -3);
          * List<Integer> result2 = new ArrayList<>();
          * t2.forEach(result2::add); // result2 becomes [-1, 0, 5, -3]
          *
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform on each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2361,14 +2371,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t1 = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t1 = IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(1, 2, 3, 4);
          * t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
          *
-         * IntTuple.IntTuple4 t3 = (IntTuple.IntTuple4) IntTuple.of(4, 3, 2, 1);
+         * IntTuple.IntTuple4 t3 = IntTuple.of(4, 3, 2, 1);
          * t1.hashCode() == t3.hashCode(); // returns false (different element order)
          *
-         * IntTuple.IntTuple4 t4 = (IntTuple.IntTuple4) IntTuple.of(0, 0, 0, 0);
+         * IntTuple.IntTuple4 t4 = IntTuple.of(0, 0, 0, 0);
          * t4.hashCode(); // returns 0
          * }</pre>
          *
@@ -2386,13 +2396,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t1 = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t1 = IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(1, 2, 3, 4);
          * t1.equals(t2); // returns true
          *
          * t1.equals(t1); // returns true (same reference)
          *
-         * IntTuple.IntTuple4 t3 = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 5);
+         * IntTuple.IntTuple4 t3 = IntTuple.of(1, 2, 3, 5);
          * t1.equals(t3); // returns false (last element differs)
          *
          * t1.equals(null);     // returns false
@@ -2419,16 +2429,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple4 t = (IntTuple.IntTuple4) IntTuple.of(1, 2, 3, 4);
+         * IntTuple.IntTuple4 t = IntTuple.of(1, 2, 3, 4);
          * t.toString(); // returns "(1, 2, 3, 4)"
          *
-         * IntTuple.IntTuple4 t2 = (IntTuple.IntTuple4) IntTuple.of(-1, 0, -3, 4);
+         * IntTuple.IntTuple4 t2 = IntTuple.of(-1, 0, -3, 4);
          * t2.toString(); // returns "(-1, 0, -3, 4)"
          *
-         * IntTuple.IntTuple4 t3 = (IntTuple.IntTuple4) IntTuple.of(5, 5, 5, 5);
+         * IntTuple.IntTuple4 t3 = IntTuple.of(5, 5, 5, 5);
          * t3.toString(); // returns "(5, 5, 5, 5)"
          *
-         * IntTuple.IntTuple4 t4 = (IntTuple.IntTuple4) IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1);
+         * IntTuple.IntTuple4 t4 = IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1);
          * t4.toString(); // returns "(-2147483648, 2147483647, 0, -1)"
          * }</pre>
          *
@@ -2495,10 +2505,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(1, 2, 3, 4, 5);
          * t.arity(); // returns 5
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(0, 0, 0, 0, 0);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(0, 0, 0, 0, 0);
          * t2.arity(); // returns 5
          * }</pre>
          *
@@ -2514,16 +2524,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(3, 1, 4, 1, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(3, 1, 4, 1, 5);
          * t.min(); // returns 1
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(-10, -5, 0, 5, 10);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(-10, -5, 0, 5, 10);
          * t2.min(); // returns -10
          *
-         * IntTuple.IntTuple5 t3 = (IntTuple.IntTuple5) IntTuple.of(Integer.MIN_VALUE, 0, 1, 2, 3);
+         * IntTuple.IntTuple5 t3 = IntTuple.of(Integer.MIN_VALUE, 0, 1, 2, 3);
          * t3.min(); // returns Integer.MIN_VALUE
          *
-         * IntTuple.IntTuple5 t4 = (IntTuple.IntTuple5) IntTuple.of(3, 3, 3, 3, 3);
+         * IntTuple.IntTuple5 t4 = IntTuple.of(3, 3, 3, 3, 3);
          * t4.min(); // returns 3
          * }</pre>
          *
@@ -2539,16 +2549,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(3, 1, 4, 1, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(3, 1, 4, 1, 5);
          * t.max(); // returns 5
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(-10, -5, 0, 5, 10);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(-10, -5, 0, 5, 10);
          * t2.max(); // returns 10
          *
-         * IntTuple.IntTuple5 t3 = (IntTuple.IntTuple5) IntTuple.of(0, 1, 2, 3, Integer.MAX_VALUE);
+         * IntTuple.IntTuple5 t3 = IntTuple.of(0, 1, 2, 3, Integer.MAX_VALUE);
          * t3.max(); // returns Integer.MAX_VALUE
          *
-         * IntTuple.IntTuple5 t4 = (IntTuple.IntTuple5) IntTuple.of(3, 3, 3, 3, 3);
+         * IntTuple.IntTuple5 t4 = IntTuple.of(3, 3, 3, 3, 3);
          * t4.max(); // returns 3
          * }</pre>
          *
@@ -2565,16 +2575,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(3, 1, 4, 2, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(3, 1, 4, 2, 5);
          * t.median(); // returns 3  (sorted: [1,2,3,4,5], middle = index 2 = 3)
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(-1, 3, -5, 0, 10);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(-1, 3, -5, 0, 10);
          * t2.median(); // returns 0  (sorted: [-5,-1,0,3,10], middle = 0)
          *
-         * IntTuple.IntTuple5 t3 = (IntTuple.IntTuple5) IntTuple.of(7, 7, 7, 7, 7);
+         * IntTuple.IntTuple5 t3 = IntTuple.of(7, 7, 7, 7, 7);
          * t3.median(); // returns 7  (all equal)
          *
-         * IntTuple.IntTuple5 t4 = (IntTuple.IntTuple5) IntTuple.of(1, 3, 2, 1, 3);
+         * IntTuple.IntTuple5 t4 = IntTuple.of(1, 3, 2, 1, 3);
          * t4.median(); // returns 2  (sorted: [1,1,2,3,3])
          * }</pre>
          *
@@ -2590,16 +2600,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(1, 2, 3, 4, 5);
          * t.sum(); // returns 15
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(-1, -2, -3, 4, 5);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(-1, -2, -3, 4, 5);
          * t2.sum(); // returns 3
          *
-         * IntTuple.IntTuple5 t3 = (IntTuple.IntTuple5) IntTuple.of(0, 0, 0, 0, 0);
+         * IntTuple.IntTuple5 t3 = IntTuple.of(0, 0, 0, 0, 0);
          * t3.sum(); // returns 0
          *
-         * IntTuple.IntTuple5 t4 = (IntTuple.IntTuple5) IntTuple.of(Integer.MAX_VALUE, 1, 0, 0, 0);
+         * IntTuple.IntTuple5 t4 = IntTuple.of(Integer.MAX_VALUE, 1, 0, 0, 0);
          * t4.sum(); // throws ArithmeticException (overflow)
          * }</pre>
          *
@@ -2616,16 +2626,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(1, 2, 3, 4, 5);
          * t.average(); // returns 3.0
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(-2, -1, 0, 1, 2);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(-2, -1, 0, 1, 2);
          * t2.average(); // returns 0.0
          *
-         * IntTuple.IntTuple5 t3 = (IntTuple.IntTuple5) IntTuple.of(1, 1, 1, 1, 2);
+         * IntTuple.IntTuple5 t3 = IntTuple.of(1, 1, 1, 1, 2);
          * t3.average(); // returns 1.2
          *
-         * IntTuple.IntTuple5 t4 = (IntTuple.IntTuple5) IntTuple.of(4, 4, 4, 4, 4);
+         * IntTuple.IntTuple5 t4 = IntTuple.of(4, 4, 4, 4, 4);
          * t4.average(); // returns 4.0
          * }</pre>
          *
@@ -2641,16 +2651,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(1, 2, 3, 4, 5);
          * t.reverse().toString(); // returns "(5, 4, 3, 2, 1)"
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(-1, 0, 5, -3, 2);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(-1, 0, 5, -3, 2);
          * t2.reverse().toString(); // returns "(2, -3, 5, 0, -1)"
          *
-         * IntTuple.IntTuple5 t3 = (IntTuple.IntTuple5) IntTuple.of(9, 9, 9, 9, 9);
+         * IntTuple.IntTuple5 t3 = IntTuple.of(9, 9, 9, 9, 9);
          * t3.reverse().toString(); // returns "(9, 9, 9, 9, 9)"  (palindrome)
          *
-         * IntTuple.IntTuple5 t4 = (IntTuple.IntTuple5) IntTuple.of(Integer.MIN_VALUE, 0, 0, 0, Integer.MAX_VALUE);
+         * IntTuple.IntTuple5 t4 = IntTuple.of(Integer.MIN_VALUE, 0, 0, 0, Integer.MAX_VALUE);
          * t4.reverse()._1; // returns Integer.MAX_VALUE
          * }</pre>
          *
@@ -2666,14 +2676,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(1, 2, 3, 4, 5);
          * t.contains(1); // returns true
          * t.contains(5); // returns true
          *
          * t.contains(0); // returns false
          * t.contains(6); // returns false
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(-5, 0, 3, 7, 10);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(-5, 0, 3, 7, 10);
          * t2.contains(-5); // returns true
          * t2.contains(-1); // returns false
          * }</pre>
@@ -2691,22 +2701,22 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(1, 2, 3, 4, 5);
          * List<Integer> result = new ArrayList<>();
          * t.forEach(result::add); // result becomes [1, 2, 3, 4, 5]
          *
          * int[] sum = {0};
          * t.forEach(v -> sum[0] += v); // sum[0] becomes 15
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(-1, 0, 5, -3, 2);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(-1, 0, 5, -3, 2);
          * List<Integer> result2 = new ArrayList<>();
          * t2.forEach(result2::add); // result2 becomes [-1, 0, 5, -3, 2]
          *
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform on each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2728,14 +2738,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t1 = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t1 = IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(1, 2, 3, 4, 5);
          * t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
          *
-         * IntTuple.IntTuple5 t3 = (IntTuple.IntTuple5) IntTuple.of(5, 4, 3, 2, 1);
+         * IntTuple.IntTuple5 t3 = IntTuple.of(5, 4, 3, 2, 1);
          * t1.hashCode() == t3.hashCode(); // returns false (different element order)
          *
-         * IntTuple.IntTuple5 t4 = (IntTuple.IntTuple5) IntTuple.of(0, 0, 0, 0, 0);
+         * IntTuple.IntTuple5 t4 = IntTuple.of(0, 0, 0, 0, 0);
          * t4.hashCode(); // returns 0
          * }</pre>
          *
@@ -2753,13 +2763,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t1 = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t1 = IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(1, 2, 3, 4, 5);
          * t1.equals(t2); // returns true
          *
          * t1.equals(t1); // returns true (same reference)
          *
-         * IntTuple.IntTuple5 t3 = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 6);
+         * IntTuple.IntTuple5 t3 = IntTuple.of(1, 2, 3, 4, 6);
          * t1.equals(t3); // returns false (last element differs)
          *
          * t1.equals(null);     // returns false
@@ -2786,16 +2796,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple5 t = (IntTuple.IntTuple5) IntTuple.of(1, 2, 3, 4, 5);
+         * IntTuple.IntTuple5 t = IntTuple.of(1, 2, 3, 4, 5);
          * t.toString(); // returns "(1, 2, 3, 4, 5)"
          *
-         * IntTuple.IntTuple5 t2 = (IntTuple.IntTuple5) IntTuple.of(-1, 0, -3, 4, 5);
+         * IntTuple.IntTuple5 t2 = IntTuple.of(-1, 0, -3, 4, 5);
          * t2.toString(); // returns "(-1, 0, -3, 4, 5)"
          *
-         * IntTuple.IntTuple5 t3 = (IntTuple.IntTuple5) IntTuple.of(5, 5, 5, 5, 5);
+         * IntTuple.IntTuple5 t3 = IntTuple.of(5, 5, 5, 5, 5);
          * t3.toString(); // returns "(5, 5, 5, 5, 5)"
          *
-         * IntTuple.IntTuple5 t4 = (IntTuple.IntTuple5) IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1, 1);
+         * IntTuple.IntTuple5 t4 = IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1, 1);
          * t4.toString(); // returns "(-2147483648, 2147483647, 0, -1, 1)"
          * }</pre>
          *
@@ -2865,10 +2875,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t = IntTuple.of(1, 2, 3, 4, 5, 6);
          * t.arity(); // returns 6
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(0, 0, 0, 0, 0, 0);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(0, 0, 0, 0, 0, 0);
          * t2.arity(); // returns 6
          * }</pre>
          *
@@ -2884,16 +2894,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(3, 1, 4, 1, 5, 9);
+         * IntTuple.IntTuple6 t = IntTuple.of(3, 1, 4, 1, 5, 9);
          * t.min(); // returns 1
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(-10, -5, 0, 5, 10, 15);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(-10, -5, 0, 5, 10, 15);
          * t2.min(); // returns -10
          *
-         * IntTuple.IntTuple6 t3 = (IntTuple.IntTuple6) IntTuple.of(Integer.MIN_VALUE, 0, 1, 2, 3, 4);
+         * IntTuple.IntTuple6 t3 = IntTuple.of(Integer.MIN_VALUE, 0, 1, 2, 3, 4);
          * t3.min(); // returns Integer.MIN_VALUE
          *
-         * IntTuple.IntTuple6 t4 = (IntTuple.IntTuple6) IntTuple.of(3, 3, 3, 3, 3, 3);
+         * IntTuple.IntTuple6 t4 = IntTuple.of(3, 3, 3, 3, 3, 3);
          * t4.min(); // returns 3
          * }</pre>
          *
@@ -2909,16 +2919,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(3, 1, 4, 1, 5, 9);
+         * IntTuple.IntTuple6 t = IntTuple.of(3, 1, 4, 1, 5, 9);
          * t.max(); // returns 9
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(-10, -5, 0, 5, 10, 15);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(-10, -5, 0, 5, 10, 15);
          * t2.max(); // returns 15
          *
-         * IntTuple.IntTuple6 t3 = (IntTuple.IntTuple6) IntTuple.of(0, 1, 2, 3, 4, Integer.MAX_VALUE);
+         * IntTuple.IntTuple6 t3 = IntTuple.of(0, 1, 2, 3, 4, Integer.MAX_VALUE);
          * t3.max(); // returns Integer.MAX_VALUE
          *
-         * IntTuple.IntTuple6 t4 = (IntTuple.IntTuple6) IntTuple.of(3, 3, 3, 3, 3, 3);
+         * IntTuple.IntTuple6 t4 = IntTuple.of(3, 3, 3, 3, 3, 3);
          * t4.max(); // returns 3
          * }</pre>
          *
@@ -2935,16 +2945,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(3, 1, 4, 2, 5, 6);
+         * IntTuple.IntTuple6 t = IntTuple.of(3, 1, 4, 2, 5, 6);
          * t.median(); // returns 3  (sorted: [1,2,3,4,5,6], lower-middle = index 2 = 3)
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(-1, 3, -5, 0, 7, 10);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(-1, 3, -5, 0, 7, 10);
          * t2.median(); // returns 0  (sorted: [-5,-1,0,3,7,10], lower-middle = index 2 = 0)
          *
-         * IntTuple.IntTuple6 t3 = (IntTuple.IntTuple6) IntTuple.of(7, 7, 7, 7, 7, 7);
+         * IntTuple.IntTuple6 t3 = IntTuple.of(7, 7, 7, 7, 7, 7);
          * t3.median(); // returns 7  (all equal)
          *
-         * IntTuple.IntTuple6 t4 = (IntTuple.IntTuple6) IntTuple.of(Integer.MAX_VALUE, 0, 1, 2, 3, Integer.MIN_VALUE);
+         * IntTuple.IntTuple6 t4 = IntTuple.of(Integer.MAX_VALUE, 0, 1, 2, 3, Integer.MIN_VALUE);
          * t4.median(); // returns 1  (sorted: [MIN,0,1,2,3,MAX], lower-middle = index 2 = 1)
          * }</pre>
          *
@@ -2960,16 +2970,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t = IntTuple.of(1, 2, 3, 4, 5, 6);
          * t.sum(); // returns 21
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(-1, -2, -3, 4, 5, 6);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(-1, -2, -3, 4, 5, 6);
          * t2.sum(); // returns 9
          *
-         * IntTuple.IntTuple6 t3 = (IntTuple.IntTuple6) IntTuple.of(0, 0, 0, 0, 0, 0);
+         * IntTuple.IntTuple6 t3 = IntTuple.of(0, 0, 0, 0, 0, 0);
          * t3.sum(); // returns 0
          *
-         * IntTuple.IntTuple6 t4 = (IntTuple.IntTuple6) IntTuple.of(Integer.MAX_VALUE, 1, 0, 0, 0, 0);
+         * IntTuple.IntTuple6 t4 = IntTuple.of(Integer.MAX_VALUE, 1, 0, 0, 0, 0);
          * t4.sum(); // throws ArithmeticException (overflow)
          * }</pre>
          *
@@ -2986,16 +2996,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t = IntTuple.of(1, 2, 3, 4, 5, 6);
          * t.average(); // returns 3.5
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(-3, -1, 0, 1, 2, 4);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(-3, -1, 0, 1, 2, 4);
          * t2.average(); // returns 0.5
          *
-         * IntTuple.IntTuple6 t3 = (IntTuple.IntTuple6) IntTuple.of(4, 4, 4, 4, 4, 4);
+         * IntTuple.IntTuple6 t3 = IntTuple.of(4, 4, 4, 4, 4, 4);
          * t3.average(); // returns 4.0
          *
-         * IntTuple.IntTuple6 t4 = (IntTuple.IntTuple6) IntTuple.of(0, 0, 0, 0, 0, 0);
+         * IntTuple.IntTuple6 t4 = IntTuple.of(0, 0, 0, 0, 0, 0);
          * t4.average(); // returns 0.0
          * }</pre>
          *
@@ -3011,16 +3021,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t = IntTuple.of(1, 2, 3, 4, 5, 6);
          * t.reverse().toString(); // returns "(6, 5, 4, 3, 2, 1)"
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(-1, 0, 5, -3, 2, 7);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(-1, 0, 5, -3, 2, 7);
          * t2.reverse().toString(); // returns "(7, 2, -3, 5, 0, -1)"
          *
-         * IntTuple.IntTuple6 t3 = (IntTuple.IntTuple6) IntTuple.of(9, 9, 9, 9, 9, 9);
+         * IntTuple.IntTuple6 t3 = IntTuple.of(9, 9, 9, 9, 9, 9);
          * t3.reverse().toString(); // returns "(9, 9, 9, 9, 9, 9)"  (palindrome)
          *
-         * IntTuple.IntTuple6 t4 = (IntTuple.IntTuple6) IntTuple.of(Integer.MIN_VALUE, 0, 0, 0, 0, Integer.MAX_VALUE);
+         * IntTuple.IntTuple6 t4 = IntTuple.of(Integer.MIN_VALUE, 0, 0, 0, 0, Integer.MAX_VALUE);
          * t4.reverse()._1; // returns Integer.MAX_VALUE
          * }</pre>
          *
@@ -3036,14 +3046,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t = IntTuple.of(1, 2, 3, 4, 5, 6);
          * t.contains(1); // returns true
          * t.contains(6); // returns true
          *
          * t.contains(0); // returns false
          * t.contains(7); // returns false
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(-5, 0, 3, 7, 10, 15);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(-5, 0, 3, 7, 10, 15);
          * t2.contains(-5); // returns true
          * t2.contains(-1); // returns false
          * }</pre>
@@ -3061,22 +3071,22 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t = IntTuple.of(1, 2, 3, 4, 5, 6);
          * List<Integer> result = new ArrayList<>();
          * t.forEach(result::add); // result becomes [1, 2, 3, 4, 5, 6]
          *
          * int[] sum = {0};
          * t.forEach(v -> sum[0] += v); // sum[0] becomes 21
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(-1, 0, 5, -3, 2, 7);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(-1, 0, 5, -3, 2, 7);
          * List<Integer> result2 = new ArrayList<>();
          * t2.forEach(result2::add); // result2 becomes [-1, 0, 5, -3, 2, 7]
          *
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform on each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -3099,14 +3109,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t1 = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t1 = IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(1, 2, 3, 4, 5, 6);
          * t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
          *
-         * IntTuple.IntTuple6 t3 = (IntTuple.IntTuple6) IntTuple.of(6, 5, 4, 3, 2, 1);
+         * IntTuple.IntTuple6 t3 = IntTuple.of(6, 5, 4, 3, 2, 1);
          * t1.hashCode() == t3.hashCode(); // returns false (different element order)
          *
-         * IntTuple.IntTuple6 t4 = (IntTuple.IntTuple6) IntTuple.of(0, 0, 0, 0, 0, 0);
+         * IntTuple.IntTuple6 t4 = IntTuple.of(0, 0, 0, 0, 0, 0);
          * t4.hashCode(); // returns 0
          * }</pre>
          *
@@ -3124,13 +3134,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t1 = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t1 = IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(1, 2, 3, 4, 5, 6);
          * t1.equals(t2); // returns true
          *
          * t1.equals(t1); // returns true (same reference)
          *
-         * IntTuple.IntTuple6 t3 = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 7);
+         * IntTuple.IntTuple6 t3 = IntTuple.of(1, 2, 3, 4, 5, 7);
          * t1.equals(t3); // returns false (last element differs)
          *
          * t1.equals(null);     // returns false
@@ -3157,16 +3167,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple6 t = (IntTuple.IntTuple6) IntTuple.of(1, 2, 3, 4, 5, 6);
+         * IntTuple.IntTuple6 t = IntTuple.of(1, 2, 3, 4, 5, 6);
          * t.toString(); // returns "(1, 2, 3, 4, 5, 6)"
          *
-         * IntTuple.IntTuple6 t2 = (IntTuple.IntTuple6) IntTuple.of(-1, 0, -3, 4, 5, 6);
+         * IntTuple.IntTuple6 t2 = IntTuple.of(-1, 0, -3, 4, 5, 6);
          * t2.toString(); // returns "(-1, 0, -3, 4, 5, 6)"
          *
-         * IntTuple.IntTuple6 t3 = (IntTuple.IntTuple6) IntTuple.of(5, 5, 5, 5, 5, 5);
+         * IntTuple.IntTuple6 t3 = IntTuple.of(5, 5, 5, 5, 5, 5);
          * t3.toString(); // returns "(5, 5, 5, 5, 5, 5)"
          *
-         * IntTuple.IntTuple6 t4 = (IntTuple.IntTuple6) IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1, 1, 2);
+         * IntTuple.IntTuple6 t4 = IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1, 1, 2);
          * t4.toString(); // returns "(-2147483648, 2147483647, 0, -1, 1, 2)"
          * }</pre>
          *
@@ -3452,11 +3462,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * // sum[0] == 28
          *
          * // null action throws IllegalArgumentException
-         * t.forEach(null);   // throws IllegalArgumentException
+         * // t.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform on each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -3835,11 +3845,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * // sum[0] == 36
          *
          * // null action throws IllegalArgumentException
-         * t.forEach(null);   // throws IllegalArgumentException
+         * // t.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform on each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -4223,11 +4233,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * // sum[0] == 45
          *
          * // null action throws IllegalArgumentException
-         * t.forEach(null);   // throws IllegalArgumentException
+         * // t.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the action to perform on each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform on each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */

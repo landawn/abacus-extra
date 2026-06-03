@@ -597,7 +597,7 @@ public final class Points {
              * p3.y()     // returns Integer.MAX_VALUE (2147483647)
              * p3.value() // returns null
              *
-             * // Edge: zero coords, list as value
+             * // Edge: zero coords, array as value
              * Points.D2.IntObjPoint<int[]> p4 = Points.D2.IntObjPoint.of(0, 0, new int[]{1, 2, 3});
              * p4.x()            // returns 0
              * p4.y()            // returns 0

@@ -8632,7 +8632,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
@@ -8872,7 +8872,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final Throwables.ShortBinaryOperator<E> zipFunction)
@@ -13012,7 +13012,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Basic: negate all elements
+     * // Basic: absolute value of all elements
      * float[] a = {1.0f, -2.0f, 3.0f};
      * Arrays.updateAll(a, x -> Math.abs(x));
      * // a is now [1.0, 2.0, 3.0]
@@ -13025,7 +13025,7 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: null array - no-op
      * Arrays.updateAll((float[]) null, x -> x + 1.0f);   // no exception, nothing happens
      *
-     * // Edge: NaN and Infinity are passed through the operator unchanged in character
+     * // Edge: NaN propagates through arithmetic (NaN * 2 == NaN)
      * float[] c = {1.0f, Float.NaN, 3.0f};
      * Arrays.updateAll(c, x -> x * 2.0f);
      * // c[0] is 2.0, c[1] is NaN (NaN * 2 == NaN), c[2] is 6.0
@@ -14803,7 +14803,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Basic: negate all elements
+     * // Basic: absolute value of all elements
      * double[] array = {1.0, -2.0, 3.0};
      * Arrays.updateAll(array, x -> Math.abs(x));
      * // array is now [1.0, 2.0, 3.0]
@@ -15295,7 +15295,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.mutateAsFlat(grid, arr -> java.util.Arrays.sort(arr));
      * // grid is now {{1.0, 2.0}, {5.0, 8.0}}
      *
-     * // Basic: negate all elements via the flat view
+     * // Basic: sort a single-row grid via the flat view
      * double[][] grid2 = {{3.0, 1.0, 2.0}};
      * Arrays.mutateAsFlat(grid2, arr -> java.util.Arrays.sort(arr));
      * // grid2 is now {{1.0, 2.0, 3.0}}

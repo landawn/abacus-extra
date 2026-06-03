@@ -29,6 +29,12 @@ import com.landawn.abacus.util.stream.DoubleStream;
  *
  * @param <TP> the concrete {@code DoubleTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
+ * @see BooleanTuple
+ * @see ByteTuple
+ * @see CharTuple
+ * @see ShortTuple
+ * @see IntTuple
+ * @see LongTuple
  * @see FloatTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
@@ -314,9 +320,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Creates a DoubleTuple from an array of double values.
      * <p>
      * The size of the returned tuple depends on the length of the input array.
-     * This factory method supports arrays with 0 to 9 elements. For empty or {@code null}
-     * arrays, returns an empty {@code DoubleTuple<?>}. For arrays with 1-9 elements, returns
-     * the corresponding {@code DoubleTuple.DoubleTuple1} through {@code DoubleTuple.DoubleTuple9} instance.
+     * This factory method supports arrays with 0 to 9 elements. For {@code null} or empty
+     * arrays, returns the shared empty tuple. For arrays with 1-9 elements, returns the
+     * corresponding {@code DoubleTuple1}..{@code DoubleTuple9} instance. The values are copied
+     * into the new tuple; subsequent modifications to the input array do not affect it.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -347,9 +354,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * {@link ClassCastException} at the assignment site.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
-     * @param values the array of double values (must have length 0-9), may be {@code null}
-     * @return a DoubleTuple of appropriate size containing the array values, or an empty DoubleTuple if the array is {@code null} or empty
-     * @throws IllegalArgumentException if the array has more than 9 elements
+     * @param values the array of double values; may be {@code null} or empty, in which case the shared empty tuple is returned
+     * @return a {@code DoubleTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
+     * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(double)
      */
     @SuppressWarnings("deprecation")
@@ -928,25 +935,24 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns the cached array view of the tuple contents.
+     * Returns the internal array containing all double elements in this tuple.
      * <p>
-     * Implementations lazily initialize this array on first access and then reuse it on subsequent
-     * calls. The returned array is therefore a live internal cache, not a defensive copy.
+     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
      *
-     * @return the array of double elements stored in this tuple
+     * @return the internal array of double elements
      */
     protected abstract double[] elements();
 
     /**
-     * An empty DoubleTuple containing no elements.
+     * An empty DoubleTuple containing no elements (arity 0).
      * <p>
-     * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
-     * with a single shared instance returned by {@link DoubleTuple#copyOf(double[])} when called
-     * with a {@code null} or zero-length array. The class itself is package-private; callers see it
-     * as a {@code DoubleTuple<?>}. The aggregate operation {@link #sum()} returns {@code 0.0};
-     * {@link #min()}, {@link #max()}, {@link #median()}, and {@link #average()} all throw
-     * {@link NoSuchElementException}.
+     * This package-private class is exposed only through the base {@code DoubleTuple} type
+     * via the singleton instance returned by {@link #copyOf(double[])} when invoked with a
+     * {@code null} or zero-length array. {@link #sum()} returns 0.0, while {@link #min()},
+     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
     static final class DoubleTuple0 extends DoubleTuple<DoubleTuple0> {
@@ -1383,13 +1389,27 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * A DoubleTuple containing exactly two double values.
-     * <p>
-     * This class provides direct access to elements through public final fields {@code _1} and {@code _2}.
-     * DoubleTuple.DoubleTuple2 offers additional functional methods like {@link #accept(Throwables.DoubleBiConsumer)},
-     * {@link #map(Throwables.DoubleBiFunction)}, and {@link #filter(Throwables.DoubleBiPredicate)} that
-     * operate on both elements simultaneously.
-     * </p>
+     * A tuple containing exactly two double values.
+     * The values are accessible through the public final fields {@code _1} and {@code _2}.
+     *
+     * <p>In addition to the operations inherited from {@link DoubleTuple}, this class provides
+     * functional helpers for working with pairs:</p>
+     * <ul>
+     *   <li>{@link #accept(Throwables.DoubleBiConsumer)} - consume both values</li>
+     *   <li>{@link #map(Throwables.DoubleBiFunction)} - transform the pair to a single value</li>
+     *   <li>{@link #filter(Throwables.DoubleBiPredicate)} - conditionally wrap in {@link Optional}</li>
+     * </ul>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple2 t = DoubleTuple.of(1.5, 2.5);
+     * double first = t._1;        // 1.5
+     * double second = t._2;       // 2.5
+     * double sum = t.sum();       // 4.0
+     * double min = t.min();       // 1.5
+     * double max = t.max();       // 2.5
+     * double avg = t.average();   // 2.0
+     * }</pre>
      */
     public static final class DoubleTuple2 extends DoubleTuple<DoubleTuple2> {
 
@@ -1622,8 +1642,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * DoubleTuple.of(Double.NaN, 1.0).forEach(v -> assertTrue(Double.isNaN(v) || v == 1.0));
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to perform
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform; must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2086,8 +2106,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * DoubleTuple.of(Double.NaN, 1.0, 2.0).forEach(v -> count[0]++);   // count[0] == 3
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to perform
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform; must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2558,11 +2578,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * t.forEach(v -> sum[0] += v);
          * sum[0]; // returns 10.0 (elements visited in order: 1.0, 2.0, 3.0, 4.0)
          * // null action throws IllegalArgumentException
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to perform
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform; must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2896,11 +2916,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * t.forEach(v -> sum[0] += v);
          * sum[0]; // returns 15.0 (elements visited in order: 1.0, 2.0, 3.0, 4.0, 5.0)
          * // null action throws IllegalArgumentException
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to perform
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform; must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -3239,11 +3259,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * t.forEach(v -> sum[0] += v);
          * sum[0]; // returns 21.0 (elements visited in order: 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
          * // null action throws IllegalArgumentException
-         * t.forEach(null); // throws IllegalArgumentException
+         * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to perform
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform; must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -3608,11 +3628,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * neg.forEach(v -> sumNeg[0] += v);   // sumNeg[0] == -28.0
          *
          * DoubleTuple.DoubleTuple7 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * t2.forEach(null);   // throws IllegalArgumentException
+         * // t2.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to perform
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform; must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -4008,11 +4028,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * neg.forEach(v -> sumNeg[0] += v);   // sumNeg[0] == -36.0
          *
          * DoubleTuple.DoubleTuple8 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * t2.forEach(null);   // throws IllegalArgumentException
+         * // t2.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to perform
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform; must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -4414,11 +4434,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * neg.forEach(v -> sumNeg[0] += v);   // sumNeg[0] == -45.0
          *
          * DoubleTuple.DoubleTuple9 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * t2.forEach(null);   // throws IllegalArgumentException
+         * // t2.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to perform
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to perform; must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */

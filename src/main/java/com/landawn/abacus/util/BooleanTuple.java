@@ -33,6 +33,13 @@ import com.landawn.abacus.util.stream.Stream;
  *
  * @param <TP> the concrete {@code BooleanTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
+ * @see ByteTuple
+ * @see CharTuple
+ * @see ShortTuple
+ * @see IntTuple
+ * @see LongTuple
+ * @see FloatTuple
+ * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
@@ -303,7 +310,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _7 the seventh boolean value
      * @param _8 the eighth boolean value
      * @return a new {@link BooleanTuple8} containing the specified values
-     * @deprecated you should consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more boolean values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more boolean values
      */
     @Deprecated
     public static BooleanTuple8 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
@@ -344,7 +351,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _8 the eighth boolean value
      * @param _9 the ninth boolean value
      * @return a new {@link BooleanTuple9} containing the specified values
-     * @deprecated you should consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
      */
     @Deprecated
     public static BooleanTuple9 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
@@ -356,9 +363,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * Creates a BooleanTuple from an array of boolean values.
      * <p>
      * The size of the returned tuple depends on the length of the input array.
-     * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty {@code BooleanTuple<?>}. For arrays with 1-9 elements, returns
-     * the corresponding BooleanTuple.BooleanTuple1-9 instance.
+     * This factory method supports arrays with 0 to 9 elements. For {@code null} or empty
+     * arrays, returns the shared empty tuple. For arrays with 1-9 elements, returns the
+     * corresponding {@code BooleanTuple1}..{@code BooleanTuple9} instance. The values are copied
+     * into the new tuple; subsequent modifications to the input array do not affect it.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -392,9 +400,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * {@link ClassCastException} at the assignment site.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
-     * @param values the array of boolean values to copy; may be {@code null} or empty, and must contain at most 9 elements
-     * @return a BooleanTuple of the appropriate arity containing the array values, or an empty BooleanTuple if {@code values} is {@code null} or empty
-     * @throws IllegalArgumentException if {@code values.length} is greater than 9
+     * @param values the array of boolean values; may be {@code null} or empty, in which case the shared empty tuple is returned
+     * @return a {@code BooleanTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
+     * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(boolean)
      */
     @SuppressWarnings("deprecation")
@@ -783,19 +791,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     protected abstract boolean[] elements();
 
     /**
-     * An empty {@link BooleanTuple} containing no elements (arity 0).
+     * An empty BooleanTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code BooleanTuple} type
      * via the singleton instance returned by {@link #copyOf(boolean[])} when invoked with a
      * {@code null} or zero-length array.
      * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(null);
-     * BooleanTuple<?> empty2 = BooleanTuple.copyOf(new boolean[0]);
-     * int size = empty.arity();   // 0
-     * }</pre>
      */
     static final class BooleanTuple0 extends BooleanTuple<BooleanTuple0> {
         private static final BooleanTuple0 EMPTY = new BooleanTuple0();
@@ -1042,13 +1043,16 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * A BooleanTuple containing exactly two boolean elements.
-     * <p>
-     * Provides direct access to elements through public final fields {@code _1} and {@code _2}.
-     * This tuple type is commonly used for representing pairs of boolean flags or binary conditions,
-     * and supports specialized functional operations through {@link #accept}, {@link #map}, and
-     * {@link #filter} methods that work with both elements.
-     * </p>
+     * A tuple containing exactly two boolean values.
+     * The values are accessible through the public final fields {@code _1} and {@code _2}.
+     *
+     * <p>In addition to the operations inherited from {@link BooleanTuple}, this class provides
+     * functional helpers for working with pairs:</p>
+     * <ul>
+     *   <li>{@link #accept(Throwables.BooleanBiConsumer)} - consume both values</li>
+     *   <li>{@link #map(Throwables.BooleanBiFunction)} - transform the pair to a single value</li>
+     *   <li>{@link #filter(Throwables.BooleanBiPredicate)} - conditionally wrap in {@link Optional}</li>
+     * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1170,8 +1174,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * // count2 is 0
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed for each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -1535,8 +1539,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * // count2 is 0
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed for each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -1894,8 +1898,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * // count2 is 0
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed for each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2145,8 +2149,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * // count2 is 0
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed for each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2417,8 +2421,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * // tuple.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed for each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2625,7 +2629,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * // Alternating-value tuple; reverse is not equal to original
+         * // Non-palindrome tuple; reverse is not equal to original
          * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, false);
          * BooleanTuple.BooleanTuple7 reversed = tuple.reverse();   // returns (false, false, true, false, true, false, true)
          *
@@ -2703,8 +2707,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * // tuple.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed for each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -2933,7 +2937,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
          * BooleanTuple.BooleanTuple8 rev3 = allFalse.reverse();   // returns (false, false, false, false, false, false, false, false)
          *
-         * // Asymmetric tuple; reversal is a different tuple
+         * // Palindrome tuple; reversal equals the original
          * BooleanTuple.BooleanTuple8 asym = BooleanTuple.of(true, false, false, false, false, false, false, true);
          * BooleanTuple.BooleanTuple8 rev4 = asym.reverse();   // returns (true, false, false, false, false, false, false, true)
          * }</pre>
@@ -2999,8 +3003,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * // tuple.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed for each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */
@@ -3300,8 +3304,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * // tuple.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed for each element
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          */

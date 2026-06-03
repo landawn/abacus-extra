@@ -33,8 +33,13 @@ import com.landawn.abacus.util.stream.ByteStream;
  *
  * @param <TP> the concrete {@code ByteTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
- * @see IntTuple
+ * @see BooleanTuple
+ * @see CharTuple
  * @see ShortTuple
+ * @see IntTuple
+ * @see LongTuple
+ * @see FloatTuple
+ * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
@@ -373,9 +378,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * Creates a ByteTuple from an array of byte values.
      * <p>
      * The size of the returned tuple depends on the length of the input array.
-     * This factory method supports arrays with 0 to 9 elements. For empty or null
-     * arrays, returns an empty {@code ByteTuple<?>}. For arrays with 1-9 elements, returns
-     * the corresponding ByteTuple.ByteTuple1-9 instance.
+     * This factory method supports arrays with 0 to 9 elements. For {@code null} or empty
+     * arrays, returns the shared empty tuple. For arrays with 1-9 elements, returns the
+     * corresponding {@code ByteTuple1}..{@code ByteTuple9} instance. The values are copied
+     * into the new tuple; subsequent modifications to the input array do not affect it.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -413,9 +419,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * {@link ClassCastException} at the assignment site.</p>
      *
      * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
-     * @param values the array of byte values; may be {@code null} or empty (length must be at most 9)
-     * @return a ByteTuple of appropriate size containing the array values, or an empty ByteTuple if the array is {@code null} or empty
-     * @throws IllegalArgumentException if {@code values.length} is greater than 9
+     * @param values the array of byte values; may be {@code null} or empty, in which case the shared empty tuple is returned
+     * @return a {@code ByteTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
+     * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(byte)
      */
     @SuppressWarnings("deprecation")
@@ -836,7 +842,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * // count[0] remains 0
      *
      * // null action -> throws IllegalArgumentException
-     * t.forEach(null);   // throws IllegalArgumentException
+     * // t.forEach(null);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
@@ -1007,19 +1013,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     protected abstract byte[] elements();
 
     /**
-     * An empty {@link ByteTuple} containing no elements (arity 0).
+     * An empty ByteTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code ByteTuple} type
      * via the singleton instance returned by {@link #copyOf(byte[])} when invoked with a
-     * {@code null} or zero-length array.
+     * {@code null} or zero-length array. {@link #sum()} returns 0, while {@link #min()},
+     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link java.util.NoSuchElementException}.
      * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ByteTuple<?> empty = ByteTuple.copyOf(null);
-     * ByteTuple<?> empty2 = ByteTuple.copyOf(new byte[0]);
-     * int size = empty.arity();   // 0
-     * }</pre>
      */
     static final class ByteTuple0 extends ByteTuple<ByteTuple0> {
 
@@ -1464,13 +1464,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A ByteTuple containing exactly two byte elements.
-     * <p>
-     * Provides direct access to elements through public final fields {@code _1} and {@code _2}.
-     * This tuple type is commonly used for representing pairs of byte values,
-     * and supports specialized functional operations through {@link #accept}, {@link #map}, and
-     * {@link #filter} methods that work with both elements.
-     * </p>
+     * A tuple containing exactly two byte values.
+     * The values are accessible through the public final fields {@code _1} and {@code _2}.
+     *
+     * <p>In addition to the operations inherited from {@link ByteTuple}, this class provides
+     * functional helpers for working with pairs:</p>
+     * <ul>
+     *   <li>{@link #accept(Throwables.ByteBiConsumer)} - consume both values</li>
+     *   <li>{@link #map(Throwables.ByteBiFunction)} - transform the pair to a single value</li>
+     *   <li>{@link #filter(Throwables.ByteBiPredicate)} - conditionally wrap in {@link Optional}</li>
+     * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3787,7 +3790,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(b -> sum[0] += b);   // sum[0] == 28
          *
          * // Passing null throws IllegalArgumentException
-         * tuple.forEach(null);   // throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
          *
          * // Boundary values are passed as-is
          * ByteTuple.ByteTuple7 t2 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32);
@@ -4205,7 +4208,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(b -> sum[0] += b);   // sum[0] == 36
          *
          * // Passing null throws IllegalArgumentException
-         * tuple.forEach(null);   // throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
          *
          * // Boundary values are passed as-is
          * ByteTuple.ByteTuple8 t2 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16);
@@ -4634,7 +4637,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * tuple.forEach(b -> sum[0] += b);   // sum[0] == 45
          *
          * // Passing null throws IllegalArgumentException
-         * tuple.forEach(null);   // throws IllegalArgumentException
+         * // tuple.forEach(null);   // throws IllegalArgumentException
          *
          * // Boundary values are passed as-is
          * ByteTuple.ByteTuple9 t2 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1,
