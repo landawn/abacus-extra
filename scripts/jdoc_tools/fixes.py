@@ -30,13 +30,9 @@ import re
 from typing import List, Tuple
 
 from . import region
-from .reports import _ARRAY_DECL, _code_of, _iter_full_code_blocks
+from .reports import _ARRAY_DECL  # array-decl pattern shared with the member-misuse check
 
 FixResult = Tuple[List[str], int, List[str]]
-
-
-def _is_standalone_sample_comment(line: str, comment_index: int) -> bool:
-    return bool(re.match(r"^\s*\*\s*$", line[:comment_index]))
 
 
 def _is_blank_javadoc(line: str) -> bool:
@@ -187,10 +183,10 @@ def fix_sample_member_misuse(path: str, lines: List[str]) -> FixResult:
     new_lines = list(lines)
     count = 0
     details: List[str] = []
-    for block_start, block in _iter_full_code_blocks(lines):
+    for block_start, block in region.iter_full_code_blocks(lines):
         array_vars = set()
         for ln in block:
-            array_vars.update(_ARRAY_DECL.findall(_code_of(ln)))
+            array_vars.update(_ARRAY_DECL.findall(region.code_of(ln)))
         if not array_vars:
             continue
         for offset in range(len(block)):

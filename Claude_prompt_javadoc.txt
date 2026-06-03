@@ -229,3 +229,35 @@
 
 ==============================================================================================================================================
 
+
+
+
+
+---
+Do a final cleanup pass on the Python toolkit under ./scripts/ — improve clarity, readability, and organization, and remove dead/unused scripts and code. This is a refactor only: preserve behavior and the public CLI surface.
+
+Scope (the toolkit, in abacus-extra/scripts/ as the canonical copy):
+- jdoc.py (CLI) + the jdoc_tools/ package (region.py, reports.py, fixes.py, pipeline.py, __init__.py)
+- standalone scripts reused by the CLI: align_jdoc_examples.py, fix_javadoc_format4.py
+- helpers: verify_jdoc_test.py (+ JdocTestRunner.java), check_corruption.py
+- leave scripts/codex/ (original JS reference) untouched; update scripts/README.md if structure changes.
+
+Goals:
+1. Readability — docstring every public function and CLI command; consistent naming; delete commented-out code and stale TODOs; split over-long functions; clear names over clever ones; match existing style.
+2. Organization — one clear responsibility per module; consolidate duplicated logic (e.g. the repeated in-<pre>{@code} scanners and comment-index helpers) into region.py; group related helpers.
+3. Remove unused — delete dead functions/helpers left from earlier edits (e.g. removed content-guessing fixers), unused imports, unreachable branches, and any script not referenced by the CLI or the documented workflow. Confirm each is truly unused (grep for references across scripts/) before deleting; if unsure, keep it and flag it.
+
+Hard constraints (don't break the verified toolkit):
+- Behavior-preserving: every CLI command (report, fix, eligible, inventory, audit, validate, cleanup, verify-comment-only) and every report/fixer name must keep working with identical output.
+- Keep the recently-fixed detector intact: region.type_public_scope, _method_after, _is_public_method.
+- Don't change the standalone scripts' CLIs — other projects/agents invoke align_jdoc_examples.py --apply, verify_jdoc_test.py, etc.
+
+Verify after (output must match pre-cleanup):
+- python -m compileall scripts/jdoc.py scripts/jdoc_tools/ is clean; python scripts/jdoc.py -h and each subcommand -h render.
+- Smoke-test on real sources and diff against pre-cleanup output: audit src/main/java, report methods <a tuple class>, report usage-check <class>, eligible src/main/java, a dry-run fix usage-spacing <class>, verify-comment-only <class>.
+- Update README.md if files/commands moved; re-sync the changed files to abacus-extra/scripts/ afterward (both repos carry a copy).
+
+Deliverable: a summary of what was removed (files, functions, imports), what was reorganized/renamed, and confirmation that the smoke tests produce identical results to before.
+
+
+

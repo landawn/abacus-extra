@@ -284,47 +284,17 @@ _COLLECTION_DECL = re.compile(
 )
 
 
-def _code_of(line: str) -> str:
-    return re.sub(r"^\s*\*\s?", "", line)
-
-
-def _iter_full_code_blocks(lines: List[str]):
-    """Yield ``(block_start_index, [block lines])`` for each ``<pre>{@code`` block
-    (marker lines included)."""
-    mask = region.active_javadoc_line_mask(lines)
-    in_block = False
-    block_start = 0
-    block_lines: List[str] = []
-    for i, line in enumerate(lines):
-        if not mask[i]:
-            if in_block:
-                yield block_start, block_lines
-                in_block, block_lines = False, []
-            continue
-        if not in_block and "<pre>{@code" in line:
-            in_block, block_start, block_lines = True, i, [line]
-            if "}</pre>" in line:
-                yield block_start, block_lines
-                in_block, block_lines = False, []
-            continue
-        if in_block:
-            block_lines.append(line)
-            if "}</pre>" in line:
-                yield block_start, block_lines
-                in_block, block_lines = False, []
-
-
 def check_sample_member_misuse(path: str, lines: List[str]) -> List[str]:
     out: List[str] = []
-    for block_start, block in _iter_full_code_blocks(lines):
+    for block_start, block in region.iter_full_code_blocks(lines):
         array_vars = set()
         collection_vars = set()
         for ln in block:
-            code = _code_of(ln)
+            code = region.code_of(ln)
             array_vars.update(_ARRAY_DECL.findall(code))
             collection_vars.update(_COLLECTION_DECL.findall(code))
         for offset, ln in enumerate(block):
-            code = _code_of(ln)
+            code = region.code_of(ln)
             for var in array_vars:
                 if re.search(r"\b" + re.escape(var) + r"\.size\(\)", code):
                     out.append(f'{path}:{block_start + offset + 1}: array variable "{var}" uses .size(): {code.strip()}')

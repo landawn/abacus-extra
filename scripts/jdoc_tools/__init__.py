@@ -2,8 +2,7 @@
 jdoc_tools
 ==========
 
-Javadoc "Usage Examples" reporting / normalization toolkit for the
-``com.landawn.abacus.matrix`` project.
+Javadoc "Usage Examples" reporting / normalization toolkit.
 
 This package is a consolidated Python rewrite of the ~50 throwaway Node.js
 scripts that used to live under ``scripts/codex/`` (which were written by codex

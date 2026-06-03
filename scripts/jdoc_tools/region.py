@@ -111,6 +111,40 @@ def iter_code_lines(lines: List[str]) -> Iterator[Tuple[int, str]]:
         yield i, line
 
 
+def iter_full_code_blocks(lines: List[str]) -> Iterator[Tuple[int, List[str]]]:
+    """Yield ``(block_start_index, block_lines)`` for each ``<pre>{@code ... }</pre>``
+    block, *including* the marker lines -- unlike :func:`iter_code_lines`, which yields
+    only the lines strictly inside. Used where a check/fixer needs whole-block context
+    (e.g. to collect variable declarations before inspecting their uses)."""
+    mask = active_javadoc_line_mask(lines)
+    in_block = False
+    block_start = 0
+    block_lines: List[str] = []
+    for i, line in enumerate(lines):
+        if not mask[i]:
+            if in_block:
+                yield block_start, block_lines
+                in_block, block_lines = False, []
+            continue
+        if not in_block and _PRE_OPEN in line:
+            in_block, block_start, block_lines = True, i, [line]
+            if "}</pre>" in line:
+                yield block_start, block_lines
+                in_block, block_lines = False, []
+            continue
+        if in_block:
+            block_lines.append(line)
+            if "}</pre>" in line:
+                yield block_start, block_lines
+                in_block, block_lines = False, []
+
+
+def code_of(line: str) -> str:
+    """Strip the leading Javadoc gutter (``* `` / ``*``) from a line, leaving the
+    example code/text after it."""
+    return re.sub(r"^\s*\*\s?", "", line)
+
+
 # --------------------------------------------------------------------------- #
 # content queries (operate on a whole file's text)
 # --------------------------------------------------------------------------- #
