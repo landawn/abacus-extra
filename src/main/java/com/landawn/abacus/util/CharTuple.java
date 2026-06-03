@@ -1189,7 +1189,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // Boundary: max char (code point 65535)
          * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');   // '\uFFFF' = 65535
-         * int sumMax = tupleMax.sum();                         // 65535
+         * int sumMax = tupleMax.sum();                              // 65535
          * }</pre>
          *
          * @return the numeric value of the single char in this tuple
@@ -1217,7 +1217,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // Boundary: max char (code point 65535)
          * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');   // '\uFFFF' = 65535
-         * double avgMax = tupleMax.average();                  // 65535.0
+         * double avgMax = tupleMax.average();                       // 65535.0
          * }</pre>
          *
          * @return the numeric value of the single char in this tuple as a double
@@ -1273,8 +1273,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // Boundary: max char in its own tuple
          * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');
-         * boolean hasMax = tupleMax.contains('\uFFFF');    // true
-         * boolean hasMiss = tupleMax.contains('A');   // false
+         * boolean hasMax = tupleMax.contains('\uFFFF');   // true
+         * boolean hasMiss = tupleMax.contains('A');       // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -2637,9 +2637,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // boundary chars
          * CharTuple.CharTuple4 t2 = CharTuple.of(' ', 'Z', 'a', '\uFFFF');
-         * boolean hasMin = t2.contains(' ');   // true
+         * boolean hasMin = t2.contains(' ');        // true
          * boolean hasMax = t2.contains('\uFFFF');   // true
-         * boolean hasMid = t2.contains('A');   // false
+         * boolean hasMid = t2.contains('A');        // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -2652,6 +2652,29 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
+         * // Collect chars into a list in order
+         * java.util.List<Character> list = new java.util.ArrayList<>();
+         * tuple.forEach(c -> list.add(c));
+         * // list is ['A', 'B', 'C', 'D']
+         *
+         * // Sum char code points: 65+66+67+68
+         * int[] total = {0};
+         * tuple.forEach(c -> total[0] += c);
+         * int sum = total[0];                  // 266
+         *
+         * // Duplicate chars: 'Z'=90, 4 * 90 = 360
+         * CharTuple.CharTuple4 dup = CharTuple.of('Z', 'Z', 'Z', 'Z');
+         * int[] dupSum = {0};
+         * dup.forEach(c -> dupSum[0] += c);
+         * int dupTotal = dupSum[0];            // 360
+         *
+         * // Edge: null action throws IllegalArgumentException
+         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
@@ -2688,7 +2711,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple4 t4 = CharTuple.of('A', 'A', 'A', 'A');
-         * int h4 = t4.hashCode();              // consistent value
+         * int h4 = t4.hashCode();                                        // consistent value
          * assertEquals(CharTuple.of('A', 'A', 'A', 'A').hashCode(), h4); // true
          * }</pre>
          *
@@ -2701,6 +2724,24 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple4 t1 = CharTuple.of('A', 'B', 'C', 'D');
+         * CharTuple.CharTuple4 t2 = CharTuple.of('A', 'B', 'C', 'D');
+         * boolean eq = t1.equals(t2);          // true
+         *
+         * // Different fourth element
+         * CharTuple.CharTuple4 t3 = CharTuple.of('A', 'B', 'C', 'E');
+         * boolean neq = t1.equals(t3);         // false
+         *
+         * // Different order is not equal
+         * CharTuple.CharTuple4 t4 = CharTuple.of('D', 'C', 'B', 'A');
+         * boolean orderMatters = t1.equals(t4); // false
+         *
+         * // null is never equal
+         * boolean nullEq = t1.equals(null);    // false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a CharTuple.CharTuple4 with the same elements in the same order, {@code false} otherwise
@@ -2998,9 +3039,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // boundary chars
          * CharTuple.CharTuple5 t2 = CharTuple.of(' ', 'Z', '\uFFFF', 'a', 'b');
-         * boolean hasMin = t2.contains(' ');   // true
+         * boolean hasMin = t2.contains(' ');        // true
          * boolean hasMax = t2.contains('\uFFFF');   // true
-         * boolean hasMid = t2.contains('A');   // false
+         * boolean hasMid = t2.contains('A');        // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -3013,6 +3054,29 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
+         * // Collect chars into a list in order
+         * java.util.List<Character> list = new java.util.ArrayList<>();
+         * tuple.forEach(c -> list.add(c));
+         * // list is ['A', 'B', 'C', 'D', 'E']
+         *
+         * // Sum char code points: 65+66+67+68+69
+         * int[] total = {0};
+         * tuple.forEach(c -> total[0] += c);
+         * int sum = total[0];                  // 335
+         *
+         * // Duplicate chars: 'Z'=90, 5 * 90 = 450
+         * CharTuple.CharTuple5 dup = CharTuple.of('Z', 'Z', 'Z', 'Z', 'Z');
+         * int[] dupSum = {0};
+         * dup.forEach(c -> dupSum[0] += c);
+         * int dupTotal = dupSum[0];            // 450
+         *
+         * // Edge: null action throws IllegalArgumentException
+         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
@@ -3062,6 +3126,24 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple5 t1 = CharTuple.of('A', 'B', 'C', 'D', 'E');
+         * CharTuple.CharTuple5 t2 = CharTuple.of('A', 'B', 'C', 'D', 'E');
+         * boolean eq = t1.equals(t2);          // true
+         *
+         * // Different fifth element
+         * CharTuple.CharTuple5 t3 = CharTuple.of('A', 'B', 'C', 'D', 'F');
+         * boolean neq = t1.equals(t3);         // false
+         *
+         * // Different order is not equal
+         * CharTuple.CharTuple5 t4 = CharTuple.of('E', 'D', 'C', 'B', 'A');
+         * boolean orderMatters = t1.equals(t4); // false
+         *
+         * // null is never equal
+         * boolean nullEq = t1.equals(null);    // false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a CharTuple.CharTuple5 with the same elements in the same order, {@code false} otherwise
@@ -3363,9 +3445,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // boundary chars
          * CharTuple.CharTuple6 t2 = CharTuple.of(' ', 'Z', '\uFFFF', 'a', 'b', 'c');
-         * boolean hasMin = t2.contains(' ');   // true
+         * boolean hasMin = t2.contains(' ');        // true
          * boolean hasMax = t2.contains('\uFFFF');   // true
-         * boolean hasMid = t2.contains('A');   // false
+         * boolean hasMid = t2.contains('A');        // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -3378,6 +3460,29 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
+         * // Collect chars into a list in order
+         * java.util.List<Character> list = new java.util.ArrayList<>();
+         * tuple.forEach(c -> list.add(c));
+         * // list is ['A', 'B', 'C', 'D', 'E', 'F']
+         *
+         * // Sum char code points: 65+66+67+68+69+70
+         * int[] total = {0};
+         * tuple.forEach(c -> total[0] += c);
+         * int sum = total[0];                  // 405
+         *
+         * // Duplicate chars: 'Z'=90, 6 * 90 = 540
+         * CharTuple.CharTuple6 dup = CharTuple.of('Z', 'Z', 'Z', 'Z', 'Z', 'Z');
+         * int[] dupSum = {0};
+         * dup.forEach(c -> dupSum[0] += c);
+         * int dupTotal = dupSum[0];            // 540
+         *
+         * // Edge: null action throws IllegalArgumentException
+         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
@@ -3428,6 +3533,24 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple6 t1 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
+         * CharTuple.CharTuple6 t2 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
+         * boolean eq = t1.equals(t2);          // true
+         *
+         * // Different sixth element
+         * CharTuple.CharTuple6 t3 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'G');
+         * boolean neq = t1.equals(t3);         // false
+         *
+         * // Different order is not equal
+         * CharTuple.CharTuple6 t4 = CharTuple.of('F', 'E', 'D', 'C', 'B', 'A');
+         * boolean orderMatters = t1.equals(t4); // false
+         *
+         * // null is never equal
+         * boolean nullEq = t1.equals(null);    // false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a CharTuple.CharTuple6 with the same elements in the same order, {@code false} otherwise
@@ -3727,9 +3850,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // boundary chars
          * CharTuple.CharTuple7 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e');
-         * boolean hasSpace = bnd.contains(' ');   // true
-         * boolean hasMax = bnd.contains('\uFFFF');     // true
-         * boolean hasMiss = bnd.contains('f');    // false
+         * boolean hasSpace = bnd.contains(' ');      // true
+         * boolean hasMax = bnd.contains('\uFFFF');   // true
+         * boolean hasMiss = bnd.contains('f');       // false
          *
          * // all duplicates: only that char is found
          * CharTuple.CharTuple7 dup = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A');
@@ -3748,6 +3871,29 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
+         * // Collect chars into a list in order
+         * java.util.List<Character> list = new java.util.ArrayList<>();
+         * tuple.forEach(c -> list.add(c));
+         * // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+         *
+         * // Sum char code points: 65+66+67+68+69+70+71
+         * int[] total = {0};
+         * tuple.forEach(c -> total[0] += c);
+         * int sum = total[0];                  // 476
+         *
+         * // Duplicate chars: 'Z'=90, 7 * 90 = 630
+         * CharTuple.CharTuple7 dup = CharTuple.of('Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z');
+         * int[] dupSum = {0};
+         * dup.forEach(c -> dupSum[0] += c);
+         * int dupTotal = dupSum[0];            // 630
+         *
+         * // Edge: null action throws IllegalArgumentException
+         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
@@ -3799,6 +3945,24 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple7 t1 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
+         * CharTuple.CharTuple7 t2 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
+         * boolean eq = t1.equals(t2);          // true
+         *
+         * // Different seventh element
+         * CharTuple.CharTuple7 t3 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'H');
+         * boolean neq = t1.equals(t3);         // false
+         *
+         * // Different order is not equal
+         * CharTuple.CharTuple7 t4 = CharTuple.of('G', 'F', 'E', 'D', 'C', 'B', 'A');
+         * boolean orderMatters = t1.equals(t4); // false
+         *
+         * // null is never equal
+         * boolean nullEq = t1.equals(null);    // false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a CharTuple.CharTuple7 with the same elements in the same order, {@code false} otherwise
@@ -4105,9 +4269,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // boundary chars
          * CharTuple.CharTuple8 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f');
-         * boolean hasSpace = bnd.contains(' ');   // true
-         * boolean hasMax = bnd.contains('\uFFFF');     // true
-         * boolean hasMiss = bnd.contains('g');    // false
+         * boolean hasSpace = bnd.contains(' ');      // true
+         * boolean hasMax = bnd.contains('\uFFFF');   // true
+         * boolean hasMiss = bnd.contains('g');       // false
          *
          * // all duplicates: only that char is found
          * CharTuple.CharTuple8 dup = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
@@ -4126,6 +4290,29 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+         * // Collect chars into a list in order
+         * java.util.List<Character> list = new java.util.ArrayList<>();
+         * tuple.forEach(c -> list.add(c));
+         * // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+         *
+         * // Sum char code points: 65+66+67+68+69+70+71+72
+         * int[] total = {0};
+         * tuple.forEach(c -> total[0] += c);
+         * int sum = total[0];                  // 548
+         *
+         * // Duplicate chars: 'Z'=90, 8 * 90 = 720
+         * CharTuple.CharTuple8 dup = CharTuple.of('Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z');
+         * int[] dupSum = {0};
+         * dup.forEach(c -> dupSum[0] += c);
+         * int dupTotal = dupSum[0];            // 720
+         *
+         * // Edge: null action throws IllegalArgumentException
+         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
@@ -4178,6 +4365,24 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple8 t1 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+         * CharTuple.CharTuple8 t2 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+         * boolean eq = t1.equals(t2);          // true
+         *
+         * // Different eighth element
+         * CharTuple.CharTuple8 t3 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'I');
+         * boolean neq = t1.equals(t3);         // false
+         *
+         * // Different order is not equal
+         * CharTuple.CharTuple8 t4 = CharTuple.of('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A');
+         * boolean orderMatters = t1.equals(t4); // false
+         *
+         * // null is never equal
+         * boolean nullEq = t1.equals(null);    // false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a CharTuple.CharTuple8 with the same elements in the same order, {@code false} otherwise
@@ -4487,9 +4692,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * // boundary chars
          * CharTuple.CharTuple9 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g');
-         * boolean hasSpace = bnd.contains(' ');   // true
-         * boolean hasMax = bnd.contains('\uFFFF');     // true
-         * boolean hasMiss = bnd.contains('h');    // false
+         * boolean hasSpace = bnd.contains(' ');      // true
+         * boolean hasMax = bnd.contains('\uFFFF');   // true
+         * boolean hasMiss = bnd.contains('h');       // false
          *
          * // all duplicates: only that char is found
          * CharTuple.CharTuple9 dup = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
@@ -4508,6 +4713,29 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
+         * // Collect chars into a list in order
+         * java.util.List<Character> list = new java.util.ArrayList<>();
+         * tuple.forEach(c -> list.add(c));
+         * // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+         *
+         * // Sum char code points: 65+66+67+68+69+70+71+72+73
+         * int[] total = {0};
+         * tuple.forEach(c -> total[0] += c);
+         * int sum = total[0];                  // 621
+         *
+         * // Duplicate chars: 'Z'=90, 9 * 90 = 810
+         * CharTuple.CharTuple9 dup = CharTuple.of('Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z', 'Z');
+         * int[] dupSum = {0};
+         * dup.forEach(c -> dupSum[0] += c);
+         * int dupTotal = dupSum[0];            // 810
+         *
+         * // Edge: null action throws IllegalArgumentException
+         * tuple.forEach(null);                 // throws IllegalArgumentException
+         * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
@@ -4561,6 +4789,24 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Compares this tuple to the specified object for equality.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple9 t1 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
+         * CharTuple.CharTuple9 t2 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
+         * boolean eq = t1.equals(t2);          // true
+         *
+         * // Different ninth element
+         * CharTuple.CharTuple9 t3 = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J');
+         * boolean neq = t1.equals(t3);         // false
+         *
+         * // Different order is not equal
+         * CharTuple.CharTuple9 t4 = CharTuple.of('I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A');
+         * boolean orderMatters = t1.equals(t4); // false
+         *
+         * // null is never equal
+         * boolean nullEq = t1.equals(null);    // false
+         * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
          * @return {@code true} if the specified object is a CharTuple.CharTuple9 with the same elements in the same order, {@code false} otherwise

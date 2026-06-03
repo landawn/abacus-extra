@@ -1,5 +1,5 @@
+
 ==============================================================================================================================================
-codex version:
 
 ---
   TASK: Start multiple agents to audit and complete the Javadoc “Usage Examples” for public methods in public classes under ./src/main/java/.
@@ -36,8 +36,6 @@ codex version:
   4. Checked exceptions:
      Document checked exceptions with a trailing comment:
      // throws IOException
-
-     Do not wrap examples in try/catch inside the <pre>{@code} block.
 
   5. Library behavior is the ground truth:
      Never guess expected values. Verify with tests.
@@ -226,3 +224,8 @@ codex version:
     - alignment applied
     - final build green
     - only comments were edited
+    
+
+
+==============================================================================================================================================
+

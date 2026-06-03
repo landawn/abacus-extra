@@ -1995,7 +1995,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.of(1, 2, 3).hashCode()     // returns (31 * (31 * 1 + 2)) + 3 == 30720
+         * IntTuple.of(1, 2, 3).hashCode()     // returns (31 * (31 * 1 + 2)) + 3 == 1026
          * IntTuple.of(0, 0, 0).hashCode()     // returns 0
          * IntTuple.of(-1, 0, 0).hashCode()    // returns 31 * (31 * (-1) + 0) + 0 == -961
          * IntTuple.of(0, 0, 1).hashCode()     // returns 1 (order matters)

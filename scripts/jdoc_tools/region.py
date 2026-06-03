@@ -256,3 +256,43 @@ def has_public_top_level_type(text: str) -> bool:
     (excluding a bare ``public @interface``)."""
     code = strip_comments(text)
     return bool(_PUBLIC_TYPE_RE.search(code)) and not _PUBLIC_ANNOTATION_RE.search(code)
+
+
+_TYPE_DECL_RE = re.compile(r"\b(?:class|interface|enum|record)\s+[A-Za-z_$][\w$]*")
+
+
+def type_public_scope(lines: List[str]) -> List[bool]:
+    """For each line, ``True`` if it sits inside a type-nesting whose enclosing types
+    are ALL public -- i.e. a public method declared there is genuinely in scope
+    ("public methods in public top-level OR nested public classes"). Lines outside any
+    type, or inside a non-public nested type (e.g. a ``static final class Tuple0``),
+    are ``False``.
+
+    Braces and type declarations are read from a comment/string-stripped copy so braces
+    inside comments or string literals don't skew the nesting. A type's ``public``-ness
+    is taken from the modifiers preceding its keyword on the declaration line."""
+    stripped = split_lines(strip_comments("\n".join(lines)))
+    n = len(lines)
+    ok = [False] * n
+    depth = 0
+    stack: List[dict] = []          # each: {"open_depth": int, "all_public": bool}
+    pending_public = None           # a type was declared; its '{' not yet consumed
+    for i in range(n):
+        sl = stripped[i] if i < len(stripped) else ""
+        ok[i] = stack[-1]["all_public"] if stack else False
+        if pending_public is None:
+            m = _TYPE_DECL_RE.search(sl)
+            if m:
+                pending_public = bool(re.search(r"\bpublic\b", sl[: m.start()]))
+        for ch in sl:
+            if ch == "{":
+                if pending_public is not None:
+                    parent_ok = stack[-1]["all_public"] if stack else True
+                    stack.append({"open_depth": depth, "all_public": pending_public and parent_ok})
+                    pending_public = None
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if stack and stack[-1]["open_depth"] == depth:
+                    stack.pop()
+    return ok

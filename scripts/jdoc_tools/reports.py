@@ -30,10 +30,21 @@ from . import region
 # --------------------------------------------------------------------------- #
 # shared: the public method (if any) a Javadoc block documents
 # --------------------------------------------------------------------------- #
+def _earliest_terminator(s: str) -> int:
+    """Index of the first ';' or '{' in ``s`` (statement/declaration terminator), or -1."""
+    idxs = [s.index(c) for c in ";{" if c in s]
+    return min(idxs) if idxs else -1
+
+
 def _method_after(lines: List[str], end: int) -> Optional[Tuple[int, str]]:
-    """Return ``(decl_line_index, one_line_signature)`` for the declaration that
-    follows a Javadoc block ending at ``end`` (skipping blank/annotation lines),
-    or None. The signature is gathered across continuation lines up to ``(...)``."""
+    """Return ``(decl_line_index, method_signature_head)`` for the METHOD/constructor
+    declaration that the Javadoc block ending at ``end`` documents, or None when the
+    next declaration is a field / non-method statement.
+
+    The signature is gathered across continuation lines only up to the first statement
+    terminator (';' or '{'). A terminator reached before any ``(...)`` means the
+    declaration is a field -- this avoids mis-reading compressed lines such as
+    ``public final boolean _1; BooleanTuple1() {`` as a public method."""
     start = None
     for i in range(end + 1, len(lines)):
         t = lines[i].strip()
@@ -45,15 +56,25 @@ def _method_after(lines: List[str], end: int) -> Optional[Tuple[int, str]]:
         return None
     sig = ""
     for j in range(start, min(len(lines), start + 12)):
-        sig += " " + lines[j].strip()
-        if "(" in sig and ")" in sig and ("{" in sig or ";" in sig):
-            break
-    return start, re.sub(r"\s+", " ", sig).strip()
+        sig = (sig + " " + lines[j].strip()).strip()
+        term = _earliest_terminator(sig)
+        if term >= 0:
+            head = sig[:term]
+            if "(" in head and ")" in head:
+                return start, re.sub(r"\s+", " ", head).strip()
+            return None  # field / non-method statement before any method signature
+    if "(" in sig and ")" in sig:
+        return start, re.sub(r"\s+", " ", sig).strip()
+    return None
 
 
 def _is_public_method(sig: str) -> bool:
     s = re.sub(r"^(?:@\w[\w.]*(?:\([^)]*\))?\s*)*", "", sig)
-    return s.startswith("public ") and "(" in s and not re.search(r"\b(class|interface|enum|record)\b", s)
+    if not s.startswith("public ") or re.search(r"\b(class|interface|enum|record)\b", s):
+        return False
+    m = re.search(r"[A-Za-z_$][\w$]*\s*\(", s)  # a method/constructor name immediately before '('
+    # a '=' before that '(' would mean a field initializer (e.g. ``public X y = f();``), not a method
+    return bool(m) and "=" not in s[: m.start()]
 
 
 def _method_name(sig: str) -> str:
@@ -74,6 +95,7 @@ def documented_public_methods(path: str, lines: List[str]) -> List[dict]:
     signature, has_examples. Empty if the file has no public top-level type."""
     if not region.has_public_top_level_type("\n".join(lines)):
         return []
+    scope_ok = region.type_public_scope(lines)
     records: List[dict] = []
     for start, end in region.iter_javadoc_blocks(lines):
         m = _method_after(lines, end)
@@ -82,6 +104,8 @@ def documented_public_methods(path: str, lines: List[str]) -> List[dict]:
         decl_line, sig = m
         if not _is_public_method(sig):
             continue
+        if decl_line < len(scope_ok) and not scope_ok[decl_line]:
+            continue  # method is inside a non-public (e.g. package-private) nested type
         records.append({
             "line": decl_line + 1,
             "name": _method_name(sig),

@@ -13693,7 +13693,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a2 = {1.0f};
      * float[] b2 = {5.0f, 6.0f, 7.0f};
      * float[] r2 = Arrays.zip(a2, b2, 0, 10, (x, y) -> x + y);
-     * // r2: {6.0, 16.0, 17.0}
+     * // r2: {6.0, 6.0, 7.0}
      *
      * // Edge: null treated as empty; b elements zipped with defaultValueA
      * float[] r3 = Arrays.zip((float[]) null, new float[]{5, 6}, 0, 10, (x, y) -> x + y);
