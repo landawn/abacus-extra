@@ -735,7 +735,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * list.get(0);                                     // returns 1
      *
      * // Mutating the list does not change the tuple
-     * list.add(4L);
+     * list.add(4L);                                    // modifies the copy, not the tuple
      * tuple.arity();                                   // still returns 3
      *
      * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
@@ -767,8 +767,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * tuple.forEach(v -> System.out.println("Value: " + v));
-     * // Prints (one per line):
+     * tuple.forEach(v -> System.out.println("Value: " + v));  // Prints (one per line):
      * //   Value: 1
      * //   Value: 2
      * //   Value: 3
@@ -781,7 +780,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * // Empty tuple: action is never called
      * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
      * long[] count = {0L};
-     * empty.forEach(v -> count[0]++);
+     * empty.forEach(v -> count[0]++);                  // action not invoked (empty tuple)
      * count[0];                                        // returns 0
      *
      * // Null action throws immediately
@@ -1095,6 +1094,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * LongTuple.LongTuple1 single = LongTuple.of(42L);
      * long value = single._1;  // 42
      * }</pre>
+     *
      */
     public static final class LongTuple1 extends LongTuple<LongTuple1> {
 
@@ -1412,6 +1412,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
      * long product = pair.map((a, b) -> a * b);
      * }</pre>
+     *
      */
     public static final class LongTuple2 extends LongTuple<LongTuple2> {
 
@@ -1884,6 +1885,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * triple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
      * long product = triple.map((a, b, c) -> a * b * c);
      * }</pre>
+     *
      */
     public static final class LongTuple3 extends LongTuple<LongTuple3> {
 
@@ -2354,6 +2356,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * long min = quad.min();                            // 1L
      * LongTuple.LongTuple4 reversed = quad.reverse();   // (4, 3, 2, 1)
      * }</pre>
+     *
      */
     public static final class LongTuple4 extends LongTuple<LongTuple4> {
 
@@ -2597,8 +2600,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * // Negative values visited in order
          * LongTuple.LongTuple4 neg = LongTuple.of(-4L, -3L, -2L, -1L);
          * java.util.concurrent.atomic.AtomicLong sum = new java.util.concurrent.atomic.AtomicLong();
-         * neg.forEach(sum::addAndGet);
-         * // sum.get() == -10
+         * neg.forEach(sum::addAndGet);  // sum.get() == -10
          *
          * // Passing null throws IllegalArgumentException
          * LongTuple.LongTuple4 t2 = LongTuple.of(1L, 2L, 3L, 4L);
@@ -2730,6 +2732,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * long median = tuple.median();                      // 3
      * LongTuple.LongTuple5 reversed = tuple.reverse();   // (5, 4, 3, 2, 1)
      * }</pre>
+     *
      */
     public static final class LongTuple5 extends LongTuple<LongTuple5> {
 
@@ -2975,8 +2978,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * // Accumulate sum over negative values
          * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -4L, -3L, -2L, -1L);
          * java.util.concurrent.atomic.AtomicLong sum = new java.util.concurrent.atomic.AtomicLong();
-         * neg.forEach(sum::addAndGet);
-         * // sum.get() == -15
+         * neg.forEach(sum::addAndGet);  // sum.get() == -15
          *
          * // Passing null throws IllegalArgumentException
          * LongTuple.LongTuple5 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
@@ -3108,6 +3110,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * long sum = tuple.sum();         // 21
      * double avg = tuple.average();   // 3.5
      * }</pre>
+     *
      */
     public static final class LongTuple6 extends LongTuple<LongTuple6> {
 
@@ -3356,8 +3359,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * // Accumulate sum over negative values
          * LongTuple.LongTuple6 neg = LongTuple.of(-6L, -5L, -4L, -3L, -2L, -1L);
          * java.util.concurrent.atomic.AtomicLong sum = new java.util.concurrent.atomic.AtomicLong();
-         * neg.forEach(sum::addAndGet);
-         * // sum.get() == -21
+         * neg.forEach(sum::addAndGet);  // sum.get() == -21
          *
          * // Passing null throws IllegalArgumentException
          * LongTuple.LongTuple6 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
@@ -3492,6 +3494,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * long median = tuple.median();                      // 4
      * LongTuple.LongTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
+     *
      */
     public static final class LongTuple7 extends LongTuple<LongTuple7> {
 
@@ -3706,8 +3709,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * t.forEach(v -> sum[0] += v);
          * sum[0]; // returns 280
          * long[] count = {0};
-         * t.forEach(v -> count[0]++);
-         * count[0];        // returns 7
+         * t.forEach(v -> count[0]++);   // counts each element
+         * count[0];                     // returns 7
          * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
@@ -4054,8 +4057,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * t.forEach(v -> sum[0] += v);
          * sum[0]; // returns 36
          * long[] count = {0};
-         * t.forEach(v -> count[0]++);
-         * count[0];        // returns 8
+         * t.forEach(v -> count[0]++);   // counts each element
+         * count[0];                     // returns 8
          * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
@@ -4409,8 +4412,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * t.forEach(v -> sum[0] += v);
          * sum[0]; // returns 45
          * long[] count = {0};
-         * t.forEach(v -> count[0]++);
-         * count[0];        // returns 9
+         * t.forEach(v -> count[0]++);   // counts each element
+         * count[0];                     // returns 9
          * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *

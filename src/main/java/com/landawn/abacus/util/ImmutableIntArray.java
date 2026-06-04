@@ -456,15 +456,15 @@ public final class ImmutableIntArray implements Immutable {
      *
      * // Basic: collect each value into a list
      * java.util.List<Integer> list = new java.util.ArrayList<>();
-     * array.forEach(value -> list.add(value));
-     * list.size();   // returns 5
-     * list.get(0);   // returns 1
+     * array.forEach(value -> list.add(value));   // adds each value to list
+     * list.size();                               // returns 5
+     * list.get(0);                               // returns 1
      *
      * // Edge: empty array - action is never invoked
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
      * int[] count = {0};
-     * empty.forEach(v -> count[0]++);
-     * count[0];   // returns 0
+     * empty.forEach(v -> count[0]++);   // action not invoked (empty)
+     * count[0];                         // returns 0
      *
      * // Edge: null action throws IllegalArgumentException
      * array.forEach(null);   // throws IllegalArgumentException
@@ -511,14 +511,14 @@ public final class ImmutableIntArray implements Immutable {
      *
      * // Basic: build a map from index to value
      * java.util.Map<Integer, Integer> map = new java.util.HashMap<>();
-     * array.forEachIndexed((index, value) -> map.put(index, value));
-     * map.get(1);   // returns 20
+     * array.forEachIndexed((index, value) -> map.put(index, value));   // puts each index -> value into map
+     * map.get(1);                                                      // returns 20
      *
      * // Edge: empty array - action is never invoked
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
      * int[] count = {0};
-     * empty.forEachIndexed((i, v) -> count[0]++);
-     * count[0];   // returns 0
+     * empty.forEachIndexed((i, v) -> count[0]++);   // action not invoked (empty)
+     * count[0];                                     // returns 0
      *
      * // Edge: null action throws IllegalArgumentException
      * array.forEachIndexed(null);   // throws IllegalArgumentException

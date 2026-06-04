@@ -696,7 +696,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * char c = list.get(0);                // 'A'
      *
      * // Basic: modifications to the list do not affect the original tuple
-     * list.add('D');
+     * list.add('D');                       // modifies the copy, not the tuple
      * int tupleArity = t.arity();          // still 3
      *
      * // Edge: empty tuple returns empty list
@@ -736,13 +736,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * // Basic: use a counter to count elements visited
      * int[] count = {0};
-     * t.forEach(ch -> count[0]++);
+     * t.forEach(ch -> count[0]++);         // increments count for each element
      * int visited = count[0];              // 3
      *
      * // Edge: empty tuple - action is never invoked
      * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
      * int[] cnt = {0};
-     * empty.forEach(ch -> cnt[0]++);
+     * empty.forEach(ch -> cnt[0]++);       // action not invoked (empty)
      * int notCalled = cnt[0];              // 0
      *
      * // Edge: null action throws IllegalArgumentException
@@ -964,7 +964,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <pre>{@code
          * CharTuple<?> emptyTuple = CharTuple.copyOf(new char[0]);
          * try {
-         *     emptyTuple.min();
+         *     emptyTuple.min();            // throws NoSuchElementException
          * } catch (NoSuchElementException e) {
          *     // expected
          * }
@@ -986,7 +986,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <pre>{@code
          * CharTuple<?> emptyTuple = CharTuple.copyOf(new char[0]);
          * try {
-         *     emptyTuple.max();
+         *     emptyTuple.max();            // throws NoSuchElementException
          * } catch (NoSuchElementException e) {
          *     // expected
          * }
@@ -1008,7 +1008,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <pre>{@code
          * CharTuple<?> emptyTuple = CharTuple.copyOf(new char[0]);
          * try {
-         *     emptyTuple.median();
+         *     emptyTuple.median();         // throws NoSuchElementException
          * } catch (NoSuchElementException e) {
          *     // expected
          * }
@@ -1672,8 +1672,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple2 tuple = CharTuple.of('A', 'B');
          * // Collect both chars into a list in order
          * java.util.List<Character> list = new java.util.ArrayList<>();
-         * tuple.forEach(c -> list.add(c));
-         * // list is ['A', 'B']
+         * tuple.forEach(c -> list.add(c));  // list is ['A', 'B']
          *
          * // Sum char code units: 'A'=65, 'B'=66
          * int[] total = {0};
@@ -2179,8 +2178,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
          * // Collect chars into a list in order
          * java.util.List<Character> list = new java.util.ArrayList<>();
-         * tuple.forEach(c -> list.add(c));
-         * // list is ['A', 'B', 'C']
+         * tuple.forEach(c -> list.add(c));  // list is ['A', 'B', 'C']
          *
          * // Sum char code units: 65+66+67
          * int[] total = {0};
@@ -2687,8 +2685,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
          * // Collect chars into a list in order
          * java.util.List<Character> list = new java.util.ArrayList<>();
-         * tuple.forEach(c -> list.add(c));
-         * // list is ['A', 'B', 'C', 'D']
+         * tuple.forEach(c -> list.add(c));  // list is ['A', 'B', 'C', 'D']
          *
          * // Sum char code units: 65+66+67+68
          * int[] total = {0};
@@ -3089,8 +3086,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
          * // Collect chars into a list in order
          * java.util.List<Character> list = new java.util.ArrayList<>();
-         * tuple.forEach(c -> list.add(c));
-         * // list is ['A', 'B', 'C', 'D', 'E']
+         * tuple.forEach(c -> list.add(c));  // list is ['A', 'B', 'C', 'D', 'E']
          *
          * // Sum char code units: 65+66+67+68+69
          * int[] total = {0};
@@ -3495,8 +3491,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
          * // Collect chars into a list in order
          * java.util.List<Character> list = new java.util.ArrayList<>();
-         * tuple.forEach(c -> list.add(c));
-         * // list is ['A', 'B', 'C', 'D', 'E', 'F']
+         * tuple.forEach(c -> list.add(c));  // list is ['A', 'B', 'C', 'D', 'E', 'F']
          *
          * // Sum char code units: 65+66+67+68+69+70
          * int[] total = {0};
@@ -3906,8 +3901,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
          * // Collect chars into a list in order
          * java.util.List<Character> list = new java.util.ArrayList<>();
-         * tuple.forEach(c -> list.add(c));
-         * // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+         * tuple.forEach(c -> list.add(c));  // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G']
          *
          * // Sum char code units: 65+66+67+68+69+70+71
          * int[] total = {0};
@@ -4325,8 +4319,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
          * // Collect chars into a list in order
          * java.util.List<Character> list = new java.util.ArrayList<>();
-         * tuple.forEach(c -> list.add(c));
-         * // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+         * tuple.forEach(c -> list.add(c));  // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
          *
          * // Sum char code units: 65+66+67+68+69+70+71+72
          * int[] total = {0};
@@ -4748,8 +4741,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
          * // Collect chars into a list in order
          * java.util.List<Character> list = new java.util.ArrayList<>();
-         * tuple.forEach(c -> list.add(c));
-         * // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+         * tuple.forEach(c -> list.add(c));  // list is ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
          *
          * // Sum char code units: 65+66+67+68+69+70+71+72+73
          * int[] total = {0};

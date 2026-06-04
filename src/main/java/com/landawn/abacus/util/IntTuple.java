@@ -718,13 +718,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * // accumulate sum externally
      * java.util.concurrent.atomic.AtomicInteger total = new java.util.concurrent.atomic.AtomicInteger();
-     * tuple.forEach(total::addAndGet);
-     * // total.get() returns 6
+     * tuple.forEach(total::addAndGet);  // total.get() returns 6
      *
      * // collect elements into a list
      * java.util.List<Integer> collected = new java.util.ArrayList<>();
-     * IntTuple.of(10, 20).forEach(v -> collected.add(v));
-     * // collected contains [10, 20]
+     * IntTuple.of(10, 20).forEach(v -> collected.add(v));  // collected contains [10, 20]
      *
      * // empty tuple: action is never called
      * IntTuple.copyOf(new int[0]).forEach(v -> { throw new RuntimeException("unreachable"); });
@@ -801,8 +799,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      *
      * // suitable for use as Map keys
      * java.util.Map<IntTuple<?>, String> map = new java.util.HashMap<>();
-     * map.put(IntTuple.of(1, 2), "pair");
-     * // map.get(IntTuple.of(1, 2)) returns "pair"
+     * map.put(IntTuple.of(1, 2), "pair");  // map.get(IntTuple.of(1, 2)) returns "pair"
      *
      * // empty tuple has a stable hash code
      * int emptyHash = IntTuple.copyOf(new int[0]).hashCode();
@@ -1038,6 +1035,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple1 single = IntTuple.of(42);
      * int value = single._1;  // 42
      * }</pre>
+     *
      */
     public static final class IntTuple1 extends IntTuple<IntTuple1> {
 
@@ -1314,6 +1312,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple2 pair = IntTuple.of(3, 5);
      * int product = pair.map((a, b) -> a * b);   // 15
      * }</pre>
+     *
      */
     public static final class IntTuple2 extends IntTuple<IntTuple2> {
 
@@ -1527,7 +1526,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * IntTuple.of(3, 4).accept((a, b) -> result[0] = a + b);    // result[0] == 7
          *
          * IntTuple.IntTuple2 coordinates = IntTuple.of(10, 20);
-         * coordinates.accept((x, y) -> System.out.println("Point at (" + x + ", " + y + ")"));
+         * coordinates.accept((x, y) -> System.out.println("Point at (" + x + ", " + y + ")"));    // prints the coordinates
          *
          * // negative values
          * int[] diff = {0};
@@ -1715,6 +1714,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple3 triple = IntTuple.of(2, 3, 5);
      * int sum = triple.map((a, b, c) -> a + b + c);   // 10
      * }</pre>
+     *
      */
     public static final class IntTuple3 extends IntTuple<IntTuple3> {
 
@@ -1930,7 +1930,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * IntTuple.of(1, 2, 3).accept((a, b, c) -> result[0] = a + b + c);    // result[0] == 6
          *
          * IntTuple.IntTuple3 rgb = IntTuple.of(255, 128, 64);
-         * rgb.accept((r, g, b) -> System.out.println("RGB(" + r + ", " + g + ", " + b + ")"));
+         * rgb.accept((r, g, b) -> System.out.println("RGB(" + r + ", " + g + ", " + b + ")"));    // prints the RGB values
          *
          * // negative values
          * int[] product = {0};
@@ -2111,6 +2111,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple4 quad = IntTuple.of(1, 2, 3, 4);
      * double avg = quad.average();   // 2.5
      * }</pre>
+     *
      */
     public static final class IntTuple4 extends IntTuple<IntTuple4> {
 
@@ -2474,6 +2475,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
      * int median = tuple.median();   // 3
      * }</pre>
+     *
      */
     public static final class IntTuple5 extends IntTuple<IntTuple5> {
 
@@ -2841,6 +2843,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
      * int sum = tuple.sum();   // 21
      * }</pre>
+     *
      */
     public static final class IntTuple6 extends IntTuple<IntTuple6> {
 
@@ -3212,6 +3215,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
      * IntTuple.IntTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
+     *
      */
     public static final class IntTuple7 extends IntTuple<IntTuple7> {
 
@@ -3454,8 +3458,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * <pre>{@code
          * IntTuple.IntTuple7 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
          * java.util.List<Integer> collected = new java.util.ArrayList<>();
-         * t.forEach(collected::add);
-         * // collected == [1, 2, 3, 4, 5, 6, 7]
+         * t.forEach(collected::add);  // collected == [1, 2, 3, 4, 5, 6, 7]
          *
          * int[] sum = {0};
          * t.forEach(v -> sum[0] += v);
@@ -3837,8 +3840,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * <pre>{@code
          * IntTuple.IntTuple8 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
          * java.util.List<Integer> collected = new java.util.ArrayList<>();
-         * t.forEach(collected::add);
-         * // collected == [1, 2, 3, 4, 5, 6, 7, 8]
+         * t.forEach(collected::add);  // collected == [1, 2, 3, 4, 5, 6, 7, 8]
          *
          * int[] sum = {0};
          * t.forEach(v -> sum[0] += v);
@@ -4225,8 +4227,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * <pre>{@code
          * IntTuple.IntTuple9 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
          * java.util.List<Integer> collected = new java.util.ArrayList<>();
-         * t.forEach(collected::add);
-         * // collected == [1, 2, 3, 4, 5, 6, 7, 8, 9]
+         * t.forEach(collected::add);  // collected == [1, 2, 3, 4, 5, 6, 7, 8, 9]
          *
          * int[] sum = {0};
          * t.forEach(v -> sum[0] += v);

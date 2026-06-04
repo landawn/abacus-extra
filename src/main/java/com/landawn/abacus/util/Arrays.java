@@ -71,11 +71,11 @@ public sealed class Arrays permits Arrays.f {
      * String singleResult = Arrays.println(single);
      * // returns "[only]"
      *
-     * // Null array (edge case)
+     * // Null array
      * String nullResult = Arrays.println((Object[]) null);
      * // returns "null"
      *
-     * // Empty array (edge case)
+     * // Empty array
      * Object[] empty = new Object[0];
      * String emptyResult = Arrays.println(empty);
      * // returns "[]"
@@ -127,11 +127,11 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(array);
      * // returns "[[Hello, World],\n [123, 456],\n null,\n [],\n [End]]"
      *
-     * // Null array (edge case)
+     * // Null array
      * String nullResult = Arrays.println((Object[][]) null);
      * // returns "null"
      *
-     * // Empty array (edge case)
+     * // Empty array
      * Object[][] empty = new Object[0][];
      * String emptyResult = Arrays.println(empty);
      * // returns "[]"
@@ -180,11 +180,11 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(array);
      * // returns "[[[A, B],\n  [C]],\n [[D],\n  null,\n  []],\n null]"
      *
-     * // Null array (edge case)
+     * // Null array
      * String nullResult = Arrays.println((Object[][][]) null);
      * // returns "null"
      *
-     * // Empty array (edge case)
+     * // Empty array
      * Object[][][] empty = new Object[0][][];
      * String emptyResult = Arrays.println(empty);
      * // returns "[]"
@@ -220,11 +220,11 @@ public sealed class Arrays permits Arrays.f {
      * String[] singleResult = Arrays.mapToObj(single, b -> b ? "YES" : "NO", String.class);
      * // returns ["YES"]
      *
-     * // Null input (edge case) - returns empty array, not null
+     * // Null input - returns empty array, not null
      * String[] nullResult = Arrays.mapToObj((boolean[]) null, b -> b ? "YES" : "NO", String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty array
+     * // Empty input - returns empty array
      * String[] emptyResult = Arrays.mapToObj(new boolean[0], b -> b ? "YES" : "NO", String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -272,11 +272,11 @@ public sealed class Arrays permits Arrays.f {
      * String[][] singleResult = Arrays.mapToObj(single, b -> b ? "1" : "0", String.class);
      * // returns {{"1"}}
      *
-     * // Null input (edge case) - returns empty 2-D array
+     * // Null input - returns empty 2-D array
      * String[][] nullResult = Arrays.mapToObj((boolean[][]) null, b -> b ? "YES" : "NO", String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 2-D array
+     * // Empty input - returns empty 2-D array
      * String[][] emptyResult = Arrays.mapToObj(new boolean[0][], b -> b ? "YES" : "NO", String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -324,11 +324,11 @@ public sealed class Arrays permits Arrays.f {
      * Integer[][][] singleResult = Arrays.mapToObj(single, b -> b ? 1 : 0, Integer.class);
      * // returns {{{1}}}
      *
-     * // Null input (edge case) - returns empty 3-D array
+     * // Null input - returns empty 3-D array
      * Integer[][][] nullResult = Arrays.mapToObj((boolean[][][]) null, b -> b ? 1 : 0, Integer.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 3-D array
+     * // Empty input - returns empty 3-D array
      * Integer[][][] emptyResult = Arrays.mapToObj(new boolean[0][][], b -> b ? 1 : 0, Integer.class);
      * // returns []  (length 0)
      * }</pre>
@@ -375,11 +375,11 @@ public sealed class Arrays permits Arrays.f {
      * String[] singleResult = Arrays.mapToObj(single, c -> String.valueOf(c).toUpperCase(), String.class);
      * // returns ["Z"]
      *
-     * // Null input (edge case) - returns empty array
+     * // Null input - returns empty array
      * String[] nullResult = Arrays.mapToObj((char[]) null, c -> String.valueOf(c), String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty array
+     * // Empty input - returns empty array
      * String[] emptyResult = Arrays.mapToObj(new char[0], c -> String.valueOf(c), String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -427,11 +427,11 @@ public sealed class Arrays permits Arrays.f {
      * String[][] singleResult = Arrays.mapToObj(single, c -> String.valueOf(c).toUpperCase(), String.class);
      * // returns {{"X"}}
      *
-     * // Null input (edge case) - returns empty 2-D array
+     * // Null input - returns empty 2-D array
      * String[][] nullResult = Arrays.mapToObj((char[][]) null, c -> String.valueOf(c), String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 2-D array
+     * // Empty input - returns empty 2-D array
      * String[][] emptyResult = Arrays.mapToObj(new char[0][], c -> String.valueOf(c), String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -479,11 +479,11 @@ public sealed class Arrays permits Arrays.f {
      * Integer[][][] singleResult = Arrays.mapToObj(single, c -> (int) c, Integer.class);
      * // returns {{{97}}}
      *
-     * // Null input (edge case) - returns empty 3-D array
+     * // Null input - returns empty 3-D array
      * Integer[][][] nullResult = Arrays.mapToObj((char[][][]) null, c -> (int) c, Integer.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 3-D array
+     * // Empty input - returns empty 3-D array
      * Integer[][][] emptyResult = Arrays.mapToObj(new char[0][][], c -> (int) c, Integer.class);
      * // returns []  (length 0)
      * }</pre>
@@ -530,11 +530,11 @@ public sealed class Arrays permits Arrays.f {
      * Integer[] singleResult = Arrays.mapToObj(single, b -> (int) (b & 0xFF), Integer.class);
      * // returns [255]
      *
-     * // Null input (edge case) - returns empty array
+     * // Null input - returns empty array
      * String[] nullResult = Arrays.mapToObj((byte[]) null, b -> String.format("%02X", b), String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty array
+     * // Empty input - returns empty array
      * String[] emptyResult = Arrays.mapToObj(new byte[0], b -> String.format("%02X", b), String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -582,11 +582,11 @@ public sealed class Arrays permits Arrays.f {
      * String[][] singleResult = Arrays.mapToObj(single, b -> String.format("%02X", b), String.class);
      * // returns {{"0A"}}
      *
-     * // Null input (edge case) - returns empty 2-D array
+     * // Null input - returns empty 2-D array
      * String[][] nullResult = Arrays.mapToObj((byte[][]) null, b -> "0x" + b, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 2-D array
+     * // Empty input - returns empty 2-D array
      * String[][] emptyResult = Arrays.mapToObj(new byte[0][], b -> "0x" + b, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -634,11 +634,11 @@ public sealed class Arrays permits Arrays.f {
      * Integer[][][] singleResult = Arrays.mapToObj(single, b -> (int) b * 10, Integer.class);
      * // returns {{{50}}}
      *
-     * // Null input (edge case) - returns empty 3-D array
+     * // Null input - returns empty 3-D array
      * Integer[][][] nullResult = Arrays.mapToObj((byte[][][]) null, b -> (int) b * 10, Integer.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 3-D array
+     * // Empty input - returns empty 3-D array
      * Integer[][][] emptyResult = Arrays.mapToObj(new byte[0][][], b -> (int) b * 10, Integer.class);
      * // returns []  (length 0)
      * }</pre>
@@ -685,11 +685,11 @@ public sealed class Arrays permits Arrays.f {
      * String[] singleResult = Arrays.mapToObj(single, s -> "Value: " + s, String.class);
      * // returns ["Value: 32767"]
      *
-     * // Null input (edge case) - returns empty array
+     * // Null input - returns empty array
      * String[] nullResult = Arrays.mapToObj((short[]) null, s -> "Value: " + s, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty array
+     * // Empty input - returns empty array
      * String[] emptyResult = Arrays.mapToObj(new short[0], s -> "Value: " + s, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -737,11 +737,11 @@ public sealed class Arrays permits Arrays.f {
      * Integer[][] singleResult = Arrays.mapToObj(single, s -> (int) s * 2, Integer.class);
      * // returns {{10}}
      *
-     * // Null input (edge case) - returns empty 2-D array
+     * // Null input - returns empty 2-D array
      * Integer[][] nullResult = Arrays.mapToObj((short[][]) null, s -> (int) s * 2, Integer.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 2-D array
+     * // Empty input - returns empty 2-D array
      * Integer[][] emptyResult = Arrays.mapToObj(new short[0][], s -> (int) s * 2, Integer.class);
      * // returns []  (length 0)
      * }</pre>
@@ -789,11 +789,11 @@ public sealed class Arrays permits Arrays.f {
      * String[][][] singleResult = Arrays.mapToObj(single, s -> "#" + s, String.class);
      * // returns {{{"#9"}}}
      *
-     * // Null input (edge case) - returns empty 3-D array
+     * // Null input - returns empty 3-D array
      * String[][][] nullResult = Arrays.mapToObj((short[][][]) null, s -> "#" + s, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 3-D array
+     * // Empty input - returns empty 3-D array
      * String[][][] emptyResult = Arrays.mapToObj(new short[0][][], s -> "#" + s, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -841,11 +841,11 @@ public sealed class Arrays permits Arrays.f {
      * String[] singleResult = Arrays.mapToObj(single, i -> "Number: " + i, String.class);
      * // returns ["Number: 42"]
      *
-     * // Null input (edge case) - returns empty array
+     * // Null input - returns empty array
      * String[] nullResult = Arrays.mapToObj((int[]) null, i -> "Number: " + i, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty array
+     * // Empty input - returns empty array
      * String[] emptyResult = Arrays.mapToObj(new int[0], i -> "Number: " + i, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -893,11 +893,11 @@ public sealed class Arrays permits Arrays.f {
      * String[][] singleResult = Arrays.mapToObj(single, i -> "Item " + i, String.class);
      * // returns {{"Item 7"}}
      *
-     * // Null input (edge case) - returns empty 2-D array
+     * // Null input - returns empty 2-D array
      * String[][] nullResult = Arrays.mapToObj((int[][]) null, i -> "Item " + i, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 2-D array
+     * // Empty input - returns empty 2-D array
      * String[][] emptyResult = Arrays.mapToObj(new int[0][], i -> "Item " + i, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -945,11 +945,11 @@ public sealed class Arrays permits Arrays.f {
      * Double[][][] singleResult = Arrays.mapToObj(single, i -> i * 1.5, Double.class);
      * // returns {{{6.0}}}
      *
-     * // Null input (edge case) - returns empty 3-D array
+     * // Null input - returns empty 3-D array
      * Double[][][] nullResult = Arrays.mapToObj((int[][][]) null, i -> i * 1.5, Double.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 3-D array
+     * // Empty input - returns empty 3-D array
      * Double[][][] emptyResult = Arrays.mapToObj(new int[0][][], i -> i * 1.5, Double.class);
      * // returns []  (length 0)
      * }</pre>
@@ -996,11 +996,11 @@ public sealed class Arrays permits Arrays.f {
      * String[] singleResult = Arrays.mapToObj(single, l -> l / 1000 + "M", String.class);
      * // returns ["0M"]
      *
-     * // Null input (edge case) - returns empty array
+     * // Null input - returns empty array
      * String[] nullResult = Arrays.mapToObj((long[]) null, l -> l + "L", String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty array
+     * // Empty input - returns empty array
      * String[] emptyResult = Arrays.mapToObj(new long[0], l -> l + "L", String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -1048,11 +1048,11 @@ public sealed class Arrays permits Arrays.f {
      * String[][] singleResult = Arrays.mapToObj(single, l -> "ID-" + l, String.class);
      * // returns {{"ID-500"}}
      *
-     * // Null input (edge case) - returns empty 2-D array
+     * // Null input - returns empty 2-D array
      * String[][] nullResult = Arrays.mapToObj((long[][]) null, l -> "ID-" + l, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 2-D array
+     * // Empty input - returns empty 2-D array
      * String[][] emptyResult = Arrays.mapToObj(new long[0][], l -> "ID-" + l, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -1101,11 +1101,11 @@ public sealed class Arrays permits Arrays.f {
      * java.math.BigInteger[][][] singleResult = Arrays.mapToObj(single, l -> java.math.BigInteger.valueOf(l), java.math.BigInteger.class);
      * // returns {{{BigInteger(42)}}}
      *
-     * // Null input (edge case) - returns empty 3-D array
+     * // Null input - returns empty 3-D array
      * java.math.BigInteger[][][] nullResult = Arrays.mapToObj((long[][][]) null, l -> java.math.BigInteger.valueOf(l), java.math.BigInteger.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 3-D array
+     * // Empty input - returns empty 3-D array
      * java.math.BigInteger[][][] emptyResult = Arrays.mapToObj(new long[0][][], l -> java.math.BigInteger.valueOf(l), java.math.BigInteger.class);
      * // returns []  (length 0)
      * }</pre>
@@ -1152,11 +1152,11 @@ public sealed class Arrays permits Arrays.f {
      * Double[] singleResult = Arrays.mapToObj(single, f -> (double) f, Double.class);
      * // returns [1.0]
      *
-     * // Null input (edge case) - returns empty array
+     * // Null input - returns empty array
      * String[] nullResult = Arrays.mapToObj((float[]) null, f -> "" + f, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty array
+     * // Empty input - returns empty array
      * String[] emptyResult = Arrays.mapToObj(new float[0], f -> "" + f, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -1204,11 +1204,11 @@ public sealed class Arrays permits Arrays.f {
      * String[][] singleResult = Arrays.mapToObj(single, f -> String.format("%.1f", f), String.class);
      * // returns {{"2.5"}}
      *
-     * // Null input (edge case) - returns empty 2-D array
+     * // Null input - returns empty 2-D array
      * String[][] nullResult = Arrays.mapToObj((float[][]) null, f -> "" + f, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 2-D array
+     * // Empty input - returns empty 2-D array
      * String[][] emptyResult = Arrays.mapToObj(new float[0][], f -> "" + f, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -1256,11 +1256,11 @@ public sealed class Arrays permits Arrays.f {
      * Double[][][] singleResult = Arrays.mapToObj(single, f -> (double) f * 2, Double.class);
      * // returns {{{4.0}}}
      *
-     * // Null input (edge case) - returns empty 3-D array
+     * // Null input - returns empty 3-D array
      * Double[][][] nullResult = Arrays.mapToObj((float[][][]) null, f -> (double) f * 2, Double.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 3-D array
+     * // Empty input - returns empty 3-D array
      * Double[][][] emptyResult = Arrays.mapToObj(new float[0][][], f -> (double) f * 2, Double.class);
      * // returns []  (length 0)
      * }</pre>
@@ -1307,11 +1307,11 @@ public sealed class Arrays permits Arrays.f {
      * String[] singleResult = Arrays.mapToObj(single, d -> String.format("%.2f", d), String.class);
      * // returns ["3.14"]
      *
-     * // Null input (edge case) - returns empty array
+     * // Null input - returns empty array
      * String[] nullResult = Arrays.mapToObj((double[]) null, d -> "" + d, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty array
+     * // Empty input - returns empty array
      * String[] emptyResult = Arrays.mapToObj(new double[0], d -> "" + d, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -1358,11 +1358,11 @@ public sealed class Arrays permits Arrays.f {
      * String[][] singleResult = Arrays.mapToObj(single, d -> String.format("%.1f", d), String.class);
      * // returns {{"9.9"}}
      *
-     * // Null input (edge case) - returns empty 2-D array
+     * // Null input - returns empty 2-D array
      * String[][] nullResult = Arrays.mapToObj((double[][]) null, d -> "" + d, String.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 2-D array
+     * // Empty input - returns empty 2-D array
      * String[][] emptyResult = Arrays.mapToObj(new double[0][], d -> "" + d, String.class);
      * // returns []  (length 0)
      * }</pre>
@@ -1409,11 +1409,11 @@ public sealed class Arrays permits Arrays.f {
      * Integer[][][] singleResult = Arrays.mapToObj(single, d -> (int) d, Integer.class);
      * // returns {{{5}}}
      *
-     * // Null input (edge case) - returns empty 3-D array
+     * // Null input - returns empty 3-D array
      * Integer[][][] nullResult = Arrays.mapToObj((double[][][]) null, d -> (int) d, Integer.class);
      * // returns []  (length 0)
      *
-     * // Empty input (edge case) - returns empty 3-D array
+     * // Empty input - returns empty 3-D array
      * Integer[][][] emptyResult = Arrays.mapToObj(new double[0][][], d -> (int) d, Integer.class);
      * // returns []  (length 0)
      * }</pre>
@@ -2418,13 +2418,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic case: negate all elements
      * boolean[] arr = {true, false, true};
-     * Arrays.updateAll(arr, b -> !b);
-     * // arr is now: [false, true, false]
+     * Arrays.updateAll(arr, b -> !b);  // arr is now: [false, true, false]
      *
      * // All-false array toggled to all-true
      * boolean[] all = {false, false};
-     * Arrays.updateAll(all, b -> !b);
-     * // all is now: [true, true]
+     * Arrays.updateAll(all, b -> !b);  // all is now: [true, true]
      *
      * // Empty array - no-op, returns normally
      * boolean[] empty = {};
@@ -2432,7 +2430,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty remains: []
      *
      * // Null array - no-op, returns normally
-     * Arrays.updateAll((boolean[]) null, b -> !b);
+     * Arrays.updateAll((boolean[]) null, b -> !b);  // no-op (input unchanged)
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -2461,20 +2459,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic case: negate all elements in each row
      * boolean[][] grid = {{true, false}, {false, true}};
-     * Arrays.updateAll(grid, b -> !b);
-     * // grid is now: {{false, true}, {true, false}}
+     * Arrays.updateAll(grid, b -> !b);  // grid is now: {{false, true}, {true, false}}
      *
      * // Mixed-length rows
      * boolean[][] mixed = {{true, false, true}, {false}};
-     * Arrays.updateAll(mixed, b -> !b);
-     * // mixed is now: {{false, true, false}, {true}}
+     * Arrays.updateAll(mixed, b -> !b);  // mixed is now: {{false, true, false}, {true}}
      *
      * // Null array - no-op, returns normally
-     * Arrays.updateAll((boolean[][]) null, b -> !b);
+     * Arrays.updateAll((boolean[][]) null, b -> !b);  // no-op (input unchanged)
      *
      * // Empty outer array - no-op, returns normally
      * boolean[][] empty = {};
-     * Arrays.updateAll(empty, b -> !b);
+     * Arrays.updateAll(empty, b -> !b);  // no-op (input unchanged)
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -2503,20 +2499,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic case: negate all elements in a 2×2×2 cube
      * boolean[][][] cube = {{{true, false}, {false, true}}, {{true, true}, {false, false}}};
-     * Arrays.updateAll(cube, b -> !b);
-     * // cube is now: {{{false, true}, {true, false}}, {{false, false}, {true, true}}}
+     * Arrays.updateAll(cube, b -> !b);  // cube is now: {{{false, true}, {true, false}}, {{false, false}, {true, true}}}
      *
      * // Single-element cube
      * boolean[][][] single = {{{true}}};
-     * Arrays.updateAll(single, b -> !b);
-     * // single is now: {{{false}}}
+     * Arrays.updateAll(single, b -> !b);  // single is now: {{{false}}}
      *
      * // Null array - no-op, returns normally
-     * Arrays.updateAll((boolean[][][]) null, b -> !b);
+     * Arrays.updateAll((boolean[][][]) null, b -> !b);  // no-op (input unchanged)
      *
      * // Empty outer array - no-op, returns normally
      * boolean[][][] empty = {};
-     * Arrays.updateAll(empty, b -> !b);
+     * Arrays.updateAll(empty, b -> !b);  // no-op (input unchanged)
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -2545,16 +2539,14 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Replace all true elements with false
      * boolean[] arr = {true, false, true, false};
-     * Arrays.replaceIf(arr, b -> b, false);
-     * // arr is now: [false, false, false, false]
+     * Arrays.replaceIf(arr, b -> b, false);  // arr is now: [false, false, false, false]
      *
      * // Replace only false elements with true (partial replacement)
      * boolean[] arr2 = {true, false, true, false};
-     * Arrays.replaceIf(arr2, b -> !b, true);
-     * // arr2 is now: [true, true, true, true]
+     * Arrays.replaceIf(arr2, b -> !b, true);  // arr2 is now: [true, true, true, true]
      *
      * // Null array - no-op, returns normally
-     * Arrays.replaceIf((boolean[]) null, b -> b, false);
+     * Arrays.replaceIf((boolean[]) null, b -> b, false);  // no-op (input unchanged)
      *
      * // Empty array - no-op, returns normally
      * boolean[] empty = {};
@@ -2591,20 +2583,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Replace all true elements with false across every row
      * boolean[][] grid = {{true, false}, {true, false}};
-     * Arrays.replaceIf(grid, b -> b, false);
-     * // grid is now: {{false, false}, {false, false}}
+     * Arrays.replaceIf(grid, b -> b, false);  // grid is now: {{false, false}, {false, false}}
      *
      * // Replace false elements only; true elements stay unchanged
      * boolean[][] grid2 = {{true, false}, {false, true}};
-     * Arrays.replaceIf(grid2, b -> !b, true);
-     * // grid2 is now: {{true, true}, {true, true}}
+     * Arrays.replaceIf(grid2, b -> !b, true);  // grid2 is now: {{true, true}, {true, true}}
      *
      * // Null array - no-op, returns normally
-     * Arrays.replaceIf((boolean[][]) null, b -> b, false);
+     * Arrays.replaceIf((boolean[][]) null, b -> b, false);  // no-op (input unchanged)
      *
      * // Empty outer array - no-op, returns normally
      * boolean[][] empty = {};
-     * Arrays.replaceIf(empty, b -> b, false);
+     * Arrays.replaceIf(empty, b -> b, false);  // no-op (input unchanged)
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -2634,20 +2624,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Replace all false elements with true throughout the 3D cube
      * boolean[][][] cube = {{{true, false}, {true, false}}, {{false, true}, {false, true}}};
-     * Arrays.replaceIf(cube, b -> !b, true);
-     * // cube is now: {{{true, true}, {true, true}}, {{true, true}, {true, true}}}
+     * Arrays.replaceIf(cube, b -> !b, true);  // cube is now: {{{true, true}, {true, true}}, {{true, true}, {true, true}}}
      *
      * // Replace all true elements with false (invert from other direction)
      * boolean[][][] cube2 = {{{true, false}}, {{false, true}}};
-     * Arrays.replaceIf(cube2, b -> b, false);
-     * // cube2 is now: {{{false, false}}, {{false, false}}}
+     * Arrays.replaceIf(cube2, b -> b, false);  // cube2 is now: {{{false, false}}, {{false, false}}}
      *
      * // Null array - no-op, returns normally
-     * Arrays.replaceIf((boolean[][][]) null, b -> b, false);
+     * Arrays.replaceIf((boolean[][][]) null, b -> b, false);  // no-op (input unchanged)
      *
      * // Empty outer array - no-op, returns normally
      * boolean[][][] empty = {};
-     * Arrays.replaceIf(empty, b -> b, false);
+     * Arrays.replaceIf(empty, b -> b, false);  // no-op (input unchanged)
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -2898,11 +2886,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Set all elements to true via the flat view
      * boolean[][] arr2 = {{false, false}, {false, false}};
-     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.fill(t, true));
-     * // arr2 is now: {{true, true}, {true, true}}
+     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.fill(t, true));  // arr2 is now: {{true, true}, {true, true}}
      *
      * // Null array is a no-op; action must not be null
-     * Arrays.mutateAsFlat((boolean[][]) null, t -> {});
+     * Arrays.mutateAsFlat((boolean[][]) null, t -> {});  // no-op (input unchanged)
      *
      * // Null action throws IllegalArgumentException
      * Arrays.mutateAsFlat(new boolean[][]{{true}}, null);  // throws IllegalArgumentException
@@ -2951,11 +2938,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Set all elements to false via the flat view
      * boolean[][][] cube2 = {{{true, true}}, {{true}}};
-     * Arrays.mutateAsFlat(cube2, t -> java.util.Arrays.fill(t, false));
-     * // cube2 is now: {{{false, false}}, {{false}}}
+     * Arrays.mutateAsFlat(cube2, t -> java.util.Arrays.fill(t, false));  // cube2 is now: {{{false, false}}, {{false}}}
      *
      * // Null array is a no-op; action must not be null
-     * Arrays.mutateAsFlat((boolean[][][]) null, t -> {});
+     * Arrays.mutateAsFlat((boolean[][][]) null, t -> {});  // no-op (input unchanged)
      *
      * // Null action throws IllegalArgumentException
      * Arrays.mutateAsFlat(new boolean[][][]{{{true}}}, null);  // throws IllegalArgumentException
@@ -4215,13 +4201,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: increment every character by 1
      * char[] array = {'a', 'b', 'c'};
-     * Arrays.updateAll(array, c -> (char)(c + 1));
-     * // array is now {'b', 'c', 'd'}
+     * Arrays.updateAll(array, c -> (char)(c + 1));  // array is now {'b', 'c', 'd'}
      *
      * // Basic: convert to uppercase in-place
      * char[] letters = {'h', 'e', 'l', 'l', 'o'};
-     * Arrays.updateAll(letters, c -> Character.toUpperCase(c));
-     * // letters is now {'H', 'E', 'L', 'L', 'O'}
+     * Arrays.updateAll(letters, c -> Character.toUpperCase(c));  // letters is now {'H', 'E', 'L', 'L', 'O'}
      *
      * // Edge: null array - no-op, no exception thrown
      * Arrays.updateAll((char[]) null, c -> (char)(c + 1));
@@ -4259,13 +4243,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: convert to uppercase across all sub-arrays
      * char[][] array = {{'a', 'b'}, {'c'}};
-     * Arrays.updateAll(array, c -> Character.toUpperCase(c));
-     * // array is now {{'A', 'B'}, {'C'}}
+     * Arrays.updateAll(array, c -> Character.toUpperCase(c));  // array is now {{'A', 'B'}, {'C'}}
      *
      * // Basic: shift every character by 1
      * char[][] grid = {{'x', 'y'}, {'z'}};
-     * Arrays.updateAll(grid, c -> (char)(c + 1));
-     * // grid is now {{'y', 'z'}, {'{'}}
+     * Arrays.updateAll(grid, c -> (char)(c + 1));  // grid is now {{'y', 'z'}, {'{'}}
      *
      * // Edge: null array - no-op, no exception thrown
      * Arrays.updateAll((char[][]) null, c -> Character.toUpperCase(c));
@@ -4273,8 +4255,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: array with a null sub-array - null sub-array is skipped, non-null updated
      * char[][] mixed = {null, {'a', 'b'}};
-     * Arrays.updateAll(mixed, c -> Character.toUpperCase(c));
-     * // mixed is now {null, {'A', 'B'}}
+     * Arrays.updateAll(mixed, c -> Character.toUpperCase(c));  // mixed is now {null, {'A', 'B'}}
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -4303,13 +4284,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace every character with '*'
      * char[][][] array = {{{'a'}}, {{'b', 'c'}}};
-     * Arrays.updateAll(array, c -> '*');
-     * // array is now {{{'*'}}, {{'*', '*'}}}
+     * Arrays.updateAll(array, c -> '*');  // array is now {{{'*'}}, {{'*', '*'}}}
      *
      * // Basic: convert to uppercase throughout all three levels
      * char[][][] cube = {{{'x', 'y'}}, {{'z'}}};
-     * Arrays.updateAll(cube, c -> Character.toUpperCase(c));
-     * // cube is now {{{'X', 'Y'}}, {{'Z'}}}
+     * Arrays.updateAll(cube, c -> Character.toUpperCase(c));  // cube is now {{{'X', 'Y'}}, {{'Z'}}}
      *
      * // Edge: null array - no-op, no exception thrown
      * Arrays.updateAll((char[][][]) null, c -> '*');
@@ -4352,8 +4331,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Basic: replace all lowercase letters with '_'
      * char[] mixed = {'A', 'b', 'C', 'd'};
-     * Arrays.replaceIf(mixed, c -> Character.isLowerCase(c), '_');
-     * // mixed is now {'A', '_', 'C', '_'}
+     * Arrays.replaceIf(mixed, c -> Character.isLowerCase(c), '_');  // mixed is now {'A', '_', 'C', '_'}
      *
      * // Edge: null array - no-op, no exception thrown
      * Arrays.replaceIf((char[]) null, c -> c == 'a', 'x');
@@ -4394,8 +4372,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace all uppercase characters with 'U'
      * char[][] array = {{'a', 'b'}, {'c', 'A'}};
-     * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'U');
-     * // array is now {{'a', 'b'}, {'c', 'U'}}
+     * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'U');  // array is now {{'a', 'b'}, {'c', 'U'}}
      *
      * // Basic: replace all vowels with '*' across sub-arrays
      * char[][] grid = {{'a', 'b', 'e'}, {'i', 'o', 'u'}};
@@ -4439,13 +4416,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace all uppercase characters with 'X' across all levels
      * char[][][] array = {{{'a'}}, {{'B', 'c'}}};
-     * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'X');
-     * // array is now {{{'a'}}, {{'X', 'c'}}}
+     * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'X');  // array is now {{{'a'}}, {{'X', 'c'}}}
      *
      * // Basic: replace digits with '0'
      * char[][][] cube = {{{'1', 'a'}}, {{'b', '2'}}};
-     * Arrays.replaceIf(cube, c -> Character.isDigit(c), '0');
-     * // cube is now {{{'0', 'a'}}, {{'b', '0'}}}
+     * Arrays.replaceIf(cube, c -> Character.isDigit(c), '0');  // cube is now {{{'0', 'a'}}, {{'b', '0'}}}
      *
      * // Edge: null array - no-op, no exception thrown
      * Arrays.replaceIf((char[][][]) null, c -> Character.isUpperCase(c), 'X');
@@ -4704,8 +4679,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across rows, then copy back in row order
      * char[][] array = {{'c', 'a'}, {'b'}};
-     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
-     * // array is now {{'a', 'b'}, {'c'}}
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));  // array is now {{'a', 'b'}, {'c'}}
      *
      * // Basic: reverse elements globally, preserving row lengths
      * char[][] grid = {{'d', 'c'}, {'b', 'a'}};
@@ -4722,8 +4696,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: single-element array - action applied to a one-element flat array
      * char[][] single = {{'z'}};
-     * Arrays.mutateAsFlat(single, t -> java.util.Arrays.sort(t));
-     * // single is still {{'z'}}
+     * Arrays.mutateAsFlat(single, t -> java.util.Arrays.sort(t));  // single is still {{'z'}}
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -4765,13 +4738,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across all levels, then copy back preserving structure
      * char[][][] array = {{{'d', 'a'}}, {{'c'}, {'b'}}};
-     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
-     * // array is now {{{'a', 'b'}}, {{'c'}, {'d'}}}
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));  // array is now {{{'a', 'b'}}, {{'c'}, {'d'}}}
      *
      * // Basic: fill all positions with 'z' using the flattened view
      * char[][][] cube = {{{'a', 'b'}}, {{'c'}}};
-     * Arrays.mutateAsFlat(cube, t -> java.util.Arrays.fill(t, 'z'));
-     * // cube is now {{{'z', 'z'}}, {{'z'}}}
+     * Arrays.mutateAsFlat(cube, t -> java.util.Arrays.fill(t, 'z'));  // cube is now {{{'z', 'z'}}, {{'z'}}}
      *
      * // Edge: null array - no-op, no exception thrown
      * Arrays.mutateAsFlat((char[][][]) null, t -> java.util.Arrays.sort(t));
@@ -6035,16 +6006,14 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: square each element
      * byte[] arr = {1, 2, 3};
-     * Arrays.updateAll(arr, b -> (byte)(b * b));
-     * // arr is now [1, 4, 9]
+     * Arrays.updateAll(arr, b -> (byte)(b * b));  // arr is now [1, 4, 9]
      *
      * // Add a constant to each element
      * byte[] arr2 = {10, 20, 30};
-     * Arrays.updateAll(arr2, b -> (byte)(b + 5));
-     * // arr2 is now [15, 25, 35]
+     * Arrays.updateAll(arr2, b -> (byte)(b + 5));  // arr2 is now [15, 25, 35]
      *
      * // Null array: no-op, no exception thrown
-     * Arrays.updateAll((byte[]) null, b -> (byte)(b + 1));
+     * Arrays.updateAll((byte[]) null, b -> (byte)(b + 1));  // no-op (input unchanged)
      *
      * // Empty array: no-op
      * byte[] empty = {};
@@ -6053,8 +6022,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Byte wrap-around: (byte)(127 + 1) = -128
      * byte[] boundary = {(byte) 127};
-     * Arrays.updateAll(boundary, b -> (byte)(b + 1));
-     * // boundary is now [-128]
+     * Arrays.updateAll(boundary, b -> (byte)(b + 1));  // boundary is now [-128]
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -6083,21 +6051,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: double each element
      * byte[][] grid = {{1, 2}, {3, 4}};
-     * Arrays.updateAll(grid, b -> (byte)(b * 2));
-     * // grid is now {{2, 4}, {6, 8}}
+     * Arrays.updateAll(grid, b -> (byte)(b * 2));  // grid is now {{2, 4}, {6, 8}}
      *
      * // Negate each element
      * byte[][] grid2 = {{5, 10}, {15, 20}};
-     * Arrays.updateAll(grid2, b -> (byte)(-b));
-     * // grid2 is now {{-5, -10}, {-15, -20}}
+     * Arrays.updateAll(grid2, b -> (byte)(-b));  // grid2 is now {{-5, -10}, {-15, -20}}
      *
      * // Null array: no-op, no exception thrown
-     * Arrays.updateAll((byte[][]) null, b -> (byte)(b + 1));
+     * Arrays.updateAll((byte[][]) null, b -> (byte)(b + 1));  // no-op (input unchanged)
      *
      * // Array with null sub-array: null sub-array is skipped
      * byte[][] withNull = {null, {1, 2}};
-     * Arrays.updateAll(withNull, b -> (byte)(b + 10));
-     * // withNull is now {null, [11, 12]}
+     * Arrays.updateAll(withNull, b -> (byte)(b + 10));  // withNull is now {null, [11, 12]}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -6126,21 +6091,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: add 10 to each element
      * byte[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
-     * Arrays.updateAll(cube, b -> (byte)(b + 10));
-     * // cube is now {{{11, 12}, {13, 14}}, {{15, 16}, {17, 18}}}
+     * Arrays.updateAll(cube, b -> (byte)(b + 10));  // cube is now {{{11, 12}, {13, 14}}, {{15, 16}, {17, 18}}}
      *
      * // Zero-out all elements
      * byte[][][] cube2 = {{{1, 2}}, {{3, 4}}};
-     * Arrays.updateAll(cube2, b -> (byte) 0);
-     * // cube2 is now {{{0, 0}}, {{0, 0}}}
+     * Arrays.updateAll(cube2, b -> (byte) 0);  // cube2 is now {{{0, 0}}, {{0, 0}}}
      *
      * // Null array: no-op, no exception thrown
-     * Arrays.updateAll((byte[][][]) null, b -> (byte)(b + 1));
+     * Arrays.updateAll((byte[][][]) null, b -> (byte)(b + 1));  // no-op (input unchanged)
      *
      * // Array with null sub-array: null sub-array is skipped
      * byte[][][] withNull = {null, {{5, 6}}};
-     * Arrays.updateAll(withNull, b -> (byte)(b + 10));
-     * // withNull is now {null, {{15, 16}}}
+     * Arrays.updateAll(withNull, b -> (byte)(b + 10));  // withNull is now {null, {{15, 16}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -6174,8 +6136,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Replace all negative values with 0
      * byte[] arr2 = {-1, 5, -3, 7};
-     * Arrays.replaceIf(arr2, b -> b < 0, (byte) 0);
-     * // arr2 is now [0, 5, 0, 7]
+     * Arrays.replaceIf(arr2, b -> b < 0, (byte) 0);  // arr2 is now [0, 5, 0, 7]
      *
      * // Null array: no-op, no exception thrown
      * Arrays.replaceIf((byte[]) null, b -> b == 2, (byte) 10);
@@ -6225,8 +6186,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Clamp negative values to 0 across all rows
      * byte[][] grid2 = {{-1, 5}, {3, -2}};
-     * Arrays.replaceIf(grid2, b -> b < 0, (byte) 0);
-     * // grid2 is now {{0, 5}, {3, 0}}
+     * Arrays.replaceIf(grid2, b -> b < 0, (byte) 0);  // grid2 is now {{0, 5}, {3, 0}}
      *
      * // Null array: no-op, no exception thrown
      * Arrays.replaceIf((byte[][]) null, b -> b == 2, (byte) 10);
@@ -6269,8 +6229,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Clamp values above 5 to 5 throughout the cube
      * byte[][][] cube2 = {{{1, 7}}, {{3, 9}}};
-     * Arrays.replaceIf(cube2, b -> b > 5, (byte) 5);
-     * // cube2 is now {{{1, 5}}, {{3, 5}}}
+     * Arrays.replaceIf(cube2, b -> b > 5, (byte) 5);  // cube2 is now {{{1, 5}}, {{3, 5}}}
      *
      * // Null array: no-op, no exception thrown
      * Arrays.replaceIf((byte[][][]) null, b -> b == 2, (byte) 0);
@@ -6427,20 +6386,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally, preserve 2D structure
      * byte[][] arr = {{3, 1}, {4, 2}};
-     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
-     * // arr is now {{1, 2}, {3, 4}}
+     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));  // arr is now {{1, 2}, {3, 4}}
      *
      * // Replace all elements with 0 in-place
      * byte[][] arr2 = {{5, 3}, {8, 1}};
-     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.fill(t, (byte) 0));
-     * // arr2 is now {{0, 0}, {0, 0}}
+     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.fill(t, (byte) 0));  // arr2 is now {{0, 0}, {0, 0}}
      *
      * // Null array: no-op, no exception thrown
-     * Arrays.mutateAsFlat((byte[][]) null, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat((byte[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Empty array: no-op
      * byte[][] empty = {};
-     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Null action: throws IllegalArgumentException
      * Arrays.mutateAsFlat(new byte[][]{{1, 2}}, null);   // throws IllegalArgumentException
@@ -6484,20 +6441,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally, preserve 3D structure
      * byte[][][] cube = {{{3, 1}, {4, 2}}, {{6, 5}, {8, 7}}};
-     * Arrays.mutateAsFlat(cube, arr -> java.util.Arrays.sort(arr));
-     * // cube is now {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+     * Arrays.mutateAsFlat(cube, arr -> java.util.Arrays.sort(arr));  // cube is now {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
      *
      * // Zero-out all elements in-place
      * byte[][][] cube2 = {{{5, 3}}, {{8, 1}}};
-     * Arrays.mutateAsFlat(cube2, arr -> java.util.Arrays.fill(arr, (byte) 0));
-     * // cube2 is now {{{0, 0}}, {{0, 0}}}
+     * Arrays.mutateAsFlat(cube2, arr -> java.util.Arrays.fill(arr, (byte) 0));  // cube2 is now {{{0, 0}}, {{0, 0}}}
      *
      * // Null array: no-op, no exception thrown
-     * Arrays.mutateAsFlat((byte[][][]) null, arr -> java.util.Arrays.sort(arr));
+     * Arrays.mutateAsFlat((byte[][][]) null, arr -> java.util.Arrays.sort(arr));  // no-op (input unchanged)
      *
      * // Empty array: no-op
      * byte[][][] empty = {};
-     * Arrays.mutateAsFlat(empty, arr -> java.util.Arrays.sort(arr));
+     * Arrays.mutateAsFlat(empty, arr -> java.util.Arrays.sort(arr));  // no-op (input unchanged)
      *
      * // Null action: throws IllegalArgumentException
      * Arrays.mutateAsFlat(new byte[][][]{{{1}}}, null);   // throws IllegalArgumentException
@@ -7789,16 +7744,14 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: square each element
      * short[] array = {1, 2, 3};
-     * Arrays.updateAll(array, x -> (short)(x * x));
-     * // array is now {1, 4, 9}
+     * Arrays.updateAll(array, x -> (short)(x * x));  // array is now {1, 4, 9}
      *
      * // Basic: negate each element
      * short[] neg = {5, -3, 0};
-     * Arrays.updateAll(neg, x -> (short)(-x));
-     * // neg is now {-5, 3, 0}
+     * Arrays.updateAll(neg, x -> (short)(-x));  // neg is now {-5, 3, 0}
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.updateAll((short[]) null, x -> (short)(x + 1));
+     * Arrays.updateAll((short[]) null, x -> (short)(x + 1));  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * short[] empty = {};
@@ -7832,21 +7785,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: add 10 to every element
      * short[][] array = {{1, 2}, {3, 4}};
-     * Arrays.updateAll(array, x -> (short)(x + 10));
-     * // array is now {{11, 12}, {13, 14}}
+     * Arrays.updateAll(array, x -> (short)(x + 10));  // array is now {{11, 12}, {13, 14}}
      *
      * // Basic: double every element with uneven rows
      * short[][] uneven = {{1}, {2, 3, 4}};
-     * Arrays.updateAll(uneven, x -> (short)(x * 2));
-     * // uneven is now {{2}, {4, 6, 8}}
+     * Arrays.updateAll(uneven, x -> (short)(x * 2));  // uneven is now {{2}, {4, 6, 8}}
      *
      * // Edge: null array - no-op
-     * Arrays.updateAll((short[][]) null, x -> (short)(x + 1));
+     * Arrays.updateAll((short[][]) null, x -> (short)(x + 1));  // no-op (input unchanged)
      *
      * // Edge: array with a null sub-array - null row is skipped without error
      * short[][] withNull = {null, {3, 4}};
-     * Arrays.updateAll(withNull, x -> (short)(x + 1));
-     * // withNull[0] is still null; withNull[1] is now {4, 5}
+     * Arrays.updateAll(withNull, x -> (short)(x + 1));  // withNull[0] is still null; withNull[1] is now {4, 5}
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -7875,16 +7825,14 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: double every element
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * Arrays.updateAll(array, x -> (short)(x * 2));
-     * // array is now {{{2, 4}}, {{6, 8}}}
+     * Arrays.updateAll(array, x -> (short)(x * 2));  // array is now {{{2, 4}}, {{6, 8}}}
      *
      * // Basic: single-element cube
      * short[][][] single = {{{(short) 7}}};
-     * Arrays.updateAll(single, x -> (short)(x - 3));
-     * // single is now {{{4}}}
+     * Arrays.updateAll(single, x -> (short)(x - 3));  // single is now {{{4}}}
      *
      * // Edge: null array - no-op
-     * Arrays.updateAll((short[][][]) null, x -> (short)(x + 1));
+     * Arrays.updateAll((short[][][]) null, x -> (short)(x + 1));  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * short[][][] empty = {};
@@ -7918,8 +7866,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: zero out elements greater than 3
      * short[] array = {1, 2, 3, 4, 5};
-     * Arrays.replaceIf(array, x -> x > 3, (short) 0);
-     * // array is now {1, 2, 3, 0, 0}
+     * Arrays.replaceIf(array, x -> x > 3, (short) 0);  // array is now {1, 2, 3, 0, 0}
      *
      * // Basic: no element matches - array unchanged
      * short[] unchanged = {1, 2, 3};
@@ -7927,7 +7874,7 @@ public sealed class Arrays permits Arrays.f {
      * // unchanged remains {1, 2, 3}
      *
      * // Edge: null array - no-op
-     * Arrays.replaceIf((short[]) null, x -> x > 0, (short) 0);
+     * Arrays.replaceIf((short[]) null, x -> x > 0, (short) 0);  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * short[] empty = {};
@@ -7972,7 +7919,7 @@ public sealed class Arrays permits Arrays.f {
      * // allFive is now {{0, 0}, {0}}
      *
      * // Edge: null array - no-op
-     * Arrays.replaceIf((short[][]) null, x -> x > 0, (short) 0);
+     * Arrays.replaceIf((short[][]) null, x -> x > 0, (short) 0);  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * short[][] empty = {};
@@ -8006,8 +7953,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace elements less than 3 with 10
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * Arrays.replaceIf(array, x -> x < 3, (short) 10);
-     * // array is now {{{10, 10}}, {{3, 4}}}
+     * Arrays.replaceIf(array, x -> x < 3, (short) 10);  // array is now {{{10, 10}}, {{3, 4}}}
      *
      * // Basic: single-element replacement
      * short[][][] single = {{{(short) 7}}};
@@ -8015,7 +7961,7 @@ public sealed class Arrays permits Arrays.f {
      * // single is now {{{99}}}
      *
      * // Edge: null array - no-op
-     * Arrays.replaceIf((short[][][]) null, x -> x > 0, (short) 0);
+     * Arrays.replaceIf((short[][][]) null, x -> x > 0, (short) 0);  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * short[][][] empty = {};
@@ -8265,16 +8211,14 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across the 2D array
      * short[][] array = {{3, 1}, {4, 2}};
-     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
-     * // array is now {{1, 2}, {3, 4}}
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));  // array is now {{1, 2}, {3, 4}}
      *
      * // Basic: null sub-arrays are skipped; only non-null rows participate and are updated
      * short[][] withNull = {null, {3, 1}};
-     * Arrays.mutateAsFlat(withNull, t -> java.util.Arrays.sort(t));
-     * // withNull[0] is still null; withNull[1] is now {1, 3}
+     * Arrays.mutateAsFlat(withNull, t -> java.util.Arrays.sort(t));  // withNull[0] is still null; withNull[1] is now {1, 3}
      *
      * // Edge: null outer array - no-op
-     * Arrays.mutateAsFlat((short[][]) null, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat((short[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: empty outer array - no-op
      * short[][] empty = {};
@@ -8318,17 +8262,15 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across the 3D array
      * short[][][] array = {{{5, 2}}, {{3, 1}}};
-     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));
-     * // array is now {{{1, 2}}, {{3, 5}}}
+     * Arrays.mutateAsFlat(array, t -> java.util.Arrays.sort(t));  // array is now {{{1, 2}}, {{3, 5}}}
      *
      * // Basic: null sub-arrays at any level are skipped; non-null rows are updated in place
      * short[][][] withNull = {null, {{4, 2}, null}, {{1}}};
-     * Arrays.mutateAsFlat(withNull, t -> java.util.Arrays.sort(t));
-     * // elements 4, 2, 1 sorted to 1, 2, 4
+     * Arrays.mutateAsFlat(withNull, t -> java.util.Arrays.sort(t));  // elements 4, 2, 1 sorted to 1, 2, 4
      * // withNull[0] is still null; withNull[1][0] is {1, 2}; withNull[2][0] is {4}
      *
      * // Edge: null outer array - no-op
-     * Arrays.mutateAsFlat((short[][][]) null, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat((short[][][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: empty outer array - no-op
      * short[][][] empty = {};
@@ -9542,21 +9484,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: square each element
      * int[] arr = {1, 2, 3};
-     * Arrays.updateAll(arr, x -> x * x);
-     * // arr is now [1, 4, 9]
+     * Arrays.updateAll(arr, x -> x * x);  // arr is now [1, 4, 9]
      *
      * // Basic: negate each element
      * int[] arr2 = {-1, 0, 5};
-     * Arrays.updateAll(arr2, x -> -x);
-     * // arr2 is now [1, 0, -5]
+     * Arrays.updateAll(arr2, x -> -x);  // arr2 is now [1, 0, -5]
      *
      * // Edge: single-element array
      * int[] single = {42};
-     * Arrays.updateAll(single, x -> x * 2);
-     * // single is now [84]
+     * Arrays.updateAll(single, x -> x * 2);  // single is now [84]
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.updateAll((int[]) null, x -> x + 1);
+     * Arrays.updateAll((int[]) null, x -> x + 1);  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[] empty = new int[0];
@@ -9590,25 +9529,22 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: add 10 to every element
      * int[][] arr = {{1, 2}, {3, 4}};
-     * Arrays.updateAll(arr, x -> x + 10);
-     * // arr is now {{11, 12}, {13, 14}}
+     * Arrays.updateAll(arr, x -> x + 10);  // arr is now {{11, 12}, {13, 14}}
      *
      * // Basic: multiply each element by itself
      * int[][] arr2 = {{1, 2}, {3, 4}};
-     * Arrays.updateAll(arr2, x -> x * x);
-     * // arr2 is now {{1, 4}, {9, 16}}
+     * Arrays.updateAll(arr2, x -> x * x);  // arr2 is now {{1, 4}, {9, 16}}
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.updateAll((int[][]) null, x -> x + 1);
+     * Arrays.updateAll((int[][]) null, x -> x + 1);  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[][] empty = new int[0][];
-     * Arrays.updateAll(empty, x -> x + 1);
+     * Arrays.updateAll(empty, x -> x + 1);  // no-op (input unchanged)
      *
      * // Edge: array with null row - null row is skipped
      * int[][] withNull = {null, {3, 4}};
-     * Arrays.updateAll(withNull, x -> x * 2);
-     * // withNull[0] is null (unchanged), withNull[1] is now [6, 8]
+     * Arrays.updateAll(withNull, x -> x * 2);  // withNull[0] is null (unchanged), withNull[1] is now [6, 8]
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -9637,20 +9573,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: double every element
      * int[][][] arr = {{{1, 2}}, {{3, 4}}};
-     * Arrays.updateAll(arr, x -> x * 2);
-     * // arr is now {{{2, 4}}, {{6, 8}}}
+     * Arrays.updateAll(arr, x -> x * 2);  // arr is now {{{2, 4}}, {{6, 8}}}
      *
      * // Basic: add a constant to every element
      * int[][][] arr2 = {{{10, 20}}, {{30, 40}}};
-     * Arrays.updateAll(arr2, x -> x + 5);
-     * // arr2 is now {{{15, 25}}, {{35, 45}}}
+     * Arrays.updateAll(arr2, x -> x + 5);  // arr2 is now {{{15, 25}}, {{35, 45}}}
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.updateAll((int[][][]) null, x -> x + 1);
+     * Arrays.updateAll((int[][][]) null, x -> x + 1);  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[][][] empty = new int[0][][];
-     * Arrays.updateAll(empty, x -> x + 1);
+     * Arrays.updateAll(empty, x -> x + 1);  // no-op (input unchanged)
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
@@ -9684,8 +9618,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Basic: clamp large values to 99
      * int[] arr2 = {10, 200, 30, 400};
-     * Arrays.replaceIf(arr2, x -> x > 100, 99);
-     * // arr2 is now [10, 99, 30, 99]
+     * Arrays.replaceIf(arr2, x -> x > 100, 99);  // arr2 is now [10, 99, 30, 99]
      *
      * // Edge: no elements match - array unchanged
      * int[] arr3 = {1, 3, 5};
@@ -9693,16 +9626,15 @@ public sealed class Arrays permits Arrays.f {
      * // arr3 is now [1, 3, 5]
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.replaceIf((int[]) null, x -> x > 0, 0);
+     * Arrays.replaceIf((int[]) null, x -> x > 0, 0);  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[] empty = new int[0];
-     * Arrays.replaceIf(empty, x -> x > 0, 0);
+     * Arrays.replaceIf(empty, x -> x > 0, 0);  // no-op (input unchanged)
      *
      * // Edge: single-element match
      * int[] single = {7};
-     * Arrays.replaceIf(single, x -> x > 5, 99);
-     * // single is now [99]
+     * Arrays.replaceIf(single, x -> x > 5, 99);  // single is now [99]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -9736,25 +9668,22 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace elements greater than 2 with 10
      * int[][] arr = {{1, 2}, {3, 4}};
-     * Arrays.replaceIf(arr, x -> x > 2, 10);
-     * // arr is now {{1, 2}, {10, 10}}
+     * Arrays.replaceIf(arr, x -> x > 2, 10);  // arr is now {{1, 2}, {10, 10}}
      *
      * // Basic: zero out negative values
      * int[][] arr2 = {{-1, 2}, {-3, 4}};
-     * Arrays.replaceIf(arr2, x -> x < 0, 0);
-     * // arr2 is now {{0, 2}, {0, 4}}
+     * Arrays.replaceIf(arr2, x -> x < 0, 0);  // arr2 is now {{0, 2}, {0, 4}}
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.replaceIf((int[][]) null, x -> x > 0, 0);
+     * Arrays.replaceIf((int[][]) null, x -> x > 0, 0);  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[][] empty = new int[0][];
-     * Arrays.replaceIf(empty, x -> x > 0, 0);
+     * Arrays.replaceIf(empty, x -> x > 0, 0);  // no-op (input unchanged)
      *
      * // Edge: row with null - null row is skipped silently
      * int[][] withNull = {null, {3, 4}};
-     * Arrays.replaceIf(withNull, x -> x > 2, 10);
-     * // withNull[0] is null (unchanged), withNull[1] is now [10, 10]
+     * Arrays.replaceIf(withNull, x -> x > 2, 10);  // withNull[0] is null (unchanged), withNull[1] is now [10, 10]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -9786,8 +9715,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: zero out elements less than 3
      * int[][][] arr = {{{1, 2}}, {{3, 4}}};
-     * Arrays.replaceIf(arr, x -> x < 3, 0);
-     * // arr is now {{{0, 0}}, {{3, 4}}}
+     * Arrays.replaceIf(arr, x -> x < 3, 0);  // arr is now {{{0, 0}}, {{3, 4}}}
      *
      * // Basic: replace odd values with -1
      * int[][][] arr2 = {{{1, 2}}, {{3, 4}}};
@@ -9795,11 +9723,11 @@ public sealed class Arrays permits Arrays.f {
      * // arr2 is now {{{-1, 2}}, {{-1, 4}}}
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.replaceIf((int[][][]) null, x -> x > 0, 0);
+     * Arrays.replaceIf((int[][][]) null, x -> x > 0, 0);  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[][][] empty = new int[0][][];
-     * Arrays.replaceIf(empty, x -> x > 0, 0);
+     * Arrays.replaceIf(empty, x -> x > 0, 0);  // no-op (input unchanged)
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
@@ -10087,20 +10015,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements across rows, values distributed back by row length
      * int[][] arr = {{3, 1, 4}, {1, 5, 9}};
-     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
-     * // arr is now {{1, 1, 3}, {4, 5, 9}}
+     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));  // arr is now {{1, 1, 3}, {4, 5, 9}}
      *
      * // Basic: single row
      * int[][] arr2 = {{5, 2, 8}};
-     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.sort(t));
-     * // arr2 is now {{2, 5, 8}}
+     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.sort(t));  // arr2 is now {{2, 5, 8}}
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.mutateAsFlat((int[][]) null, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat((int[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[][] empty = new int[0][];
-     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: null action throws IllegalArgumentException
      * Arrays.mutateAsFlat(new int[][]{{1, 2}}, null); // throws IllegalArgumentException
@@ -10146,20 +10072,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally and distribute back into original 3D shape
      * int[][][] arr = {{{5, 2}}, {{8, 1}}};
-     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));
-     * // arr is now {{{1, 2}}, {{5, 8}}}
+     * Arrays.mutateAsFlat(arr, t -> java.util.Arrays.sort(t));  // arr is now {{{1, 2}}, {{5, 8}}}
      *
      * // Basic: sort a ragged 3D array globally
      * int[][][] arr2 = {{{9, 3}}, {{7, 1, 5}}};
-     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.sort(t));
-     * // arr2 is now {{{1, 3}}, {{5, 7, 9}}}
+     * Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.sort(t));  // arr2 is now {{{1, 3}}, {{5, 7, 9}}}
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.mutateAsFlat((int[][][]) null, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat((int[][][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[][][] empty = new int[0][][];
-     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat(empty, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: null action throws IllegalArgumentException
      * Arrays.mutateAsFlat(new int[][][]{{{1, 2}}}, null); // throws IllegalArgumentException
@@ -11351,15 +11275,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] a = {1L, 2L, 3L};
-     * Arrays.updateAll(a, x -> x * x);
-     * // a is now [1, 4, 9]
+     * Arrays.updateAll(a, x -> x * x);  // a is now [1, 4, 9]
      *
      * long[] b = {-5L, 0L, 10L};
-     * Arrays.updateAll(b, x -> x * 2L);
-     * // b is now [-10, 0, 20]
+     * Arrays.updateAll(b, x -> x * 2L);  // b is now [-10, 0, 20]
      *
      * // null array => no-op, no exception
-     * Arrays.updateAll((long[]) null, x -> x + 1L);
+     * Arrays.updateAll((long[]) null, x -> x + 1L);  // no-op (input unchanged)
      *
      * // empty array => no-op
      * long[] empty = new long[0];
@@ -11392,15 +11314,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L, 2L}, {3L, 4L}};
-     * Arrays.updateAll(a, x -> -x);
-     * // a is now [[-1, -2], [-3, -4]]
+     * Arrays.updateAll(a, x -> -x);  // a is now [[-1, -2], [-3, -4]]
      *
      * long[][] b = {{10L}, {20L, 30L}};
-     * Arrays.updateAll(b, x -> x + 1L);
-     * // b is now [[11], [21, 31]]
+     * Arrays.updateAll(b, x -> x + 1L);  // b is now [[11], [21, 31]]
      *
      * // null outer array => no-op, no exception
-     * Arrays.updateAll((long[][]) null, x -> x * 2L);
+     * Arrays.updateAll((long[][]) null, x -> x * 2L);  // no-op (input unchanged)
      *
      * // empty outer array => no-op
      * long[][] empty = new long[0][];
@@ -11433,15 +11353,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] a = {{{1L}, {2L}}, {{3L}, {4L}}};
-     * Arrays.updateAll(a, x -> x + 1L);
-     * // a is now [[[2], [3]], [[4], [5]]]
+     * Arrays.updateAll(a, x -> x + 1L);  // a is now [[[2], [3]], [[4], [5]]]
      *
      * long[][][] b = {{{-1L, -2L}}, {{3L}}};
-     * Arrays.updateAll(b, x -> Math.abs(x));
-     * // b is now [[[1, 2]], [[3]]]
+     * Arrays.updateAll(b, x -> Math.abs(x));  // b is now [[[1, 2]], [[3]]]
      *
      * // null outer array => no-op, no exception
-     * Arrays.updateAll((long[][][]) null, x -> x * 2L);
+     * Arrays.updateAll((long[][][]) null, x -> x * 2L);  // no-op (input unchanged)
      *
      * // empty outer array => no-op
      * long[][][] empty = new long[0][][];
@@ -11478,11 +11396,10 @@ public sealed class Arrays permits Arrays.f {
      * // a is now [1, 0, 3, 0, 5]
      *
      * long[] b = {-3L, 0L, 7L, -1L};
-     * Arrays.replaceIf(b, x -> x < 0, 99L);
-     * // b is now [99, 0, 7, 99]
+     * Arrays.replaceIf(b, x -> x < 0, 99L);  // b is now [99, 0, 7, 99]
      *
      * // null array => no-op, no exception
-     * Arrays.replaceIf((long[]) null, x -> true, 0L);
+     * Arrays.replaceIf((long[]) null, x -> true, 0L);  // no-op (input unchanged)
      *
      * // empty array => no-op
      * long[] empty = new long[0];
@@ -11516,15 +11433,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L, -2L}, {3L, -4L}};
-     * Arrays.replaceIf(a, x -> x < 0, 0L);
-     * // a is now [[1, 0], [3, 0]]
+     * Arrays.replaceIf(a, x -> x < 0, 0L);  // a is now [[1, 0], [3, 0]]
      *
      * long[][] b = {{10L, 20L}, {5L, 30L}};
-     * Arrays.replaceIf(b, x -> x > 15L, -1L);
-     * // b is now [[10, -1], [5, -1]]
+     * Arrays.replaceIf(b, x -> x > 15L, -1L);  // b is now [[10, -1], [5, -1]]
      *
      * // null outer array => no-op, no exception
-     * Arrays.replaceIf((long[][]) null, x -> true, 0L);
+     * Arrays.replaceIf((long[][]) null, x -> true, 0L);  // no-op (input unchanged)
      *
      * // empty outer array => no-op
      * long[][] empty = new long[0][];
@@ -11556,15 +11471,13 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] a = {{{1L, 2L}}, {{-3L, 4L}}};
-     * Arrays.replaceIf(a, x -> x < 0, 99L);
-     * // a is now [[[1, 2]], [[99, 4]]]
+     * Arrays.replaceIf(a, x -> x < 0, 99L);  // a is now [[[1, 2]], [[99, 4]]]
      *
      * long[][][] b = {{{0L, 100L}}, {{50L, 200L}}};
-     * Arrays.replaceIf(b, x -> x > 50L, 0L);
-     * // b is now [[[0, 0]], [[50, 0]]]
+     * Arrays.replaceIf(b, x -> x > 50L, 0L);  // b is now [[[0, 0]], [[50, 0]]]
      *
      * // null outer array => no-op, no exception
-     * Arrays.replaceIf((long[][][]) null, x -> true, 0L);
+     * Arrays.replaceIf((long[][][]) null, x -> true, 0L);  // no-op (input unchanged)
      *
      * // empty outer array => no-op
      * long[][][] empty = new long[0][][];
@@ -11803,8 +11716,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{3L, 1L}, {4L, 2L}};
-     * Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
-     * // flattened [3,1,4,2] sorted to [1,2,3,4], copied back row-by-row
+     * Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));  // flattened [3,1,4,2] sorted to [1,2,3,4], copied back row-by-row
      * // a is now [[1, 2], [3, 4]]
      *
      * long[][] b = {{1L, 2L, 3L}};
@@ -11812,7 +11724,7 @@ public sealed class Arrays permits Arrays.f {
      * // b is now [[3, 2, 1]]
      *
      * // null array => no-op, no exception
-     * Arrays.mutateAsFlat((long[][]) null, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat((long[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // empty outer array => no-op
      * long[][] empty = new long[0][];
@@ -11855,17 +11767,15 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] a = {{{3L}, {1L}}, {{4L, 2L}}};
-     * Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));
-     * // flattened [3,1,4,2] sorted to [1,2,3,4], copied back element-by-element
+     * Arrays.mutateAsFlat(a, t -> java.util.Arrays.sort(t));  // flattened [3,1,4,2] sorted to [1,2,3,4], copied back element-by-element
      * // a is now [[[1], [2]], [[3, 4]]]
      *
      * long[][][] b = {{{10L, 5L}}, {{8L, 3L}}};
-     * Arrays.mutateAsFlat(b, t -> java.util.Arrays.sort(t));
-     * // flattened [10,5,8,3] sorted to [3,5,8,10]
+     * Arrays.mutateAsFlat(b, t -> java.util.Arrays.sort(t));  // flattened [10,5,8,3] sorted to [3,5,8,10]
      * // b is now [[[3, 5]], [[8, 10]]]
      *
      * // null array => no-op, no exception
-     * Arrays.mutateAsFlat((long[][][]) null, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlat((long[][][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // empty outer array => no-op
      * long[][][] empty = new long[0][][];
@@ -13014,26 +12924,22 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: absolute value of all elements
      * float[] a = {1.0f, -2.0f, 3.0f};
-     * Arrays.updateAll(a, x -> Math.abs(x));
-     * // a is now [1.0, 2.0, 3.0]
+     * Arrays.updateAll(a, x -> Math.abs(x));  // a is now [1.0, 2.0, 3.0]
      *
      * // Basic: square all elements
      * float[] b = {2.0f, 3.0f, 4.0f};
-     * Arrays.updateAll(b, x -> x * x);
-     * // b is now [4.0, 9.0, 16.0]
+     * Arrays.updateAll(b, x -> x * x);  // b is now [4.0, 9.0, 16.0]
      *
      * // Edge: null array - no-op
      * Arrays.updateAll((float[]) null, x -> x + 1.0f);   // no exception, nothing happens
      *
      * // Edge: NaN propagates through arithmetic (NaN * 2 == NaN)
      * float[] c = {1.0f, Float.NaN, 3.0f};
-     * Arrays.updateAll(c, x -> x * 2.0f);
-     * // c[0] is 2.0, c[1] is NaN (NaN * 2 == NaN), c[2] is 6.0
+     * Arrays.updateAll(c, x -> x * 2.0f);  // c[0] is 2.0, c[1] is NaN (NaN * 2 == NaN), c[2] is 6.0
      *
      * // Edge: divide by zero produces Infinity
      * float[] d = {1.0f, 2.0f};
-     * Arrays.updateAll(d, x -> x / 0f);
-     * // d is now [Infinity, Infinity]
+     * Arrays.updateAll(d, x -> x / 0f);  // d is now [Infinity, Infinity]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -13062,21 +12968,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: square all elements
      * float[][] grid = {{1.0f, -2.0f}, {-3.0f, 4.0f}};
-     * Arrays.updateAll(grid, x -> x * x);
-     * // grid is now {{1.0, 4.0}, {9.0, 16.0}}
+     * Arrays.updateAll(grid, x -> x * x);  // grid is now {{1.0, 4.0}, {9.0, 16.0}}
      *
      * // Basic: multiply all elements by -1
      * float[][] g2 = {{2.0f, 3.0f}, {4.0f, 5.0f}};
-     * Arrays.updateAll(g2, x -> -x);
-     * // g2 is now {{-2.0, -3.0}, {-4.0, -5.0}}
+     * Arrays.updateAll(g2, x -> -x);  // g2 is now {{-2.0, -3.0}, {-4.0, -5.0}}
      *
      * // Edge: null array - no-op
      * Arrays.updateAll((float[][]) null, x -> x + 1.0f);   // no exception, nothing happens
      *
      * // Edge: NaN propagates through the operator
      * float[][] g3 = {{Float.NaN, 2.0f}};
-     * Arrays.updateAll(g3, x -> x * 2.0f);
-     * // g3[0][0] is NaN (NaN * 2 == NaN), g3[0][1] is 4.0
+     * Arrays.updateAll(g3, x -> x * 2.0f);  // g3[0][0] is NaN (NaN * 2 == NaN), g3[0][1] is 4.0
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -13105,21 +13008,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: negate all elements
      * float[][][] cube = {{{-1.0f}}, {{2.0f}}};
-     * Arrays.updateAll(cube, x -> -x);
-     * // cube is now {{{1.0}}, {{-2.0}}}
+     * Arrays.updateAll(cube, x -> -x);  // cube is now {{{1.0}}, {{-2.0}}}
      *
      * // Basic: add 10 to all elements
      * float[][][] c2 = {{{1.0f, 2.0f}}, {{3.0f}}};
-     * Arrays.updateAll(c2, x -> x + 10.0f);
-     * // c2 is now {{{11.0, 12.0}}, {{13.0}}}
+     * Arrays.updateAll(c2, x -> x + 10.0f);  // c2 is now {{{11.0, 12.0}}, {{13.0}}}
      *
      * // Edge: null array - no-op
      * Arrays.updateAll((float[][][]) null, x -> x * 2.0f);   // no exception, nothing happens
      *
      * // Edge: NaN remains NaN; divide by zero produces Infinity
      * float[][][] c3 = {{{Float.NaN, 1.0f}}};
-     * Arrays.updateAll(c3, x -> x / 0f);
-     * // c3[0][0][0] is NaN (NaN / 0 == NaN), c3[0][0][1] is Infinity
+     * Arrays.updateAll(c3, x -> x / 0f);  // c3[0][0][0] is NaN (NaN / 0 == NaN), c3[0][0][1] is Infinity
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -13148,26 +13048,22 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace negative values with zero
      * float[] a = {1.0f, -2.0f, 3.0f, -4.0f};
-     * Arrays.replaceIf(a, x -> x < 0, 0.0f);
-     * // a is now [1.0, 0.0, 3.0, 0.0]
+     * Arrays.replaceIf(a, x -> x < 0, 0.0f);  // a is now [1.0, 0.0, 3.0, 0.0]
      *
      * // Basic: replace values greater than 2 with a sentinel
      * float[] b = {1.0f, 2.0f, 3.0f, 4.0f};
-     * Arrays.replaceIf(b, x -> x > 2.0f, -1.0f);
-     * // b is now [1.0, 2.0, -1.0, -1.0]
+     * Arrays.replaceIf(b, x -> x > 2.0f, -1.0f);  // b is now [1.0, 2.0, -1.0, -1.0]
      *
      * // Edge: null array - no-op
      * Arrays.replaceIf((float[]) null, x -> x < 0, 0.0f);   // no exception, nothing happens
      *
      * // Edge: replace NaN values (NaN != NaN, so use Float.isNaN)
      * float[] c = {1.0f, Float.NaN, 3.0f};
-     * Arrays.replaceIf(c, v -> Float.isNaN(v), 0.0f);
-     * // c is now [1.0, 0.0, 3.0]
+     * Arrays.replaceIf(c, v -> Float.isNaN(v), 0.0f);  // c is now [1.0, 0.0, 3.0]
      *
      * // Edge: replace Infinity
      * float[] d = {Float.POSITIVE_INFINITY, 2.0f};
-     * Arrays.replaceIf(d, v -> Float.isInfinite(v), 99.0f);
-     * // d is now [99.0, 2.0]
+     * Arrays.replaceIf(d, v -> Float.isInfinite(v), 99.0f);  // d is now [99.0, 2.0]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -13203,16 +13099,14 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Basic: clamp values above a threshold
      * float[][] g2 = {{5.0f, 1.0f}, {3.0f, 8.0f}};
-     * Arrays.replaceIf(g2, x -> x > 4.0f, 4.0f);
-     * // g2 is now {{4.0, 1.0}, {3.0, 4.0}}
+     * Arrays.replaceIf(g2, x -> x > 4.0f, 4.0f);  // g2 is now {{4.0, 1.0}, {3.0, 4.0}}
      *
      * // Edge: null array - no-op
      * Arrays.replaceIf((float[][]) null, x -> x < 0, 0.0f);   // no exception, nothing happens
      *
      * // Edge: replace NaN values using Float.isNaN (NaN != NaN so direct comparison won't work)
      * float[][] g3 = {{Float.NaN, 2.0f}, {Float.POSITIVE_INFINITY, -1.0f}};
-     * Arrays.replaceIf(g3, v -> Float.isNaN(v), 0.0f);
-     * // g3[0] is now [0.0, 2.0]; g3[1][0] remains Infinity
+     * Arrays.replaceIf(g3, v -> Float.isNaN(v), 0.0f);  // g3[0] is now [0.0, 2.0]; g3[1][0] remains Infinity
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -13241,26 +13135,22 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace positive values with zero
      * float[][][] cube = {{{1f, -2f}}, {{-3f, 4f}}};
-     * Arrays.replaceIf(cube, x -> x > 0, 0.0f);
-     * // cube is now {{{0.0, -2.0}}, {{-3.0, 0.0}}}
+     * Arrays.replaceIf(cube, x -> x > 0, 0.0f);  // cube is now {{{0.0, -2.0}}, {{-3.0, 0.0}}}
      *
      * // Basic: replace all values below a threshold
      * float[][][] c2 = {{{5.0f, 2.0f}}, {{1.0f, 8.0f}}};
-     * Arrays.replaceIf(c2, x -> x < 3.0f, 0.0f);
-     * // c2 is now {{{5.0, 0.0}}, {{0.0, 8.0}}}
+     * Arrays.replaceIf(c2, x -> x < 3.0f, 0.0f);  // c2 is now {{{5.0, 0.0}}, {{0.0, 8.0}}}
      *
      * // Edge: null array - no-op
      * Arrays.replaceIf((float[][][]) null, x -> x > 0, 0.0f);   // no exception, nothing happens
      *
      * // Edge: replace NaN values (must use Float.isNaN - NaN != NaN)
      * float[][][] c3 = {{{Float.NaN, 1.0f}}};
-     * Arrays.replaceIf(c3, v -> Float.isNaN(v), -1.0f);
-     * // c3[0][0] is now [-1.0, 1.0]
+     * Arrays.replaceIf(c3, v -> Float.isNaN(v), -1.0f);  // c3[0][0] is now [-1.0, 1.0]
      *
      * // Edge: replace Infinity values
      * float[][][] c4 = {{{Float.POSITIVE_INFINITY, 1.0f}}};
-     * Arrays.replaceIf(c4, v -> Float.isInfinite(v), 0.0f);
-     * // c4[0][0] is now [0.0, 1.0]
+     * Arrays.replaceIf(c4, v -> Float.isInfinite(v), 0.0f);  // c4[0][0] is now [0.0, 1.0]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -13522,8 +13412,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across sub-arrays
      * float[][] grid = {{4.0f, 1.0f}, {3.0f, 2.0f}};
-     * Arrays.mutateAsFlat(grid, N::sort);
-     * // grid is now {{1.0, 2.0}, {3.0, 4.0}}
+     * Arrays.mutateAsFlat(grid, N::sort);  // grid is now {{1.0, 2.0}, {3.0, 4.0}}
      *
      * // Basic: negate all elements via flat view
      * float[][] g2 = {{3.0f, 1.0f}, {2.0f}};
@@ -13535,8 +13424,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: NaN is placed last after sort (standard Java float sort behavior)
      * float[][] g3 = {{Float.NaN, 1.0f}, {3.0f, 2.0f}};
-     * Arrays.mutateAsFlat(g3, arr -> java.util.Arrays.sort(arr));
-     * // Flat sorted order: [1.0, 2.0, 3.0, NaN]; copied back: g3[0]={1.0,2.0}, g3[1]={3.0,NaN}
+     * Arrays.mutateAsFlat(g3, arr -> java.util.Arrays.sort(arr));  // Flat sorted order: [1.0, 2.0, 3.0, NaN]; copied back: g3[0]={1.0,2.0}, g3[1]={3.0,NaN}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -13577,8 +13465,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across all sub-arrays
      * float[][][] cube = {{{4.0f, 1.0f}}, {{3.0f, 2.0f}}};
-     * Arrays.mutateAsFlat(cube, N::sort);
-     * // cube is now {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     * Arrays.mutateAsFlat(cube, N::sort);  // cube is now {{{1.0, 2.0}}, {{3.0, 4.0}}}
      *
      * // Basic: double all elements via flat view
      * float[][][] c2 = {{{5.0f, 3.0f}}, {{1.0f, 2.0f}}};
@@ -13590,8 +13477,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: NaN is placed last after sort (standard Java float sort behavior)
      * float[][][] c3 = {{{Float.NaN, 1.0f}}, {{3.0f, 2.0f}}};
-     * Arrays.mutateAsFlat(c3, arr -> java.util.Arrays.sort(arr));
-     * // Flat sorted order: [1.0, 2.0, 3.0, NaN]; c3[0][0]={1.0,2.0}, c3[1][0]={3.0,NaN}
+     * Arrays.mutateAsFlat(c3, arr -> java.util.Arrays.sort(arr));  // Flat sorted order: [1.0, 2.0, 3.0, NaN]; c3[0][0]={1.0,2.0}, c3[1][0]={3.0,NaN}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -14805,13 +14691,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: absolute value of all elements
      * double[] array = {1.0, -2.0, 3.0};
-     * Arrays.updateAll(array, x -> Math.abs(x));
-     * // array is now [1.0, 2.0, 3.0]
+     * Arrays.updateAll(array, x -> Math.abs(x));  // array is now [1.0, 2.0, 3.0]
      *
      * // Basic: square all elements
      * double[] squares = {1.0, 2.0, 3.0};
-     * Arrays.updateAll(squares, x -> x * x);
-     * // squares is now [1.0, 4.0, 9.0]
+     * Arrays.updateAll(squares, x -> x * x);  // squares is now [1.0, 4.0, 9.0]
      *
      * // Edge: null array is a no-op
      * Arrays.updateAll((double[]) null, x -> x + 1);
@@ -14819,8 +14703,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: Infinity propagates - division by zero produces Infinity/NaN
      * double[] edge = {1.0, 0.0};
-     * Arrays.updateAll(edge, x -> x / 0.0);
-     * // edge[0] is Infinity, edge[1] is NaN
+     * Arrays.updateAll(edge, x -> x / 0.0);  // edge[0] is Infinity, edge[1] is NaN
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -14849,13 +14732,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: take square root of all elements
      * double[][] grid = {{1.0, 4.0}, {9.0, 16.0}};
-     * Arrays.updateAll(grid, x -> Math.sqrt(x));
-     * // grid is now {{1.0, 2.0}, {3.0, 4.0}}
+     * Arrays.updateAll(grid, x -> Math.sqrt(x));  // grid is now {{1.0, 2.0}, {3.0, 4.0}}
      *
      * // Basic: double all elements
      * double[][] grid2 = {{1.0, 2.0}, {3.0, 4.0}};
-     * Arrays.updateAll(grid2, x -> x * 2);
-     * // grid2 is now {{2.0, 4.0}, {6.0, 8.0}}
+     * Arrays.updateAll(grid2, x -> x * 2);  // grid2 is now {{2.0, 4.0}, {6.0, 8.0}}
      *
      * // Edge: null array is a no-op
      * Arrays.updateAll((double[][]) null, x -> x + 1);
@@ -14863,8 +14744,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: NaN element - replace NaN with 0.0
      * double[][] withNaN = {{Double.NaN, 1.0}};
-     * Arrays.updateAll(withNaN, x -> Double.isNaN(x) ? 0.0 : x);
-     * // withNaN is now {{0.0, 1.0}}
+     * Arrays.updateAll(withNaN, x -> Double.isNaN(x) ? 0.0 : x);  // withNaN is now {{0.0, 1.0}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -14893,13 +14773,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: round all elements
      * double[][][] cube = {{{1.1}, {2.8}}, {{3.3}, {4.6}}};
-     * Arrays.updateAll(cube, x -> (double) Math.round(x));
-     * // cube is now {{{1.0}, {3.0}}, {{3.0}, {5.0}}}
+     * Arrays.updateAll(cube, x -> (double) Math.round(x));  // cube is now {{{1.0}, {3.0}}, {{3.0}, {5.0}}}
      *
      * // Basic: negate all elements
      * double[][][] cube2 = {{{1.0, 2.0}}, {{3.0}}};
-     * Arrays.updateAll(cube2, x -> -x);
-     * // cube2 is now {{{-1.0, -2.0}}, {{-3.0}}}
+     * Arrays.updateAll(cube2, x -> -x);  // cube2 is now {{{-1.0, -2.0}}, {{-3.0}}}
      *
      * // Edge: null array is a no-op
      * Arrays.updateAll((double[][][]) null, x -> x + 1);
@@ -14907,8 +14785,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: Infinity propagates - multiplying Infinity stays Infinity
      * double[][][] inf = {{{Double.POSITIVE_INFINITY}}};
-     * Arrays.updateAll(inf, x -> x * 2);
-     * // inf[0][0][0] is still Infinity
+     * Arrays.updateAll(inf, x -> x * 2);  // inf[0][0][0] is still Infinity
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -14937,18 +14814,15 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace negatives with zero
      * double[] array = {1.0, -2.0, 3.0, -4.0};
-     * Arrays.replaceIf(array, x -> x < 0, 0.0);
-     * // array is now [1.0, 0.0, 3.0, 0.0]
+     * Arrays.replaceIf(array, x -> x < 0, 0.0);  // array is now [1.0, 0.0, 3.0, 0.0]
      *
      * // Basic: clamp values above threshold
      * double[] capped = {1.0, 5.0, 3.0, 8.0};
-     * Arrays.replaceIf(capped, x -> x > 4.0, 4.0);
-     * // capped is now [1.0, 4.0, 3.0, 4.0]
+     * Arrays.replaceIf(capped, x -> x > 4.0, 4.0);  // capped is now [1.0, 4.0, 3.0, 4.0]
      *
      * // Edge: replace NaN values with 0.0
      * double[] withNaN = {1.0, Double.NaN, 3.0};
-     * Arrays.replaceIf(withNaN, v -> Double.isNaN(v), 0.0);
-     * // withNaN is now [1.0, 0.0, 3.0]
+     * Arrays.replaceIf(withNaN, v -> Double.isNaN(v), 0.0);  // withNaN is now [1.0, 0.0, 3.0]
      *
      * // Edge: null array is a no-op
      * Arrays.replaceIf((double[]) null, x -> x < 0, 0.0);
@@ -14984,13 +14858,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace NaN elements with 0.0
      * double[][] grid = {{1.0, -2.0}, {Double.NaN, 4.0}};
-     * Arrays.replaceIf(grid, x -> Double.isNaN(x), 0.0);
-     * // grid is now {{1.0, -2.0}, {0.0, 4.0}}
+     * Arrays.replaceIf(grid, x -> Double.isNaN(x), 0.0);  // grid is now {{1.0, -2.0}, {0.0, 4.0}}
      *
      * // Basic: replace negatives with 0.0
      * double[][] grid2 = {{1.0, -2.0}, {-3.0, 4.0}};
-     * Arrays.replaceIf(grid2, x -> x < 0, 0.0);
-     * // grid2 is now {{1.0, 0.0}, {0.0, 4.0}}
+     * Arrays.replaceIf(grid2, x -> x < 0, 0.0);  // grid2 is now {{1.0, 0.0}, {0.0, 4.0}}
      *
      * // Edge: null array is a no-op
      * Arrays.replaceIf((double[][]) null, x -> x < 0, 0.0);
@@ -14998,8 +14870,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: replace Infinity with a sentinel
      * double[][] withInf = {{Double.POSITIVE_INFINITY, 1.0}};
-     * Arrays.replaceIf(withInf, v -> !Double.isFinite(v), -1.0);
-     * // withInf is now {{-1.0, 1.0}}
+     * Arrays.replaceIf(withInf, v -> !Double.isFinite(v), -1.0);  // withInf is now {{-1.0, 1.0}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -15029,13 +14900,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: replace Infinity with -1.0
      * double[][][] cube = {{{1.0}, {Double.POSITIVE_INFINITY}}, {{3.0}, {-4.0}}};
-     * Arrays.replaceIf(cube, x -> !Double.isFinite(x), -1.0);
-     * // cube is now {{{1.0}, {-1.0}}, {{3.0}, {-4.0}}}
+     * Arrays.replaceIf(cube, x -> !Double.isFinite(x), -1.0);  // cube is now {{{1.0}, {-1.0}}, {{3.0}, {-4.0}}}
      *
      * // Basic: replace negatives with 0.0
      * double[][][] cube2 = {{{-1.0, 2.0}}};
-     * Arrays.replaceIf(cube2, x -> x < 0, 0.0);
-     * // cube2 is now {{{0.0, 2.0}}}
+     * Arrays.replaceIf(cube2, x -> x < 0, 0.0);  // cube2 is now {{{0.0, 2.0}}}
      *
      * // Edge: null array is a no-op
      * Arrays.replaceIf((double[][][]) null, x -> x < 0, 0.0);
@@ -15043,8 +14912,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: replace NaN with 0.0
      * double[][][] withNaN = {{{Double.NaN, 2.0}}};
-     * Arrays.replaceIf(withNaN, x -> Double.isNaN(x), 0.0);
-     * // withNaN is now {{{0.0, 2.0}}}
+     * Arrays.replaceIf(withNaN, x -> Double.isNaN(x), 0.0);  // withNaN is now {{{0.0, 2.0}}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -15292,13 +15160,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: global sort across the entire 2D grid
      * double[][] grid = {{5.0, 2.0}, {8.0, 1.0}};
-     * Arrays.mutateAsFlat(grid, arr -> java.util.Arrays.sort(arr));
-     * // grid is now {{1.0, 2.0}, {5.0, 8.0}}
+     * Arrays.mutateAsFlat(grid, arr -> java.util.Arrays.sort(arr));  // grid is now {{1.0, 2.0}, {5.0, 8.0}}
      *
      * // Basic: sort a single-row grid via the flat view
      * double[][] grid2 = {{3.0, 1.0, 2.0}};
-     * Arrays.mutateAsFlat(grid2, arr -> java.util.Arrays.sort(arr));
-     * // grid2 is now {{1.0, 2.0, 3.0}}
+     * Arrays.mutateAsFlat(grid2, arr -> java.util.Arrays.sort(arr));  // grid2 is now {{1.0, 2.0, 3.0}}
      *
      * // Edge: null array is a no-op
      * Arrays.mutateAsFlat((double[][]) null, arr -> java.util.Arrays.sort(arr));
@@ -15348,13 +15214,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: global sort across the entire 3D cube
      * double[][][] cube = {{{9.0, 2.0}}, {{5.0}, {1.0}}};
-     * Arrays.mutateAsFlat(cube, arr -> java.util.Arrays.sort(arr));
-     * // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
+     * Arrays.mutateAsFlat(cube, arr -> java.util.Arrays.sort(arr));  // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
      *
      * // Basic: sort a single block
      * double[][][] cube2 = {{{4.0, 1.0}}};
-     * Arrays.mutateAsFlat(cube2, arr -> java.util.Arrays.sort(arr));
-     * // cube2 is now {{{1.0, 4.0}}}
+     * Arrays.mutateAsFlat(cube2, arr -> java.util.Arrays.sort(arr));  // cube2 is now {{{1.0, 4.0}}}
      *
      * // Edge: null array is a no-op
      * Arrays.mutateAsFlat((double[][][]) null, arr -> java.util.Arrays.sort(arr));
@@ -20526,13 +20390,11 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // Basic: upper-case every string in a 2D array
          * String[][] array = {{"hello", "world"}, {"foo", "bar"}};
-         * Arrays.ff.updateAll(array, str -> str.toUpperCase());
-         * // array is now {{"HELLO", "WORLD"}, {"FOO", "BAR"}}
+         * Arrays.ff.updateAll(array, str -> str.toUpperCase());  // array is now {{"HELLO", "WORLD"}, {"FOO", "BAR"}}
          *
          * // Typical: double every integer in a 2D array
          * Integer[][] nums = {{1, 2}, {3, 4}};
-         * Arrays.ff.updateAll(nums, x -> x * 2);
-         * // nums is now {{2, 4}, {6, 8}}
+         * Arrays.ff.updateAll(nums, x -> x * 2);  // nums is now {{2, 4}, {6, 8}}
          *
          * // Edge: null array is a no-op (no exception thrown)
          * Arrays.ff.updateAll((String[][]) null, str -> str.toUpperCase());
@@ -20540,8 +20402,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * // Edge: null or empty sub-arrays are skipped
          * String[][] jagged = {{"a", "b"}, null, {"c"}};
-         * Arrays.ff.updateAll(jagged, s -> s + "!");
-         * // jagged is now {{"a!", "b!"}, null, {"c!"}}
+         * Arrays.ff.updateAll(jagged, s -> s + "!");  // jagged is now {{"a!", "b!"}, null, {"c!"}}
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -20582,8 +20443,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * // Typical: cap values above a threshold
          * Integer[][] scores = {{80, 110, 95}, {120, 75}};
-         * Arrays.ff.replaceIf(scores, val -> val > 100, 100);
-         * // scores is now {{80, 100, 95}, {100, 75}}
+         * Arrays.ff.replaceIf(scores, val -> val > 100, 100);  // scores is now {{80, 100, 95}, {100, 75}}
          *
          * // Edge: null array is a no-op (no exception thrown)
          * Arrays.ff.replaceIf((Integer[][]) null, val -> val == null, 0);
@@ -20591,8 +20451,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * // Edge: no elements match - array is left unchanged
          * Integer[][] noop = {{1, 2}, {3, 4}};
-         * Arrays.ff.replaceIf(noop, val -> val > 100, -1);
-         * // noop is still {{1, 2}, {3, 4}}
+         * Arrays.ff.replaceIf(noop, val -> val > 100, -1);  // noop is still {{1, 2}, {3, 4}}
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -20742,8 +20601,7 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // Basic: sort all elements globally (preserving original row lengths)
          * Integer[][] array = {{3, 1, 4}, {1, 5, 9}};
-         * Arrays.ff.mutateAsFlat(array, arr -> java.util.Arrays.sort(arr));
-         * // array is now {{1, 1, 3}, {4, 5, 9}}
+         * Arrays.ff.mutateAsFlat(array, arr -> java.util.Arrays.sort(arr));  // array is now {{1, 1, 3}, {4, 5, 9}}
          *
          * // Typical: reverse all elements across the 2D array
          * String[][] words = {{"c", "a"}, {"b"}};
@@ -22327,13 +22185,11 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // basic: uppercase all strings
          * String[][][] arr = {{{"hello", "world"}}, {{"foo", "bar"}}};
-         * Arrays.fff.updateAll(arr, str -> str.toUpperCase());
-         * // arr is now {{{"HELLO", "WORLD"}}, {{"FOO", "BAR"}}}
+         * Arrays.fff.updateAll(arr, str -> str.toUpperCase());  // arr is now {{{"HELLO", "WORLD"}}, {{"FOO", "BAR"}}}
          *
          * // basic: double all integers
          * Integer[][][] nums = {{{1, 2}}, {{3, 4}}};
-         * Arrays.fff.updateAll(nums, n -> n * 2);
-         * // nums is now {{{2, 4}}, {{6, 8}}}
+         * Arrays.fff.updateAll(nums, n -> n * 2);  // nums is now {{{2, 4}}, {{6, 8}}}
          *
          * // edge: null array is a no-op - no exception thrown
          * Arrays.fff.updateAll((String[][][]) null, str -> str.toUpperCase());
@@ -22378,8 +22234,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * // basic: replace all negatives with zero
          * Integer[][][] nums = {{{-1, 2}}, {{-3, 4}}};
-         * Arrays.fff.replaceIf(nums, val -> val < 0, 0);
-         * // nums is now {{{0, 2}}, {{0, 4}}}
+         * Arrays.fff.replaceIf(nums, val -> val < 0, 0);  // nums is now {{{0, 2}}, {{0, 4}}}
          *
          * // edge: null array is a no-op - no exception thrown
          * Arrays.fff.replaceIf((Integer[][][]) null, val -> val == null, 0);
@@ -22387,8 +22242,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * // edge: predicate matches nothing - array unchanged
          * Integer[][][] noMatch = {{{1, 2, 3}}};
-         * Arrays.fff.replaceIf(noMatch, val -> val > 100, 99);
-         * // noMatch is still {{{1, 2, 3}}}
+         * Arrays.fff.replaceIf(noMatch, val -> val > 100, 99);  // noMatch is still {{{1, 2, 3}}}
          * }</pre>
          *
          * @param <T> the type of elements in the array.
@@ -22544,13 +22398,11 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // basic: sort all elements across the full 3D structure
          * Integer[][][] arr = {{{5, 2}}, {{9, 1}}, {{3, 7}}};
-         * Arrays.fff.mutateAsFlat(arr, flat -> java.util.Arrays.sort(flat));
-         * // arr is now {{{1, 2}}, {{3, 5}}, {{7, 9}}}
+         * Arrays.fff.mutateAsFlat(arr, flat -> java.util.Arrays.sort(flat));  // arr is now {{{1, 2}}, {{3, 5}}, {{7, 9}}}
          *
          * // basic: fill every slot with a fixed value via flat index
          * String[][][] names = {{{"a", "b"}}, {{"c", "d"}}};
-         * Arrays.fff.mutateAsFlat(names, flat -> java.util.Arrays.fill(flat, "x"));
-         * // names is now {{{"x", "x"}}, {{"x", "x"}}}
+         * Arrays.fff.mutateAsFlat(names, flat -> java.util.Arrays.fill(flat, "x"));  // names is now {{{"x", "x"}}, {{"x", "x"}}}
          *
          * // edge: null array is a no-op - no exception thrown
          * Arrays.fff.mutateAsFlat((Integer[][][]) null, flat -> java.util.Arrays.sort(flat));

@@ -290,14 +290,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * BooleanList list = t.toList();        // [true, false, true, false, true, false, true, false]
      *
      * // all-true
-     * BooleanTuple.BooleanTuple8 allTrue =
-     *         BooleanTuple.of(true, true, true, true, true, true, true, true);
+     * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
      * boolean hasTrue = allTrue.contains(true);   // true
      * boolean hasFalse = allTrue.contains(false); // false
      *
      * // all-false
-     * BooleanTuple.BooleanTuple8 allFalse =
-     *         BooleanTuple.of(false, false, false, false, false, false, false, false);
+     * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
      * boolean[] arr = allFalse.toArray();    // [false, false, false, false, false, false, false, false]
      * }</pre>
      *
@@ -330,14 +328,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * String s = t.toString();               // "(true, false, true, false, true, false, true, false, true)"
      *
      * // all-true (maximum arity)
-     * BooleanTuple.BooleanTuple9 allTrue =
-     *         BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+     * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
      * boolean hasTrue = allTrue.contains(true);   // true
      * boolean hasFalse = allTrue.contains(false); // false
      *
      * // all-false
-     * BooleanTuple.BooleanTuple9 allFalse =
-     *         BooleanTuple.of(false, false, false, false, false, false, false, false, false);
+     * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
      * boolean[] arr = allFalse.toArray(); // [false, false, false, false, false, false, false, false, false]
      * }</pre>
      *
@@ -595,8 +591,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * tuple.forEach(b -> System.out.println("Value: " + b));
-     * // Prints three lines: "Value: true", "Value: false", "Value: true"
+     * tuple.forEach(b -> System.out.println("Value: " + b));  // Prints three lines: "Value: true", "Value: false", "Value: true"
      *
      * // Count true values
      * java.util.concurrent.atomic.AtomicInteger count = new java.util.concurrent.atomic.AtomicInteger();
@@ -606,8 +601,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * // edge: empty tuple - consumer is never called
      * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
      * java.util.concurrent.atomic.AtomicInteger emptyCount = new java.util.concurrent.atomic.AtomicInteger();
-     * empty.forEach(b -> emptyCount.incrementAndGet());
-     * // emptyCount is still 0
+     * empty.forEach(b -> emptyCount.incrementAndGet());  // emptyCount is still 0
      *
      * // edge: null action throws IllegalArgumentException
      * // tuple.forEach(null); // throws IllegalArgumentException
@@ -872,6 +866,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * boolean value = tuple._1;               // true
      * boolean reversed = tuple.reverse()._1;  // true (same for single element)
      * }</pre>
+     *
      */
     public static final class BooleanTuple1 extends BooleanTuple<BooleanTuple1> {
 
@@ -1064,6 +1059,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * tuple.accept((a, b) -> System.out.println(a + " XOR " + b));
      * boolean xor = tuple.map((a, b) -> a ^ b);   // true
      * }</pre>
+     *
      */
     public static final class BooleanTuple2 extends BooleanTuple<BooleanTuple2> {
 
@@ -1419,6 +1415,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * boolean allTrue = tuple.map((a, b, c) -> a && b && c);   // false
      * boolean anyTrue = tuple.map((a, b, c) -> a || b || c);   // true
      * }</pre>
+     *
      */
     public static final class BooleanTuple3 extends BooleanTuple<BooleanTuple3> {
 
@@ -1779,6 +1776,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * boolean fourth = tuple._4;               // false
      * boolean hasTrue = tuple.contains(true);  // true
      * }</pre>
+     *
      */
     public static final class BooleanTuple4 extends BooleanTuple<BooleanTuple4> {
 
@@ -2023,6 +2021,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * boolean fifth = tuple._5;                  // true
      * boolean hasFalse = tuple.contains(false);  // true
      * }</pre>
+     *
      */
     public static final class BooleanTuple5 extends BooleanTuple<BooleanTuple5> {
 
@@ -2282,6 +2281,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * boolean sixth = tuple._6;                               // false
      * BooleanTuple.BooleanTuple6 reversed = tuple.reverse();  // (false, true, false, true, false, true)
      * }</pre>
+     *
      */
     public static final class BooleanTuple6 extends BooleanTuple<BooleanTuple6> {
 
@@ -2564,6 +2564,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * boolean seventh = tuple._7;         // true
      * boolean[] array = tuple.toArray();  // [true, false, true, false, true, false, true]
      * }</pre>
+     *
      */
     public static final class BooleanTuple7 extends BooleanTuple<BooleanTuple7> {
 

@@ -790,7 +790,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte first = list.get(0);     // 10
      *
      * // modifying the list does not affect the tuple
-     * list.add((byte) 40);
+     * list.add((byte) 40);          // modifies the copy, not the tuple
      * int tupleArity = t.arity();   // still 3
      *
      * // single element
@@ -832,14 +832,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * // collect elements into a list
      * java.util.List<Byte> collected = new java.util.ArrayList<>();
-     * t.forEach(b -> collected.add(b));
-     * // collected is [10, 20, 30]
+     * t.forEach(b -> collected.add(b));  // collected is [10, 20, 30]
      *
      * // empty tuple: consumer is never invoked
      * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
      * int[] count = {0};
-     * empty.forEach(b -> count[0]++);
-     * // count[0] remains 0
+     * empty.forEach(b -> count[0]++);  // count[0] remains 0
      *
      * // null action -> throws IllegalArgumentException
      * // t.forEach(null);   // throws IllegalArgumentException
@@ -1157,6 +1155,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte min = tuple.min();  // 42 (single element)
      * byte max = tuple.max();  // 42 (single element)
      * }</pre>
+     *
      */
     public static final class ByteTuple1 extends ByteTuple<ByteTuple1> {
 
@@ -1485,6 +1484,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * tuple.accept((a, b) -> System.out.println(a + " + " + b));
      * int sum = tuple.map((a, b) -> a + b);   // 30
      * }</pre>
+     *
      */
     public static final class ByteTuple2 extends ByteTuple<ByteTuple2> {
 
@@ -1697,7 +1697,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * ByteTuple.ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
          *
          * // Print each element (prints "Value: 10" then "Value: 20" on separate lines)
-         * tuple.forEach(b -> System.out.println("Value: " + b));
+         * tuple.forEach(b -> System.out.println("Value: " + b));   // prints each element
          *
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
@@ -1740,12 +1740,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * // Update external state with both values
          * Map<String, Integer> results = new HashMap<>();
-         * tuple.accept((a, b) -> results.put("sum", (int)(a + b)));
+         * tuple.accept((a, b) -> results.put("sum", (int)(a + b)));   // stores the sum in results
          *
          * // Compare and log
          * tuple.accept((a, b) -> {
          *     if (a < b) {
-         *         System.out.println(a + " is less than " + b);
+         *         System.out.println(a + " is less than " + b);   // prints when the condition holds
          *     }
          * });
          * }</pre>
@@ -1956,6 +1956,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte max = tuple.max();         // 30
      * double avg = tuple.average();   // 20.0
      * }</pre>
+     *
      */
     public static final class ByteTuple3 extends ByteTuple<ByteTuple3> {
 
@@ -2166,7 +2167,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
          *
          * // Print each element (prints "Value: 10", "Value: 20", "Value: 30" on separate lines)
-         * tuple.forEach(b -> System.out.println("Value: " + b));
+         * tuple.forEach(b -> System.out.println("Value: " + b));   // prints each element
          *
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
@@ -2205,23 +2206,22 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
          *
          * // Print all three values
-         * tuple.accept((a, b, c) -> System.out.println(a + ", " + b + ", " + c));
-         * // Output: 10, 20, 30
+         * tuple.accept((a, b, c) -> System.out.println(a + ", " + b + ", " + c));  // Output: 10, 20, 30
          *
          * // Calculate and store result
          * Map<String, Integer> results = new HashMap<>();
-         * tuple.accept((a, b, c) -> results.put("sum", (int)(a + b + c)));
+         * tuple.accept((a, b, c) -> results.put("sum", (int)(a + b + c)));   // stores the sum in results
          *
          * // Validate and log
          * tuple.accept((a, b, c) -> {
          *     if (a < b && b < c) {
-         *         System.out.println("Values are in ascending order");
+         *         System.out.println("Values are in ascending order");   // prints when the condition holds
          *     }
          * });
          *
          * // Update external state
          * java.util.concurrent.atomic.AtomicInteger max = new java.util.concurrent.atomic.AtomicInteger();
-         * tuple.accept((a, b, c) -> max.set(Math.max(Math.max(a, b), c)));
+         * tuple.accept((a, b, c) -> max.set(Math.max(Math.max(a, b), c)));   // stores the max in max
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -2434,6 +2434,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte fourth = tuple._4;        // 40
      * byte median = tuple.median();  // 20
      * }</pre>
+     *
      */
     public static final class ByteTuple4 extends ByteTuple<ByteTuple4> {
 
@@ -2663,7 +2664,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
          *
          * // Print each element (each println produces its own line)
-         * tuple.forEach(b -> System.out.println("Value: " + b));
+         * tuple.forEach(b -> System.out.println("Value: " + b));   // prints each element
          *
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
@@ -2796,6 +2797,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte fifth = tuple._5;  // 50
      * int sum = tuple.sum();  // 150
      * }</pre>
+     *
      */
     public static final class ByteTuple5 extends ByteTuple<ByteTuple5> {
 
@@ -3028,7 +3030,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * ByteTuple.ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
          *
          * // Print each element
-         * tuple.forEach(b -> System.out.println("Value: " + b));
+         * tuple.forEach(b -> System.out.println("Value: " + b));   // prints each element
          *
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
@@ -3162,6 +3164,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte sixth = tuple._6;                            // 60
      * ByteTuple.ByteTuple6 reversed = tuple.reverse();  // (60, 50, 40, 30, 20, 10)
      * }</pre>
+     *
      */
     public static final class ByteTuple6 extends ByteTuple<ByteTuple6> {
 
@@ -3397,7 +3400,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * ByteTuple.ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
          *
          * // Print each element
-         * tuple.forEach(b -> System.out.println("Value: " + b));
+         * tuple.forEach(b -> System.out.println("Value: " + b));   // prints each element
          *
          * // Collect to list
          * List<Byte> list = new ArrayList<>();
@@ -3532,6 +3535,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte seventh = tuple._7;         // 70
      * byte[] array = tuple.toArray();  // [10, 20, 30, 40, 50, 60, 70]
      * }</pre>
+     *
      */
     public static final class ByteTuple7 extends ByteTuple<ByteTuple7> {
 

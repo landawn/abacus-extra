@@ -719,7 +719,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * // Mutating the returned list does not affect the tuple
      * FloatTuple.FloatTuple2 t = FloatTuple.of(1.5f, 2.5f);
      * FloatList l = t.toList();
-     * l.add(4.0f);
+     * l.add(4.0f);                                    // modifies the copy, not the tuple
      * t.arity()                                       // still returns 2
      *
      * // Edge: empty tuple returns an empty list (not null)
@@ -750,21 +750,21 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <pre>{@code
      * // Collect elements into a list in encounter order
      * FloatList collected = FloatList.of();
-     * FloatTuple.of(1.0f, 2.0f, 3.0f).forEach(collected::add);
-     * collected.size()                                // returns 3
-     * collected.get(0)                                // returns 1.0f
+     * FloatTuple.of(1.0f, 2.0f, 3.0f).forEach(collected::add); // adds each value to collected
+     * collected.size()                                         // returns 3
+     * collected.get(0)                                         // returns 1.0f
      *
      * // Action receives elements left-to-right
      * FloatTuple.of(1.5f, 2.5f).forEach(f -> System.out.print(f + " ")); // prints "1.5 2.5 "
      *
      * // Edge: empty tuple - action is never invoked
      * FloatList empty = FloatList.of();
-     * FloatTuple.copyOf(new float[0]).forEach(empty::add);
-     * empty.size()                                    // returns 0
+     * FloatTuple.copyOf(new float[0]).forEach(empty::add); // action not invoked (empty tuple)
+     * empty.size()                                         // returns 0
      *
      * // Edge: NaN element is passed to the action as-is
      * FloatList nanList = FloatList.of();
-     * FloatTuple.of(Float.NaN).forEach(nanList::add);
+     * FloatTuple.of(Float.NaN).forEach(nanList::add); // adds the NaN element to nanList
      * Float.isNaN(nanList.get(0))                     // returns true
      * }</pre>
      *
@@ -1406,6 +1406,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * float max = t.max();       // 2.5f
      * double avg = t.average();  // 2.0
      * }</pre>
+     *
      */
     public static final class FloatTuple2 extends FloatTuple<FloatTuple2> {
 
@@ -2184,8 +2185,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
-         * // Prints: Sum: 6.0
+         * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));  // Prints: Sum: 6.0
          *
          * FloatTuple.FloatTuple3 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f);
          * float[] result = {0f};

@@ -745,7 +745,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * empty.toList().size();             // returns 0
      *
      * // Edge: list is mutable but independent - adding does not affect tuple
-     * list.add((short) 4);
+     * list.add((short) 4);               // modifies the copy, not the tuple
      * t.arity();                         // still returns 3
      * }</pre>
      *
@@ -772,19 +772,19 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      *
      * // Accumulate sum externally
      * java.util.concurrent.atomic.AtomicInteger total = new java.util.concurrent.atomic.AtomicInteger();
-     * t.forEach(v -> total.addAndGet(v));
-     * total.get();                       // returns 6
+     * t.forEach(v -> total.addAndGet(v));   // adds each value to total
+     * total.get();                          // returns 6
      *
      * // Collect visited values
      * java.util.List<Short> visited = new java.util.ArrayList<>();
-     * t.forEach(v -> visited.add(v));
-     * visited;                           // returns [1, 2, 3]
+     * t.forEach(v -> visited.add(v));   // collects each value into visited
+     * visited;                          // returns [1, 2, 3]
      *
      * // Edge: empty tuple - consumer is never called
      * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
      * java.util.concurrent.atomic.AtomicInteger cnt = new java.util.concurrent.atomic.AtomicInteger();
-     * empty.forEach(v -> cnt.incrementAndGet());
-     * cnt.get();                         // returns 0
+     * empty.forEach(v -> cnt.incrementAndGet());   // action not invoked (empty tuple)
+     * cnt.get();                                   // returns 0
      *
      * // Edge: null action throws
      * // t.forEach(null);                   // throws IllegalArgumentException
@@ -1101,6 +1101,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * short value = single._1;   // 42
      * short min = single.min();  // 42 (single element)
      * }</pre>
+     *
      */
     public static final class ShortTuple1 extends ShortTuple<ShortTuple1> {
 
@@ -1437,6 +1438,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
      * int product = pair.map((a, b) -> a * b);   // 15
      * }</pre>
+     *
      */
     public static final class ShortTuple2 extends ShortTuple<ShortTuple2> {
 
@@ -1667,8 +1669,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * <pre>{@code
          * ShortTuple.ShortTuple2 t = ShortTuple.of((short) 3, (short) 7);
          * // Iterate and print each element
-         * t.forEach(v -> System.out.println(v));
-         * // Prints: 3 then 7
+         * t.forEach(v -> System.out.println(v));  // Prints: 3 then 7
          *
          * // Accumulate sum externally
          * int[] total = {0};
@@ -1682,8 +1683,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * ShortTuple.ShortTuple2 bounds = ShortTuple.of(Short.MIN_VALUE, Short.MAX_VALUE);
          * int[] count = {0};
-         * bounds.forEach(v -> count[0]++);
-         * // count[0] == 2
+         * bounds.forEach(v -> count[0]++);  // count[0] == 2
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -1928,6 +1928,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
      * int sum = triple.map((a, b, c) -> a + b + c);   // 10
      * }</pre>
+     *
      */
     public static final class ShortTuple3 extends ShortTuple<ShortTuple3> {
 
@@ -2160,8 +2161,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * <pre>{@code
          * ShortTuple.ShortTuple3 t = ShortTuple.of((short) 1, (short) 2, (short) 3);
          * // Print each element
-         * t.forEach(v -> System.out.println(v));
-         * // Prints: 1 then 2 then 3
+         * t.forEach(v -> System.out.println(v));  // Prints: 1 then 2 then 3
          *
          * // Accumulate sum externally
          * int[] total = {0};
@@ -2175,8 +2175,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * ShortTuple.ShortTuple3 bounds = ShortTuple.of(Short.MIN_VALUE, (short) 0, Short.MAX_VALUE);
          * int[] count = {0};
-         * bounds.forEach(v -> count[0]++);
-         * // count[0] == 3
+         * bounds.forEach(v -> count[0]++);  // count[0] == 3
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -2414,6 +2413,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * ShortTuple.ShortTuple4 quad = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
      * double avg = quad.average();   // 2.5
      * }</pre>
+     *
      */
     public static final class ShortTuple4 extends ShortTuple<ShortTuple4> {
 
@@ -2748,6 +2748,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
      * short median = tuple.median();   // 3
      * }</pre>
+     *
      */
     public static final class ShortTuple5 extends ShortTuple<ShortTuple5> {
 
@@ -3086,6 +3087,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * ShortTuple.ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
      * int sum = tuple.sum();   // 21
      * }</pre>
+     *
      */
     public static final class ShortTuple6 extends ShortTuple<ShortTuple6> {
 
@@ -3428,6 +3430,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * ShortTuple.ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
      * ShortTuple.ShortTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
+     *
      */
     public static final class ShortTuple7 extends ShortTuple<ShortTuple7> {
 

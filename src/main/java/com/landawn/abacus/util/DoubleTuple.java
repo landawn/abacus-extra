@@ -66,7 +66,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * // NaN is a valid element
      * DoubleTuple.DoubleTuple1 nan = DoubleTuple.of(Double.NaN);
-     * assertTrue(Double.isNaN(nan._1));
+     * assertTrue(Double.isNaN(nan._1));   // _1 is NaN
      * }</pre>
      *
      * @param _1 the double value to store in the tuple
@@ -766,8 +766,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * // Empty tuple: consumer is never called
      * int[] count = {0};
-     * DoubleTuple.copyOf(new double[0]).forEach(d -> count[0]++);
-     * int callCount = count[0];   // 0
+     * DoubleTuple.copyOf(new double[0]).forEach(d -> count[0]++);   // action not invoked (empty tuple)
+     * int callCount = count[0];                                     // 0
      *
      * // null action throws IllegalArgumentException
      * // tuple.forEach(null);   // throws IllegalArgumentException
@@ -1410,6 +1410,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double max = t.max();       // 2.5
      * double avg = t.average();   // 2.0
      * }</pre>
+     *
      */
     public static final class DoubleTuple2 extends DoubleTuple<DoubleTuple2> {
 
@@ -1670,8 +1671,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * // Prints: 3.0 + 4.0 = 7.0
          *
          * DoubleTuple.DoubleTuple2 coordinates = DoubleTuple.of(10.5, 20.3);
-         * coordinates.accept((x, y) -> System.out.printf("Point: (%.1f, %.1f)%n", x, y));
-         * // Prints: Point: (10.5, 20.3)
+         * coordinates.accept((x, y) -> System.out.printf("Point: (%.1f, %.1f)%n", x, y));  // Prints: Point: (10.5, 20.3)
          *
          * // accumulating a result via a mutable container
          * double[] product = {1.0};
@@ -2131,16 +2131,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-         * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
-         * // Prints: Sum: 6.0
+         * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));  // Prints: Sum: 6.0
          *
          * DoubleTuple.DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
-         * dimensions.accept((l, w, h) -> System.out.printf("Volume: %.1f%n", l * w * h));
-         * // Prints: Volume: 30.0
+         * dimensions.accept((l, w, h) -> System.out.printf("Volume: %.1f%n", l * w * h));  // Prints: Volume: 30.0
          *
          * DoubleTuple.DoubleTuple3 rgb = DoubleTuple.of(0.5, 0.7, 0.3);
-         * rgb.accept((r, g, b) -> System.out.printf("Color: RGB(%.1f, %.1f, %.1f)%n", r, g, b));
-         * // Prints: Color: RGB(0.5, 0.7, 0.3)
+         * rgb.accept((r, g, b) -> System.out.printf("Color: RGB(%.1f, %.1f, %.1f)%n", r, g, b));  // Prints: Color: RGB(0.5, 0.7, 0.3)
          *
          * // accumulating into a mutable container; negative values
          * double[] result = {0};

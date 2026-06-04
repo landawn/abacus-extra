@@ -33,6 +33,8 @@ Task: Deep, line-by-line review of existing Javadoc across ./src/main/java
 	
 -- Output: Each agent reports its findings as a structured list — grouped by file, citing file_path:line_number, with: (a) the criterion violated, (b) the exact problem, and (c) a suggested correction. Then consolidate all agents' findings into a single deduplicated report, ordered by file, and summarize the most common/systemic issues at the top.
 
+-- Then go ahead to fix all the found issues.
+
 
 ==============================================================================================================================================
 
