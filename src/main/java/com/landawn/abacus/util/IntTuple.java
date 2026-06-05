@@ -986,7 +986,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns a tuple with the elements in reverse order.
          * For an empty tuple, returns itself as there are no elements to reverse.
          *
-         * @return this empty tuple
+         * @return this {@code IntTuple0} instance
          */
         @Override
         public IntTuple0 reverse() {
@@ -998,7 +998,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * An empty tuple contains no values.
          *
          * @param valueToFind the int value to search for
-         * @return {@code false} always, as the tuple is empty
+         * @return {@code false} always, because the tuple is empty
          */
         @Override
         public boolean contains(final int valueToFind) {

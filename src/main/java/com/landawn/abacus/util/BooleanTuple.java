@@ -441,7 +441,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * Returns a tuple with the elements in reverse order.
+     * Returns a new tuple with the elements in reverse order.
      * <p>
      * This method returns a tuple containing all elements in reversed order. The original
      * tuple remains unchanged as tuples are immutable.
@@ -823,7 +823,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * An empty tuple never contains any value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code false} always, since this tuple contains no elements
+         * @return {@code false} always, because the tuple is empty
          */
         @Override
         public boolean contains(final boolean valueToFind) {

@@ -398,8 +398,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * char min2 = t2.min();               // 'Z'
      *
      * // Edge: single-element tuple - min equals the element itself
-     * CharTuple.CharTuple1 t3 = CharTuple.of(' ');
-     * char min3 = t3.min();               // ' '
+     * CharTuple.CharTuple1 t3 = CharTuple.of('\0');
+     * char min3 = t3.min();               // '\0'
      *
      * // Edge: empty tuple throws NoSuchElementException
      * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
@@ -1057,7 +1057,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified char value.
-         * Since this tuple is empty, this method always returns false.
+         * Since this tuple is empty, this method always returns {@code false}.
          *
          * @param valueToFind the char value to search for
          * @return {@code false} always, because the tuple is empty

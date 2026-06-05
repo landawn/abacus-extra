@@ -960,7 +960,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public float min() {
@@ -972,7 +972,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public float max() {
@@ -984,7 +984,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public float median() {
@@ -1007,7 +1007,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public double average() {
@@ -1030,7 +1030,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * Since this tuple is empty, this method always returns {@code false}.
          *
          * @param valueToFind the float value to search for
-         * @return {@code false} always, as there are no elements
+         * @return {@code false} always, because the tuple is empty
          */
         @Override
         public boolean contains(final float valueToFind) {

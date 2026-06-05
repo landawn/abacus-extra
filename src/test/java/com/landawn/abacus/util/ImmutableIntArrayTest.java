@@ -1145,8 +1145,7 @@ class ImmutableIntArrayTest extends TestBase {
 
             java.util.Arrays.fill(src, 0); // mutate the source after copying
 
-            assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, array.copyOfRange(0, array.length()),
-                    "copyOf must take a defensive snapshot");
+            assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, array.copyOfRange(0, array.length()), "copyOf must take a defensive snapshot");
         }
 
         @Test
@@ -1258,8 +1257,7 @@ class ImmutableIntArrayTest extends TestBase {
 
                 start.countDown();
                 for (final java.util.concurrent.Future<Boolean> f : futures) {
-                    assertTrue(f.get(30, java.util.concurrent.TimeUnit.SECONDS),
-                            "concurrent reads of an immutable instance must stay consistent");
+                    assertTrue(f.get(30, java.util.concurrent.TimeUnit.SECONDS), "concurrent reads of an immutable instance must stay consistent");
                 }
             } finally {
                 pool.shutdownNow();

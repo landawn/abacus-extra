@@ -14676,8 +14676,7 @@ class ArraysTest extends TestBase {
 
                 final int[][] reshaped = Arrays.reshape(a, cols);
                 assertArrayEquals(snapshot, a, "reshape must not mutate its input");
-                assertArrayEquals(a, Arrays.flatten(reshaped),
-                        "flatten(reshape(a, cols)) must equal a for len=" + len + ", cols=" + cols);
+                assertArrayEquals(a, Arrays.flatten(reshaped), "flatten(reshape(a, cols)) must equal a for len=" + len + ", cols=" + cols);
 
                 if (len > 0) {
                     final int fullRows = len / cols;
@@ -15031,8 +15030,7 @@ class ArraysTest extends TestBase {
         @Test
         public void toShort_byteArr_widensWithSignExtension() {
             // (byte) -1 must widen to (short) -1, not 255.
-            assertArrayEquals(new short[] { 10, 20, 30, -1, -128, 127 },
-                    Arrays.toShort(new byte[] { 10, 20, 30, -1, -128, 127 }));
+            assertArrayEquals(new short[] { 10, 20, 30, -1, -128, 127 }, Arrays.toShort(new byte[] { 10, 20, 30, -1, -128, 127 }));
         }
 
         @Test
@@ -15278,9 +15276,7 @@ class ArraysTest extends TestBase {
         public void toInt_floatArr_nanAndInfinity() {
             // Per JLS 5.1.3: NaN -> 0, +Infinity -> Integer.MAX_VALUE, -Infinity -> Integer.MIN_VALUE.
             // Out-of-range finite values also saturate.
-            final int[] r = Arrays.toInt(new float[] {
-                    Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY,
-                    1e30f, -1e30f });
+            final int[] r = Arrays.toInt(new float[] { Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, 1e30f, -1e30f });
             assertEquals(0, r[0]);
             assertEquals(Integer.MAX_VALUE, r[1]);
             assertEquals(Integer.MIN_VALUE, r[2]);
@@ -15334,9 +15330,7 @@ class ArraysTest extends TestBase {
 
         @Test
         public void toInt_doubleArr_nanAndInfinity() {
-            final int[] r = Arrays.toInt(new double[] {
-                    Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
-                    1e30, -1e30 });
+            final int[] r = Arrays.toInt(new double[] { Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, 1e30, -1e30 });
             assertEquals(0, r[0]);
             assertEquals(Integer.MAX_VALUE, r[1]);
             assertEquals(Integer.MIN_VALUE, r[2]);
@@ -15384,8 +15378,7 @@ class ArraysTest extends TestBase {
 
         @Test
         public void toLong_byteArr_signExtends() {
-            assertArrayEquals(new long[] { -1L, -128L, 0L, 127L },
-                    Arrays.toLong(new byte[] { -1, -128, 0, 127 }));
+            assertArrayEquals(new long[] { -1L, -128L, 0L, 127L }, Arrays.toLong(new byte[] { -1, -128, 0, 127 }));
         }
 
         @Test
@@ -15431,8 +15424,7 @@ class ArraysTest extends TestBase {
 
         @Test
         public void toLong_shortArr_signExtends() {
-            assertArrayEquals(new long[] { -1L, -32768L, 32767L, 0L },
-                    Arrays.toLong(new short[] { -1, Short.MIN_VALUE, Short.MAX_VALUE, 0 }));
+            assertArrayEquals(new long[] { -1L, -32768L, 32767L, 0L }, Arrays.toLong(new short[] { -1, Short.MIN_VALUE, Short.MAX_VALUE, 0 }));
         }
 
         @Test
@@ -15519,14 +15511,12 @@ class ArraysTest extends TestBase {
 
         @Test
         public void toLong_floatArr_truncatesTowardZero() {
-            assertArrayEquals(new long[] { 1L, -1L, 0L, 0L },
-                    Arrays.toLong(new float[] { 1.7f, -1.7f, 0.5f, -0.5f }));
+            assertArrayEquals(new long[] { 1L, -1L, 0L, 0L }, Arrays.toLong(new float[] { 1.7f, -1.7f, 0.5f, -0.5f }));
         }
 
         @Test
         public void toLong_floatArr_nanAndInfinity() {
-            final long[] r = Arrays.toLong(new float[] {
-                    Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY });
+            final long[] r = Arrays.toLong(new float[] { Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY });
             assertEquals(0L, r[0]);
             assertEquals(Long.MAX_VALUE, r[1]);
             assertEquals(Long.MIN_VALUE, r[2]);
@@ -15572,14 +15562,12 @@ class ArraysTest extends TestBase {
 
         @Test
         public void toLong_doubleArr_truncatesTowardZero() {
-            assertArrayEquals(new long[] { 1L, -1L, 0L, 0L },
-                    Arrays.toLong(new double[] { 1.7, -1.7, 0.5, -0.5 }));
+            assertArrayEquals(new long[] { 1L, -1L, 0L, 0L }, Arrays.toLong(new double[] { 1.7, -1.7, 0.5, -0.5 }));
         }
 
         @Test
         public void toLong_doubleArr_nanAndInfinity() {
-            final long[] r = Arrays.toLong(new double[] {
-                    Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY });
+            final long[] r = Arrays.toLong(new double[] { Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY });
             assertEquals(0L, r[0]);
             assertEquals(Long.MAX_VALUE, r[1]);
             assertEquals(Long.MIN_VALUE, r[2]);
@@ -15625,8 +15613,7 @@ class ArraysTest extends TestBase {
 
         @Test
         public void toFloat_byteArr_widensExact() {
-            assertArrayEquals(new float[] { -1f, 0f, 127f, -128f },
-                    Arrays.toFloat(new byte[] { -1, 0, 127, -128 }), 0f);
+            assertArrayEquals(new float[] { -1f, 0f, 127f, -128f }, Arrays.toFloat(new byte[] { -1, 0, 127, -128 }), 0f);
         }
 
         @Test
@@ -15669,8 +15656,7 @@ class ArraysTest extends TestBase {
 
         @Test
         public void toFloat_shortArr_widensExact() {
-            assertArrayEquals(new float[] { -1f, 32767f, -32768f },
-                    Arrays.toFloat(new short[] { -1, Short.MAX_VALUE, Short.MIN_VALUE }), 0f);
+            assertArrayEquals(new float[] { -1f, 32767f, -32768f }, Arrays.toFloat(new short[] { -1, Short.MAX_VALUE, Short.MIN_VALUE }), 0f);
         }
 
         @Test
@@ -15827,8 +15813,7 @@ class ArraysTest extends TestBase {
 
         @Test
         public void toDouble_byteArr_widensExact() {
-            assertArrayEquals(new double[] { -1d, 0d, 127d, -128d },
-                    Arrays.toDouble(new byte[] { -1, 0, 127, -128 }), 0d);
+            assertArrayEquals(new double[] { -1d, 0d, 127d, -128d }, Arrays.toDouble(new byte[] { -1, 0, 127, -128 }), 0d);
         }
 
         @Test
@@ -15871,8 +15856,7 @@ class ArraysTest extends TestBase {
 
         @Test
         public void toDouble_shortArr_widensExact() {
-            assertArrayEquals(new double[] { -1d, 32767d, -32768d },
-                    Arrays.toDouble(new short[] { -1, Short.MAX_VALUE, Short.MIN_VALUE }), 0d);
+            assertArrayEquals(new double[] { -1d, 32767d, -32768d }, Arrays.toDouble(new short[] { -1, Short.MAX_VALUE, Short.MIN_VALUE }), 0d);
         }
 
         @Test
@@ -16190,8 +16174,7 @@ class ArraysTest extends TestBase {
             // resolveCommonAssignableType will only find Object as a common ancestor when
             // at least one of the two types is a concrete class (so the BFS climbs through
             // its superclass chain to Object).
-            assertFalse(d.containsKey(Object.class),
-                    "Starting from an interface, Object is unreachable (interface.getSuperclass() == null)");
+            assertFalse(d.containsKey(Object.class), "Starting from an interface, Object is unreachable (interface.getSuperclass() == null)");
         }
 
         @Test
@@ -16367,8 +16350,8 @@ class ArraysTest extends TestBase {
 
         @Test
         public void ff_zipWithDefaults_bothNullThrows() {
-            assertThrows(IllegalArgumentException.class, () -> ff.zip((Integer[][]) null, (Integer[][]) null, (Integer) null, (Integer) null,
-                    (x, y) -> (x == null ? 0 : x) + (y == null ? 0 : y)));
+            assertThrows(IllegalArgumentException.class,
+                    () -> ff.zip((Integer[][]) null, (Integer[][]) null, (Integer) null, (Integer) null, (x, y) -> (x == null ? 0 : x) + (y == null ? 0 : y)));
         }
 
         // --------------------------------------------------------------------

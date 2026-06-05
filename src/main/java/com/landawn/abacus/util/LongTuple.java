@@ -1045,7 +1045,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Returns a tuple with the elements in reverse order.
          * For an empty tuple, returns itself as there are no elements to reverse.
          *
-         * @return this empty tuple
+         * @return this {@code LongTuple0} instance
          */
         @Override
         public LongTuple0 reverse() {
@@ -1057,7 +1057,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * An empty tuple contains no values.
          *
          * @param valueToFind the long value to search for
-         * @return {@code false} always, as the tuple is empty
+         * @return {@code false} always, because the tuple is empty
          */
         @Override
         public boolean contains(final long valueToFind) {

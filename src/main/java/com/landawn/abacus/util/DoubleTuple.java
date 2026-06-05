@@ -977,7 +977,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public double min() {
@@ -989,7 +989,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public double max() {
@@ -1001,7 +1001,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public double median() {
@@ -1024,7 +1024,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public double average() {
@@ -1047,7 +1047,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Since this tuple is empty, this method always returns {@code false}.
          *
          * @param valueToFind the double value to search for
-         * @return {@code false} always, as there are no elements
+         * @return {@code false} always, because the tuple is empty
          */
         @Override
         public boolean contains(final double valueToFind) {

@@ -2684,6 +2684,7 @@ public sealed class Arrays permits Arrays.f {
      * @param columnCount the number of columns for the reshaped array.
      * @return a two-dimensional boolean array with the specified number of columns.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
+     * @see #reshape(boolean[], int, int) for reshaping into a three-dimensional array
      */
     public static boolean[][] reshape(final boolean[] a, final int columnCount) throws IllegalArgumentException {
         checkColsForReshape(columnCount);
@@ -2734,6 +2735,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a three-dimensional boolean array with the specified number of rows and columns.
      * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
      *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @see #reshape(boolean[], int) for reshaping into a two-dimensional array
      */
     public static boolean[][][] reshape(final boolean[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rowCount, columnCount);
@@ -2785,7 +2787,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-     * @see #flatten(boolean[][][]) for flattening three-dimensional arrays
+     * @see #flatten(boolean[][][]) for three-dimensional arrays
      * @see #mutateAsFlat(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static boolean[] flatten(final boolean[][] a) {
@@ -2849,7 +2851,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(elementCount(a));
 
-        final boolean[] c = new boolean[count];
+        final boolean[] result = new boolean[count];
         int from = 0;
 
         for (final boolean[][] element : a) {
@@ -2862,13 +2864,13 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                N.copy(booleans, 0, c, from, booleans.length);
+                N.copy(booleans, 0, result, from, booleans.length);
 
                 from += booleans.length;
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -4480,6 +4482,7 @@ public sealed class Arrays permits Arrays.f {
      * @param columnCount the number of columns in the new two-dimensional array.
      * @return a new two-dimensional character array.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
+     * @see #reshape(char[], int, int) for reshaping into a three-dimensional array
      */
     public static char[][] reshape(final char[] a, final int columnCount) throws IllegalArgumentException {
         checkColsForReshape(columnCount);
@@ -4531,6 +4534,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new three-dimensional character array.
      * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
      *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @see #reshape(char[], int) for reshaping into a two-dimensional array
      */
     public static char[][][] reshape(final char[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rowCount, columnCount);
@@ -4583,7 +4587,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-     * @see #flatten(char[][][]) for flattening three-dimensional arrays
+     * @see #flatten(char[][][]) for three-dimensional arrays
      * @see #mutateAsFlat(char[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static char[] flatten(final char[][] a) {
@@ -13311,7 +13315,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-     * @see #flatten(float[][][]) for flattening three-dimensional arrays
+     * @see #flatten(float[][][]) for three-dimensional arrays
      * @see #mutateAsFlat(float[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static float[] flatten(final float[][] a) {
@@ -15065,7 +15069,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-     * @see #flatten(double[][][]) for flattening three-dimensional arrays
+     * @see #flatten(double[][][]) for three-dimensional arrays
      * @see #mutateAsFlat(double[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static double[] flatten(final double[][] a) {
@@ -20147,8 +20151,7 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to an int value using the provided function.
-         * This method transforms an object array into a primitive int array by applying
-         * the provided function to each element.
+         * This is a convenience method for transforming object arrays to int arrays.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -20200,8 +20203,7 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a long value using the provided function.
-         * This method transforms an object array into a primitive long array by applying
-         * the provided function to each element.
+         * This is a convenience method for transforming object arrays to long arrays.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -20253,8 +20255,7 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a float value using the provided function.
-         * This method transforms an object array into a primitive float array by applying
-         * the provided function to each element.
+         * This is a convenience method for transforming object arrays to float arrays.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -20306,8 +20307,7 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a double value using the provided function.
-         * This method transforms an object array into a primitive double array by applying
-         * the provided function to each element.
+         * This is a convenience method for transforming object arrays to double arrays.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21983,7 +21983,7 @@ public sealed class Arrays permits Arrays.f {
          * }</pre>
          *
          * @param a the two-dimensional array to count elements in (can be {@code null}).
-         * @return the total number of elements across all sub-arrays, or 0 if the array is {@code null}.
+         * @return the total number of elements across all sub-arrays, or 0 if the array is {@code null} or empty.
          */
         public static long elementCount(final Object[][] a) {
             if (N.isEmpty(a)) {

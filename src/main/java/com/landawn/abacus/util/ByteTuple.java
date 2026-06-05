@@ -675,7 +675,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns a tuple with the elements in reverse order.
+     * Returns a new tuple with the elements in reverse order.
      * <p>
      * This method returns a NEW tuple containing all elements in reversed order. The original
      * tuple remains unchanged as tuples are immutable.
@@ -1108,7 +1108,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
-         * Since this tuple is empty, always returns false.
+         * Since this tuple is empty, always returns {@code false}.
          *
          * @param valueToFind the byte value to search for
          * @return {@code false} always, because the tuple is empty

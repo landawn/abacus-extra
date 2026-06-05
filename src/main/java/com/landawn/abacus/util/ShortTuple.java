@@ -1059,7 +1059,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * An empty tuple never contains any value.
          *
          * @param valueToFind the short value to search for
-         * @return {@code false} always, because this tuple contains no elements
+         * @return {@code false} always, because the tuple is empty
          */
         @Override
         public boolean contains(final short valueToFind) {
