@@ -20563,7 +20563,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          */
         public static <T> T[] flatten(final T[][] a) throws IllegalArgumentException {
-            N.checkArgNotNull(a, "The input array must not be null");
+            N.checkArgNotNull(a, "a");
 
             final int count = Numbers.toIntExact(elementCount(a));
 
@@ -20671,8 +20671,8 @@ public sealed class Arrays permits Arrays.f {
          * Integer[][] result = Arrays.ff.map(single, x -> x + 1);
          * // result is {{8}}
          *
-         * // Edge: null input throws NullPointerException (cannot infer element type)
-         * Arrays.ff.map((Integer[][]) null, x -> x * 2); // throws NullPointerException
+         * // Edge: null input throws IllegalArgumentException (cannot infer element type)
+         * Arrays.ff.map((Integer[][]) null, x -> x * 2); // throws IllegalArgumentException
          * }</pre>
          *
          * @param <T> the type of elements in both source and result arrays.
@@ -20680,11 +20680,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
          * @return a new two-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
-         * @throws NullPointerException if {@code a} is {@code null}.
+         * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a mapped value is not assignable to the inferred runtime element type.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
+            N.checkArgNotNull(a, "a");
             final Class<T> initialTargetElementType = (Class<T>) a.getClass().getComponentType().getComponentType();
             final Object[][] mappedValues = map(a, mapper, Object.class);
             final Class<T> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
@@ -22357,7 +22358,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          */
         public static <T> T[] flatten(final T[][][] a) throws IllegalArgumentException {
-            N.checkArgNotNull(a, "The input array must not be null");
+            N.checkArgNotNull(a, "a");
 
             final int count = Numbers.toIntExact(elementCount(a));
 
@@ -22466,8 +22467,8 @@ public sealed class Arrays permits Arrays.f {
          * String[][][] upper = Arrays.fff.map(words, String::toUpperCase);
          * // upper is {{{"HELLO"}}, {{"WORLD"}}}
          *
-         * // edge: null array throws NullPointerException
-         * Arrays.fff.map((Integer[][][]) null, n -> n * 2); // throws NullPointerException
+         * // edge: null array throws IllegalArgumentException
+         * Arrays.fff.map((Integer[][][]) null, n -> n * 2); // throws IllegalArgumentException
          *
          * // edge: single-element array
          * Integer[][][] single = {{{7}}};
@@ -22480,11 +22481,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
          * @return a new three-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
-         * @throws NullPointerException if {@code a} is {@code null}.
+         * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a mapped value is not assignable to the inferred runtime element type.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
+            N.checkArgNotNull(a, "a");
             final Class<T> initialTargetElementType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
             final Object[][][] mappedValues = map(a, mapper, Object.class);
             final Class<T> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);

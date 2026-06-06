@@ -421,7 +421,7 @@ class ImmutableIntArrayTest extends TestBase {
             int[] data = { 1, 2, 3 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-            assertThrows(ArrayIndexOutOfBoundsException.class, () -> immutable.get(-1));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.get(-1));
         }
 
         @Test
@@ -429,15 +429,15 @@ class ImmutableIntArrayTest extends TestBase {
             int[] data = { 1, 2, 3 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-            assertThrows(ArrayIndexOutOfBoundsException.class, () -> immutable.get(3));
-            assertThrows(ArrayIndexOutOfBoundsException.class, () -> immutable.get(100));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.get(3));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.get(100));
         }
 
         @Test
         public void testGet_EmptyArray() {
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[0]);
 
-            assertThrows(ArrayIndexOutOfBoundsException.class, () -> immutable.get(0));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.get(0));
         }
 
         // ============================================

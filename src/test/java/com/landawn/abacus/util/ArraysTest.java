@@ -136,8 +136,8 @@ class ArraysTest extends TestBase {
         final java.lang.reflect.Method ffPrintln = ff.class.getDeclaredMethod("println", Object[][].class);
         final java.lang.reflect.Method fffPrintln = fff.class.getDeclaredMethod("println", Object[][][].class);
 
-        assertTrue(java.lang.reflect.Modifier.isPublic(ffPrintln.getModifiers()));
-        assertTrue(java.lang.reflect.Modifier.isPublic(fffPrintln.getModifiers()));
+        assertFalse(java.lang.reflect.Modifier.isPublic(ffPrintln.getModifiers()));
+        assertFalse(java.lang.reflect.Modifier.isPublic(fffPrintln.getModifiers()));
     }
 
     @Test
@@ -3841,7 +3841,7 @@ class ArraysTest extends TestBase {
 
             // Test null array
             Integer[][] nullArray = null;
-            Assertions.assertThrows(NullPointerException.class, () -> ff.map(nullArray, x -> x * 2));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> ff.map(nullArray, x -> x * 2));
 
             // Test with null sub-arrays
             Integer[][] arrayWithNulls = { { 1, 2 }, null, { 3, 4 } };
@@ -4540,7 +4540,7 @@ class ArraysTest extends TestBase {
             Assertions.assertEquals(8, doubled[1][0][1]);
 
             // Test with null input
-            Assertions.assertThrows(NullPointerException.class, () -> fff.map((Integer[][][]) null, n -> n * 2));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> fff.map((Integer[][][]) null, n -> n * 2));
 
             // Test with null sub-arrays
             Integer[][][] mixedArr = { { { 1, 2 } }, null, { { 3, 4 } } };

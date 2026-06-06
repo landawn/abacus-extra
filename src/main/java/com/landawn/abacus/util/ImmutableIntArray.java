@@ -478,7 +478,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
-        N.checkArgNotNull(action);
+        N.checkArgNotNull(action, "action");
 
         for (int i = 0; i < length; i++) {
             action.accept(elements[i]);
@@ -532,7 +532,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #forEach(Throwables.IntConsumer)
      */
     public <E extends Exception> void forEachIndexed(final Throwables.IntIntConsumer<E> action) throws IllegalArgumentException, E {
-        N.checkArgNotNull(action);
+        N.checkArgNotNull(action, "action");
 
         for (int i = 0; i < length; i++) {
             action.accept(i, elements[i]);
