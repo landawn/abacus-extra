@@ -22100,7 +22100,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the two-dimensional array to print (can be {@code null}).
          * @return the string representation that was printed.
          */
-        public static String println(final Object[][] a) {
+        static String println(final Object[][] a) {
             if (a == null) {
                 return N.println("null");
             } else if (a.length == 0) {
@@ -23553,7 +23553,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the three-dimensional array to print (can be {@code null}).
          * @return the string representation that was printed to console.
          */
-        public static String println(final Object[][][] a) {
+        static String println(final Object[][][] a) {
             if (a == null) {
                 return N.println("null");
             } else if (a.length == 0) {
