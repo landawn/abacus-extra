@@ -132,6 +132,15 @@ class ArraysTest extends TestBase {
     }
 
     @Test
+    public void testObjectArrayPrintlnHelpersArePublicApi() throws Exception {
+        final java.lang.reflect.Method ffPrintln = ff.class.getDeclaredMethod("println", Object[][].class);
+        final java.lang.reflect.Method fffPrintln = fff.class.getDeclaredMethod("println", Object[][][].class);
+
+        assertTrue(java.lang.reflect.Modifier.isPublic(ffPrintln.getModifiers()));
+        assertTrue(java.lang.reflect.Modifier.isPublic(fffPrintln.getModifiers()));
+    }
+
+    @Test
     public void testFffZipWithDefaultsSupportsNullLeftInput() throws Exception {
         Integer[][][] right = { { { 1, 2 } } };
 
