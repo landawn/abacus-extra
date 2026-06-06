@@ -440,6 +440,17 @@ class ImmutableIntArrayTest extends TestBase {
             assertThrows(IndexOutOfBoundsException.class, () -> immutable.get(0));
         }
 
+        @Test
+        public void testGet_ThrowsArrayIndexOutOfBoundsByDesign() {
+            // By design, get(index) is a bare array access (no N.checkElementIndex call), so an
+            // out-of-range index surfaces as ArrayIndexOutOfBoundsException.
+            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
+
+            for (int badIndex : new int[] { -1, 3, 100 }) {
+                assertThrows(ArrayIndexOutOfBoundsException.class, () -> immutable.get(badIndex));
+            }
+        }
+
         // ============================================
         // Tests for forEach() method
         // ============================================

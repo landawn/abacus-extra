@@ -431,7 +431,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #length()
      */
     public int get(final int index) {
-        return elements[index];
+        return elements[index]; // No need to call N.checkElementIndex(index, length)
     }
 
     /**
