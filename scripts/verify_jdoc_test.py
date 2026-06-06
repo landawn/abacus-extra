@@ -64,7 +64,13 @@ def parse_fqcn(test_path: str) -> str:
     with open(test_path, encoding="utf-8") as fh:
         src = fh.read()
     pkg_m = re.search(r"^\s*package\s+([\w.]+)\s*;", src, re.M)
-    cls_m = re.search(r"\b(?:public\s+)?(?:final\s+)?class\s+(\w+)", src)
+    # Strip comments before locating the class declaration so that the word
+    # "class" appearing inside a Javadoc/line comment (e.g. "... after the class
+    # is green.") is not mistaken for the real declaration -- which would yield a
+    # bogus fqcn like ".is" and make JUnit discovery fail to load the class.
+    no_comments = re.sub(r"/\*.*?\*/", " ", src, flags=re.S)
+    no_comments = re.sub(r"//[^\n]*", " ", no_comments)
+    cls_m = re.search(r"\b(?:public\s+)?(?:final\s+)?(?:abstract\s+)?class\s+(\w+)", no_comments)
     if not cls_m:
         raise SystemExit(f"could not find a class declaration in {test_path}")
     cls = cls_m.group(1)
