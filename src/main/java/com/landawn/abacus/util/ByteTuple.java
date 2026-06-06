@@ -1108,7 +1108,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified byte value.
-         * Since this tuple is empty, always returns {@code false}.
+         * Since this tuple is empty, this method always returns {@code false}.
          *
          * @param valueToFind the byte value to search for
          * @return {@code false} always, because the tuple is empty
@@ -1129,8 +1129,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * For an empty tuple, returns an empty byte array.
+         * Returns the shared empty byte array.
          *
          * @return an empty byte array
          */
@@ -1711,7 +1710,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
@@ -1753,7 +1752,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer to apply to both elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          * @see #forEach(Throwables.ByteConsumer)
          * @see #map(Throwables.ByteBiFunction)
          */
@@ -1795,7 +1794,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
          * @return the result of applying the bi-function to both elements (may be {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception during execution
+         * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ByteBiConsumer)
          * @see #filter(Throwables.ByteBiPredicate)
          */
@@ -2181,7 +2180,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
@@ -2227,7 +2226,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer to apply to all three elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          * @see #forEach(Throwables.ByteConsumer)
          * @see #map(Throwables.ByteTriFunction)
          */
@@ -2274,7 +2273,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
          * @return the result of applying the tri-function to all three elements (may be {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception during execution
+         * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ByteTriConsumer)
          * @see #filter(Throwables.ByteTriPredicate)
          */
@@ -2681,7 +2680,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
@@ -3047,7 +3046,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
@@ -3417,7 +3416,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
@@ -3805,7 +3804,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
@@ -4223,7 +4222,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
@@ -4653,7 +4652,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {

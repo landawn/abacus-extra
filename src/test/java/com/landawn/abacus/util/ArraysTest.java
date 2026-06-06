@@ -166,44 +166,81 @@ class ArraysTest extends TestBase {
     }
 
     @Test
-    public void testFfMapInferredTypeSupportsCovariantInput() throws Exception {
+    public void testFfMapInferredTypeRejectsRuntimeComponentWidening() throws Exception {
         Number[][] input = new Integer[][] { { 1, 2 } };
 
-        Number[][] out = ff.map(input, n -> n.longValue() + 1L);
+        assertThrows(IllegalArgumentException.class, () -> ff.map(input, n -> n.longValue() + 1L));
+
+        Number[][] out = ff.map(input, n -> n.longValue() + 1L, Number.class);
 
         Assertions.assertEquals(2L, out[0][0]);
         Assertions.assertEquals(3L, out[0][1]);
+        Assertions.assertEquals(Number[][].class, out.getClass());
     }
 
     @Test
-    public void testFffMapInferredTypeSupportsCovariantInput() throws Exception {
+    public void testFffMapInferredTypeRejectsRuntimeComponentWidening() throws Exception {
         Number[][][] input = new Integer[][][] { { { 1, 2 } } };
 
-        Number[][][] out = fff.map(input, n -> n.longValue() + 1L);
+        assertThrows(IllegalArgumentException.class, () -> fff.map(input, n -> n.longValue() + 1L));
+
+        Number[][][] out = fff.map(input, n -> n.longValue() + 1L, Number.class);
 
         Assertions.assertEquals(2L, out[0][0][0]);
         Assertions.assertEquals(3L, out[0][0][1]);
+        Assertions.assertEquals(Number[][][].class, out.getClass());
     }
 
     @Test
-    public void testFfZipInferredTypeSupportsCovariantInput() throws Exception {
+    public void testFfZipInferredTypeRejectsRuntimeComponentWidening() throws Exception {
         Number[][] left = new Integer[][] { { 1, 2 } };
         Number[][] right = new Number[][] { { 10L, 20L } };
 
-        Number[][] out = ff.zip(left, right, (x, y) -> y);
+        assertThrows(IllegalArgumentException.class, () -> ff.zip(left, right, (x, y) -> y));
+
+        Number[][] out = ff.zip(left, right, (x, y) -> y, Number.class);
 
         Assertions.assertEquals(10L, out[0][0]);
         Assertions.assertEquals(20L, out[0][1]);
+        Assertions.assertEquals(Number[][].class, out.getClass());
     }
 
     @Test
-    public void testFfZipWithDefaultsInferredTypeSupportsCovariantInput() throws Exception {
+    public void testFfZipWithDefaultsInferredTypeRejectsRuntimeComponentWidening() throws Exception {
         Number[][] right = new Number[][] { { 10L, 20L } };
 
-        Number[][] out = ff.zip((Number[][]) null, right, (Number) 0, (Number) 0L, (x, y) -> y);
+        assertThrows(IllegalArgumentException.class, () -> ff.zip((Number[][]) null, right, (Number) 0, (Number) 0L, (x, y) -> y));
+
+        Number[][] out = ff.zip((Number[][]) null, right, (Number) 0, (Number) 0L, (x, y) -> y, Number.class);
 
         Assertions.assertEquals(10L, out[0][0]);
         Assertions.assertEquals(20L, out[0][1]);
+        Assertions.assertEquals(Number[][].class, out.getClass());
+    }
+
+    @Test
+    public void testFfMapInferredTypeRejectsAmbiguousInterfaceTarget() throws Exception {
+        java.io.Serializable[][] input = new Integer[][] { { 1 } };
+
+        assertThrows(IllegalArgumentException.class, () -> ff.map(input, x -> "s"));
+
+        java.io.Serializable[][] out = ff.map(input, x -> "s", java.io.Serializable.class);
+
+        Assertions.assertEquals("s", out[0][0]);
+        Assertions.assertEquals(java.io.Serializable[][].class, out.getClass());
+    }
+
+    @Test
+    public void testFffZipInferredTypeRejectsAmbiguousInterfaceTarget() throws Exception {
+        java.io.Serializable[][][] left = new Integer[][][] { { { 1 } } };
+        String[][][] right = { { { "x" } } };
+
+        assertThrows(IllegalArgumentException.class, () -> fff.zip(left, right, (x, y) -> y));
+
+        java.io.Serializable[][][] out = fff.zip(left, right, (x, y) -> y, java.io.Serializable.class);
+
+        Assertions.assertEquals("x", out[0][0][0]);
+        Assertions.assertEquals(java.io.Serializable[][][].class, out.getClass());
     }
 
     // Cover nested empty/null array shape handling and trailing zip branches.

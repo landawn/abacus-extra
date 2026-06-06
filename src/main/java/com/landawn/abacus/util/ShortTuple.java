@@ -1045,7 +1045,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns this empty tuple (reversing an empty tuple has no effect).
+         * Returns this empty tuple instance.
+         * Since this tuple has no elements, reversing has no effect.
          *
          * @return this {@code ShortTuple0} instance
          */
@@ -1056,7 +1057,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Checks if this tuple contains the specified short value.
-         * An empty tuple never contains any value.
+         * Since this tuple is empty, this method always returns {@code false}.
          *
          * @param valueToFind the short value to search for
          * @return {@code false} always, because the tuple is empty
@@ -1079,7 +1080,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns the shared empty short array.
          *
-         * @return {@link N#EMPTY_SHORT_ARRAY}, the canonical empty short array
+         * @return an empty short array
          */
         @Override
         protected short[] elements() {
@@ -1731,7 +1732,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          * @see #map(Throwables.ShortBiFunction)
          * @see #filter(Throwables.ShortBiPredicate)
          */
@@ -1766,7 +1767,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper function (may be {@code null} if the mapper returns {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception during execution
+         * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ShortBiConsumer)
          * @see #filter(Throwables.ShortBiPredicate)
          */
@@ -2224,7 +2225,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param <E> the type of exception that the action may throw
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          * @see #map(Throwables.ShortTriFunction)
          * @see #filter(Throwables.ShortTriPredicate)
          */
@@ -2259,7 +2260,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper function (may be {@code null} if the mapper returns {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception during execution
+         * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ShortTriConsumer)
          * @see #filter(Throwables.ShortTriPredicate)
          */

@@ -771,7 +771,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param <E> the type of exception that may be thrown by the action
      * @param action the action to be performed for each element; must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
-     * @throws E if the action throws an exception
+     * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
         N.checkArgNotNull(action);
@@ -1048,10 +1048,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the internal (empty) array of float elements.
-         * Returns the shared {@code N.EMPTY_FLOAT_ARRAY} singleton.
+         * Returns the shared empty float array.
          *
-         * @return a shared empty float array
+         * @return an empty float array
          */
         @Override
         protected float[] elements() {

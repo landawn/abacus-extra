@@ -1046,7 +1046,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns this empty tuple (reversing an empty tuple has no effect).
+         * Returns this empty tuple instance.
+         * Since this tuple has no elements, reversing has no effect.
          *
          * @return this {@code CharTuple0} instance
          */
@@ -1078,8 +1079,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the internal array of char elements.
-         * For an empty tuple, returns an empty char array.
+         * Returns the shared empty char array.
          *
          * @return an empty char array
          */
@@ -1689,7 +1689,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
@@ -1730,7 +1730,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer action to be performed on both elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          * @see #forEach(Throwables.CharConsumer)
          * @see #map(Throwables.CharBiFunction)
          */
@@ -1768,7 +1768,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
          * @return the result of applying the mapping function to both elements (may be {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception during execution
+         * @throws E if the mapper throws an exception
          * @see #accept(Throwables.CharBiConsumer)
          * @see #filter(Throwables.CharBiPredicate)
          */
@@ -2195,7 +2195,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
@@ -2237,7 +2237,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer action to be performed on all three elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          * @see #forEach(Throwables.CharConsumer)
          * @see #map(Throwables.CharTriFunction)
          */
@@ -2275,7 +2275,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
          * @return the result of applying the mapping function to all three elements (may be {@code null})
          * @throws NullPointerException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception during execution
+         * @throws E if the mapper throws an exception
          * @see #accept(Throwables.CharTriConsumer)
          * @see #filter(Throwables.CharTriPredicate)
          */
@@ -2705,7 +2705,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
@@ -3106,7 +3106,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
@@ -3511,7 +3511,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
@@ -3921,7 +3921,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
@@ -4339,7 +4339,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
@@ -4761,7 +4761,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {

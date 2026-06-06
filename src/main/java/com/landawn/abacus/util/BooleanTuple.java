@@ -809,7 +809,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns this empty tuple (reversing an empty tuple yields itself).
+         * Returns this empty tuple instance.
+         * Since this tuple has no elements, reversing has no effect.
          *
          * @return this {@code BooleanTuple0} instance
          */
@@ -820,7 +821,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Checks if this tuple contains the specified boolean value.
-         * An empty tuple never contains any value.
+         * Since this tuple is empty, this method always returns {@code false}.
          *
          * @param valueToFind the boolean value to search for
          * @return {@code false} always, because the tuple is empty
@@ -841,8 +842,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * For an empty tuple, returns an empty boolean array.
+         * Returns the shared empty boolean array.
          *
          * @return an empty boolean array
          */
@@ -1212,7 +1212,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer action to be performed on both elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          * @see #forEach(Throwables.BooleanConsumer)
          * @see #map(Throwables.BooleanBiFunction)
          */
@@ -1251,7 +1251,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
          * @return the result of applying the mapping function to both elements; may be {@code null} if the mapper returns {@code null}
          * @throws NullPointerException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception during execution
+         * @throws E if the mapper throws an exception
          * @see #accept(Throwables.BooleanBiConsumer)
          * @see #filter(Throwables.BooleanBiPredicate)
          */
@@ -1579,7 +1579,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer action to be performed on all three elements, must not be {@code null}
          * @throws NullPointerException if {@code action} is {@code null}
-         * @throws E if the action throws an exception during execution
+         * @throws E if the action throws an exception
          * @see #forEach(Throwables.BooleanConsumer)
          * @see #map(Throwables.BooleanTriFunction)
          */
@@ -1617,7 +1617,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
          * @return the result of applying the mapping function to all three elements; may be {@code null} if the mapper returns {@code null}
          * @throws NullPointerException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception during execution
+         * @throws E if the mapper throws an exception
          * @see #accept(Throwables.BooleanTriConsumer)
          * @see #filter(Throwables.BooleanTriPredicate)
          */

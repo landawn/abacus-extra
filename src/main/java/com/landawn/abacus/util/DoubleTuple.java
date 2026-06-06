@@ -776,7 +776,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param <E> the type of exception that may be thrown by the action
      * @param action the action to be performed for each element; must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
-     * @throws E if the action throws an exception
+     * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
         N.checkArgNotNull(action);
@@ -1065,10 +1065,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the internal (empty) array of double elements.
-         * Returns the shared {@code N.EMPTY_DOUBLE_ARRAY} singleton.
+         * Returns the shared empty double array.
          *
-         * @return a shared empty double array
+         * @return an empty double array
          */
         @Override
         protected double[] elements() {

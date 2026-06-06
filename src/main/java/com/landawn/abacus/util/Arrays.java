@@ -993,7 +993,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Single-element: value less than threshold rounds down
      * long[] single = {999L};
-     * String[] singleResult = Arrays.mapToObj(single, l -> l / 1000 + "M", String.class);
+     * String[] singleResult = Arrays.mapToObj(single, l -> l / 1000000 + "M", String.class);
      * // returns ["0M"]
      *
      * // Null input - returns empty array
@@ -3266,7 +3266,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
@@ -3530,7 +3530,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
@@ -3853,7 +3853,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Finds the minimum length among all sub-arrays in a two-dimensional boolean array.
-     * Returns 0 if the input array is {@code null} or empty.
+     * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3895,7 +3895,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Finds the maximum length among all sub-arrays in a two-dimensional boolean array.
-     * Returns 0 if the input array is {@code null} or empty.
+     * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4248,8 +4248,8 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.updateAll(array, c -> Character.toUpperCase(c));  // array is now {{'A', 'B'}, {'C'}}
      *
      * // Basic: shift every character by 1
-     * char[][] grid = {{'x', 'y'}, {'z'}};
-     * Arrays.updateAll(grid, c -> (char)(c + 1));  // grid is now {{'y', 'z'}, {'{'}}
+     * char[][] grid = {{'x', 'y'}, {'a'}};
+     * Arrays.updateAll(grid, c -> (char)(c + 1));  // grid is now {{'y', 'z'}, {'b'}}
      *
      * // Edge: null array - no-op, no exception thrown
      * Arrays.updateAll((char[][]) null, c -> Character.toUpperCase(c));
@@ -4674,10 +4674,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array,
+     * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array,
      * and then copies the modified elements back into the original two-dimensional array.
      * This allows for applying one-dimensional array operations (like sorting) across a two-dimensional structure.
-     * The operation is performed in-place on the original two-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4733,10 +4732,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional array, performs an operation on the resulting one-dimensional array,
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array,
      * and then copies the modified elements back into the original three-dimensional array.
      * This allows for applying one-dimensional array operations (like sorting) across a three-dimensional structure.
-     * The operation is performed in-place on the original three-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5073,7 +5071,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
@@ -5327,7 +5325,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
@@ -6383,7 +6381,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
+     * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * <p><b>Usage Examples:</b></p>
@@ -6686,7 +6684,7 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueA the default value to use when array 'a' is shorter.
      * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
-     * @return a new array with length equal to the length of the longer input array.
+     * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte defaultValueA, final byte defaultValueB,
@@ -6865,7 +6863,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
@@ -6916,7 +6914,7 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
-     * @return a new two-dimensional array with outer length equal to the length of the longer input array.
+     * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte defaultValueA, final byte defaultValueB,
@@ -7097,7 +7095,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
-     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
@@ -7148,7 +7146,7 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
-     * @return a new three-dimensional array with outer length equal to the length of the longer input array.
+     * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte defaultValueA, final byte defaultValueB,
@@ -7388,8 +7386,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Finds the minimum length among all sub-arrays in a two-dimensional byte array.
-     * Null sub-arrays are treated as having length 0.
-     * Returns 0 if the input array is {@code null} or empty.
+     * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7432,8 +7429,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Finds the maximum length among all sub-arrays in a two-dimensional byte array.
-     * Null sub-arrays are treated as having length 0.
-     * Returns 0 if the input array is {@code null} or empty.
+     * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8208,7 +8204,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
+     * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * Useful for applying one-dimensional operations (e.g., sorting) across an irregular two-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
@@ -9123,7 +9119,6 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Finds the minimum length among all sub-arrays in a two-dimensional short array.
      * A null sub-array is considered to have a length of 0.
-     * Returns 0 if the array is {@code null} or empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9167,7 +9162,6 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Finds the maximum length among all sub-arrays in a two-dimensional short array.
      * A null sub-array is considered to have a length of 0.
-     * Returns 0 if the array is {@code null} or empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10009,7 +10003,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
+     * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      *
      * <p>This method provides a convenient way to apply operations that work on one-dimensional arrays to two-dimensional arrays.
      * The array is flattened, the operation is applied to the flattened array, and then the values
@@ -11715,7 +11709,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
+     * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13092,7 +13086,8 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces each element of a two-dimensional float array with the specified new value if it satisfies the given predicate.
-     * The modification is done in-place.
+     * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13133,7 +13128,8 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces each element of a three-dimensional float array with the specified new value if it satisfies the given predicate.
-     * The modification is done in-place.
+     * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13408,7 +13404,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
+     * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This is useful for applying operations like sorting to the entire set of elements
      * in a multi-dimensional array.
      *
@@ -15156,9 +15152,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
+     * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This allows for operations like sorting across the entire two-dimensional array.
-     * The modification happens in-place on the original two-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15212,7 +15207,6 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This allows for operations like sorting across the entire three-dimensional array.
-     * The modification happens in-place on the original three-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15348,7 +15342,7 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueA the default value to use when array 'a' is shorter.
      * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
-     * @return a new array with length equal to the length of the longer input array.
+     * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double defaultValueA, final double defaultValueB,
@@ -15572,7 +15566,7 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
-     * @return a new two-dimensional array with outer length equal to the length of the longer input array.
+     * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double defaultValueA, final double defaultValueB,
@@ -15806,7 +15800,7 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
-     * @return a new three-dimensional array with outer length equal to the length of the longer input array.
+     * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double defaultValueA, final double defaultValueB,
@@ -16047,7 +16041,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the minimum length of any sub-array in a two-dimensional array.
+     * Finds the minimum length among all sub-arrays in a two-dimensional double array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -16089,7 +16083,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the maximum length of any sub-array in a two-dimensional array.
+     * Finds the maximum length among all sub-arrays in a two-dimensional double array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -20656,8 +20650,9 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p>This method creates a new array with the same dimensions as the input array,
          * where each element is the result of applying the function to the corresponding input element.
-         * The element type of the result is inferred from {@code a} and widened as needed to hold every
-         * mapped value.</p>
+         * The element type of the result is inferred from the runtime component type of {@code a};
+         * mapped values must be assignable to that component type. Use the overload with
+         * {@code targetElementType} for type-changing mappings.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -20684,8 +20679,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
-         * @return a new two-dimensional array with mapped elements; the element type is inferred from {@code a} and widened as needed to hold every mapped value.
+         * @return a new two-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
          * @throws NullPointerException if {@code a} is {@code null}.
+         * @throws IllegalArgumentException if a mapped value is not assignable to the inferred runtime element type.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
@@ -21640,13 +21636,13 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Scans all elements of a two-dimensional mapped-value array and widens the target element
-         * type as necessary so that every element is assignable to the returned type.
+         * Scans all elements of a two-dimensional mapped-value array and verifies that every
+         * element is assignable to the inferred target element type.
          *
          * @param <T> the candidate element type.
          * @param initialTargetElementType the starting type, possibly inferred from the source array.
          * @param mappedValues the mapped result values whose runtime types are inspected.
-         * @return the most specific common type that is assignable from every non-null element.
+         * @return the inferred target type.
          */
         @SuppressWarnings("unchecked")
         static <T> Class<T> inferTargetElementType(final Class<T> initialTargetElementType, final Object[][] mappedValues) {
@@ -21664,13 +21660,13 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Scans all elements of a three-dimensional mapped-value array and widens the target element
-         * type as necessary so that every element is assignable to the returned type.
+         * Scans all elements of a three-dimensional mapped-value array and verifies that every
+         * element is assignable to the inferred target element type.
          *
          * @param <T> the candidate element type.
          * @param initialTargetElementType the starting type, possibly inferred from the source array.
          * @param mappedValues the mapped result values whose runtime types are inspected.
-         * @return the most specific common type that is assignable from every non-null element.
+         * @return the inferred target type.
          */
         static <T> Class<T> inferTargetElementType(final Class<T> initialTargetElementType, final Object[][][] mappedValues) {
             Class<T> targetElementType = initialTargetElementType;
@@ -21683,15 +21679,15 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Returns a type that is at least as wide as {@code currentTargetElementType} and is also
-         * assignable from the runtime type of {@code value}.  If {@code value} is {@code null} or
-         * already assignable to {@code currentTargetElementType}, the current type is returned
-         * unchanged; otherwise the common assignable ancestor is computed.
+         * Verifies that {@code value} is assignable to {@code currentTargetElementType}. If
+         * {@code value} is {@code null} or already assignable to {@code currentTargetElementType},
+         * the current type is returned unchanged; otherwise callers must use an overload that
+         * accepts an explicit target element type.
          *
          * @param <T> the current candidate type.
          * @param currentTargetElementType the previously inferred element type, or {@code null} if none.
-         * @param value a mapped result value whose runtime type may require widening.
-         * @return the widened element type, never {@code null}.
+         * @param value a mapped result value.
+         * @return the current element type, never {@code null}.
          */
         @SuppressWarnings("unchecked")
         static <T> Class<T> widenTargetElementType(final Class<T> currentTargetElementType, final Object value) {
@@ -21703,7 +21699,10 @@ public sealed class Arrays permits Arrays.f {
                 return currentTargetElementType;
             }
 
-            return (Class<T>) resolveCommonAssignableType(currentTargetElementType, value.getClass());
+            // return (Class<T>) resolveCommonAssignableType(currentTargetElementType, value.getClass());
+
+            throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + currentTargetElementType.getName()
+                    + " for mapped value type " + value.getClass().getName() + ". Use the overload with targetElementType.");
         }
 
         /**
@@ -22001,7 +22000,7 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Finds the minimum length among all sub-arrays in a two-dimensional array.
-         * Null sub-arrays are treated as having length 0.
+         * A null sub-array is considered to have a length of 0.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22043,7 +22042,7 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Finds the maximum length among all sub-arrays in a two-dimensional array.
-         * Null sub-arrays are treated as having length 0.
+         * A null sub-array is considered to have a length of 0.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22155,8 +22154,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This class contains the {@code T[][][]} variants of the bulk update, reshape, flatten, map,
      * and zip operations exposed by {@link Arrays}. The compact name is deliberate and mirrors
-     * {@link f} and {@link ff} for convenient static import usage. Like {@link ff}, this class does
-     * not extend {@link Arrays}; only {@link f} inherits the parent class's static methods.</p>
+     * {@link Arrays.f} and {@link Arrays.ff} for convenient static import usage. Like {@link Arrays.ff}, this class does
+     * not extend {@link Arrays}; only {@link Arrays.f} inherits the parent class's static methods.</p>
      *
      * @see Arrays.f
      * @see Arrays.ff
@@ -22480,8 +22479,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
-         * @return a new three-dimensional array with mapped elements; the element type is inferred from {@code a} and widened as needed to hold every mapped value.
+         * @return a new three-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
          * @throws NullPointerException if {@code a} is {@code null}.
+         * @throws IllegalArgumentException if a mapped value is not assignable to the inferred runtime element type.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
