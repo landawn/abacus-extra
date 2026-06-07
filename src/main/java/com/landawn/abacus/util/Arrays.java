@@ -4106,7 +4106,7 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(array);
      * // Prints and returns: "[[[true, false],\n  [false, true]],\n [[true]]]"
      *
-     * // Block with null and empty inner row; then a null block
+     * // A block with a single inner row, then a null block
      * boolean[][][] mixed = {{{true}}, null};
      * String mixed3D = Arrays.println(mixed);
      * // Prints and returns: "[[[true]],\n null]"
@@ -12940,7 +12940,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.updateAll(d, x -> x / 0f);  // d is now [Infinity, Infinity]
      * }</pre>
      *
-     * @param <E> the type of exception that can be thrown by the operator.
+     * @param <E> the type of exception that may be thrown by the operator.
      * @param a the array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
@@ -12980,7 +12980,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.updateAll(g3, x -> x * 2.0f);  // g3[0][0] is NaN (NaN * 2 == NaN), g3[0][1] is 4.0
      * }</pre>
      *
-     * @param <E> the type of exception that can be thrown by the operator.
+     * @param <E> the type of exception that may be thrown by the operator.
      * @param a the two-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
@@ -13020,7 +13020,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.updateAll(c3, x -> x / 0f);  // c3[0][0][0] is NaN (NaN / 0 == NaN), c3[0][0][1] is Infinity
      * }</pre>
      *
-     * @param <E> the type of exception that can be thrown by the operator.
+     * @param <E> the type of exception that may be thrown by the operator.
      * @param a the three-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
@@ -13064,7 +13064,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.replaceIf(d, v -> Float.isInfinite(v), 99.0f);  // d is now [99.0, 2.0]
      * }</pre>
      *
-     * @param <E> the type of exception that can be thrown by the predicate.
+     * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the array to be modified (can be {@code null}).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
@@ -13108,7 +13108,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.replaceIf(g3, v -> Float.isNaN(v), 0.0f);  // g3[0] is now [0.0, 2.0]; g3[1][0] remains Infinity
      * }</pre>
      *
-     * @param <E> the type of exception that can be thrown by the predicate.
+     * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the two-dimensional array to be modified (can be {@code null}).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
@@ -13153,7 +13153,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.replaceIf(c4, v -> Float.isInfinite(v), 0.0f);  // c4[0][0] is now [0.0, 1.0]
      * }</pre>
      *
-     * @param <E> the type of exception that can be thrown by the predicate.
+     * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the three-dimensional array to be modified (can be {@code null}).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
@@ -13427,7 +13427,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.mutateAsFlat(g3, arr -> java.util.Arrays.sort(arr));  // Flat sorted order: [1.0, 2.0, 3.0, NaN]; copied back: g3[0]={1.0,2.0}, g3[1]={3.0,NaN}
      * }</pre>
      *
-     * @param <E> the type of exception that can be thrown by the operation.
+     * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional array to operate on (can be {@code null}).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
@@ -13480,7 +13480,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.mutateAsFlat(c3, arr -> java.util.Arrays.sort(arr));  // Flat sorted order: [1.0, 2.0, 3.0, NaN]; c3[0][0]={1.0,2.0}, c3[1][0]={3.0,NaN}
      * }</pre>
      *
-     * @param <E> the type of exception that can be thrown by the operation.
+     * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional array to operate on (can be {@code null}).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.

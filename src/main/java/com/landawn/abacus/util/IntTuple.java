@@ -3253,10 +3253,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple7 t = (IntTuple.IntTuple7) IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+         * IntTuple.IntTuple7 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
          * t.arity(); // returns 7
          *
-         * IntTuple.IntTuple7 t2 = (IntTuple.IntTuple7) IntTuple.of(0, 0, 0, 0, 0, 0, 0);
+         * IntTuple.IntTuple7 t2 = IntTuple.of(0, 0, 0, 0, 0, 0, 0);
          * t2.arity(); // returns 7
          * }</pre>
          *
