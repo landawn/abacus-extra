@@ -1,7 +1,7 @@
 # abacus-extra 
  
-[![Maven Central](https://img.shields.io/maven-central/v/com.landawn.abacus/abacus-extra.svg)](https://central.sonatype.com/artifact/com.landawn.abacus/abacus-extra/3.7.3)
-[![Javadocs](https://img.shields.io/badge/javadoc-3.7.3-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn.abacus/abacus-extra/3.7.3/index.html)
+[![Maven Central](https://img.shields.io/maven-central/v/com.landawn.abacus/abacus-extra.svg)](https://central.sonatype.com/artifact/com.landawn.abacus/abacus-extra/3.7.6)
+[![Javadocs](https://img.shields.io/badge/javadoc-3.7.6-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn.abacus/abacus-extra/3.7.6/index.html)
 
 Additional utility types for the Abacus ecosystem, focused on primitive tuples, point/value records, array helpers, and related supporting APIs.
 
@@ -24,7 +24,7 @@ Additional utility types for the Abacus ecosystem, focused on primitive tuples, 
 * Gradle:
 ```gradle
 // JDK 17 or above:
-compile 'com.landawn.abacus:abacus-extra:3.7.3'
+compile 'com.landawn.abacus:abacus-extra:3.7.6'
 ```
 
 
