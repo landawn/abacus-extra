@@ -9152,8 +9152,8 @@ public sealed class Arrays permits Arrays.f {
 
         int minLen = Integer.MAX_VALUE;
 
-        for (final short[] shorts : a) {
-            minLen = N.min(minLen, shorts == null ? 0 : shorts.length);
+        for (final short[] ae : a) {
+            minLen = N.min(minLen, ae == null ? 0 : ae.length);
         }
 
         return minLen;
@@ -21595,15 +21595,16 @@ public sealed class Arrays permits Arrays.f {
             final int lenB = N.len(b);
             final int lenC = N.len(c);
             final int len = N.max(lenA, lenB, lenC); // Use max to ensure we cover the longest array
+            final int minLen = N.min(lenA, lenB, lenC);
 
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
-            for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
+            for (int i = 0; i < minLen; i++) {
                 result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType);
             }
 
-            if (N.min(lenA, lenB, lenC) < len) {
-                for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
+            if (minLen < len) {
+                for (int i = minLen; i < len; i++) {
                     result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                             zipFunction, targetElementType);
                 }
@@ -21940,15 +21941,16 @@ public sealed class Arrays permits Arrays.f {
             final int lenB = N.len(b);
             final int lenC = N.len(c);
             final int len = N.max(lenA, lenB, lenC); // Use max to ensure we cover the longest array
+            final int minLen = N.min(lenA, lenB, lenC);
 
             final R[] result = N.newArray(targetElementType, len);
 
-            for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
+            for (int i = 0; i < minLen; i++) {
                 result[i] = zipFunction.apply(a[i], b[i], c[i]);
             }
 
-            if (N.min(lenA, lenB, lenC) < len) {
-                for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
+            if (minLen < len) {
+                for (int i = minLen; i < len; i++) {
                     result[i] = zipFunction.apply(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
                 }
             }
@@ -23435,15 +23437,16 @@ public sealed class Arrays permits Arrays.f {
             final int lenB = N.len(b);
             final int lenC = N.len(c);
             final int len = N.max(lenA, lenB, lenC);
+            final int minLen = N.min(lenA, lenB, lenC);
 
             final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
-            for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
+            for (int i = 0; i < minLen; i++) {
                 result[i] = ff.zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType);
             }
 
-            if (N.min(lenA, lenB, lenC) < len) {
-                for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
+            if (minLen < len) {
+                for (int i = minLen; i < len; i++) {
                     result[i] = ff.zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                             zipFunction, targetElementType);
                 }
