@@ -252,6 +252,80 @@ class ArraysTest extends TestBase {
         Assertions.assertEquals(java.io.Serializable[][][].class, out.getClass());
     }
 
+    @Test
+    public void testFfTernaryZipInferredTypeRejectsRuntimeComponentWidening() throws Exception {
+        Number[][] left = new Integer[][] { { 1, 2 } };
+        Number[][] second = new Number[][] { { 10L, 20L } };
+        Number[][] third = new Number[][] { { 100L, 200L } };
+
+        assertThrows(IllegalArgumentException.class, () -> ff.zip(left, second, third, (x, y, z) -> z));
+
+        Number[][] out = ff.zip(left, second, third, (x, y, z) -> z, Number.class);
+
+        Assertions.assertEquals(100L, out[0][0]);
+        Assertions.assertEquals(200L, out[0][1]);
+        Assertions.assertEquals(Number[][].class, out.getClass());
+    }
+
+    @Test
+    public void testFfTernaryZipWithDefaultsInferredTypeRejectsRuntimeComponentWidening() throws Exception {
+        Number[][] left = new Integer[][] { { 1 } };
+        Number[][] second = new Number[][] { { 10L }, { 30L } };
+        Number[][] third = new Number[][] { { 100L } };
+
+        assertThrows(IllegalArgumentException.class, () -> ff.zip(left, second, third, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> y));
+
+        Number[][] out = ff.zip(left, second, third, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> y, Number.class);
+
+        Assertions.assertEquals(10L, out[0][0]);
+        Assertions.assertEquals(30L, out[1][0]);
+        Assertions.assertEquals(Number[][].class, out.getClass());
+    }
+
+    @Test
+    public void testFffZipWithDefaultsInferredTypeRejectsRuntimeComponentWidening() throws Exception {
+        Number[][][] left = new Integer[][][] { { { 1 } } };
+        Number[][][] right = new Number[][][] { { { 10L, 20L } } };
+
+        assertThrows(IllegalArgumentException.class, () -> fff.zip(left, right, (Number) 0, (Number) 0L, (x, y) -> y));
+
+        Number[][][] out = fff.zip(left, right, (Number) 0, (Number) 0L, (x, y) -> y, Number.class);
+
+        Assertions.assertEquals(10L, out[0][0][0]);
+        Assertions.assertEquals(20L, out[0][0][1]);
+        Assertions.assertEquals(Number[][][].class, out.getClass());
+    }
+
+    @Test
+    public void testFffTernaryZipInferredTypeRejectsRuntimeComponentWidening() throws Exception {
+        Number[][][] left = new Integer[][][] { { { 1, 2 } } };
+        Number[][][] second = new Number[][][] { { { 10L, 20L } } };
+        Number[][][] third = new Number[][][] { { { 100L, 200L } } };
+
+        assertThrows(IllegalArgumentException.class, () -> fff.zip(left, second, third, (x, y, z) -> z));
+
+        Number[][][] out = fff.zip(left, second, third, (x, y, z) -> z, Number.class);
+
+        Assertions.assertEquals(100L, out[0][0][0]);
+        Assertions.assertEquals(200L, out[0][0][1]);
+        Assertions.assertEquals(Number[][][].class, out.getClass());
+    }
+
+    @Test
+    public void testFffTernaryZipWithDefaultsInferredTypeRejectsRuntimeComponentWidening() throws Exception {
+        Number[][][] left = new Integer[][][] { { { 1 } } };
+        Number[][][] second = new Number[][][] { { { 10L } }, { { 30L } } };
+        Number[][][] third = new Number[][][] { { { 100L } } };
+
+        assertThrows(IllegalArgumentException.class, () -> fff.zip(left, second, third, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> y));
+
+        Number[][][] out = fff.zip(left, second, third, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> y, Number.class);
+
+        Assertions.assertEquals(10L, out[0][0][0]);
+        Assertions.assertEquals(30L, out[1][0][0]);
+        Assertions.assertEquals(Number[][][].class, out.getClass());
+    }
+
     // Cover nested empty/null array shape handling and trailing zip branches.
     @Test
     public void testMapToObjNestedEmptyInputs_CharAndByte() throws Exception {

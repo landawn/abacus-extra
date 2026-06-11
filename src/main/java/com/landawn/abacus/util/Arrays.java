@@ -11073,7 +11073,7 @@ public sealed class Arrays permits Arrays.f {
      * <ul>
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
-     *   <li>Non-empty array: "[[element1, element2],\n [element3, element4]]" (newline between rows)</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
      *   <li>Null sub-array: "null" within the outer brackets</li>
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
@@ -11165,7 +11165,7 @@ public sealed class Arrays permits Arrays.f {
      * <ul>
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
-     *   <li>Non-empty array: outer 2D slices separated by newline + one space; inner 1D rows within a slice separated by newline + two spaces</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
      *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
      *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
      *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
@@ -21162,6 +21162,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine paired elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
+         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
@@ -21278,6 +21279,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred.
+         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
@@ -21399,6 +21401,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
+         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
@@ -21527,6 +21530,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred.
+         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
@@ -22998,6 +23002,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the binary function to combine corresponding elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
+         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
@@ -23113,6 +23118,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred.
+         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
@@ -23241,6 +23247,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the ternary function to combine corresponding elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
+         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
@@ -23366,6 +23373,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred.
+         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,

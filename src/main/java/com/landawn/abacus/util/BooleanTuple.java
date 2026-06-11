@@ -2939,8 +2939,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * BooleanTuple.BooleanTuple8 rev3 = allFalse.reverse();   // returns (false, false, false, false, false, false, false, false)
          *
          * // Palindrome tuple; reversal equals the original
-         * BooleanTuple.BooleanTuple8 asym = BooleanTuple.of(true, false, false, false, false, false, false, true);
-         * BooleanTuple.BooleanTuple8 rev4 = asym.reverse();   // returns (true, false, false, false, false, false, false, true)
+         * BooleanTuple.BooleanTuple8 palindrome = BooleanTuple.of(true, false, false, false, false, false, false, true);
+         * BooleanTuple.BooleanTuple8 rev4 = palindrome.reverse();   // returns (true, false, false, false, false, false, false, true)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple8 with the elements in reverse order
