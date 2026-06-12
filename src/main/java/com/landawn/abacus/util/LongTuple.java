@@ -17,6 +17,16 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
+import com.landawn.abacus.util.LongTuple.LongTuple0;
+import com.landawn.abacus.util.LongTuple.LongTuple1;
+import com.landawn.abacus.util.LongTuple.LongTuple2;
+import com.landawn.abacus.util.LongTuple.LongTuple3;
+import com.landawn.abacus.util.LongTuple.LongTuple4;
+import com.landawn.abacus.util.LongTuple.LongTuple5;
+import com.landawn.abacus.util.LongTuple.LongTuple6;
+import com.landawn.abacus.util.LongTuple.LongTuple7;
+import com.landawn.abacus.util.LongTuple.LongTuple8;
+import com.landawn.abacus.util.LongTuple.LongTuple9;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.LongStream;
 
@@ -26,6 +36,8 @@ import com.landawn.abacus.util.stream.LongStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
  * {@link #copyOf(long[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ *
+ * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
  * @param <TP> the concrete {@code LongTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -38,7 +50,8 @@ import com.landawn.abacus.util.stream.LongStream;
  * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
-public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP> {
+public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP>
+        permits LongTuple0, LongTuple1, LongTuple2, LongTuple3, LongTuple4, LongTuple5, LongTuple6, LongTuple7, LongTuple8, LongTuple9 {
 
     /** Lazily initialized cached array view of all tuple elements. */
     protected volatile long[] elements;

@@ -236,50 +236,10 @@ class DoubleTupleTest extends TestBase {
         assertEquals(2.0, evenTuple.median(), DELTA);
     }
 
-    // Cover the abstract outer type's inherited implementations directly.
+    // Cover built-in sealed tuple behavior directly.
     @Test
     public void testDoubleTupleBaseMethods_InheritedImplementation() {
-        class DerivedDoubleTuple extends DoubleTuple<DerivedDoubleTuple> {
-            private final double[] values;
-
-            DerivedDoubleTuple(final double... values) {
-                this.values = values;
-            }
-
-            @Override
-            public int arity() {
-                return values.length;
-            }
-
-            @Override
-            public DerivedDoubleTuple reverse() {
-                final double[] reversed = new double[values.length];
-
-                for (int i = 0; i < values.length; i++) {
-                    reversed[i] = values[values.length - 1 - i];
-                }
-
-                return new DerivedDoubleTuple(reversed);
-            }
-
-            @Override
-            public boolean contains(final double valueToFind) {
-                for (final double value : values) {
-                    if (Double.compare(value, valueToFind) == 0) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            protected double[] elements() {
-                return values;
-            }
-        }
-
-        final DerivedDoubleTuple tuple = new DerivedDoubleTuple(4.5, 1.5, 3.5, 2.5);
+        final DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(4.5, 1.5, 3.5, 2.5);
         final double[] copy = tuple.toArray();
         copy[0] = 99.5;
 
@@ -291,11 +251,10 @@ class DoubleTupleTest extends TestBase {
         assertTrue(tuple.contains(3.5));
         assertFalse(tuple.contains(8.5));
         assertEquals(4.5, tuple.toArray()[0], DELTA);
-        assertTrue(tuple.equals(new DerivedDoubleTuple(4.5, 1.5, 3.5, 2.5)));
-        assertFalse(tuple.equals(new DerivedDoubleTuple(4.5, 1.5, 3.5, 9.5)));
-        assertFalse(tuple.equals(DoubleTuple.of(4.5, 1.5, 3.5, 2.5)));
+        assertTrue(tuple.equals(DoubleTuple.of(4.5, 1.5, 3.5, 2.5)));
+        assertFalse(tuple.equals(DoubleTuple.of(4.5, 1.5, 3.5, 9.5)));
         assertFalse(tuple.equals(null));
-        assertTrue(tuple.toString().contains("4.5"));
+        assertEquals("(4.5, 1.5, 3.5, 2.5)", tuple.toString());
     }
 
     // Regression: the base DoubleTuple.min()/max()/median()/average() Javadoc states they
@@ -305,48 +264,20 @@ class DoubleTupleTest extends TestBase {
     // up-front and uses Math.min/Math.max so that NaN propagates per the concrete-arity docs.
     @Test
     public void testDoubleTupleBaseMinMaxMedianAverage_EmptyAndNaN() {
-        class DerivedDoubleTuple extends DoubleTuple<DerivedDoubleTuple> {
-            private final double[] values;
-
-            DerivedDoubleTuple(final double... values) {
-                this.values = values;
-            }
-
-            @Override
-            public int arity() {
-                return values.length;
-            }
-
-            @Override
-            public DerivedDoubleTuple reverse() {
-                return this;
-            }
-
-            @Override
-            public boolean contains(final double valueToFind) {
-                return false;
-            }
-
-            @Override
-            protected double[] elements() {
-                return values;
-            }
-        }
-
         // NaN should propagate through the base min/max scan.
-        final DerivedDoubleTuple tupleWithNaN = new DerivedDoubleTuple(1.0, Double.NaN, 2.0, 3.0);
+        final DoubleTuple.DoubleTuple4 tupleWithNaN = DoubleTuple.of(1.0, Double.NaN, 2.0, 3.0);
         assertTrue(Double.isNaN(tupleWithNaN.min()));
         assertTrue(Double.isNaN(tupleWithNaN.max()));
 
         // Without NaN, results are still correct.
-        final DerivedDoubleTuple tuple = new DerivedDoubleTuple(4.5, 1.5, 3.5, 2.5);
+        final DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(4.5, 1.5, 3.5, 2.5);
         assertEquals(1.5, tuple.min(), 0.0);
         assertEquals(4.5, tuple.max(), 0.0);
 
-        // Empty derived tuple must throw NoSuchElementException for ALL of min/max/median/average,
+        // Empty tuple must throw NoSuchElementException for ALL of min/max/median/average,
         // matching the @throws NoSuchElementException Javadoc. Previously these threw
         // IllegalArgumentException (min/max/median) or returned 0.0 silently (average).
-        final DerivedDoubleTuple empty = new DerivedDoubleTuple();
+        final DoubleTuple.DoubleTuple0 empty = DoubleTuple.copyOf(new double[0]);
         assertThrows(NoSuchElementException.class, empty::min);
         assertThrows(NoSuchElementException.class, empty::max);
         assertThrows(NoSuchElementException.class, empty::median);
@@ -3224,6 +3155,19 @@ class DoubleTupleTest extends TestBase {
             DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
             DoubleTuple0 reversed = tuple.reverse();
             assertSame(tuple, reversed);
+        }
+
+        @Test
+        public void test_reverse_identityContract() {
+            // reverse() returns a new object for non-empty tuples; the empty tuple returns itself
+            DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+            assertNotSame(pair, pair.reverse());
+
+            DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
+            assertNotSame(triple, triple.reverse());
+
+            DoubleTuple0 empty = DoubleTuple.copyOf(new double[0]);
+            assertSame(empty, empty.reverse());
         }
 
         @Test

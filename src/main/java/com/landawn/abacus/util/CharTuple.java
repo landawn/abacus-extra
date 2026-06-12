@@ -17,6 +17,16 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
+import com.landawn.abacus.util.CharTuple.CharTuple0;
+import com.landawn.abacus.util.CharTuple.CharTuple1;
+import com.landawn.abacus.util.CharTuple.CharTuple2;
+import com.landawn.abacus.util.CharTuple.CharTuple3;
+import com.landawn.abacus.util.CharTuple.CharTuple4;
+import com.landawn.abacus.util.CharTuple.CharTuple5;
+import com.landawn.abacus.util.CharTuple.CharTuple6;
+import com.landawn.abacus.util.CharTuple.CharTuple7;
+import com.landawn.abacus.util.CharTuple.CharTuple8;
+import com.landawn.abacus.util.CharTuple.CharTuple9;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.CharStream;
 
@@ -26,6 +36,8 @@ import com.landawn.abacus.util.stream.CharStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
  * {@link #copyOf(char[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ *
+ * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
  * <p><b>Numeric semantics:</b> All ordering and arithmetic operations ({@link #min()}, {@link #max()},
  * {@link #median()}, {@link #sum()}, {@link #average()}) treat each {@code char} as its unsigned
@@ -43,7 +55,8 @@ import com.landawn.abacus.util.stream.CharStream;
  * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
-public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
+public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP>
+        permits CharTuple0, CharTuple1, CharTuple2, CharTuple3, CharTuple4, CharTuple5, CharTuple6, CharTuple7, CharTuple8, CharTuple9 {
 
     /** Lazily initialized cached array view of all tuple elements. */
     protected volatile char[] elements;
@@ -580,11 +593,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged. For example, a tuple ('A', 'B', 'C') becomes
-     * ('C', 'B', 'A') when reversed.
+     * This method returns all elements in reversed order. Implementations may return {@code this}
+     * when reversal has no effect. The original tuple remains unchanged. For example, a tuple
+     * ('A', 'B', 'C') becomes ('C', 'B', 'A') when reversed.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -608,7 +621,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * char origFirst = t._1;               // still 'A'
      * }</pre>
      *
-     * @return a new tuple with the elements in reverse order
+     * @return a tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -885,40 +898,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns a string representation of this tuple.
-     * <p>
-     * Each concrete subclass overrides this method to produce a representation in which
-     * the tuple's elements are enclosed in parentheses {@code "()"} and separated by
-     * a comma and space.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Basic: three-element tuple
-     * CharTuple.CharTuple3 t3 = CharTuple.of('A', 'B', 'C');
-     * String s3 = t3.toString();           // "(A, B, C)"
-     *
-     * // Basic: two-element tuple
-     * CharTuple.CharTuple2 t2 = CharTuple.of('X', 'Y');
-     * String s2 = t2.toString();           // "(X, Y)"
-     *
-     * // Edge: single-element tuple
-     * CharTuple.CharTuple1 t1 = CharTuple.of('A');
-     * String s1 = t1.toString();           // "(A)"
-     *
-     * // Edge: empty tuple
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
-     * String sEmpty = empty.toString();    // "()"
-     * }</pre>
-     *
-     * @return a string representation of this tuple
-     */
-    @Override
-    public String toString() {
-        return N.toString(elements());
-    }
-
-    /**
      * Returns the internal array containing all char elements in this tuple.
      * <p>
      * <b>Warning:</b> The returned array is the internal representation of this tuple.
@@ -1167,7 +1146,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple1 t = CharTuple.of('Z');
          * char max = t.max();              // 'Z'
          *
-         * // Edge: high code-point char is returned unchanged
+         * // Edge: high code-unit char is returned unchanged
          * CharTuple.CharTuple1 t2 = CharTuple.of('\uFFFF');
          * char max2 = t2.max();            // '\uFFFF' (65535)
          * }</pre>
@@ -1751,7 +1730,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * CharTuple.CharTuple2 tuple = CharTuple.of('A', 'B');
          * String result = tuple.map((a, b) -> "" + a + b);   // "AB"
          *
-         * // Code-point difference: 'Z'(90) - 'A'(65) = 25
+         * // Code-unit difference: 'Z'(90) - 'A'(65) = 25
          * CharTuple.CharTuple2 zTuple = CharTuple.of('Z', 'A');
          * int diff = zTuple.map((a, b) -> (int) a - (int) b);   // 25
          *

@@ -208,31 +208,7 @@ class ByteTupleTest extends TestBase {
 
     @Test
     public void testInheritedAggregateEmptyBehavior() {
-        class EmptyByteTuple extends ByteTuple<EmptyByteTuple> {
-            private final byte[] values = new byte[0];
-
-            @Override
-            public int arity() {
-                return 0;
-            }
-
-            @Override
-            public EmptyByteTuple reverse() {
-                return this;
-            }
-
-            @Override
-            public boolean contains(final byte valueToFind) {
-                return false;
-            }
-
-            @Override
-            protected byte[] elements() {
-                return values;
-            }
-        }
-
-        final EmptyByteTuple tuple = new EmptyByteTuple();
+        final ByteTuple.ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
 
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
@@ -469,52 +445,10 @@ class ByteTupleTest extends TestBase {
         assertSame(elements1, elements2); // Should return same cached array
     }
 
-    // Cover inherited outer-type behavior and large-arity branch combinations missing from the report.
+    // Cover built-in sealed tuple behavior and large-arity branch combinations missing from the report.
     @Test
     public void testInheritedOuterMethodsForCoverage() throws Exception {
-        class DerivedByteTuple extends ByteTuple<DerivedByteTuple> {
-            private final byte[] values;
-
-            DerivedByteTuple(final byte... values) {
-                this.values = values;
-            }
-
-            @Override
-            public int arity() {
-                return values.length;
-            }
-
-            @Override
-            public DerivedByteTuple reverse() {
-                final byte[] reversed = values.clone();
-
-                for (int i = 0, j = reversed.length - 1; i < j; i++, j--) {
-                    final byte tmp = reversed[i];
-                    reversed[i] = reversed[j];
-                    reversed[j] = tmp;
-                }
-
-                return new DerivedByteTuple(reversed);
-            }
-
-            @Override
-            public boolean contains(final byte valueToFind) {
-                for (final byte value : values) {
-                    if (value == valueToFind) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            protected byte[] elements() {
-                return values;
-            }
-        }
-
-        final DerivedByteTuple tuple = new DerivedByteTuple((byte) 9, (byte) 2, (byte) 5, (byte) 1);
+        final ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 9, (byte) 2, (byte) 5, (byte) 1);
         final byte[] firstArray = tuple.toArray();
         final byte[] secondArray = tuple.toArray();
         final List<Byte> visited = new ArrayList<>();
@@ -531,12 +465,13 @@ class ByteTupleTest extends TestBase {
         assertNotSame(firstArray, secondArray);
         assertEquals(ByteList.of((byte) 9, (byte) 2, (byte) 5, (byte) 1), tuple.toList());
         assertEquals(visited, tuple.stream().boxed().toList());
-        assertEquals(tuple.hashCode(), new DerivedByteTuple((byte) 9, (byte) 2, (byte) 5, (byte) 1).hashCode());
+        assertEquals(tuple.hashCode(), ByteTuple.of((byte) 9, (byte) 2, (byte) 5, (byte) 1).hashCode());
         assertTrue(tuple.equals(tuple));
-        assertTrue(tuple.equals(new DerivedByteTuple((byte) 9, (byte) 2, (byte) 5, (byte) 1)));
+        assertTrue(tuple.equals(ByteTuple.of((byte) 9, (byte) 2, (byte) 5, (byte) 1)));
+        assertFalse(tuple.equals(ByteTuple.of((byte) 9, (byte) 2, (byte) 5, (byte) 2)));
         assertFalse(tuple.equals(null));
         assertFalse(tuple.equals("not a tuple"));
-        assertEquals("[9, 2, 5, 1]", tuple.toString());
+        assertEquals("(9, 2, 5, 1)", tuple.toString());
         assertArrayEquals(new byte[] { 1, 5, 2, 9 }, tuple.reverse().toArray());
     }
 

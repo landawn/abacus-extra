@@ -212,31 +212,7 @@ class ShortTupleTest extends TestBase {
 
     @Test
     public void testInheritedAggregateEmptyBehavior() {
-        class EmptyShortTuple extends ShortTuple<EmptyShortTuple> {
-            private final short[] values = new short[0];
-
-            @Override
-            public int arity() {
-                return 0;
-            }
-
-            @Override
-            public EmptyShortTuple reverse() {
-                return this;
-            }
-
-            @Override
-            public boolean contains(final short valueToFind) {
-                return false;
-            }
-
-            @Override
-            protected short[] elements() {
-                return values;
-            }
-        }
-
-        final EmptyShortTuple tuple = new EmptyShortTuple();
+        final ShortTuple.ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
 
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
@@ -473,52 +449,10 @@ class ShortTupleTest extends TestBase {
         assertSame(elements1, elements2); // Should return same cached array
     }
 
-    // Cover inherited outer-type behavior and large-arity branch combinations missing from the report.
+    // Cover built-in sealed tuple behavior and large-arity branch combinations missing from the report.
     @Test
     public void testInheritedOuterMethodsForCoverage() throws Exception {
-        class DerivedShortTuple extends ShortTuple<DerivedShortTuple> {
-            private final short[] values;
-
-            DerivedShortTuple(final short... values) {
-                this.values = values;
-            }
-
-            @Override
-            public int arity() {
-                return values.length;
-            }
-
-            @Override
-            public DerivedShortTuple reverse() {
-                final short[] reversed = values.clone();
-
-                for (int i = 0, j = reversed.length - 1; i < j; i++, j--) {
-                    final short tmp = reversed[i];
-                    reversed[i] = reversed[j];
-                    reversed[j] = tmp;
-                }
-
-                return new DerivedShortTuple(reversed);
-            }
-
-            @Override
-            public boolean contains(final short valueToFind) {
-                for (final short value : values) {
-                    if (value == valueToFind) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            protected short[] elements() {
-                return values;
-            }
-        }
-
-        final DerivedShortTuple tuple = new DerivedShortTuple((short) 9, (short) 2, (short) 5, (short) 1);
+        final ShortTuple.ShortTuple4 tuple = ShortTuple.of((short) 9, (short) 2, (short) 5, (short) 1);
         final short[] firstArray = tuple.toArray();
         final short[] secondArray = tuple.toArray();
         final List<Short> visited = new ArrayList<>();
@@ -535,12 +469,13 @@ class ShortTupleTest extends TestBase {
         assertNotSame(firstArray, secondArray);
         assertEquals(ShortList.of((short) 9, (short) 2, (short) 5, (short) 1), tuple.toList());
         assertEquals(visited, tuple.stream().boxed().toList());
-        assertEquals(tuple.hashCode(), new DerivedShortTuple((short) 9, (short) 2, (short) 5, (short) 1).hashCode());
+        assertEquals(tuple.hashCode(), ShortTuple.of((short) 9, (short) 2, (short) 5, (short) 1).hashCode());
         assertTrue(tuple.equals(tuple));
-        assertTrue(tuple.equals(new DerivedShortTuple((short) 9, (short) 2, (short) 5, (short) 1)));
+        assertTrue(tuple.equals(ShortTuple.of((short) 9, (short) 2, (short) 5, (short) 1)));
+        assertFalse(tuple.equals(ShortTuple.of((short) 9, (short) 2, (short) 5, (short) 2)));
         assertFalse(tuple.equals(null));
         assertFalse(tuple.equals("not a tuple"));
-        assertEquals("[9, 2, 5, 1]", tuple.toString());
+        assertEquals("(9, 2, 5, 1)", tuple.toString());
         assertArrayEquals(new short[] { 1, 5, 2, 9 }, tuple.reverse().toArray());
     }
 

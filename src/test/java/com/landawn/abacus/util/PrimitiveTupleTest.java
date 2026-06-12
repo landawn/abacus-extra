@@ -20,8 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,6 +46,67 @@ import com.landawn.abacus.util.LongTuple.LongTuple3;
 import com.landawn.abacus.util.u.Optional;
 
 class PrimitiveTupleTest extends TestBase {
+
+    @Test
+    public void testPrimitiveTupleBaseIsSealedToBuiltInFamilies() {
+        assertTrue(PrimitiveTuple.class.isSealed(), "PrimitiveTuple should be sealed");
+        assertTrue(Modifier.isAbstract(PrimitiveTuple.class.getModifiers()), "PrimitiveTuple should be abstract");
+
+        final Class<?>[] actualPermittedTypes = PrimitiveTuple.class.getPermittedSubclasses();
+        final Class<?>[] expectedPermittedTypes = { BooleanTuple.class, ByteTuple.class, CharTuple.class, DoubleTuple.class, FloatTuple.class, IntTuple.class,
+                LongTuple.class, ShortTuple.class };
+
+        assertEquals(expectedPermittedTypes.length, actualPermittedTypes.length);
+        assertEquals(Set.of(expectedPermittedTypes), Set.of(actualPermittedTypes));
+
+        for (final Class<?> permittedType : expectedPermittedTypes) {
+            assertTrue(PrimitiveTuple.class.isAssignableFrom(permittedType));
+            assertTrue(permittedType.isSealed(), permittedType.getSimpleName() + " should be sealed");
+        }
+    }
+
+    @Test
+    public void testPrimitiveTupleFamiliesAreSealedToBuiltInArities() {
+        assertSealedTupleFamily(BooleanTuple.class, BooleanTuple.BooleanTuple0.class, BooleanTuple.BooleanTuple1.class, BooleanTuple.BooleanTuple2.class,
+                BooleanTuple.BooleanTuple3.class, BooleanTuple.BooleanTuple4.class, BooleanTuple.BooleanTuple5.class, BooleanTuple.BooleanTuple6.class,
+                BooleanTuple.BooleanTuple7.class, BooleanTuple.BooleanTuple8.class, BooleanTuple.BooleanTuple9.class);
+        assertSealedTupleFamily(ByteTuple.class, ByteTuple.ByteTuple0.class, ByteTuple.ByteTuple1.class, ByteTuple.ByteTuple2.class, ByteTuple.ByteTuple3.class,
+                ByteTuple.ByteTuple4.class, ByteTuple.ByteTuple5.class, ByteTuple.ByteTuple6.class, ByteTuple.ByteTuple7.class, ByteTuple.ByteTuple8.class,
+                ByteTuple.ByteTuple9.class);
+        assertSealedTupleFamily(CharTuple.class, CharTuple.CharTuple0.class, CharTuple.CharTuple1.class, CharTuple.CharTuple2.class, CharTuple.CharTuple3.class,
+                CharTuple.CharTuple4.class, CharTuple.CharTuple5.class, CharTuple.CharTuple6.class, CharTuple.CharTuple7.class, CharTuple.CharTuple8.class,
+                CharTuple.CharTuple9.class);
+        assertSealedTupleFamily(DoubleTuple.class, DoubleTuple.DoubleTuple0.class, DoubleTuple.DoubleTuple1.class, DoubleTuple.DoubleTuple2.class,
+                DoubleTuple.DoubleTuple3.class, DoubleTuple.DoubleTuple4.class, DoubleTuple.DoubleTuple5.class, DoubleTuple.DoubleTuple6.class,
+                DoubleTuple.DoubleTuple7.class, DoubleTuple.DoubleTuple8.class, DoubleTuple.DoubleTuple9.class);
+        assertSealedTupleFamily(FloatTuple.class, FloatTuple.FloatTuple0.class, FloatTuple.FloatTuple1.class, FloatTuple.FloatTuple2.class,
+                FloatTuple.FloatTuple3.class, FloatTuple.FloatTuple4.class, FloatTuple.FloatTuple5.class, FloatTuple.FloatTuple6.class,
+                FloatTuple.FloatTuple7.class, FloatTuple.FloatTuple8.class, FloatTuple.FloatTuple9.class);
+        assertSealedTupleFamily(IntTuple.class, IntTuple.IntTuple0.class, IntTuple.IntTuple1.class, IntTuple.IntTuple2.class, IntTuple.IntTuple3.class,
+                IntTuple.IntTuple4.class, IntTuple.IntTuple5.class, IntTuple.IntTuple6.class, IntTuple.IntTuple7.class, IntTuple.IntTuple8.class,
+                IntTuple.IntTuple9.class);
+        assertSealedTupleFamily(LongTuple.class, LongTuple.LongTuple0.class, LongTuple.LongTuple1.class, LongTuple.LongTuple2.class, LongTuple.LongTuple3.class,
+                LongTuple.LongTuple4.class, LongTuple.LongTuple5.class, LongTuple.LongTuple6.class, LongTuple.LongTuple7.class, LongTuple.LongTuple8.class,
+                LongTuple.LongTuple9.class);
+        assertSealedTupleFamily(ShortTuple.class, ShortTuple.ShortTuple0.class, ShortTuple.ShortTuple1.class, ShortTuple.ShortTuple2.class,
+                ShortTuple.ShortTuple3.class, ShortTuple.ShortTuple4.class, ShortTuple.ShortTuple5.class, ShortTuple.ShortTuple6.class,
+                ShortTuple.ShortTuple7.class, ShortTuple.ShortTuple8.class, ShortTuple.ShortTuple9.class);
+    }
+
+    private static void assertSealedTupleFamily(final Class<?> tupleType, final Class<?>... permittedTypes) {
+        assertTrue(tupleType.isSealed(), tupleType.getSimpleName() + " should be sealed");
+        assertTrue(Modifier.isAbstract(tupleType.getModifiers()), tupleType.getSimpleName() + " should be abstract");
+
+        final Class<?>[] actualPermittedTypes = tupleType.getPermittedSubclasses();
+
+        assertEquals(permittedTypes.length, actualPermittedTypes.length);
+        assertEquals(Set.of(permittedTypes), Set.of(actualPermittedTypes));
+
+        for (final Class<?> permittedType : permittedTypes) {
+            assertTrue(tupleType.isAssignableFrom(permittedType));
+            assertTrue(Modifier.isFinal(permittedType.getModifiers()), permittedType.getSimpleName() + " should be final");
+        }
+    }
 
     @Test
     public void testArityThroughIntTuple() {

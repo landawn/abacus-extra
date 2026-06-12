@@ -234,52 +234,10 @@ class CharTupleTest extends TestBase {
         assertEquals(('a' + 'c') / 2.0, average, 0.001);
     }
 
-    // Cover inherited outer-type behavior and large-arity branch combinations missing from the report.
+    // Cover built-in sealed tuple behavior and large-arity branch combinations missing from the report.
     @Test
     public void testInheritedOuterMethodsForCoverage() throws Exception {
-        class DerivedCharTuple extends CharTuple<DerivedCharTuple> {
-            private final char[] values;
-
-            DerivedCharTuple(final char... values) {
-                this.values = values;
-            }
-
-            @Override
-            public int arity() {
-                return values.length;
-            }
-
-            @Override
-            public DerivedCharTuple reverse() {
-                final char[] reversed = values.clone();
-
-                for (int i = 0, j = reversed.length - 1; i < j; i++, j--) {
-                    final char tmp = reversed[i];
-                    reversed[i] = reversed[j];
-                    reversed[j] = tmp;
-                }
-
-                return new DerivedCharTuple(reversed);
-            }
-
-            @Override
-            public boolean contains(final char valueToFind) {
-                for (final char value : values) {
-                    if (value == valueToFind) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            protected char[] elements() {
-                return values;
-            }
-        }
-
-        final DerivedCharTuple tuple = new DerivedCharTuple('d', 'a', 'c', 'b');
+        final CharTuple.CharTuple4 tuple = CharTuple.of('d', 'a', 'c', 'b');
         final char[] firstArray = tuple.toArray();
         final char[] secondArray = tuple.toArray();
         final List<Character> visited = new ArrayList<>();
@@ -296,42 +254,19 @@ class CharTupleTest extends TestBase {
         assertNotSame(firstArray, secondArray);
         assertEquals(CharList.of('d', 'a', 'c', 'b'), tuple.toList());
         assertEquals(visited, tuple.stream().boxed().toList());
-        assertEquals(tuple.hashCode(), new DerivedCharTuple('d', 'a', 'c', 'b').hashCode());
+        assertEquals(tuple.hashCode(), CharTuple.of('d', 'a', 'c', 'b').hashCode());
         assertTrue(tuple.equals(tuple));
-        assertTrue(tuple.equals(new DerivedCharTuple('d', 'a', 'c', 'b')));
+        assertTrue(tuple.equals(CharTuple.of('d', 'a', 'c', 'b')));
+        assertFalse(tuple.equals(CharTuple.of('d', 'a', 'c', 'z')));
         assertFalse(tuple.equals(null));
         assertFalse(tuple.equals("not a tuple"));
-        assertEquals("[d, a, c, b]", tuple.toString());
+        assertEquals("(d, a, c, b)", tuple.toString());
         assertArrayEquals(new char[] { 'b', 'c', 'a', 'd' }, tuple.reverse().toArray());
     }
 
     @Test
     public void testInheritedAggregateEmptyBehavior() {
-        class EmptyCharTuple extends CharTuple<EmptyCharTuple> {
-            private final char[] values = new char[0];
-
-            @Override
-            public int arity() {
-                return 0;
-            }
-
-            @Override
-            public EmptyCharTuple reverse() {
-                return this;
-            }
-
-            @Override
-            public boolean contains(final char valueToFind) {
-                return false;
-            }
-
-            @Override
-            protected char[] elements() {
-                return values;
-            }
-        }
-
-        final EmptyCharTuple tuple = new EmptyCharTuple();
+        final CharTuple.CharTuple0 tuple = CharTuple.copyOf(new char[0]);
 
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);

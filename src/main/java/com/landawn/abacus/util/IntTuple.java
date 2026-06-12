@@ -17,6 +17,16 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
+import com.landawn.abacus.util.IntTuple.IntTuple0;
+import com.landawn.abacus.util.IntTuple.IntTuple1;
+import com.landawn.abacus.util.IntTuple.IntTuple2;
+import com.landawn.abacus.util.IntTuple.IntTuple3;
+import com.landawn.abacus.util.IntTuple.IntTuple4;
+import com.landawn.abacus.util.IntTuple.IntTuple5;
+import com.landawn.abacus.util.IntTuple.IntTuple6;
+import com.landawn.abacus.util.IntTuple.IntTuple7;
+import com.landawn.abacus.util.IntTuple.IntTuple8;
+import com.landawn.abacus.util.IntTuple.IntTuple9;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.IntStream;
 
@@ -26,6 +36,8 @@ import com.landawn.abacus.util.stream.IntStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
  * {@link #copyOf(int[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ *
+ * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
  * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -38,7 +50,8 @@ import com.landawn.abacus.util.stream.IntStream;
  * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
-public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
+public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP>
+        permits IntTuple0, IntTuple1, IntTuple2, IntTuple3, IntTuple4, IntTuple5, IntTuple6, IntTuple7, IntTuple8, IntTuple9 {
 
     /** Lazily initialized cached array view of all tuple elements. */
     protected volatile int[] elements;
@@ -578,10 +591,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged as tuples are immutable.
+     * This method returns all elements in reversed order. Implementations may return {@code this}
+     * when reversal has no effect. The original tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -599,13 +612,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple.IntTuple1 revSingle = single.reverse();
      * // revSingle equals IntTuple.of(42)
      *
-     * // empty tuple reverses to the same empty tuple instance
+     * // edge: empty tuple reverses to itself
      * IntTuple<?> empty = IntTuple.copyOf(new int[0]);
      * IntTuple<?> revEmpty = empty.reverse();
      * // revEmpty == empty (same object)
      * }</pre>
      *
-     * @return a new tuple with the elements in reverse order
+     * @return a tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -855,34 +868,6 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         } else {
             return N.equals(elements(), ((IntTuple<TP>) obj).elements());
         }
-    }
-
-    /**
-     * Returns a string representation of this tuple.
-     * <p>
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
-     * This format is consistent across all tuple types and provides a readable representation
-     * of the tuple's contents.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * String s3 = IntTuple.of(1, 2, 3).toString();  // returns "(1, 2, 3)"
-     *
-     * String s2 = IntTuple.of(1, 2).toString();  // returns "(1, 2)"
-     *
-     * String s1 = IntTuple.of(1).toString();  // returns "(1)"
-     *
-     * // empty tuple
-     * String s0 = IntTuple.copyOf(new int[0]).toString();  // returns "()"
-     * }</pre>
-     *
-     * @return a string representation of this tuple
-     */
-    @Override
-    public String toString() {
-        return N.toString(elements());
     }
 
     /**

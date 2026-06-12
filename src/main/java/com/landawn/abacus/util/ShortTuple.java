@@ -17,6 +17,16 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
+import com.landawn.abacus.util.ShortTuple.ShortTuple0;
+import com.landawn.abacus.util.ShortTuple.ShortTuple1;
+import com.landawn.abacus.util.ShortTuple.ShortTuple2;
+import com.landawn.abacus.util.ShortTuple.ShortTuple3;
+import com.landawn.abacus.util.ShortTuple.ShortTuple4;
+import com.landawn.abacus.util.ShortTuple.ShortTuple5;
+import com.landawn.abacus.util.ShortTuple.ShortTuple6;
+import com.landawn.abacus.util.ShortTuple.ShortTuple7;
+import com.landawn.abacus.util.ShortTuple.ShortTuple8;
+import com.landawn.abacus.util.ShortTuple.ShortTuple9;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ShortStream;
 
@@ -26,6 +36,8 @@ import com.landawn.abacus.util.stream.ShortStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
  * {@link #copyOf(short[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ *
+ * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
  * @param <TP> the concrete {@code ShortTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -38,7 +50,8 @@ import com.landawn.abacus.util.stream.ShortStream;
  * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
-public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {
+public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP>
+        permits ShortTuple0, ShortTuple1, ShortTuple2, ShortTuple3, ShortTuple4, ShortTuple5, ShortTuple6, ShortTuple7, ShortTuple8, ShortTuple9 {
 
     /** Lazily initialized cached array view of all tuple elements. */
     protected volatile short[] elements;
@@ -641,7 +654,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * ShortTuple.ShortTuple3 rev3 = t3.reverse();
      * rev3.toString();                   // returns "(3, 2, 1)"
      *
-     * // Edge: single element - reverse is itself
+     * // edge: empty tuple reverses to itself
      * ShortTuple.ShortTuple1 t1 = ShortTuple.of((short) 9);
      * t1.reverse()._1;                   // returns 9
      *
@@ -916,35 +929,6 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         } else {
             return N.equals(elements(), ((ShortTuple<TP>) obj).elements());
         }
-    }
-
-    /**
-     * Returns a string representation of this tuple.
-     * <p>
-     * Each concrete subclass overrides this method to produce a representation in which
-     * the tuple's elements are enclosed in parentheses {@code "()"} and separated by a
-     * comma and space, in the format {@code (element1, element2, ...)}. The empty tuple
-     * renders as {@code "()"}.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ShortTuple.of((short) 1).toString();                        // returns "(1)"
-     * ShortTuple.of((short) 1, (short) 2).toString();             // returns "(1, 2)"
-     * ShortTuple.of((short) 1, (short) 2, (short) 3).toString();  // returns "(1, 2, 3)"
-     *
-     * // Edge: empty tuple
-     * ShortTuple.copyOf(new short[0]).toString();        // returns "()"
-     *
-     * // Edge: negative values
-     * ShortTuple.of((short) -1, (short) -2).toString();  // returns "(-1, -2)"
-     * }</pre>
-     *
-     * @return a string representation of this tuple
-     */
-    @Override
-    public String toString() {
-        return N.toString(elements());
     }
 
     /**
@@ -2408,7 +2392,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * A tuple containing exactly four short values.
      * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple4 quad = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
@@ -2743,7 +2727,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * A tuple containing exactly five short values.
      * The values are accessible through the public final fields {@code _1} through {@code _5}.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
@@ -3082,7 +3066,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * A tuple containing exactly six short values.
      * The values are accessible through the public final fields {@code _1} through {@code _6}.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
@@ -3425,7 +3409,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * A tuple containing exactly seven short values.
      * The values are accessible through the public final fields {@code _1} through {@code _7}.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);

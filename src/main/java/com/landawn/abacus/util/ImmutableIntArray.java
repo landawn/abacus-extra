@@ -550,10 +550,10 @@ public final class ImmutableIntArray implements Immutable {
      * <p>This method is useful for applying functional transformations and operations
      * on the array elements without manually iterating through them.</p>
      *
-     * <p><b>Note:</b> the returned stream is constructed directly over the backing array; it does not
-     * make a defensive copy. When this wrapper was created via {@link #unsafeWrap(int[])}, the backing
-     * array is the caller-supplied array, so any mutation of that array will be observable through the
-     * returned stream. Use {@link #copyOf(int[])} to build the wrapper from a defensive copy if you require
+     * <p><b>Note:</b> for non-empty arrays, the returned stream is constructed directly over the backing
+     * array; it does not make a defensive copy. When this wrapper was created via {@link #unsafeWrap(int[])},
+     * the backing array is the caller-supplied array, so mutations before or during stream traversal can be
+     * observable through the returned stream. Use {@link #copyOf(int[])} to build the wrapper from a defensive copy if you require
      * full isolation from the original source array.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -641,7 +641,7 @@ public final class ImmutableIntArray implements Immutable {
      * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] {1, 2, 3});
      * array1.hashCode() == array2.hashCode();   // returns true
      *
-     * // Basic: different order produces a different hash code
+     * // Basic: this reordered example has a different hash code
      * ImmutableIntArray reversed = ImmutableIntArray.unsafeWrap(new int[] {3, 2, 1});
      * array1.hashCode() == reversed.hashCode();   // returns false
      *

@@ -439,50 +439,10 @@ class FloatTupleTest extends TestBase {
         assertSame(elements1, elements2); // Should return same cached array
     }
 
-    // Cover the abstract outer type's inherited implementations directly.
+    // Cover built-in sealed tuple behavior directly.
     @Test
     public void testFloatTupleBaseMethods_InheritedImplementation() {
-        class DerivedFloatTuple extends FloatTuple<DerivedFloatTuple> {
-            private final float[] values;
-
-            DerivedFloatTuple(final float... values) {
-                this.values = values;
-            }
-
-            @Override
-            public int arity() {
-                return values.length;
-            }
-
-            @Override
-            public DerivedFloatTuple reverse() {
-                final float[] reversed = new float[values.length];
-
-                for (int i = 0; i < values.length; i++) {
-                    reversed[i] = values[values.length - 1 - i];
-                }
-
-                return new DerivedFloatTuple(reversed);
-            }
-
-            @Override
-            public boolean contains(final float valueToFind) {
-                for (final float value : values) {
-                    if (Float.compare(value, valueToFind) == 0) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            protected float[] elements() {
-                return values;
-            }
-        }
-
-        final DerivedFloatTuple tuple = new DerivedFloatTuple(4.5f, 1.5f, 3.5f, 2.5f);
+        final FloatTuple.FloatTuple4 tuple = FloatTuple.of(4.5f, 1.5f, 3.5f, 2.5f);
         final float[] copy = tuple.toArray();
         copy[0] = 99.5f;
 
@@ -494,11 +454,10 @@ class FloatTupleTest extends TestBase {
         assertTrue(tuple.contains(3.5f));
         assertFalse(tuple.contains(8.5f));
         assertEquals(4.5f, tuple.toArray()[0], DELTA);
-        assertTrue(tuple.equals(new DerivedFloatTuple(4.5f, 1.5f, 3.5f, 2.5f)));
-        assertFalse(tuple.equals(new DerivedFloatTuple(4.5f, 1.5f, 3.5f, 9.5f)));
-        assertFalse(tuple.equals(FloatTuple.of(4.5f, 1.5f, 3.5f, 2.5f)));
+        assertTrue(tuple.equals(FloatTuple.of(4.5f, 1.5f, 3.5f, 2.5f)));
+        assertFalse(tuple.equals(FloatTuple.of(4.5f, 1.5f, 3.5f, 9.5f)));
         assertFalse(tuple.equals(null));
-        assertTrue(tuple.toString().contains("4.5"));
+        assertEquals("(4.5, 1.5, 3.5, 2.5)", tuple.toString());
     }
 
     // Regression: the base FloatTuple.min/max/median/average Javadoc states they throw
@@ -508,59 +467,31 @@ class FloatTupleTest extends TestBase {
     // up-front and scans elements with Math.min/Math.max so NaN propagates as documented.
     @Test
     public void testFloatTupleBaseMinMax_NaNPropagationAndEmpty() {
-        class DerivedFloatTuple extends FloatTuple<DerivedFloatTuple> {
-            private final float[] values;
-
-            DerivedFloatTuple(final float... values) {
-                this.values = values;
-            }
-
-            @Override
-            public int arity() {
-                return values.length;
-            }
-
-            @Override
-            public DerivedFloatTuple reverse() {
-                return this;
-            }
-
-            @Override
-            public boolean contains(final float valueToFind) {
-                return false;
-            }
-
-            @Override
-            protected float[] elements() {
-                return values;
-            }
-        }
-
         // Tuple containing a NaN element should produce NaN min/max (was previously
         // incorrectly skipping NaN via N.min/N.max).
-        final DerivedFloatTuple tupleWithNaN = new DerivedFloatTuple(1.0f, Float.NaN, 2.0f, 3.0f);
+        final FloatTuple.FloatTuple4 tupleWithNaN = FloatTuple.of(1.0f, Float.NaN, 2.0f, 3.0f);
         assertTrue(Float.isNaN(tupleWithNaN.min()), "min() should propagate NaN");
         assertTrue(Float.isNaN(tupleWithNaN.max()), "max() should propagate NaN");
 
         // NaN in trailing position also propagates (covers loop tail).
-        final DerivedFloatTuple tupleNaNLast = new DerivedFloatTuple(1.0f, 2.0f, 3.0f, Float.NaN);
+        final FloatTuple.FloatTuple4 tupleNaNLast = FloatTuple.of(1.0f, 2.0f, 3.0f, Float.NaN);
         assertTrue(Float.isNaN(tupleNaNLast.min()));
         assertTrue(Float.isNaN(tupleNaNLast.max()));
 
         // Without NaN, results are still correct.
-        final DerivedFloatTuple tuple = new DerivedFloatTuple(4.5f, 1.5f, 3.5f, 2.5f);
+        final FloatTuple.FloatTuple4 tuple = FloatTuple.of(4.5f, 1.5f, 3.5f, 2.5f);
         assertEquals(1.5f, tuple.min(), 0.0f);
         assertEquals(4.5f, tuple.max(), 0.0f);
 
         // Single element including NaN still propagates.
-        final DerivedFloatTuple onlyNaN = new DerivedFloatTuple(Float.NaN);
+        final FloatTuple.FloatTuple1 onlyNaN = FloatTuple.of(Float.NaN);
         assertTrue(Float.isNaN(onlyNaN.min()));
         assertTrue(Float.isNaN(onlyNaN.max()));
 
-        // Empty derived tuple must throw NoSuchElementException for ALL of min/max/median/average,
+        // Empty tuple must throw NoSuchElementException for ALL of min/max/median/average,
         // matching the @throws NoSuchElementException Javadoc. Previously these threw
         // IllegalArgumentException (min/max/median) or returned 0.0 silently (average).
-        final DerivedFloatTuple empty = new DerivedFloatTuple();
+        final FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         assertThrows(NoSuchElementException.class, empty::min);
         assertThrows(NoSuchElementException.class, empty::max);
         assertThrows(NoSuchElementException.class, empty::median);

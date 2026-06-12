@@ -15,6 +15,16 @@
 package com.landawn.abacus.util;
 
 import com.landawn.abacus.annotation.MayReturnNull;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple0;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple1;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple2;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple3;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple4;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple5;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple6;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple7;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple8;
+import com.landawn.abacus.util.BooleanTuple.BooleanTuple9;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.Stream;
 
@@ -24,6 +34,8 @@ import com.landawn.abacus.util.stream.Stream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
  * {@link #copyOf(boolean[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies reversal, containment, and functional helper operations.</p>
+ *
+ * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
  * <p><b>Note:</b> unlike the numeric tuple families ({@code ByteTuple}, {@code ShortTuple},
  * {@code IntTuple}, {@code LongTuple}, {@code CharTuple}, {@code FloatTuple}, {@code DoubleTuple}),
@@ -42,7 +54,8 @@ import com.landawn.abacus.util.stream.Stream;
  * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
-public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
+public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> permits BooleanTuple0, BooleanTuple1, BooleanTuple2,
+        BooleanTuple3, BooleanTuple4, BooleanTuple5, BooleanTuple6, BooleanTuple7, BooleanTuple8, BooleanTuple9 {
 
     /** Lazily initialized cached array view of all tuple elements. */
     protected volatile boolean[] elements;
@@ -734,42 +747,6 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         } else {
             return N.equals(elements(), ((BooleanTuple<TP>) obj).elements());
         }
-    }
-
-    /**
-     * Returns a string representation of this tuple.
-     * <p>
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
-     * This format is consistent across all tuple types and provides a readable representation
-     * of the tuple's contents.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * BooleanTuple.BooleanTuple3 t3 = BooleanTuple.of(true, false, true);
-     * String s3 = t3.toString();           // "(true, false, true)"
-     *
-     * BooleanTuple.BooleanTuple2 t2 = BooleanTuple.of(true, false);
-     * String s2 = t2.toString();           // "(true, false)"
-     *
-     * BooleanTuple.BooleanTuple1 t1 = BooleanTuple.of(true);
-     * String s1 = t1.toString();           // "(true)"
-     *
-     * // edge: empty tuple
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
-     * String empty0 = empty.toString();    // "()"
-     *
-     * // edge: all-false tuple
-     * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
-     * String sAll = allFalse.toString();   // "(false, false)"
-     * }</pre>
-     *
-     * @return a string representation of this tuple
-     */
-    @Override
-    public String toString() {
-        return N.toString(elements());
     }
 
     /**

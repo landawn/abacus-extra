@@ -212,31 +212,7 @@ class IntTupleTest extends TestBase {
 
     @Test
     public void testInheritedAggregateEmptyBehavior() {
-        class EmptyIntTuple extends IntTuple<EmptyIntTuple> {
-            private final int[] values = new int[0];
-
-            @Override
-            public int arity() {
-                return 0;
-            }
-
-            @Override
-            public EmptyIntTuple reverse() {
-                return this;
-            }
-
-            @Override
-            public boolean contains(final int valueToFind) {
-                return false;
-            }
-
-            @Override
-            protected int[] elements() {
-                return values;
-            }
-        }
-
-        final EmptyIntTuple tuple = new EmptyIntTuple();
+        final IntTuple.IntTuple0 tuple = IntTuple.copyOf(new int[0]);
 
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
@@ -473,50 +449,10 @@ class IntTupleTest extends TestBase {
         assertSame(elements1, elements2); // Should return same cached array
     }
 
-    // Cover the abstract outer type's inherited implementations directly.
+    // Cover built-in sealed tuple behavior directly.
     @Test
     public void testIntTupleBaseMethods_InheritedImplementation() {
-        class DerivedIntTuple extends IntTuple<DerivedIntTuple> {
-            private final int[] values;
-
-            DerivedIntTuple(final int... values) {
-                this.values = values;
-            }
-
-            @Override
-            public int arity() {
-                return values.length;
-            }
-
-            @Override
-            public DerivedIntTuple reverse() {
-                final int[] reversed = new int[values.length];
-
-                for (int i = 0; i < values.length; i++) {
-                    reversed[i] = values[values.length - 1 - i];
-                }
-
-                return new DerivedIntTuple(reversed);
-            }
-
-            @Override
-            public boolean contains(final int valueToFind) {
-                for (final int value : values) {
-                    if (value == valueToFind) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            protected int[] elements() {
-                return values;
-            }
-        }
-
-        final DerivedIntTuple tuple = new DerivedIntTuple(4, 1, 3, 2);
+        final IntTuple.IntTuple4 tuple = IntTuple.of(4, 1, 3, 2);
         final int[] copy = tuple.toArray();
         copy[0] = 99;
 
@@ -528,11 +464,10 @@ class IntTupleTest extends TestBase {
         assertTrue(tuple.contains(3));
         assertFalse(tuple.contains(8));
         assertEquals(4, tuple.toArray()[0]);
-        assertTrue(tuple.equals(new DerivedIntTuple(4, 1, 3, 2)));
-        assertFalse(tuple.equals(new DerivedIntTuple(4, 1, 3, 9)));
-        assertFalse(tuple.equals(IntTuple.of(4, 1, 3, 2)));
+        assertTrue(tuple.equals(IntTuple.of(4, 1, 3, 2)));
+        assertFalse(tuple.equals(IntTuple.of(4, 1, 3, 9)));
         assertFalse(tuple.equals(null));
-        assertTrue(tuple.toString().contains("4"));
+        assertEquals("(4, 1, 3, 2)", tuple.toString());
     }
 
     // Exercise zero-initialized tuple constructors and cached element materialization.

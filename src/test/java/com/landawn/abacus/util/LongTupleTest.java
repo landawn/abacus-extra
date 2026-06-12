@@ -211,31 +211,7 @@ class LongTupleTest extends TestBase {
 
     @Test
     public void testInheritedAggregateEmptyBehavior() {
-        class EmptyLongTuple extends LongTuple<EmptyLongTuple> {
-            private final long[] values = new long[0];
-
-            @Override
-            public int arity() {
-                return 0;
-            }
-
-            @Override
-            public EmptyLongTuple reverse() {
-                return this;
-            }
-
-            @Override
-            public boolean contains(final long valueToFind) {
-                return false;
-            }
-
-            @Override
-            protected long[] elements() {
-                return values;
-            }
-        }
-
-        final EmptyLongTuple tuple = new EmptyLongTuple();
+        final LongTuple.LongTuple0 tuple = LongTuple.copyOf(new long[0]);
 
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
@@ -486,50 +462,10 @@ class LongTupleTest extends TestBase {
         assertSame(elements1, elements2); // Should return same cached array
     }
 
-    // Cover the abstract outer type's inherited implementations directly.
+    // Cover built-in sealed tuple behavior directly.
     @Test
     public void testLongTupleBaseMethods_InheritedImplementation() {
-        class DerivedLongTuple extends LongTuple<DerivedLongTuple> {
-            private final long[] values;
-
-            DerivedLongTuple(final long... values) {
-                this.values = values;
-            }
-
-            @Override
-            public int arity() {
-                return values.length;
-            }
-
-            @Override
-            public DerivedLongTuple reverse() {
-                final long[] reversed = new long[values.length];
-
-                for (int i = 0; i < values.length; i++) {
-                    reversed[i] = values[values.length - 1 - i];
-                }
-
-                return new DerivedLongTuple(reversed);
-            }
-
-            @Override
-            public boolean contains(final long valueToFind) {
-                for (final long value : values) {
-                    if (value == valueToFind) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            protected long[] elements() {
-                return values;
-            }
-        }
-
-        final DerivedLongTuple tuple = new DerivedLongTuple(4L, 1L, 3L, 2L);
+        final LongTuple.LongTuple4 tuple = LongTuple.of(4L, 1L, 3L, 2L);
         final long[] copy = tuple.toArray();
         copy[0] = 99L;
 
@@ -538,15 +474,14 @@ class LongTupleTest extends TestBase {
         assertEquals(2L, tuple.median());
         assertEquals(10L, tuple.sum());
         assertEquals(2.5, tuple.average());
-        assertEquals(-0.5d, new DerivedLongTuple(Long.MAX_VALUE, Long.MIN_VALUE).average());
+        assertEquals(-0.5d, LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE).average());
         assertTrue(tuple.contains(3L));
         assertFalse(tuple.contains(8L));
         assertEquals(4L, tuple.toArray()[0]);
-        assertTrue(tuple.equals(new DerivedLongTuple(4L, 1L, 3L, 2L)));
-        assertFalse(tuple.equals(new DerivedLongTuple(4L, 1L, 3L, 9L)));
-        assertFalse(tuple.equals(LongTuple.of(4L, 1L, 3L, 2L)));
+        assertTrue(tuple.equals(LongTuple.of(4L, 1L, 3L, 2L)));
+        assertFalse(tuple.equals(LongTuple.of(4L, 1L, 3L, 9L)));
         assertFalse(tuple.equals(null));
-        assertTrue(tuple.toString().contains("4"));
+        assertEquals("(4, 1, 3, 2)", tuple.toString());
     }
 
     // Exercise zero-initialized tuple constructors and cached element materialization.

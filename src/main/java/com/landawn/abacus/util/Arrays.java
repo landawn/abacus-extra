@@ -27,7 +27,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  *
  * <p>This class complements {@link java.util.Arrays} with bulk updates, conditional replacement,
  * reshaping, flattening, zipping, element counting, primitive conversion, and formatted printing.
- * Each method documents whether it mutates the supplied array or returns newly allocated storage.</p>
+ * Methods that mutate input arrays or return newly allocated storage document that behavior where relevant.</p>
  *
  * <p>The nested helper classes {@link f}, {@link ff}, and {@link fff} group the object-array specific
  * operations by dimensionality.</p>
@@ -259,6 +259,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each boolean element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every element across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -311,6 +312,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each boolean element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every element across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -414,6 +416,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each char element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every character across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -466,6 +469,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each char element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every character across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -569,6 +573,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each byte element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every byte across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -621,6 +626,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each byte element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every byte across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -724,6 +730,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each short element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every short value across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -776,6 +783,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each short element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every short value across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -880,6 +888,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each int element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every integer across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -932,6 +941,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each int element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every integer across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1035,6 +1045,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each long element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every long value across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1087,6 +1098,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each long element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every long value across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1191,6 +1203,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each float element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every float value across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1243,6 +1256,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps each float element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every float value across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1345,6 +1359,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps each element of a two-dimensional double array to an object using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1396,6 +1411,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps each element of a three-dimensional double array to an object using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1502,6 +1518,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a two-dimensional int array to a two-dimensional long array using the provided mapper function.
      * Each int element is transformed to a long value, preserving the two-dimensional structure.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1554,6 +1571,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a three-dimensional int array to a three-dimensional long array using the provided mapper function.
      * Each int element is transformed to a long value, preserving the three-dimensional structure.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1666,6 +1684,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a two-dimensional int array to a two-dimensional double array using the provided mapper function.
      * Each int element is transformed to a double value, preserving the two-dimensional structure.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1719,6 +1738,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a three-dimensional int array to a three-dimensional double array using the provided mapper function.
      * Each int element is transformed to a double value, preserving the three-dimensional structure.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1826,6 +1846,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a two-dimensional long array to a two-dimensional int array using the provided mapper function.
      * Each long element is transformed to an int value, preserving the two-dimensional structure.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      * This operation is useful for downcasting or converting long values to integers with custom logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1879,6 +1900,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a three-dimensional long array to a three-dimensional int array using the provided mapper function.
      * Each long element is transformed to an int value, preserving the three-dimensional structure.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      * This operation is useful for downcasting or converting long values to integers with custom logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1989,6 +2011,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a two-dimensional long array to a two-dimensional double array using the provided mapper function.
      * Each long element is transformed to a double value. This operation preserves the two-dimensional structure
      * while converting long values to doubles with custom transformation logic.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2041,6 +2064,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a three-dimensional long array to a three-dimensional double array using the provided mapper function.
      * Each long element is transformed to a double value, preserving the three-dimensional structure.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2145,6 +2169,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a two-dimensional double array to a two-dimensional int array using the provided mapper function.
      * Each double element is transformed to an int value. This operation preserves the two-dimensional structure
      * while converting double values to integers with custom transformation logic.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2197,6 +2222,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a three-dimensional double array to a three-dimensional int array using the provided mapper function.
      * Each double element is transformed to an int value, preserving the three-dimensional structure.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      * This operation is useful for converting double values to integers with custom rounding or scaling logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2307,6 +2333,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a two-dimensional double array to a two-dimensional long array using the provided mapper function.
      * Each double element is transformed to a long value. This operation preserves the two-dimensional structure
      * while converting double values to long integers with custom transformation logic.
+     * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2359,6 +2386,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a three-dimensional double array to a three-dimensional long array using the provided mapper function.
      * Each double element is transformed to a long value, preserving the three-dimensional structure.
+     * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
      * This operation is useful for converting double values to long integers with custom scaling or rounding logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -20513,10 +20541,6 @@ public sealed class Arrays permits Arrays.f {
             checkColsForReshape(columnCount);
             N.checkArgNotNull(a, "a");
 
-            //        if (N.isEmpty(a)) {
-            //            return new T[0][];
-            //        }
-
             final int len = a.length;
             final int n = Numbers.divide(len, columnCount, RoundingMode.CEILING);
             final Class<T[]> arrayClass = (Class<T[]>) a.getClass();
@@ -20650,6 +20674,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p>This method creates a new array with the same dimensions as the input array,
          * where each element is the result of applying the function to the corresponding input element.
+         * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
          * The element type of the result is inferred from the runtime component type of {@code a};
          * mapped values must be assignable to that component type. Use the overload with
          * {@code targetElementType} for type-changing mappings.</p>
@@ -20698,7 +20723,8 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p>The resulting array has the same structure as the input array but with elements
          * of the target type. If the input is {@code null} or empty, an empty 2D array of the target
-         * type is returned.</p>
+         * type is returned. Null or empty sub-arrays are mapped to empty arrays; non-null sub-array
+         * lengths are preserved.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21705,8 +21731,6 @@ public sealed class Arrays permits Arrays.f {
                 return currentTargetElementType;
             }
 
-            // return (Class<T>) resolveCommonAssignableType(currentTargetElementType, value.getClass());
-
             throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + currentTargetElementType.getName()
                     + " for mapped value type " + value.getClass().getName() + ". Use the overload with targetElementType.");
         }
@@ -22308,10 +22332,6 @@ public sealed class Arrays permits Arrays.f {
             checkRowsAndColsForReshape(rowCount, columnCount);
             N.checkArgNotNull(a, "a");
 
-            //        if (N.isEmpty(a)) {
-            //            return new T[0][][];
-            //        }
-
             final Class<T[]> arrayClass = (Class<T[]>) a.getClass();
             final int len = a.length;
             final int n = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
@@ -22506,7 +22526,8 @@ public sealed class Arrays permits Arrays.f {
          *
          * <p>The resulting array has the same dimensions as the input array, with each element
          * transformed according to the provided function. This is useful for converting between
-         * different data types or applying complex transformations.</p>
+         * different data types or applying complex transformations. Null or empty sub-arrays at any
+         * nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22560,7 +22581,8 @@ public sealed class Arrays permits Arrays.f {
          * performing element-wise comparisons.
          *
          * <p>The resulting array has the same structure as the input, with each element
-         * replaced by the boolean result of the predicate evaluation.</p>
+         * replaced by the boolean result of the predicate evaluation. Null or empty sub-arrays at any
+         * nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code

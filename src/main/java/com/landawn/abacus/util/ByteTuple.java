@@ -17,6 +17,16 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
+import com.landawn.abacus.util.ByteTuple.ByteTuple0;
+import com.landawn.abacus.util.ByteTuple.ByteTuple1;
+import com.landawn.abacus.util.ByteTuple.ByteTuple2;
+import com.landawn.abacus.util.ByteTuple.ByteTuple3;
+import com.landawn.abacus.util.ByteTuple.ByteTuple4;
+import com.landawn.abacus.util.ByteTuple.ByteTuple5;
+import com.landawn.abacus.util.ByteTuple.ByteTuple6;
+import com.landawn.abacus.util.ByteTuple.ByteTuple7;
+import com.landawn.abacus.util.ByteTuple.ByteTuple8;
+import com.landawn.abacus.util.ByteTuple.ByteTuple9;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ByteStream;
 
@@ -26,6 +36,8 @@ import com.landawn.abacus.util.stream.ByteStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
  * {@link #copyOf(byte[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ *
+ * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
  * <p>All {@code byte} arithmetic in this class follows Java's signed semantics (range {@code -128}
  * to {@code 127}). Aggregates such as {@link #sum()} are widened to {@code int} and {@link #average()}
@@ -42,7 +54,8 @@ import com.landawn.abacus.util.stream.ByteStream;
  * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
-public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
+public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP>
+        permits ByteTuple0, ByteTuple1, ByteTuple2, ByteTuple3, ByteTuple4, ByteTuple5, ByteTuple6, ByteTuple7, ByteTuple8, ByteTuple9 {
 
     /** Lazily initialized cached array view of all tuple elements. */
     protected volatile byte[] elements;
@@ -675,10 +688,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method returns a NEW tuple containing all elements in reversed order. The original
-     * tuple remains unchanged as tuples are immutable.
+     * Non-empty built-in tuples return a NEW tuple containing all elements in reversed order.
+     * The empty tuple returns itself. The original tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -693,7 +706,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 42);
      * ByteTuple.ByteTuple1 reversedSingle = single.reverse();   // (42)
      *
-     * // empty tuple: reverse returns the same singleton empty tuple
+     * // edge: empty tuple reverses to itself
      * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
      * int emptyArity = empty.reverse().arity();   // 0
      * }</pre>
@@ -967,35 +980,6 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         } else {
             return N.equals(elements(), ((ByteTuple<TP>) obj).elements());
         }
-    }
-
-    /**
-     * Returns a string representation of this tuple.
-     * <p>
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
-     * This format is consistent across all tuple types and provides a readable representation
-     * of the tuple's contents.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * String s3 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30).toString();   // "(10, 20, 30)"
-     * String s2 = ByteTuple.of((byte) 5, (byte) 10).toString();               // "(5, 10)"
-     * String s1 = ByteTuple.of((byte) 42).toString();                         // "(42)"
-     *
-     * // empty tuple
-     * String s0 = ByteTuple.copyOf(new byte[0]).toString();   // "()"
-     *
-     * // negative values
-     * String sNeg = ByteTuple.of((byte) -5, (byte) 0, (byte) 5).toString();   // "(-5, 0, 5)"
-     * }</pre>
-     *
-     * @return a string representation of this tuple
-     */
-    @Override
-    public String toString() {
-        return N.toString(elements());
     }
 
     /**

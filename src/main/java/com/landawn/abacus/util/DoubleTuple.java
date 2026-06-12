@@ -17,6 +17,16 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple0;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple1;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple3;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple4;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple5;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple6;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple7;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple8;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple9;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.DoubleStream;
 
@@ -26,6 +36,8 @@ import com.landawn.abacus.util.stream.DoubleStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
  * {@link #copyOf(double[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ *
+ * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
  * @param <TP> the concrete {@code DoubleTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -38,7 +50,8 @@ import com.landawn.abacus.util.stream.DoubleStream;
  * @see FloatTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
-public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
+public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP>
+        permits DoubleTuple0, DoubleTuple1, DoubleTuple2, DoubleTuple3, DoubleTuple4, DoubleTuple5, DoubleTuple6, DoubleTuple7, DoubleTuple8, DoubleTuple9 {
 
     /** Lazily initialized cached array view of all tuple elements. */
     protected volatile double[] elements;
@@ -607,11 +620,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged. For example, a tuple (1.0, 2.0, 3.0) becomes
-     * (3.0, 2.0, 1.0) when reversed.
+     * Built-in non-empty tuples return a new tuple instance with all elements in reversed order;
+     * the empty tuple returns itself. The original tuple remains unchanged. For example, a tuple
+     * (1.0, 2.0, 3.0) becomes (3.0, 2.0, 1.0) when reversed.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -622,7 +635,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * DoubleTuple.DoubleTuple2 reversedPair = pair.reverse();   // (2.5, 1.5)
      *
-     * // reverse() always returns a new object (not the same reference)
+     * // reverse() returns a new object for non-empty tuples (the empty tuple returns itself)
      * DoubleTuple.DoubleTuple3 orig = DoubleTuple.of(1.0, 2.0, 3.0);
      * DoubleTuple.DoubleTuple3 rev = orig.reverse();
      * boolean same = (orig == rev);   // false
@@ -633,7 +646,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double val = revSingle._1;   // 5.0
      * }</pre>
      *
-     * @return a new tuple with the elements in reverse order
+     * @return a tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -905,33 +918,6 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         } else {
             return N.equals(elements(), ((DoubleTuple<TP>) obj).elements());
         }
-    }
-
-    /**
-     * Returns a string representation of this tuple.
-     * <p>
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
-     * This format provides a clear and readable representation of the tuple's contents.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * String s3 = DoubleTuple.of(1.0, 2.0, 3.0).toString();   // "(1.0, 2.0, 3.0)"
-     * String s2 = DoubleTuple.of(1.5, 2.5).toString();        // "(1.5, 2.5)"
-     *
-     * // Single element
-     * String s1 = DoubleTuple.of(3.14).toString();   // "(3.14)"
-     *
-     * // Empty tuple
-     * String s0 = DoubleTuple.copyOf(new double[0]).toString();   // "()"
-     * }</pre>
-     *
-     * @return a string representation of this tuple
-     */
-    @Override
-    public String toString() {
-        return N.toString(elements());
     }
 
     /**

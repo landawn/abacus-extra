@@ -1,4 +1,49 @@
 
+---
+
+  Use multiple agents to perform a thorough, line-by-line review of every class under `./src/main/java`, focusing on Javadoc improvements and confirmed bug fixes.
+
+  Divide the review by package or class group. Each agent should inspect related callers, tests, sibling classes, primitive/generated variants, and analogous implementations when needed. The main agent should consolidate findings,
+  remove duplicates, and ensure fixes are consistent across related code.
+
+  Code review goals:
+
+  - Identify correctness bugs, edge cases, API contract violations, null-handling issues, resource leaks, concurrency risks, and regression risks.
+  - Triage findings by severity and confidence.
+  - Fix confirmed bugs only.
+  - Preserve existing APIs unless a confirmed bug requires otherwise.
+  - Add or update unit tests for every code fix in the existing relevant test classes.
+  - Run targeted tests for each changed area.
+  - Run the full test suite after all fixes are complete.
+
+  Javadoc review goals:
+
+  - Verify that Javadoc accurately describes the actual behavior.
+  - Check `@param`, `@return`, and `@throws` tags against method signatures, parameter names, return types, and thrown exceptions.
+  - Flag and fix stale, copy-paste, contradictory, incomplete, or incorrect descriptions.
+  - Flag and fix missing, extra, or misnamed `@param` tags.
+  - Remove `@return` tags from `void` methods.
+  - Add missing `@return` tags for non-void methods where appropriate.
+  - Flag and fix undocumented or incorrectly documented exceptions.
+  - Verify broken, stale, or incorrect `{@link}` and `@see` references.
+  - Improve unclear wording, grammar, typos, incomplete sentences, and descriptions that merely restate the method name.
+  - Keep terminology, phrasing, tag ordering, and formatting consistent across the codebase.
+  - Pay special attention to sibling and variant classes, such as `CharTuple` vs. `LongTuple`, primitive-type variants, and arity variants. Analogous members should document the same concept with the same wording.
+
+  Fix all confirmed Javadoc and comment issues within scope.
+
+  Final output should include:
+
+  - Summary of code fixes made.
+  - Summary of Javadoc/comment fixes made.
+  - Tests added or updated.
+  - Targeted test commands run and results.
+  - Full test suite command and result.
+  - Any remaining findings that were not fixed, with severity, confidence, and rationale.
+
+
+==============================================================================================================================================
+
 -- ==========================================================
 
 Use multiple agents to fix all javadoc issues reported by running: mvn javadoc:javadoc.
@@ -10,15 +55,9 @@ Fix/implement all performance improvements you have found, and add or run unit t
 
 Review all public methods in the classes located under foler: ./src/main/java/ for naming convention consistency, and provide suggestions for design and method naming improvements.
 
--- ==========================================================
 
-Use multiple agents to perform a thorough deep line by line review for classes under folder: ./src/main/java to find bugs and fix them, and add unit tests for the fixes to existing test classes. For each class, following below steps:
+==============================================================================================================================================
 
-✢ Reviewing xxx.java with multiple agents
-     ◻ Deep multi-agent review of xxx.java
-     ◻ Triage xxx findings and fix bugs
-     ◻ Add tests for xxx fixes
-     ◻ Run full test suite
 
 Use multiple agents to perform a thorough deep line by line review for all the classes under folder: ./src/main/java to find bugs and fix them, and add unit tests for the fixes to existing test classes.
 

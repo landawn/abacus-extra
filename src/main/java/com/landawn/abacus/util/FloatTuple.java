@@ -17,6 +17,16 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
+import com.landawn.abacus.util.FloatTuple.FloatTuple0;
+import com.landawn.abacus.util.FloatTuple.FloatTuple1;
+import com.landawn.abacus.util.FloatTuple.FloatTuple2;
+import com.landawn.abacus.util.FloatTuple.FloatTuple3;
+import com.landawn.abacus.util.FloatTuple.FloatTuple4;
+import com.landawn.abacus.util.FloatTuple.FloatTuple5;
+import com.landawn.abacus.util.FloatTuple.FloatTuple6;
+import com.landawn.abacus.util.FloatTuple.FloatTuple7;
+import com.landawn.abacus.util.FloatTuple.FloatTuple8;
+import com.landawn.abacus.util.FloatTuple.FloatTuple9;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.FloatStream;
 
@@ -26,6 +36,8 @@ import com.landawn.abacus.util.stream.FloatStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
  * {@link #copyOf(float[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ *
+ * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
  * @param <TP> the concrete {@code FloatTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -38,7 +50,8 @@ import com.landawn.abacus.util.stream.FloatStream;
  * @see DoubleTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
-public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
+public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP>
+        permits FloatTuple0, FloatTuple1, FloatTuple2, FloatTuple3, FloatTuple4, FloatTuple5, FloatTuple6, FloatTuple7, FloatTuple8, FloatTuple9 {
 
     /** Lazily initialized cached array view of all tuple elements. */
     protected volatile float[] elements;
@@ -611,11 +624,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged. For example, a tuple (1.0f, 2.0f, 3.0f) becomes
-     * (3.0f, 2.0f, 1.0f) when reversed.
+     * Built-in non-empty tuples return a new tuple instance with all elements in reversed order;
+     * the empty tuple returns itself. The original tuple remains unchanged. For example, a tuple
+     * (1.0f, 2.0f, 3.0f) becomes (3.0f, 2.0f, 1.0f) when reversed.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -631,11 +644,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * // Edge: single-element tuple reversed is the same element
      * FloatTuple.of(5.0f).reverse()._1               // returns 5.0f
      *
-     * // Edge: empty tuple reversed returns an empty tuple
+     * // Edge: empty tuple reverses to itself
      * FloatTuple.copyOf(new float[0]).reverse().arity() // returns 0
      * }</pre>
      *
-     * @return a new tuple with the elements in reverse order
+     * @return a tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -888,33 +901,6 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         } else {
             return N.equals(elements(), ((FloatTuple<TP>) obj).elements());
         }
-    }
-
-    /**
-     * Returns a string representation of this tuple.
-     * <p>
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
-     * This format provides a clear and readable representation of the tuple's contents.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * FloatTuple.of(1.0f, 2.0f, 3.0f).toString()     // returns "(1.0, 2.0, 3.0)"
-     * FloatTuple.of(1.5f, 2.5f).toString()           // returns "(1.5, 2.5)"
-     *
-     * // Edge: single element
-     * FloatTuple.of(3.14f).toString()                 // returns "(3.14)"
-     *
-     * // Edge: empty tuple
-     * FloatTuple.copyOf(new float[0]).toString()      // returns "()"
-     * }</pre>
-     *
-     * @return a string representation of this tuple
-     */
-    @Override
-    public String toString() {
-        return N.toString(elements());
     }
 
     /**

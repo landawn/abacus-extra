@@ -25,13 +25,16 @@ import com.landawn.abacus.util.u.Optional;
  * {@link #filter(Throwables.Predicate)}, and {@link #toOptional()}. Concrete families layer their
  * arity-specific fields and domain operations on top of this base.</p>
  *
+ * <p>This sealed base type permits only the built-in primitive tuple families.</p>
+ *
  * @param <TP> the concrete tuple subtype (self-type), used so that helper methods such as
  *             {@link #accept(Throwables.Consumer)}, {@link #map(Throwables.Function)}, and
  *             {@link #filter(Throwables.Predicate)} operate on the concrete subtype rather than
  *             this abstract base
  */
 @com.landawn.abacus.annotation.Immutable
-abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutable {
+abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutable
+        permits BooleanTuple, ByteTuple, CharTuple, DoubleTuple, FloatTuple, IntTuple, LongTuple, ShortTuple {
 
     /**
      * Returns the fixed number of elements stored by this tuple type.
