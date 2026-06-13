@@ -1145,7 +1145,7 @@ public final class Points {
              * p2.y()     // returns 2.71828
              * p2.value() // returns 42
              *
-             * // Edge: Double.NaN coords, null value (records permit null components)
+             * // Edge: Double.NaN x, Double.POSITIVE_INFINITY y, null value (records permit null components)
              * Points.D2.DoubleObjPoint<String> p3 = Points.D2.DoubleObjPoint.of(Double.NaN, Double.POSITIVE_INFINITY, null);
              * Double.isNaN(p3.x())    // returns true
              * p3.y()                  // returns Double.POSITIVE_INFINITY

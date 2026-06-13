@@ -19894,7 +19894,7 @@ public sealed class Arrays permits Arrays.f {
      * array: {@code f} for one-dimensional, {@link Arrays.ff} for two-dimensional, and {@link Arrays.fff} for
      * three-dimensional object arrays. Because this class extends {@link com.landawn.abacus.util.Arrays},
      * code can call every public static method declared on the parent class through the {@code f}
-     * identifier (for example {@code f.copy(...)} or {@code f.println(...)}).</p>
+     * identifier (for example {@code f.flatten(...)} or {@code f.println(...)}).</p>
      *
      * @see Arrays.ff
      * @see Arrays.fff

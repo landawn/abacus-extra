@@ -3714,8 +3714,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple7 tuple = CharTuple.of('G', 'A', 'C', 'E', 'B', 'D', 'F');
          * char max = tuple.max();   // 'G'
          *
-         * CharTuple.CharTuple7 desc = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-         * char max2 = desc.max();   // 'G'
+         * CharTuple.CharTuple7 asc = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
+         * char max2 = asc.max();   // 'G'
          *
          * // all elements identical
          * CharTuple.CharTuple7 same = CharTuple.of('z', 'z', 'z', 'z', 'z', 'z', 'z');
