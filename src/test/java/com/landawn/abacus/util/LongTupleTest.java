@@ -3686,7 +3686,7 @@ class LongTupleTest extends TestBase {
         public void test_LongTuple2_median() {
             LongTuple2 tuple = LongTuple.of(1L, 2L);
             long median = tuple.median();
-            assertTrue(median == 1L || median == 2L);
+            assertEquals(1L, median);
         }
 
         @Test
@@ -4000,7 +4000,7 @@ class LongTupleTest extends TestBase {
         public void test_median_evenSize() {
             LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
             long median = tuple.median();
-            assertTrue(median >= 1L && median <= 4L);
+            assertEquals(2L, median);
         }
 
         @Test

@@ -3737,7 +3737,7 @@ class IntTupleTest extends TestBase {
         public void test_IntTuple2_median() {
             IntTuple2 tuple = IntTuple.of(1, 2);
             int median = tuple.median();
-            assertTrue(median == 1 || median == 2);
+            assertEquals(1, median);
         }
 
         @Test
@@ -4075,7 +4075,7 @@ class IntTupleTest extends TestBase {
         public void test_median_evenSize() {
             IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
             int median = tuple.median();
-            assertTrue(median >= 1 && median <= 4);
+            assertEquals(2, median);
         }
 
         @Test

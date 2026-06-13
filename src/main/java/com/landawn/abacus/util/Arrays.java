@@ -2710,7 +2710,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional boolean array to reshape (can be {@code null}).
      * @param columnCount the number of columns for the reshaped array.
-     * @return a two-dimensional boolean array with the specified number of columns.
+     * @return a two-dimensional boolean array with the specified number of columns, or an empty two-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
      * @see #reshape(boolean[], int, int) for reshaping into a three-dimensional array
      */
@@ -2760,7 +2760,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional boolean array to reshape (can be {@code null}).
      * @param rowCount the number of rows for the reshaped subarray.
      * @param columnCount the number of columns for the reshaped subarray.
-     * @return a three-dimensional boolean array with the specified number of rows and columns.
+     * @return a three-dimensional boolean array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
      *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
      * @see #reshape(boolean[], int) for reshaping into a two-dimensional array
@@ -3214,7 +3214,7 @@ public sealed class Arrays permits Arrays.f {
      * // idx0: T||F||T=T, idx1: T||T||false(defC)=T, idx2: F||false(defB)||false(defC)=F
      * // result2: [true, true, false]
      *
-     * // Both arrays same length - defaults never used
+     * // All arrays same length - defaults never used
      * boolean[] a3 = {true, false};
      * boolean[] b3 = {false, false};
      * boolean[] c3 = {true, true};
@@ -16329,7 +16329,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Basic: single block with NaN and Infinity
      * String special = Arrays.println(new double[][][]{{{Double.NaN, Double.POSITIVE_INFINITY}}});
-     * // result contains "NaN" and "Infinity"
+     * // special contains "NaN" and "Infinity"
      *
      * // Edge: null input -> "null"
      * String nullResult = Arrays.println((double[][][]) null);
@@ -21829,14 +21829,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Returns a penalty score used during common-type resolution to prefer concrete classes
+         * Returns a penalty score used during common-type resolution to prefer non-interface classes
          * over marker interfaces and {@link Object}.  Lower scores are preferred.
          *
          * <ul>
          *   <li>3 - {@link Object} (least preferred)</li>
          *   <li>2 - a marker interface (no declared methods)</li>
          *   <li>1 - a non-marker interface</li>
-         *   <li>0 - a concrete class (most preferred)</li>
+         *   <li>0 - a non-interface class (most preferred)</li>
          * </ul>
          *
          * @param type the candidate type to score.
@@ -22556,7 +22556,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
-         * @return a new array with transformed elements, or an empty array if input is {@code null} or empty.
+         * @return a new three-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
          * @throws E if the function throws an exception.
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
@@ -22609,7 +22609,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the predicate function to test each element (must not be {@code null}).
-         * @return a new boolean array, or an empty array if input is {@code null} or empty.
+         * @return a new three-dimensional boolean array, or an empty array if input is {@code null} or empty.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
@@ -22659,7 +22659,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to extract a char from each element (must not be {@code null}).
-         * @return a new char array, or an empty array if input is {@code null} or empty.
+         * @return a new three-dimensional char array, or an empty array if input is {@code null} or empty.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
@@ -22710,7 +22710,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to byte (must not be {@code null}).
-         * @return a new byte array, or an empty array if input is {@code null} or empty.
+         * @return a new three-dimensional byte array, or an empty array if input is {@code null} or empty.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
@@ -22761,7 +22761,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to short (must not be {@code null}).
-         * @return a new short array, or an empty array if input is {@code null} or empty.
+         * @return a new three-dimensional short array, or an empty array if input is {@code null} or empty.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
@@ -22812,7 +22812,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to int (must not be {@code null}).
-         * @return a new int array, or an empty array if input is {@code null} or empty.
+         * @return a new three-dimensional int array, or an empty array if input is {@code null} or empty.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
@@ -22863,7 +22863,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to long (must not be {@code null}).
-         * @return a new long array, or an empty array if input is {@code null} or empty.
+         * @return a new three-dimensional long array, or an empty array if input is {@code null} or empty.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
@@ -22914,7 +22914,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to float (must not be {@code null}).
-         * @return a new float array, or an empty array if input is {@code null} or empty.
+         * @return a new three-dimensional float array, or an empty array if input is {@code null} or empty.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
@@ -22965,7 +22965,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to double (must not be {@code null}).
-         * @return a new double array, or an empty array if input is {@code null} or empty.
+         * @return a new three-dimensional double array, or an empty array if input is {@code null} or empty.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
@@ -23022,7 +23022,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first three-dimensional array (must not be {@code null}; used to infer the result element type).
          * @param b the second three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the binary function to combine corresponding elements (must not be {@code null}).
-         * @return a new array with combined elements.
+         * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
@@ -23079,7 +23079,7 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
-         * @return a new array with combined elements of type R.
+         * @return a new three-dimensional array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
@@ -23138,7 +23138,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueA default value when first array element is missing.
          * @param defaultValueB default value when second array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
-         * @return a new array with combined elements.
+         * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
@@ -23180,8 +23180,8 @@ public sealed class Arrays permits Arrays.f {
          * // empty.length == 0
          *
          * // edge: only b has elements - a's missing positions use defaultValueA
-         * Integer[][][] onlyB = Arrays.fff.zip((Integer[][][]) null, strs, 0, "x",
-         *         (n, s) -> n + s, Integer.class);
+         * String[][][] onlyB = Arrays.fff.zip((Integer[][][]) null, strs, 0, "x",
+         *         (n, s) -> n + s, String.class);
          * // onlyB uses 0 for every A element
          * }</pre>
          *
@@ -23195,7 +23195,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value when second array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
-         * @return a new array with combined elements of type R.
+         * @return a new three-dimensional array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
@@ -23267,7 +23267,7 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second three-dimensional array (can be {@code null}, treated as empty).
          * @param c the third three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the ternary function to combine corresponding elements (must not be {@code null}).
-         * @return a new array with combined elements.
+         * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
@@ -23329,7 +23329,7 @@ public sealed class Arrays permits Arrays.f {
          * @param c the third three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
-         * @return a new array with combined elements of type R.
+         * @return a new three-dimensional array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
@@ -23393,7 +23393,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value when second array element is missing.
          * @param defaultValueC default value when third array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
-         * @return a new array with combined elements.
+         * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
@@ -23457,7 +23457,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueC default value when third array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
-         * @return a new array with combined elements of type R.
+         * @return a new three-dimensional array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,

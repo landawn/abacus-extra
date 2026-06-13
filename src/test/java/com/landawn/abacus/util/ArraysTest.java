@@ -132,7 +132,7 @@ class ArraysTest extends TestBase {
     }
 
     @Test
-    public void testObjectArrayPrintlnHelpersArePublicApi() throws Exception {
+    public void testObjectArrayPrintlnHelpersArePackagePrivate() throws Exception {
         final java.lang.reflect.Method ffPrintln = ff.class.getDeclaredMethod("println", Object[][].class);
         final java.lang.reflect.Method fffPrintln = fff.class.getDeclaredMethod("println", Object[][][].class);
 
@@ -15873,7 +15873,7 @@ class ArraysTest extends TestBase {
             assertEquals(0, Arrays.toFloat((int[][][]) null).length);
         }
 
-        // ----- toFloat(long[]) : precision loss past 2^24, overflow to +/-Inf for huge values -----
+        // ----- toFloat(long[]) : precision loss past 2^24, finite rounding for long extremes -----
 
         @Test
         public void toFloat_longArr_precisionLossPast2Pow24() {

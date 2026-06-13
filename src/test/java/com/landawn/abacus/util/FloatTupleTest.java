@@ -3359,7 +3359,7 @@ class FloatTupleTest extends TestBase {
         public void test_FloatTuple2_median() {
             FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
             float median = tuple.median();
-            assertTrue(median == 1.0f || median == 2.0f);
+            assertEquals(1.0f, median, 0f);
         }
 
         @Test

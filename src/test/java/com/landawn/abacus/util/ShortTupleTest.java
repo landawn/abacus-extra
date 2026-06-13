@@ -3510,7 +3510,7 @@ class ShortTupleTest extends TestBase {
         public void test_ShortTuple2_median() {
             ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
             short median = tuple.median();
-            assertTrue(median == (short) 1 || median == (short) 2);
+            assertEquals((short) 1, median);
         }
 
         @Test
@@ -3844,7 +3844,7 @@ class ShortTupleTest extends TestBase {
         public void test_median_evenSize() {
             ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
             short median = tuple.median();
-            assertTrue(median >= (short) 1 && median <= (short) 4);
+            assertEquals((short) 2, median);
         }
 
         @Test

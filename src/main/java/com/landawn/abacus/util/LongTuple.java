@@ -641,7 +641,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * Returns a new tuple with the elements in reverse order.
      * <p>
      * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged as tuples are immutable.
+     * The original tuple remains unchanged as tuples are immutable. The empty tuple returns itself.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1582,7 +1582,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * double avgN = negPair.average();   // returns -7.0
          * }</pre>
          *
-         * @return (_1 + _2) / 2.0 as a double
+         * @return the arithmetic mean of the two values as a {@code double}, computed without
+         *         overflowing intermediate {@code long} addition
          */
         @Override
         public double average() {
@@ -2058,7 +2059,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * double avgN = negTri.average();   // returns -6.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3) / 3.0 as a double
+         * @return the arithmetic mean of the three values as a {@code double}, computed without
+         *         overflowing intermediate {@code long} addition
          */
         @Override
         public double average() {
@@ -2532,7 +2534,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * double avgDup = dup.average();   // 6.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4) / 4.0 as a double
+         * @return the arithmetic mean of the four values as a {@code double}, computed without
+         *         overflowing intermediate {@code long} addition
          */
         @Override
         public double average() {
@@ -2911,7 +2914,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * double avgDup = dup.average();   // 8.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5) / 5.0 as a double
+         * @return the arithmetic mean of the five values as a {@code double}, computed without
+         *         overflowing intermediate {@code long} addition
          */
         @Override
         public double average() {
@@ -3292,7 +3296,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * double avgDup = dup.average();   // 7.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0 as a double
+         * @return the arithmetic mean of the six values as a {@code double}, computed without
+         *         overflowing intermediate {@code long} addition
          */
         @Override
         public double average() {
@@ -3663,7 +3668,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * t4.average(); // returns -4.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0 as a double
+         * @return the arithmetic mean of the seven values as a {@code double}, computed without
+         *         overflowing intermediate {@code long} addition
          */
         @Override
         public double average() {
@@ -4011,7 +4017,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * t4.average(); // returns -4.5
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0 as a double
+         * @return the arithmetic mean of the eight values as a {@code double}, computed without
+         *         overflowing intermediate {@code long} addition
          */
         @Override
         public double average() {
@@ -4366,7 +4373,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * t4.average(); // returns -5.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0 as a double
+         * @return the arithmetic mean of the nine values as a {@code double}, computed without
+         *         overflowing intermediate {@code long} addition
          */
         @Override
         public double average() {
