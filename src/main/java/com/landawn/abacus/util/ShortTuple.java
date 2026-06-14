@@ -654,7 +654,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * ShortTuple.ShortTuple3 rev3 = t3.reverse();
      * rev3.toString();                   // returns "(3, 2, 1)"
      *
-     * // edge: empty tuple reverses to itself
+     * // single-element tuple reverses to an equal tuple
      * ShortTuple.ShortTuple1 t1 = ShortTuple.of((short) 9);
      * t1.reverse()._1;                   // returns 9
      *

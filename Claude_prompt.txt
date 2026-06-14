@@ -1,45 +1,91 @@
 
 ---
 
-  Use multiple agents to perform a thorough, line-by-line review of every class under `./src/main/java`, focusing on Javadoc improvements and confirmed bug fixes.
+  Goal: Multi-agent, line-by-line review of every class under ./src/main/java, producing (a) confirmed
+  bug fixes, (b) Javadoc/comment corrections, and (c) logging/exception-message improvements.
+  These three workstreams have very different risk levels — apply the rigor bar defined for each, and
+  stage the edits by workstream so the diff stays reviewable and a regression can be bisected.
 
-  Divide the review by package or class group. Each agent should inspect related callers, tests, sibling classes, primitive/generated variants, and analogous implementations when needed. The main agent should consolidate findings,
-  remove duplicates, and ensure fixes are consistent across related code.
+  Scope guardrails (read first)
+  - Fix only what this pass targets. NO dependency/version bumps, NO new public API, NO refactors beyond
+    the minimal fix. If a fix appears to need broader change, STOP and flag it in the ledger instead of
+    making it.
+  - Before flagging anything, consult prior review ledgers/notes for the documented "deliberate design /
+    known false-positive" list and do not re-litigate settled items. Add any newly-confirmed false
+    positives to that list.
+  - Preserve existing public APIs and current behavior unless a confirmed bug requires the change; note
+    any behavior change explicitly.
 
-  Code review goals:
+  Orchestration
+  - Partition every file under ./src/main/java by package/class-group with explicit coverage accounting:
+    list each file and assign it to exactly one reviewing agent — no overlap, no gaps.
+  - Sub-agents are READ-ONLY (no Edit/Write tools): they inspect callers, tests, sibling classes,
+    primitive/generated variants, and analogous implementations, then report findings. They do not edit.
+  - Dispatch agents in batches of 2–3 and run independent batches in parallel; launching many at once
+    causes server throttling / empty returns.
+  - The main agent is the ONLY editor: it consolidates findings, removes duplicates, personally verifies
+    each candidate, ensures fixes are consistent across variants, applies edits, and re-verifies.
+  - Triage every finding by severity (low/med/high/critical) and confidence (suspected/likely/confirmed).
+  - Maintain a resumable ledger at scripts/review_<YYYY-MM-DD>/state.md (confirm whether this path should
+    be git-ignored): per-file/batch status (pending/in-review/fixed/clean), each finding with file:line,
+    a minimal trace or repro, proposed fix, severity + confidence, and what was verified. Update it as you
+    go; on resume, skip batches already marked fixed/clean.
 
-  - Identify correctness bugs, edge cases, API contract violations, null-handling issues, resource leaks, concurrency risks, and regression risks.
-  - Triage findings by severity and confidence.
-  - Fix confirmed bugs only.
-  - Preserve existing APIs unless a confirmed bug requires otherwise.
-  - Add or update unit tests for every code fix in the existing relevant test classes.
-  - Run targeted tests for each changed area.
-  - Run the full test suite after all fixes are complete.
+  Workstream 1 — Bug fixes (HIGH risk)
+  - Hunt: correctness bugs, edge cases, API-contract violations, null-handling, resource leaks,
+    concurrency races, overflow/saturation, regression risks.
+  - "Confirmed" = reproduced by a failing unit test OR traced by the main agent with concrete
+    input→output. A sub-agent's claim is a lead, not a confirmation — personally trace it before fixing,
+    and verify any example values the agent cites (they are sometimes wrong).
+  - Fix confirmed bugs only; prefer the smallest, most local fix.
+  - For every code fix: add/update a regression test in the existing relevant test class, run it against
+    the UNFIXED code to confirm RED, apply the fix, rerun to confirm GREEN, then move on.
+  - Treat tests as the source of truth. Do not "fix" intentional design (e.g., methods that throw by
+    design); if unsure, flag rather than change.
 
-  Javadoc review goals:
+  Workstream 2 — Javadoc/comments (comment-only, no behavior change)
+  - Accuracy: prose matches actual behavior; @param/@return/@throws match the real signature, names,
+    return type, and thrown exceptions. Flag stale/copy-paste/contradictory descriptions; missing/extra/
+    misnamed @param; @return on void or missing on non-void; undocumented or wrong @throws; broken/wrong
+    {@link}/@see.
+  - Clarity: fix confusing phrasing, typos, incomplete sentences, and descriptions that merely restate
+    the method name.
+  - Consistency: terminology, phrasing, tag order, formatting. Special attention to cross-variant
+    divergence — analogous members should document the same concept with the same
+    wording.
+  - For abnormal/unexpected behavior, add a note starting with <p><b>&#9888;.
+  - Verify any code in {@code} examples compiles and produces the stated output before trusting it.
 
-  - Verify that Javadoc accurately describes the actual behavior.
-  - Check `@param`, `@return`, and `@throws` tags against method signatures, parameter names, return types, and thrown exceptions.
-  - Flag and fix stale, copy-paste, contradictory, incomplete, or incorrect descriptions.
-  - Flag and fix missing, extra, or misnamed `@param` tags.
-  - Remove `@return` tags from `void` methods.
-  - Add missing `@return` tags for non-void methods where appropriate.
-  - Flag and fix undocumented or incorrectly documented exceptions.
-  - Verify broken, stale, or incorrect `{@link}` and `@see` references.
-  - Improve unclear wording, grammar, typos, incomplete sentences, and descriptions that merely restate the method name.
-  - Keep terminology, phrasing, tag ordering, and formatting consistent across the codebase.
-  - Pay special attention to sibling and variant classes, such as `CharTuple` vs. `LongTuple`, primitive-type variants, and arity variants. Analogous members should document the same concept with the same wording.
+  Workstream 3 — Logging & exception/error messages (LOW risk — note: level/guard edits are code changes)
+  - Correct level for each message; expensive message construction is guarded or parameterized using the
+    project's existing logging facade idiom (no eager string concat in hot/disabled paths). Treat guard/
+    level changes as code edits subject to the build check.
+  - Messages are clear, specific, and actionable; include relevant identifiers; no restating the obvious.
+  - No secrets/credentials/PII in logs; no log-and-throw duplication; no swallowed exceptions logged
+    without context.
 
-  Fix all confirmed Javadoc and comment issues within scope.
+  Build & test protocol
+  - Build offline: mvn -o clean compile.
+  - Before reading results, clear stale reports (target/surefire-reports) and check exit codes — stale
+    green reports have masked test-compile failures before.
+  - The suite runs with testFailureIgnore — trust the "Tests run: … Failures: … Errors: …" line, not
+    BUILD SUCCESS. Record the baseline count BEFORE any change; after changes expect baseline + new
+    regression tests, with only known non-regressions failing.
+  - For any scripted multi-line edit, beware CRLF: MSYS grep/awk/sed strip CR — use a PowerShell raw
+    splice for big line-range deletes and verify with od -c.
+  - Run targeted tests per changed area as you go; run the full suite once after all fixes. A sub-agent's
+    narrow RED/GREEN does not substitute for the authoritative full-suite run.
 
-  Final output should include:
-
-  - Summary of code fixes made.
-  - Summary of Javadoc/comment fixes made.
-  - Tests added or updated.
-  - Targeted test commands run and results.
-  - Full test suite command and result.
-  - Any remaining findings that were not fixed, with severity, confidence, and rationale.
+  Final report
+  - Code fixes (severity/confidence) and the bug each addresses; any behavior change called out.
+  - Javadoc/comment fixes (counts by class/area).
+  - Logging/exception-message fixes.
+  - Tests added/updated.
+  - Targeted test commands + results; full-suite command + result (the "Tests run" line) with baseline vs.
+    after.
+  - Remaining unfixed findings with severity, confidence, and rationale; new false-positives appended to
+    the deliberate-design list.
+  - Path to the scripts/review_<date>/ ledger
 
 
 ==============================================================================================================================================
