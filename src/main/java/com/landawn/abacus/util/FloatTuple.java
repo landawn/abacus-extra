@@ -2678,7 +2678,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (different order)
          *
          * FloatTuple.FloatTuple4 withNaN = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f);
-         * int h = withNaN.hashCode();   // well-defined (NaN bits are used)
+         * int h = withNaN.hashCode();   // well-defined (NaN values use the canonical NaN hash)
          *
          * FloatTuple.FloatTuple4 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f);
          * int h2 = neg.hashCode();   // well-defined, differs from positive counterpart
@@ -3059,7 +3059,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false
          *
          * FloatTuple.FloatTuple5 withNaN = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f);
-         * int h = withNaN.hashCode();   // well-defined (NaN bits are used)
+         * int h = withNaN.hashCode();   // well-defined (NaN values use the canonical NaN hash)
          *
          * FloatTuple.FloatTuple5 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f);
          * int h2 = neg.hashCode();   // well-defined, differs from positive counterpart
@@ -3445,7 +3445,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false
          *
          * FloatTuple.FloatTuple6 withNaN = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * int h = withNaN.hashCode();   // well-defined (NaN bits are used)
+         * int h = withNaN.hashCode();   // well-defined (NaN values use the canonical NaN hash)
          *
          * FloatTuple.FloatTuple6 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f);
          * int h2 = neg.hashCode();   // well-defined, differs from positive counterpart
@@ -3835,7 +3835,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          *
          * FloatTuple.FloatTuple7 nanTuple = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-         * int nanHash = nanTuple.hashCode(); // consistent for same NaN bit pattern
+         * int nanHash = nanTuple.hashCode(); // consistent for canonical NaN values
          *
          * FloatTuple.FloatTuple7 negZero = FloatTuple.of(-0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
          * FloatTuple.FloatTuple7 posZero = FloatTuple.of(0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
@@ -4241,7 +4241,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          *
          * FloatTuple.FloatTuple8 nanTuple = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-         * int nanHash = nanTuple.hashCode(); // consistent for same NaN bit pattern
+         * int nanHash = nanTuple.hashCode(); // consistent for canonical NaN values
          *
          * FloatTuple.FloatTuple8 negZero = FloatTuple.of(-0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
          * FloatTuple.FloatTuple8 posZero = FloatTuple.of(0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
@@ -4653,7 +4653,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          *
          * FloatTuple.FloatTuple9 nanTuple = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-         * int nanHash = nanTuple.hashCode(); // consistent for same NaN bit pattern
+         * int nanHash = nanTuple.hashCode(); // consistent for canonical NaN values
          *
          * FloatTuple.FloatTuple9 negZero = FloatTuple.of(-0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
          * FloatTuple.FloatTuple9 posZero = FloatTuple.of(0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
