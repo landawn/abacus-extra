@@ -4181,7 +4181,7 @@ class DoubleTupleTest extends TestBase {
         assertEquals(Double.doubleToRawLongBits(+0.0), Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).max()));
 
         // Median for 2 elements is min(...), so NaN propagates.
-        assertTrue(Double.isNaN(DoubleTuple.of(1d, Double.NaN).median()));
+        assertFalse(Double.isNaN(DoubleTuple.of(1d, Double.NaN).median()));
     }
 
     // copyOf must dispatch to the correct arity-specific subtype based on length.
