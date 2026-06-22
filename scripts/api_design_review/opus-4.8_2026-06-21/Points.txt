@@ -1,0 +1,52 @@
+================================================================================
+API DESIGN REVIEW — Points
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+
+--------------------------------------------------------------------------------
+1. OVERALL ASSESSMENT
+--------------------------------------------------------------------------------
+Excellent. Points is a non-instantiable namespace (private ctor, Points.java:43)
+holding D2 (2D) and D3 (3D), each a matrix of record types:
+coordinate-type {byte,int,long,double} x value-type {byte,int,long,double,Obj<T>}
+= 20 records per dimension, 40 total (verified). The matrix is COMPLETE,
+SYMMETRIC between D2/D3, and UNIFORM: every record follows the
+{CoordType}{ValueType}Point name (matching its components), exposes exactly one
+static of(...) factory with consistent (x,y,value)/(x,y,z,value) parameter order,
+and relies on record-supplied equals/hashCode/toString. No naming, return-type,
+parameter, placement, or deprecation findings. Two design observations only.
+
+--------------------------------------------------------------------------------
+2.-4. NAMING / RETURN-TYPE & PARAMETER / MISPLACED METHODS
+--------------------------------------------------------------------------------
+None. (No record has an extra or odd public method; component naming x/y/z/value
+is uniform across all 40.)
+
+--------------------------------------------------------------------------------
+5. MISSING METHODS / TYPES
+--------------------------------------------------------------------------------
+Matrix omits short/char/float on both axes | Points.java:20-26 (class doc),
+   D2 doc ~48 ("common coordinate widths: byte, int, long, double") | High (gap),
+   but DOCUMENTED AS INTENTIONAL | CONSIDER / keep. Coordinate types are limited
+   to {byte,int,long,double} and value types to {byte,int,long,double,Obj}; there
+   are no short/char/float coordinate rows or value columns, although the rest of
+   the library covers the full primitive set (ShortTuple/CharTuple/FloatTuple
+   exist). The class doc explicitly frames this as a curated "common widths"
+   subset. Recommend: keep as-is unless full primitive parity is a goal, in which
+   case extend both axes uniformly. CHECK: confirm whether Points is meant to
+   mirror the full *Tuple primitive set or stay a curated subset.
+
+No generic/object-coordinate point (e.g. Point<X,Y,T> / ObjObjPoint) |
+   value axis has Obj<T> (e.g. Points.java:294,573) but coordinates are
+   primitive-only | Low | Likely keep (coordinates are intended to be numeric).
+   Note only. CHECK: confirm no caller needs non-numeric coordinates.
+
+--------------------------------------------------------------------------------
+6. DEPRECATION / REMOVAL CANDIDATES
+--------------------------------------------------------------------------------
+None.
+
+OBSERVATION (not a finding): usage requires three-level nesting,
+Points.D2.IntIntPoint.of(...). This is a deliberate, documented namespacing
+choice and gives clean record semantics; if brevity mattered, D2/D3 could be
+top-level, but the current grouping is internally consistent. No change.

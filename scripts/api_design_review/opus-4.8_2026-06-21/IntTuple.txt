@@ -1,0 +1,100 @@
+================================================================================
+API DESIGN REVIEW — IntTuple   (CANONICAL NUMERIC TUPLE)
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+NOTE ON SCOPE: IntTuple is one of 8 intentional mirror classes (Boolean/Byte/
+Char/Short/Int/Long/Float/Double Tuple), all extending PrimitiveTuple<TP> with
+nested arity classes XxxTuple0..XxxTuple9. Findings here marked [FAMILY-WIDE]
+apply identically to the other numeric tuples (Byte/Char/Short/Long/Float/
+Double) and, where the method exists, to BooleanTuple. The sibling .txt files
+reference these by number instead of repeating them. All line numbers below were
+read directly and verified against source.
+
+--------------------------------------------------------------------------------
+1. OVERALL ASSESSMENT
+--------------------------------------------------------------------------------
+IntTuple is mature, internally consistent, and thoroughly documented. The
+factory family of(1..9) (with of(8)/of(9) deliberately and consistently
+@Deprecated, IntTuple.java:292-295/329, "use a custom class with meaningful
+property names"), the aggregate family (sum/min/max/median/average), and the
+functional toolkit (forEach/map/filter/accept/stream/toList/toArray/copyOf) are
+all well designed. Aggregate return-type choices are correct: min/max/median ->
+int (an element), sum -> int, average -> double. equals/hashCode use exact-class
+matching and are consistent. The actionable items are API-design gaps/footguns
+shared family-wide, not correctness bugs.
+
+--------------------------------------------------------------------------------
+2. NAMING ISSUES
+--------------------------------------------------------------------------------
+None actionable. Names are accurate to behavior and consistent with the library
+and with java.util.stream conventions (mapToObj/mapToInt naming, etc.).
+
+--------------------------------------------------------------------------------
+3. RETURN-TYPE AND PARAMETER ISSUES
+--------------------------------------------------------------------------------
+[F1][FAMILY-WIDE] copyOf(int[]) | IntTuple.java:376 | High | CHANGE RETURN TYPE.
+   Declared `public static <TP extends IntTuple<TP>> TP copyOf(final int[])`,
+   but the runtime arity is chosen solely by values.length (377-389). The caller
+   freely picks TP, so `IntTuple3 t = IntTuple.copyOf(new int[]{1,2})` compiles
+   and throws ClassCastException at the assignment site. The Javadoc honestly
+   warns of this (364-367), but per GR5 documentation does not excuse an unsafe
+   signature. Recommend: `public static IntTuple<?> copyOf(int[])` (callers
+   downcast explicitly). Apply across all 8 tuples for consistency.
+
+[F4][FAMILY-WIDE] Empty-tuple aggregate contract | IntTuple0: sum 953-955 (->0),
+   min 918-921 / max 930-933 / median 942-945 / average 965-968 (all throw
+   NoSuchElementException) | High | KEEP, but treat as an explicit cross-library
+   decision. The split is internally consistent across all 7 numeric tuples and
+   defensible (sum has identity 0; min/max/median/average do not). The more
+   stream-aligned alternative is min/max/median -> OptionalInt and average ->
+   OptionalDouble (cf. IntStream), which would remove the exception entirely; do
+   NOT change piecemeal. IMPORTANT cross-class: ImmutableIntArray.average()
+   returns 0D on empty (does NOT throw) — that class diverges from this contract
+   (see ImmutableIntArray.txt #1 and SUMMARY).
+
+[F-low][FAMILY-WIDE] sum() overflow path | base IntTuple.java:554-556
+   (N.sum(elements())) vs per-arity IntTuple2:1407 (N.sum(_1,_2)) | Low | The
+   Javadoc promises ArithmeticException on int overflow. The guarantee lives in
+   the external N class (abacus-common, out of scope) and the two code paths use
+   two different N.sum overloads. CHECK to confirm/refute: verify N.sum(int...),
+   N.sum(int,int) and N.sum(int[]) all accumulate in long with checked narrowing
+   identically; if a fixed-arg overload wraps silently, base vs per-arity sum()
+   would diverge from the shared Javadoc.
+
+--------------------------------------------------------------------------------
+4. MISPLACED METHODS
+--------------------------------------------------------------------------------
+None.
+
+--------------------------------------------------------------------------------
+5. MISSING METHODS
+--------------------------------------------------------------------------------
+[F2][FAMILY-WIDE] Arity-agnostic indexed accessor get(int)/elementAt(int) |
+   absent (only public fields _1.._9 + arity()); verified no match in IntTuple.java
+   | Medium | ADD `public int get(int index)` (bounds-checked) to the base
+   IntTuple<TP>. arity() already exists on the base, but generic code holding an
+   IntTuple<?> cannot read element i without materializing toArray(). CHECK: if
+   the whole tuple family (incl. the object Tuple/Tuple2..N siblings) is
+   intentionally fields-only, downgrade to "keep + document".
+
+[F3][FAMILY-WIDE] Element-destructuring accept/map/filter beyond arity 3 |
+   present only IntTuple2 accept/map/filter 1532/1567/1603 and IntTuple3
+   1936/1972/2008; absent for arity 4..9 | High | DECIDE & DOCUMENT (or add).
+   A 4-tuple can only use the whole-tuple map(Throwables.Function) from the base,
+   not an element-wise form. Either the destructuring helpers are useful (then
+   add Quad/Penta... variants) or they are not (then 2/3 are noise). Most likely
+   the Throwables.IntQuad...+ functional interfaces simply do not exist, making
+   this a deliberate cutoff — if so, state it. CHECK: grep Throwables for
+   IntQuadConsumer/etc.
+
+--------------------------------------------------------------------------------
+6. DEPRECATION / REMOVAL CANDIDATES
+--------------------------------------------------------------------------------
+of(8)/of(9) | IntTuple.java:294-295,329-330 | (existing @Deprecated) | KEEP.
+   Deliberate, consistent across all 8 tuples, with a clear stated rationale.
+   No change.
+
+(Non-finding, recorded so it is not re-raised: IntTuple1.hashCode()->_1 at
+IntTuple.java:1219-1221 is the canonical int hash (Integer.hashCode(i)==i) and
+is consistent with the per-type hash used by Long/Float/Double Tuple1 — NOT an
+inconsistency.)

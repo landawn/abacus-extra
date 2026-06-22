@@ -1,0 +1,32 @@
+================================================================================
+API DESIGN REVIEW — DoubleTuple
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+
+1. OVERALL ASSESSMENT
+DoubleTuple mirrors IntTuple (verified) and is consistent with FloatTuple.
+Aggregate types correct: min/max/median -> double, sum -> double (IEEE; ->±Inf
+on overflow), average -> double. In-scope implementations route uniformly
+through N.min/N.max/N.median (aggregates) and N.equals (contains 1278 / equals
+919), so there is no visible semantic split inside this module. No class-specific
+actionable findings; family-wide items apply.
+
+APPLICABLE FAMILY-WIDE FINDINGS (full detail in IntTuple.txt):
+  - [F1] copyOf(double[]) generic self-type return -> CCE footgun. High.
+  - [F2] no arity-agnostic get(int) accessor. Medium.
+  - [F3] element-destructuring accept/map/filter stop at arity 3. High.
+  - [F4] empty-tuple: sum->0.0, min/max/median/average throw. High. KEEP.
+  - Null-callback IAE(forEach) vs NPE(accept/map/filter) split. Medium.
+
+LOW-CONFIDENCE NOTE (external dependency) | DoubleTuple.java:551/1458/1484/1512
+(aggregates via N.*) vs 919/1278 (equality via N.equals) | Low | Whether
+min/max/median (N.min/N.max/N.median) and contains/equals (N.equals) treat NaN
+and -0.0/+0.0 with the SAME conventions cannot be determined from in-scope
+source — both delegate to the external N class (abacus-common). CHECK to
+confirm/refute: inspect N.min(double...) vs N.equals(double[],double[]) in
+abacus-common; if one uses Double.compare and the other uses raw < / ==, NaN and
+signed-zero would behave inconsistently between aggregation and membership. If
+they differ, document the difference (no signature change implied).
+
+2.-6. No DoubleTuple-specific naming/return/placement/missing/deprecation
+findings beyond the above. of(8)/of(9) @Deprecated consistently (healthy).

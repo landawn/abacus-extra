@@ -1,0 +1,34 @@
+================================================================================
+API DESIGN REVIEW — LongTuple
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+
+1. OVERALL ASSESSMENT
+LongTuple mirrors IntTuple (verified). Aggregate types correct: min/max/median
+-> long, sum -> long (silent two's-complement wrap on overflow — the correct
+consequence of having no wider primitive, and documented), average -> double.
+Internally it uses a private overflow-safe averageOf(long...) helper — an
+intentional, justified divergence from the other variants (not public API, not a
+finding). One genuine cross-variant OUTLIER below.
+
+2. NAMING ISSUES
+None.
+
+3. RETURN-TYPE AND PARAMETER ISSUES
+Family-wide [F1]/[F4]/null-callback items apply (see IntTuple.txt).
+
+4. MISPLACED METHODS
+None.
+
+5. MISSING METHODS
+Family-wide [F2] (get(int)) and [F3] (accept/map/filter > arity 3) apply.
+
+6. DEPRECATION / REMOVAL CANDIDATES
+Redundant base-class toString() | LongTuple.java:956 (`return N.toString(
+   elements())`) | High | REMOVE (or add uniformly to all 8). LongTuple is the
+   ONLY tuple whose abstract base declares a concrete toString(); the other 7
+   bases have none and every concrete LongTuple0..9 overrides toString(), so
+   LongTuple.java:956 is unreachable/dead and a cross-variant inconsistency.
+   Trivial, low risk.
+
+of(8)/of(9) @Deprecated consistently (healthy).

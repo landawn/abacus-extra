@@ -1,0 +1,35 @@
+================================================================================
+API DESIGN REVIEW — BooleanTuple   (non-numeric outlier of the tuple family)
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+
+1. OVERALL ASSESSMENT
+BooleanTuple is the non-numeric mirror: it correctly OMITS sum/min/max/median/
+average (verified: no such methods, only the documented omission note at
+BooleanTuple.java:42-44) and keeps the shared structure — of(1..9), arity,
+contains, reverse, forEach, map/filter/accept (Tuple2 1196/1236/1275, Tuple3
+1563/1602/1641), toList/toArray/stream, equals/hashCode/toString, copyOf. Clean.
+Family-wide structural findings apply; one optional enhancement is boolean-
+specific.
+
+2. NAMING ISSUES
+None.
+
+3. RETURN-TYPE AND PARAMETER ISSUES
+Family-wide [F1] copyOf(boolean[]) CCE footgun applies (see IntTuple.txt). Null-
+callback IAE(forEach) vs NPE(accept/map/filter) split applies.
+
+4. MISPLACED METHODS
+None.
+
+5. MISSING METHODS
+count() — number of true elements | BooleanTuple.java:42-44 (no scalar reduction
+   exists) | Low | CONSIDER ADDING. Boolean is the only tuple variant with no
+   scalar aggregate at all; count-of-true is the one numerically meaningful
+   boolean reduction and would parallel the numeric sum(). Currently expressible
+   only via stream().filter(b->b).count(). CHECK: confirm capability-parity with
+   numeric tuples is a design goal; if minimal surface is preferred, keep as-is.
+Family-wide [F2] (get(int)) and [F3] (accept/map/filter > arity 3) also apply.
+
+6. DEPRECATION / REMOVAL CANDIDATES
+None. of(8)/of(9) @Deprecated consistently (healthy).

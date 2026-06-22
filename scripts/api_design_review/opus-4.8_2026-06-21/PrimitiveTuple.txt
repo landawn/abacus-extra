@@ -1,0 +1,53 @@
+================================================================================
+API DESIGN REVIEW — PrimitiveTuple   (abstract sealed base of the tuple family)
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+
+--------------------------------------------------------------------------------
+1. OVERALL ASSESSMENT
+--------------------------------------------------------------------------------
+Clean, correct sealed base (PrimitiveTuple.java:36-37 permits the 8 primitive
+tuple families). The self-type generic <TP extends PrimitiveTuple<TP>> is the
+right design and is closed correctly because the type is sealed and every
+permitted subtype binds TP to itself. The shared toolkit — arity() [abstract,
+44], accept() [56], map() [73, @MayReturnNull], filter() [90], toOptional()
+[100] — is minimal and appropriate. Only one cross-class consistency nit.
+
+--------------------------------------------------------------------------------
+2. NAMING ISSUES
+--------------------------------------------------------------------------------
+None.
+
+--------------------------------------------------------------------------------
+3. RETURN-TYPE AND PARAMETER ISSUES
+--------------------------------------------------------------------------------
+accept/map/filter null-callback exception | PrimitiveTuple.java:56,73,90 | Medium
+   | DOCUMENT or UNIFY (cross-class consistency). These three dereference the
+   functional argument directly, so a null callback yields NullPointerException
+   (the Javadoc correctly states @throws NullPointerException). However the
+   sibling forEach methods on the concrete tuples validate via
+   N.checkArgNotNull(action) and throw IllegalArgumentException (e.g.
+   IntTuple.java:754). So a null callback throws NPE through accept/map/filter
+   but IAE through forEach. This is the library-wide IAE-vs-NPE-for-null-callback
+   split. Low risk; recommend documenting the convention once and applying it
+   uniformly, or standardizing on one exception. (Behavior is internally
+   consistent and matches its own Javadoc, so this is a consistency item, not a
+   bug.)
+
+--------------------------------------------------------------------------------
+4. MISPLACED METHODS
+--------------------------------------------------------------------------------
+None.
+
+--------------------------------------------------------------------------------
+5. MISSING METHODS
+--------------------------------------------------------------------------------
+None at the base level. (The arity-agnostic get(int) gap is tracked as a
+family-wide item in IntTuple.txt [F2]; it would naturally live here on the base
+alongside arity(), since the base is the only place a get(int) could be
+arity-agnostic.)
+
+--------------------------------------------------------------------------------
+6. DEPRECATION / REMOVAL CANDIDATES
+--------------------------------------------------------------------------------
+None.

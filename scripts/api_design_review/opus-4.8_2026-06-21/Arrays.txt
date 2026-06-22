@@ -1,0 +1,152 @@
+================================================================================
+API DESIGN REVIEW — Arrays
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+STRUCTURE: sealed class Arrays (permits Arrays.f). The main class provides 2D/3D
+array utilities organized as REPEATING PER-TYPE BLOCKS (boolean/char/byte/short/
+int/long/float/double + generic Object/T), each block = {println, updateAll,
+replaceIf, reshape, flatten, mutateAsFlat, zip, elementCount, minSubArrayLength,
+maxSubArrayLength}, plus a typed-conversion block (toBoolean..toDouble, lines
+~16449-19864). Nested public final classes f (1D object), ff (2D object), fff
+(3D object) hold the functional/object-namespace helpers. Per-type repetition and
+f/ff/fff are INTENTIONAL template mirroring/dimensional variants, not duplication.
+
+--------------------------------------------------------------------------------
+1. OVERALL ASSESSMENT
+--------------------------------------------------------------------------------
+A very large but highly disciplined, well-mirrored utility class. Within the 8
+primitive blocks the families are internally consistent: unequal-length zip
+(truncate-to-shortest without defaults; pad-with-default when provided),
+default-value parameter naming (defaultValueA/B/C), parameter order (a,b,[c,]
+[defaults,] fn, [targetElementType]), Throwables.* functional types, reshape
+column-count + ragged-last-row via RoundingMode.CEILING with an overflow guard,
+flatten/elementCount overflow-safe sizing, and the empty-array-on-null
+convention. The actionable findings are mostly at the boundary between the
+primitive blocks and the generic object namespace (f/ff/fff) — a null-handling
+contract split and several coverage asymmetries — plus an incomplete typed-
+conversion matrix and a couple of placement/doc issues. No correctness bugs
+found in the mirrored primitive code.
+
+--------------------------------------------------------------------------------
+2. NAMING ISSUES
+--------------------------------------------------------------------------------
+mutateAsFlat(...) | Arrays.java:10069-10088 (int 2D) + all 18 overloads | Low |
+   Clarify name/doc. The action receives a TEMPORARY flattened copy (flatten(a)),
+   and results are copied back position-by-position bounded by the original row
+   lengths (10082-10087). "mutateAsFlat" reads as "mutate the array as if flat",
+   but the user mutates a throwaway buffer and a global reordering (e.g. sort)
+   redistributes values across rows. Recommend documenting that if the action
+   changes the flat length, trailing/leading elements are silently dropped/
+   ignored; optionally add a clearer alias (operateOnFlatView). Behavior verified
+   correct; this is naming/doc only.
+
+(updateAll vs JDK List.replaceAll / Arrays.setAll, and replaceIf vs updateAll:
+intentional and internally consistent across all blocks — NOT a finding.)
+
+--------------------------------------------------------------------------------
+3. RETURN-TYPE AND PARAMETER ISSUES
+--------------------------------------------------------------------------------
+[A] Null-`a` handling inconsistency across the family | High | HARMONIZE.
+   The generic overloads that infer the element type from `a` throw
+   IllegalArgumentException on null `a` via N.checkArgNotNull(a):
+     reshape(T[],int) 20542 ; reshape(T[],int,int) 22333 ;
+     flatten(T[][]) 20590 ; flatten(T[][][]) 22387 ;
+     map(T[][],UnaryOperator) 20713 ; map(T[][][],UnaryOperator) 22515 ;
+     zip no-target 2D 21196 / 3D 23032 and the 3-arg forms 21435 / 23277.
+   In contrast, EVERY primitive variant (e.g. reshape int 9821-9824, flatten int
+   9944-9946), the targetElementType generic overloads (e.g. ff.map(...,Class)
+   20759, generic zip(...,targetElementType) 21242/21488), and mutateAsFlat
+   (which checks `action`, not `a`: 20651/22451) all treat null/empty `a` as an
+   empty result / no-op. So the null contract depends on which overload you pick.
+   Recommend: make the inferred-type generic overloads return an empty result on
+   null/empty `a` for uniformity; where element-type inference genuinely requires
+   `a`, either add a targetElementType param so null can return empty, or
+   uniformly document null-`a` as a hard precondition across the whole family.
+
+[H] int[][][] zip(3-arg + defaults) omits the `if (minLen < maxLen)` guard |
+   Arrays.java:10835-10837 (bare `for (i=minLen; i<maxLen; ...)`) vs 2D int
+   10604-10609 and generic ff 21636-21641 (guarded) | Medium | Cosmetic
+   consistency cleanup. Behavior is identical (loop body does not run when
+   minLen==maxLen). CHECK: compare the 8 primitive 3D 3-arg+defaults bodies
+   (boolean 3767, char 5551, byte 7303, short 9030, long 12492, float 14231,
+   double 15956) and wrap the unguarded ones to match the template.
+
+--------------------------------------------------------------------------------
+4. MISPLACED METHODS
+--------------------------------------------------------------------------------
+Typed-conversion block (toBoolean..toDouble) placement | Arrays.java:16449-19864
+   | Low | OPTIONAL move. This ~3,400-line block performs scalar value mapping
+   (per-element casts), not array-structure manipulation, so it arguably belongs
+   on a dedicated Convert (or N) class rather than the multi-dimensional Arrays
+   utility. Semantics are sound (see section 5), so no change is required if kept.
+   CHECK before any move: grep callers of Arrays.toInt(/Arrays.toDouble( to
+   assess blast radius.
+
+println(...) I/O coupling | Arrays.java:92,148,202 + all per-type overloads |
+   Medium | SPLIT formatting from I/O. Every println overload writes to the
+   console (via N.println) AND returns the formatted string; there is no side-
+   effect-free formatter. For a general-purpose array utility this makes the
+   methods unusable/untestable in non-console contexts. Recommend extracting a
+   pure `String toString(...)`/`format(...)` family and reimplementing println as
+   N.println(toString(a)). Keep println for convenience.
+
+--------------------------------------------------------------------------------
+5. MISSING METHODS
+--------------------------------------------------------------------------------
+[B] Class `f` (1D object namespace) missing updateAll / replaceIf / same-type
+   map(UnaryOperator) / zip | Arrays.java: class f spans 19903-20394 and contains
+   only map(T[],Function,Class) 19950 + mapToX 20003-20367 | High | ADD the
+   missing 1D-object overloads. These operations exist for every primitive in 1D
+   (e.g. int updateAll 9539, replaceIf 9674, zip 10189) and for objects in 2D
+   (ff: updateAll 20436, replaceIf 20486, map(UnaryOperator) 20712, zip 21194)
+   and 3D (fff: 22240/22285/22514/23030), so the generic 1D row is the lone gap:
+     - updateAll(T[], Throwables.UnaryOperator<T,E>)
+     - replaceIf(T[], Throwables.Predicate<? super T,E>, T newValue)
+     - map(T[], Throwables.UnaryOperator<T,E>)            [same-type, infer type]
+     - zip(A[], B[], BiFunction[, defaults][, targetElementType])
+   Mirror the ff bodies one dimension lower. CHECK (zip only): confirm 1D object
+   zip is not intentionally delegated to N.zip / Stream elsewhere; if it is,
+   document that instead of adding.
+
+[C] minSubArrayLength / maxSubArrayLength missing in 3D (and asymmetric with
+   elementCount) | present only as 2D for all primitives + ff Object[][] (22060/
+   22103); NONE in fff; elementCount exists in BOTH ff(22018) and fff(23545) |
+   Medium | Make consistent with elementCount: either add 3D
+   minSubArrayLength/maxSubArrayLength (primitive [][][] and T[][][]) returning
+   the min/max innermost row length, or deliberately scope these as 2D-only and
+   document it. (The 3D absence is at least uniform across all types today.)
+
+[D] Typed-conversion source->target matrix is incomplete / asymmetric |
+   Arrays.java:16449-19864 | High (gap) / Medium (whether to fill) | DEFINE the
+   intended matrix and fill the implied cells. Verified 1D coverage:
+     toInt   <- boolean,byte,char,double,float,short      (NO long)
+     toLong  <- byte,double,float,int,short               (NO char)
+     toFloat <- byte,int,long,short                       (NO char, NO double)
+     toDouble<- byte,float,int,long,short                 (NO char)
+     toShort <- byte ;  toChar <- int ;  toByte <- boolean ;
+     toBoolean <- byte,int
+   Notable inconsistencies: (a) char widens only to int — char->long/float/double
+   missing though byte/short/int all widen fully; (b) long->int missing though
+   int->long exists and float/double->int/long narrowings exist; (c) double->
+   float missing though float->double exists and double->int/long exist. Priority
+   cells: toInt(long[]), toFloat(double[]), char->long/float/double. Each added
+   conversion needs 1D/2D/3D variants to match the pattern.
+
+(Informational, NOT a finding: primitive cross-type mapToInt/mapToLong/
+mapToDouble cover only the int/long/double 6-pair set — Arrays.java:1503/1669/
+1831/1995/2153/2317 — intentionally mirroring java.util.stream's primitive set;
+the object-side f.mapToX covers all 8 targets because the source is generic.)
+
+--------------------------------------------------------------------------------
+6. DEPRECATION / REMOVAL CANDIDATES
+--------------------------------------------------------------------------------
+[E] Object println Javadoc examples reference an inaccessible form | ff.println
+   22134 / fff.println 23591 are package-private (`static String println`); the
+   public entry is the parent Arrays.println(Object[][]) 148 / (Object[][][]) 202
+   which delegate. The package-private Javadoc examples show `ff.println(array)`
+   (22124) / `fff.println(data)` (23581), which external callers cannot compile |
+   Medium (facts High) | Either fix those two examples to `Arrays.println(...)`,
+   or make ff/fff println public to match the "every method callable through ff"
+   design note. No removal — just a visibility/doc consistency fix.
+
+No methods recommended for outright removal/deprecation.

@@ -1,0 +1,164 @@
+================================================================================
+API DESIGN REVIEW — CROSS-CLASS SUMMARY
+Package: com.landawn.abacus.util   (./src/main/java)
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+Classes (12): PrimitiveTuple, BooleanTuple, ByteTuple, CharTuple, ShortTuple,
+  IntTuple, LongTuple, FloatTuple, DoubleTuple, ImmutableIntArray, Points, Arrays
+================================================================================
+
+Overall: the reviewed surface is mature and unusually consistent — it is largely
+template/mirror-generated and the mirroring is faithful (the 7 numeric tuples are
+identical in shape; BooleanTuple correctly drops numeric aggregates; the Points
+4x5 matrix and the Arrays per-type blocks are uniform). Most findings are design
+gaps, footguns, and cross-class inconsistencies rather than correctness bugs.
+Every finding below was verified by the orchestrator against the cited source
+line. Findings that depend on the external `N` class (abacus-common, out of
+scope) are marked Low and carry a confirming check.
+
+================================================================================
+1. CONSISTENCY ISSUES SPANNING MULTIPLE CLASSES
+================================================================================
+
+C1. Empty-aggregate contract differs between ImmutableIntArray and the tuples.
+    The 7 numeric tuples throw NoSuchElementException from min/max/median/average
+    on an empty/arity-0 tuple and return 0 from sum (IntTuple0:918-968).
+    ImmutableIntArray matches for min/max (throw) and sum (0) BUT average()
+    returns 0D instead of throwing (ImmutableIntArray.java:397-399). A single
+    empty-collection-aggregate policy should hold across the package. See
+    ImmutableIntArray.txt #3 (3.average), IntTuple.txt [F4].
+    -> Decide ONE policy. Recommended target: min/max/median throw (status quo);
+       average either throws too, or (better, library-wide) all four move to
+       Optional* — but that is a large, separate decision.
+
+C2. Null-callback exception type is inconsistent (IAE vs NPE).
+    forEach validates the callback with N.checkArgNotNull -> IllegalArgumentException
+    (IntTuple.java:754; same in all tuples and ImmutableIntArray.forEach), while
+    accept/map/filter dereference the callback -> NullPointerException
+    (PrimitiveTuple.java:56/73/90). Same split appears wherever both styles
+    coexist. This is a pervasive, low-risk, documented-but-divergent convention.
+    -> Pick one (NPE for null args per Effective Java, OR the library's
+       checkArgNotNull->IAE) and apply uniformly; at minimum document it once.
+
+C3. Null-`a` handling is inconsistent within Arrays (and vs the rest of the lib).
+    Arrays' inferred-element-type generic overloads throw IAE on null `a`
+    (reshape/flatten/map(UnaryOperator)/zip-no-target: Arrays.java:20542,20590,
+    20713,21196,22333,22387,22515,23032,...), whereas all primitive variants,
+    the targetElementType generic overloads, and mutateAsFlat treat null/empty as
+    empty-result/no-op — which is the "empty-on-null" convention used elsewhere
+    (e.g. tuple copyOf(null)->empty tuple). See Arrays.txt [A].
+
+C4. Generic/object dimensional coverage lags the primitives (Arrays).
+    1D object namespace `f` lacks updateAll/replaceIf/same-type map/zip that all
+    primitives have in 1D and objects have in 2D/3D; minSubArrayLength/
+    maxSubArrayLength exist only in 2D while elementCount spans 2D+3D. See
+    Arrays.txt [B],[C].
+
+C5. Generic self-type copyOf footgun is library-wide across the tuple family.
+    copyOf(Xxx[]) returns `<TP extends XxxTuple<TP>> TP` with the runtime arity
+    chosen by length, so a wrong-arity assignment compiles and throws CCE
+    (IntTuple.java:376 + all 8). See IntTuple.txt [F1].
+
+C6. Primitive-coverage matrices are curated, not complete, in several places —
+    and the curation differs by class. The *Tuple family covers all 8 primitives;
+    Points covers only {byte,int,long,double} coords x {byte,int,long,double,Obj}
+    values (no short/char/float, documented as "common widths"); ImmutableIntArray
+    exists only for int; Arrays' typed-conversion matrix has irregular gaps
+    (char->only int; long->int and double->float missing). No single rule governs
+    which primitives get a variant. See Points.txt #5, ImmutableIntArray.txt
+    observation, Arrays.txt [D].
+
+Healthy areas (no action): the ~35 aggregate overloads across the 7 numeric
+tuples (sum/min/max/median/average) are consistent and correctly typed; the
+Points 40-record matrix is complete/symmetric/uniform; Arrays' primitive zip
+(112 overloads), reshape/flatten/elementCount, and the empty-on-null convention
+within the primitive blocks are internally consistent; of(8)/of(9) are uniformly
+@Deprecated with a clear rationale.
+
+================================================================================
+2. PRIORITIZED ACTION PLAN
+================================================================================
+Tags: P1 = clear win, low risk | P2 = worthwhile, needs a design decision |
+      P3 = nice-to-have.   Effort = rough; Compat = backward-compat impact
+      (per the task, breaking compat is acceptable / low priority).
+
+--- P1 (clear wins, low risk) ---------------------------------------------------
+P1.1  Remove the redundant base-class LongTuple.toString() (LongTuple.java:956);
+      it is dead/unreachable and the lone cross-variant outlier (the other 7
+      tuple bases have none).  Effort: trivial.  Compat: none (behavior
+      unchanged).  [LongTuple.txt #6]
+
+P1.2  Fix the two object-println Javadoc examples that show the inaccessible
+      ff.println(...) / fff.println(...) — change to Arrays.println(...)
+      (Arrays.java:22124, 23581).  Effort: trivial.  Compat: none (doc only).
+      [Arrays.txt [E]]
+
+P1.3  Add the `if (minLen < maxLen)` guard to the unguarded primitive 3D
+      zip(3-arg+defaults) bodies for template consistency (Arrays.java:10835 and
+      siblings).  Effort: small.  Compat: none (behavior identical).
+      [Arrays.txt [H]]
+
+--- P2 (worthwhile, needs a design decision) -----------------------------------
+P2.1  Resolve C1: make ImmutableIntArray.average() consistent with min()/max()
+      and IntTuple.average() — throw NoSuchElementException on empty, or return
+      OptionalDouble (JDK convention).  Effort: small.  Compat: behavioral
+      (callers relying on 0D break — acceptable).  [ImmutableIntArray.txt #3]
+
+P2.2  Resolve C3: harmonize Arrays null-`a` handling — inferred-type generic
+      overloads should return empty on null/empty `a` (add a targetElementType
+      param where inference needs `a`), or document null-`a` as a uniform hard
+      precondition.  Effort: medium.  Compat: behavioral for null inputs.
+      [Arrays.txt [A]]
+
+P2.3  Resolve C5: change tuple copyOf(Xxx[]) return type to XxxTuple<?> across
+      all 8 (removes the CCE footgun).  Effort: small-medium (8 files).
+      Compat: source-breaking at call sites that assign to an arity subtype —
+      acceptable.  [IntTuple.txt [F1]]
+
+P2.4  Close C4 dimensional gaps in Arrays' object namespace: add f.updateAll /
+      f.replaceIf / f.map(UnaryOperator) / f.zip (1D object).  Effort: medium.
+      Compat: additive.  [Arrays.txt [B]]
+
+P2.5  Add ImmutableIntArray.toArray() (P2) and of(int...) factory (P2); consider
+      median().  Effort: small.  Compat: additive.  [ImmutableIntArray.txt #5]
+
+P2.6  Fill the high-value typed-conversion matrix cells in Arrays: toInt(long[]),
+      toFloat(double[]), char->long/float/double (with 1D/2D/3D each), after
+      deciding the intended matrix.  Effort: medium-large.  Compat: additive.
+      [Arrays.txt [D]]
+
+P2.7  Add an arity-agnostic get(int)/elementAt(int) to the tuple base(s), or
+      formally document the fields-only design.  Effort: small.  Compat:
+      additive.  [IntTuple.txt [F2]]
+
+P2.8  Extract a pure toString(...)/format(...) family in Arrays and reimplement
+      println atop it (decouple formatting from System.out).  Effort: medium.
+      Compat: additive (keep println).  [Arrays.txt section 4]
+
+--- P3 (nice-to-have) ----------------------------------------------------------
+P3.1  Decide & document the element-destructuring accept/map/filter cutoff at
+      arity 3 (or add Quad/Penta... variants if the functional interfaces exist).
+      [IntTuple.txt [F3]]
+P3.2  Standardize the null-callback exception (C2) library-wide; low risk, mostly
+      documentation.  [PrimitiveTuple.txt section 3]
+P3.3  Add minSubArrayLength/maxSubArrayLength 3D variants to match elementCount,
+      or document the 2D-only scope.  [Arrays.txt [C]]
+P3.4  Add BooleanTuple.count() (number of true) for aggregate parity.
+      [BooleanTuple.txt #5]
+P3.5  Align ImmutableIntArray.get(int) to throw IndexOutOfBoundsException via
+      N.checkElementIndex (consistency with copyOfRange).  [ImmutableIntArray.txt #3]
+P3.6  Add ImmutableIntArray copyOf(int[],from,to) + first/last/indexOf/iterator/
+      toList; clarify mutateAsFlat naming/doc in Arrays.  [ImmutableIntArray.txt
+      #5, Arrays.txt section 2]
+P3.7  Decide whether Points / ImmutableIntArray should reach full primitive
+      parity (short/char/float coords/values; Immutable{Long,Double,...}Array) or
+      stay curated; document the rule.  [Points.txt #5, C6]
+P3.8  Consider relocating the Arrays typed-conversion block to a Convert/N class
+      (placement only).  [Arrays.txt section 4]
+
+--- Confirm-with-external-N (Low confidence; verify in abacus-common) -----------
+N1.   Float/Double aggregate (N.min/N.max/N.median) vs equality (N.equals)
+      NaN/-0.0 semantics — confirm they agree.  [DoubleTuple.txt, FloatTuple.txt]
+N2.   Tuple sum() overflow: confirm N.sum(int...)/N.sum(int,int)/N.sum(int[]) all
+      use checked long-narrowing identically so base vs per-arity sum() match the
+      shared @throws ArithmeticException Javadoc.  [IntTuple.txt F-low]
+================================================================================

@@ -1,3 +1,7 @@
+## 3.7.7
+* Naming convention improvements
+* Improvements and bug fixes
+
 ## 3.7.6
 * Naming convention improvements
 * Improvements and bug fixes

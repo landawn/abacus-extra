@@ -1,0 +1,26 @@
+================================================================================
+API DESIGN REVIEW — FloatTuple
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+
+1. OVERALL ASSESSMENT
+FloatTuple mirrors IntTuple (verified) and is fully consistent with DoubleTuple.
+Aggregate types correct: min/max/median -> float, sum -> float (IEEE), average
+-> double (widening to preserve precision — correct). contains/equals/hashCode
+use N.equals / Float.hashCode. No class-specific actionable findings; family-wide
+items apply.
+
+APPLICABLE FAMILY-WIDE FINDINGS (full detail in IntTuple.txt):
+  - [F1] copyOf(float[]) generic self-type return -> CCE footgun. High.
+  - [F2] no arity-agnostic get(int) accessor. Medium.
+  - [F3] element-destructuring accept/map/filter stop at arity 3. High.
+  - [F4] empty-tuple: sum->0.0f, min/max/median/average throw. High. KEEP.
+  - Null-callback IAE(forEach) vs NPE(accept/map/filter) split. Medium.
+
+LOW-CONFIDENCE NOTE (external dependency) | Low | Same NaN / -0.0 question as
+DoubleTuple: aggregates delegate to N.min/N.max/N.median and equality to
+N.equals; whether they share NaN/signed-zero conventions depends on the external
+N class. CHECK in abacus-common if precise IEEE behavior matters.
+
+2.-6. No FloatTuple-specific findings beyond the above. of(8)/of(9) @Deprecated
+consistently (healthy).

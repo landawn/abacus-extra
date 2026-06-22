@@ -1,0 +1,87 @@
+================================================================================
+API DESIGN REVIEW — ImmutableIntArray
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+
+--------------------------------------------------------------------------------
+1. OVERALL ASSESSMENT
+--------------------------------------------------------------------------------
+A solid, correct, well-documented immutable int[] wrapper (@Beta). Core mechanics
+— unsafeWrap/copyOf factories, isEmpty/length/contains/get, forEach/forEachIndexed,
+stream, copyOfRange, and value-semantics equals/hashCode/toString — are correct
+and clearly documented. Findings concern API completeness and a small set of
+consistency gaps (one of them a genuine cross-class divergence with IntTuple),
+not correctness bugs.
+
+--------------------------------------------------------------------------------
+2. NAMING ISSUES
+--------------------------------------------------------------------------------
+length() vs size() | ImmutableIntArray.java:202 | Low | OBSERVATION / keep.
+   Uses length() (array convention) where the library's list/tuple types use
+   size() (e.g. IntList.size(), IntTuple toList().size()). Since this wraps a raw
+   int[], length() is defensible and arguably more accurate. Not actionable on
+   its own; noted because it sits on the "array" side of the library's
+   length()-vs-size() split.
+
+--------------------------------------------------------------------------------
+3. RETURN-TYPE AND PARAMETER ISSUES
+--------------------------------------------------------------------------------
+average() empty-array behavior | ImmutableIntArray.java:397-399 (returns 0D;
+   doc 369,383-385) | High | CHANGE. On an empty array average() returns 0D,
+   while min() (282-285) and max() (320-323) throw NoSuchElementException. This
+   is inconsistent THREE ways: (a) vs this class's own min()/max(); (b) vs the
+   sibling IntTuple.average() which throws NoSuchElementException; (c) vs
+   IntStream.average() which returns OptionalDouble. Returning 0.0 silently is
+   dangerous because 0.0 is a valid mean. Recommend EITHER make average() throw
+   NoSuchElementException (match min/max + IntTuple) OR change the return type to
+   OptionalDouble (match IntStream / JDK convention). sum()->0 on empty (361-363)
+   is fine (identity element) and matches IntTuple — leave it.
+
+get(int) index-exception type | ImmutableIntArray.java:433-435 (raw
+   `elements[index]`, explicit "No need to call N.checkElementIndex" comment) |
+   Low | Align for consistency. get() leaks the JVM's
+   ArrayIndexOutOfBoundsException (documented at 430), whereas copyOfRange()
+   validates via N.checkFromToIndex and throws IndexOutOfBoundsException (619-620).
+   AIOOBE is a subclass of IOOBE so behavior is not wrong, but the two accessors
+   diverge. Recommend get() call N.checkElementIndex(index, length). (Micro-opt
+   deliberately skipped per the code comment; flag as consistency, not bug.)
+
+--------------------------------------------------------------------------------
+4. MISPLACED METHODS
+--------------------------------------------------------------------------------
+None.
+
+--------------------------------------------------------------------------------
+5. MISSING METHODS
+--------------------------------------------------------------------------------
+toArray() | absent (verified full method list) | High | ADD
+   `public int[] toArray()`. An immutable array wrapper with no first-class way
+   to extract a defensive mutable copy is a real gap; the only workaround is
+   copyOfRange(0, length()). The sibling IntTuple provides toArray().
+
+median() | absent | Medium | ADD `public double median()` (or int) to complete
+   the min/max/sum/average aggregate set — IntTuple bundles median with these.
+
+of(int...) factory | ImmutableIntArray.java:100,141 (only unsafeWrap/copyOf) |
+   High | ADD `public static ImmutableIntArray of(int... a)` (copy semantics),
+   mirroring IntTuple.of / IntList.of. There is no concise literal constructor
+   today.
+
+copyOf(int[], fromIndex, toIndex) factory | ImmutableIntArray.java:141 (only
+   single-arg copyOf) | Medium | ADD for symmetry with the instance
+   copyOfRange(int,int) (619) and with N.copyOfRange. CHECK: confirm it fits the
+   intended minimal @Beta surface.
+
+first()/last()/indexOf(int)/iterator()/toList() | absent | Low | CONSIDER. Common
+   accessors for an array-like type; lower priority than toArray()/median().
+
+--------------------------------------------------------------------------------
+6. DEPRECATION / REMOVAL CANDIDATES
+--------------------------------------------------------------------------------
+None.
+
+OBSERVATION (not a finding): ImmutableIntArray is the only Immutable*Array in the
+package — no ImmutableLongArray/DoubleArray/etc., despite the library's otherwise
+full primitive matrices (IntTuple has 8 siblings; Points has a 4x5 matrix). The
+@Beta marker partly explains this. If the family is intended, generate the other
+primitive variants; otherwise note the asymmetry.

@@ -1,0 +1,21 @@
+================================================================================
+API DESIGN REVIEW — CharTuple
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+
+1. OVERALL ASSESSMENT
+CharTuple is a faithful mirror of IntTuple (verified). Treating char as an
+unsigned 16-bit numeric is sensible and the choices are well justified: min/max
+/median -> char (an element; unsigned ordering correctly documented, 'Z'(90) <
+'a'(97)), sum -> int (9 chars max 589,815, cannot overflow int -> no @throws,
+correct), average -> double. No class-specific actionable findings.
+
+APPLICABLE FAMILY-WIDE FINDINGS (full detail in IntTuple.txt):
+  - [F1] copyOf(char[]) generic self-type return -> CCE footgun. High.
+  - [F2] no arity-agnostic get(int) accessor. Medium.
+  - [F3] element-destructuring accept/map/filter stop at arity 3. High.
+  - [F4] empty-tuple: sum->0, min/max/median/average throw. High. KEEP.
+  - Null-callback IAE(forEach) vs NPE(accept/map/filter) split. Medium.
+
+2.-6. No CharTuple-specific findings beyond the family-wide items above.
+of(8)/of(9) @Deprecated consistently (healthy).

@@ -37,14 +37,6 @@ Use multiple agents to perform a thorough deep line by line review for all the c
     DATE        = <YYYY-MM-DD>   # fix ONCE now; reuse for every path below,
                                  # including on resume. Record it in the state file.
 
-    SCOPE       = the explicit class list declared in Step 0 below.
-                  Recommended default (the static-method "utility" holders):
-                    N, CommonUtil, Strings, Numbers, Dates, Maps, Iterables,
-                    Iterators, Index, Array, Beans, IOUtil, CsvUtil
-                  (The package has 218 top-level classes total; most are enums,
-                   value types, immutables, or data structures and are OUT of
-                   scope unless explicitly added to the list.)
-
     EXECUTION   = one of:
                   (a) SEQUENTIAL  — single reviewer, one class at a time.
                       Highest verification fidelity. Default.

@@ -1,0 +1,19 @@
+================================================================================
+API DESIGN REVIEW — ShortTuple
+MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
+================================================================================
+
+1. OVERALL ASSESSMENT
+ShortTuple is a faithful mirror of IntTuple (verified). Aggregate widening is
+correct: min/max/median -> short, sum -> int (cannot overflow int -> no @throws,
+correct), average -> double. No class-specific actionable findings.
+
+APPLICABLE FAMILY-WIDE FINDINGS (full detail in IntTuple.txt):
+  - [F1] copyOf(short[]) generic self-type return -> CCE footgun. High.
+  - [F2] no arity-agnostic get(int) accessor. Medium.
+  - [F3] element-destructuring accept/map/filter stop at arity 3. High.
+  - [F4] empty-tuple: sum->0, min/max/median/average throw. High. KEEP.
+  - Null-callback IAE(forEach) vs NPE(accept/map/filter) split. Medium.
+
+2.-6. No ShortTuple-specific findings beyond the family-wide items above.
+of(8)/of(9) @Deprecated consistently (healthy).
