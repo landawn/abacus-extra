@@ -29,7 +29,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * reshaping, flattening, zipping, element counting, primitive conversion, and formatted printing.
  * Methods that mutate input arrays or return newly allocated storage document that behavior where relevant.</p>
  *
- * <p>The nested helper classes {@link f}, {@link ff}, and {@link fff} group the object-array specific
+ * <p>The nested helper classes {@link Arrays.f}, {@link Arrays.ff}, and {@link Arrays.fff} group the object-array specific
  * operations by dimensionality.</p>
  */
 @Beta
