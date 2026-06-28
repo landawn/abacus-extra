@@ -5,7 +5,7 @@ MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
 STRUCTURE: sealed class Arrays (permits Arrays.f). The main class provides 2D/3D
 array utilities organized as REPEATING PER-TYPE BLOCKS (boolean/char/byte/short/
 int/long/float/double + generic Object/T), each block = {println, updateAll,
-replaceIf, reshape, flatten, mutateAsFlat, zip, elementCount, minSubArrayLength,
+replaceIf, reshape, flatten, mutateFlattened, zip, elementCount, minSubArrayLength,
 maxSubArrayLength}, plus a typed-conversion block (toBoolean..toDouble, lines
 ~16449-19864). Nested public final classes f (1D object), ff (2D object), fff
 (3D object) hold the functional/object-namespace helpers. Per-type repetition and
@@ -30,10 +30,10 @@ found in the mirrored primitive code.
 --------------------------------------------------------------------------------
 2. NAMING ISSUES
 --------------------------------------------------------------------------------
-mutateAsFlat(...) | Arrays.java:10069-10088 (int 2D) + all 18 overloads | Low |
+mutateFlattened(...) | Arrays.java:10069-10088 (int 2D) + all 18 overloads | Low |
    Clarify name/doc. The action receives a TEMPORARY flattened copy (flatten(a)),
    and results are copied back position-by-position bounded by the original row
-   lengths (10082-10087). "mutateAsFlat" reads as "mutate the array as if flat",
+   lengths (10082-10087). "mutateFlattened" reads as "mutate the array as if flat",
    but the user mutates a throwaway buffer and a global reordering (e.g. sort)
    redistributes values across rows. Recommend documenting that if the action
    changes the flat length, trailing/leading elements are silently dropped/
@@ -55,7 +55,7 @@ intentional and internally consistent across all blocks — NOT a finding.)
      zip no-target 2D 21196 / 3D 23032 and the 3-arg forms 21435 / 23277.
    In contrast, EVERY primitive variant (e.g. reshape int 9821-9824, flatten int
    9944-9946), the targetElementType generic overloads (e.g. ff.map(...,Class)
-   20759, generic zip(...,targetElementType) 21242/21488), and mutateAsFlat
+   20759, generic zip(...,targetElementType) 21242/21488), and mutateFlattened
    (which checks `action`, not `a`: 20651/22451) all treat null/empty `a` as an
    empty result / no-op. So the null contract depends on which overload you pick.
    Recommend: make the inferred-type generic overloads return an empty result on

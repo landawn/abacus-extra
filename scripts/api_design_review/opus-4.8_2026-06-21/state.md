@@ -29,7 +29,7 @@
   Common API (all 8): of(1..9 args), arity(), reverse(), contains(), forEach(), map(2), filter(2), accept(2), toList(), toArray(), stream(), copyOf(), toString/hashCode/equals.
   Numeric API (7: Byte/Char/Short/Int/Long/Float/Double): + sum(), min(), max(), median(), average().
   BooleanTuple correctly OMITS numeric aggregates. ==> The 8 tuple classes are INTENTIONAL MIRRORS. Cross-variant consistency is the primary review axis; a method shared via mirroring is NOT a duplicate.
-- Arrays = sealed; permits Arrays.f. Nested public final classes: f (extends Arrays), ff, fff. Main Arrays class = static 2D/3D array utilities organized as REPEATING PER-TYPE BLOCKS (boolean/char/byte/short/int/long/float/double/generic), each block = {println, updateAll, replaceIf, reshape, flatten, mutateAsFlat, zip, elementCount, minSubArrayLength, maxSubArrayLength}. Separate toX conversion block (16449-19902). f/ff/fff = functional 1D/2D/3D helpers (map/mapToX/zip/updateAll/etc.). Arrays template-mirrored ==> cross-type consistency is primary axis.
+- Arrays = sealed; permits Arrays.f. Nested public final classes: f (extends Arrays), ff, fff. Main Arrays class = static 2D/3D array utilities organized as REPEATING PER-TYPE BLOCKS (boolean/char/byte/short/int/long/float/double/generic), each block = {println, updateAll, replaceIf, reshape, flatten, mutateFlattened, zip, elementCount, minSubArrayLength, maxSubArrayLength}. Separate toX conversion block (16449-19902). f/ff/fff = functional 1D/2D/3D helpers (map/mapToX/zip/updateAll/etc.). Arrays template-mirrored ==> cross-type consistency is primary axis.
 - ImmutableIntArray = standalone immutable int[] wrapper. unsafeWrap/copyOf factories; isEmpty/length/contains/min/max/sum/average/get/forEach/forEachIndexed/stream/copyOfRange + value semantics. (No sibling Immutable{Long,Double}Array in this package's scope.)
 - Points = namespace class. D2 (2D) + D3 (3D), each containing a matrix of record types: coordinate-type {Byte,Int,Long,Double} x value-type {Byte,Int,Long,Double,Obj<T>}. Each record has an of() factory.
 
@@ -39,7 +39,7 @@
 | T1 | PrimitiveTuple + IntTuple (canonical numeric) | done |
 | T2 | BooleanTuple + DoubleTuple + FloatTuple + CharTuple + cross-tuple structural check (Byte/Short/Long) | done |
 | AR1 | Arrays: mapToObj/mapToX, map, updateAll, replaceIf (transforms) across types + f/ff/fff | done |
-| AR2 | Arrays: reshape, flatten, mutateAsFlat, elementCount, min/maxSubArrayLength, println (structural) | done |
+| AR2 | Arrays: reshape, flatten, mutateFlattened, elementCount, min/maxSubArrayLength, println (structural) | done |
 | AR3 | Arrays: zip family + toBoolean/toChar/toByte/toShort/toInt/toLong/toFloat/toDouble conversions | done |
 | P1 | ImmutableIntArray + Points | done |
 
