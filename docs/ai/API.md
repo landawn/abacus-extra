@@ -1212,49 +1212,49 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(boolean\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlat(boolean\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+- **See also:** #flatten(boolean\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(boolean\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static boolean[] flatten(final boolean[][][] a)`
 - **Summary:** Flattens a three-dimensional boolean array into a one-dimensional boolean array.
 - **Parameters:**
   - `a` (`boolean[][][]`) — the three-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(boolean\[\]\[\]),for flattening two-dimensional arrays, #mutateAsFlat(boolean\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened three-dimensional arrays
+- **See also:** #flatten(boolean\[\]\[\]),for flattening two-dimensional arrays, #mutateFlattened(boolean\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened three-dimensional arrays
 - **Signature:** `public static char[] flatten(final char[][] a)`
 - **Summary:** Flattens a two-dimensional character array into a one-dimensional character array.
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(char\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlat(char\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+- **See also:** #flatten(char\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(char\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static char[] flatten(final char[][][] a)`
 - **Summary:** Flattens a three-dimensional character array into a one-dimensional character array.
 - **Parameters:**
   - `a` (`char[][][]`) — the three-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(char\[\]\[\]),for flattening two-dimensional arrays, #mutateAsFlat(char\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened three-dimensional arrays
+- **See also:** #flatten(char\[\]\[\]),for flattening two-dimensional arrays, #mutateFlattened(char\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened three-dimensional arrays
 - **Signature:** `public static byte[] flatten(final byte[][] a)`
 - **Summary:** Flattens a two-dimensional byte array into a new one-dimensional byte array by concatenating all its sub-arrays.
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(byte\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlat(byte\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(byte\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(byte\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static byte[] flatten(final byte[][][] a)`
 - **Summary:** Flattens a three-dimensional byte array into a new one-dimensional byte array by concatenating all its innermost sub-arrays in row-major order.
 - **Parameters:**
   - `a` (`byte[][][]`) — the three-dimensional byte array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(byte\[\]\[\]),for two-dimensional arrays, #mutateAsFlat(byte\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(byte\[\]\[\]),for two-dimensional arrays, #mutateFlattened(byte\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static short[] flatten(final short[][] a)`
 - **Summary:** Flattens a two-dimensional short array into a one-dimensional array.
 - **Parameters:**
   - `a` (`short[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(short\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlat(short\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(short\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(short\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static short[] flatten(final short[][][] a)`
 - **Summary:** Flattens a three-dimensional short array into a one-dimensional array.
 - **Parameters:**
   - `a` (`short[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(short\[\]\[\]),for two-dimensional arrays, #mutateAsFlat(short\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(short\[\]\[\]),for two-dimensional arrays, #mutateFlattened(short\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static int[] flatten(final int[][] a)`
 - **Summary:** Flattens a two-dimensional array into a one-dimensional array.
 - **Contract:**
@@ -1262,7 +1262,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`int[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(int\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlat(int\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(int\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(int\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static int[] flatten(final int[][][] a)`
 - **Summary:** Flattens a three-dimensional array into a one-dimensional array.
 - **Contract:**
@@ -1270,176 +1270,176 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`int[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(int\[\]\[\]),for two-dimensional arrays, #mutateAsFlat(int\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(int\[\]\[\]),for two-dimensional arrays, #mutateFlattened(int\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static long[] flatten(final long[][] a)`
 - **Summary:** Flattens a two-dimensional long array into a one-dimensional long array by concatenating its rows.
 - **Parameters:**
   - `a` (`long[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(long\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlat(long\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(long\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(long\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static long[] flatten(final long[][][] a)`
 - **Summary:** Flattens a three-dimensional long array into a one-dimensional long array by concatenating its elements in order.
 - **Parameters:**
   - `a` (`long[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(long\[\]\[\]),for two-dimensional arrays, #mutateAsFlat(long\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(long\[\]\[\]),for two-dimensional arrays, #mutateFlattened(long\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static float[] flatten(final float[][] a)`
 - **Summary:** Flattens a two-dimensional float array into a new one-dimensional float array.
 - **Parameters:**
   - `a` (`float[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(float\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlat(float\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+- **See also:** #flatten(float\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(float\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static float[] flatten(final float[][][] a)`
 - **Summary:** Flattens a three-dimensional float array into a new one-dimensional float array.
 - **Parameters:**
   - `a` (`float[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(float\[\]\[\]),for flattening two-dimensional arrays, #mutateAsFlat(float\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+- **See also:** #flatten(float\[\]\[\]),for flattening two-dimensional arrays, #mutateFlattened(float\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static double[] flatten(final double[][] a)`
 - **Summary:** Flattens a two-dimensional array into a one-dimensional array by concatenating its rows.
 - **Parameters:**
   - `a` (`double[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(double\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlat(double\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+- **See also:** #flatten(double\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(double\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static double[] flatten(final double[][][] a)`
 - **Summary:** Flattens a three-dimensional array into a one-dimensional array by concatenating its elements in order.
 - **Parameters:**
   - `a` (`double[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
-- **See also:** #flatten(double\[\]\[\]),for flattening two-dimensional arrays, #mutateAsFlat(double\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
-##### mutateAsFlat(...) -> void
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
+- **See also:** #flatten(double\[\]\[\]),for flattening two-dimensional arrays, #mutateFlattened(double\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+##### mutateFlattened(...) -> void
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Contract:**
-  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 2D structure boolean\[\]\[\] arr = {{true, false}, {false, true}}; Arrays.mutateAsFlat(arr, t -> { for (int i = 0; i < t.length; i++) t\[i\] = !t\[i\]; }); // arr is now: {{false, true}, {true, false}} // Set all elements to true via the flat view boolean\[\]\[\] arr2 = {{false, false}, {false, false}}; Arrays.mutateAsFlat(arr2, t -> java.util.Arrays.fill(t, true)); // arr2 is now: {{true, true}, {true, true}} // Null array is a no-op; action must not be null Arrays.mutateAsFlat((boolean\[\]\[\]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateAsFlat(new boolean\[\]\[\]{{true}}, null); // throws IllegalArgumentException } </pre>
+  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 2D structure boolean\[\]\[\] arr = {{true, false}, {false, true}}; Arrays.mutateFlattened(arr, t -> { for (int i = 0; i < t.length; i++) t\[i\] = !t\[i\]; }); // arr is now: {{false, true}, {true, false}} // Set all elements to true via the flat view boolean\[\]\[\] arr2 = {{false, false}, {false, false}}; Arrays.mutateFlattened(arr2, t -> java.util.Arrays.fill(t, true)); // arr2 is now: {{true, true}, {true, true}} // Null array is a no-op; action must not be null Arrays.mutateFlattened((boolean\[\]\[\]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateFlattened(new boolean\[\]\[\]{{true}}, null); // throws IllegalArgumentException } </pre>
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array to operate on (can be {@code null} or empty).
   - `action` (`Throwables.Consumer<? super boolean[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #flatten(boolean\[\]\[\]),for just flattening without applying operations, #mutateAsFlat(boolean\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
+- **See also:** #flatten(boolean\[\]\[\]),for just flattening without applying operations, #mutateFlattened(boolean\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
-  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 3D structure boolean\[\]\[\]\[\] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}}; Arrays.mutateAsFlat(cube, arr -> { for (int i = 0; i < arr.length; i++) arr\[i\] = !arr\[i\]; }); // cube is now: {{{true, false}, {false, true}}, {{false, true}, {true, false}}} // Set all elements to false via the flat view boolean\[\]\[\]\[\] cube2 = {{{true, true}}, {{true}}}; Arrays.mutateAsFlat(cube2, t -> java.util.Arrays.fill(t, false)); // cube2 is now: {{{false, false}}, {{false}}} // Null array is a no-op; action must not be null Arrays.mutateAsFlat((boolean\[\]\[\]\[\]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateAsFlat(new boolean\[\]\[\]\[\]{{{true}}}, null); // throws IllegalArgumentException } </pre>
+  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 3D structure boolean\[\]\[\]\[\] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}}; Arrays.mutateFlattened(cube, arr -> { for (int i = 0; i < arr.length; i++) arr\[i\] = !arr\[i\]; }); // cube is now: {{{true, false}, {false, true}}, {{false, true}, {true, false}}} // Set all elements to false via the flat view boolean\[\]\[\]\[\] cube2 = {{{true, true}}, {{true}}}; Arrays.mutateFlattened(cube2, t -> java.util.Arrays.fill(t, false)); // cube2 is now: {{{false, false}}, {{false}}} // Null array is a no-op; action must not be null Arrays.mutateFlattened((boolean\[\]\[\]\[\]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateFlattened(new boolean\[\]\[\]\[\]{{{true}}}, null); // throws IllegalArgumentException } </pre>
 - **Parameters:**
   - `a` (`boolean[][][]`) — the three-dimensional boolean array to operate on (can be {@code null} or empty).
   - `action` (`Throwables.Consumer<? super boolean[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #flatten(boolean\[\]\[\]\[\]),for just flattening without applying operations, #mutateAsFlat(boolean\[\]\[\], Throwables.Consumer),for two-dimensional arrays
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E`
+- **See also:** #flatten(boolean\[\]\[\]\[\]),for just flattening without applying operations, #mutateFlattened(boolean\[\]\[\], Throwables.Consumer),for two-dimensional arrays
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super char[], E>`) — the consumer operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(char\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(char\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E`
+- **See also:** #mutateFlattened(char\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(char\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Parameters:**
   - `a` (`char[][][]`) — the three-dimensional character array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super char[], E>`) — the consumer operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(char\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(char\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E`
+- **See also:** #mutateFlattened(char\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(char\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to operate on (can be {@code null} or empty).
   - `action` (`Throwables.Consumer<? super byte[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(byte\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(byte\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E`
+- **See also:** #mutateFlattened(byte\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(byte\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Parameters:**
   - `a` (`byte[][][]`) — the three-dimensional byte array to operate on (can be {@code null} or empty).
   - `action` (`Throwables.Consumer<? super byte[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(byte\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(byte\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E`
+- **See also:** #mutateFlattened(byte\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(byte\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Parameters:**
   - `a` (`short[][]`) — the two-dimensional array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super short[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(short\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(short\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E`
+- **See also:** #mutateFlattened(short\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(short\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Parameters:**
   - `a` (`short[][][]`) — the three-dimensional array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super short[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(short\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(short\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E`
+- **See also:** #mutateFlattened(short\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(short\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Parameters:**
   - `a` (`int[][]`) — the two-dimensional array to process (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super int[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(int\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(int\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E`
+- **See also:** #mutateFlattened(int\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(int\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Parameters:**
   - `a` (`int[][][]`) — the three-dimensional array to process (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super int[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(int\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(int\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E`
+- **See also:** #mutateFlattened(int\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(int\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Parameters:**
   - `a` (`long[][]`) — the two-dimensional array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super long[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(long\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(long\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E`
+- **See also:** #mutateFlattened(long\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(long\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Parameters:**
   - `a` (`long[][][]`) — the three-dimensional array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super long[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(long\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(long\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E`
+- **See also:** #mutateFlattened(long\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(long\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Parameters:**
   - `a` (`float[][]`) — the two-dimensional array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super float[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(float\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(float\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E`
+- **See also:** #mutateFlattened(float\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(float\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Parameters:**
   - `a` (`float[][][]`) — the three-dimensional array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super float[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(float\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(float\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E`
+- **See also:** #mutateFlattened(float\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(float\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Parameters:**
   - `a` (`double[][]`) — the two-dimensional array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super double[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(double\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(double\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateAsFlat(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E`
+- **See also:** #mutateFlattened(double\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(double\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateFlattened(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Parameters:**
   - `a` (`double[][][]`) — the three-dimensional array to operate on (can be {@code null} ).
   - `action` (`Throwables.Consumer<? super double[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateAsFlat(double\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(double\[\]\[\]\[\]),for flattening without copy-back
+- **See also:** #mutateFlattened(double\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(double\[\]\[\]\[\]),for flattening without copy-back
 ##### zip(...) -> boolean\[\]
 - **Signature:** `public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E`
 - **Summary:** Combines elements from two boolean arrays using the provided zip function.
@@ -3396,8 +3396,8 @@ Object-array helper namespace for two-dimensional arrays.
 - **Returns:** a new one-dimensional array containing all elements from the input array.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code a} is {@code null} .
-##### mutateAsFlat(...) -> void
-- **Signature:** `public static <T, E extends Exception> void mutateAsFlat(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E`
+##### mutateFlattened(...) -> void
+- **Signature:** `public static <T, E extends Exception> void mutateFlattened(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E`
 - **Summary:** Performs an operation on a flattened view of a two-dimensional array, then copies the modified elements back to the original array structure.
 - **Parameters:**
   - `a` (`T[][]`) — the two-dimensional array to operate on (can be {@code null} ). The operation modifies this array in-place.
@@ -3664,8 +3664,8 @@ Object-array helper namespace for three-dimensional arrays.
 - **Returns:** a new one-dimensional array containing all elements in order.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code a} is {@code null} .
-##### mutateAsFlat(...) -> void
-- **Signature:** `public static <T, E extends Exception> void mutateAsFlat(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E`
+##### mutateFlattened(...) -> void
+- **Signature:** `public static <T, E extends Exception> void mutateFlattened(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, applies an operation to the flattened result, then copies the modified elements back into the original three-dimensional structure.
 - **Parameters:**
   - `a` (`T[][][]`) — the three-dimensional array to operate on (can be {@code null} ). Modified in-place.
