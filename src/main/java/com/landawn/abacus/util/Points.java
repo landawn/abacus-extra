@@ -80,27 +80,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical positive coordinates and value
              * Points.D2.ByteBytePoint p1 = Points.D2.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 5);
-             * p1.x()     // returns (byte) 10
-             * p1.y()     // returns (byte) 20
-             * p1.value() // returns (byte) 5
+             * p1.x();     // returns (byte) 10
+             * p1.y();     // returns (byte) 20
+             * p1.value(); // returns (byte) 5
              *
              * // Basic: zero coordinates and value
              * Points.D2.ByteBytePoint p2 = Points.D2.ByteBytePoint.of((byte) 0, (byte) 0, (byte) 0);
-             * p2.x()     // returns (byte) 0
-             * p2.y()     // returns (byte) 0
-             * p2.value() // returns (byte) 0
+             * p2.x();     // returns (byte) 0
+             * p2.y();     // returns (byte) 0
+             * p2.value(); // returns (byte) 0
              *
              * // Edge: minimum boundary values (Byte.MIN_VALUE = -128)
              * Points.D2.ByteBytePoint p3 = Points.D2.ByteBytePoint.of((byte) -128, (byte) -128, (byte) -128);
-             * p3.x()     // returns (byte) -128
-             * p3.y()     // returns (byte) -128
-             * p3.value() // returns (byte) -128
+             * p3.x();     // returns (byte) -128
+             * p3.y();     // returns (byte) -128
+             * p3.value(); // returns (byte) -128
              *
              * // Edge: maximum boundary values (Byte.MAX_VALUE = 127)
              * Points.D2.ByteBytePoint p4 = Points.D2.ByteBytePoint.of((byte) 127, (byte) 127, (byte) 127);
-             * p4.x()     // returns (byte) 127
-             * p4.y()     // returns (byte) 127
-             * p4.value() // returns (byte) 127
+             * p4.x();     // returns (byte) 127
+             * p4.y();     // returns (byte) 127
+             * p4.value(); // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -135,27 +135,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical byte coordinates with a large integer value
              * Points.D2.ByteIntPoint p1 = Points.D2.ByteIntPoint.of((byte) 5, (byte) 10, 1000);
-             * p1.x()     // returns (byte) 5
-             * p1.y()     // returns (byte) 10
-             * p1.value() // returns 1000
+             * p1.x();     // returns (byte) 5
+             * p1.y();     // returns (byte) 10
+             * p1.value(); // returns 1000
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.ByteIntPoint p2 = Points.D2.ByteIntPoint.of((byte) 0, (byte) 0, 0);
-             * p2.x()     // returns (byte) 0
-             * p2.y()     // returns (byte) 0
-             * p2.value() // returns 0
+             * p2.x();     // returns (byte) 0
+             * p2.y();     // returns (byte) 0
+             * p2.value(); // returns 0
              *
              * // Edge: Byte.MIN_VALUE x, Byte.MAX_VALUE y, Integer.MIN_VALUE
              * Points.D2.ByteIntPoint p3 = Points.D2.ByteIntPoint.of((byte) -128, (byte) 127, Integer.MIN_VALUE);
-             * p3.x()     // returns (byte) -128
-             * p3.y()     // returns (byte) 127
-             * p3.value() // returns Integer.MIN_VALUE (-2147483648)
+             * p3.x();     // returns (byte) -128
+             * p3.y();     // returns (byte) 127
+             * p3.value(); // returns Integer.MIN_VALUE (-2147483648)
              *
              * // Edge: negative byte coords with Integer.MAX_VALUE
              * Points.D2.ByteIntPoint p4 = Points.D2.ByteIntPoint.of((byte) -1, (byte) -1, Integer.MAX_VALUE);
-             * p4.x()     // returns (byte) -1
-             * p4.y()     // returns (byte) -1
-             * p4.value() // returns Integer.MAX_VALUE (2147483647)
+             * p4.x();     // returns (byte) -1
+             * p4.y();     // returns (byte) -1
+             * p4.value(); // returns Integer.MAX_VALUE (2147483647)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -190,27 +190,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical byte coordinates with a large long value
              * Points.D2.ByteLongPoint p1 = Points.D2.ByteLongPoint.of((byte) 3, (byte) 7, 1_000_000_000L);
-             * p1.x()     // returns (byte) 3
-             * p1.y()     // returns (byte) 7
-             * p1.value() // returns 1000000000L
+             * p1.x();     // returns (byte) 3
+             * p1.y();     // returns (byte) 7
+             * p1.value(); // returns 1000000000L
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.ByteLongPoint p2 = Points.D2.ByteLongPoint.of((byte) 0, (byte) 0, 0L);
-             * p2.x()     // returns (byte) 0
-             * p2.y()     // returns (byte) 0
-             * p2.value() // returns 0L
+             * p2.x();     // returns (byte) 0
+             * p2.y();     // returns (byte) 0
+             * p2.value(); // returns 0L
              *
              * // Edge: Byte.MIN_VALUE coords, Long.MIN_VALUE
              * Points.D2.ByteLongPoint p3 = Points.D2.ByteLongPoint.of((byte) -128, (byte) -128, Long.MIN_VALUE);
-             * p3.x()     // returns (byte) -128
-             * p3.y()     // returns (byte) -128
-             * p3.value() // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.x();     // returns (byte) -128
+             * p3.y();     // returns (byte) -128
+             * p3.value(); // returns Long.MIN_VALUE (-9223372036854775808L)
              *
              * // Edge: Byte.MAX_VALUE coords, Long.MAX_VALUE
              * Points.D2.ByteLongPoint p4 = Points.D2.ByteLongPoint.of((byte) 127, (byte) 127, Long.MAX_VALUE);
-             * p4.x()     // returns (byte) 127
-             * p4.y()     // returns (byte) 127
-             * p4.value() // returns Long.MAX_VALUE (9223372036854775807L)
+             * p4.x();     // returns (byte) 127
+             * p4.y();     // returns (byte) 127
+             * p4.value(); // returns Long.MAX_VALUE (9223372036854775807L)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -245,27 +245,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical byte coordinates with a floating-point value
              * Points.D2.ByteDoublePoint p1 = Points.D2.ByteDoublePoint.of((byte) 2, (byte) 4, 3.14159);
-             * p1.x()     // returns (byte) 2
-             * p1.y()     // returns (byte) 4
-             * p1.value() // returns 3.14159
+             * p1.x();     // returns (byte) 2
+             * p1.y();     // returns (byte) 4
+             * p1.value(); // returns 3.14159
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.ByteDoublePoint p2 = Points.D2.ByteDoublePoint.of((byte) 0, (byte) 0, 0.0);
-             * p2.x()     // returns (byte) 0
-             * p2.y()     // returns (byte) 0
-             * p2.value() // returns 0.0
+             * p2.x();     // returns (byte) 0
+             * p2.y();     // returns (byte) 0
+             * p2.value(); // returns 0.0
              *
              * // Edge: Byte.MIN_VALUE and Byte.MAX_VALUE coords, Double.NaN value
              * Points.D2.ByteDoublePoint p3 = Points.D2.ByteDoublePoint.of((byte) -128, (byte) 127, Double.NaN);
-             * p3.x()                   // returns (byte) -128
-             * p3.y()                   // returns (byte) 127
-             * Double.isNaN(p3.value()) // returns true
+             * p3.x();                   // returns (byte) -128
+             * p3.y();                   // returns (byte) 127
+             * Double.isNaN(p3.value()); // returns true
              *
              * // Edge: negative byte coords, Double.POSITIVE_INFINITY value
              * Points.D2.ByteDoublePoint p4 = Points.D2.ByteDoublePoint.of((byte) -1, (byte) -1, Double.POSITIVE_INFINITY);
-             * p4.x()     // returns (byte) -1
-             * p4.y()     // returns (byte) -1
-             * p4.value() // returns Double.POSITIVE_INFINITY
+             * p4.x();     // returns (byte) -1
+             * p4.y();     // returns (byte) -1
+             * p4.value(); // returns Double.POSITIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -302,27 +302,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: byte coordinates with a String value
              * Points.D2.ByteObjPoint<String> p1 = Points.D2.ByteObjPoint.of((byte) 1, (byte) 2, "label");
-             * p1.x()     // returns (byte) 1
-             * p1.y()     // returns (byte) 2
-             * p1.value() // returns "label"
+             * p1.x();     // returns (byte) 1
+             * p1.y();     // returns (byte) 2
+             * p1.value(); // returns "label"
              *
              * // Basic: byte coordinates with an Integer value
              * Points.D2.ByteObjPoint<Integer> p2 = Points.D2.ByteObjPoint.of((byte) 10, (byte) 20, 42);
-             * p2.x()     // returns (byte) 10
-             * p2.y()     // returns (byte) 20
-             * p2.value() // returns 42
+             * p2.x();     // returns (byte) 10
+             * p2.y();     // returns (byte) 20
+             * p2.value(); // returns 42
              *
              * // Edge: Byte.MIN_VALUE / Byte.MAX_VALUE coords, null value (records permit null components)
              * Points.D2.ByteObjPoint<String> p3 = Points.D2.ByteObjPoint.of((byte) -128, (byte) 127, null);
-             * p3.x()     // returns (byte) -128
-             * p3.y()     // returns (byte) 127
-             * p3.value() // returns null
+             * p3.x();     // returns (byte) -128
+             * p3.y();     // returns (byte) 127
+             * p3.value(); // returns null
              *
              * // Edge: negative byte coords, arbitrary object value
              * Points.D2.ByteObjPoint<int[]> p4 = Points.D2.ByteObjPoint.of((byte) -1, (byte) -1, new int[]{1, 2, 3});
-             * p4.x()            // returns (byte) -1
-             * p4.y()            // returns (byte) -1
-             * p4.value().length // returns 3
+             * p4.x();            // returns (byte) -1
+             * p4.y();            // returns (byte) -1
+             * p4.value().length; // returns 3
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -358,27 +358,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical integer coordinates with a byte value
              * Points.D2.IntBytePoint p1 = Points.D2.IntBytePoint.of(100, 200, (byte) 10);
-             * p1.x()     // returns 100
-             * p1.y()     // returns 200
-             * p1.value() // returns (byte) 10
+             * p1.x();     // returns 100
+             * p1.y();     // returns 200
+             * p1.value(); // returns (byte) 10
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.IntBytePoint p2 = Points.D2.IntBytePoint.of(0, 0, (byte) 0);
-             * p2.x()     // returns 0
-             * p2.y()     // returns 0
-             * p2.value() // returns (byte) 0
+             * p2.x();     // returns 0
+             * p2.y();     // returns 0
+             * p2.value(); // returns (byte) 0
              *
              * // Edge: Integer.MIN_VALUE x, Integer.MAX_VALUE y, Byte.MIN_VALUE value
              * Points.D2.IntBytePoint p3 = Points.D2.IntBytePoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, (byte) -128);
-             * p3.x()     // returns Integer.MIN_VALUE (-2147483648)
-             * p3.y()     // returns Integer.MAX_VALUE (2147483647)
-             * p3.value() // returns (byte) -128
+             * p3.x();     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y();     // returns Integer.MAX_VALUE (2147483647)
+             * p3.value(); // returns (byte) -128
              *
              * // Edge: negative integer coords with Byte.MAX_VALUE
              * Points.D2.IntBytePoint p4 = Points.D2.IntBytePoint.of(-1, -1, (byte) 127);
-             * p4.x()     // returns -1
-             * p4.y()     // returns -1
-             * p4.value() // returns (byte) 127
+             * p4.x();     // returns -1
+             * p4.y();     // returns -1
+             * p4.value(); // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -414,27 +414,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical positive coordinates and value
              * Points.D2.IntIntPoint p1 = Points.D2.IntIntPoint.of(100, 200, 300);
-             * p1.x()     // returns 100
-             * p1.y()     // returns 200
-             * p1.value() // returns 300
+             * p1.x();     // returns 100
+             * p1.y();     // returns 200
+             * p1.value(); // returns 300
              *
              * // Basic: zero coordinates and value
              * Points.D2.IntIntPoint p2 = Points.D2.IntIntPoint.of(0, 0, 0);
-             * p2.x()     // returns 0
-             * p2.y()     // returns 0
-             * p2.value() // returns 0
+             * p2.x();     // returns 0
+             * p2.y();     // returns 0
+             * p2.value(); // returns 0
              *
              * // Edge: Integer.MIN_VALUE for all fields
              * Points.D2.IntIntPoint p3 = Points.D2.IntIntPoint.of(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
-             * p3.x()     // returns Integer.MIN_VALUE (-2147483648)
-             * p3.y()     // returns Integer.MIN_VALUE (-2147483648)
-             * p3.value() // returns Integer.MIN_VALUE (-2147483648)
+             * p3.x();     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y();     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.value(); // returns Integer.MIN_VALUE (-2147483648)
              *
              * // Edge: Integer.MAX_VALUE for all fields
              * Points.D2.IntIntPoint p4 = Points.D2.IntIntPoint.of(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
-             * p4.x()     // returns Integer.MAX_VALUE (2147483647)
-             * p4.y()     // returns Integer.MAX_VALUE (2147483647)
-             * p4.value() // returns Integer.MAX_VALUE (2147483647)
+             * p4.x();     // returns Integer.MAX_VALUE (2147483647)
+             * p4.y();     // returns Integer.MAX_VALUE (2147483647)
+             * p4.value(); // returns Integer.MAX_VALUE (2147483647)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -469,27 +469,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical integer coordinates with a large long value
              * Points.D2.IntLongPoint p1 = Points.D2.IntLongPoint.of(50, 75, 10_000_000_000L);
-             * p1.x()     // returns 50
-             * p1.y()     // returns 75
-             * p1.value() // returns 10000000000L
+             * p1.x();     // returns 50
+             * p1.y();     // returns 75
+             * p1.value(); // returns 10000000000L
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.IntLongPoint p2 = Points.D2.IntLongPoint.of(0, 0, 0L);
-             * p2.x()     // returns 0
-             * p2.y()     // returns 0
-             * p2.value() // returns 0L
+             * p2.x();     // returns 0
+             * p2.y();     // returns 0
+             * p2.value(); // returns 0L
              *
              * // Edge: Integer.MIN_VALUE x, Integer.MAX_VALUE y, Long.MIN_VALUE
              * Points.D2.IntLongPoint p3 = Points.D2.IntLongPoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, Long.MIN_VALUE);
-             * p3.x()     // returns Integer.MIN_VALUE (-2147483648)
-             * p3.y()     // returns Integer.MAX_VALUE (2147483647)
-             * p3.value() // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.x();     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y();     // returns Integer.MAX_VALUE (2147483647)
+             * p3.value(); // returns Long.MIN_VALUE (-9223372036854775808L)
              *
              * // Edge: negative integer coords with Long.MAX_VALUE
              * Points.D2.IntLongPoint p4 = Points.D2.IntLongPoint.of(-1, -1, Long.MAX_VALUE);
-             * p4.x()     // returns -1
-             * p4.y()     // returns -1
-             * p4.value() // returns Long.MAX_VALUE (9223372036854775807L)
+             * p4.x();     // returns -1
+             * p4.y();     // returns -1
+             * p4.value(); // returns Long.MAX_VALUE (9223372036854775807L)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -524,27 +524,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical integer coordinates with a double value
              * Points.D2.IntDoublePoint p1 = Points.D2.IntDoublePoint.of(10, 20, 3.14159);
-             * p1.x()     // returns 10
-             * p1.y()     // returns 20
-             * p1.value() // returns 3.14159
+             * p1.x();     // returns 10
+             * p1.y();     // returns 20
+             * p1.value(); // returns 3.14159
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.IntDoublePoint p2 = Points.D2.IntDoublePoint.of(0, 0, 0.0);
-             * p2.x()     // returns 0
-             * p2.y()     // returns 0
-             * p2.value() // returns 0.0
+             * p2.x();     // returns 0
+             * p2.y();     // returns 0
+             * p2.value(); // returns 0.0
              *
              * // Edge: Integer extremes, Double.NaN value
              * Points.D2.IntDoublePoint p3 = Points.D2.IntDoublePoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, Double.NaN);
-             * p3.x()                   // returns Integer.MIN_VALUE (-2147483648)
-             * p3.y()                   // returns Integer.MAX_VALUE (2147483647)
-             * Double.isNaN(p3.value()) // returns true
+             * p3.x();                   // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y();                   // returns Integer.MAX_VALUE (2147483647)
+             * Double.isNaN(p3.value()); // returns true
              *
              * // Edge: negative integer coords with Double.NEGATIVE_INFINITY
              * Points.D2.IntDoublePoint p4 = Points.D2.IntDoublePoint.of(-1, -1, Double.NEGATIVE_INFINITY);
-             * p4.x()     // returns -1
-             * p4.y()     // returns -1
-             * p4.value() // returns Double.NEGATIVE_INFINITY
+             * p4.x();     // returns -1
+             * p4.y();     // returns -1
+             * p4.value(); // returns Double.NEGATIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -581,27 +581,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: integer coordinates with a String value
              * Points.D2.IntObjPoint<String> p1 = Points.D2.IntObjPoint.of(10, 20, "label");
-             * p1.x()     // returns 10
-             * p1.y()     // returns 20
-             * p1.value() // returns "label"
+             * p1.x();     // returns 10
+             * p1.y();     // returns 20
+             * p1.value(); // returns "label"
              *
              * // Basic: integer coordinates with an Integer value
              * Points.D2.IntObjPoint<Integer> p2 = Points.D2.IntObjPoint.of(5, 8, 99);
-             * p2.x()     // returns 5
-             * p2.y()     // returns 8
-             * p2.value() // returns 99
+             * p2.x();     // returns 5
+             * p2.y();     // returns 8
+             * p2.value(); // returns 99
              *
              * // Edge: Integer extremes, null value (records permit null components)
              * Points.D2.IntObjPoint<String> p3 = Points.D2.IntObjPoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, null);
-             * p3.x()     // returns Integer.MIN_VALUE (-2147483648)
-             * p3.y()     // returns Integer.MAX_VALUE (2147483647)
-             * p3.value() // returns null
+             * p3.x();     // returns Integer.MIN_VALUE (-2147483648)
+             * p3.y();     // returns Integer.MAX_VALUE (2147483647)
+             * p3.value(); // returns null
              *
              * // Edge: zero coords, array as value
              * Points.D2.IntObjPoint<int[]> p4 = Points.D2.IntObjPoint.of(0, 0, new int[]{1, 2, 3});
-             * p4.x()            // returns 0
-             * p4.y()            // returns 0
-             * p4.value().length // returns 3
+             * p4.x();            // returns 0
+             * p4.y();            // returns 0
+             * p4.value().length; // returns 3
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -637,27 +637,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical large long coordinates with a byte value
              * Points.D2.LongBytePoint p1 = Points.D2.LongBytePoint.of(1_000_000L, 2_000_000L, (byte) 5);
-             * p1.x()     // returns 1000000L
-             * p1.y()     // returns 2000000L
-             * p1.value() // returns (byte) 5
+             * p1.x();     // returns 1000000L
+             * p1.y();     // returns 2000000L
+             * p1.value(); // returns (byte) 5
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.LongBytePoint p2 = Points.D2.LongBytePoint.of(0L, 0L, (byte) 0);
-             * p2.x()     // returns 0L
-             * p2.y()     // returns 0L
-             * p2.value() // returns (byte) 0
+             * p2.x();     // returns 0L
+             * p2.y();     // returns 0L
+             * p2.value(); // returns (byte) 0
              *
              * // Edge: Long.MIN_VALUE x, Long.MAX_VALUE y, Byte.MIN_VALUE
              * Points.D2.LongBytePoint p3 = Points.D2.LongBytePoint.of(Long.MIN_VALUE, Long.MAX_VALUE, (byte) -128);
-             * p3.x()     // returns Long.MIN_VALUE (-9223372036854775808L)
-             * p3.y()     // returns Long.MAX_VALUE (9223372036854775807L)
-             * p3.value() // returns (byte) -128
+             * p3.x();     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y();     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p3.value(); // returns (byte) -128
              *
              * // Edge: negative long coords with Byte.MAX_VALUE
              * Points.D2.LongBytePoint p4 = Points.D2.LongBytePoint.of(-1L, -1L, (byte) 127);
-             * p4.x()     // returns -1L
-             * p4.y()     // returns -1L
-             * p4.value() // returns (byte) 127
+             * p4.x();     // returns -1L
+             * p4.y();     // returns -1L
+             * p4.value(); // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -692,27 +692,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical large long coordinates with an integer value
              * Points.D2.LongIntPoint p1 = Points.D2.LongIntPoint.of(1_000_000L, 2_000_000L, 500);
-             * p1.x()     // returns 1000000L
-             * p1.y()     // returns 2000000L
-             * p1.value() // returns 500
+             * p1.x();     // returns 1000000L
+             * p1.y();     // returns 2000000L
+             * p1.value(); // returns 500
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.LongIntPoint p2 = Points.D2.LongIntPoint.of(0L, 0L, 0);
-             * p2.x()     // returns 0L
-             * p2.y()     // returns 0L
-             * p2.value() // returns 0
+             * p2.x();     // returns 0L
+             * p2.y();     // returns 0L
+             * p2.value(); // returns 0
              *
              * // Edge: Long.MIN_VALUE x, Long.MAX_VALUE y, Integer.MIN_VALUE
              * Points.D2.LongIntPoint p3 = Points.D2.LongIntPoint.of(Long.MIN_VALUE, Long.MAX_VALUE, Integer.MIN_VALUE);
-             * p3.x()     // returns Long.MIN_VALUE (-9223372036854775808L)
-             * p3.y()     // returns Long.MAX_VALUE (9223372036854775807L)
-             * p3.value() // returns Integer.MIN_VALUE (-2147483648)
+             * p3.x();     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y();     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p3.value(); // returns Integer.MIN_VALUE (-2147483648)
              *
              * // Edge: negative long coords with Integer.MAX_VALUE
              * Points.D2.LongIntPoint p4 = Points.D2.LongIntPoint.of(-1L, -1L, Integer.MAX_VALUE);
-             * p4.x()     // returns -1L
-             * p4.y()     // returns -1L
-             * p4.value() // returns Integer.MAX_VALUE (2147483647)
+             * p4.x();     // returns -1L
+             * p4.y();     // returns -1L
+             * p4.value(); // returns Integer.MAX_VALUE (2147483647)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -746,27 +746,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical large long coordinates and long value
              * Points.D2.LongLongPoint p1 = Points.D2.LongLongPoint.of(1_000_000L, 2_000_000L, 3_000_000_000L);
-             * p1.x()     // returns 1000000L
-             * p1.y()     // returns 2000000L
-             * p1.value() // returns 3000000000L
+             * p1.x();     // returns 1000000L
+             * p1.y();     // returns 2000000L
+             * p1.value(); // returns 3000000000L
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.LongLongPoint p2 = Points.D2.LongLongPoint.of(0L, 0L, 0L);
-             * p2.x()     // returns 0L
-             * p2.y()     // returns 0L
-             * p2.value() // returns 0L
+             * p2.x();     // returns 0L
+             * p2.y();     // returns 0L
+             * p2.value(); // returns 0L
              *
              * // Edge: Long.MIN_VALUE for all fields
              * Points.D2.LongLongPoint p3 = Points.D2.LongLongPoint.of(Long.MIN_VALUE, Long.MIN_VALUE, Long.MIN_VALUE);
-             * p3.x()     // returns Long.MIN_VALUE (-9223372036854775808L)
-             * p3.y()     // returns Long.MIN_VALUE (-9223372036854775808L)
-             * p3.value() // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.x();     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y();     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.value(); // returns Long.MIN_VALUE (-9223372036854775808L)
              *
              * // Edge: Long.MAX_VALUE for all fields
              * Points.D2.LongLongPoint p4 = Points.D2.LongLongPoint.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE);
-             * p4.x()     // returns Long.MAX_VALUE (9223372036854775807L)
-             * p4.y()     // returns Long.MAX_VALUE (9223372036854775807L)
-             * p4.value() // returns Long.MAX_VALUE (9223372036854775807L)
+             * p4.x();     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p4.y();     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p4.value(); // returns Long.MAX_VALUE (9223372036854775807L)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -801,27 +801,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical large long coordinates with a double value
              * Points.D2.LongDoublePoint p1 = Points.D2.LongDoublePoint.of(1_000_000L, 2_000_000L, 3.14159);
-             * p1.x()     // returns 1000000L
-             * p1.y()     // returns 2000000L
-             * p1.value() // returns 3.14159
+             * p1.x();     // returns 1000000L
+             * p1.y();     // returns 2000000L
+             * p1.value(); // returns 3.14159
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.LongDoublePoint p2 = Points.D2.LongDoublePoint.of(0L, 0L, 0.0);
-             * p2.x()     // returns 0L
-             * p2.y()     // returns 0L
-             * p2.value() // returns 0.0
+             * p2.x();     // returns 0L
+             * p2.y();     // returns 0L
+             * p2.value(); // returns 0.0
              *
              * // Edge: Long.MIN_VALUE x, Long.MAX_VALUE y, Double.NaN value
              * Points.D2.LongDoublePoint p3 = Points.D2.LongDoublePoint.of(Long.MIN_VALUE, Long.MAX_VALUE, Double.NaN);
-             * p3.x()                   // returns Long.MIN_VALUE (-9223372036854775808L)
-             * p3.y()                   // returns Long.MAX_VALUE (9223372036854775807L)
-             * Double.isNaN(p3.value()) // returns true
+             * p3.x();                   // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y();                   // returns Long.MAX_VALUE (9223372036854775807L)
+             * Double.isNaN(p3.value()); // returns true
              *
              * // Edge: negative long coords with Double.NEGATIVE_INFINITY
              * Points.D2.LongDoublePoint p4 = Points.D2.LongDoublePoint.of(-1L, -1L, Double.NEGATIVE_INFINITY);
-             * p4.x()     // returns -1L
-             * p4.y()     // returns -1L
-             * p4.value() // returns Double.NEGATIVE_INFINITY
+             * p4.x();     // returns -1L
+             * p4.y();     // returns -1L
+             * p4.value(); // returns Double.NEGATIVE_INFINITY
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -858,27 +858,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: large long coordinates with a String value
              * Points.D2.LongObjPoint<String> p1 = Points.D2.LongObjPoint.of(1_000_000L, 2_000_000L, "marker");
-             * p1.x()     // returns 1000000L
-             * p1.y()     // returns 2000000L
-             * p1.value() // returns "marker"
+             * p1.x();     // returns 1000000L
+             * p1.y();     // returns 2000000L
+             * p1.value(); // returns "marker"
              *
              * // Basic: small long coordinates with an Integer value
              * Points.D2.LongObjPoint<Integer> p2 = Points.D2.LongObjPoint.of(5L, 8L, 99);
-             * p2.x()     // returns 5L
-             * p2.y()     // returns 8L
-             * p2.value() // returns 99
+             * p2.x();     // returns 5L
+             * p2.y();     // returns 8L
+             * p2.value(); // returns 99
              *
              * // Edge: Long.MIN_VALUE x, Long.MAX_VALUE y, null value (records permit null components)
              * Points.D2.LongObjPoint<String> p3 = Points.D2.LongObjPoint.of(Long.MIN_VALUE, Long.MAX_VALUE, null);
-             * p3.x()     // returns Long.MIN_VALUE (-9223372036854775808L)
-             * p3.y()     // returns Long.MAX_VALUE (9223372036854775807L)
-             * p3.value() // returns null
+             * p3.x();     // returns Long.MIN_VALUE (-9223372036854775808L)
+             * p3.y();     // returns Long.MAX_VALUE (9223372036854775807L)
+             * p3.value(); // returns null
              *
              * // Edge: zero coords, array as value
              * Points.D2.LongObjPoint<int[]> p4 = Points.D2.LongObjPoint.of(0L, 0L, new int[]{10, 20});
-             * p4.x()            // returns 0L
-             * p4.y()            // returns 0L
-             * p4.value().length // returns 2
+             * p4.x();            // returns 0L
+             * p4.y();            // returns 0L
+             * p4.value().length; // returns 2
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
@@ -914,27 +914,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical double coordinates with a byte value
              * Points.D2.DoubleBytePoint p1 = Points.D2.DoubleBytePoint.of(10.5, 20.7, (byte) 3);
-             * p1.x()     // returns 10.5
-             * p1.y()     // returns 20.7
-             * p1.value() // returns (byte) 3
+             * p1.x();     // returns 10.5
+             * p1.y();     // returns 20.7
+             * p1.value(); // returns (byte) 3
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.DoubleBytePoint p2 = Points.D2.DoubleBytePoint.of(0.0, 0.0, (byte) 0);
-             * p2.x()     // returns 0.0
-             * p2.y()     // returns 0.0
-             * p2.value() // returns (byte) 0
+             * p2.x();     // returns 0.0
+             * p2.y();     // returns 0.0
+             * p2.value(); // returns (byte) 0
              *
              * // Edge: Double.NaN x, Double.POSITIVE_INFINITY y, Byte.MIN_VALUE
              * Points.D2.DoubleBytePoint p3 = Points.D2.DoubleBytePoint.of(Double.NaN, Double.POSITIVE_INFINITY, (byte) -128);
-             * Double.isNaN(p3.x())    // returns true
-             * p3.y()                  // returns Double.POSITIVE_INFINITY
-             * p3.value()              // returns (byte) -128
+             * Double.isNaN(p3.x());    // returns true
+             * p3.y();                  // returns Double.POSITIVE_INFINITY
+             * p3.value();              // returns (byte) -128
              *
              * // Edge: negative double coords with Byte.MAX_VALUE
              * Points.D2.DoubleBytePoint p4 = Points.D2.DoubleBytePoint.of(-1.0, -1.0, (byte) 127);
-             * p4.x()     // returns -1.0
-             * p4.y()     // returns -1.0
-             * p4.value() // returns (byte) 127
+             * p4.x();     // returns -1.0
+             * p4.y();     // returns -1.0
+             * p4.value(); // returns (byte) 127
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -969,27 +969,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical double coordinates with an integer value
              * Points.D2.DoubleIntPoint p1 = Points.D2.DoubleIntPoint.of(10.5, 20.7, 100);
-             * p1.x()     // returns 10.5
-             * p1.y()     // returns 20.7
-             * p1.value() // returns 100
+             * p1.x();     // returns 10.5
+             * p1.y();     // returns 20.7
+             * p1.value(); // returns 100
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.DoubleIntPoint p2 = Points.D2.DoubleIntPoint.of(0.0, 0.0, 0);
-             * p2.x()     // returns 0.0
-             * p2.y()     // returns 0.0
-             * p2.value() // returns 0
+             * p2.x();     // returns 0.0
+             * p2.y();     // returns 0.0
+             * p2.value(); // returns 0
              *
              * // Edge: Double.NEGATIVE_INFINITY x, Double.NaN y, Integer.MIN_VALUE
              * Points.D2.DoubleIntPoint p3 = Points.D2.DoubleIntPoint.of(Double.NEGATIVE_INFINITY, Double.NaN, Integer.MIN_VALUE);
-             * p3.x()               // returns Double.NEGATIVE_INFINITY
-             * Double.isNaN(p3.y()) // returns true
-             * p3.value()           // returns Integer.MIN_VALUE (-2147483648)
+             * p3.x();               // returns Double.NEGATIVE_INFINITY
+             * Double.isNaN(p3.y()); // returns true
+             * p3.value();           // returns Integer.MIN_VALUE (-2147483648)
              *
              * // Edge: negative double coords with Integer.MAX_VALUE
              * Points.D2.DoubleIntPoint p4 = Points.D2.DoubleIntPoint.of(-1.0, -1.0, Integer.MAX_VALUE);
-             * p4.x()     // returns -1.0
-             * p4.y()     // returns -1.0
-             * p4.value() // returns Integer.MAX_VALUE (2147483647)
+             * p4.x();     // returns -1.0
+             * p4.y();     // returns -1.0
+             * p4.value(); // returns Integer.MAX_VALUE (2147483647)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1024,27 +1024,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical double coordinates with a large long value
              * Points.D2.DoubleLongPoint p1 = Points.D2.DoubleLongPoint.of(10.5, 20.7, 1_000_000_000L);
-             * p1.x()     // returns 10.5
-             * p1.y()     // returns 20.7
-             * p1.value() // returns 1000000000L
+             * p1.x();     // returns 10.5
+             * p1.y();     // returns 20.7
+             * p1.value(); // returns 1000000000L
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.DoubleLongPoint p2 = Points.D2.DoubleLongPoint.of(0.0, 0.0, 0L);
-             * p2.x()     // returns 0.0
-             * p2.y()     // returns 0.0
-             * p2.value() // returns 0L
+             * p2.x();     // returns 0.0
+             * p2.y();     // returns 0.0
+             * p2.value(); // returns 0L
              *
              * // Edge: Double.NaN x, Double.POSITIVE_INFINITY y, Long.MIN_VALUE
              * Points.D2.DoubleLongPoint p3 = Points.D2.DoubleLongPoint.of(Double.NaN, Double.POSITIVE_INFINITY, Long.MIN_VALUE);
-             * Double.isNaN(p3.x()) // returns true
-             * p3.y()               // returns Double.POSITIVE_INFINITY
-             * p3.value()           // returns Long.MIN_VALUE (-9223372036854775808L)
+             * Double.isNaN(p3.x()); // returns true
+             * p3.y();               // returns Double.POSITIVE_INFINITY
+             * p3.value();           // returns Long.MIN_VALUE (-9223372036854775808L)
              *
              * // Edge: negative double coords with Long.MAX_VALUE
              * Points.D2.DoubleLongPoint p4 = Points.D2.DoubleLongPoint.of(-1.0, -1.0, Long.MAX_VALUE);
-             * p4.x()     // returns -1.0
-             * p4.y()     // returns -1.0
-             * p4.value() // returns Long.MAX_VALUE (9223372036854775807L)
+             * p4.x();     // returns -1.0
+             * p4.y();     // returns -1.0
+             * p4.value(); // returns Long.MAX_VALUE (9223372036854775807L)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1078,27 +1078,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: typical double coordinates and double value
              * Points.D2.DoubleDoublePoint p1 = Points.D2.DoubleDoublePoint.of(10.5, 20.7, 3.14159);
-             * p1.x()     // returns 10.5
-             * p1.y()     // returns 20.7
-             * p1.value() // returns 3.14159
+             * p1.x();     // returns 10.5
+             * p1.y();     // returns 20.7
+             * p1.value(); // returns 3.14159
              *
              * // Basic: zero coordinates and zero value
              * Points.D2.DoubleDoublePoint p2 = Points.D2.DoubleDoublePoint.of(0.0, 0.0, 0.0);
-             * p2.x()     // returns 0.0
-             * p2.y()     // returns 0.0
-             * p2.value() // returns 0.0
+             * p2.x();     // returns 0.0
+             * p2.y();     // returns 0.0
+             * p2.value(); // returns 0.0
              *
              * // Edge: Double.NaN for all fields
              * Points.D2.DoubleDoublePoint p3 = Points.D2.DoubleDoublePoint.of(Double.NaN, Double.NaN, Double.NaN);
-             * Double.isNaN(p3.x())     // returns true
-             * Double.isNaN(p3.y())     // returns true
-             * Double.isNaN(p3.value()) // returns true
+             * Double.isNaN(p3.x());     // returns true
+             * Double.isNaN(p3.y());     // returns true
+             * Double.isNaN(p3.value()); // returns true
              *
              * // Edge: positive/negative infinity coords with Double.MIN_VALUE
              * Points.D2.DoubleDoublePoint p4 = Points.D2.DoubleDoublePoint.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.MIN_VALUE);
-             * p4.x()     // returns Double.POSITIVE_INFINITY
-             * p4.y()     // returns Double.NEGATIVE_INFINITY
-             * p4.value() // returns Double.MIN_VALUE (4.9E-324)
+             * p4.x();     // returns Double.POSITIVE_INFINITY
+             * p4.y();     // returns Double.NEGATIVE_INFINITY
+             * p4.value(); // returns Double.MIN_VALUE (4.9E-324)
              * }</pre>
              *
              * @param x the x-coordinate of the point
@@ -1135,27 +1135,27 @@ public final class Points {
              * <pre>{@code
              * // Basic: double coordinates with a String value
              * Points.D2.DoubleObjPoint<String> p1 = Points.D2.DoubleObjPoint.of(10.5, 20.7, "location");
-             * p1.x()     // returns 10.5
-             * p1.y()     // returns 20.7
-             * p1.value() // returns "location"
+             * p1.x();     // returns 10.5
+             * p1.y();     // returns 20.7
+             * p1.value(); // returns "location"
              *
              * // Basic: double coordinates with an Integer value
              * Points.D2.DoubleObjPoint<Integer> p2 = Points.D2.DoubleObjPoint.of(3.14159, 2.71828, 42);
-             * p2.x()     // returns 3.14159
-             * p2.y()     // returns 2.71828
-             * p2.value() // returns 42
+             * p2.x();     // returns 3.14159
+             * p2.y();     // returns 2.71828
+             * p2.value(); // returns 42
              *
              * // Edge: Double.NaN x, Double.POSITIVE_INFINITY y, null value (records permit null components)
              * Points.D2.DoubleObjPoint<String> p3 = Points.D2.DoubleObjPoint.of(Double.NaN, Double.POSITIVE_INFINITY, null);
-             * Double.isNaN(p3.x())    // returns true
-             * p3.y()                  // returns Double.POSITIVE_INFINITY
-             * p3.value()              // returns null
+             * Double.isNaN(p3.x());    // returns true
+             * p3.y();                  // returns Double.POSITIVE_INFINITY
+             * p3.value();              // returns null
              *
              * // Edge: zero coords, array as value
              * Points.D2.DoubleObjPoint<int[]> p4 = Points.D2.DoubleObjPoint.of(0.0, 0.0, new int[]{10, 20});
-             * p4.x()            // returns 0.0
-             * p4.y()            // returns 0.0
-             * p4.value().length // returns 2
+             * p4.x();            // returns 0.0
+             * p4.y();            // returns 0.0
+             * p4.value().length; // returns 2
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
