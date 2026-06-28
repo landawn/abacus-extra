@@ -208,7 +208,7 @@ class FloatTupleTest extends TestBase {
         assertEquals(2.0f, tuple.average(), DELTA);
 
         FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.average());
+        assertEquals(0D, empty.average(), 0D);
     }
 
     @Test
@@ -495,7 +495,7 @@ class FloatTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, empty::min);
         assertThrows(NoSuchElementException.class, empty::max);
         assertThrows(NoSuchElementException.class, empty::median);
-        assertThrows(NoSuchElementException.class, empty::average);
+        assertEquals(0D, empty.average(), 0D);
     }
 
     // Exercise zero-initialized tuple constructors and cached element materialization.
@@ -825,9 +825,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testAverageTuple0ThrowsException() {
+        public void testAverageTuple0ReturnsZero() {
             FloatTuple<FloatTuple0> tuple = FloatTuple.copyOf(new float[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         // Reverse tests
@@ -2741,7 +2741,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testAverage_emptyTuple() {
             FloatTuple<?> tuple = FloatTuple.copyOf(new float[0]);
-            assertThrows(NoSuchElementException.class, tuple::average);
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         // ============ Reverse Tests ============
@@ -3215,9 +3215,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void test_FloatTuple0_average_throwsException() {
+        public void test_FloatTuple0_average_returnsZero() {
             FloatTuple0 tuple = FloatTuple.copyOf(new float[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test

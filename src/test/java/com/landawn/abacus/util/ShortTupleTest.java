@@ -207,7 +207,7 @@ class ShortTupleTest extends TestBase {
         assertEquals(10.0, tuple.average());
 
         ShortTuple.ShortTuple0 empty = ShortTuple.copyOf(new short[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.average());
+        assertEquals(0D, empty.average(), 0D);
     }
 
     @Test
@@ -217,7 +217,7 @@ class ShortTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0D, tuple.average(), 0D);
         assertEquals(0, tuple.sum());
     }
 
@@ -842,9 +842,9 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void testAverageTuple0ThrowsException() {
+        public void testAverageTuple0ReturnsZero() {
             ShortTuple<ShortTuple0> tuple = ShortTuple.copyOf(new short[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         // Reverse tests
@@ -2597,7 +2597,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testTuple0_average() {
             ShortTuple<?> tuple = ShortTuple.copyOf(null);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test
@@ -2884,7 +2884,7 @@ class ShortTupleTest extends TestBase {
 
         @Test
         public void testAverage_Empty() {
-            assertThrows(NoSuchElementException.class, () -> ShortTuple.copyOf(null).average());
+            assertEquals(0D, ShortTuple.copyOf(null).average(), 0D);
         }
 
         // ====== Reverse Tests ======
@@ -3360,9 +3360,9 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void test_ShortTuple0_average_throwsException() {
+        public void test_ShortTuple0_average_returnsZero() {
             ShortTuple0 tuple = ShortTuple.copyOf(new short[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test

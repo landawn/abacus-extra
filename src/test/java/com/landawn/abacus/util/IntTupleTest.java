@@ -207,7 +207,7 @@ class IntTupleTest extends TestBase {
         assertEquals(20.0, tuple.average());
 
         IntTuple.IntTuple0 empty = IntTuple.copyOf(new int[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.average());
+        assertEquals(0D, empty.average(), 0D);
     }
 
     @Test
@@ -217,7 +217,7 @@ class IntTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0D, tuple.average(), 0D);
         assertEquals(0, tuple.sum());
     }
 
@@ -799,9 +799,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testAverageTuple0ThrowsException() {
+        public void testAverageTuple0ReturnsZero() {
             IntTuple<IntTuple0> tuple = IntTuple.copyOf(new int[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         // Reverse tests
@@ -2641,7 +2641,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testTuple0_average() {
             IntTuple<?> tuple = IntTuple.copyOf(null);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test
@@ -3593,9 +3593,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void test_IntTuple0_average_throwsException() {
+        public void test_IntTuple0_average_returnsZero() {
             IntTuple0 tuple = IntTuple.copyOf(new int[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test

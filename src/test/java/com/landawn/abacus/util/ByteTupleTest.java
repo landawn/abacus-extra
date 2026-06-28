@@ -203,7 +203,7 @@ class ByteTupleTest extends TestBase {
         assertEquals(20.0, tuple.average());
 
         ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.average());
+        assertEquals(0D, empty.average(), 0D);
     }
 
     @Test
@@ -213,7 +213,7 @@ class ByteTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0D, tuple.average(), 0D);
         assertEquals(0, tuple.sum());
     }
 
@@ -809,9 +809,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testAverageTuple0ThrowsException() {
+        public void testAverageTuple0ReturnsZero() {
             ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         // Reverse tests
@@ -2208,9 +2208,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple0_average_throwsException() {
+        public void testTuple0_average_returnsZero() {
             ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test
@@ -2845,9 +2845,9 @@ class ByteTupleTest extends TestBase {
         // ============ Average Tests ============
 
         @Test
-        public void testTuple0_average_throwsException() {
+        public void testTuple0_average_returnsZero() {
             ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test

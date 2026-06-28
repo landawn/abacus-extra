@@ -206,7 +206,7 @@ class LongTupleTest extends TestBase {
         assertEquals(200.0, tuple.average());
 
         LongTuple.LongTuple0 empty = LongTuple.copyOf(new long[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.average());
+        assertEquals(0D, empty.average(), 0D);
     }
 
     @Test
@@ -216,7 +216,7 @@ class LongTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0D, tuple.average(), 0D);
         assertEquals(0L, tuple.sum());
     }
 
@@ -941,9 +941,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testAverageTuple0ThrowsException() {
+        public void testAverageTuple0ReturnsZero() {
             LongTuple<LongTuple0> tuple = LongTuple.copyOf(new long[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         // Reverse tests
@@ -2738,7 +2738,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testTuple0_average() {
             LongTuple<?> tuple = LongTuple.copyOf(null);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test
@@ -3066,7 +3066,7 @@ class LongTupleTest extends TestBase {
 
         @Test
         public void testAverage_Empty() {
-            assertThrows(NoSuchElementException.class, () -> LongTuple.copyOf(null).average());
+            assertEquals(0D, LongTuple.copyOf(null).average(), 0D);
         }
 
         // ====== Reverse Tests ======
@@ -3542,9 +3542,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void test_LongTuple0_average_throwsException() {
+        public void test_LongTuple0_average_returnsZero() {
             LongTuple0 tuple = LongTuple.copyOf(new long[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test

@@ -257,7 +257,7 @@ class DoubleTupleTest extends TestBase {
         assertEquals("(4.5, 1.5, 3.5, 2.5)", tuple.toString());
     }
 
-    // Regression: the base DoubleTuple.min()/max()/median()/average() Javadoc states they
+    // Regression: the base DoubleTuple.min()/max()/median() Javadoc states they
     // throw NoSuchElementException for an empty tuple. The previous delegation to
     // N.min/N.max/N.median threw IllegalArgumentException for empty arrays, and N.average
     // returned 0.0 instead of throwing. The fix routes empty arrays to NoSuchElementException
@@ -281,7 +281,7 @@ class DoubleTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, empty::min);
         assertThrows(NoSuchElementException.class, empty::max);
         assertThrows(NoSuchElementException.class, empty::median);
-        assertThrows(NoSuchElementException.class, empty::average);
+        assertEquals(0D, empty.average(), 0D);
     }
 
     // Exercise zero-initialized tuple constructors and cached element materialization.
@@ -602,9 +602,9 @@ class DoubleTupleTest extends TestBase {
         }
 
         @Test
-        public void testAverageTuple0ThrowsException() {
+        public void testAverageTuple0ReturnsZero() {
             DoubleTuple<DoubleTuple0> tuple = DoubleTuple.copyOf(new double[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         // Reverse tests
@@ -2647,7 +2647,7 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void testAverage_emptyTuple() {
             DoubleTuple<?> tuple = DoubleTuple.copyOf(new double[0]);
-            assertThrows(NoSuchElementException.class, tuple::average);
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         // ============ Reverse Tests ============
@@ -3145,9 +3145,9 @@ class DoubleTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple0_average_throwsException() {
+        public void test_tuple0_average_returnsZero() {
             DoubleTuple0 tuple = DoubleTuple.copyOf(new double[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test

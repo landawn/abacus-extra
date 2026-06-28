@@ -624,17 +624,18 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple2 neg = LongTuple.of(-3L, -1L);
      * neg.average();                                   // returns -2.0
      *
-     * // Empty tuple throws
+     * // Empty tuple returns 0D
      * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
-     * empty.average();                                 // throws NoSuchElementException
+     * empty.average();                                 // returns 0.0
      * }</pre>
      *
-     * @return the arithmetic mean of all long values in this tuple as a {@code double}
-     * @throws NoSuchElementException if the tuple is empty
+     * @return the arithmetic mean of all long values in this tuple as a {@code double}, or {@code 0D} if this tuple is empty
      * @see #sum()
      */
     public double average() {
-        return averageOf(elements());
+        final long[] arr = elements();
+
+        return arr.length == 0 ? 0D : averageOf(arr);
     }
 
     /**
@@ -974,8 +975,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * This package-private class is exposed only through the base {@code LongTuple} type
      * via the singleton instance returned by {@link #copyOf(long[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0L, while {@link #min()},
-     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link java.util.NoSuchElementException}.
+     * {@code null} or zero-length array. {@link #sum()} returns 0L and {@link #average()} returns {@code 0D}, while
+     * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
     static final class LongTuple0 extends LongTuple<LongTuple0> {
@@ -1044,14 +1045,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all long values in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
+         * Since this tuple is empty, this method always returns {@code 0D}.
          *
-         * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return {@code 0D}
          */
         @Override
         public double average() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            return 0D;
         }
 
         /**

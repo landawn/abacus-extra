@@ -271,7 +271,7 @@ class CharTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertThrows(NoSuchElementException.class, tuple::average);
+        assertEquals(0D, tuple.average(), 0D);
         assertEquals(0, tuple.sum());
     }
 
@@ -609,9 +609,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testAverageTuple0ThrowsException() {
+        public void testAverageTuple0ReturnsZero() {
             CharTuple<CharTuple0> tuple = CharTuple.copyOf(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         // Reverse tests
@@ -2146,9 +2146,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple0_average_throwsException() {
+        public void testTuple0_average_returnsZero() {
             CharTuple<?> tuple = CharTuple.copyOf(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test
@@ -3217,9 +3217,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple0_average_throwsException() {
+        public void test_tuple0_average_returnsZero() {
             CharTuple0 tuple = CharTuple.copyOf(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.average());
+            assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test

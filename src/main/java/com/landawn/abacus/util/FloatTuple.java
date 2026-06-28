@@ -601,8 +601,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(1.0f, 2.0f, 3.0f).average()      // returns 2.0
      * FloatTuple.of(1.0f, 2.0f).average()            // returns 1.5
      *
-     * // Edge: empty tuple throws NoSuchElementException
-     * FloatTuple.copyOf(new float[0]).average()        // throws NoSuchElementException
+     * // Edge: empty tuple returns 0D
+     * FloatTuple.copyOf(new float[0]).average()        // returns 0.0
      *
      * // Edge: NaN propagates - result is Double NaN
      * Double.isNaN(FloatTuple.of(1.0f, Float.NaN).average())      // returns true
@@ -611,16 +611,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).average()      // returns Double.POSITIVE_INFINITY
      * }</pre>
      *
-     * @return the average of all float values in this tuple as a {@code double}
-     * @throws NoSuchElementException if the tuple is empty
+     * @return the average of all float values in this tuple as a {@code double}, or {@code 0D} if this tuple is empty
      * @see #sum()
      */
     public double average() {
         final float[] arr = elements();
-        if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
-        }
-        return N.average(arr);
+
+        return arr.length == 0 ? 0D : N.average(arr);
     }
 
     /**
@@ -920,8 +917,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p>
      * This package-private class is exposed only through the base {@code FloatTuple} type
      * via the singleton instance returned by {@link #copyOf(float[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0.0f, while {@link #min()},
-     * {@link #max()}, {@link #median()}, and {@link #average()} all throw {@link java.util.NoSuchElementException}.
+     * {@code null} or zero-length array. {@link #sum()} returns 0.0f and {@link #average()} returns {@code 0D}, while
+     * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
     static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
@@ -990,14 +987,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the average of all elements in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
+         * Since this tuple is empty, this method always returns {@code 0D}.
          *
-         * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return {@code 0D}
          */
         @Override
         public double average() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            return 0D;
         }
 
         /**
