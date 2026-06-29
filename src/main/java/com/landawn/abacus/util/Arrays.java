@@ -31,6 +31,10 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  *
  * <p>The nested helper classes {@link Arrays.f}, {@link Arrays.ff}, and {@link Arrays.fff} group the object-array specific
  * operations by dimensionality.</p>
+ *
+ * <p>Element-wise transforms are named by source and result type: {@code updateAll} rewrites a primitive array
+ * in place, {@code mapToObj}/{@code mapToInt}/{@code mapToLong}/... return a new array of a different type, and
+ * {@code map} on {@link Arrays.f}/{@link Arrays.ff}/{@link Arrays.fff} transforms object arrays into a new array.</p>
  */
 @Beta
 public sealed class Arrays permits Arrays.f {
