@@ -1053,9 +1053,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
 
         /**
          * Returns the sum of all byte values in this tuple.
-         * Since this tuple is empty, returns 0.
+         * For an empty tuple, the sum is {@code 0}.
          *
-         * @return 0
+         * @return {@code 0}
          */
         @Override
         public int sum() {

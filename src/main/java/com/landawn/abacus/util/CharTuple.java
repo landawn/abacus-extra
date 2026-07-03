@@ -998,9 +998,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
 
         /**
          * Returns the sum of all char values in this tuple.
-         * Since this tuple is empty, this method always returns 0.
+         * For an empty tuple, the sum is {@code 0}.
          *
-         * @return 0
+         * @return {@code 0}
          */
         @Override
         public int sum() {

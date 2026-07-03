@@ -1002,9 +1002,9 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the sum of all short values in this tuple as an int.
-         * Since this tuple is empty, always returns 0.
+         * For an empty tuple, the sum is {@code 0}.
          *
-         * @return 0
+         * @return {@code 0}
          */
         @Override
         public int sum() {
