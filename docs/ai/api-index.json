@@ -1,8 +1,8 @@
 {
   "library": {
     "name": "abacus-extra",
-    "version": "3.7.10",
-    "generated_at": "2026-06-28",
+    "version": "3.8.1",
+    "generated_at": "2026-07-04",
     "java_target": "17",
     "source": {
       "git_sha": "unknown"
@@ -2752,8 +2752,8 @@
               ],
               "examples": [],
               "see_also": [
-                "#flatten(boolean[][]),for just flattening without applying operations",
-                "#mutateFlattened(boolean[][][], Throwables.Consumer),for three-dimensional arrays"
+                "#mutateFlattened(boolean[][][], Throwables.Consumer),for three-dimensional arrays",
+                "#flatten(boolean[][]),for flattening without copy-back"
               ]
             },
             {
@@ -2799,8 +2799,8 @@
               ],
               "examples": [],
               "see_also": [
-                "#flatten(boolean[][][]),for just flattening without applying operations",
-                "#mutateFlattened(boolean[][], Throwables.Consumer),for two-dimensional arrays"
+                "#mutateFlattened(boolean[][], Throwables.Consumer),for two-dimensional arrays",
+                "#flatten(boolean[][][]),for flattening without copy-back"
               ]
             },
             {
@@ -5414,6 +5414,88 @@
               ]
             },
             {
+              "name": "reshape",
+              "kind": "static",
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "signature": "public static byte[][] reshape(final byte[] a, final int columnCount) throws IllegalArgumentException",
+              "return_type": "byte[][]",
+              "type_params": [],
+              "params": [
+                {
+                  "name": "a",
+                  "type": "byte[]",
+                  "javadoc": "the one-dimensional byte array to reshape (can be {@code null} or empty).",
+                  "nullability": "unspecified"
+                },
+                {
+                  "name": "columnCount",
+                  "type": "int",
+                  "javadoc": "the number of columns for the reshaped array (must be positive).",
+                  "nullability": "unspecified"
+                }
+              ],
+              "throws": [
+                {
+                  "type": "java.lang.IllegalArgumentException",
+                  "condition": "if {@code columnCount} is not positive."
+                }
+              ],
+              "javadoc_summary": "Reshapes a one-dimensional byte array into a two-dimensional byte array with the specified number of columns.",
+              "contract": [
+                "The last row may have fewer elements if the total elements don't divide evenly."
+              ],
+              "examples": [],
+              "see_also": [
+                "#reshape(byte[], int, int),for reshaping into a three-dimensional array"
+              ]
+            },
+            {
+              "name": "reshape",
+              "kind": "static",
+              "modifiers": [
+                "public",
+                "static"
+              ],
+              "signature": "public static byte[][][] reshape(final byte[] a, final int rowCount, final int columnCount) throws IllegalArgumentException",
+              "return_type": "byte[][][]",
+              "type_params": [],
+              "params": [
+                {
+                  "name": "a",
+                  "type": "byte[]",
+                  "javadoc": "the one-dimensional byte array to reshape (can be {@code null} or empty).",
+                  "nullability": "unspecified"
+                },
+                {
+                  "name": "rowCount",
+                  "type": "int",
+                  "javadoc": "the number of rows for the reshaped subarray (must be positive).",
+                  "nullability": "unspecified"
+                },
+                {
+                  "name": "columnCount",
+                  "type": "int",
+                  "javadoc": "the number of columns for the reshaped subarray (must be positive).",
+                  "nullability": "unspecified"
+                }
+              ],
+              "throws": [
+                {
+                  "type": "java.lang.IllegalArgumentException",
+                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
+                }
+              ],
+              "javadoc_summary": "Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.",
+              "contract": [],
+              "examples": [],
+              "see_also": [
+                "#reshape(byte[], int),for reshaping into a two-dimensional array"
+              ]
+            },
+            {
               "name": "flatten",
               "kind": "static",
               "modifiers": [
@@ -5555,88 +5637,6 @@
               "see_also": [
                 "#mutateFlattened(byte[][], Throwables.Consumer),for two-dimensional arrays",
                 "#flatten(byte[][][]),for flattening without copy-back"
-              ]
-            },
-            {
-              "name": "reshape",
-              "kind": "static",
-              "modifiers": [
-                "public",
-                "static"
-              ],
-              "signature": "public static byte[][] reshape(final byte[] a, final int columnCount) throws IllegalArgumentException",
-              "return_type": "byte[][]",
-              "type_params": [],
-              "params": [
-                {
-                  "name": "a",
-                  "type": "byte[]",
-                  "javadoc": "the one-dimensional byte array to reshape (can be {@code null} or empty).",
-                  "nullability": "unspecified"
-                },
-                {
-                  "name": "columnCount",
-                  "type": "int",
-                  "javadoc": "the number of columns for the reshaped array (must be positive).",
-                  "nullability": "unspecified"
-                }
-              ],
-              "throws": [
-                {
-                  "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code columnCount} is not positive."
-                }
-              ],
-              "javadoc_summary": "Reshapes a one-dimensional byte array into a two-dimensional byte array with the specified number of columns.",
-              "contract": [
-                "The last row may have fewer elements if the total elements don't divide evenly."
-              ],
-              "examples": [],
-              "see_also": [
-                "#reshape(byte[], int, int),for reshaping into a three-dimensional array"
-              ]
-            },
-            {
-              "name": "reshape",
-              "kind": "static",
-              "modifiers": [
-                "public",
-                "static"
-              ],
-              "signature": "public static byte[][][] reshape(final byte[] a, final int rowCount, final int columnCount) throws IllegalArgumentException",
-              "return_type": "byte[][][]",
-              "type_params": [],
-              "params": [
-                {
-                  "name": "a",
-                  "type": "byte[]",
-                  "javadoc": "the one-dimensional byte array to reshape (can be {@code null} or empty).",
-                  "nullability": "unspecified"
-                },
-                {
-                  "name": "rowCount",
-                  "type": "int",
-                  "javadoc": "the number of rows for the reshaped subarray (must be positive).",
-                  "nullability": "unspecified"
-                },
-                {
-                  "name": "columnCount",
-                  "type": "int",
-                  "javadoc": "the number of columns for the reshaped subarray (must be positive).",
-                  "nullability": "unspecified"
-                }
-              ],
-              "throws": [
-                {
-                  "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
-                }
-              ],
-              "javadoc_summary": "Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.",
-              "contract": [],
-              "examples": [],
-              "see_also": [
-                "#reshape(byte[], int),for reshaping into a two-dimensional array"
               ]
             },
             {
@@ -30464,7 +30464,7 @@
               "throws": [
                 {
                   "type": "E",
-                  "condition": "if the predicate throws an exception"
+                  "condition": "if the predicate throws an exception during evaluation"
                 }
               ],
               "javadoc_summary": "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",
@@ -30472,7 +30472,7 @@
                 "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",
                 "If the predicate returns {@code true} , returns an Optional containing this tuple.",
                 "If it returns {@code false} , returns an empty Optional.",
-                "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0); u.Optional<DoubleTuple.DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5); // Returns: Optional containing tuple (since 3.0 + 4.0 = 7.0 > 5) DoubleTuple.DoubleTuple2 small = DoubleTuple.of(1.0, 2.0); u.Optional<DoubleTuple.DoubleTuple2> empty = small.filter((a, b) -> a + b > 10); // Returns: Optional.empty() (since 1.0 + 2.0 = 3.0 is not > 10) DoubleTuple.DoubleTuple2 point = DoubleTuple.of(3.0, 4.0); u.Optional<DoubleTuple.DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0); // Returns: Optional containing point (both coordinates are positive) // negative values: predicate evaluates correctly u.Optional<DoubleTuple.DoubleTuple2> neg = DoubleTuple.of(-1.0, -2.0).filter((a, b) -> a < 0 && b < 0); // Returns: Optional containing (-1.0, -2.0) // when predicate always returns false, result is empty u.Optional<DoubleTuple.DoubleTuple2> none = DoubleTuple.of(1.0, 2.0).filter((a, b) -> false); // Returns: Optional.empty() } </pre>"
+                "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0); Optional<DoubleTuple.DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5); // Returns: Optional containing tuple (since 3.0 + 4.0 = 7.0 > 5) DoubleTuple.DoubleTuple2 small = DoubleTuple.of(1.0, 2.0); Optional<DoubleTuple.DoubleTuple2> empty = small.filter((a, b) -> a + b > 10); // Returns: Optional.empty() (since 1.0 + 2.0 = 3.0 is not > 10) DoubleTuple.DoubleTuple2 point = DoubleTuple.of(3.0, 4.0); Optional<DoubleTuple.DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0); // Returns: Optional containing point (both coordinates are positive) // negative values: predicate evaluates correctly Optional<DoubleTuple.DoubleTuple2> neg = DoubleTuple.of(-1.0, -2.0).filter((a, b) -> a < 0 && b < 0); // Returns: Optional containing (-1.0, -2.0) // when predicate always returns false, result is empty Optional<DoubleTuple.DoubleTuple2> none = DoubleTuple.of(1.0, 2.0).filter((a, b) -> false); // Returns: Optional.empty() } </pre>"
               ],
               "examples": [],
               "see_also": [
@@ -30863,7 +30863,7 @@
               "throws": [
                 {
                   "type": "E",
-                  "condition": "if the predicate throws an exception"
+                  "condition": "if the predicate throws an exception during evaluation"
                 }
               ],
               "javadoc_summary": "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",
@@ -30871,7 +30871,7 @@
                 "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",
                 "If the predicate returns {@code true} , returns an Optional containing this tuple.",
                 "If it returns {@code false} , returns an empty Optional.",
-                "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0); u.Optional<DoubleTuple.DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5); // Returns: Optional containing tuple (since 1.0 + 2.0 + 3.0 = 6.0 > 5) DoubleTuple.DoubleTuple3 small = DoubleTuple.of(1.0, 1.0, 1.0); u.Optional<DoubleTuple.DoubleTuple3> empty = small.filter((a, b, c) -> a + b + c > 10); // Returns: Optional.empty() (since 1.0 + 1.0 + 1.0 = 3.0 is not > 10) DoubleTuple.DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0); u.Optional<DoubleTuple.DoubleTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0); // Returns: Optional containing dimensions (all values are positive) // negative values: predicate evaluates correctly u.Optional<DoubleTuple.DoubleTuple3> neg = DoubleTuple.of(-1.0, -2.0, -3.0).filter((a, b, c) -> a < 0); // Returns: Optional containing (-1.0, -2.0, -3.0) // when predicate always returns false, result is empty u.Optional<DoubleTuple.DoubleTuple3> none = DoubleTuple.of(1.0, 2.0, 3.0).filter((a, b, c) -> false); // Returns: Optional.empty() } </pre>"
+                "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0); Optional<DoubleTuple.DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5); // Returns: Optional containing tuple (since 1.0 + 2.0 + 3.0 = 6.0 > 5) DoubleTuple.DoubleTuple3 small = DoubleTuple.of(1.0, 1.0, 1.0); Optional<DoubleTuple.DoubleTuple3> empty = small.filter((a, b, c) -> a + b + c > 10); // Returns: Optional.empty() (since 1.0 + 1.0 + 1.0 = 3.0 is not > 10) DoubleTuple.DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0); Optional<DoubleTuple.DoubleTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0); // Returns: Optional containing dimensions (all values are positive) // negative values: predicate evaluates correctly Optional<DoubleTuple.DoubleTuple3> neg = DoubleTuple.of(-1.0, -2.0, -3.0).filter((a, b, c) -> a < 0); // Returns: Optional containing (-1.0, -2.0, -3.0) // when predicate always returns false, result is empty Optional<DoubleTuple.DoubleTuple3> none = DoubleTuple.of(1.0, 2.0, 3.0).filter((a, b, c) -> false); // Returns: Optional.empty() } </pre>"
               ],
               "examples": [],
               "see_also": [
@@ -34158,7 +34158,7 @@
               "throws": [
                 {
                   "type": "E",
-                  "condition": "if the predicate throws an exception"
+                  "condition": "if the predicate throws an exception during evaluation"
                 }
               ],
               "javadoc_summary": "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",
@@ -34556,7 +34556,7 @@
               "throws": [
                 {
                   "type": "E",
-                  "condition": "if the predicate throws an exception"
+                  "condition": "if the predicate throws an exception during evaluation"
                 }
               ],
               "javadoc_summary": "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",
@@ -38275,7 +38275,7 @@
               "throws": [
                 {
                   "type": "E",
-                  "condition": "if the predicate throws an exception"
+                  "condition": "if the predicate throws an exception during evaluation"
                 }
               ],
               "javadoc_summary": "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",
@@ -38662,7 +38662,7 @@
               "throws": [
                 {
                   "type": "E",
-                  "condition": "if the predicate throws an exception"
+                  "condition": "if the predicate throws an exception during evaluation"
                 }
               ],
               "javadoc_summary": "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",
@@ -41943,7 +41943,7 @@
               "throws": [
                 {
                   "type": "E",
-                  "condition": "if the predicate throws an exception"
+                  "condition": "if the predicate throws an exception during evaluation"
                 }
               ],
               "javadoc_summary": "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",
@@ -42332,7 +42332,7 @@
               "throws": [
                 {
                   "type": "E",
-                  "condition": "if the predicate throws an exception"
+                  "condition": "if the predicate throws an exception during evaluation"
                 }
               ],
               "javadoc_summary": "Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.",

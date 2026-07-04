@@ -1,7 +1,7 @@
-# abacus-extra API Index (v3.7.10)
+# abacus-extra API Index (v3.8.1)
 - Build: unknown
 - Java: 17
-- Generated: 2026-06-28
+- Generated: 2026-07-04
 
 ## Packages
 - com.landawn.abacus.util
@@ -1317,7 +1317,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super boolean[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #flatten(boolean\[\]\[\]),for just flattening without applying operations, #mutateFlattened(boolean\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays
+- **See also:** #mutateFlattened(boolean\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(boolean\[\]\[\]),for flattening without copy-back
 - **Signature:** `public static <E extends Exception> void mutateFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
@@ -1327,7 +1327,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super boolean[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #flatten(boolean\[\]\[\]\[\]),for just flattening without applying operations, #mutateFlattened(boolean\[\]\[\], Throwables.Consumer),for two-dimensional arrays
+- **See also:** #mutateFlattened(boolean\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(boolean\[\]\[\]\[\]),for flattening without copy-back
 - **Signature:** `public static <E extends Exception> void mutateFlattened(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Parameters:**
@@ -7199,12 +7199,12 @@ A tuple containing exactly two double values.
   - Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.
   - If the predicate returns {@code true} , returns an Optional containing this tuple.
   - If it returns {@code false} , returns an empty Optional.
-  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0); u.Optional<DoubleTuple.DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5); // Returns: Optional containing tuple (since 3.0 + 4.0 = 7.0 > 5) DoubleTuple.DoubleTuple2 small = DoubleTuple.of(1.0, 2.0); u.Optional<DoubleTuple.DoubleTuple2> empty = small.filter((a, b) -> a + b > 10); // Returns: Optional.empty() (since 1.0 + 2.0 = 3.0 is not > 10) DoubleTuple.DoubleTuple2 point = DoubleTuple.of(3.0, 4.0); u.Optional<DoubleTuple.DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0); // Returns: Optional containing point (both coordinates are positive) // negative values: predicate evaluates correctly u.Optional<DoubleTuple.DoubleTuple2> neg = DoubleTuple.of(-1.0, -2.0).filter((a, b) -> a < 0 && b < 0); // Returns: Optional containing (-1.0, -2.0) // when predicate always returns false, result is empty u.Optional<DoubleTuple.DoubleTuple2> none = DoubleTuple.of(1.0, 2.0).filter((a, b) -> false); // Returns: Optional.empty() } </pre>
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0); Optional<DoubleTuple.DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5); // Returns: Optional containing tuple (since 3.0 + 4.0 = 7.0 > 5) DoubleTuple.DoubleTuple2 small = DoubleTuple.of(1.0, 2.0); Optional<DoubleTuple.DoubleTuple2> empty = small.filter((a, b) -> a + b > 10); // Returns: Optional.empty() (since 1.0 + 2.0 = 3.0 is not > 10) DoubleTuple.DoubleTuple2 point = DoubleTuple.of(3.0, 4.0); Optional<DoubleTuple.DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0); // Returns: Optional containing point (both coordinates are positive) // negative values: predicate evaluates correctly Optional<DoubleTuple.DoubleTuple2> neg = DoubleTuple.of(-1.0, -2.0).filter((a, b) -> a < 0 && b < 0); // Returns: Optional containing (-1.0, -2.0) // when predicate always returns false, result is empty Optional<DoubleTuple.DoubleTuple2> none = DoubleTuple.of(1.0, 2.0).filter((a, b) -> false); // Returns: Optional.empty() } </pre>
 - **Parameters:**
   - `predicate` (`Throwables.DoubleBiPredicate<E>`) — the bi-predicate to test the two elements, must not be {@code null}
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty Optional otherwise
 - **Throws:**
-  - `E` — if the predicate throws an exception
+  - `E` — if the predicate throws an exception during evaluation
 - **See also:** #accept(Throwables.DoubleBiConsumer), #map(Throwables.DoubleBiFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
@@ -7329,12 +7329,12 @@ A DoubleTuple containing exactly three double values.
   - Returns an Optional containing this tuple if the predicate is satisfied, or an empty Optional otherwise.
   - If the predicate returns {@code true} , returns an Optional containing this tuple.
   - If it returns {@code false} , returns an empty Optional.
-  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0); u.Optional<DoubleTuple.DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5); // Returns: Optional containing tuple (since 1.0 + 2.0 + 3.0 = 6.0 > 5) DoubleTuple.DoubleTuple3 small = DoubleTuple.of(1.0, 1.0, 1.0); u.Optional<DoubleTuple.DoubleTuple3> empty = small.filter((a, b, c) -> a + b + c > 10); // Returns: Optional.empty() (since 1.0 + 1.0 + 1.0 = 3.0 is not > 10) DoubleTuple.DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0); u.Optional<DoubleTuple.DoubleTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0); // Returns: Optional containing dimensions (all values are positive) // negative values: predicate evaluates correctly u.Optional<DoubleTuple.DoubleTuple3> neg = DoubleTuple.of(-1.0, -2.0, -3.0).filter((a, b, c) -> a < 0); // Returns: Optional containing (-1.0, -2.0, -3.0) // when predicate always returns false, result is empty u.Optional<DoubleTuple.DoubleTuple3> none = DoubleTuple.of(1.0, 2.0, 3.0).filter((a, b, c) -> false); // Returns: Optional.empty() } </pre>
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0); Optional<DoubleTuple.DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5); // Returns: Optional containing tuple (since 1.0 + 2.0 + 3.0 = 6.0 > 5) DoubleTuple.DoubleTuple3 small = DoubleTuple.of(1.0, 1.0, 1.0); Optional<DoubleTuple.DoubleTuple3> empty = small.filter((a, b, c) -> a + b + c > 10); // Returns: Optional.empty() (since 1.0 + 1.0 + 1.0 = 3.0 is not > 10) DoubleTuple.DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0); Optional<DoubleTuple.DoubleTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0); // Returns: Optional containing dimensions (all values are positive) // negative values: predicate evaluates correctly Optional<DoubleTuple.DoubleTuple3> neg = DoubleTuple.of(-1.0, -2.0, -3.0).filter((a, b, c) -> a < 0); // Returns: Optional containing (-1.0, -2.0, -3.0) // when predicate always returns false, result is empty Optional<DoubleTuple.DoubleTuple3> none = DoubleTuple.of(1.0, 2.0, 3.0).filter((a, b, c) -> false); // Returns: Optional.empty() } </pre>
 - **Parameters:**
   - `predicate` (`Throwables.DoubleTriPredicate<E>`) — the tri-predicate to test the three elements, must not be {@code null}
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty Optional otherwise
 - **Throws:**
-  - `E` — if the predicate throws an exception
+  - `E` — if the predicate throws an exception during evaluation
 - **See also:** #accept(Throwables.DoubleTriConsumer), #map(Throwables.DoubleTriFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
@@ -8166,31 +8166,31 @@ A FloatTuple containing exactly one float value.
 - **Summary:** Returns the minimum value in this tuple, which is the single element.
 - **Parameters:**
   - (none)
-- **Returns:** the value of _1
+- **Returns:** the value of {@code _1}
 ##### max(...) -> float
 - **Signature:** `@Override public float max()`
 - **Summary:** Returns the maximum value in this tuple, which is the single element.
 - **Parameters:**
   - (none)
-- **Returns:** the value of _1
+- **Returns:** the value of {@code _1}
 ##### median(...) -> float
 - **Signature:** `@Override public float median()`
 - **Summary:** Returns the median value in this tuple, which is the single element.
 - **Parameters:**
   - (none)
-- **Returns:** the value of _1
+- **Returns:** the value of {@code _1}
 ##### sum(...) -> float
 - **Signature:** `@Override public float sum()`
 - **Summary:** Returns the sum of elements in this tuple, which is the single element.
 - **Parameters:**
   - (none)
-- **Returns:** the value of _1
+- **Returns:** the value of {@code _1}
 ##### average(...) -> double
 - **Signature:** `@Override public double average()`
 - **Summary:** Returns the average of elements in this tuple, which is the single element.
 - **Parameters:**
   - (none)
-- **Returns:** the value of _1 as a double
+- **Returns:** the value of {@code _1} as a double
 ##### reverse(...) -> FloatTuple1
 - **Signature:** `@Override public FloatTuple1 reverse()`
 - **Summary:** Returns a new tuple with the elements in reverse order.
@@ -8332,7 +8332,7 @@ A tuple containing exactly two float values.
   - `predicate` (`Throwables.FloatBiPredicate<E>`) — the bi-predicate to test the two elements, must not be {@code null}
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty Optional otherwise
 - **Throws:**
-  - `E` — if the predicate throws an exception
+  - `E` — if the predicate throws an exception during evaluation
 - **See also:** #accept(Throwables.FloatBiConsumer), #map(Throwables.FloatBiFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
@@ -8461,7 +8461,7 @@ A FloatTuple containing exactly three float values.
   - `predicate` (`Throwables.FloatTriPredicate<E>`) — the tri-predicate to test the three elements, must not be {@code null}
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty Optional otherwise
 - **Throws:**
-  - `E` — if the predicate throws an exception
+  - `E` — if the predicate throws an exception during evaluation
 - **See also:** #accept(Throwables.FloatTriConsumer), #map(Throwables.FloatTriFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
@@ -9342,7 +9342,7 @@ Base class for immutable tuples of primitive {@code int} values.
   - <p> The summation is performed in {@code long} precision and then narrowed back to {@code int} ; if the true total does not fit in an {@code int} , an {@link ArithmeticException} is thrown rather than the result silently wrapping around.
 - **Parameters:**
   - (none)
-- **Returns:** the sum of all int values in this tuple as an {@code int}
+- **Returns:** the sum of all int values in this tuple as an {@code int} ; {@code 0} for an empty tuple
 - **See also:** #average()
 ##### average(...) -> double
 - **Signature:** `public double average()`
@@ -9593,7 +9593,7 @@ A tuple containing exactly two int values.
   - `predicate` (`Throwables.IntBiPredicate<E>`) — the bi-predicate to test the two elements, must not be {@code null}
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty Optional otherwise
 - **Throws:**
-  - `E` — if the predicate throws an exception
+  - `E` — if the predicate throws an exception during evaluation
 - **See also:** #accept(Throwables.IntBiConsumer), #map(Throwables.IntBiFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
@@ -9711,7 +9711,7 @@ A tuple containing exactly three int values.
   - `predicate` (`Throwables.IntTriPredicate<E>`) — the tri-predicate to test the three elements, must not be {@code null}
 - **Returns:** an Optional containing this tuple if the predicate returns {@code true} , empty Optional otherwise
 - **Throws:**
-  - `E` — if the predicate throws an exception
+  - `E` — if the predicate throws an exception during evaluation
 - **See also:** #accept(Throwables.IntTriConsumer), #map(Throwables.IntTriFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
@@ -10685,7 +10685,7 @@ A tuple containing exactly two long values.
   - `predicate` (`Throwables.LongBiPredicate<E>`) — the bi-predicate to test the two elements, must not be {@code null}
 - **Returns:** an {@code Optional} containing this tuple if the predicate returns {@code true} , an empty {@code Optional} otherwise
 - **Throws:**
-  - `E` — if the predicate throws an exception
+  - `E` — if the predicate throws an exception during evaluation
 - **See also:** #accept(Throwables.LongBiConsumer), #map(Throwables.LongBiFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
@@ -10806,7 +10806,7 @@ A tuple containing exactly three long values.
   - `predicate` (`Throwables.LongTriPredicate<E>`) — the tri-predicate to test the three elements, must not be {@code null}
 - **Returns:** an {@code Optional} containing this tuple if the predicate returns {@code true} , an empty {@code Optional} otherwise
 - **Throws:**
-  - `E` — if the predicate throws an exception
+  - `E` — if the predicate throws an exception during evaluation
 - **See also:** #accept(Throwables.LongTriConsumer), #map(Throwables.LongTriFunction)
 ##### hashCode(...) -> int
 - **Signature:** `@Override public int hashCode()`
@@ -12741,7 +12741,7 @@ Base class for immutable tuples of primitive {@code short} values.
   - <p> While this tuple stores short values, the sum is returned as an {@code int} to prevent overflow when adding multiple short values together.
 - **Parameters:**
   - (none)
-- **Returns:** the sum of all short values in this tuple as an {@code int}
+- **Returns:** the sum of all short values in this tuple as an {@code int} ; {@code 0} for an empty tuple
 - **See also:** #average()
 ##### average(...) -> double
 - **Signature:** `public double average()`
@@ -12852,7 +12852,7 @@ A ShortTuple containing exactly one short element.
 - **Summary:** Returns the sum of all short values in this tuple as an int.
 - **Parameters:**
   - (none)
-- **Returns:** the single short value widened to an {@code int}
+- **Returns:** the single short value widened to an {@code int} (sign-extended)
 ##### average(...) -> double
 - **Signature:** `@Override public double average()`
 - **Summary:** Returns the average of all short values in this tuple as a double.
@@ -12878,7 +12878,7 @@ A ShortTuple containing exactly one short element.
 - **Summary:** Returns a hash code value for this tuple.
 - **Parameters:**
   - (none)
-- **Returns:** the single short element widened to an {@code int}
+- **Returns:** the single short element widened to an {@code int} (sign-extended)
 ##### equals(...) -> boolean
 - **Signature:** `@Override public boolean equals(final Object obj)`
 - **Summary:** Compares this tuple to the specified object for equality.
