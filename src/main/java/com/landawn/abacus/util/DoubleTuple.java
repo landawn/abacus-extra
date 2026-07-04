@@ -1727,23 +1727,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
-         * u.Optional<DoubleTuple.DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5);
+         * Optional<DoubleTuple.DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5);
          * // Returns: Optional containing tuple (since 3.0 + 4.0 = 7.0 > 5)
          *
          * DoubleTuple.DoubleTuple2 small = DoubleTuple.of(1.0, 2.0);
-         * u.Optional<DoubleTuple.DoubleTuple2> empty = small.filter((a, b) -> a + b > 10);
+         * Optional<DoubleTuple.DoubleTuple2> empty = small.filter((a, b) -> a + b > 10);
          * // Returns: Optional.empty() (since 1.0 + 2.0 = 3.0 is not > 10)
          *
          * DoubleTuple.DoubleTuple2 point = DoubleTuple.of(3.0, 4.0);
-         * u.Optional<DoubleTuple.DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0);
+         * Optional<DoubleTuple.DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0);
          * // Returns: Optional containing point (both coordinates are positive)
          *
          * // negative values: predicate evaluates correctly
-         * u.Optional<DoubleTuple.DoubleTuple2> neg = DoubleTuple.of(-1.0, -2.0).filter((a, b) -> a < 0 && b < 0);
+         * Optional<DoubleTuple.DoubleTuple2> neg = DoubleTuple.of(-1.0, -2.0).filter((a, b) -> a < 0 && b < 0);
          * // Returns: Optional containing (-1.0, -2.0)
          *
          * // when predicate always returns false, result is empty
-         * u.Optional<DoubleTuple.DoubleTuple2> none = DoubleTuple.of(1.0, 2.0).filter((a, b) -> false);
+         * Optional<DoubleTuple.DoubleTuple2> none = DoubleTuple.of(1.0, 2.0).filter((a, b) -> false);
          * // Returns: Optional.empty()
          * }</pre>
          *
@@ -2194,23 +2194,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-         * u.Optional<DoubleTuple.DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
+         * Optional<DoubleTuple.DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
          * // Returns: Optional containing tuple (since 1.0 + 2.0 + 3.0 = 6.0 > 5)
          *
          * DoubleTuple.DoubleTuple3 small = DoubleTuple.of(1.0, 1.0, 1.0);
-         * u.Optional<DoubleTuple.DoubleTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
+         * Optional<DoubleTuple.DoubleTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
          * // Returns: Optional.empty() (since 1.0 + 1.0 + 1.0 = 3.0 is not > 10)
          *
          * DoubleTuple.DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
-         * u.Optional<DoubleTuple.DoubleTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0);
+         * Optional<DoubleTuple.DoubleTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0);
          * // Returns: Optional containing dimensions (all values are positive)
          *
          * // negative values: predicate evaluates correctly
-         * u.Optional<DoubleTuple.DoubleTuple3> neg = DoubleTuple.of(-1.0, -2.0, -3.0).filter((a, b, c) -> a < 0);
+         * Optional<DoubleTuple.DoubleTuple3> neg = DoubleTuple.of(-1.0, -2.0, -3.0).filter((a, b, c) -> a < 0);
          * // Returns: Optional containing (-1.0, -2.0, -3.0)
          *
          * // when predicate always returns false, result is empty
-         * u.Optional<DoubleTuple.DoubleTuple3> none = DoubleTuple.of(1.0, 2.0, 3.0).filter((a, b, c) -> false);
+         * Optional<DoubleTuple.DoubleTuple3> none = DoubleTuple.of(1.0, 2.0, 3.0).filter((a, b, c) -> false);
          * // Returns: Optional.empty()
          * }</pre>
          *

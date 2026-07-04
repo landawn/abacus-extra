@@ -1797,15 +1797,15 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
          *
          * // Filter where first < second
-         * u.Optional<ByteTuple.ByteTuple2> result = tuple.filter((a, b) -> a < b);
+         * Optional<ByteTuple.ByteTuple2> result = tuple.filter((a, b) -> a < b);
          * // result contains the tuple
          *
          * // Filter where sum exceeds threshold
-         * u.Optional<ByteTuple.ByteTuple2> highSum = tuple.filter((a, b) -> (a + b) > 25);
+         * Optional<ByteTuple.ByteTuple2> highSum = tuple.filter((a, b) -> (a + b) > 25);
          * // highSum contains the tuple (10 + 20 = 30 > 25)
          *
          * // Filter with equality check
-         * u.Optional<ByteTuple.ByteTuple2> equal = tuple.filter((a, b) -> a == b);
+         * Optional<ByteTuple.ByteTuple2> equal = tuple.filter((a, b) -> a == b);
          * // equal is empty (10 != 20)
          *
          * // Chain with other operations
@@ -2276,20 +2276,20 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
          *
          * // Filter for ascending order
-         * u.Optional<ByteTuple.ByteTuple3> ascending = tuple.filter((a, b, c) -> a < b && b < c);
+         * Optional<ByteTuple.ByteTuple3> ascending = tuple.filter((a, b, c) -> a < b && b < c);
          * // ascending contains the tuple (10 < 20 < 30)
          *
          * // Filter where sum exceeds threshold
-         * u.Optional<ByteTuple.ByteTuple3> highSum = tuple.filter((a, b, c) -> (a + b + c) > 50);
+         * Optional<ByteTuple.ByteTuple3> highSum = tuple.filter((a, b, c) -> (a + b + c) > 50);
          * // highSum contains the tuple (10 + 20 + 30 = 60 > 50)
          *
          * // Filter with range check
-         * u.Optional<ByteTuple.ByteTuple3> inRange = tuple.filter((a, b, c) ->
+         * Optional<ByteTuple.ByteTuple3> inRange = tuple.filter((a, b, c) ->
          *     a >= 0 && b >= 0 && c >= 0 && a <= 100 && b <= 100 && c <= 100);
          * // inRange contains the tuple (all values in [0, 100])
          *
          * // Filter for equality
-         * u.Optional<ByteTuple.ByteTuple3> allEqual = tuple.filter((a, b, c) -> a == b && b == c);
+         * Optional<ByteTuple.ByteTuple3> allEqual = tuple.filter((a, b, c) -> a == b && b == c);
          * // allEqual is empty (10 != 20 != 30)
          *
          * // Chain with other operations

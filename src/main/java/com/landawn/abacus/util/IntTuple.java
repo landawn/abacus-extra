@@ -39,6 +39,11 @@ import com.landawn.abacus.util.stream.IntStream;
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
+ * <p>All {@code int} arithmetic in this class follows Java's signed 32-bit semantics (range
+ * {@code -2147483648} to {@code 2147483647}). {@link #sum()} returns an {@code int} and throws
+ * {@link ArithmeticException} if the total overflows that range, while {@link #average()} is widened
+ * to {@code double} to preserve precision.</p>
+ *
  * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
@@ -547,7 +552,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * IntTuple.of(Integer.MAX_VALUE, 1).sum();  // throws ArithmeticException
      * }</pre>
      *
-     * @return the sum of all int values in this tuple as an {@code int}
+     * @return the sum of all int values in this tuple as an {@code int}; {@code 0} for an empty tuple
      * @throws ArithmeticException if the total does not fit in an {@code int}
      * @see #average()
      */

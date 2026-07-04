@@ -1737,19 +1737,19 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
-         * u.Optional<FloatTuple.FloatTuple2> result = tuple.filter((a, b) -> a + b > 5);
+         * Optional<FloatTuple.FloatTuple2> result = tuple.filter((a, b) -> a + b > 5);
          * // result.isPresent() returns true (since 3.0f + 4.0f = 7.0f > 5)
          *
          * FloatTuple.FloatTuple2 small = FloatTuple.of(1.0f, 2.0f);
-         * u.Optional<FloatTuple.FloatTuple2> empty = small.filter((a, b) -> a + b > 10);
+         * Optional<FloatTuple.FloatTuple2> empty = small.filter((a, b) -> a + b > 10);
          * // empty.isPresent() returns false (since 1.0f + 2.0f = 3.0f is not > 10)
          *
          * FloatTuple.FloatTuple2 neg = FloatTuple.of(-1.0f, -2.0f);
-         * u.Optional<FloatTuple.FloatTuple2> negResult = neg.filter((a, b) -> a < 0 && b < 0);
+         * Optional<FloatTuple.FloatTuple2> negResult = neg.filter((a, b) -> a < 0 && b < 0);
          * // negResult.isPresent() returns true (both are negative)
          *
          * FloatTuple.FloatTuple2 infT = FloatTuple.of(Float.POSITIVE_INFINITY, 1.0f);
-         * u.Optional<FloatTuple.FloatTuple2> infResult = infT.filter((a, b) -> Float.isInfinite(a));
+         * Optional<FloatTuple.FloatTuple2> infResult = infT.filter((a, b) -> Float.isInfinite(a));
          * // infResult.isPresent() returns true
          * }</pre>
          *
@@ -2240,19 +2240,19 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * u.Optional<FloatTuple.FloatTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
+         * Optional<FloatTuple.FloatTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
          * // result.isPresent() returns true (since 1.0f + 2.0f + 3.0f = 6.0f > 5)
          *
          * FloatTuple.FloatTuple3 small = FloatTuple.of(1.0f, 1.0f, 1.0f);
-         * u.Optional<FloatTuple.FloatTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
+         * Optional<FloatTuple.FloatTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
          * // empty.isPresent() returns false (since 1.0f + 1.0f + 1.0f = 3.0f is not > 10)
          *
          * FloatTuple.FloatTuple3 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f);
-         * u.Optional<FloatTuple.FloatTuple3> negResult = neg.filter((a, b, c) -> a < 0 && b < 0 && c < 0);
+         * Optional<FloatTuple.FloatTuple3> negResult = neg.filter((a, b, c) -> a < 0 && b < 0 && c < 0);
          * // negResult.isPresent() returns true (all are negative)
          *
          * FloatTuple.FloatTuple3 infT = FloatTuple.of(Float.POSITIVE_INFINITY, 1.0f, 2.0f);
-         * u.Optional<FloatTuple.FloatTuple3> infResult = infT.filter((a, b, c) -> Float.isInfinite(a));
+         * Optional<FloatTuple.FloatTuple3> infResult = infT.filter((a, b, c) -> Float.isInfinite(a));
          * // infResult.isPresent() returns true
          * }</pre>
          *

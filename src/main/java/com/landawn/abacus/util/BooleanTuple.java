@@ -1250,18 +1250,18 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
-         * u.Optional<BooleanTuple.BooleanTuple2> present = tuple.filter((a, b) -> a || b);   // Optional containing the tuple
-         * u.Optional<BooleanTuple.BooleanTuple2> empty   = tuple.filter((a, b) -> a && b);   // Optional.empty()
+         * Optional<BooleanTuple.BooleanTuple2> present = tuple.filter((a, b) -> a || b);   // Optional containing the tuple
+         * Optional<BooleanTuple.BooleanTuple2> empty   = tuple.filter((a, b) -> a && b);   // Optional.empty()
          *
          * // Different values: predicate matches
-         * u.Optional<BooleanTuple.BooleanTuple2> diffVals = tuple.filter((a, b) -> a != b);   // Optional containing tuple
+         * Optional<BooleanTuple.BooleanTuple2> diffVals = tuple.filter((a, b) -> a != b);   // Optional containing tuple
          *
          * // All-false pair: OR predicate never matches
          * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
-         * u.Optional<BooleanTuple.BooleanTuple2> noMatch = allFalse.filter((a, b) -> a || b);   // Optional.empty()
+         * Optional<BooleanTuple.BooleanTuple2> noMatch = allFalse.filter((a, b) -> a || b);   // Optional.empty()
          *
          * // All-same pair: equality predicate matches
-         * u.Optional<BooleanTuple.BooleanTuple2> sameMatch = allFalse.filter((a, b) -> a == b);   // Optional containing tuple
+         * Optional<BooleanTuple.BooleanTuple2> sameMatch = allFalse.filter((a, b) -> a == b);   // Optional containing tuple
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
@@ -1616,18 +1616,18 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-         * u.Optional<BooleanTuple.BooleanTuple3> present = tuple.filter((a, b, c) -> a || c);       // Optional containing the tuple
-         * u.Optional<BooleanTuple.BooleanTuple3> empty   = tuple.filter((a, b, c) -> a && b && c);  // Optional.empty()
+         * Optional<BooleanTuple.BooleanTuple3> present = tuple.filter((a, b, c) -> a || c);       // Optional containing the tuple
+         * Optional<BooleanTuple.BooleanTuple3> empty   = tuple.filter((a, b, c) -> a && b && c);  // Optional.empty()
          *
          * // Mixed values: not-all-equal predicate matches
-         * u.Optional<BooleanTuple.BooleanTuple3> mixed = tuple.filter((a, b, c) -> a != b || b != c);   // Optional containing tuple
+         * Optional<BooleanTuple.BooleanTuple3> mixed = tuple.filter((a, b, c) -> a != b || b != c);   // Optional containing tuple
          *
          * // All-false triple: OR predicate never matches
          * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
-         * u.Optional<BooleanTuple.BooleanTuple3> noMatch = allFalse.filter((a, b, c) -> a || b || c);   // Optional.empty()
+         * Optional<BooleanTuple.BooleanTuple3> noMatch = allFalse.filter((a, b, c) -> a || b || c);   // Optional.empty()
          *
          * // All-same values: equality predicate matches
-         * u.Optional<BooleanTuple.BooleanTuple3> sameMatch = allFalse.filter((a, b, c) -> a == b && b == c);   // Optional containing tuple
+         * Optional<BooleanTuple.BooleanTuple3> sameMatch = allFalse.filter((a, b, c) -> a == b && b == c);   // Optional containing tuple
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate

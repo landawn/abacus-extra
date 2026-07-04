@@ -39,6 +39,10 @@ import com.landawn.abacus.util.stream.ShortStream;
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
+ * <p>All {@code short} arithmetic in this class follows Java's signed semantics (range {@code -32768}
+ * to {@code 32767}). Aggregates such as {@link #sum()} are widened to {@code int} and {@link #average()}
+ * to {@code double} to avoid overflow.</p>
+ *
  * @param <TP> the concrete {@code ShortTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
@@ -590,7 +594,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * neg.sum();                         // returns 0
      * }</pre>
      *
-     * @return the sum of all short values in this tuple as an {@code int}
+     * @return the sum of all short values in this tuple as an {@code int}; {@code 0} for an empty tuple
      * @see #average()
      */
     public int sum() {
@@ -1214,7 +1218,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * int mn = minVal.sum();   // returns -32768
          * }</pre>
          *
-         * @return the single short value widened to an {@code int}
+         * @return the single short value widened to an {@code int} (sign-extended)
          */
         @Override
         public int sum() {
@@ -1321,7 +1325,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * // a.hashCode() == b.hashCode()  -> true
          * }</pre>
          *
-         * @return the single short element widened to an {@code int}
+         * @return the single short element widened to an {@code int} (sign-extended)
          */
         @Override
         public int hashCode() {
