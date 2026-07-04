@@ -1098,7 +1098,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.of(Float.NEGATIVE_INFINITY).min()    // returns Float.NEGATIVE_INFINITY
          * }</pre>
          *
-         * @return the value of _1
+         * @return the value of {@code _1}
          */
         @Override
         public float min() {
@@ -1120,7 +1120,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.of(Float.POSITIVE_INFINITY).max()    // returns Float.POSITIVE_INFINITY
          * }</pre>
          *
-         * @return the value of _1
+         * @return the value of {@code _1}
          */
         @Override
         public float max() {
@@ -1142,7 +1142,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.of(Float.POSITIVE_INFINITY).median() // returns Float.POSITIVE_INFINITY
          * }</pre>
          *
-         * @return the value of _1
+         * @return the value of {@code _1}
          */
         @Override
         public float median() {
@@ -1167,7 +1167,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * float ns2 = nan.sum();   // returns NaN
          * }</pre>
          *
-         * @return the value of _1
+         * @return the value of {@code _1}
          */
         @Override
         public float sum() {
@@ -1192,7 +1192,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * double navg2 = nan.average();   // returns NaN (as double)
          * }</pre>
          *
-         * @return the value of _1 as a double
+         * @return the value of {@code _1} as a double
          */
         @Override
         public double average() {
@@ -1757,7 +1757,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.FloatBiConsumer)
          * @see #map(Throwables.FloatBiFunction)
          */
@@ -2260,7 +2260,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.FloatTriConsumer)
          * @see #map(Throwables.FloatTriFunction)
          */

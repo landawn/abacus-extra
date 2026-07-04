@@ -1595,7 +1595,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.IntBiConsumer)
          * @see #map(Throwables.IntBiFunction)
          */
@@ -2000,7 +2000,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.IntTriConsumer)
          * @see #map(Throwables.IntTriFunction)
          */

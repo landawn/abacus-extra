@@ -1775,7 +1775,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, an empty {@code Optional} otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.LongBiConsumer)
          * @see #map(Throwables.LongBiFunction)
          */
@@ -2254,7 +2254,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, an empty {@code Optional} otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.LongTriConsumer)
          * @see #map(Throwables.LongTriFunction)
          */

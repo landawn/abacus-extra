@@ -1751,7 +1751,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.DoubleBiConsumer)
          * @see #map(Throwables.DoubleBiFunction)
          */
@@ -2218,7 +2218,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws NullPointerException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception
+         * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.DoubleTriConsumer)
          * @see #map(Throwables.DoubleTriFunction)
          */

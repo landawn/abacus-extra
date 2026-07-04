@@ -2934,8 +2934,8 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #flatten(boolean[][]) for just flattening without applying operations
      * @see #mutateFlattened(boolean[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #flatten(boolean[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
         N.checkArgNotNull(action, "action");
@@ -2986,8 +2986,8 @@ public sealed class Arrays permits Arrays.f {
      * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws E if the operation throws an exception.
-     * @see #flatten(boolean[][][]) for just flattening without applying operations
      * @see #mutateFlattened(boolean[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #flatten(boolean[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
         N.checkArgNotNull(action, "action");
@@ -6293,6 +6293,116 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a one-dimensional byte array into a two-dimensional byte array with the specified number of columns.
+     * The last row may have fewer elements if the total elements don't divide evenly.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // Basic: uneven division - last row is partial
+     * byte[] arr = {1, 2, 3, 4, 5};
+     * byte[][] reshaped = Arrays.reshape(arr, 2);
+     * // reshaped: [[1, 2], [3, 4], [5]]
+     *
+     * // Even division
+     * byte[] arr2 = {1, 2, 3, 4};
+     * byte[][] r2 = Arrays.reshape(arr2, 2);
+     * // r2: [[1, 2], [3, 4]]
+     *
+     * // Null input: returns empty 2D array
+     * byte[][] r3 = Arrays.reshape((byte[]) null, 3);
+     * // r3 has length 0
+     *
+     * // Empty input: returns empty 2D array
+     * byte[][] r4 = Arrays.reshape(new byte[]{}, 3);
+     * // r4 has length 0
+     *
+     * // Non-positive columnCount: throws IllegalArgumentException
+     * Arrays.reshape(new byte[]{1, 2}, 0);   // throws IllegalArgumentException
+     * }</pre>
+     *
+     * @param a the one-dimensional byte array to reshape (can be {@code null} or empty).
+     * @param columnCount the number of columns for the reshaped array (must be positive).
+     * @return a two-dimensional byte array with the specified number of columns, or an empty two-dimensional array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code columnCount} is not positive.
+     * @see #reshape(byte[], int, int) for reshaping into a three-dimensional array
+     */
+    public static byte[][] reshape(final byte[] a, final int columnCount) throws IllegalArgumentException {
+        checkColsForReshape(columnCount);
+
+        if (N.isEmpty(a)) {
+            return new byte[0][];
+        }
+
+        final int len = a.length;
+        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
+        final byte[][] result = new byte[numRows][];
+
+        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+        }
+
+        return result;
+    }
+
+    /**
+     * Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.
+     * The array is divided into blocks of size rowCount × columnCount.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // Basic: 6 elements into 2x2 blocks - last block is partial
+     * byte[] arr = {1, 2, 3, 4, 5, 6};
+     * byte[][][] reshaped = Arrays.reshape(arr, 2, 2);
+     * // reshaped: [[[1, 2], [3, 4]], [[5, 6]]]
+     *
+     * // Evenly divisible: 8 elements into 2x2 blocks
+     * byte[] arr2 = {1, 2, 3, 4, 5, 6, 7, 8};
+     * byte[][][] r2 = Arrays.reshape(arr2, 2, 2);
+     * // r2: [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+     *
+     * // Null input: returns empty 3D array
+     * byte[][][] r3 = Arrays.reshape((byte[]) null, 2, 2);
+     * // r3 has length 0
+     *
+     * // Empty input: returns empty 3D array
+     * byte[][][] r4 = Arrays.reshape(new byte[]{}, 2, 2);
+     * // r4 has length 0
+     *
+     * // Non-positive rowCount or columnCount: throws IllegalArgumentException
+     * Arrays.reshape(new byte[]{1, 2}, 0, 2);   // throws IllegalArgumentException
+     * }</pre>
+     *
+     * @param a the one-dimensional byte array to reshape (can be {@code null} or empty).
+     * @param rowCount the number of rows for the reshaped subarray (must be positive).
+     * @param columnCount the number of columns for the reshaped subarray (must be positive).
+     * @return a three-dimensional byte array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
+     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @see #reshape(byte[], int) for reshaping into a two-dimensional array
+     */
+    public static byte[][][] reshape(final byte[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
+        checkRowsAndColsForReshape(rowCount, columnCount);
+
+        if (N.isEmpty(a)) {
+            return new byte[0][][];
+        }
+
+        final int len = a.length;
+        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+        final byte[][][] result = new byte[numBlocks][][];
+
+        for (int i = 0, from = 0; i < numBlocks; i++) {
+            result[i] = new byte[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
+
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Flattens a two-dimensional byte array into a new one-dimensional byte array by concatenating
      * all its sub-arrays. Null or empty sub-arrays are skipped.
      *
@@ -6523,116 +6633,6 @@ public sealed class Arrays permits Arrays.f {
                 }
             }
         }
-    }
-
-    /**
-     * Reshapes a one-dimensional byte array into a two-dimensional byte array with the specified number of columns.
-     * The last row may have fewer elements if the total elements don't divide evenly.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Basic: uneven division - last row is partial
-     * byte[] arr = {1, 2, 3, 4, 5};
-     * byte[][] reshaped = Arrays.reshape(arr, 2);
-     * // reshaped: [[1, 2], [3, 4], [5]]
-     *
-     * // Even division
-     * byte[] arr2 = {1, 2, 3, 4};
-     * byte[][] r2 = Arrays.reshape(arr2, 2);
-     * // r2: [[1, 2], [3, 4]]
-     *
-     * // Null input: returns empty 2D array
-     * byte[][] r3 = Arrays.reshape((byte[]) null, 3);
-     * // r3 has length 0
-     *
-     * // Empty input: returns empty 2D array
-     * byte[][] r4 = Arrays.reshape(new byte[]{}, 3);
-     * // r4 has length 0
-     *
-     * // Non-positive columnCount: throws IllegalArgumentException
-     * Arrays.reshape(new byte[]{1, 2}, 0);   // throws IllegalArgumentException
-     * }</pre>
-     *
-     * @param a the one-dimensional byte array to reshape (can be {@code null} or empty).
-     * @param columnCount the number of columns for the reshaped array (must be positive).
-     * @return a two-dimensional byte array with the specified number of columns, or an empty two-dimensional array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code columnCount} is not positive.
-     * @see #reshape(byte[], int, int) for reshaping into a three-dimensional array
-     */
-    public static byte[][] reshape(final byte[] a, final int columnCount) throws IllegalArgumentException {
-        checkColsForReshape(columnCount);
-
-        if (N.isEmpty(a)) {
-            return new byte[0][];
-        }
-
-        final int len = a.length;
-        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
-        final byte[][] result = new byte[numRows][];
-
-        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
-        }
-
-        return result;
-    }
-
-    /**
-     * Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.
-     * The array is divided into blocks of size rowCount × columnCount.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Basic: 6 elements into 2x2 blocks - last block is partial
-     * byte[] arr = {1, 2, 3, 4, 5, 6};
-     * byte[][][] reshaped = Arrays.reshape(arr, 2, 2);
-     * // reshaped: [[[1, 2], [3, 4]], [[5, 6]]]
-     *
-     * // Evenly divisible: 8 elements into 2x2 blocks
-     * byte[] arr2 = {1, 2, 3, 4, 5, 6, 7, 8};
-     * byte[][][] r2 = Arrays.reshape(arr2, 2, 2);
-     * // r2: [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
-     *
-     * // Null input: returns empty 3D array
-     * byte[][][] r3 = Arrays.reshape((byte[]) null, 2, 2);
-     * // r3 has length 0
-     *
-     * // Empty input: returns empty 3D array
-     * byte[][][] r4 = Arrays.reshape(new byte[]{}, 2, 2);
-     * // r4 has length 0
-     *
-     * // Non-positive rowCount or columnCount: throws IllegalArgumentException
-     * Arrays.reshape(new byte[]{1, 2}, 0, 2);   // throws IllegalArgumentException
-     * }</pre>
-     *
-     * @param a the one-dimensional byte array to reshape (can be {@code null} or empty).
-     * @param rowCount the number of rows for the reshaped subarray (must be positive).
-     * @param columnCount the number of columns for the reshaped subarray (must be positive).
-     * @return a three-dimensional byte array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
-     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
-     * @see #reshape(byte[], int) for reshaping into a two-dimensional array
-     */
-    public static byte[][][] reshape(final byte[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
-        checkRowsAndColsForReshape(rowCount, columnCount);
-
-        if (N.isEmpty(a)) {
-            return new byte[0][][];
-        }
-
-        final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
-        final byte[][][] result = new byte[numBlocks][][];
-
-        for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new byte[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
-
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
-            }
-        }
-
-        return result;
     }
 
     /**
