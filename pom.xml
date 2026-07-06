@@ -36,8 +36,8 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<maven.compiler.release>17</maven.compiler.release>
-		<junit.jupiter.version>6.1.0</junit.jupiter.version>
-		<junit.platform.version>6.1.0</junit.platform.version>
+		<junit.jupiter.version>6.1.1</junit.jupiter.version>
+		<junit.platform.version>6.1.1</junit.platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -154,7 +154,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.14</version>
+				<version>0.8.15</version>
 				<executions>
 					<!-- Prepare agent in all modules via inheritance -->
 					<execution>
@@ -177,7 +177,7 @@
 	        <plugin>
 	          <groupId>org.sonatype.central</groupId>
 	          <artifactId>central-publishing-maven-plugin</artifactId>
-	          <version>0.10.0</version>
+	          <version>0.11.0</version>
 	          <extensions>true</extensions>
 	          <configuration>
 	             <publishingServerId>central</publishingServerId>
