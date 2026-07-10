@@ -20715,10 +20715,13 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
             N.checkArgNotNull(a, "a");
-            final Class<T> initialTargetElementType = (Class<T>) a.getClass().getComponentType().getComponentType();
-            final Object[][] mappedValues = map(a, mapper, Object.class);
-            final Class<T> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
-            return castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<T> targetElementType = (Class<T>) a.getClass().getComponentType().getComponentType();
+            try {
+                return map(a, mapper, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
@@ -21198,10 +21201,13 @@ public sealed class Arrays permits Arrays.f {
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
                 throws E {
             N.checkArgNotNull(a, "a");
-            final Class<A> initialTargetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
-            final Object[][] mappedValues = zip(a, b, zipFunction::apply, Object.class);
-            final Class<A> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
-            return castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
+            try {
+                return zip(a, b, zipFunction::apply, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
@@ -21314,10 +21320,13 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            final Class<A> initialTargetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-            final Object[][] mappedValues = ff.<A, B, Object, E> zip(a, b, defaultValueA, defaultValueB, zipFunction::apply, Object.class);
-            final Class<A> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
-            return castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
+            try {
+                return ff.<A, B, A, E> zip(a, b, defaultValueA, defaultValueB, zipFunction::apply, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
@@ -21437,10 +21446,13 @@ public sealed class Arrays permits Arrays.f {
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             N.checkArgNotNull(a, "a");
-            final Class<A> initialTargetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
-            final Object[][] mappedValues = zip(a, b, c, zipFunction::apply, Object.class);
-            final Class<A> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
-            return castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
+            try {
+                return zip(a, b, c, zipFunction::apply, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
@@ -21565,10 +21577,13 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            final Class<A> initialTargetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-            final Object[][] mappedValues = ff.<A, B, C, Object, E> zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction::apply, Object.class);
-            final Class<A> inferredTargetElementType = inferTargetElementType(initialTargetElementType, mappedValues);
-            return castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
+            try {
+                return ff.<A, B, C, A, E> zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction::apply, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
@@ -22517,10 +22532,13 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
             N.checkArgNotNull(a, "a");
-            final Class<T> initialTargetElementType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
-            final Object[][][] mappedValues = map(a, mapper, Object.class);
-            final Class<T> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
-            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<T> targetElementType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
+            try {
+                return map(a, mapper, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
@@ -23034,10 +23052,13 @@ public sealed class Arrays permits Arrays.f {
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
             N.checkArgNotNull(a, "a");
-            final Class<A> initialTargetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
-            final Object[][][] mappedValues = zip(a, b, zipFunction::apply, Object.class);
-            final Class<A> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
-            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
+            try {
+                return zip(a, b, zipFunction::apply, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
@@ -23149,10 +23170,13 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            final Class<A> initialTargetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-            final Object[][][] mappedValues = zip(a, b, defaultValueA, defaultValueB, zipFunction::apply, Object.class);
-            final Class<A> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
-            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
+            try {
+                return zip(a, b, defaultValueA, defaultValueB, zipFunction::apply, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
@@ -23279,10 +23303,13 @@ public sealed class Arrays permits Arrays.f {
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             N.checkArgNotNull(a, "a");
-            final Class<A> initialTargetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
-            final Object[][][] mappedValues = zip(a, b, c, zipFunction::apply, Object.class);
-            final Class<A> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
-            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
+            try {
+                return zip(a, b, c, zipFunction::apply, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
@@ -23404,10 +23431,13 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            final Class<A> initialTargetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-            final Object[][][] mappedValues = zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction::apply, Object.class);
-            final Class<A> inferredTargetElementType = ff.inferTargetElementType(initialTargetElementType, mappedValues);
-            return ff.castToTargetElementType(mappedValues, inferredTargetElementType);
+            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
+            try {
+                return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction::apply, targetElementType);
+            } catch (ArrayStoreException e) {
+                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
         }
 
         /**
