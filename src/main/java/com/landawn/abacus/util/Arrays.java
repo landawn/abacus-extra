@@ -239,12 +239,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
      * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
         }
@@ -292,12 +295,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
      * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
@@ -345,12 +351,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
@@ -396,12 +405,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
      * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
         }
@@ -449,12 +461,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
      * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
@@ -502,12 +517,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
      * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
@@ -553,12 +571,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
      * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
         }
@@ -606,12 +627,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
      * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
@@ -659,12 +683,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
      * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
@@ -710,12 +737,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
      * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
         }
@@ -763,12 +793,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
      * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
@@ -816,12 +849,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
      * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
@@ -868,12 +904,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
      * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
         }
@@ -921,12 +960,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
      * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
@@ -974,12 +1016,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
      * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
@@ -1025,12 +1070,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
      * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
         }
@@ -1078,12 +1126,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
      * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
@@ -1132,12 +1183,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
      * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
@@ -1183,12 +1237,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
      * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
         }
@@ -1236,12 +1293,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
      * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
@@ -1289,12 +1349,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
@@ -1340,12 +1403,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each double element (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
         }
@@ -1392,12 +1458,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each double element (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
@@ -1444,12 +1513,15 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function to transform each double element (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
@@ -1500,11 +1572,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the int array to map (can be {@code null}).
      * @param mapper the function to transform each int to long (must not be {@code null}).
      * @return a long array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToLong(int[][], Throwables.IntToLongFunction) for two-dimensional arrays
      * @see #mapToLong(int[][][], Throwables.IntToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[] mapToLong(final int[] a, final Throwables.IntToLongFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
         }
@@ -1553,11 +1628,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional int array to map (can be {@code null}).
      * @param mapper the function to transform each int to long (must not be {@code null}).
      * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToLong(int[], Throwables.IntToLongFunction) for one-dimensional arrays
      * @see #mapToLong(int[][][], Throwables.IntToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[][] mapToLong(final int[][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new long[0][];
         }
@@ -1611,11 +1689,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional int array to map (can be {@code null}).
      * @param mapper the function to transform each int to long (must not be {@code null}).
      * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToLong(int[], Throwables.IntToLongFunction) for one-dimensional arrays
      * @see #mapToLong(int[][], Throwables.IntToLongFunction) for two-dimensional arrays
      */
     public static <E extends Exception> long[][][] mapToLong(final int[][][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new long[0][][];
         }
@@ -1666,11 +1747,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input int array (can be {@code null}).
      * @param mapper the function to transform each int to double (must not be {@code null}).
      * @return a double array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToDouble(int[][], Throwables.IntToDoubleFunction) for two-dimensional arrays
      * @see #mapToDouble(int[][][], Throwables.IntToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
         }
@@ -1720,11 +1804,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input two-dimensional int array (can be {@code null}).
      * @param mapper the function to transform each int to double (must not be {@code null}).
      * @return a two-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToDouble(int[], Throwables.IntToDoubleFunction) for one-dimensional arrays
      * @see #mapToDouble(int[][][], Throwables.IntToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[][] mapToDouble(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new double[0][];
         }
@@ -1773,11 +1860,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input three-dimensional int array (can be {@code null}).
      * @param mapper the function to transform each int to double (must not be {@code null}).
      * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToDouble(int[], Throwables.IntToDoubleFunction) for one-dimensional arrays
      * @see #mapToDouble(int[][], Throwables.IntToDoubleFunction) for two-dimensional arrays
      */
     public static <E extends Exception> double[][][] mapToDouble(final int[][][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new double[0][][];
         }
@@ -1828,11 +1918,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input long array (can be {@code null}).
      * @param mapper the function to transform each long to int (must not be {@code null}).
      * @return an int array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToInt(long[][], Throwables.LongToIntFunction) for two-dimensional arrays
      * @see #mapToInt(long[][][], Throwables.LongToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[] mapToInt(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
         }
@@ -1882,11 +1975,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input two-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to int (must not be {@code null}).
      * @return a two-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToInt(long[], Throwables.LongToIntFunction) for one-dimensional arrays
      * @see #mapToInt(long[][][], Throwables.LongToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[][] mapToInt(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new int[0][];
         }
@@ -1936,11 +2032,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input three-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to int (must not be {@code null}).
      * @return a three-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToInt(long[], Throwables.LongToIntFunction) for one-dimensional arrays
      * @see #mapToInt(long[][], Throwables.LongToIntFunction) for two-dimensional arrays
      */
     public static <E extends Exception> int[][][] mapToInt(final long[][][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new int[0][][];
         }
@@ -1992,11 +2091,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input long array (can be {@code null}).
      * @param mapper the function to transform each long to double (must not be {@code null}).
      * @return a double array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToDouble(long[][], Throwables.LongToDoubleFunction) for two-dimensional arrays
      * @see #mapToDouble(long[][][], Throwables.LongToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[] mapToDouble(final long[] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
         }
@@ -2046,11 +2148,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input two-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to double (must not be {@code null}).
      * @return a two-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToDouble(long[], Throwables.LongToDoubleFunction) for one-dimensional arrays
      * @see #mapToDouble(long[][][], Throwables.LongToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[][] mapToDouble(final long[][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new double[0][];
         }
@@ -2099,11 +2204,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input three-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to double (must not be {@code null}).
      * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToDouble(long[], Throwables.LongToDoubleFunction) for one-dimensional arrays
      * @see #mapToDouble(long[][], Throwables.LongToDoubleFunction) for two-dimensional arrays
      */
     public static <E extends Exception> double[][][] mapToDouble(final long[][][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new double[0][][];
         }
@@ -2150,11 +2258,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input double array (can be {@code null}).
      * @param mapper the function to transform each double to int (must not be {@code null}).
      * @return an int array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToInt(double[][], Throwables.DoubleToIntFunction) for two-dimensional arrays
      * @see #mapToInt(double[][][], Throwables.DoubleToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[] mapToInt(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
         }
@@ -2204,11 +2315,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input two-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to int (must not be {@code null}).
      * @return a two-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToInt(double[], Throwables.DoubleToIntFunction) for one-dimensional arrays
      * @see #mapToInt(double[][][], Throwables.DoubleToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[][] mapToInt(final double[][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new int[0][];
         }
@@ -2258,11 +2372,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input three-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to int (must not be {@code null}).
      * @return a three-dimensional int array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToInt(double[], Throwables.DoubleToIntFunction) for one-dimensional arrays
      * @see #mapToInt(double[][], Throwables.DoubleToIntFunction) for two-dimensional arrays
      */
     public static <E extends Exception> int[][][] mapToInt(final double[][][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new int[0][][];
         }
@@ -2314,11 +2431,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input double array (can be {@code null}).
      * @param mapper the function to transform each double to long (must not be {@code null}).
      * @return a long array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToLong(double[][], Throwables.DoubleToLongFunction) for two-dimensional arrays
      * @see #mapToLong(double[][][], Throwables.DoubleToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[] mapToLong(final double[] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
         }
@@ -2368,11 +2488,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input two-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to long (must not be {@code null}).
      * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToLong(double[], Throwables.DoubleToLongFunction) for one-dimensional arrays
      * @see #mapToLong(double[][][], Throwables.DoubleToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[][] mapToLong(final double[][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new long[0][];
         }
@@ -2422,11 +2545,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input three-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to long (must not be {@code null}).
      * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToLong(double[], Throwables.DoubleToLongFunction) for one-dimensional arrays
      * @see #mapToLong(double[][], Throwables.DoubleToLongFunction) for two-dimensional arrays
      */
     public static <E extends Exception> long[][][] mapToLong(final double[][][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         if (N.isEmpty(a)) {
             return new long[0][][];
         }
@@ -2468,11 +2594,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the boolean array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(boolean[][], Throwables.BooleanUnaryOperator) for two-dimensional arrays
      * @see #updateAll(boolean[][][], Throwables.BooleanUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final boolean[] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -2508,11 +2637,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the two-dimensional boolean array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(boolean[], Throwables.BooleanUnaryOperator) for one-dimensional arrays
      * @see #updateAll(boolean[][][], Throwables.BooleanUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final boolean[][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -2548,11 +2680,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the three-dimensional boolean array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(boolean[], Throwables.BooleanUnaryOperator) for one-dimensional arrays
      * @see #updateAll(boolean[][], Throwables.BooleanUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final boolean[][][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -2590,11 +2725,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the boolean array to modify (can be {@code null}).
      * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(boolean[][], Throwables.BooleanPredicate, boolean) for two-dimensional arrays
      * @see #replaceIf(boolean[][][], Throwables.BooleanPredicate, boolean) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final boolean[] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -2633,11 +2771,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional boolean array to modify (can be {@code null} or empty).
      * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(boolean[], Throwables.BooleanPredicate, boolean) for one-dimensional arrays
      * @see #replaceIf(boolean[][][], Throwables.BooleanPredicate, boolean) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final boolean[][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -2674,11 +2815,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional boolean array to modify (can be {@code null} or empty).
      * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(boolean[], Throwables.BooleanPredicate, boolean) for one-dimensional arrays
      * @see #replaceIf(boolean[][], Throwables.BooleanPredicate, boolean) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final boolean[][][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -3050,9 +3194,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3105,10 +3252,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array {@code b} is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean defaultValueA, final boolean defaultValueB,
             final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3170,10 +3320,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3235,10 +3388,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array {@code c} is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c, final boolean defaultValueA,
             final boolean defaultValueB, final boolean defaultValueC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3299,10 +3455,13 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3361,10 +3520,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean defaultValueA, final boolean defaultValueB,
             final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3430,10 +3592,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3499,10 +3664,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean defaultValueA,
             final boolean defaultValueB, final boolean defaultValueC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3563,10 +3731,13 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3626,10 +3797,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean defaultValueA,
             final boolean defaultValueB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3696,10 +3870,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3766,10 +3943,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c, final boolean defaultValueA,
             final boolean defaultValueB, final boolean defaultValueC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4254,11 +4434,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operator may throw.
      * @param a the char array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(char[][], Throwables.CharUnaryOperator) for two-dimensional arrays
      * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final char[] a, final Throwables.CharUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -4295,11 +4478,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operator may throw.
      * @param a the two-dimensional char array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(char[], Throwables.CharUnaryOperator) for one-dimensional arrays
      * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final char[][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -4337,11 +4523,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operator may throw.
      * @param a the three-dimensional char array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(char[], Throwables.CharUnaryOperator) for one-dimensional arrays
      * @see #updateAll(char[][], Throwables.CharUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final char[][][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -4381,11 +4570,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the char array to modify (can be {@code null}).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(char[][], Throwables.CharPredicate, char) for two-dimensional arrays
      * @see #replaceIf(char[][][], Throwables.CharPredicate, char) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final char[] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -4427,11 +4619,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional char array to modify (can be {@code null}).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(char[], Throwables.CharPredicate, char) for one-dimensional arrays
      * @see #replaceIf(char[][][], Throwables.CharPredicate, char) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final char[][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -4470,11 +4665,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional char array to modify (can be {@code null}).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(char[], Throwables.CharPredicate, char) for one-dimensional arrays
      * @see #replaceIf(char[][], Throwables.CharPredicate, char) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final char[][][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -4857,9 +5055,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -4911,10 +5112,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char defaultValueA, final char defaultValueB,
             final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -4981,10 +5185,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final Throwables.CharTernaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5042,10 +5249,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final char defaultValueA, final char defaultValueB,
             final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5104,9 +5314,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -5161,10 +5374,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char defaultValueA, final char defaultValueB,
             final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -5230,10 +5446,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final Throwables.CharTernaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5293,10 +5512,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char defaultValueA, final char defaultValueB,
             final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5358,9 +5580,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -5415,10 +5640,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char defaultValueA, final char defaultValueB,
             final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -5486,10 +5714,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c,
             final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5550,10 +5781,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c, final char defaultValueA,
             final char defaultValueB, final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -6062,11 +6296,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the byte array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(byte[][], Throwables.ByteUnaryOperator) for two-dimensional arrays
      * @see #updateAll(byte[][][], Throwables.ByteUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final byte[] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -6102,11 +6339,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the two-dimensional byte array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(byte[], Throwables.ByteUnaryOperator) for one-dimensional arrays
      * @see #updateAll(byte[][][], Throwables.ByteUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final byte[][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -6142,11 +6382,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the three-dimensional byte array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(byte[], Throwables.ByteUnaryOperator) for one-dimensional arrays
      * @see #updateAll(byte[][], Throwables.ByteUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final byte[][][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -6190,11 +6433,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the byte array to modify (can be {@code null} or empty).
      * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(byte[][], Throwables.BytePredicate, byte) for two-dimensional arrays
      * @see #replaceIf(byte[][][], Throwables.BytePredicate, byte) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final byte[] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -6235,11 +6481,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional byte array to modify (can be {@code null} or empty).
      * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(byte[], Throwables.BytePredicate, byte) for one-dimensional arrays
      * @see #replaceIf(byte[][][], Throwables.BytePredicate, byte) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final byte[][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -6278,11 +6527,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional byte array to modify (can be {@code null} or empty).
      * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(byte[], Throwables.BytePredicate, byte) for one-dimensional arrays
      * @see #replaceIf(byte[][], Throwables.BytePredicate, byte) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final byte[][][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -6667,9 +6919,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -6717,10 +6972,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte defaultValueA, final byte defaultValueB,
             final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -6780,10 +7038,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final Throwables.ByteTernaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -6838,10 +7099,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final byte defaultValueA, final byte defaultValueB,
             final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -6896,9 +7160,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -6947,10 +7214,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte defaultValueA, final byte defaultValueB,
             final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -7011,10 +7281,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final Throwables.ByteTernaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7070,10 +7343,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte defaultValueA, final byte defaultValueB,
             final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7128,9 +7404,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -7179,10 +7458,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte defaultValueA, final byte defaultValueB,
             final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -7243,10 +7525,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c,
             final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7302,10 +7587,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte defaultValueA,
             final byte defaultValueB, final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7794,11 +8082,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception the operator may throw.
      * @param a the array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(short[][], Throwables.ShortUnaryOperator) for two-dimensional arrays
      * @see #updateAll(short[][][], Throwables.ShortUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final short[] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -7834,11 +8125,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception the operator may throw.
      * @param a the two-dimensional array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(short[], Throwables.ShortUnaryOperator) for one-dimensional arrays
      * @see #updateAll(short[][][], Throwables.ShortUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final short[][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -7875,11 +8169,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception the operator may throw.
      * @param a the three-dimensional array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(short[], Throwables.ShortUnaryOperator) for one-dimensional arrays
      * @see #updateAll(short[][], Throwables.ShortUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final short[][][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -7918,11 +8215,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array to modify (can be {@code null} or empty).
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(short[][], Throwables.ShortPredicate, short) for two-dimensional arrays
      * @see #replaceIf(short[][][], Throwables.ShortPredicate, short) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final short[] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -7963,11 +8263,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to modify (can be {@code null} or empty).
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(short[], Throwables.ShortPredicate, short) for one-dimensional arrays
      * @see #replaceIf(short[][][], Throwables.ShortPredicate, short) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final short[][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -8005,11 +8308,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to modify (can be {@code null} or empty).
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(short[], Throwables.ShortPredicate, short) for one-dimensional arrays
      * @see #replaceIf(short[][], Throwables.ShortPredicate, short) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final short[][][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -8375,9 +8681,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8425,10 +8734,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short defaultValueA, final short defaultValueB,
             final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8490,10 +8802,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final Throwables.ShortTernaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -8548,10 +8863,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final short defaultValueA, final short defaultValueB,
             final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -8607,9 +8925,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8662,10 +8983,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short defaultValueA, final short defaultValueB,
             final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8727,10 +9051,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c,
             final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -8787,10 +9114,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final short defaultValueA,
             final short defaultValueB, final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -8847,10 +9177,13 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final Throwables.ShortBinaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8902,10 +9235,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short defaultValueA, final short defaultValueB,
             final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8967,10 +9303,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c,
             final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -9029,10 +9368,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c, final short defaultValueA,
             final short defaultValueB, final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -9536,11 +9878,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operator may throw.
      * @param a the array to be modified (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(int[][], Throwables.IntUnaryOperator) for two-dimensional arrays
      * @see #updateAll(int[][][], Throwables.IntUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final int[] a, final Throwables.IntUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -9580,11 +9925,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operator may throw.
      * @param a the two-dimensional array to be modified (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(int[], Throwables.IntUnaryOperator) for one-dimensional arrays
      * @see #updateAll(int[][][], Throwables.IntUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final int[][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -9620,11 +9968,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operator may throw.
      * @param a the three-dimensional array to be modified (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(int[], Throwables.IntUnaryOperator) for one-dimensional arrays
      * @see #updateAll(int[][], Throwables.IntUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final int[][][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -9671,11 +10022,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array to be modified (can be {@code null} or empty).
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(int[][], Throwables.IntPredicate, int) for two-dimensional arrays
      * @see #replaceIf(int[][][], Throwables.IntPredicate, int) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final int[] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -9720,11 +10074,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to be modified (can be {@code null} or empty).
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(int[], Throwables.IntPredicate, int) for one-dimensional arrays
      * @see #replaceIf(int[][][], Throwables.IntPredicate, int) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final int[][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -9764,11 +10121,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to be modified (can be {@code null} or empty).
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(int[], Throwables.IntPredicate, int) for one-dimensional arrays
      * @see #replaceIf(int[][], Throwables.IntPredicate, int) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final int[][][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -10188,9 +10548,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10238,10 +10601,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int defaultValueA, final int defaultValueB,
             final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10301,9 +10667,12 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10357,10 +10726,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final int defaultValueA, final int defaultValueB,
             final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10414,9 +10786,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10465,10 +10840,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int defaultValueA, final int defaultValueB,
             final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10530,10 +10908,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final Throwables.IntTernaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10589,10 +10970,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final int defaultValueA, final int defaultValueB,
             final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10647,9 +11031,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10698,10 +11085,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int defaultValueA, final int defaultValueB,
             final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10762,10 +11152,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c,
             final Throwables.IntTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10820,10 +11213,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final int defaultValueA, final int defaultValueB,
             final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -11322,11 +11718,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operator may throw.
      * @param a the array to be modified (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(long[][], Throwables.LongUnaryOperator) for two-dimensional arrays
      * @see #updateAll(long[][][], Throwables.LongUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final long[] a, final Throwables.LongUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -11361,11 +11760,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operator may throw.
      * @param a the two-dimensional array to be modified (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(long[], Throwables.LongUnaryOperator) for one-dimensional arrays
      * @see #updateAll(long[][][], Throwables.LongUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final long[][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -11400,11 +11802,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operator may throw.
      * @param a the three-dimensional array to be modified (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(long[], Throwables.LongUnaryOperator) for one-dimensional arrays
      * @see #updateAll(long[][], Throwables.LongUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final long[][][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -11441,11 +11846,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array to be modified (can be {@code null} or empty).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to replace with if the predicate is true.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(long[][], Throwables.LongPredicate, long) for two-dimensional arrays
      * @see #replaceIf(long[][][], Throwables.LongPredicate, long) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final long[] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -11481,11 +11889,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to be modified (can be {@code null} or empty).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to replace with if the predicate is true.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(long[], Throwables.LongPredicate, long) for one-dimensional arrays
      * @see #replaceIf(long[][][], Throwables.LongPredicate, long) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final long[][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -11519,11 +11930,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to be modified (can be {@code null} or empty).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to replace with if the predicate is true.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(long[], Throwables.LongPredicate, long) for one-dimensional arrays
      * @see #replaceIf(long[][], Throwables.LongPredicate, long) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final long[][][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -11876,9 +12290,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -11924,10 +12341,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long defaultValueA, final long defaultValueB,
             final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -11985,10 +12405,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final Throwables.LongTernaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -12040,10 +12463,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final long defaultValueA, final long defaultValueB,
             final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -12098,9 +12524,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -12148,10 +12577,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long defaultValueA, final long defaultValueB,
             final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -12210,10 +12642,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final Throwables.LongTernaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -12267,10 +12702,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final long defaultValueA, final long defaultValueB,
             final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -12323,9 +12761,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -12373,10 +12814,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long defaultValueA, final long defaultValueB,
             final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -12435,10 +12879,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c,
             final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -12491,10 +12938,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c, final long defaultValueA,
             final long defaultValueB, final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -12975,11 +13425,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(float[][], Throwables.FloatUnaryOperator) for two-dimensional arrays
      * @see #updateAll(float[][][], Throwables.FloatUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final float[] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -13015,11 +13468,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the two-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(float[], Throwables.FloatUnaryOperator) for one-dimensional arrays
      * @see #updateAll(float[][][], Throwables.FloatUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final float[][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -13055,11 +13511,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the three-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(float[], Throwables.FloatUnaryOperator) for one-dimensional arrays
      * @see #updateAll(float[][], Throwables.FloatUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final float[][][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -13100,11 +13559,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array to be modified (can be {@code null}).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(float[][], Throwables.FloatPredicate, float) for two-dimensional arrays
      * @see #replaceIf(float[][][], Throwables.FloatPredicate, float) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final float[] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -13144,11 +13606,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to be modified (can be {@code null}).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(float[], Throwables.FloatPredicate, float) for one-dimensional arrays
      * @see #replaceIf(float[][][], Throwables.FloatPredicate, float) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final float[][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -13189,11 +13654,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to be modified (can be {@code null}).
      * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(float[], Throwables.FloatPredicate, float) for one-dimensional arrays
      * @see #replaceIf(float[][], Throwables.FloatPredicate, float) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final float[][][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -13579,9 +14047,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -13631,10 +14102,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float defaultValueA, final float defaultValueB,
             final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -13697,10 +14171,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final Throwables.FloatTernaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -13756,10 +14233,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final float defaultValueA, final float defaultValueB,
             final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -13815,9 +14295,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -13867,10 +14350,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float defaultValueA, final float defaultValueB,
             final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -13933,10 +14419,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c,
             final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -13992,10 +14481,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final float defaultValueA,
             final float defaultValueB, final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -14052,10 +14544,13 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final Throwables.FloatBinaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -14105,10 +14600,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float defaultValueA, final float defaultValueB,
             final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -14171,10 +14669,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c,
             final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -14230,10 +14731,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c, final float defaultValueA,
             final float defaultValueB, final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -14741,11 +15245,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(double[][], Throwables.DoubleUnaryOperator) for two-dimensional arrays
      * @see #updateAll(double[][][], Throwables.DoubleUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final double[] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -14782,11 +15289,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the two-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(double[], Throwables.DoubleUnaryOperator) for one-dimensional arrays
      * @see #updateAll(double[][][], Throwables.DoubleUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final double[][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -14823,11 +15333,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the three-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
+     * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(double[], Throwables.DoubleUnaryOperator) for one-dimensional arrays
      * @see #updateAll(double[][], Throwables.DoubleUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final double[][][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
+        N.checkArgNotNull(operator, "operator");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -14865,11 +15378,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array to be modified (can be {@code null}).
      * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
      * @param newValue the value to be placed into the array.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(double[][], Throwables.DoublePredicate, double) for two-dimensional arrays
      * @see #replaceIf(double[][][], Throwables.DoublePredicate, double) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final double[] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -14909,11 +15425,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional array to be modified (can be {@code null}).
      * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
      * @param newValue the value to be placed into the array.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(double[], Throwables.DoublePredicate, double) for one-dimensional arrays
      * @see #replaceIf(double[][][], Throwables.DoublePredicate, double) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final double[][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -14951,11 +15470,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to be modified (can be {@code null}).
      * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
      * @param newValue the value to be placed into the array.
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(double[], Throwables.DoublePredicate, double) for one-dimensional arrays
      * @see #replaceIf(double[][], Throwables.DoublePredicate, double) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final double[][][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         if (N.isEmpty(a)) {
             return;
         }
@@ -15327,9 +15849,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -15375,10 +15900,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double defaultValueA, final double defaultValueB,
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -15435,10 +15963,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c,
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -15489,10 +16020,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c, final double defaultValueA,
             final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -15546,9 +16080,12 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -15599,10 +16136,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double defaultValueA, final double defaultValueB,
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -15662,10 +16202,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c,
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -15721,10 +16264,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c, final double defaultValueA,
             final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -15779,10 +16325,13 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays, with outer length equal to the shorter input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final Throwables.DoubleBinaryOperator<E> zipFunction)
             throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -15833,10 +16382,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double defaultValueA, final double defaultValueB,
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -15897,10 +16449,13 @@ public sealed class Arrays permits Arrays.f {
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c,
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -15955,10 +16510,13 @@ public sealed class Arrays permits Arrays.f {
      * @param defaultValueC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
+     * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c, final double defaultValueA,
             final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNull(zipFunction, "zipFunction");
+
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -19949,10 +20507,13 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the mapping function to apply to each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new array containing the mapped elements, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.newArray(targetElementType, 0);
             }
@@ -20002,9 +20563,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a boolean (must not be {@code null}).
          * @return a boolean array containing the mapped values, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.EMPTY_BOOLEAN_ARRAY;
             }
@@ -20054,9 +20618,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a char (must not be {@code null}).
          * @return a char array containing the mapped values, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.EMPTY_CHAR_ARRAY;
             }
@@ -20106,9 +20673,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a byte (must not be {@code null}).
          * @return a byte array containing the mapped values, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.EMPTY_BYTE_ARRAY;
             }
@@ -20158,9 +20728,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a short (must not be {@code null}).
          * @return a short array containing the mapped values, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.EMPTY_SHORT_ARRAY;
             }
@@ -20210,9 +20783,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to an int (must not be {@code null}).
          * @return an int array containing the mapped values, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.EMPTY_INT_ARRAY;
             }
@@ -20262,9 +20838,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a long (must not be {@code null}).
          * @return a long array containing the mapped values, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.EMPTY_LONG_ARRAY;
             }
@@ -20314,9 +20893,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a float (must not be {@code null}).
          * @return a float array containing the mapped values, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.EMPTY_FLOAT_ARRAY;
             }
@@ -20366,9 +20948,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the input array to map (can be {@code null}).
          * @param mapper the function that maps each element to a double (must not be {@code null}).
          * @return a double array containing the mapped values, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.EMPTY_DOUBLE_ARRAY;
             }
@@ -20435,9 +21020,12 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the operator.
          * @param a the two-dimensional array to update (can be {@code null}).
          * @param operator the unary operator to apply to each element (must not be {@code null}).
+         * @throws IllegalArgumentException if {@code operator} is {@code null}.
          * @throws E if the {@code operator} throws an exception during processing.
          */
         public static <T, E extends Exception> void updateAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
+            N.checkArgNotNull(operator, "operator");
+
             if (N.isEmpty(a)) {
                 return;
             }
@@ -20485,9 +21073,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the two-dimensional array to modify (can be {@code null}).
          * @param predicate the condition to test each element against (must not be {@code null}).
          * @param newValue the value to replace matching elements with (can be {@code null}).
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}.
          * @throws E if the {@code predicate} throws an exception during testing.
          */
         public static <T, E extends Exception> void replaceIf(final T[][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             if (N.isEmpty(a)) {
                 return;
             }
@@ -20711,9 +21302,12 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a mapped value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             N.checkArgNotNull(a, "a");
             final Class<T> targetElementType = (Class<T>) a.getClass().getComponentType().getComponentType();
             try {
@@ -20761,10 +21355,13 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new two-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.newArray(N.newArray(targetElementType, 0).getClass(), 0); // NOSONAR
             }
@@ -20809,9 +21406,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (can be {@code null}).
          * @param mapper the predicate function to test each element (must not be {@code null}).
          * @return a new two-dimensional boolean array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new boolean[0][];
             }
@@ -20856,9 +21456,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (can be {@code null}).
          * @param mapper the function to extract a char from each element (must not be {@code null}).
          * @return a new two-dimensional char array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new char[0][];
             }
@@ -20903,9 +21506,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to a byte (must not be {@code null}).
          * @return a new two-dimensional byte array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new byte[0][];
             }
@@ -20950,9 +21556,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to a short (must not be {@code null}).
          * @return a new two-dimensional short array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new short[0][];
             }
@@ -20997,9 +21606,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to an int (must not be {@code null}).
          * @return a new two-dimensional int array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new int[0][];
             }
@@ -21044,9 +21656,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to a long (must not be {@code null}).
          * @return a new two-dimensional long array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new long[0][];
             }
@@ -21091,9 +21706,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to a float (must not be {@code null}).
          * @return a new two-dimensional float array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new float[0][];
             }
@@ -21138,9 +21756,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to a double (must not be {@code null}).
          * @return a new two-dimensional double array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new double[0][];
             }
@@ -21196,10 +21817,13 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array containing the combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
                 throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             N.checkArgNotNull(a, "a");
             final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
             try {
@@ -21247,10 +21871,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine paired elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type containing combined elements.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -21316,10 +21943,13 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
                 return ff.<A, B, A, E> zip(a, b, defaultValueA, defaultValueB, zipFunction::apply, targetElementType);
@@ -21373,10 +22003,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int len = N.max(lenA, lenB); // Use max to ensure we cover the longer array
@@ -21441,10 +22074,13 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array containing the combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             N.checkArgNotNull(a, "a");
             final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
             try {
@@ -21499,10 +22135,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -21573,10 +22212,13 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
                 return ff.<A, B, C, A, E> zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction::apply, targetElementType);
@@ -21635,11 +22277,14 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -22254,9 +22899,12 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the operator.
          * @param a the three-dimensional array to update (can be {@code null}).
          * @param operator the unary operator to apply to each element (must not be {@code null}).
+         * @throws IllegalArgumentException if {@code operator} is {@code null}.
          * @throws E if the {@code operator} throws an exception during execution.
          */
         public static <T, E extends Exception> void updateAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
+            N.checkArgNotNull(operator, "operator");
+
             if (N.isEmpty(a)) {
                 return;
             }
@@ -22299,9 +22947,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the three-dimensional array to modify (can be {@code null}).
          * @param predicate the condition to test for each element. Elements that match will be replaced (must not be {@code null}).
          * @param newValue the value to replace matching elements with (can be {@code null}).
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}.
          * @throws E if the {@code predicate} throws an exception during evaluation.
          */
         public static <T, E extends Exception> void replaceIf(final T[][][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             if (N.isEmpty(a)) {
                 return;
             }
@@ -22528,9 +23179,12 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a mapped value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             N.checkArgNotNull(a, "a");
             final Class<T> targetElementType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
             try {
@@ -22579,10 +23233,13 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
             }
@@ -22632,9 +23289,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the predicate function to test each element (must not be {@code null}).
          * @return a new three-dimensional boolean array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new boolean[0][][];
             }
@@ -22682,9 +23342,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to extract a char from each element (must not be {@code null}).
          * @return a new three-dimensional char array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new char[0][][];
             }
@@ -22733,9 +23396,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to byte (must not be {@code null}).
          * @return a new three-dimensional byte array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new byte[0][][];
             }
@@ -22784,9 +23450,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to short (must not be {@code null}).
          * @return a new three-dimensional short array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new short[0][][];
             }
@@ -22835,9 +23504,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to int (must not be {@code null}).
          * @return a new three-dimensional int array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new int[0][][];
             }
@@ -22886,9 +23558,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to long (must not be {@code null}).
          * @return a new three-dimensional long array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new long[0][][];
             }
@@ -22937,9 +23612,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to float (must not be {@code null}).
          * @return a new three-dimensional float array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new float[0][][];
             }
@@ -22988,9 +23666,12 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (can be {@code null}).
          * @param mapper the function to convert each element to double (must not be {@code null}).
          * @return a new three-dimensional double array, or an empty array if input is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             if (N.isEmpty(a)) {
                 return new double[0][][];
             }
@@ -23047,10 +23728,13 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             N.checkArgNotNull(a, "a");
             final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
             try {
@@ -23105,10 +23789,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -23166,10 +23853,13 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
                 return zip(a, b, defaultValueA, defaultValueB, zipFunction::apply, targetElementType);
@@ -23224,10 +23914,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int len = N.max(lenA, lenB);
@@ -23298,10 +23991,13 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             N.checkArgNotNull(a, "a");
             final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
             try {
@@ -23361,10 +24057,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -23427,10 +24126,13 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred.
          * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
                 return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction::apply, targetElementType);
@@ -23492,11 +24194,14 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
+            N.checkArgNotNull(zipFunction, "zipFunction");
+
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);

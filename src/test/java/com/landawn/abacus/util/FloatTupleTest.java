@@ -488,6 +488,10 @@ class FloatTupleTest extends TestBase {
         assertTrue(Float.isNaN(onlyNaN.min()));
         assertTrue(Float.isNaN(onlyNaN.max()));
 
+        // Median follows Float.compare ordering, where NaN sorts after finite values.
+        assertEquals(1.0f, FloatTuple.of(1.0f, Float.NaN).median(), 0.0f);
+        assertEquals(1.0f, FloatTuple.of(Float.NaN, 1.0f).median(), 0.0f);
+
         // Empty tuple must throw NoSuchElementException for ALL of min/max/median/average,
         // matching the @throws NoSuchElementException Javadoc. Previously these threw
         // IllegalArgumentException (min/max/median) or returned 0.0 silently (average).

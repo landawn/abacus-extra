@@ -41,6 +41,19 @@ import com.landawn.abacus.util.stream.Stream;
 class ArraysTest extends TestBase {
 
     @Test
+    public void testFunctionalArgumentsAreValidatedForEmptyInputs() {
+        final Throwables.BooleanFunction<String, RuntimeException> booleanMapper = null;
+        final Throwables.IntUnaryOperator<RuntimeException> intOperator = null;
+        final Throwables.IntBinaryOperator<RuntimeException> intZipFunction = null;
+        final Throwables.Function<String, Integer, RuntimeException> objectMapper = null;
+
+        assertThrows(IllegalArgumentException.class, () -> Arrays.mapToObj((boolean[]) null, booleanMapper, String.class));
+        assertThrows(IllegalArgumentException.class, () -> Arrays.updateAll(new int[0][], intOperator));
+        assertThrows(IllegalArgumentException.class, () -> Arrays.zip((int[]) null, new int[0], intZipFunction));
+        assertThrows(IllegalArgumentException.class, () -> Arrays.ff.map((String[][]) null, objectMapper, Integer.class));
+    }
+
+    @Test
     public void test_minSubArrayLength() {
         final String[][] a = { { "a", "b" }, { "c", "d", "d" } };
         final String[][][] b = { { { "a", "b" } }, { { "1", "2" }, { "3", "4" } } };

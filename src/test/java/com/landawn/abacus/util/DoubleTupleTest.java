@@ -4180,7 +4180,7 @@ class DoubleTupleTest extends TestBase {
         assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(1d, 0.0, 2d, -0.0, 3d, 4d, 5d, 6d, 7d).min()));
         assertEquals(Double.doubleToRawLongBits(+0.0), Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).max()));
 
-        // Median for 2 elements is min(...), so NaN propagates.
+        // Median for 2 elements uses Double.compare ordering, where NaN sorts last.
         assertFalse(Double.isNaN(DoubleTuple.of(1d, Double.NaN).median()));
     }
 

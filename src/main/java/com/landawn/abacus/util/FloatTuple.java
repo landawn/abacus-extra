@@ -525,9 +525,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p>
      * For tuples with three or more elements, ordering follows {@link Float#compare(float, float)}
      * semantics, so {@code NaN} is treated as the largest value (and equal to itself), and
-     * {@code -0.0f} is treated as less than {@code +0.0f}. For two-element tuples the result
-     * is computed via {@link Math#min(float, float)}, so the result is {@code NaN} if either
-     * element is {@code NaN}.
+     * {@code -0.0f} is treated as less than {@code +0.0f}. The same ordering is used for
+     * two-element tuples, so a single {@code NaN} is treated as the larger element and the
+     * finite value is returned.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -539,8 +539,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * // Even number of elements: lower middle value of the sorted sequence
      * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).median() // returns 2.0f
      *
-     * // Edge: two-element tuple - uses Math.min, so NaN propagates
-     * Float.isNaN(FloatTuple.of(1.0f, Float.NaN).median())            // returns true
+     * // Edge: NaN is ordered above finite values
+     * FloatTuple.of(1.0f, Float.NaN).median()                         // returns 1.0f
      *
      * // Edge: empty tuple throws NoSuchElementException
      * FloatTuple.copyOf(new float[0]).median()                        // throws NoSuchElementException
@@ -1485,8 +1485,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /**
          * Returns the median of the two elements.
          * Because there is an even number of elements, this is the lower of the
-         * two (i.e., {@code Math.min(_1, _2)}), not their average. If either
-         * element is {@code NaN}, the result is {@code NaN}.
+         * two according to {@link Float#compare(float, float)}, not their average.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1500,10 +1499,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * float medNeg = neg.median();   // returns -4.0f (the lower value)
          *
          * FloatTuple.FloatTuple2 nanT = FloatTuple.of(Float.NaN, 1.0f);
-         * float medNan = nanT.median();   // returns NaN
+         * float medNan = nanT.median();   // returns 1.0f
          * }</pre>
          *
-         * @return the smaller of {@code _1} and {@code _2}, or {@code NaN} if either is {@code NaN}
+         * @return the lower of {@code _1} and {@code _2} according to {@link Float#compare(float, float)}
          */
         @Override
         public float median() {

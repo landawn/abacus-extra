@@ -514,9 +514,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * For tuples with three or more elements, ordering is performed with
      * {@link Double#compare(double, double)} semantics, so {@code NaN} is treated as the
      * largest value (and equal to itself), and {@code -0.0} is treated as less than
-     * {@code +0.0}. The two-element case is special: it returns
-     * {@link Math#min(double, double) Math.min(_1, _2)}, which propagates {@code NaN}
-     * (i.e. if either element is {@code NaN}, the result is {@code NaN}).
+     * {@code +0.0}. The same ordering is used for two-element tuples, so a single
+     * {@code NaN} is treated as the larger element and the finite value is returned.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1483,8 +1482,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /**
          * Returns the median of the two elements.
          * Because there is an even number of elements, this is the lower of the
-         * two (i.e., {@code Math.min(_1, _2)}), not their average. If either
-         * element is {@code NaN}, the result is {@code NaN}.
+         * two according to {@link Double#compare(double, double)}, not their average.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1494,14 +1492,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * // negative values - still returns the lesser
          * double med3 = DoubleTuple.of(-3.0, -1.0).median();   // -3.0
          *
-         * // NaN propagates (Math.min semantics)
-         * double medNaN = DoubleTuple.of(3.0, Double.NaN).median();   // NaN
+         * // NaN is ordered above finite values
+         * double medNaN = DoubleTuple.of(3.0, Double.NaN).median();   // 3.0
          *
          * // equal values
          * double medEq = DoubleTuple.of(2.5, 2.5).median();   // 2.5
          * }</pre>
          *
-         * @return the smaller of {@code _1} and {@code _2}, or {@code NaN} if either is {@code NaN}
+         * @return the lower of {@code _1} and {@code _2} according to {@link Double#compare(double, double)}
          */
         @Override
         public double median() {
