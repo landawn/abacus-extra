@@ -79,11 +79,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      *
      * // Edge: zero value
      * ShortTuple.ShortTuple1 zero = ShortTuple.of((short) 0);
-     * zero._1;                           // returns 0
+     * assert zero._1 == 0;
      *
      * // Edge: minimum short value
      * ShortTuple.ShortTuple1 minVal = ShortTuple.of(Short.MIN_VALUE);
-     * minVal._1;                         // returns -32768
+     * assert minVal._1 == -32768;
      * }</pre>
      *
      * @param _1 the short value to store in the tuple
@@ -99,8 +99,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 1, (short) 2);
-     * pair._1;                           // returns 1
-     * pair._2;                           // returns 2
+     * assert pair._1 == 1;
+     * assert pair._2 == 2;
      * pair.sum();                        // returns 3
      *
      * // Edge: negative values
@@ -159,8 +159,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple4 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-     * t._1;                              // returns 1
-     * t._4;                              // returns 4
+     * assert t._1 == 1;
+     * assert t._4 == 4;
      * t.sum();                           // returns 10
      * t.average();                       // returns 2.5
      *
@@ -189,15 +189,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple5 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-     * t._5;                              // returns 5
+     * assert t._5 == 5;
      * t.arity();                         // returns 5
      * t.sum();                           // returns 15
      * t.median();                        // returns 3
      *
      * // Edge: reverse preserves all elements
      * ShortTuple.ShortTuple5 rev = t.reverse();
-     * rev._1;                            // returns 5
-     * rev._5;                            // returns 1
+     * assert rev._1 == 5;
+     * assert rev._5 == 1;
      *
      * // Edge: contains check
      * t.contains((short) 3);             // returns true
@@ -221,7 +221,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple6 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-     * t._6;                              // returns 6
+     * assert t._6 == 6;
      * t.arity();                         // returns 6
      * t.sum();                           // returns 21
      *
@@ -229,7 +229,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.median();                        // returns 3 (lower of middle pair [3,4] when sorted)
      *
      * // Edge: toArray has correct length
-     * t.toArray().length;                // returns 6
+     * assert t.toArray().length == 6;
      *
      * // Edge: stream count
      * t.stream().count();                // returns 6
@@ -253,7 +253,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple7 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
-     * t._7;                              // returns 7
+     * assert t._7 == 7;
      * t.arity();                         // returns 7
      * t.sum();                           // returns 28
      *
@@ -262,8 +262,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      *
      * // Edge: reverse has correct endpoints
      * ShortTuple.ShortTuple7 rev = t.reverse();
-     * rev._1;                            // returns 7
-     * rev._7;                            // returns 1
+     * assert rev._1 == 7;
+     * assert rev._7 == 1;
      *
      * // Edge: toList size
      * t.toList().size();                 // returns 7
@@ -289,7 +289,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <pre>{@code
      * ShortTuple.ShortTuple8 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4,
      *         (short) 5, (short) 6, (short) 7, (short) 8);
-     * t._8;                              // returns 8
+     * assert t._8 == 8;
      * t.arity();                         // returns 8
      * t.sum();                           // returns 36
      *
@@ -302,8 +302,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      *
      * // Edge: reverse endpoints
      * ShortTuple.ShortTuple8 rev = t.reverse();
-     * rev._1;                            // returns 8
-     * rev._8;                            // returns 1
+     * assert rev._1 == 8;
+     * assert rev._8 == 1;
      * }</pre>
      *
      * @param _1 the first short value
@@ -330,7 +330,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <pre>{@code
      * ShortTuple.ShortTuple9 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5,
      *         (short) 6, (short) 7, (short) 8, (short) 9);
-     * t._9;                              // returns 9
+     * assert t._9 == 9;
      * t.arity();                         // returns 9
      * t.sum();                           // returns 45
      *
@@ -339,11 +339,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      *
      * // Edge: reverse endpoints
      * ShortTuple.ShortTuple9 rev = t.reverse();
-     * rev._1;                            // returns 9
-     * rev._9;                            // returns 1
+     * assert rev._1 == 9;
+     * assert rev._9 == 1;
      *
      * // Edge: toArray length
-     * t.toArray().length;                // returns 9
+     * assert t.toArray().length == 9;
      * }</pre>
      *
      * @param _1 the first short value
@@ -379,12 +379,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * // Typical 3-element array
      * short[] values = {1, 2, 3};
      * ShortTuple.ShortTuple3 t3 = ShortTuple.copyOf(values);
-     * t3._1;                             // returns 1
-     * t3._3;                             // returns 3
+     * assert t3._1 == 1;
+     * assert t3._3 == 3;
      *
      * // Typical 1-element array
      * ShortTuple.ShortTuple1 t1 = ShortTuple.copyOf(new short[]{42});
-     * t1._1;                             // returns 42
+     * assert t1._1 == 42;
      *
      * // Edge: null input returns the empty tuple
      * ShortTuple<?> fromNull = ShortTuple.copyOf(null);
@@ -398,7 +398,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * ShortTuple.copyOf(new short[10]); // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -482,7 +482,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         final short[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         return N.min(arr);
@@ -522,7 +522,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         final short[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         return N.max(arr);
@@ -563,7 +563,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         final short[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         return N.median(arr);
@@ -646,8 +646,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <pre>{@code
      * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 1, (short) 2);
      * ShortTuple.ShortTuple2 rev2 = pair.reverse();
-     * rev2._1;                           // returns 2
-     * rev2._2;                           // returns 1
+     * assert rev2._1 == 2;
+     * assert rev2._2 == 1;
      *
      * ShortTuple.ShortTuple3 t3 = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * ShortTuple.ShortTuple3 rev3 = t3.reverse();
@@ -655,7 +655,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      *
      * // single-element tuple reverses to an equal tuple
      * ShortTuple.ShortTuple1 t1 = ShortTuple.of((short) 9);
-     * t1.reverse()._1;                   // returns 9
+     * assert t1.reverse()._1 == 9;
      *
      * // Edge: empty tuple - returns the same instance
      * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
@@ -712,14 +712,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * ShortTuple.ShortTuple3 t = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * short[] arr = t.toArray();         // returns [1, 2, 3]
      * arr[0] = 99;                       // does NOT modify the tuple - it is a defensive copy
-     * t._1;                              // still returns 1
+     * assert t._1 == 1;
      *
      * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 10, (short) 20);
      * pair.toArray();                    // returns [10, 20]
      *
      * // Edge: empty tuple returns zero-length array
      * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
-     * empty.toArray().length;            // returns 0
+     * assert empty.toArray().length == 0;
      *
      * // Edge: single element
      * ShortTuple.ShortTuple1 single = ShortTuple.of((short) 5);
@@ -790,7 +790,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * // Collect visited values
      * java.util.List<Short> visited = new java.util.ArrayList<>();
      * t.forEach(v -> visited.add(v));   // collects each value into visited
-     * visited;                          // returns [1, 2, 3]
+     * assert visited.equals(java.util.List.of((short) 1, (short) 2, (short) 3));
      *
      * // Edge: empty tuple - consumer is never called
      * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
@@ -808,7 +808,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-        N.checkArgNotNull(action);
+        N.checkArgNotNull(action, "action");
 
         for (final short element : elements()) {
             action.accept(element);
@@ -861,11 +861,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <pre>{@code
      * ShortTuple.ShortTuple3 a = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * ShortTuple.ShortTuple3 b = ShortTuple.of((short) 1, (short) 2, (short) 3);
-     * a.hashCode() == b.hashCode();      // returns true (equal content -> equal hash)
+     * assert a.hashCode() == b.hashCode(); // returns true (equal content -> equal hash)
      *
-     * // Same values, different order -> different hash
-     * ShortTuple.ShortTuple3 c = ShortTuple.of((short) 3, (short) 2, (short) 1);
-     * a.hashCode() == c.hashCode();      // most likely returns false
      *
      * // Edge: empty tuple has a stable hash
      * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
@@ -932,8 +929,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
     /**
      * Returns the internal array containing all short elements in this tuple.
-     * <p>
-     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
      * Modifying the returned array will compromise the immutability of this tuple.
      * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
@@ -977,7 +973,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public short min() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         /**
@@ -989,7 +985,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public short max() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         /**
@@ -1001,7 +997,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public short median() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         /**
@@ -1676,7 +1672,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2168,7 +2164,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2629,7 +2625,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2644,10 +2640,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple4 t1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
          * ShortTuple.ShortTuple4 t2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-         * t1.hashCode() == t2.hashCode(); // returns true (equal tuples have same hash)
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have same hash)
          *
-         * ShortTuple.ShortTuple4 t3 = ShortTuple.of((short) 4, (short) 3, (short) 2, (short) 1);
-         * t1.hashCode() == t3.hashCode(); // returns false (different order, different hash)
          * }</pre>
          *
          * @return a hash code value calculated from all four elements
@@ -2967,7 +2961,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2983,10 +2977,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple5 t1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
          * ShortTuple.ShortTuple5 t2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-         * t1.hashCode() == t2.hashCode(); // returns true (equal tuples have same hash)
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have same hash)
          *
-         * ShortTuple.ShortTuple5 t3 = ShortTuple.of((short) 5, (short) 4, (short) 3, (short) 2, (short) 1);
-         * t1.hashCode() == t3.hashCode(); // returns false (different order, different hash)
          * }</pre>
          *
          * @return a hash code value calculated from all five elements
@@ -3309,7 +3301,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3326,10 +3318,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple6 t1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
          * ShortTuple.ShortTuple6 t2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-         * t1.hashCode() == t2.hashCode(); // returns true (equal tuples have same hash)
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have same hash)
          *
-         * ShortTuple.ShortTuple6 t3 = ShortTuple.of((short) 6, (short) 5, (short) 4, (short) 3, (short) 2, (short) 1);
-         * t1.hashCode() == t3.hashCode(); // returns false (different order, different hash)
          * }</pre>
          *
          * @return a hash code value calculated from all six elements
@@ -3665,7 +3655,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3683,7 +3673,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple7 t1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
          * ShortTuple.ShortTuple7 t2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
-         * boolean same = (t1.hashCode() == t2.hashCode());   // returns true (equal tuples have equal hash)
+         * boolean same = (t1.hashCode() == t2.hashCode()); // returns true (equal tuples have equal hash)
          *
          * ShortTuple.ShortTuple7 t3 = ShortTuple.of((short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
@@ -4039,7 +4029,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4058,7 +4048,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple8 t1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
          * ShortTuple.ShortTuple8 t2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
-         * boolean same = (t1.hashCode() == t2.hashCode());   // returns true (equal tuples have equal hash)
+         * boolean same = (t1.hashCode() == t2.hashCode()); // returns true (equal tuples have equal hash)
          *
          * ShortTuple.ShortTuple8 t3 = ShortTuple.of((short)8, (short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
@@ -4419,7 +4409,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4439,7 +4429,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple9 t1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
          * ShortTuple.ShortTuple9 t2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
-         * boolean same = (t1.hashCode() == t2.hashCode());   // returns true (equal tuples have equal hash)
+         * boolean same = (t1.hashCode() == t2.hashCode()); // returns true (equal tuples have equal hash)
          *
          * ShortTuple.ShortTuple9 t3 = ShortTuple.of((short)9, (short)8, (short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (order matters)

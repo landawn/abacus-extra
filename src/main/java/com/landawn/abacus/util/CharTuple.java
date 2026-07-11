@@ -343,7 +343,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple.copyOf(new char[10]);      // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -428,7 +428,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         final char[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         return N.min(arr);
@@ -469,7 +469,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         final char[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         return N.max(arr);
@@ -512,7 +512,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         final char[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         return N.median(arr);
@@ -764,7 +764,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-        N.checkArgNotNull(action);
+        N.checkArgNotNull(action, "action");
 
         for (final char element : elements()) {
             action.accept(element);
@@ -894,8 +894,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
 
     /**
      * Returns the internal array containing all char elements in this tuple.
-     * <p>
-     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
      * Modifying the returned array will compromise the immutability of this tuple.
      * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
@@ -949,7 +948,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char min() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         /**
@@ -971,7 +970,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char max() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         /**
@@ -993,7 +992,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char median() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         /**
@@ -1096,7 +1095,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int a2 = t2.arity();                 // returns 1
          *
          * // Edge: arity equals toArray().length
-         * assertEquals(t1.arity(), t1.toArray().length); // true
+         * assert t1.arity() == t1.toArray().length; // true
          *
          * // Edge: null char - arity still 1
          * CharTuple.CharTuple1 t3 = CharTuple.of('\0');
@@ -1298,12 +1297,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Equal tuples have equal hash codes
          * CharTuple.CharTuple1 t1 = CharTuple.of('Z');
          * CharTuple.CharTuple1 t2 = CharTuple.of('Z');
-         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // true
+         * boolean sameHash = (t1.hashCode() == t2.hashCode()); // true
          *
          * // Different elements - different hash codes
          * CharTuple.CharTuple1 t3 = CharTuple.of('A');
          * CharTuple.CharTuple1 t4 = CharTuple.of('B');           // 'B' = 66
-         * boolean diffHash = (t3.hashCode() != t4.hashCode());   // true
+         * boolean diffHash = (t3.hashCode() != t4.hashCode()); // true
          * }</pre>
          *
          * @return the {@code int} value of the single char element
@@ -1432,7 +1431,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int a3 = t3.arity();                 // returns 2
          *
          * // Edge: arity equals toArray().length
-         * assertEquals(t1.arity(), t1.toArray().length); // true
+         * assert t1.arity() == t1.toArray().length; // true
          * }</pre>
          *
          * @return 2
@@ -1666,7 +1665,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -1801,11 +1800,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * // Equal tuples have equal hash codes
          * CharTuple.CharTuple2 t2 = CharTuple.of('A', 'B');
-         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // true
+         * boolean sameHash = (t1.hashCode() == t2.hashCode()); // true
          *
          * // Different order - different hash
          * CharTuple.CharTuple2 t3 = CharTuple.of('B', 'A');
-         * boolean diffHash = (t1.hashCode() != t3.hashCode());   // true
+         * boolean diffHash = (t1.hashCode() != t3.hashCode()); // true
          * }</pre>
          *
          * @return a hash code value calculated from both elements
@@ -1939,7 +1938,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int a3 = t3.arity();                 // returns 3
          *
          * // Edge: arity equals toArray().length
-         * assertEquals(t1.arity(), t1.toArray().length); // true
+         * assert t1.arity() == t1.toArray().length; // true
          * }</pre>
          *
          * @return 3
@@ -2172,7 +2171,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2308,11 +2307,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * // Equal tuples have equal hash codes
          * CharTuple.CharTuple3 t2 = CharTuple.of('A', 'B', 'C');
-         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // true
+         * boolean sameHash = (t1.hashCode() == t2.hashCode()); // true
          *
          * // Different order - different hash
          * CharTuple.CharTuple3 t3 = CharTuple.of('C', 'B', 'A');
-         * boolean diffHash = (t1.hashCode() != t3.hashCode());   // true
+         * boolean diffHash = (t1.hashCode() != t3.hashCode()); // true
          * }</pre>
          *
          * @return a hash code value calculated from all three elements
@@ -2447,7 +2446,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int a3 = t3.arity();                 // returns 4
          *
          * // Edge: arity equals toArray().length
-         * assertEquals(t1.arity(), t1.toArray().length); // true
+         * assert t1.arity() == t1.toArray().length; // true
          * }</pre>
          *
          * @return 4
@@ -2682,7 +2681,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2702,7 +2701,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int h2 = t2.hashCode();              // returns 2001986
          *
          * // Basic: tuple equals -> hashCode equals
-         * assertEquals(t1.hashCode(), t2.hashCode()); // true
+         * assert t1.hashCode() == t2.hashCode(); // true
          *
          * // Edge: different element order produces different hashCode
          * CharTuple.CharTuple4 t3 = CharTuple.of('D', 'C', 'B', 'A');
@@ -2711,7 +2710,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple4 t4 = CharTuple.of('A', 'A', 'A', 'A');
          * int h4 = t4.hashCode();                                        // consistent value
-         * assertEquals(CharTuple.of('A', 'A', 'A', 'A').hashCode(), h4); // true
+         * assert CharTuple.of('A', 'A', 'A', 'A').hashCode() == h4; // true
          * }</pre>
          *
          * @return a hash code value calculated from all four elements
@@ -2850,7 +2849,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int a3 = t3.arity();                 // returns 5
          *
          * // Edge: arity equals toArray().length
-         * assertEquals(t1.arity(), t1.toArray().length); // true
+         * assert t1.arity() == t1.toArray().length; // true
          * }</pre>
          *
          * @return 5
@@ -3083,7 +3082,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3104,7 +3103,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int h2 = t2.hashCode();              // returns 62061635
          *
          * // Basic: tuple equals -> hashCode equals
-         * assertEquals(t1.hashCode(), t2.hashCode()); // true
+         * assert t1.hashCode() == t2.hashCode(); // true
          *
          * // Edge: different element order produces different hashCode
          * CharTuple.CharTuple5 t3 = CharTuple.of('E', 'D', 'C', 'B', 'A');
@@ -3112,7 +3111,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple5 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A');
-         * assertEquals(CharTuple.of('A', 'A', 'A', 'A', 'A').hashCode(), t4.hashCode()); // true
+         * assert CharTuple.of('A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all five elements
@@ -3254,7 +3253,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int a3 = t3.arity();                 // returns 6
          *
          * // Edge: arity equals toArray().length
-         * assertEquals(t1.arity(), t1.toArray().length); // true
+         * assert t1.arity() == t1.toArray().length; // true
          * }</pre>
          *
          * @return 6
@@ -3488,7 +3487,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3510,7 +3509,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int h2 = t2.hashCode();              // returns 1923910755
          *
          * // Basic: tuple equals -> hashCode equals
-         * assertEquals(t1.hashCode(), t2.hashCode()); // true
+         * assert t1.hashCode() == t2.hashCode(); // true
          *
          * // Edge: different element order produces different hashCode
          * CharTuple.CharTuple6 t3 = CharTuple.of('F', 'E', 'D', 'C', 'B', 'A');
@@ -3518,7 +3517,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple6 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A');
-         * assertEquals(CharTuple.of('A', 'A', 'A', 'A', 'A', 'A').hashCode(), t4.hashCode()); // true
+         * assert CharTuple.of('A', 'A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all six elements
@@ -3663,7 +3662,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int a3 = t3.arity();                 // returns 7
          *
          * // Edge: arity equals toArray().length
-         * assertEquals(t1.arity(), t1.toArray().length); // true
+         * assert t1.arity() == t1.toArray().length; // true
          * }</pre>
          *
          * @return 7
@@ -3898,7 +3897,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3921,7 +3920,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int h2 = t2.hashCode();              // returns -488308668
          *
          * // Basic: tuple equals -> hashCode equals
-         * assertEquals(t1.hashCode(), t2.hashCode()); // true
+         * assert t1.hashCode() == t2.hashCode(); // true
          *
          * // Edge: different element order produces different hashCode
          * CharTuple.CharTuple7 t3 = CharTuple.of('G', 'F', 'E', 'D', 'C', 'B', 'A');
@@ -3929,7 +3928,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple7 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A');
-         * assertEquals(CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A').hashCode(), t4.hashCode()); // true
+         * assert CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all seven elements
@@ -4080,7 +4079,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int a3 = t3.arity();                 // returns 8
          *
          * // Edge: arity equals toArray().length
-         * assertEquals(t1.arity(), t1.toArray().length); // true
+         * assert t1.arity() == t1.toArray().length; // true
          * }</pre>
          *
          * @return 8
@@ -4316,7 +4315,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4340,7 +4339,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int h2 = t2.hashCode();              // returns 2042300548
          *
          * // Basic: tuple equals -> hashCode equals
-         * assertEquals(t1.hashCode(), t2.hashCode()); // true
+         * assert t1.hashCode() == t2.hashCode(); // true
          *
          * // Edge: different element order produces different hashCode
          * CharTuple.CharTuple8 t3 = CharTuple.of('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A');
@@ -4348,7 +4347,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple8 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
-         * assertEquals(CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A').hashCode(), t4.hashCode()); // true
+         * assert CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all eight elements
@@ -4503,7 +4502,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int a3 = t3.arity();                 // returns 9
          *
          * // Edge: arity equals toArray().length
-         * assertEquals(t1.arity(), t1.toArray().length); // true
+         * assert t1.arity() == t1.toArray().length; // true
          * }</pre>
          *
          * @return 9
@@ -4738,7 +4737,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4763,7 +4762,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int h2 = t2.hashCode();              // returns -1113192379
          *
          * // Basic: tuple equals -> hashCode equals
-         * assertEquals(t1.hashCode(), t2.hashCode()); // true
+         * assert t1.hashCode() == t2.hashCode(); // true
          *
          * // Edge: different element order produces different hashCode
          * CharTuple.CharTuple9 t3 = CharTuple.of('I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A');
@@ -4771,7 +4770,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple9 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
-         * assertEquals(CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A').hashCode(), t4.hashCode()); // true
+         * assert CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all nine elements

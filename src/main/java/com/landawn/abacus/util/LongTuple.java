@@ -149,8 +149,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * quad._1;                        // returns 1
-     * quad._4;                        // returns 4
+     * assert quad._1 == 1;
+     * assert quad._4 == 4;
      *
      * LongTuple.LongTuple4 even = LongTuple.of(1L, 2L, 3L, 4L);
      * even.median();                  // returns 2 (lower of the two middle values when sorted)
@@ -178,7 +178,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple5 quint = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-     * quint._5;                       // returns 5
+     * assert quint._5 == 5;
      * quint.sum();                    // returns 15
      *
      * LongTuple.LongTuple5 asc = LongTuple.of(10L, 20L, 30L, 40L, 50L);
@@ -208,7 +208,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple6 sext = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-     * sext._6;                        // returns 6
+     * assert sext._6 == 6;
      * sext.sum();                     // returns 21
      *
      * LongTuple.LongTuple6 even = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
@@ -239,7 +239,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple7 sept = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-     * sept._7;                        // returns 7
+     * assert sept._7 == 7;
      * sept.sum();                     // returns 28
      *
      * LongTuple.LongTuple7 asc = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L, 70L);
@@ -272,7 +272,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple8 oct = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-     * oct._8;                         // returns 8
+     * assert oct._8 == 8;
      * oct.arity();                    // returns 8
      *
      * LongTuple.LongTuple8 asc = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
@@ -308,7 +308,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple9 non = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-     * non._9;                         // returns 9
+     * assert non._9 == 9;
      * non.arity();                    // returns 9
      *
      * LongTuple.LongTuple9 asc = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
@@ -359,7 +359,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      *
      * // Single element
      * LongTuple.LongTuple1 single = LongTuple.copyOf(new long[]{42L});
-     * single._1;                                            // returns 42
+     * assert single._1 == 42;
      *
      * // null or empty array returns the shared empty tuple (arity == 0)
      * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
@@ -371,7 +371,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.copyOf(new long[10]);                       // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -472,7 +472,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         final long[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         return N.min(arr);
@@ -512,7 +512,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         final long[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         return N.max(arr);
@@ -521,9 +521,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     /**
      * Returns the median long value in this tuple.
      * <p>
-     * The median is calculated by sorting the elements internally. For tuples with an odd
-     * number of elements, returns the middle value when sorted. For tuples with an even
-     * number of elements, returns the lower of the two middle values when sorted.
+     * The median is the middle value in ascending order. For an even number of elements,
+     * the lower of the two middle values is returned.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -559,7 +558,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         final long[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         return N.median(arr);
@@ -657,10 +656,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      *
      * // Single-element tuple: reverse returns a new tuple with the same element
      * LongTuple.LongTuple1 single = LongTuple.of(42L);
-     * single.reverse()._1;                            // returns 42
+     * assert single.reverse()._1 == 42;
      *
      * // Original is unmodified (immutable)
-     * pair._1;                                        // still returns 1
+     * assert pair._1 == 1;
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -715,14 +714,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      *
      * // Returned array is a defensive copy; mutating it does not affect the tuple
      * array[0] = 99L;
-     * tuple._1;                                        // still returns 1
+     * assert tuple._1 == 1;
      *
      * LongTuple.LongTuple2 pair = LongTuple.of(10L, 20L);
      * long[] pairArray = pair.toArray();               // returns [10, 20]
      *
      * // Empty tuple returns a zero-length array
      * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
-     * empty.toArray().length;                          // returns 0
+     * assert empty.toArray().length == 0;
      * }</pre>
      *
      * @return a new {@code long[]} array containing all tuple elements in order
@@ -789,13 +788,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * // Accumulate sum externally
      * long[] total = {0L};
      * tuple.forEach(v -> total[0] += v);
-     * total[0];                                        // returns 6
+     * assert total[0] == 6;
      *
      * // Empty tuple: action is never called
      * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
      * long[] count = {0L};
      * empty.forEach(v -> count[0]++);                  // action not invoked (empty tuple)
-     * count[0];                                        // returns 0
+     * assert count[0] == 0;
      *
      * // Null action throws immediately
      * // tuple.forEach(null);                             // throws IllegalArgumentException
@@ -807,7 +806,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-        N.checkArgNotNull(action);
+        N.checkArgNotNull(action, "action");
 
         for (final long element : elements()) {
             action.accept(element);
@@ -858,16 +857,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <pre>{@code
      * LongTuple.LongTuple3 a = LongTuple.of(1L, 2L, 3L);
      * LongTuple.LongTuple3 b = LongTuple.of(1L, 2L, 3L);
-     * a.hashCode() == b.hashCode();                    // returns true (equal tuples have equal hash codes)
+     * assert a.hashCode() == b.hashCode(); // returns true (equal tuples have equal hash codes)
      *
-     * LongTuple.LongTuple2 c = LongTuple.of(1L, 2L);
-     * LongTuple.LongTuple3 d = LongTuple.of(1L, 2L, 3L);
-     * c.hashCode() == d.hashCode();                    // typically false (different arity)
-     *
-     * // Different element values produce different hash codes (generally)
-     * LongTuple.LongTuple2 e = LongTuple.of(1L, 2L);
-     * LongTuple.LongTuple2 f = LongTuple.of(2L, 1L);
-     * e.hashCode() == f.hashCode();                    // typically false (different order)
      * }</pre>
      *
      * @return a hash code value for this tuple
@@ -960,8 +951,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
     /**
      * Returns the internal array containing all long elements in this tuple.
-     * <p>
-     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
      * Modifying the returned array will compromise the immutability of this tuple.
      * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
@@ -1005,7 +995,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long min() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         /**
@@ -1017,7 +1007,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long max() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         /**
@@ -1029,7 +1019,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long median() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         /**
@@ -1660,7 +1650,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2137,7 +2127,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2564,7 +2554,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * // reverse() returns a new instance, original is unchanged
          * LongTuple.LongTuple4 orig = LongTuple.of(10L, 20L, 30L, 40L);
          * LongTuple.LongTuple4 reversed = orig.reverse();
-         * boolean notSame = orig != reversed;   // true
+         * boolean notSame = orig != reversed; // true
          * }</pre>
          *
          * @return a new LongTuple.LongTuple4 with values (_4, _3, _2, _1)
@@ -2630,7 +2620,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2647,10 +2637,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <pre>{@code
          * LongTuple.LongTuple4 t1 = LongTuple.of(1L, 2L, 3L, 4L);
          * LongTuple.LongTuple4 t2 = LongTuple.of(1L, 2L, 3L, 4L);
-         * boolean sameHash = t1.hashCode() == t2.hashCode();   // true (equal tuples have same hash)
+         * boolean sameHash = t1.hashCode() == t2.hashCode(); // true (equal tuples have same hash)
          *
          * LongTuple.LongTuple4 t3 = LongTuple.of(4L, 3L, 2L, 1L);
-         * boolean diffHash = t1.hashCode() != t3.hashCode();   // true (different element order)
+         * boolean diffHash = t1.hashCode() != t3.hashCode(); // true (different element order)
          * }</pre>
          *
          * @return a hash code based on all four elements
@@ -2943,7 +2933,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * // reverse() returns a new instance, original is unchanged
          * LongTuple.LongTuple5 orig = LongTuple.of(10L, 20L, 30L, 40L, 50L);
          * LongTuple.LongTuple5 reversed = orig.reverse();
-         * boolean notSame = orig != reversed;   // true
+         * boolean notSame = orig != reversed; // true
          * }</pre>
          *
          * @return a new LongTuple.LongTuple5 with values (_5, _4, _3, _2, _1)
@@ -3009,7 +2999,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3027,10 +3017,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <pre>{@code
          * LongTuple.LongTuple5 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
          * LongTuple.LongTuple5 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-         * boolean sameHash = t1.hashCode() == t2.hashCode();   // true (equal tuples have same hash)
+         * boolean sameHash = t1.hashCode() == t2.hashCode(); // true (equal tuples have same hash)
          *
          * LongTuple.LongTuple5 t3 = LongTuple.of(5L, 4L, 3L, 2L, 1L);
-         * boolean diffHash = t1.hashCode() != t3.hashCode();   // true (different element order)
+         * boolean diffHash = t1.hashCode() != t3.hashCode(); // true (different element order)
          * }</pre>
          *
          * @return a hash code based on all five elements
@@ -3325,7 +3315,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * // reverse() returns a new instance, original is unchanged
          * LongTuple.LongTuple6 orig = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L);
          * LongTuple.LongTuple6 reversed = orig.reverse();
-         * boolean notSame = orig != reversed;   // true
+         * boolean notSame = orig != reversed; // true
          * }</pre>
          *
          * @return a new LongTuple.LongTuple6 with values (_6, _5, _4, _3, _2, _1)
@@ -3391,7 +3381,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3410,10 +3400,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <pre>{@code
          * LongTuple.LongTuple6 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
          * LongTuple.LongTuple6 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-         * boolean sameHash = t1.hashCode() == t2.hashCode();   // true (equal tuples have same hash)
+         * boolean sameHash = t1.hashCode() == t2.hashCode(); // true (equal tuples have same hash)
          *
          * LongTuple.LongTuple6 t3 = LongTuple.of(6L, 5L, 4L, 3L, 2L, 1L);
-         * boolean diffHash = t1.hashCode() != t3.hashCode();   // true (different element order)
+         * boolean diffHash = t1.hashCode() != t3.hashCode(); // true (different element order)
          * }</pre>
          *
          * @return a hash code based on all six elements
@@ -3726,10 +3716,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * LongTuple.LongTuple7 t = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L, 70L);
          * long[] sum = {0};
          * t.forEach(v -> sum[0] += v);
-         * sum[0]; // returns 280
+         * assert sum[0] == 280;
          * long[] count = {0};
          * t.forEach(v -> count[0]++);   // counts each element
-         * count[0];                     // returns 7
+         * assert count[0] == 7;
          * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
@@ -3740,7 +3730,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3760,11 +3750,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <pre>{@code
          * LongTuple.LongTuple7 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
          * LongTuple.LongTuple7 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-         * t1.hashCode() == t2.hashCode(); // returns true  (equal tuples have equal hash codes)
-         * LongTuple.LongTuple7 t3 = LongTuple.of(7L, 6L, 5L, 4L, 3L, 2L, 1L);
-         * t1.hashCode() == t3.hashCode(); // returns false  (different element order)
+         * assert t1.hashCode() == t2.hashCode(); // returns true  (equal tuples have equal hash codes)
          * LongTuple.LongTuple7 t4 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L);
-         * t4.hashCode() == LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L).hashCode(); // returns true
+         * assert t4.hashCode() == LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L).hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code based on all seven elements
@@ -4075,10 +4063,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
          * long[] sum = {0};
          * t.forEach(v -> sum[0] += v);
-         * sum[0]; // returns 36
+         * assert sum[0] == 36;
          * long[] count = {0};
          * t.forEach(v -> count[0]++);   // counts each element
-         * count[0];                     // returns 8
+         * assert count[0] == 8;
          * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
@@ -4089,7 +4077,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4110,11 +4098,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <pre>{@code
          * LongTuple.LongTuple8 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
          * LongTuple.LongTuple8 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-         * t1.hashCode() == t2.hashCode(); // returns true  (equal tuples have equal hash codes)
-         * LongTuple.LongTuple8 t3 = LongTuple.of(8L, 7L, 6L, 5L, 4L, 3L, 2L, 1L);
-         * t1.hashCode() == t3.hashCode(); // returns false  (different element order)
+         * assert t1.hashCode() == t2.hashCode(); // returns true  (equal tuples have equal hash codes)
          * LongTuple.LongTuple8 t4 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
-         * t4.hashCode() == LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L).hashCode(); // returns true
+         * assert t4.hashCode() == LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L).hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code based on all eight elements
@@ -4431,10 +4417,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
          * long[] sum = {0};
          * t.forEach(v -> sum[0] += v);
-         * sum[0]; // returns 45
+         * assert sum[0] == 45;
          * long[] count = {0};
          * t.forEach(v -> count[0]++);   // counts each element
-         * count[0];                     // returns 9
+         * assert count[0] == 9;
          * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
          *
@@ -4445,7 +4431,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4467,11 +4453,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <pre>{@code
          * LongTuple.LongTuple9 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
          * LongTuple.LongTuple9 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-         * t1.hashCode() == t2.hashCode(); // returns true  (equal tuples have equal hash codes)
-         * LongTuple.LongTuple9 t3 = LongTuple.of(9L, 8L, 7L, 6L, 5L, 4L, 3L, 2L, 1L);
-         * t1.hashCode() == t3.hashCode(); // returns false  (different element order)
+         * assert t1.hashCode() == t2.hashCode(); // returns true  (equal tuples have equal hash codes)
          * LongTuple.LongTuple9 t4 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
-         * t4.hashCode() == LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L).hashCode(); // returns true
+         * assert t4.hashCode() == LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L).hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code based on all nine elements

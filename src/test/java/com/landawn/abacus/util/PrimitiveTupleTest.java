@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -46,6 +47,25 @@ import com.landawn.abacus.util.LongTuple.LongTuple3;
 import com.landawn.abacus.util.u.Optional;
 
 class PrimitiveTupleTest extends TestBase {
+
+    @Test
+    public void testValidationMessagesIdentifyTheOperationAndArgument() {
+        assertEquals("'action' cannot be null", assertThrows(IllegalArgumentException.class, () -> BooleanTuple.of(true).forEach(null)).getMessage());
+        assertEquals("'action' cannot be null", assertThrows(IllegalArgumentException.class, () -> ByteTuple.of((byte) 1).forEach(null)).getMessage());
+        assertEquals("'action' cannot be null", assertThrows(IllegalArgumentException.class, () -> CharTuple.of('a').forEach(null)).getMessage());
+        assertEquals("'action' cannot be null", assertThrows(IllegalArgumentException.class, () -> ShortTuple.of((short) 1).forEach(null)).getMessage());
+        assertEquals("'action' cannot be null", assertThrows(IllegalArgumentException.class, () -> IntTuple.of(1).forEach(null)).getMessage());
+        assertEquals("'action' cannot be null", assertThrows(IllegalArgumentException.class, () -> LongTuple.of(1L).forEach(null)).getMessage());
+        assertEquals("'action' cannot be null", assertThrows(IllegalArgumentException.class, () -> FloatTuple.of(1F).forEach(null)).getMessage());
+        assertEquals("'action' cannot be null", assertThrows(IllegalArgumentException.class, () -> DoubleTuple.of(1D).forEach(null)).getMessage());
+
+        assertEquals("Cannot compute min() for an empty tuple",
+                assertThrows(NoSuchElementException.class, () -> ByteTuple.copyOf((byte[]) null).min()).getMessage());
+        assertEquals("Cannot compute max() for an empty tuple",
+                assertThrows(NoSuchElementException.class, () -> IntTuple.copyOf((int[]) null).max()).getMessage());
+        assertEquals("Cannot compute median() for an empty tuple",
+                assertThrows(NoSuchElementException.class, () -> DoubleTuple.copyOf((double[]) null).median()).getMessage());
+    }
 
     @Test
     public void testPrimitiveTupleBaseIsSealedToBuiltInFamilies() {

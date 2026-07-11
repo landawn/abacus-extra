@@ -460,11 +460,10 @@ class FloatTupleTest extends TestBase {
         assertEquals("(4.5, 1.5, 3.5, 2.5)", tuple.toString());
     }
 
-    // Regression: the base FloatTuple.min/max/median/average Javadoc states they throw
-    // NoSuchElementException for an empty tuple. The previous delegation to N.min/N.max/N.median
-    // threw IllegalArgumentException for empty arrays, and N.average returned 0.0 silently,
-    // both contradicting the Javadoc. The fix routes empty arrays to NoSuchElementException
-    // up-front and scans elements with Math.min/Math.max so NaN propagates as documented.
+    // Regression: the base FloatTuple min/max/median Javadocs state they throw NoSuchElementException
+    // for an empty tuple. The previous delegation to N.min/N.max/N.median threw
+    // IllegalArgumentException. The fix routes empty arrays to NoSuchElementException up-front
+    // and scans elements with Math.min/Math.max so NaN propagates as documented.
     @Test
     public void testFloatTupleBaseMinMax_NaNPropagationAndEmpty() {
         // Tuple containing a NaN element should produce NaN min/max (was previously
@@ -492,9 +491,7 @@ class FloatTupleTest extends TestBase {
         assertEquals(1.0f, FloatTuple.of(1.0f, Float.NaN).median(), 0.0f);
         assertEquals(1.0f, FloatTuple.of(Float.NaN, 1.0f).median(), 0.0f);
 
-        // Empty tuple must throw NoSuchElementException for ALL of min/max/median/average,
-        // matching the @throws NoSuchElementException Javadoc. Previously these threw
-        // IllegalArgumentException (min/max/median) or returned 0.0 silently (average).
+        // Empty min/max/median must throw NoSuchElementException; average() deliberately returns 0D.
         final FloatTuple.FloatTuple0 empty = FloatTuple.copyOf(new float[0]);
         assertThrows(NoSuchElementException.class, empty::min);
         assertThrows(NoSuchElementException.class, empty::max);

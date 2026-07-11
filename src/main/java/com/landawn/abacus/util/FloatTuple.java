@@ -70,20 +70,20 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple1 single = FloatTuple.of(3.14f);
-     * single._1                                       // returns 3.14f
-     * single.arity()                                  // returns 1
+     * assert single._1 == 3.14f;
+     * single.arity();                                  // returns 1
      *
      * // Edge: NaN is a valid element
      * FloatTuple.FloatTuple1 nanTuple = FloatTuple.of(Float.NaN);
-     * Float.isNaN(nanTuple._1)                        // returns true
+     * Float.isNaN(nanTuple._1);                        // returns true
      *
      * // Edge: positive infinity
      * FloatTuple.FloatTuple1 infTuple = FloatTuple.of(Float.POSITIVE_INFINITY);
-     * infTuple._1 == Float.POSITIVE_INFINITY          // returns true
+     * assert infTuple._1 == Float.POSITIVE_INFINITY; // returns true
      *
      * // Edge: single-element operations all delegate to _1
-     * FloatTuple.of(5.0f).min()                       // returns 5.0f
-     * FloatTuple.of(5.0f).max()                       // returns 5.0f
+     * FloatTuple.of(5.0f).min();                       // returns 5.0f
+     * FloatTuple.of(5.0f).max();                       // returns 5.0f
      * }</pre>
      *
      * @param _1 the float value to store in the tuple
@@ -99,18 +99,18 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-     * pair._1                                         // returns 1.5f
-     * pair._2                                         // returns 2.5f
+     * assert pair._1 == 1.5f;
+     * assert pair._2 == 2.5f;
      *
      * // Reverse produces a new tuple with elements swapped
-     * pair.reverse()._1                               // returns 2.5f
+     * assert pair.reverse()._1 == 2.5f;
      *
      * // Edge: NaN element - min/max/median propagate NaN
      * FloatTuple.FloatTuple2 nanPair = FloatTuple.of(1.0f, Float.NaN);
-     * Float.isNaN(nanPair.min())                      // returns true
+     * Float.isNaN(nanPair.min());                      // returns true
      *
      * // Edge: infinity element
-     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).max()  // returns Float.POSITIVE_INFINITY
+     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).max();  // returns Float.POSITIVE_INFINITY
      * }</pre>
      *
      * @param _1 the first float value
@@ -127,17 +127,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * triple._3                                       // returns 3.0f
-     * triple.sum()                                    // returns 6.0f
+     * assert triple._3 == 3.0f;
+     * triple.sum();                                    // returns 6.0f
      *
      * // Median of three: middle value when sorted
-     * FloatTuple.of(30.0f, 10.0f, 20.0f).median()    // returns 20.0f
+     * FloatTuple.of(30.0f, 10.0f, 20.0f).median();    // returns 20.0f
      *
      * // Edge: NaN propagates through sum
-     * FloatTuple.of(1.0f, Float.NaN, 3.0f).sum()     // returns NaN (Float.isNaN == true)
+     * FloatTuple.of(1.0f, Float.NaN, 3.0f).sum();     // returns NaN (Float.isNaN == true)
      *
      * // Edge: reversed triple
-     * FloatTuple.of(1.0f, 2.0f, 3.0f).reverse()._1   // returns 3.0f
+     * assert FloatTuple.of(1.0f, 2.0f, 3.0f).reverse()._1 == 3.0f;
      * }</pre>
      *
      * @param _1 the first float value
@@ -155,17 +155,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-     * tuple._4                                        // returns 4.0f
-     * tuple.sum()                                     // returns 10.0f
+     * assert tuple._4 == 4.0f;
+     * tuple.sum();                                     // returns 10.0f
      *
      * // Median of four (even count): lower middle value when sorted
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).median() // returns 2.0f
+     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).median(); // returns 2.0f
      *
      * // Edge: all negative values
-     * FloatTuple.of(-4.0f, -1.0f, -3.0f, -2.0f).min() // returns -4.0f
+     * FloatTuple.of(-4.0f, -1.0f, -3.0f, -2.0f).min(); // returns -4.0f
      *
      * // Edge: NaN propagates through average
-     * Double.isNaN(FloatTuple.of(1.0f, Float.NaN, 3.0f, 4.0f).average()) // returns true
+     * Double.isNaN(FloatTuple.of(1.0f, Float.NaN, 3.0f, 4.0f).average()); // returns true
      * }</pre>
      *
      * @param _1 the first float value
@@ -184,17 +184,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-     * tuple.median()                                  // returns 3.0f
-     * tuple.average()                                 // returns 3.0
+     * tuple.median();                                  // returns 3.0f
+     * tuple.average();                                 // returns 3.0
      *
      * // Reverse produces a new tuple
-     * tuple.reverse()._1                              // returns 5.0f
+     * assert tuple.reverse()._1 == 5.0f;
      *
      * // Edge: NaN propagates through max
-     * Float.isNaN(FloatTuple.of(1.0f, 2.0f, Float.NaN, 4.0f, 5.0f).max()) // returns true
+     * Float.isNaN(FloatTuple.of(1.0f, 2.0f, Float.NaN, 4.0f, 5.0f).max()); // returns true
      *
      * // Edge: infinity - max is infinity
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, Float.POSITIVE_INFINITY).max() // returns Float.POSITIVE_INFINITY
+     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, Float.POSITIVE_INFINITY).max(); // returns Float.POSITIVE_INFINITY
      * }</pre>
      *
      * @param _1 the first float value
@@ -214,17 +214,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-     * tuple.sum()                                     // returns 21.0f
-     * tuple.average()                                 // returns 3.5
+     * tuple.sum();                                     // returns 21.0f
+     * tuple.average();                                 // returns 3.5
      *
      * // Median of six (even count): lower middle value when sorted
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).median()  // returns 3.0f
+     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).median();  // returns 3.0f
      *
      * // Edge: NaN in sum
-     * Float.isNaN(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, Float.NaN).sum()) // returns true
+     * Float.isNaN(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, Float.NaN).sum()); // returns true
      *
      * // Edge: contains check with a specific value
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).contains(4.0f) // returns true
+     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).contains(4.0f); // returns true
      * }</pre>
      *
      * @param _1 the first float value
@@ -245,19 +245,19 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-     * tuple.median()                                  // returns 4.0f
-     * tuple.sum()                                     // returns 28.0f
+     * tuple.median();                                  // returns 4.0f
+     * tuple.sum();                                     // returns 28.0f
      *
      * // Reverse produces a new tuple with elements in opposite order
      * FloatTuple.FloatTuple7 reversed = tuple.reverse();
-     * reversed._1                                     // returns 7.0f
-     * reversed._7                                     // returns 1.0f
+     * assert reversed._1 == 7.0f;
+     * assert reversed._7 == 1.0f;
      *
      * // Edge: NaN propagates through min
-     * Float.isNaN(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, Float.NaN).min()) // returns true
+     * Float.isNaN(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, Float.NaN).min()); // returns true
      *
      * // Edge: negative infinity is the minimum
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, Float.NEGATIVE_INFINITY).min() // returns Float.NEGATIVE_INFINITY
+     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, Float.NEGATIVE_INFINITY).min(); // returns Float.NEGATIVE_INFINITY
      * }</pre>
      *
      * @param _1 the first float value
@@ -279,18 +279,18 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-     * tuple.toArray().length                          // returns 8
-     * tuple.sum()                                     // returns 36.0f
+     * assert tuple.toArray().length == 8;
+     * tuple.sum();                                     // returns 36.0f
      *
      * // Median of eight (even count): lower middle value when sorted
-     * tuple.median()                                  // returns 4.0f
+     * tuple.median();                                  // returns 4.0f
      *
      * // Edge: contains check
-     * tuple.contains(8.0f)                            // returns true
-     * tuple.contains(9.0f)                            // returns false
+     * tuple.contains(8.0f);                            // returns true
+     * tuple.contains(9.0f);                            // returns false
      *
      * // Edge: NaN element - average produces NaN
-     * Double.isNaN(FloatTuple.of(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,Float.NaN).average()) // returns true
+     * Double.isNaN(FloatTuple.of(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,Float.NaN).average()); // returns true
      * }</pre>
      *
      * @param _1 the first float value
@@ -316,19 +316,19 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-     * tuple.sum()                                     // returns 45.0f
-     * tuple.median()                                  // returns 5.0f
+     * tuple.sum();                                     // returns 45.0f
+     * tuple.median();                                  // returns 5.0f
      *
      * // Reverse produces a new tuple with elements in opposite order
      * FloatTuple.FloatTuple9 reversed = tuple.reverse();
-     * reversed._1                                     // returns 9.0f
-     * reversed._9                                     // returns 1.0f
+     * assert reversed._1 == 9.0f;
+     * assert reversed._9 == 1.0f;
      *
      * // Edge: NaN propagates through sum
-     * Float.isNaN(FloatTuple.of(1.0f,2.0f,3.0f,4.0f,Float.NaN,6.0f,7.0f,8.0f,9.0f).sum()) // returns true
+     * Float.isNaN(FloatTuple.of(1.0f,2.0f,3.0f,4.0f,Float.NaN,6.0f,7.0f,8.0f,9.0f).sum()); // returns true
      *
      * // Edge: infinity - max is infinity
-     * FloatTuple.of(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,Float.POSITIVE_INFINITY).max() // returns Float.POSITIVE_INFINITY
+     * FloatTuple.of(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,Float.POSITIVE_INFINITY).max(); // returns Float.POSITIVE_INFINITY
      * }</pre>
      *
      * @param _1 the first float value
@@ -363,21 +363,21 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <pre>{@code
      * // Three-element array produces a FloatTuple3
      * FloatTuple.FloatTuple3 t3 = FloatTuple.copyOf(new float[]{1.0f, 2.0f, 3.0f});
-     * t3._1                                           // returns 1.0f
+     * assert t3._1 == 1.0f;
      *
      * // Single-element array produces a FloatTuple1
      * FloatTuple.FloatTuple1 t1 = FloatTuple.copyOf(new float[]{3.14f});
-     * t1._1                                           // returns 3.14f
+     * assert t1._1 == 3.14f;
      *
      * // null or empty array produces the empty (arity-0) tuple
-     * FloatTuple.copyOf(null).arity()                 // returns 0
-     * FloatTuple.copyOf(new float[0]).arity()         // returns 0
+     * FloatTuple.copyOf(null).arity();                 // returns 0
+     * FloatTuple.copyOf(new float[0]).arity();         // returns 0
      *
      * // Array longer than 9 throws IllegalArgumentException
-     * FloatTuple.copyOf(new float[10])                // throws IllegalArgumentException
+     * FloatTuple.copyOf(new float[10]);                // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -441,17 +441,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple.of(3.0f, 1.0f, 2.0f).min()          // returns 1.0f
-     * FloatTuple.of(2.5f, 1.5f).min()                // returns 1.5f
+     * FloatTuple.of(3.0f, 1.0f, 2.0f).min();          // returns 1.0f
+     * FloatTuple.of(2.5f, 1.5f).min();                // returns 1.5f
      *
      * // Edge: NaN propagates - any NaN element makes result NaN
-     * Float.isNaN(FloatTuple.of(1.0f, Float.NaN).min())           // returns true
+     * Float.isNaN(FloatTuple.of(1.0f, Float.NaN).min());           // returns true
      *
      * // Edge: negative infinity is the minimum
-     * FloatTuple.of(0.0f, Float.NEGATIVE_INFINITY).min()           // returns Float.NEGATIVE_INFINITY
+     * FloatTuple.of(0.0f, Float.NEGATIVE_INFINITY).min();           // returns Float.NEGATIVE_INFINITY
      *
      * // Edge: empty tuple throws NoSuchElementException
-     * FloatTuple.copyOf(new float[0]).min()                        // throws NoSuchElementException
+     * FloatTuple.copyOf(new float[0]).min();                        // throws NoSuchElementException
      * }</pre>
      *
      * @return the minimum float value in this tuple
@@ -462,7 +462,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     public float min() {
         final float[] arr = elements();
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
         float result = arr[0];
         for (int i = 1; i < arr.length; i++) {
@@ -485,17 +485,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple.of(3.0f, 1.0f, 2.0f).max()          // returns 3.0f
-     * FloatTuple.of(1.5f, 2.5f).max()                // returns 2.5f
+     * FloatTuple.of(3.0f, 1.0f, 2.0f).max();          // returns 3.0f
+     * FloatTuple.of(1.5f, 2.5f).max();                // returns 2.5f
      *
      * // Edge: NaN propagates - any NaN element makes result NaN
-     * Float.isNaN(FloatTuple.of(1.0f, Float.NaN).max())           // returns true
+     * Float.isNaN(FloatTuple.of(1.0f, Float.NaN).max());           // returns true
      *
      * // Edge: positive infinity is the maximum
-     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).max()           // returns Float.POSITIVE_INFINITY
+     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).max();           // returns Float.POSITIVE_INFINITY
      *
      * // Edge: empty tuple throws NoSuchElementException
-     * FloatTuple.copyOf(new float[0]).max()                        // throws NoSuchElementException
+     * FloatTuple.copyOf(new float[0]).max();                        // throws NoSuchElementException
      * }</pre>
      *
      * @return the maximum float value in this tuple
@@ -506,7 +506,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     public float max() {
         final float[] arr = elements();
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
         float result = arr[0];
         for (int i = 1; i < arr.length; i++) {
@@ -533,17 +533,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Odd number of elements: middle value of the sorted sequence
-     * FloatTuple.of(30.0f, 10.0f, 20.0f).median()          // returns 20.0f  (sorted: 10, 20, 30)
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f).median() // returns 3.0f
+     * FloatTuple.of(30.0f, 10.0f, 20.0f).median();          // returns 20.0f  (sorted: 10, 20, 30)
+     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f).median(); // returns 3.0f
      *
      * // Even number of elements: lower middle value of the sorted sequence
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).median() // returns 2.0f
+     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).median(); // returns 2.0f
      *
      * // Edge: NaN is ordered above finite values
-     * FloatTuple.of(1.0f, Float.NaN).median()                         // returns 1.0f
+     * FloatTuple.of(1.0f, Float.NaN).median();                         // returns 1.0f
      *
      * // Edge: empty tuple throws NoSuchElementException
-     * FloatTuple.copyOf(new float[0]).median()                        // throws NoSuchElementException
+     * FloatTuple.copyOf(new float[0]).median();                        // throws NoSuchElementException
      * }</pre>
      *
      * @return the median float element in this tuple
@@ -553,7 +553,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     public float median() {
         final float[] arr = elements();
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
         return N.median(arr);
     }
@@ -568,17 +568,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple.of(1.0f, 2.0f, 3.0f).sum()          // returns 6.0f
-     * FloatTuple.of(1.5f, 2.5f).sum()                // returns 4.0f
+     * FloatTuple.of(1.0f, 2.0f, 3.0f).sum();          // returns 6.0f
+     * FloatTuple.of(1.5f, 2.5f).sum();                // returns 4.0f
      *
      * // Edge: empty tuple returns 0.0f (no exception)
-     * FloatTuple.copyOf(new float[0]).sum()            // returns 0.0f
+     * FloatTuple.copyOf(new float[0]).sum();            // returns 0.0f
      *
      * // Edge: NaN propagates through sum
-     * Float.isNaN(FloatTuple.of(1.0f, Float.NaN).sum())           // returns true
+     * Float.isNaN(FloatTuple.of(1.0f, Float.NaN).sum());           // returns true
      *
      * // Edge: infinity
-     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).sum()          // returns Float.POSITIVE_INFINITY
+     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).sum();          // returns Float.POSITIVE_INFINITY
      * }</pre>
      *
      * @return the sum of all float values in this tuple, or {@code 0.0f} if empty
@@ -598,17 +598,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple.of(1.0f, 2.0f, 3.0f).average()      // returns 2.0
-     * FloatTuple.of(1.0f, 2.0f).average()            // returns 1.5
+     * FloatTuple.of(1.0f, 2.0f, 3.0f).average();      // returns 2.0
+     * FloatTuple.of(1.0f, 2.0f).average();            // returns 1.5
      *
      * // Edge: empty tuple returns 0D
-     * FloatTuple.copyOf(new float[0]).average()        // returns 0.0
+     * FloatTuple.copyOf(new float[0]).average();        // returns 0.0
      *
      * // Edge: NaN propagates - result is Double NaN
-     * Double.isNaN(FloatTuple.of(1.0f, Float.NaN).average())      // returns true
+     * Double.isNaN(FloatTuple.of(1.0f, Float.NaN).average());      // returns true
      *
      * // Edge: infinity
-     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).average()      // returns Double.POSITIVE_INFINITY
+     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).average();      // returns Double.POSITIVE_INFINITY
      * }</pre>
      *
      * @return the average of all float values in this tuple as a {@code double}, or {@code 0D} if this tuple is empty
@@ -632,17 +632,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <pre>{@code
      * FloatTuple.FloatTuple3 t = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * FloatTuple.FloatTuple3 r = t.reverse();
-     * r._1                                            // returns 3.0f
-     * r._3                                            // returns 1.0f
+     * assert r._1 == 3.0f;
+     * assert r._3 == 1.0f;
      *
      * // Original is unchanged
-     * t._1                                            // still returns 1.0f
+     * assert t._1 == 1.0f;
      *
      * // Edge: single-element tuple reversed is the same element
-     * FloatTuple.of(5.0f).reverse()._1               // returns 5.0f
+     * assert FloatTuple.of(5.0f).reverse()._1 == 5.0f;
      *
      * // Edge: empty tuple reverses to itself
-     * FloatTuple.copyOf(new float[0]).reverse().arity() // returns 0
+     * FloatTuple.copyOf(new float[0]).reverse().arity(); // returns 0
      * }</pre>
      *
      * @return a tuple with the elements in reverse order
@@ -663,14 +663,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple.of(1.0f, 2.0f, 3.0f).contains(2.0f)  // returns true
-     * FloatTuple.of(1.0f, 2.0f, 3.0f).contains(5.0f)  // returns false
+     * FloatTuple.of(1.0f, 2.0f, 3.0f).contains(2.0f);  // returns true
+     * FloatTuple.of(1.0f, 2.0f, 3.0f).contains(5.0f);  // returns false
      *
      * // Edge: NaN is found when NaN is present (Float.compare semantics: NaN == NaN)
-     * FloatTuple.of(1.0f, Float.NaN).contains(Float.NaN)          // returns true
+     * FloatTuple.of(1.0f, Float.NaN).contains(Float.NaN);          // returns true
      *
      * // Edge: empty tuple never contains any value
-     * FloatTuple.copyOf(new float[0]).contains(0.0f)               // returns false
+     * FloatTuple.copyOf(new float[0]).contains(0.0f);               // returns false
      * }</pre>
      *
      * @param valueToFind the float value to search for
@@ -689,20 +689,20 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] arr = FloatTuple.of(1.0f, 2.0f, 3.0f).toArray();
-     * arr.length                                      // returns 3
-     * arr[0]                                          // returns 1.0f
+     * assert arr.length == 3;
+     * assert arr[0] == 1.0f;
      *
      * // Mutating the returned array does not affect the tuple
      * FloatTuple.FloatTuple2 t = FloatTuple.of(1.0f, 2.0f);
      * float[] copy = t.toArray();
      * copy[0] = 99.0f;
-     * t._1                                            // still returns 1.0f
+     * assert t._1 == 1.0f;
      *
      * // Edge: empty tuple returns a zero-length array (not null)
-     * FloatTuple.copyOf(new float[0]).toArray().length // returns 0
+     * assert FloatTuple.copyOf(new float[0]).toArray().length == 0;
      *
      * // Edge: single element
-     * FloatTuple.of(Float.NaN).toArray()[0]           // returns NaN (Float.isNaN == true)
+     * assert Float.isNaN(FloatTuple.of(Float.NaN).toArray()[0]); // (Float.isNaN == true)
      * }</pre>
      *
      * @return a new float array containing all tuple elements
@@ -723,20 +723,20 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatList list = FloatTuple.of(1.0f, 2.0f, 3.0f).toList();
-     * list.size()                                     // returns 3
-     * list.get(0)                                     // returns 1.0f
+     * list.size();                                     // returns 3
+     * list.get(0);                                     // returns 1.0f
      *
      * // Mutating the returned list does not affect the tuple
      * FloatTuple.FloatTuple2 t = FloatTuple.of(1.5f, 2.5f);
      * FloatList l = t.toList();
      * l.add(4.0f);                                    // modifies the copy, not the tuple
-     * t.arity()                                       // still returns 2
+     * t.arity();                                       // still returns 2
      *
      * // Edge: empty tuple returns an empty list (not null)
-     * FloatTuple.copyOf(new float[0]).toList().size() // returns 0
+     * FloatTuple.copyOf(new float[0]).toList().size(); // returns 0
      *
      * // Edge: NaN element is preserved in the list
-     * Float.isNaN(FloatTuple.of(Float.NaN).toList().get(0))        // returns true
+     * Float.isNaN(FloatTuple.of(Float.NaN).toList().get(0));        // returns true
      * }</pre>
      *
      * @return a new FloatList containing all tuple elements
@@ -761,8 +761,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * // Collect elements into a list in encounter order
      * FloatList collected = FloatList.of();
      * FloatTuple.of(1.0f, 2.0f, 3.0f).forEach(collected::add); // adds each value to collected
-     * collected.size()                                         // returns 3
-     * collected.get(0)                                         // returns 1.0f
+     * collected.size();                                         // returns 3
+     * collected.get(0);                                         // returns 1.0f
      *
      * // Action receives elements left-to-right
      * FloatTuple.of(1.5f, 2.5f).forEach(f -> System.out.print(f + " ")); // prints "1.5 2.5 "
@@ -770,12 +770,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * // Edge: empty tuple - action is never invoked
      * FloatList empty = FloatList.of();
      * FloatTuple.copyOf(new float[0]).forEach(empty::add); // action not invoked (empty tuple)
-     * empty.size()                                         // returns 0
+     * empty.size();                                         // returns 0
      *
      * // Edge: NaN element is passed to the action as-is
      * FloatList nanList = FloatList.of();
      * FloatTuple.of(Float.NaN).forEach(nanList::add); // adds the NaN element to nanList
-     * Float.isNaN(nanList.get(0))                     // returns true
+     * Float.isNaN(nanList.get(0));                     // returns true
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
@@ -784,7 +784,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-        N.checkArgNotNull(action);
+        N.checkArgNotNull(action, "action");
 
         for (final float element : elements()) {
             action.accept(element);
@@ -801,14 +801,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple.of(1.0f, 2.0f, 3.0f).stream().sum()                   // returns 6.0
-     * FloatTuple.of(1.5f, 2.5f).stream().filter(f -> f > 2.0f).count() // returns 1
+     * FloatTuple.of(1.0f, 2.0f, 3.0f).stream().sum();                   // returns 6.0
+     * FloatTuple.of(1.5f, 2.5f).stream().filter(f -> f > 2.0f).count(); // returns 1
      *
      * // Edge: empty tuple produces an empty stream
-     * FloatTuple.copyOf(new float[0]).stream().count()             // returns 0
+     * FloatTuple.copyOf(new float[0]).stream().count();             // returns 0
      *
      * // Edge: NaN element is streamed as-is
-     * FloatTuple.of(Float.NaN).stream().count()                    // returns 1
+     * FloatTuple.of(Float.NaN).stream().count();                    // returns 1
      * }</pre>
      *
      * @return a FloatStream containing all tuple elements
@@ -833,17 +833,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Equal tuples have equal hash codes
-     * FloatTuple.of(1.0f, 2.0f).hashCode() == FloatTuple.of(1.0f, 2.0f).hashCode() // returns true
-     *
-     * // Same-content tuples of different arity have different hash codes (implementation detail,
-     * // not contractually guaranteed, but practically true)
-     * FloatTuple.of(1.0f).hashCode() == FloatTuple.of(1.0f, 0.0f).hashCode() // typically false
+     * assert FloatTuple.of(1.0f, 2.0f).hashCode() == FloatTuple.of(1.0f, 2.0f).hashCode(); // returns true
      *
      * // Edge: NaN hashes to a canonical non-zero value
-     * FloatTuple.of(Float.NaN).hashCode() == FloatTuple.of(Float.NaN).hashCode() // returns true
+     * assert FloatTuple.of(Float.NaN).hashCode() == FloatTuple.of(Float.NaN).hashCode(); // returns true
      *
      * // Edge: empty tuple has a stable hash code
-     * FloatTuple.copyOf(new float[0]).hashCode() == FloatTuple.copyOf(new float[0]).hashCode() // returns true
+     * assert FloatTuple.copyOf(new float[0]).hashCode() == FloatTuple.copyOf(new float[0]).hashCode(); // returns true
      * }</pre>
      *
      * @return a hash code value for this tuple
@@ -873,16 +869,16 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Same arity and same element values
-     * FloatTuple.of(1.0f, 2.0f).equals(FloatTuple.of(1.0f, 2.0f))   // returns true
+     * FloatTuple.of(1.0f, 2.0f).equals(FloatTuple.of(1.0f, 2.0f));   // returns true
      *
      * // Different element order - not equal
-     * FloatTuple.of(1.0f, 2.0f).equals(FloatTuple.of(2.0f, 1.0f))   // returns false
+     * FloatTuple.of(1.0f, 2.0f).equals(FloatTuple.of(2.0f, 1.0f));   // returns false
      *
      * // Edge: different arity - never equal even if elements overlap
-     * FloatTuple.of(1.0f).equals(FloatTuple.of(1.0f, 0.0f))          // returns false
+     * FloatTuple.of(1.0f).equals(FloatTuple.of(1.0f, 0.0f));          // returns false
      *
      * // Edge: NaN is equal to NaN (Float.compare semantics)
-     * FloatTuple.of(Float.NaN).equals(FloatTuple.of(Float.NaN))       // returns true
+     * FloatTuple.of(Float.NaN).equals(FloatTuple.of(Float.NaN));       // returns true
      * }</pre>
      *
      * @param obj the object to be compared for equality with this tuple
@@ -902,8 +898,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
     /**
      * Returns the internal array containing all float elements in this tuple.
-     * <p>
-     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
      * Modifying the returned array will compromise the immutability of this tuple.
      * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
@@ -947,7 +942,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         /**
@@ -959,7 +954,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         /**
@@ -971,7 +966,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float median() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         /**
@@ -1066,14 +1061,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple.of(3.0f).arity()                     // returns 1
-         * FloatTuple.of(Float.NaN).arity()                // returns 1
+         * FloatTuple.of(3.0f).arity();                     // returns 1
+         * FloatTuple.of(Float.NaN).arity();                // returns 1
          *
          * // Edge: arity is always 1 regardless of value
-         * FloatTuple.of(Float.POSITIVE_INFINITY).arity()  // returns 1
+         * FloatTuple.of(Float.POSITIVE_INFINITY).arity();  // returns 1
          *
          * // Edge: compare to empty tuple arity
-         * FloatTuple.copyOf(new float[0]).arity()         // returns 0
+         * FloatTuple.copyOf(new float[0]).arity();         // returns 0
          * }</pre>
          *
          * @return 1
@@ -1088,14 +1083,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple.of(3.0f).min()                       // returns 3.0f
-         * FloatTuple.of(-1.5f).min()                      // returns -1.5f
+         * FloatTuple.of(3.0f).min();                       // returns 3.0f
+         * FloatTuple.of(-1.5f).min();                      // returns -1.5f
          *
          * // Edge: NaN - single-element min is the element itself
-         * Float.isNaN(FloatTuple.of(Float.NaN).min())     // returns true
+         * Float.isNaN(FloatTuple.of(Float.NaN).min());     // returns true
          *
          * // Edge: infinity
-         * FloatTuple.of(Float.NEGATIVE_INFINITY).min()    // returns Float.NEGATIVE_INFINITY
+         * FloatTuple.of(Float.NEGATIVE_INFINITY).min();    // returns Float.NEGATIVE_INFINITY
          * }</pre>
          *
          * @return the value of {@code _1}
@@ -1110,14 +1105,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple.of(3.0f).max()                       // returns 3.0f
-         * FloatTuple.of(-1.5f).max()                      // returns -1.5f
+         * FloatTuple.of(3.0f).max();                       // returns 3.0f
+         * FloatTuple.of(-1.5f).max();                      // returns -1.5f
          *
          * // Edge: NaN - single-element max is the element itself
-         * Float.isNaN(FloatTuple.of(Float.NaN).max())     // returns true
+         * Float.isNaN(FloatTuple.of(Float.NaN).max());     // returns true
          *
          * // Edge: infinity
-         * FloatTuple.of(Float.POSITIVE_INFINITY).max()    // returns Float.POSITIVE_INFINITY
+         * FloatTuple.of(Float.POSITIVE_INFINITY).max();    // returns Float.POSITIVE_INFINITY
          * }</pre>
          *
          * @return the value of {@code _1}
@@ -1132,14 +1127,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * FloatTuple.of(3.0f).median()                    // returns 3.0f
-         * FloatTuple.of(-1.5f).median()                   // returns -1.5f
+         * FloatTuple.of(3.0f).median();                    // returns 3.0f
+         * FloatTuple.of(-1.5f).median();                   // returns -1.5f
          *
          * // Edge: NaN - single-element median is the element itself
-         * Float.isNaN(FloatTuple.of(Float.NaN).median())  // returns true
+         * Float.isNaN(FloatTuple.of(Float.NaN).median());  // returns true
          *
          * // Edge: infinity
-         * FloatTuple.of(Float.POSITIVE_INFINITY).median() // returns Float.POSITIVE_INFINITY
+         * FloatTuple.of(Float.POSITIVE_INFINITY).median(); // returns Float.POSITIVE_INFINITY
          * }</pre>
          *
          * @return the value of {@code _1}
@@ -1260,10 +1255,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * int h = t.hashCode();   // returns Float.hashCode(1.0f)
          *
          * FloatTuple.FloatTuple1 same = FloatTuple.of(1.0f);
-         * boolean sameHash = (t.hashCode() == same.hashCode());   // returns true
+         * boolean sameHash = (t.hashCode() == same.hashCode()); // returns true
          *
          * FloatTuple.FloatTuple1 neg = FloatTuple.of(-1.0f);
-         * boolean diffHash = (t.hashCode() != neg.hashCode());   // returns true
+         * boolean diffHash = (t.hashCode() != neg.hashCode()); // returns true
          *
          * FloatTuple.FloatTuple1 nanTuple = FloatTuple.of(Float.NaN);
          * int nanHash = nanTuple.hashCode();   // returns Float.hashCode(Float.NaN)
@@ -1620,7 +1615,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple2 t = FloatTuple.of(1.0f, 2.0f);
-         * List<Float> list = new ArrayList<>();
+         * java.util.List<Float> list = new java.util.ArrayList<>();
          * t.forEach(list::add);   // list becomes [1.0f, 2.0f]
          *
          * FloatTuple.FloatTuple2 neg = FloatTuple.of(-3.0f, 5.0f);
@@ -1628,11 +1623,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * neg.forEach(v -> sum[0] += v);   // sum[0] becomes 2.0f
          *
          * FloatTuple.FloatTuple2 nanT = FloatTuple.of(Float.NaN, 1.0f);
-         * List<Float> nanList = new ArrayList<>();
+         * java.util.List<Float> nanList = new java.util.ArrayList<>();
          * nanT.forEach(nanList::add);   // nanList contains [NaN, 1.0f]
          *
          * FloatTuple.FloatTuple2 infT = FloatTuple.of(Float.POSITIVE_INFINITY, 2.0f);
-         * List<Float> infList = new ArrayList<>();
+         * java.util.List<Float> infList = new java.util.ArrayList<>();
          * infT.forEach(infList::add);   // infList contains [Infinity, 2.0f]
          * }</pre>
          *
@@ -1643,7 +1638,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -1771,10 +1766,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <pre>{@code
          * FloatTuple.FloatTuple2 t1 = FloatTuple.of(1.0f, 2.0f);
          * FloatTuple.FloatTuple2 t2 = FloatTuple.of(1.0f, 2.0f);
-         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // returns true
+         * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
          *
          * FloatTuple.FloatTuple2 t3 = FloatTuple.of(2.0f, 1.0f);
-         * boolean diffHash = (t1.hashCode() != t3.hashCode());   // returns true (order matters)
+         * boolean diffHash = (t1.hashCode() != t3.hashCode()); // returns true (order matters)
          *
          * FloatTuple.FloatTuple2 nanT = FloatTuple.of(Float.NaN, Float.NaN);
          * int nanHash = nanT.hashCode();   // consistent hash for NaN values
@@ -2123,7 +2118,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple3 t = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * List<Float> list = new ArrayList<>();
+         * java.util.List<Float> list = new java.util.ArrayList<>();
          * t.forEach(list::add);   // list becomes [1.0f, 2.0f, 3.0f]
          *
          * FloatTuple.FloatTuple3 neg = FloatTuple.of(-1.0f, 0.0f, 1.0f);
@@ -2131,11 +2126,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * neg.forEach(v -> sum[0] += v);   // sum[0] becomes 0.0f
          *
          * FloatTuple.FloatTuple3 nanT = FloatTuple.of(Float.NaN, 1.0f, 2.0f);
-         * List<Float> nanList = new ArrayList<>();
+         * java.util.List<Float> nanList = new java.util.ArrayList<>();
          * nanT.forEach(nanList::add);   // nanList contains [NaN, 1.0f, 2.0f]
          *
          * FloatTuple.FloatTuple3 infT = FloatTuple.of(Float.POSITIVE_INFINITY, 2.0f, 3.0f);
-         * List<Float> infList = new ArrayList<>();
+         * java.util.List<Float> infList = new java.util.ArrayList<>();
          * infT.forEach(infList::add);   // infList contains [Infinity, 2.0f, 3.0f]
          * }</pre>
          *
@@ -2146,7 +2141,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2274,10 +2269,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <pre>{@code
          * FloatTuple.FloatTuple3 t1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
          * FloatTuple.FloatTuple3 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // returns true
+         * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
          *
          * FloatTuple.FloatTuple3 t3 = FloatTuple.of(3.0f, 2.0f, 1.0f);
-         * boolean diffHash = (t1.hashCode() != t3.hashCode());   // returns true (order matters)
+         * boolean diffHash = (t1.hashCode() != t3.hashCode()); // returns true (order matters)
          *
          * FloatTuple.FloatTuple3 nanT = FloatTuple.of(Float.NaN, Float.NaN, Float.NaN);
          * int nanHash = nanT.hashCode();   // consistent hash for NaN values
@@ -2632,14 +2627,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple4 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-         * List<Float> list = new java.util.ArrayList<>();
+         * java.util.List<Float> list = new java.util.ArrayList<>();
          * t.forEach(e -> list.add(e));   // list becomes [1.0, 2.0, 3.0, 4.0]
          *
          * float[] sum = {0.0f};
          * t.forEach(e -> sum[0] += e);   // sum[0] == 10.0f
          *
          * FloatTuple.FloatTuple4 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f);
-         * List<Float> neg2 = new java.util.ArrayList<>();
+         * java.util.List<Float> neg2 = new java.util.ArrayList<>();
          * neg.forEach(e -> neg2.add(e));   // neg2 becomes [-1.0, -2.0, -3.0, -4.0]
          *
          * // forEach(null) throws IllegalArgumentException
@@ -2652,7 +2647,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2667,7 +2662,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <pre>{@code
          * FloatTuple.FloatTuple4 t1 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
          * FloatTuple.FloatTuple4 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-         * boolean same = (t1.hashCode() == t2.hashCode());   // returns true
+         * boolean same = (t1.hashCode() == t2.hashCode()); // returns true
          *
          * FloatTuple.FloatTuple4 t3 = FloatTuple.of(4.0f, 3.0f, 2.0f, 1.0f);
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (different order)
@@ -3012,14 +3007,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple5 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * List<Float> list = new java.util.ArrayList<>();
+         * java.util.List<Float> list = new java.util.ArrayList<>();
          * t.forEach(e -> list.add(e));   // list becomes [1.0, 2.0, 3.0, 4.0, 5.0]
          *
          * float[] sum = {0.0f};
          * t.forEach(e -> sum[0] += e);   // sum[0] == 15.0f
          *
          * FloatTuple.FloatTuple5 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f);
-         * List<Float> neg2 = new java.util.ArrayList<>();
+         * java.util.List<Float> neg2 = new java.util.ArrayList<>();
          * neg.forEach(e -> neg2.add(e));   // neg2 becomes [-1.0, -2.0, -3.0, -4.0, -5.0]
          *
          * // forEach(null) throws IllegalArgumentException
@@ -3032,7 +3027,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3048,7 +3043,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <pre>{@code
          * FloatTuple.FloatTuple5 t1 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
          * FloatTuple.FloatTuple5 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * boolean same = (t1.hashCode() == t2.hashCode());   // returns true
+         * boolean same = (t1.hashCode() == t2.hashCode()); // returns true
          *
          * FloatTuple.FloatTuple5 t3 = FloatTuple.of(5.0f, 4.0f, 3.0f, 2.0f, 1.0f);
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false
@@ -3397,14 +3392,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple6 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * List<Float> list = new java.util.ArrayList<>();
+         * java.util.List<Float> list = new java.util.ArrayList<>();
          * t.forEach(e -> list.add(e));   // list becomes [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
          *
          * float[] sum = {0.0f};
          * t.forEach(e -> sum[0] += e);   // sum[0] == 21.0f
          *
          * FloatTuple.FloatTuple6 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f);
-         * List<Float> neg2 = new java.util.ArrayList<>();
+         * java.util.List<Float> neg2 = new java.util.ArrayList<>();
          * neg.forEach(e -> neg2.add(e));   // neg2 becomes [-1.0, -2.0, -3.0, -4.0, -5.0, -6.0]
          *
          * // forEach(null) throws IllegalArgumentException
@@ -3417,7 +3412,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3434,7 +3429,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <pre>{@code
          * FloatTuple.FloatTuple6 t1 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
          * FloatTuple.FloatTuple6 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * boolean same = (t1.hashCode() == t2.hashCode());   // returns true
+         * boolean same = (t1.hashCode() == t2.hashCode()); // returns true
          *
          * FloatTuple.FloatTuple6 t3 = FloatTuple.of(6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f);
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false
@@ -3806,7 +3801,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4211,7 +4206,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4622,7 +4617,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);

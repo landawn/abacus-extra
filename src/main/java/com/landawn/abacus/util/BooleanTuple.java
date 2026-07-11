@@ -403,7 +403,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * // BooleanTuple.copyOf(new boolean[10]); // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -627,7 +627,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-        N.checkArgNotNull(action);
+        N.checkArgNotNull(action, "action");
 
         for (final boolean element : elements()) {
             action.accept(element);
@@ -751,8 +751,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
     /**
      * Returns the internal array containing all boolean elements in this tuple.
-     * <p>
-     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
      * Modifying the returned array will compromise the immutability of this tuple.
      * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
@@ -1103,18 +1102,18 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple2 mixed = BooleanTuple.of(true, false);
-         * mixed.contains(true)    // returns true
-         * mixed.contains(false)   // returns true
+         * mixed.contains(true);    // returns true
+         * mixed.contains(false);   // returns true
          *
          * // All-true tuple: false is absent
          * BooleanTuple.BooleanTuple2 allTrue = BooleanTuple.of(true, true);
-         * allTrue.contains(true)    // returns true
-         * allTrue.contains(false)   // returns false
+         * allTrue.contains(true);    // returns true
+         * allTrue.contains(false);   // returns false
          *
          * // All-false tuple: true is absent
          * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
-         * allFalse.contains(true)   // returns false
-         * allFalse.contains(false)  // returns true
+         * allFalse.contains(true);   // returns false
+         * allFalse.contains(false);  // returns true
          * }</pre>
          *
          * @param valueToFind the boolean value to search for
@@ -1154,7 +1153,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -1183,7 +1182,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * // Same-value pair: detect equal values
          * BooleanTuple.BooleanTuple2 same = BooleanTuple.of(true, true);
-         * same.accept((a, b) -> System.out.println(a == b));   // prints "true"
+         * same.accept((a, b) -> System.out.println(a == b)); // prints "true"
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -1283,16 +1282,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple2 t1 = BooleanTuple.of(true, false);
          * BooleanTuple.BooleanTuple2 t2 = BooleanTuple.of(true, false);
-         * t1.hashCode() == t2.hashCode()   // returns true (equal tuples have equal hash codes)
-         * t1.hashCode()                    // returns 39398
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * t1.hashCode();                    // returns 39398
          *
-         * // Different order yields different hash
-         * BooleanTuple.BooleanTuple2 reversed = BooleanTuple.of(false, true);
-         * t1.hashCode() == reversed.hashCode()   // returns false
          *
          * // All-false
          * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
-         * allFalse.hashCode()   // returns 39584
+         * allFalse.hashCode();   // returns 39584
          * }</pre>
          *
          * @return a hash code value calculated from both elements
@@ -1309,16 +1305,16 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple2 t1 = BooleanTuple.of(true, false);
          * BooleanTuple.BooleanTuple2 t2 = BooleanTuple.of(true, false);
-         * t1.equals(t2)   // returns true
-         * t1.equals(t1)   // returns true (reflexive)
+         * t1.equals(t2);   // returns true
+         * t1.equals(t1);   // returns true (reflexive)
          *
          * // Different order is not equal
          * BooleanTuple.BooleanTuple2 reversed = BooleanTuple.of(false, true);
-         * t1.equals(reversed)   // returns false
+         * t1.equals(reversed);   // returns false
          *
          * // Null and non-tuple types are never equal
-         * t1.equals(null)              // returns false
-         * t1.equals("(true, false)")   // returns false
+         * t1.equals(null);              // returns false
+         * t1.equals("(true, false)");   // returns false
          * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
@@ -1341,13 +1337,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple2 t = BooleanTuple.of(true, false);
-         * t.toString()   // returns "(true, false)"
+         * t.toString();   // returns "(true, false)"
          *
          * BooleanTuple.BooleanTuple2 allTrue = BooleanTuple.of(true, true);
-         * allTrue.toString()   // returns "(true, true)"
+         * allTrue.toString();   // returns "(true, true)"
          *
          * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
-         * allFalse.toString()   // returns "(false, false)"
+         * allFalse.toString();   // returns "(false, false)"
          * }</pre>
          *
          * @return a string representation in the format "(element1, element2)"
@@ -1419,14 +1415,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-         * tuple.arity()   // returns 3
+         * tuple.arity();   // returns 3
          *
          * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
-         * allFalse.arity()   // returns 3
+         * allFalse.arity();   // returns 3
          *
          * // Arity is fixed regardless of element values
          * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
-         * allTrue.arity()   // returns 3
+         * allTrue.arity();   // returns 3
          * }</pre>
          *
          * @return 3
@@ -1443,18 +1439,18 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, false);
          * BooleanTuple.BooleanTuple3 reversed = tuple.reverse();
-         * reversed.toString()   // returns "(false, false, true)"
+         * reversed.toString();   // returns "(false, false, true)"
          *
          * // Palindrome: reversing yields the same sequence
          * BooleanTuple.BooleanTuple3 palindrome = BooleanTuple.of(true, false, true);
-         * palindrome.reverse().toString()   // returns "(true, false, true)"
+         * palindrome.reverse().toString();   // returns "(true, false, true)"
          *
          * // All-same values: reverse is identical in value
          * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
-         * allTrue.reverse().toString()   // returns "(true, true, true)"
+         * allTrue.reverse().toString();   // returns "(true, true, true)"
          *
          * // reverse() returns a NEW instance (not the same object)
-         * palindrome.reverse() != palindrome   // true
+         * assert palindrome.reverse() != palindrome; // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple3 with the elements in reverse order
@@ -1470,18 +1466,18 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 mixed = BooleanTuple.of(true, false, true);
-         * mixed.contains(true)    // returns true
-         * mixed.contains(false)   // returns true
+         * mixed.contains(true);    // returns true
+         * mixed.contains(false);   // returns true
          *
          * // All-true tuple: false is absent
          * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
-         * allTrue.contains(true)    // returns true
-         * allTrue.contains(false)   // returns false
+         * allTrue.contains(true);    // returns true
+         * allTrue.contains(false);   // returns false
          *
          * // All-false tuple: true is absent
          * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
-         * allFalse.contains(true)   // returns false
-         * allFalse.contains(false)  // returns true
+         * allFalse.contains(true);   // returns false
+         * allFalse.contains(false);  // returns true
          * }</pre>
          *
          * @param valueToFind the boolean value to search for
@@ -1520,7 +1516,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -1585,8 +1581,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * // All-false: AND and OR both false
          * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
-         * allFalse.map((a, b, c) -> a && b && c)   // returns false
-         * allFalse.map((a, b, c) -> a || b || c)   // returns false
+         * allFalse.map((a, b, c) -> a && b && c);   // returns false
+         * allFalse.map((a, b, c) -> a || b || c);   // returns false
          * }</pre>
          *
          * @param <U> the type of the result returned by the mapper function
@@ -1649,16 +1645,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 t1 = BooleanTuple.of(true, false, true);
          * BooleanTuple.BooleanTuple3 t2 = BooleanTuple.of(true, false, true);
-         * t1.hashCode() == t2.hashCode()   // returns true (equal tuples have equal hash codes)
-         * t1.hashCode()                    // returns 1222569
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * t1.hashCode();                    // returns 1222569
          *
-         * // Different values yield different hash
-         * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
-         * t1.hashCode() == allTrue.hashCode()   // returns false
          *
          * // All-false
          * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
-         * allFalse.hashCode()   // returns 1228341
+         * allFalse.hashCode();   // returns 1228341
          * }</pre>
          *
          * @return a hash code value calculated from all three elements
@@ -1675,16 +1668,16 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 t1 = BooleanTuple.of(true, false, true);
          * BooleanTuple.BooleanTuple3 t2 = BooleanTuple.of(true, false, true);
-         * t1.equals(t2)   // returns true
-         * t1.equals(t1)   // returns true (reflexive)
+         * t1.equals(t2);   // returns true
+         * t1.equals(t1);   // returns true (reflexive)
          *
          * // Different first element
          * BooleanTuple.BooleanTuple3 t3 = BooleanTuple.of(false, false, true);
-         * t1.equals(t3)   // returns false
+         * t1.equals(t3);   // returns false
          *
          * // Null and different arity are never equal
-         * t1.equals(null)                          // returns false
-         * t1.equals(BooleanTuple.of(true, false))  // returns false
+         * t1.equals(null);                          // returns false
+         * t1.equals(BooleanTuple.of(true, false));  // returns false
          * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
@@ -1707,13 +1700,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 t = BooleanTuple.of(true, false, true);
-         * t.toString()   // returns "(true, false, true)"
+         * t.toString();   // returns "(true, false, true)"
          *
          * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
-         * allTrue.toString()   // returns "(true, true, true)"
+         * allTrue.toString();   // returns "(true, true, true)"
          *
          * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
-         * allFalse.toString()   // returns "(false, false, false)"
+         * allFalse.toString();   // returns "(false, false, false)"
          * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3)"
@@ -1783,14 +1776,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-         * tuple.arity()   // returns 4
+         * tuple.arity();   // returns 4
          *
          * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
-         * allTrue.arity()   // returns 4
+         * allTrue.arity();   // returns 4
          *
          * // Arity is independent of element values
          * BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
-         * allFalse.arity()   // returns 4
+         * allFalse.arity();   // returns 4
          * }</pre>
          *
          * @return 4
@@ -1807,14 +1800,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
          * BooleanTuple.BooleanTuple4 reversed = tuple.reverse();
-         * reversed.toString()   // returns "(false, true, false, true)"
+         * reversed.toString();   // returns "(false, true, false, true)"
          *
          * // All-same values: reverse looks identical
          * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
-         * allTrue.reverse().toString()   // returns "(true, true, true, true)"
+         * allTrue.reverse().toString();   // returns "(true, true, true, true)"
          *
          * // reverse() returns a NEW instance
-         * tuple.reverse() != tuple   // true
+         * assert tuple.reverse() != tuple; // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple4 with the elements in reverse order
@@ -1830,18 +1823,18 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple4 mixed = BooleanTuple.of(true, false, true, false);
-         * mixed.contains(true)    // returns true
-         * mixed.contains(false)   // returns true
+         * mixed.contains(true);    // returns true
+         * mixed.contains(false);   // returns true
          *
          * // All-true: false is absent
          * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
-         * allTrue.contains(true)    // returns true
-         * allTrue.contains(false)   // returns false
+         * allTrue.contains(true);    // returns true
+         * allTrue.contains(false);   // returns false
          *
          * // All-false: true is absent
          * BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
-         * allFalse.contains(true)   // returns false
-         * allFalse.contains(false)  // returns true
+         * allFalse.contains(true);   // returns false
+         * allFalse.contains(false);  // returns true
          * }</pre>
          *
          * @param valueToFind the boolean value to search for
@@ -1880,7 +1873,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -1895,15 +1888,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple4 t1 = BooleanTuple.of(true, false, true, false);
          * BooleanTuple.BooleanTuple4 t2 = BooleanTuple.of(true, false, true, false);
-         * t1.hashCode() == t2.hashCode()   // returns true (equal tuples have equal hash codes)
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
          *
-         * // Different order yields different hash
-         * BooleanTuple.BooleanTuple4 reversed = BooleanTuple.of(false, true, false, true);
-         * t1.hashCode() == reversed.hashCode()   // returns false
          *
          * // All-true
          * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
-         * allTrue.hashCode()   // returns 37895104
+         * allTrue.hashCode();   // returns 37895104
          * }</pre>
          *
          * @return a hash code value calculated from all four elements
@@ -1920,16 +1910,16 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple4 t1 = BooleanTuple.of(true, false, true, false);
          * BooleanTuple.BooleanTuple4 t2 = BooleanTuple.of(true, false, true, false);
-         * t1.equals(t2)   // returns true
-         * t1.equals(t1)   // returns true (reflexive)
+         * t1.equals(t2);   // returns true
+         * t1.equals(t1);   // returns true (reflexive)
          *
          * // Different first element is not equal
          * BooleanTuple.BooleanTuple4 t3 = BooleanTuple.of(false, false, true, false);
-         * t1.equals(t3)   // returns false
+         * t1.equals(t3);   // returns false
          *
          * // Null and different arity are never equal
-         * t1.equals(null)                                    // returns false
-         * t1.equals(BooleanTuple.of(true, false, true))      // returns false
+         * t1.equals(null);                                    // returns false
+         * t1.equals(BooleanTuple.of(true, false, true));      // returns false
          * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
@@ -1952,13 +1942,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple4 t = BooleanTuple.of(true, false, true, false);
-         * t.toString()   // returns "(true, false, true, false)"
+         * t.toString();   // returns "(true, false, true, false)"
          *
          * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
-         * allTrue.toString()   // returns "(true, true, true, true)"
+         * allTrue.toString();   // returns "(true, true, true, true)"
          *
          * BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
-         * allFalse.toString()   // returns "(false, false, false, false)"
+         * allFalse.toString();   // returns "(false, false, false, false)"
          * }</pre>
          *
          * @return a string representation in the format "(element1, element2, element3, element4)"
@@ -2031,14 +2021,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-         * tuple.arity()   // returns 5
+         * tuple.arity();   // returns 5
          *
          * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
-         * allTrue.arity()   // returns 5
+         * allTrue.arity();   // returns 5
          *
          * // Arity is independent of element values
          * BooleanTuple.BooleanTuple5 allFalse = BooleanTuple.of(false, false, false, false, false);
-         * allFalse.arity()   // returns 5
+         * allFalse.arity();   // returns 5
          * }</pre>
          *
          * @return 5
@@ -2055,18 +2045,18 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * // Palindrome: reversing yields the same sequence
          * BooleanTuple.BooleanTuple5 palindrome = BooleanTuple.of(true, false, true, false, true);
-         * palindrome.reverse().toString()   // returns "(true, false, true, false, true)"
+         * palindrome.reverse().toString();   // returns "(true, false, true, false, true)"
          *
          * // Non-palindrome: reversed differs from original
          * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, false, false, false);
-         * tuple.reverse().toString()   // returns "(false, false, false, false, true)"
+         * tuple.reverse().toString();   // returns "(false, false, false, false, true)"
          *
          * // All-same: reverse is identical in value
          * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
-         * allTrue.reverse().toString()   // returns "(true, true, true, true, true)"
+         * allTrue.reverse().toString();   // returns "(true, true, true, true, true)"
          *
          * // reverse() returns a NEW instance
-         * palindrome.reverse() != palindrome   // true
+         * assert palindrome.reverse() != palindrome; // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple5 with the elements in reverse order
@@ -2082,18 +2072,18 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple5 mixed = BooleanTuple.of(true, false, true, false, true);
-         * mixed.contains(true)    // returns true
-         * mixed.contains(false)   // returns true
+         * mixed.contains(true);    // returns true
+         * mixed.contains(false);   // returns true
          *
          * // All-true: false is absent
          * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
-         * allTrue.contains(true)    // returns true
-         * allTrue.contains(false)   // returns false
+         * allTrue.contains(true);    // returns true
+         * allTrue.contains(false);   // returns false
          *
          * // All-false: true is absent
          * BooleanTuple.BooleanTuple5 allFalse = BooleanTuple.of(false, false, false, false, false);
-         * allFalse.contains(true)   // returns false
-         * allFalse.contains(false)  // returns true
+         * allFalse.contains(true);   // returns false
+         * allFalse.contains(false);  // returns true
          * }</pre>
          *
          * @param valueToFind the boolean value to search for
@@ -2132,7 +2122,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2148,15 +2138,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple5 t1 = BooleanTuple.of(true, false, true, false, true);
          * BooleanTuple.BooleanTuple5 t2 = BooleanTuple.of(true, false, true, false, true);
-         * t1.hashCode() == t2.hashCode()   // returns true (equal tuples have equal hash codes)
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
          *
-         * // Different values yield different hash
-         * BooleanTuple.BooleanTuple5 t3 = BooleanTuple.of(false, true, false, true, false);
-         * t1.hashCode() == t3.hashCode()   // returns false
          *
          * // All-true
          * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
-         * allTrue.hashCode()   // returns 1174749455
+         * allTrue.hashCode();   // returns 1174749455
          * }</pre>
          *
          * @return a hash code value calculated from all five elements
@@ -2173,16 +2160,16 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple5 t1 = BooleanTuple.of(true, false, true, false, true);
          * BooleanTuple.BooleanTuple5 t2 = BooleanTuple.of(true, false, true, false, true);
-         * t1.equals(t2)   // returns true
-         * t1.equals(t1)   // returns true (reflexive)
+         * t1.equals(t2);   // returns true
+         * t1.equals(t1);   // returns true (reflexive)
          *
          * // Different last element is not equal
          * BooleanTuple.BooleanTuple5 t3 = BooleanTuple.of(true, false, true, false, false);
-         * t1.equals(t3)   // returns false
+         * t1.equals(t3);   // returns false
          *
          * // Null and different arity are never equal
-         * t1.equals(null)                                         // returns false
-         * t1.equals(BooleanTuple.of(true, false, true, false))    // returns false
+         * t1.equals(null);                                         // returns false
+         * t1.equals(BooleanTuple.of(true, false, true, false));    // returns false
          * }</pre>
          *
          * @param obj the object to be compared for equality with this tuple
@@ -2405,7 +2392,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2434,7 +2421,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * // Equal tuples always produce the same hash code
          * BooleanTuple.BooleanTuple6 copy = BooleanTuple.of(true, false, true, false, true, false);
-         * boolean sameHash = tuple.hashCode() == copy.hashCode();   // returns true
+         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code value calculated from all six elements
@@ -2692,7 +2679,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2722,7 +2709,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * // Equal tuples always produce the same hash code
          * BooleanTuple.BooleanTuple7 copy = BooleanTuple.of(true, false, true, false, true, false, true);
-         * boolean sameHash = tuple.hashCode() == copy.hashCode();   // returns true
+         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code value calculated from all seven elements
@@ -2988,7 +2975,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3019,7 +3006,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * // Equal tuples always produce the same hash code
          * BooleanTuple.BooleanTuple8 copy = BooleanTuple.of(true, false, true, false, true, false, true, false);
-         * boolean sameHash = tuple.hashCode() == copy.hashCode();   // returns true
+         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code value calculated from all eight elements
@@ -3289,7 +3276,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3321,7 +3308,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * // Equal tuples always produce the same hash code
          * BooleanTuple.BooleanTuple9 copy = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-         * boolean sameHash = tuple.hashCode() == copy.hashCode();   // returns true
+         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code value calculated from all nine elements

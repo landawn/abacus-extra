@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Arrays.f;
@@ -51,6 +52,105 @@ class ArraysTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> Arrays.updateAll(new int[0][], intOperator));
         assertThrows(IllegalArgumentException.class, () -> Arrays.zip((int[]) null, new int[0], intZipFunction));
         assertThrows(IllegalArgumentException.class, () -> Arrays.ff.map((String[][]) null, objectMapper, Integer.class));
+    }
+
+    @Test
+    public void testExplicitTargetElementTypeIsValidated() {
+        final Class<String> targetElementType = null;
+        final List<Executable> calls = List.of(//
+                () -> Arrays.mapToObj((boolean[]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((boolean[][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((boolean[][][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((char[]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((char[][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((char[][][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((byte[]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((byte[][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((byte[][][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((short[]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((short[][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((short[][][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((int[]) null, ignored -> "", targetElementType), () -> Arrays.mapToObj((int[][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((int[][][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((long[]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((long[][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((long[][][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((float[]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((float[][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((float[][][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((double[]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((double[][]) null, ignored -> "", targetElementType),
+                () -> Arrays.mapToObj((double[][][]) null, ignored -> "", targetElementType),
+                () -> Arrays.f.map((String[]) null, ignored -> "", targetElementType), () -> Arrays.ff.map((String[][]) null, ignored -> "", targetElementType),
+                () -> Arrays.ff.zip((String[][]) null, (String[][]) null, (left, right) -> "", targetElementType),
+                () -> Arrays.ff.zip((String[][]) null, (String[][]) null, "", "", (left, right) -> "", targetElementType),
+                () -> Arrays.ff.zip((String[][]) null, (String[][]) null, (String[][]) null, (first, second, third) -> "", targetElementType),
+                () -> Arrays.ff.zip((String[][]) null, (String[][]) null, (String[][]) null, "", "", "", (first, second, third) -> "", targetElementType),
+                () -> Arrays.fff.map((String[][][]) null, ignored -> "", targetElementType),
+                () -> Arrays.fff.zip((String[][][]) null, (String[][][]) null, (left, right) -> "", targetElementType),
+                () -> Arrays.fff.zip((String[][][]) null, (String[][][]) null, "", "", (left, right) -> "", targetElementType),
+                () -> Arrays.fff.zip((String[][][]) null, (String[][][]) null, (String[][][]) null, (first, second, third) -> "", targetElementType),
+                () -> Arrays.fff.zip((String[][][]) null, (String[][][]) null, (String[][][]) null, "", "", "", (first, second, third) -> "",
+                        targetElementType));
+
+        for (final Executable call : calls) {
+            final IllegalArgumentException error = assertThrows(IllegalArgumentException.class, call);
+            assertEquals("'targetElementType' cannot be null", error.getMessage());
+        }
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testInferredGenericOperationsPreserveCallbackArrayStoreExceptions() {
+        final Integer[][] a2 = { { 1 } };
+        final Integer[][] b2 = { { 2 } };
+        final Integer[][] c2 = { { 3 } };
+        final Integer[][][] a3 = { a2 };
+        final Integer[][][] b3 = { b2 };
+        final Integer[][][] c3 = { c2 };
+        final ArrayStoreException failure = new ArrayStoreException("from callback");
+
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.ff.map(a2, value -> {
+            throw failure;
+        })) == failure);
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.ff.zip(a2, b2, (left, right) -> {
+            throw failure;
+        })) == failure);
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.ff.zip(a2, b2, 0, 0, (left, right) -> {
+            throw failure;
+        })) == failure);
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.ff.zip(a2, b2, c2, (first, second, third) -> {
+            throw failure;
+        })) == failure);
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.ff.zip(a2, b2, c2, 0, 0, 0, (first, second, third) -> {
+            throw failure;
+        })) == failure);
+
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.fff.map(a3, value -> {
+            throw failure;
+        })) == failure);
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.fff.zip(a3, b3, (left, right) -> {
+            throw failure;
+        })) == failure);
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.fff.zip(a3, b3, 0, 0, (left, right) -> {
+            throw failure;
+        })) == failure);
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.fff.zip(a3, b3, c3, (first, second, third) -> {
+            throw failure;
+        })) == failure);
+        assertTrue(assertThrows(ArrayStoreException.class, () -> Arrays.fff.zip(a3, b3, c3, 0, 0, 0, (first, second, third) -> {
+            throw failure;
+        })) == failure);
+
+        final Number[][] narrowRuntimeType = new Integer[][] { { 1 } };
+        assertThrows(IllegalArgumentException.class, () -> Arrays.ff.map(narrowRuntimeType, value -> 1.5d));
+
+        final Class<Number> integerRuntimeType = (Class<Number>) (Class<?>) Integer.class;
+        final ArrayStoreException nestedStorageFailure = assertThrows(ArrayStoreException.class, () -> Arrays.ff.map(a2, value -> {
+            Arrays.f.map(new Integer[] { 1 }, ignored -> 1.5d, integerRuntimeType);
+            return value;
+        }));
+        assertEquals(ArrayStoreException.class, nestedStorageFailure.getClass());
     }
 
     @Test

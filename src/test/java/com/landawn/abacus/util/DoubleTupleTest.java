@@ -257,11 +257,10 @@ class DoubleTupleTest extends TestBase {
         assertEquals("(4.5, 1.5, 3.5, 2.5)", tuple.toString());
     }
 
-    // Regression: the base DoubleTuple.min()/max()/median() Javadoc states they
-    // throw NoSuchElementException for an empty tuple. The previous delegation to
-    // N.min/N.max/N.median threw IllegalArgumentException for empty arrays, and N.average
-    // returned 0.0 instead of throwing. The fix routes empty arrays to NoSuchElementException
-    // up-front and uses Math.min/Math.max so that NaN propagates per the concrete-arity docs.
+    // Regression: the base DoubleTuple.min()/max()/median() Javadoc states they throw
+    // NoSuchElementException for an empty tuple. The previous delegation to N.min/N.max/N.median
+    // threw IllegalArgumentException for empty arrays. The fix routes empty arrays to
+    // NoSuchElementException up-front and uses Math.min/Math.max so that NaN propagates.
     @Test
     public void testDoubleTupleBaseMinMaxMedianAverage_EmptyAndNaN() {
         // NaN should propagate through the base min/max scan.
@@ -274,9 +273,7 @@ class DoubleTupleTest extends TestBase {
         assertEquals(1.5, tuple.min(), 0.0);
         assertEquals(4.5, tuple.max(), 0.0);
 
-        // Empty tuple must throw NoSuchElementException for ALL of min/max/median/average,
-        // matching the @throws NoSuchElementException Javadoc. Previously these threw
-        // IllegalArgumentException (min/max/median) or returned 0.0 silently (average).
+        // Empty min/max/median must throw NoSuchElementException; average() deliberately returns 0D.
         final DoubleTuple.DoubleTuple0 empty = DoubleTuple.copyOf(new double[0]);
         assertThrows(NoSuchElementException.class, empty::min);
         assertThrows(NoSuchElementException.class, empty::max);

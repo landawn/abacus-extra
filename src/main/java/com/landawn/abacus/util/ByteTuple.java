@@ -426,7 +426,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.copyOf(new byte[10]);   // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -514,7 +514,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         final byte[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         return N.min(arr);
@@ -558,7 +558,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         final byte[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         return N.max(arr);
@@ -605,7 +605,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         final byte[] arr = elements();
 
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         return N.median(arr);
@@ -858,7 +858,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
-        N.checkArgNotNull(action);
+        N.checkArgNotNull(action, "action");
 
         for (final byte element : elements()) {
             action.accept(element);
@@ -910,7 +910,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.ByteTuple3 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
      * ByteTuple.ByteTuple3 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
      * // equal tuples have equal hash codes
-     * boolean sameHash = (t1.hashCode() == t2.hashCode());   // true
+     * boolean sameHash = (t1.hashCode() == t2.hashCode()); // true
      *
      * // different values -> typically different hash codes
      * ByteTuple.ByteTuple3 t3 = ByteTuple.of((byte) 1, (byte) 2, (byte) 4);
@@ -979,8 +979,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
 
     /**
      * Returns the internal array containing all byte elements in this tuple.
-     * <p>
-     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
      * Modifying the returned array will compromise the immutability of this tuple.
      * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
@@ -1024,7 +1023,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte min() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         /**
@@ -1036,7 +1035,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte max() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         /**
@@ -1048,7 +1047,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte median() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         /**
@@ -1311,14 +1310,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <pre>{@code
          * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 7);
          * ByteTuple.ByteTuple1 r = t.reverse();
-         * r._1;   // returns 7  (same value, new instance)
+         * assert r._1 == 7; // (same value, new instance)
          *
          * // negative value
-         * ByteTuple.of((byte) -5).reverse()._1;   // returns -5
+         * assert ByteTuple.of((byte) -5).reverse()._1 == -5;
          *
          * // boundary
-         * ByteTuple.of(Byte.MIN_VALUE).reverse()._1;   // returns -128
-         * ByteTuple.of(Byte.MAX_VALUE).reverse()._1;   // returns 127
+         * assert ByteTuple.of(Byte.MIN_VALUE).reverse()._1 == -128;
+         * assert ByteTuple.of(Byte.MAX_VALUE).reverse()._1 == 127;
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple1 with the same element
@@ -1617,16 +1616,16 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <pre>{@code
          * ByteTuple.ByteTuple2 t = ByteTuple.of((byte) 3, (byte) 7);
          * ByteTuple.ByteTuple2 r = t.reverse();
-         * r._1;   // returns 7
-         * r._2;   // returns 3
+         * assert r._1 == 7;
+         * assert r._2 == 3;
          *
          * // same element values - reverse is a new instance
-         * ByteTuple.of((byte) 5, (byte) 5).reverse()._1;   // returns 5
+         * assert ByteTuple.of((byte) 5, (byte) 5).reverse()._1 == 5;
          *
          * // negative values
          * ByteTuple.ByteTuple2 neg = ByteTuple.of((byte) -1, (byte) -2).reverse();
-         * neg._1;   // returns -2
-         * neg._2;   // returns -1
+         * assert neg._1 == -2;
+         * assert neg._2 == -1;
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple2 with elements swapped
@@ -1692,7 +1691,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2088,15 +2087,15 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <pre>{@code
          * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
          * ByteTuple.ByteTuple3 r = t.reverse();
-         * r._1;   // returns 3
-         * r._2;   // returns 2
-         * r._3;   // returns 1
+         * assert r._1 == 3;
+         * assert r._2 == 2;
+         * assert r._3 == 1;
          *
          * // negative and boundary
          * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -1, (byte) 0, (byte) 1).reverse();
-         * neg._1;                                                                // returns 1
-         * neg._3;                                                                // returns -1
-         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).reverse()._1;   // returns 127
+         * assert neg._1 == 1;
+         * assert neg._3 == -1;
+         * assert ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).reverse()._1 == 127;
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple3 with the elements in reverse order
@@ -2162,7 +2161,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2662,7 +2661,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2677,7 +2676,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <pre>{@code
          * ByteTuple.ByteTuple4 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
          * ByteTuple.ByteTuple4 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // returns true
+         * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
          *
          * ByteTuple.ByteTuple4 t3 = ByteTuple.of((byte) 4, (byte) 3, (byte) 2, (byte) 1);
          * boolean diffHash = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
@@ -3028,7 +3027,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3044,7 +3043,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <pre>{@code
          * ByteTuple.ByteTuple5 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
          * ByteTuple.ByteTuple5 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // returns true
+         * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
          *
          * ByteTuple.ByteTuple5 t3 = ByteTuple.of((byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
          * boolean diffHash = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
@@ -3398,7 +3397,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3415,7 +3414,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <pre>{@code
          * ByteTuple.ByteTuple6 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
          * ByteTuple.ByteTuple6 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-         * boolean sameHash = (t1.hashCode() == t2.hashCode());   // returns true
+         * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
          *
          * ByteTuple.ByteTuple6 t3 = ByteTuple.of((byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
          * boolean diffHash = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
@@ -3786,7 +3785,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3805,10 +3804,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.ByteTuple7 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
          * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
          * // equal tuples have same hash code
-         * boolean sameHash = t1.hashCode() == t2.hashCode();   // returns true
+         * boolean sameHash = t1.hashCode() == t2.hashCode(); // returns true
          *
          * // hash code is self-consistent
-         * boolean selfConsistent = t1.hashCode() == t1.hashCode();   // returns true
+         * boolean selfConsistent = t1.hashCode() == t1.hashCode(); // returns true
          *
          * // different element order produces different hash codes
          * ByteTuple.ByteTuple7 t3 = ByteTuple.of((byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
@@ -3816,7 +3815,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          *
          * // negative values produce a well-defined int hash code
          * ByteTuple.ByteTuple7 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7);
-         * boolean negDistinct = tNeg.hashCode() != t1.hashCode();   // returns true
+         * boolean negDistinct = tNeg.hashCode() != t1.hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code value calculated from all seven elements
@@ -4204,7 +4203,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4224,10 +4223,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.ByteTuple8 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
          * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
          * // equal tuples have same hash code
-         * boolean sameHash = t1.hashCode() == t2.hashCode();   // returns true
+         * boolean sameHash = t1.hashCode() == t2.hashCode(); // returns true
          *
          * // hash code is self-consistent
-         * boolean selfConsistent = t1.hashCode() == t1.hashCode();   // returns true
+         * boolean selfConsistent = t1.hashCode() == t1.hashCode(); // returns true
          *
          * // different element order produces different hash codes
          * ByteTuple.ByteTuple8 t3 = ByteTuple.of((byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
@@ -4235,7 +4234,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          *
          * // negative values produce a well-defined int hash code, distinct from positive counterpart
          * ByteTuple.ByteTuple8 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8);
-         * boolean negDistinct = tNeg.hashCode() != t1.hashCode();   // returns true
+         * boolean negDistinct = tNeg.hashCode() != t1.hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code value calculated from all eight elements
@@ -4634,7 +4633,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4655,10 +4654,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.ByteTuple9 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
          * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
          * // equal tuples have same hash code
-         * boolean sameHash = t1.hashCode() == t2.hashCode();   // returns true
+         * boolean sameHash = t1.hashCode() == t2.hashCode(); // returns true
          *
          * // hash code is self-consistent
-         * boolean selfConsistent = t1.hashCode() == t1.hashCode();   // returns true
+         * boolean selfConsistent = t1.hashCode() == t1.hashCode(); // returns true
          *
          * // different element order produces different hash codes
          * ByteTuple.ByteTuple9 t3 = ByteTuple.of((byte) 9, (byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
@@ -4667,7 +4666,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * // negative values produce a well-defined int hash code, distinct from positive counterpart
          * ByteTuple.ByteTuple9 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5,
          *         (byte) -6, (byte) -7, (byte) -8, (byte) -9);
-         * boolean negDistinct = tNeg.hashCode() != t1.hashCode();   // returns true
+         * boolean negDistinct = tNeg.hashCode() != t1.hashCode(); // returns true
          * }</pre>
          *
          * @return a hash code value calculated from all nine elements

@@ -22,7 +22,7 @@ import com.landawn.abacus.util.stream.IntStream;
 /**
  * Immutable-style wrapper around an {@code int[]}.
  *
- * <p>{@link #copyOf(int[])} creates an isolated snapshot, while {@link #unsafeWrap(int[])} keeps the
+ * <p><b>&#9888;&#65039; Shared backing:</b> {@link #copyOf(int[])} creates an isolated snapshot, while {@link #unsafeWrap(int[])} keeps the
  * supplied array as backing storage. The latter avoids copying but is only as immutable as the caller's
  * discipline, so prefer {@code copyOf} unless the backing array is exclusively owned for the lifetime of
  * the wrapper.</p>
@@ -63,7 +63,7 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Creates an ImmutableIntArray that uses the provided int array as backing storage without copying.
      *
-     * <p><strong>Important:</strong> This method does NOT create a defensive copy of the array.
+     * <p><b>&#9888;&#65039; Warning:</b> This method does NOT create a defensive copy of the array.
      * The provided array is used directly as the underlying storage. For true immutability,
      * the caller must not modify the original array after passing it to this method.
      * If the source array might be modified externally, use {@link #copyOf(int[])} instead.</p>
@@ -452,7 +452,7 @@ public final class ImmutableIntArray implements Immutable {
      * // Basic: accumulate a sum across all elements
      * int[] sum = {0};
      * array.forEach(value -> sum[0] += value);
-     * sum[0];   // returns 15
+     * assert sum[0] == 15;
      *
      * // Basic: collect each value into a list
      * java.util.List<Integer> list = new java.util.ArrayList<>();
@@ -464,7 +464,7 @@ public final class ImmutableIntArray implements Immutable {
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
      * int[] count = {0};
      * empty.forEach(v -> count[0]++);   // action not invoked (empty)
-     * count[0];                         // returns 0
+     * assert count[0] == 0;
      *
      * // Edge: null action throws IllegalArgumentException
      * array.forEach(null);   // throws IllegalArgumentException
@@ -506,8 +506,8 @@ public final class ImmutableIntArray implements Immutable {
      *     indices[index] = index;
      *     values[index] = value;
      * });
-     * indices[2];   // returns 2
-     * values[2];    // returns 30
+     * assert indices[2] == 2;
+     * assert values[2] == 30;
      *
      * // Basic: build a map from index to value
      * java.util.Map<Integer, Integer> map = new java.util.HashMap<>();
@@ -518,7 +518,7 @@ public final class ImmutableIntArray implements Immutable {
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
      * int[] count = {0};
      * empty.forEachIndexed((i, v) -> count[0]++);   // action not invoked (empty)
-     * count[0];                                     // returns 0
+     * assert count[0] == 0;
      *
      * // Edge: null action throws IllegalArgumentException
      * array.forEachIndexed(null);   // throws IllegalArgumentException
@@ -550,7 +550,7 @@ public final class ImmutableIntArray implements Immutable {
      * <p>This method is useful for applying functional transformations and operations
      * on the array elements without manually iterating through them.</p>
      *
-     * <p><b>Note:</b> for non-empty arrays, the returned stream is constructed directly over the backing
+     * <p><b>&#9888;&#65039; Warning:</b> For non-empty arrays, the returned stream is constructed directly over the backing
      * array; it does not make a defensive copy. When this wrapper was created via {@link #unsafeWrap(int[])},
      * the backing array is the caller-supplied array, so mutations before or during stream traversal can be
      * observable through the returned stream. Use {@link #copyOf(int[])} to build the wrapper from a defensive copy if you require
@@ -639,16 +639,16 @@ public final class ImmutableIntArray implements Immutable {
      * // Basic: two wrappers with the same contents have the same hash code
      * ImmutableIntArray array1 = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3});
      * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] {1, 2, 3});
-     * array1.hashCode() == array2.hashCode();   // returns true
+     * assert array1.hashCode() == array2.hashCode();
      *
      * // Basic: this reordered example has a different hash code
      * ImmutableIntArray reversed = ImmutableIntArray.unsafeWrap(new int[] {3, 2, 1});
-     * array1.hashCode() == reversed.hashCode();   // returns false
+     * assert array1.hashCode() != reversed.hashCode();
      *
      * // Edge: two empty wrappers have the same hash code
      * ImmutableIntArray empty1 = ImmutableIntArray.unsafeWrap(new int[0]);
      * ImmutableIntArray empty2 = ImmutableIntArray.copyOf(null);
-     * empty1.hashCode() == empty2.hashCode();   // returns true
+     * assert empty1.hashCode() == empty2.hashCode();
      *
      * // Edge: distinct content typically (but not always) produces a distinct hash
      * ImmutableIntArray array3 = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 4});

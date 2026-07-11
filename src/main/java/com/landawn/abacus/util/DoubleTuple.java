@@ -79,7 +79,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      *
      * // NaN is a valid element
      * DoubleTuple.DoubleTuple1 nan = DoubleTuple.of(Double.NaN);
-     * assertTrue(Double.isNaN(nan._1));   // _1 is NaN
+     * assert Double.isNaN(nan._1);   // _1 is NaN
      * }</pre>
      *
      * @param _1 the double value to store in the tuple
@@ -361,7 +361,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * // DoubleTuple.copyOf(new double[10]);   // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><strong>Type note:</strong> the runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -448,7 +448,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     public double min() {
         final double[] arr = elements();
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
         double result = arr[0];
         for (int i = 1; i < arr.length; i++) {
@@ -494,7 +494,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     public double max() {
         final double[] arr = elements();
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
         double result = arr[0];
         for (int i = 1; i < arr.length; i++) {
@@ -545,7 +545,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     public double median() {
         final double[] arr = elements();
         if (arr.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
         return N.median(arr);
     }
@@ -788,7 +788,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
-        N.checkArgNotNull(action);
+        N.checkArgNotNull(action, "action");
 
         for (final double element : elements()) {
             action.accept(element);
@@ -845,16 +845,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * // Equal tuples always have the same hash code
      * DoubleTuple.DoubleTuple3 a = DoubleTuple.of(1.0, 2.0, 3.0);
      * DoubleTuple.DoubleTuple3 b = DoubleTuple.of(1.0, 2.0, 3.0);
-     * boolean sameHash = (a.hashCode() == b.hashCode());   // true
-     *
-     * // Tuples with different element order have different hash codes (generally)
-     * DoubleTuple.DoubleTuple3 c = DoubleTuple.of(3.0, 2.0, 1.0);
-     * boolean diffHash = (a.hashCode() != c.hashCode());   // true in practice
+     * boolean sameHash = (a.hashCode() == b.hashCode()); // true
      *
      * // +0.0 and -0.0 are bit-pattern distinct, so their hashes differ
      * DoubleTuple.DoubleTuple1 pos = DoubleTuple.of(0.0);
      * DoubleTuple.DoubleTuple1 neg = DoubleTuple.of(-0.0);
-     * boolean differentHash = (pos.hashCode() != neg.hashCode());   // true
+     * boolean differentHash = (pos.hashCode() != neg.hashCode()); // true
      * }</pre>
      *
      * @return a hash code value for this tuple
@@ -918,8 +914,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
     /**
      * Returns the internal array containing all double elements in this tuple.
-     * <p>
-     * <b>Warning:</b> The returned array is the internal representation of this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
      * Modifying the returned array will compromise the immutability of this tuple.
      * Use {@link #toArray()} instead if you need an array that can be safely modified.
      * </p>
@@ -963,7 +958,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
         /**
@@ -975,7 +970,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
         /**
@@ -987,7 +982,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double median() {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
         /**
@@ -1282,7 +1277,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * int h = t.hashCode();   // Double.hashCode(5.0)
          *
          * // equal tuples have equal hash codes
-         * boolean sameHash = DoubleTuple.of(5.0).hashCode() == DoubleTuple.of(5.0).hashCode();   // true
+         * boolean sameHash = DoubleTuple.of(5.0).hashCode() == DoubleTuple.of(5.0).hashCode(); // true
          *
          * // NaN has a consistent hash code
          * int nanHash = DoubleTuple.of(Double.NaN).hashCode();   // Double.hashCode(Double.NaN)
@@ -1619,7 +1614,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.of(-1.5, 2.5).forEach(list::add);   // list == [-1.5, 2.5]
          *
          * // NaN is passed through as-is
-         * DoubleTuple.of(Double.NaN, 1.0).forEach(v -> assertTrue(Double.isNaN(v) || v == 1.0));
+        * DoubleTuple.of(Double.NaN, 1.0).forEach(v -> {
+        *     assert Double.isNaN(v) || v == 1.0;
+        * });
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
@@ -1629,7 +1626,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -1765,10 +1762,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * int h = DoubleTuple.of(3.0, 4.0).hashCode();   // 31 * Double.hashCode(3.0) + Double.hashCode(4.0)
          *
          * // equal tuples always have equal hash codes
-         * boolean same = DoubleTuple.of(3.0, 4.0).hashCode() == DoubleTuple.of(3.0, 4.0).hashCode();   // true
+         * boolean same = DoubleTuple.of(3.0, 4.0).hashCode() == DoubleTuple.of(3.0, 4.0).hashCode(); // true
          *
          * // order matters: (3.0, 4.0) and (4.0, 3.0) have different hash codes
-         * boolean diff = DoubleTuple.of(3.0, 4.0).hashCode() != DoubleTuple.of(4.0, 3.0).hashCode();   // true
+         * boolean diff = DoubleTuple.of(3.0, 4.0).hashCode() != DoubleTuple.of(4.0, 3.0).hashCode(); // true
          *
          * // NaN has a consistent hash code
          * int nanHash = DoubleTuple.of(Double.NaN, 1.0).hashCode();   // 31 * Double.hashCode(Double.NaN) + Double.hashCode(1.0)
@@ -2092,7 +2089,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2233,10 +2230,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * // h == 31 * (31 * Double.hashCode(1.0) + Double.hashCode(2.0)) + Double.hashCode(3.0)
          *
          * // equal tuples always have equal hash codes
-         * boolean same = DoubleTuple.of(1.0, 2.0, 3.0).hashCode() == DoubleTuple.of(1.0, 2.0, 3.0).hashCode();   // true
+         * boolean same = DoubleTuple.of(1.0, 2.0, 3.0).hashCode() == DoubleTuple.of(1.0, 2.0, 3.0).hashCode(); // true
          *
          * // order matters: different permutations yield different hash codes
-         * boolean diff = DoubleTuple.of(1.0, 2.0, 3.0).hashCode() != DoubleTuple.of(3.0, 2.0, 1.0).hashCode();   // true
+         * boolean diff = DoubleTuple.of(1.0, 2.0, 3.0).hashCode() != DoubleTuple.of(3.0, 2.0, 1.0).hashCode(); // true
          *
          * // NaN has a consistent hash code
          * int nanHash = DoubleTuple.of(Double.NaN, 1.0, 2.0).hashCode();
@@ -2552,7 +2549,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.DoubleTuple4 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
          * double[] sum = {0.0};
          * t.forEach(v -> sum[0] += v);
-         * sum[0]; // returns 10.0 (elements visited in order: 1.0, 2.0, 3.0, 4.0)
+         * assert sum[0] == 10.0; // (elements visited in order: 1.0, 2.0, 3.0, 4.0)
          * // null action throws IllegalArgumentException
          * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
@@ -2564,7 +2561,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2579,9 +2576,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple4 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
          * DoubleTuple.DoubleTuple4 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-         * t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         * DoubleTuple.DoubleTuple4 t3 = DoubleTuple.of(4.0, 3.0, 2.0, 1.0);
-         * t1.hashCode() == t3.hashCode(); // returns false (different element order)
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
          * }</pre>
          *
          * @return the hash code
@@ -2890,7 +2885,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.DoubleTuple5 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
          * double[] sum = {0.0};
          * t.forEach(v -> sum[0] += v);
-         * sum[0]; // returns 15.0 (elements visited in order: 1.0, 2.0, 3.0, 4.0, 5.0)
+         * assert sum[0] == 15.0; // (elements visited in order: 1.0, 2.0, 3.0, 4.0, 5.0)
          * // null action throws IllegalArgumentException
          * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
@@ -2902,7 +2897,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -2918,9 +2913,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple5 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
          * DoubleTuple.DoubleTuple5 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-         * t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         * DoubleTuple.DoubleTuple5 t3 = DoubleTuple.of(5.0, 4.0, 3.0, 2.0, 1.0);
-         * t1.hashCode() == t3.hashCode(); // returns false (different element order)
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
          * }</pre>
          *
          * @return the hash code
@@ -3233,7 +3226,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.DoubleTuple6 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
          * double[] sum = {0.0};
          * t.forEach(v -> sum[0] += v);
-         * sum[0]; // returns 21.0 (elements visited in order: 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+         * assert sum[0] == 21.0; // (elements visited in order: 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
          * // null action throws IllegalArgumentException
          * // t.forEach(null); // throws IllegalArgumentException
          * }</pre>
@@ -3245,7 +3238,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3262,9 +3255,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple6 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
          * DoubleTuple.DoubleTuple6 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-         * t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         * DoubleTuple.DoubleTuple6 t3 = DoubleTuple.of(6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
-         * t1.hashCode() == t3.hashCode(); // returns false (different element order)
+         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
          * }</pre>
          *
          * @return the hash code
@@ -3412,7 +3403,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double mn = neg.min();   // returns -5.0
          *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(Double.NaN, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-         * assertTrue(Double.isNaN(withNaN.min()));   // NaN propagates
+         * assert Double.isNaN(withNaN.min());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple7 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
          * double mi = withInf.min();   // returns 1.0
@@ -3440,7 +3431,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double mx = neg.max();   // returns 6.0
          *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, Double.NaN);
-         * assertTrue(Double.isNaN(withNaN.max()));   // NaN propagates
+         * assert Double.isNaN(withNaN.max());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple7 withNegInf = DoubleTuple.of(Double.NEGATIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
          * double mx2 = withNegInf.max();   // returns 6.0
@@ -3494,7 +3485,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double sn = neg.sum();   // returns -28.0
          *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(1.0, Double.NaN, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * assertTrue(Double.isNaN(withNaN.sum()));   // NaN propagates
+         * assert Double.isNaN(withNaN.sum());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple7 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
          * double si = withInf.sum();   // returns Double.POSITIVE_INFINITY
@@ -3520,7 +3511,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double avgn = neg.average();   // returns 0.0
          *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0, 7.0);
-         * assertTrue(Double.isNaN(withNaN.average()));   // NaN propagates
+         * assert Double.isNaN(withNaN.average());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple7 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
          * double avgi = withInf.average();   // returns Double.POSITIVE_INFINITY
@@ -3614,7 +3605,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -3632,18 +3623,18 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple7 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * DoubleTuple.DoubleTuple7 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * assertEquals(t1.hashCode(), t2.hashCode());   // equal tuples have equal hash codes
+         * assert t1.hashCode() == t2.hashCode();   // equal tuples have equal hash codes
          *
          * DoubleTuple.DoubleTuple7 t3 = DoubleTuple.of(7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
          * // t1.hashCode() != t3.hashCode() for different element orders (likely)
          *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * DoubleTuple.DoubleTuple7 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * assertEquals(withNaN.hashCode(), withNaN2.hashCode());   // NaN has consistent hash
+         * assert withNaN.hashCode() == withNaN2.hashCode();   // NaN has consistent hash
          *
          * DoubleTuple.DoubleTuple7 neg = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0);
          * DoubleTuple.DoubleTuple7 neg2 = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0);
-         * assertEquals(neg.hashCode(), neg2.hashCode());   // negative values hash consistently
+         * assert neg.hashCode() == neg2.hashCode();   // negative values hash consistently
          * }</pre>
          *
          * @return the hash code
@@ -3666,17 +3657,17 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple7 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * DoubleTuple.DoubleTuple7 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * assertTrue(t1.equals(t2));   // same values -> equal
+         * assert t1.equals(t2);   // same values -> equal
          *
          * DoubleTuple.DoubleTuple7 t3 = DoubleTuple.of(7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
-         * assertFalse(t1.equals(t3));   // different order -> not equal
+         * assert !(t1.equals(t3));   // different order -> not equal
          *
-         * assertFalse(t1.equals(null));       // null -> not equal
-         * assertFalse(t1.equals("string"));   // wrong type -> not equal
+         * assert !(t1.equals(null));       // null -> not equal
+         * assert !(t1.equals("string"));   // wrong type -> not equal
          *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * DoubleTuple.DoubleTuple7 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * assertTrue(withNaN.equals(withNaN2));   // NaN equals NaN via Double.compare semantics
+         * assert withNaN.equals(withNaN2);   // NaN equals NaN via Double.compare semantics
          * }</pre>
          *
          * @param obj the object to compare with
@@ -3812,7 +3803,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double mn = neg.min();   // returns -5.0
          *
          * DoubleTuple.DoubleTuple8 withNaN = DoubleTuple.of(Double.NaN, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * assertTrue(Double.isNaN(withNaN.min()));   // NaN propagates
+         * assert Double.isNaN(withNaN.min());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple8 withInf = DoubleTuple.of(Double.NEGATIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * double mi = withInf.min();   // returns Double.NEGATIVE_INFINITY
@@ -3840,7 +3831,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double mx = neg.max();   // returns 8.0
          *
          * DoubleTuple.DoubleTuple8 withNaN = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, Double.NaN);
-         * assertTrue(Double.isNaN(withNaN.max()));   // NaN propagates
+         * assert Double.isNaN(withNaN.max());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple8 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * double mx2 = withInf.max();   // returns Double.POSITIVE_INFINITY
@@ -3894,7 +3885,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double sn = neg.sum();   // returns -36.0
          *
          * DoubleTuple.DoubleTuple8 withNaN = DoubleTuple.of(1.0, Double.NaN, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * assertTrue(Double.isNaN(withNaN.sum()));   // NaN propagates
+         * assert Double.isNaN(withNaN.sum());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple8 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * double si = withInf.sum();   // returns Double.POSITIVE_INFINITY
@@ -3920,7 +3911,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double avgn = neg.average();   // returns 0.0
          *
          * DoubleTuple.DoubleTuple8 withNaN = DoubleTuple.of(1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * assertTrue(Double.isNaN(withNaN.average()));   // NaN propagates
+         * assert Double.isNaN(withNaN.average());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple8 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * double avgi = withInf.average();   // returns Double.POSITIVE_INFINITY
@@ -4014,7 +4005,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4033,15 +4024,15 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple8 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * DoubleTuple.DoubleTuple8 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * assertEquals(t1.hashCode(), t2.hashCode());   // equal tuples have equal hash codes
+         * assert t1.hashCode() == t2.hashCode();   // equal tuples have equal hash codes
          *
          * DoubleTuple.DoubleTuple8 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * DoubleTuple.DoubleTuple8 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * assertEquals(withNaN.hashCode(), withNaN2.hashCode());   // NaN has consistent hash
+         * assert withNaN.hashCode() == withNaN2.hashCode();   // NaN has consistent hash
          *
          * DoubleTuple.DoubleTuple8 neg = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0);
          * DoubleTuple.DoubleTuple8 neg2 = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0);
-         * assertEquals(neg.hashCode(), neg2.hashCode());   // negative values hash consistently
+         * assert neg.hashCode() == neg2.hashCode();   // negative values hash consistently
          *
          * DoubleTuple.DoubleTuple8 t3 = DoubleTuple.of(8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
          * // t1.hashCode() and t3.hashCode() differ for different element orders (likely)
@@ -4068,17 +4059,17 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple8 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * DoubleTuple.DoubleTuple8 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * assertTrue(t1.equals(t2));   // same values -> equal
+         * assert t1.equals(t2);   // same values -> equal
          *
          * DoubleTuple.DoubleTuple8 t3 = DoubleTuple.of(8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
-         * assertFalse(t1.equals(t3));   // different order -> not equal
+         * assert !(t1.equals(t3));   // different order -> not equal
          *
-         * assertFalse(t1.equals(null));       // null -> not equal
-         * assertFalse(t1.equals("string"));   // wrong type -> not equal
+         * assert !(t1.equals(null));       // null -> not equal
+         * assert !(t1.equals("string"));   // wrong type -> not equal
          *
          * DoubleTuple.DoubleTuple8 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * DoubleTuple.DoubleTuple8 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * assertTrue(withNaN.equals(withNaN2));   // NaN equals NaN via Double.compare semantics
+         * assert withNaN.equals(withNaN2);   // NaN equals NaN via Double.compare semantics
          * }</pre>
          *
          * @param obj the object to compare with
@@ -4218,7 +4209,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double mn = neg.min();   // returns -5.0
          *
          * DoubleTuple.DoubleTuple9 withNaN = DoubleTuple.of(Double.NaN, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * assertTrue(Double.isNaN(withNaN.min()));   // NaN propagates
+         * assert Double.isNaN(withNaN.min());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple9 withInf = DoubleTuple.of(Double.NEGATIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * double mi = withInf.min();   // returns Double.NEGATIVE_INFINITY
@@ -4246,7 +4237,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double mx = neg.max();   // returns 10.0
          *
          * DoubleTuple.DoubleTuple9 withNaN = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, Double.NaN);
-         * assertTrue(Double.isNaN(withNaN.max()));   // NaN propagates
+         * assert Double.isNaN(withNaN.max());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple9 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * double mx2 = withInf.max();   // returns Double.POSITIVE_INFINITY
@@ -4300,7 +4291,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double sn = neg.sum();   // returns -45.0
          *
          * DoubleTuple.DoubleTuple9 withNaN = DoubleTuple.of(1.0, Double.NaN, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * assertTrue(Double.isNaN(withNaN.sum()));   // NaN propagates
+         * assert Double.isNaN(withNaN.sum());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple9 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * double si = withInf.sum();   // returns Double.POSITIVE_INFINITY
@@ -4326,7 +4317,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double avgn = neg.average();   // returns 0.0
          *
          * DoubleTuple.DoubleTuple9 withNaN = DoubleTuple.of(1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * assertTrue(Double.isNaN(withNaN.average()));   // NaN propagates
+         * assert Double.isNaN(withNaN.average());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple9 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * double avgi = withInf.average();   // returns Double.POSITIVE_INFINITY
@@ -4420,7 +4411,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
-            N.checkArgNotNull(action);
+            N.checkArgNotNull(action, "action");
 
             action.accept(_1);
             action.accept(_2);
@@ -4440,15 +4431,15 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple9 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
          * DoubleTuple.DoubleTuple9 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * assertEquals(t1.hashCode(), t2.hashCode());   // equal tuples have equal hash codes
+         * assert t1.hashCode() == t2.hashCode();   // equal tuples have equal hash codes
          *
          * DoubleTuple.DoubleTuple9 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
          * DoubleTuple.DoubleTuple9 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * assertEquals(withNaN.hashCode(), withNaN2.hashCode());   // NaN has consistent hash
+         * assert withNaN.hashCode() == withNaN2.hashCode();   // NaN has consistent hash
          *
          * DoubleTuple.DoubleTuple9 neg = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0);
          * DoubleTuple.DoubleTuple9 neg2 = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0);
-         * assertEquals(neg.hashCode(), neg2.hashCode());   // negative values hash consistently
+         * assert neg.hashCode() == neg2.hashCode();   // negative values hash consistently
          *
          * DoubleTuple.DoubleTuple9 t3 = DoubleTuple.of(9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
          * // t1.hashCode() and t3.hashCode() differ for different element orders (likely)
@@ -4476,17 +4467,17 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple9 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
          * DoubleTuple.DoubleTuple9 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * assertTrue(t1.equals(t2));   // same values -> equal
+         * assert t1.equals(t2);   // same values -> equal
          *
          * DoubleTuple.DoubleTuple9 t3 = DoubleTuple.of(9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
-         * assertFalse(t1.equals(t3));   // different order -> not equal
+         * assert !(t1.equals(t3));   // different order -> not equal
          *
-         * assertFalse(t1.equals(null));       // null -> not equal
-         * assertFalse(t1.equals("string"));   // wrong type -> not equal
+         * assert !(t1.equals(null));       // null -> not equal
+         * assert !(t1.equals("string"));   // wrong type -> not equal
          *
          * DoubleTuple.DoubleTuple9 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
          * DoubleTuple.DoubleTuple9 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * assertTrue(withNaN.equals(withNaN2));   // NaN equals NaN via Double.compare semantics
+         * assert withNaN.equals(withNaN2);   // NaN equals NaN via Double.compare semantics
          * }</pre>
          *
          * @param obj the object to compare with
