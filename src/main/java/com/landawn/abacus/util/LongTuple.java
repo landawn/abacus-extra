@@ -39,6 +39,11 @@ import com.landawn.abacus.util.stream.LongStream;
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
+ * <p>All {@code long} arithmetic in this class follows Java's signed 64-bit semantics (range
+ * {@code -9223372036854775808} to {@code 9223372036854775807}). {@link #sum()} returns a {@code long}
+ * and wraps silently on overflow (two's-complement), while {@link #average()} is computed without
+ * intermediate overflow and widened to {@code double} to preserve fractional precision.</p>
+ *
  * @param <TP> the concrete {@code LongTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
@@ -921,35 +926,6 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns a string representation of this tuple.
-     * <p>
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
-     * This format is consistent across all tuple types and provides a readable representation
-     * of the tuple's contents.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * LongTuple.of(1L, 2L, 3L).toString();            // returns "(1, 2, 3)"
-     * LongTuple.of(1L, 2L).toString();                // returns "(1, 2)"
-     * LongTuple.of(1L).toString();                    // returns "(1)"
-     *
-     * // Empty tuple
-     * LongTuple.copyOf(new long[0]).toString();        // returns "()"
-     *
-     * // Negative values
-     * LongTuple.of(-3L, 0L, 3L).toString();           // returns "(-3, 0, 3)"
-     * }</pre>
-     *
-     * @return a string representation of this tuple
-     */
-    @Override
-    public String toString() {
-        return N.toString(elements());
-    }
-
-    /**
      * Returns the internal array containing all long elements in this tuple.
      * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
      * Modifying the returned array will compromise the immutability of this tuple.
@@ -1687,12 +1663,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          *
          * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.LongBiFunction)
          * @see #filter(Throwables.LongBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.LongBiConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2);
         }
 
@@ -1725,13 +1703,15 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.LongBiConsumer)
          * @see #filter(Throwables.LongBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.LongBiFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2);
         }
 
@@ -1764,12 +1744,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, an empty {@code Optional} otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.LongBiConsumer)
          * @see #map(Throwables.LongBiFunction)
          */
         public <E extends Exception> Optional<LongTuple2> filter(final Throwables.LongBiPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
@@ -2165,12 +2147,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          *
          * @param <E> the type of exception that the action may throw
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.LongTriFunction)
          * @see #filter(Throwables.LongTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.LongTriConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2, _3);
         }
 
@@ -2204,13 +2188,15 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.LongTriConsumer)
          * @see #filter(Throwables.LongTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.LongTriFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2, _3);
         }
 
@@ -2243,12 +2229,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, an empty {@code Optional} otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.LongTriConsumer)
          * @see #map(Throwables.LongTriFunction)
          */
         public <E extends Exception> Optional<LongTuple3> filter(final Throwables.LongTriPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 

@@ -1516,12 +1516,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.IntBiFunction)
          * @see #filter(Throwables.IntBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2);
         }
 
@@ -1550,13 +1552,15 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.IntBiConsumer)
          * @see #filter(Throwables.IntBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2);
         }
 
@@ -1587,12 +1591,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.IntBiConsumer)
          * @see #map(Throwables.IntBiFunction)
          */
         public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
@@ -1920,12 +1926,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * @param <E> the type of exception that the action may throw
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.IntTriFunction)
          * @see #filter(Throwables.IntTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2, _3);
         }
 
@@ -1955,13 +1963,15 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper function, may be {@code null}
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.IntTriConsumer)
          * @see #filter(Throwables.IntTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntTriFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2, _3);
         }
 
@@ -1992,12 +2002,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.IntTriConsumer)
          * @see #map(Throwables.IntTriFunction)
          */
         public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 

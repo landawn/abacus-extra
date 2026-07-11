@@ -39,6 +39,12 @@ import com.landawn.abacus.util.stream.DoubleStream;
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
+ * <p><b>Numeric semantics:</b> Aggregates follow IEEE-754 {@code double} arithmetic: a {@code NaN}
+ * element propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and
+ * {@link #average()}, while {@link #median()}, {@link #contains(double)}, and {@link #equals(Object)}
+ * order and compare elements with {@link Double#compare(double, double)} semantics ({@code NaN} equal
+ * to itself and greater than any other value, {@code -0.0} less than {@code 0.0}).</p>
+ *
  * @param <TP> the concrete {@code DoubleTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
@@ -1660,12 +1666,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.DoubleBiFunction)
          * @see #filter(Throwables.DoubleBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2);
         }
 
@@ -1700,13 +1708,15 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper to {@code _1} and {@code _2} (may be {@code null} if the mapper returns {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.DoubleBiConsumer)
          * @see #filter(Throwables.DoubleBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2);
         }
 
@@ -1745,12 +1755,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.DoubleBiConsumer)
          * @see #map(Throwables.DoubleBiFunction)
          */
         public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
@@ -2126,12 +2138,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.DoubleTriFunction)
          * @see #filter(Throwables.DoubleTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2, _3);
         }
 
@@ -2167,13 +2181,15 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper to {@code _1}, {@code _2}, and {@code _3} (may be {@code null} if the mapper returns {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.DoubleTriConsumer)
          * @see #filter(Throwables.DoubleTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2, _3);
         }
 
@@ -2212,12 +2228,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.DoubleTriConsumer)
          * @see #map(Throwables.DoubleTriFunction)
          */
         public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 

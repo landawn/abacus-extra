@@ -48,12 +48,14 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      *
      * @param <E> the type of exception that may be thrown by the action
      * @param action the action to invoke with this tuple as its input
-     * @throws NullPointerException if {@code action} is {@code null}
+     * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
      * @see #map(Throwables.Function)
      * @see #filter(Throwables.Predicate)
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super TP, E> action) throws E {
+        N.checkArgNotNull(action, "action");
+
         action.accept((TP) this);
     }
 
@@ -64,13 +66,15 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      * @param <E> the type of exception that may be thrown by the mapper
      * @param mapper the function to apply with this tuple as its input
      * @return the value produced by the mapper; may be {@code null} if the mapper returns {@code null}
-     * @throws NullPointerException if {@code mapper} is {@code null}
+     * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the mapper throws an exception during execution
      * @see #accept(Throwables.Consumer)
      * @see #filter(Throwables.Predicate)
      */
     @MayReturnNull
     public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws E {
+        N.checkArgNotNull(mapper, "mapper");
+
         return mapper.apply((TP) this);
     }
 
@@ -82,12 +86,14 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      * @param predicate the predicate to evaluate against this tuple
      * @return an {@link Optional} containing this tuple if the predicate returns {@code true};
      *         otherwise {@link Optional#empty()}
-     * @throws NullPointerException if {@code predicate} is {@code null}
+     * @throws IllegalArgumentException if {@code predicate} is {@code null}
      * @throws E if the predicate throws an exception during evaluation
      * @see #map(Throwables.Function)
      * @see #toOptional()
      */
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
+        N.checkArgNotNull(predicate, "predicate");
+
         return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.empty();
     }
 

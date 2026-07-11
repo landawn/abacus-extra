@@ -1709,12 +1709,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          *
          * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.ShortBiFunction)
          * @see #filter(Throwables.ShortBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.ShortBiConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2);
         }
 
@@ -1744,13 +1746,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper function (may be {@code null} if the mapper returns {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ShortBiConsumer)
          * @see #filter(Throwables.ShortBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ShortBiFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2);
         }
 
@@ -1784,12 +1788,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, otherwise an empty {@code Optional}
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.ShortBiConsumer)
          * @see #map(Throwables.ShortBiFunction)
          */
         public <E extends Exception> Optional<ShortTuple2> filter(final Throwables.ShortBiPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
@@ -2202,12 +2208,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          *
          * @param <E> the type of exception that the action may throw
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.ShortTriFunction)
          * @see #filter(Throwables.ShortTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.ShortTriConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2, _3);
         }
 
@@ -2237,13 +2245,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper function (may be {@code null} if the mapper returns {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ShortTriConsumer)
          * @see #filter(Throwables.ShortTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ShortTriFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2, _3);
         }
 
@@ -2277,12 +2287,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, otherwise an empty {@code Optional}
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.ShortTriConsumer)
          * @see #map(Throwables.ShortTriFunction)
          */
         public <E extends Exception> Optional<ShortTuple3> filter(final Throwables.ShortTriPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 

@@ -1922,7 +1922,7 @@ class PrimitiveTupleTest extends TestBase {
         public void test_accept_withNull() {
             IntTuple2 tuple = IntTuple.of(10, 20);
 
-            assertThrows(NullPointerException.class, () -> {
+            assertThrows(IllegalArgumentException.class, () -> {
                 tuple.accept((Throwables.IntBiConsumer<RuntimeException>) null);
             });
         }
@@ -2035,7 +2035,7 @@ class PrimitiveTupleTest extends TestBase {
         public void test_map_withNull() {
             IntTuple2 tuple = IntTuple.of(10, 20);
 
-            assertThrows(NullPointerException.class, () -> {
+            assertThrows(IllegalArgumentException.class, () -> {
                 tuple.map((Throwables.IntBiFunction<String, RuntimeException>) null);
             });
         }
@@ -2134,7 +2134,7 @@ class PrimitiveTupleTest extends TestBase {
         public void test_filter_withNull() {
             IntTuple2 tuple = IntTuple.of(10, 20);
 
-            assertThrows(NullPointerException.class, () -> {
+            assertThrows(IllegalArgumentException.class, () -> {
                 tuple.filter((Throwables.IntBiPredicate<RuntimeException>) null);
             });
         }

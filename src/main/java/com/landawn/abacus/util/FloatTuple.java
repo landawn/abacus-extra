@@ -39,6 +39,13 @@ import com.landawn.abacus.util.stream.FloatStream;
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
+ * <p><b>Numeric semantics:</b> Aggregates follow IEEE-754 {@code float} arithmetic: a {@code NaN}
+ * element propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and
+ * {@link #average()}, while {@link #median()}, {@link #contains(float)}, and {@link #equals(Object)}
+ * order and compare elements with {@link Float#compare(float, float)} semantics ({@code NaN} equal
+ * to itself and greater than any other value, {@code -0.0f} less than {@code 0.0f}).
+ * {@link #average()} is widened to {@code double} to preserve precision.</p>
+ *
  * @param <TP> the concrete {@code FloatTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
@@ -1673,12 +1680,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer to perform on the two elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.FloatBiFunction)
          * @see #filter(Throwables.FloatBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2);
         }
 
@@ -1709,13 +1718,15 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to the two elements, must not be {@code null}
          * @return the result of applying the mapper to _1 and _2 (may be {@code null} if the mapper returns {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.FloatBiConsumer)
          * @see #filter(Throwables.FloatBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatBiFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2);
         }
 
@@ -1750,12 +1761,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test the two elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.FloatBiConsumer)
          * @see #map(Throwables.FloatBiFunction)
          */
         public <E extends Exception> Optional<FloatTuple2> filter(final Throwables.FloatBiPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
@@ -1782,8 +1795,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public int hashCode() {
-            int result = Float.floatToIntBits(_1);
-            return 31 * result + Float.floatToIntBits(_2);
+            int result = Float.hashCode(_1);
+            return 31 * result + Float.hashCode(_2);
         }
 
         /**
@@ -2176,12 +2189,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer to perform on the three elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #map(Throwables.FloatTriFunction)
          * @see #filter(Throwables.FloatTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2, _3);
         }
 
@@ -2212,13 +2227,15 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to the three elements, must not be {@code null}
          * @return the result of applying the mapper to _1, _2, and _3 (may be {@code null} if the mapper returns {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.FloatTriConsumer)
          * @see #filter(Throwables.FloatTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatTriFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2, _3);
         }
 
@@ -2253,12 +2270,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test the three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.FloatTriConsumer)
          * @see #map(Throwables.FloatTriFunction)
          */
         public <E extends Exception> Optional<FloatTuple3> filter(final Throwables.FloatTriPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
@@ -2285,9 +2304,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public int hashCode() {
-            int result = Float.floatToIntBits(_1);
-            result = 31 * result + Float.floatToIntBits(_2);
-            return 31 * result + Float.floatToIntBits(_3);
+            int result = Float.hashCode(_1);
+            result = 31 * result + Float.hashCode(_2);
+            return 31 * result + Float.hashCode(_3);
         }
 
         /**
@@ -2678,10 +2697,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public int hashCode() {
-            int result = Float.floatToIntBits(_1);
-            result = 31 * result + Float.floatToIntBits(_2);
-            result = 31 * result + Float.floatToIntBits(_3);
-            return 31 * result + Float.floatToIntBits(_4);
+            int result = Float.hashCode(_1);
+            result = 31 * result + Float.hashCode(_2);
+            result = 31 * result + Float.hashCode(_3);
+            return 31 * result + Float.hashCode(_4);
         }
 
         /**
@@ -3059,11 +3078,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public int hashCode() {
-            int result = Float.floatToIntBits(_1);
-            result = 31 * result + Float.floatToIntBits(_2);
-            result = 31 * result + Float.floatToIntBits(_3);
-            result = 31 * result + Float.floatToIntBits(_4);
-            return 31 * result + Float.floatToIntBits(_5);
+            int result = Float.hashCode(_1);
+            result = 31 * result + Float.hashCode(_2);
+            result = 31 * result + Float.hashCode(_3);
+            result = 31 * result + Float.hashCode(_4);
+            return 31 * result + Float.hashCode(_5);
         }
 
         /**
@@ -3445,12 +3464,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public int hashCode() {
-            int result = Float.floatToIntBits(_1);
-            result = 31 * result + Float.floatToIntBits(_2);
-            result = 31 * result + Float.floatToIntBits(_3);
-            result = 31 * result + Float.floatToIntBits(_4);
-            result = 31 * result + Float.floatToIntBits(_5);
-            return 31 * result + Float.floatToIntBits(_6);
+            int result = Float.hashCode(_1);
+            result = 31 * result + Float.hashCode(_2);
+            result = 31 * result + Float.hashCode(_3);
+            result = 31 * result + Float.hashCode(_4);
+            result = 31 * result + Float.hashCode(_5);
+            return 31 * result + Float.hashCode(_6);
         }
 
         /**
@@ -3836,13 +3855,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public int hashCode() {
-            int result = Float.floatToIntBits(_1);
-            result = 31 * result + Float.floatToIntBits(_2);
-            result = 31 * result + Float.floatToIntBits(_3);
-            result = 31 * result + Float.floatToIntBits(_4);
-            result = 31 * result + Float.floatToIntBits(_5);
-            result = 31 * result + Float.floatToIntBits(_6);
-            return 31 * result + Float.floatToIntBits(_7);
+            int result = Float.hashCode(_1);
+            result = 31 * result + Float.hashCode(_2);
+            result = 31 * result + Float.hashCode(_3);
+            result = 31 * result + Float.hashCode(_4);
+            result = 31 * result + Float.hashCode(_5);
+            result = 31 * result + Float.hashCode(_6);
+            return 31 * result + Float.hashCode(_7);
         }
 
         /**
@@ -4242,14 +4261,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public int hashCode() {
-            int result = Float.floatToIntBits(_1);
-            result = 31 * result + Float.floatToIntBits(_2);
-            result = 31 * result + Float.floatToIntBits(_3);
-            result = 31 * result + Float.floatToIntBits(_4);
-            result = 31 * result + Float.floatToIntBits(_5);
-            result = 31 * result + Float.floatToIntBits(_6);
-            result = 31 * result + Float.floatToIntBits(_7);
-            return 31 * result + Float.floatToIntBits(_8);
+            int result = Float.hashCode(_1);
+            result = 31 * result + Float.hashCode(_2);
+            result = 31 * result + Float.hashCode(_3);
+            result = 31 * result + Float.hashCode(_4);
+            result = 31 * result + Float.hashCode(_5);
+            result = 31 * result + Float.hashCode(_6);
+            result = 31 * result + Float.hashCode(_7);
+            return 31 * result + Float.hashCode(_8);
         }
 
         /**
@@ -4654,15 +4673,15 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public int hashCode() {
-            int result = Float.floatToIntBits(_1);
-            result = 31 * result + Float.floatToIntBits(_2);
-            result = 31 * result + Float.floatToIntBits(_3);
-            result = 31 * result + Float.floatToIntBits(_4);
-            result = 31 * result + Float.floatToIntBits(_5);
-            result = 31 * result + Float.floatToIntBits(_6);
-            result = 31 * result + Float.floatToIntBits(_7);
-            result = 31 * result + Float.floatToIntBits(_8);
-            return 31 * result + Float.floatToIntBits(_9);
+            int result = Float.hashCode(_1);
+            result = 31 * result + Float.hashCode(_2);
+            result = 31 * result + Float.hashCode(_3);
+            result = 31 * result + Float.hashCode(_4);
+            result = 31 * result + Float.hashCode(_5);
+            result = 31 * result + Float.hashCode(_6);
+            result = 31 * result + Float.hashCode(_7);
+            result = 31 * result + Float.hashCode(_8);
+            return 31 * result + Float.hashCode(_9);
         }
 
         /**

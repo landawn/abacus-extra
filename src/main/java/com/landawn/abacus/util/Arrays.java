@@ -14,10 +14,6 @@
 package com.landawn.abacus.util;
 
 import java.math.RoundingMode;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
@@ -4041,8 +4037,11 @@ public sealed class Arrays permits Arrays.f {
             result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
-        for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
         }
 
         return result;
@@ -5895,8 +5894,11 @@ public sealed class Arrays permits Arrays.f {
             result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
-        for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
         }
 
         return result;
@@ -7717,8 +7719,11 @@ public sealed class Arrays permits Arrays.f {
             result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
-        for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
         }
 
         return result;
@@ -9514,8 +9519,11 @@ public sealed class Arrays permits Arrays.f {
             result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
-        for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
         }
 
         return result;
@@ -11375,8 +11383,11 @@ public sealed class Arrays permits Arrays.f {
             result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
-        for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
         }
 
         return result;
@@ -13116,8 +13127,11 @@ public sealed class Arrays permits Arrays.f {
             result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
-        for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
         }
 
         return result;
@@ -14925,8 +14939,11 @@ public sealed class Arrays permits Arrays.f {
             result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
-        for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
         }
 
         return result;
@@ -16720,8 +16737,11 @@ public sealed class Arrays permits Arrays.f {
             result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
-        for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
         }
 
         return result;
@@ -21522,7 +21542,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }
@@ -22048,7 +22068,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }
@@ -22183,7 +22203,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }
@@ -22325,7 +22345,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }
@@ -22472,7 +22492,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }
@@ -22580,239 +22600,6 @@ public sealed class Arrays permits Arrays.f {
 
             throw new IllegalArgumentException(
                     "Unable to infer target element type: both 'a' and 'defaultValueA' are null. Use the overload with targetElementType.");
-        }
-
-        /**
-         * Scans all elements of a two-dimensional mapped-value array and verifies that every
-         * element is assignable to the inferred target element type.
-         *
-         * @param <T> the candidate element type.
-         * @param initialTargetElementType the starting type, possibly inferred from the source array.
-         * @param mappedValues the mapped result values whose runtime types are inspected.
-         * @return the inferred target type.
-         */
-        @SuppressWarnings("unchecked")
-        static <T> Class<T> inferTargetElementType(final Class<T> initialTargetElementType, final Object[][] mappedValues) {
-            Class<T> targetElementType = initialTargetElementType;
-
-            for (int i = 0, len = N.len(mappedValues); i < len; i++) {
-                final Object[] row = mappedValues[i];
-
-                for (int j = 0, rowLen = N.len(row); j < rowLen; j++) {
-                    targetElementType = widenTargetElementType(targetElementType, row[j]);
-                }
-            }
-
-            return targetElementType;
-        }
-
-        /**
-         * Scans all elements of a three-dimensional mapped-value array and verifies that every
-         * element is assignable to the inferred target element type.
-         *
-         * @param <T> the candidate element type.
-         * @param initialTargetElementType the starting type, possibly inferred from the source array.
-         * @param mappedValues the mapped result values whose runtime types are inspected.
-         * @return the inferred target type.
-         */
-        static <T> Class<T> inferTargetElementType(final Class<T> initialTargetElementType, final Object[][][] mappedValues) {
-            Class<T> targetElementType = initialTargetElementType;
-
-            for (int i = 0, len = N.len(mappedValues); i < len; i++) {
-                targetElementType = inferTargetElementType(targetElementType, mappedValues[i]);
-            }
-
-            return targetElementType;
-        }
-
-        /**
-         * Verifies that {@code value} is assignable to {@code currentTargetElementType}. If
-         * {@code value} is {@code null} or already assignable to {@code currentTargetElementType},
-         * the current type is returned unchanged; otherwise callers must use an overload that
-         * accepts an explicit target element type.
-         *
-         * @param <T> the current candidate type.
-         * @param currentTargetElementType the previously inferred element type, or {@code null} if none.
-         * @param value a mapped result value.
-         * @return the current element type, never {@code null}.
-         */
-        @SuppressWarnings("unchecked")
-        static <T> Class<T> widenTargetElementType(final Class<T> currentTargetElementType, final Object value) {
-            if (currentTargetElementType == null) {
-                return (Class<T>) (value == null ? Object.class : value.getClass());
-            }
-
-            if (value == null || currentTargetElementType == Object.class || currentTargetElementType.isInstance(value)) {
-                return currentTargetElementType;
-            }
-
-            throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + currentTargetElementType.getName()
-                    + " for mapped value type " + value.getClass().getName() + ". Use the overload with targetElementType.");
-        }
-
-        /**
-         * Resolves the most specific assignable common type for the two input types.
-         *
-         * <p>This search considers both super classes and interfaces. If no better common type
-         * can be identified, {@link Object} is returned.</p>
-         *
-         * @param left the first type, may be {@code null}
-         * @param right the second type, may be {@code null}
-         * @return the most specific common assignable type, never {@code null}
-         */
-        protected static Class<?> resolveCommonAssignableType(final Class<?> left, final Class<?> right) {
-            if (left == null) {
-                return right == null ? Object.class : right;
-            }
-
-            if (right == null) {
-                return left;
-            }
-
-            if (left.isAssignableFrom(right)) {
-                return left;
-            }
-
-            if (right.isAssignableFrom(left)) {
-                return right;
-            }
-
-            final Map<Class<?>, Integer> leftDistances = collectTypeDistances(left);
-            final Map<Class<?>, Integer> rightDistances = collectTypeDistances(right);
-            Class<?> best = Object.class;
-            int bestDistance = Integer.MAX_VALUE;
-            int bestPenalty = Integer.MAX_VALUE;
-            int bestMethodCount = Integer.MIN_VALUE;
-
-            for (final Map.Entry<Class<?>, Integer> entry : leftDistances.entrySet()) {
-                final Class<?> candidate = entry.getKey();
-                final Integer rightDistance = rightDistances.get(candidate);
-
-                if (rightDistance == null || !candidate.isAssignableFrom(left) || !candidate.isAssignableFrom(right)) {
-                    continue;
-                }
-
-                final int totalDistance = entry.getValue() + rightDistance;
-                final int typePenalty = commonTypePenalty(candidate);
-                final int methodCount = candidate.getMethods().length;
-
-                if (totalDistance < bestDistance || (totalDistance == bestDistance && typePenalty < bestPenalty)
-                        || (totalDistance == bestDistance && typePenalty == bestPenalty && methodCount > bestMethodCount) || (totalDistance == bestDistance
-                                && typePenalty == bestPenalty && methodCount == bestMethodCount && best.isAssignableFrom(candidate))) {
-                    best = candidate;
-                    bestDistance = totalDistance;
-                    bestPenalty = typePenalty;
-                    bestMethodCount = methodCount;
-                }
-            }
-
-            return best;
-        }
-
-        /**
-         * Performs a breadth-first traversal of the type hierarchy rooted at {@code startType}
-         * (following both superclass and interface edges) and records the minimum graph distance
-         * from {@code startType} to each reachable type.
-         *
-         * @param startType the type from which distances are measured.
-         * @return a map from each reachable type to its minimum distance from {@code startType}.
-         */
-        private static Map<Class<?>, Integer> collectTypeDistances(final Class<?> startType) {
-            final Map<Class<?>, Integer> distances = new LinkedHashMap<>();
-            final Deque<Class<?>> queue = new ArrayDeque<>();
-            distances.put(startType, 0);
-            queue.add(startType);
-
-            while (!queue.isEmpty()) {
-                final Class<?> current = queue.removeFirst();
-                final int nextDistance = distances.get(current) + 1;
-
-                final Class<?> superClass = current.getSuperclass();
-
-                if (superClass != null && distances.putIfAbsent(superClass, nextDistance) == null) {
-                    queue.addLast(superClass);
-                }
-
-                for (final Class<?> intf : current.getInterfaces()) {
-                    if (distances.putIfAbsent(intf, nextDistance) == null) {
-                        queue.addLast(intf);
-                    }
-                }
-            }
-
-            return distances;
-        }
-
-        /**
-         * Returns a penalty score used during common-type resolution to prefer non-interface classes
-         * over marker interfaces and {@link Object}.  Lower scores are preferred.
-         *
-         * <ul>
-         *   <li>3 - {@link Object} (least preferred)</li>
-         *   <li>2 - a marker interface (no declared methods)</li>
-         *   <li>1 - a non-marker interface</li>
-         *   <li>0 - a non-interface class (most preferred)</li>
-         * </ul>
-         *
-         * @param type the candidate type to score.
-         * @return the penalty for the given type.
-         */
-        private static int commonTypePenalty(final Class<?> type) {
-            if (type == Object.class) {
-                return 3;
-            }
-
-            if (type.isInterface()) {
-                return type.getMethods().length == 0 ? 2 : 1;
-            }
-
-            return 0;
-        }
-
-        /**
-         * Creates a typed two-dimensional array from an untyped two-dimensional array of mapped values,
-         * casting each element to the target element type.
-         *
-         * @param <T> the target element type.
-         * @param mappedValues the raw mapped values, typically produced by a zip or map operation.
-         * @param targetElementType the desired element type for the result array.
-         * @return a new two-dimensional array of the target type containing the same elements.
-         */
-        @SuppressWarnings("unchecked")
-        static <T> T[][] castToTargetElementType(final Object[][] mappedValues, final Class<T> targetElementType) {
-            final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.len(mappedValues));
-
-            for (int i = 0, len = result.length; i < len; i++) {
-                final Object[] row = mappedValues[i];
-                final T[] converted = N.newArray(targetElementType, N.len(row));
-
-                for (int j = 0, rowLen = converted.length; j < rowLen; j++) {
-                    converted[j] = (T) row[j];
-                }
-
-                result[i] = converted;
-            }
-
-            return result;
-        }
-
-        /**
-         * Creates a typed three-dimensional array from an untyped three-dimensional array of mapped values,
-         * casting each element to the target element type.
-         *
-         * @param <T> the target element type.
-         * @param mappedValues the raw mapped values, typically produced by a zip or map operation.
-         * @param targetElementType the desired element type for the result array.
-         * @return a new three-dimensional array of the target type containing the same elements.
-         */
-        static <T> T[][][] castToTargetElementType(final Object[][][] mappedValues, final Class<T> targetElementType) {
-            final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), N.len(mappedValues));
-
-            for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = castToTargetElementType(mappedValues[i], targetElementType);
-            }
-
-            return result;
         }
 
         /**
@@ -23457,7 +23244,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }
@@ -24017,7 +23804,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }
@@ -24151,7 +23938,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }
@@ -24300,7 +24087,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }
@@ -24444,7 +24231,7 @@ public sealed class Arrays permits Arrays.f {
             } catch (final CallbackArrayStoreException e) {
                 throw e.original();
             } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("Unable to infer a safe target element type from runtime element type " + targetElementType.getName()
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
                         + ". Use the overload with targetElementType.", e);
             }
         }

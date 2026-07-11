@@ -1701,12 +1701,14 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer action to be performed on both elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.CharConsumer)
          * @see #map(Throwables.CharBiFunction)
          */
         public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2);
         }
 
@@ -1739,13 +1741,15 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
          * @return the result of applying the mapping function to both elements (may be {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.CharBiConsumer)
          * @see #filter(Throwables.CharBiPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2);
         }
 
@@ -1781,12 +1785,14 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test both elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.CharBiConsumer)
          * @see #map(Throwables.CharBiFunction)
          */
         public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
@@ -2208,12 +2214,14 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer action to be performed on all three elements, must not be {@code null}
-         * @throws NullPointerException if {@code action} is {@code null}
+         * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.CharConsumer)
          * @see #map(Throwables.CharTriFunction)
          */
         public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws E {
+            N.checkArgNotNull(action, "action");
+
             action.accept(_1, _2, _3);
         }
 
@@ -2246,13 +2254,15 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
          * @return the result of applying the mapping function to all three elements (may be {@code null})
-         * @throws NullPointerException if {@code mapper} is {@code null}
+         * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.CharTriConsumer)
          * @see #filter(Throwables.CharTriPredicate)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws E {
+            N.checkArgNotNull(mapper, "mapper");
+
             return mapper.apply(_1, _2, _3);
         }
 
@@ -2288,12 +2298,14 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test all three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
-         * @throws NullPointerException if {@code predicate} is {@code null}
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.CharTriConsumer)
          * @see #map(Throwables.CharTriFunction)
          */
         public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws E {
+            N.checkArgNotNull(predicate, "predicate");
+
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 

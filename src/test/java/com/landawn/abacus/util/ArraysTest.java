@@ -16321,188 +16321,16 @@ class ArraysTest extends TestBase {
     }
 
     /**
-     * Adversarial tests for the type-inference machinery in {@link Arrays.ff} and
-     * {@link Arrays.fff}. These exercise the helper methods
-     * {@code inferTargetElementType}, {@code widenTargetElementType},
-     * {@code resolveCommonAssignableType}, {@code collectTypeDistances},
-     * {@code commonTypePenalty}, {@code castToTargetElementType}, and
-     * {@code resolveTargetElementTypeForZipWithDefaults} indirectly through the
-     * inferred-type {@code map}/{@code zip} public overloads.
+     * Adversarial tests for the inferred-type {@code map}/{@code zip} overloads in
+     * {@link Arrays.ff} and {@link Arrays.fff}, which derive the result element type from the
+     * input array's runtime component type (or from the default value's class via
+     * {@code resolveTargetElementTypeForZipWithDefaults} for the with-defaults variants).
      */
     @Nested
     class ArraysTypeInferenceTest extends TestBase {
 
         // --------------------------------------------------------------------
-        // Direct (reflection-based) probes of the package-private helpers.
-        // These let us trace concrete inputs through the algorithm.
-        // --------------------------------------------------------------------
-
-        private static Class<?> resolveCommon(final Class<?> left, final Class<?> right) throws Exception {
-            final java.lang.reflect.Method m = Arrays.ff.class.getDeclaredMethod("resolveCommonAssignableType", Class.class, Class.class);
-            m.setAccessible(true);
-            return (Class<?>) m.invoke(null, left, right);
-        }
-
-        @SuppressWarnings("unchecked")
-        private static java.util.Map<Class<?>, Integer> collectDistances(final Class<?> start) throws Exception {
-            final java.lang.reflect.Method m = Arrays.ff.class.getDeclaredMethod("collectTypeDistances", Class.class);
-            m.setAccessible(true);
-            return (java.util.Map<Class<?>, Integer>) m.invoke(null, start);
-        }
-
-        private static int penalty(final Class<?> type) throws Exception {
-            final java.lang.reflect.Method m = Arrays.ff.class.getDeclaredMethod("commonTypePenalty", Class.class);
-            m.setAccessible(true);
-            return (int) m.invoke(null, type);
-        }
-
-        // --------------------------------------------------------------------
-        // collectTypeDistances scenarios (11, 12, 13)
-        // --------------------------------------------------------------------
-
-        @Test
-        public void collectTypeDistances_Integer_hasExpectedAncestors() throws Exception {
-            final java.util.Map<Class<?>, Integer> d = collectDistances(Integer.class);
-            assertEquals(0, d.get(Integer.class));
-            assertEquals(1, d.get(Number.class));
-            assertEquals(2, d.get(Object.class));
-            // Integer implements Comparable<Integer> directly => distance 1
-            assertEquals(1, d.get(Comparable.class));
-            // Number implements Serializable => Integer -> Number(1) -> Serializable(2)
-            assertEquals(2, d.get(java.io.Serializable.class));
-        }
-
-        @Test
-        public void collectTypeDistances_String_hasExpectedAncestors() throws Exception {
-            final java.util.Map<Class<?>, Integer> d = collectDistances(String.class);
-            assertEquals(0, d.get(String.class));
-            assertEquals(1, d.get(Object.class));
-            assertEquals(1, d.get(Comparable.class));
-            assertEquals(1, d.get(java.io.Serializable.class));
-            assertEquals(1, d.get(CharSequence.class));
-        }
-
-        @Test
-        public void collectTypeDistances_Object_onlySelf() throws Exception {
-            final java.util.Map<Class<?>, Integer> d = collectDistances(Object.class);
-            assertEquals(1, d.size());
-            assertEquals(0, d.get(Object.class));
-        }
-
-        @Test
-        public void collectTypeDistances_Interface_listIncludesCollection() throws Exception {
-            final java.util.Map<Class<?>, Integer> d = collectDistances(java.util.List.class);
-            assertEquals(0, d.get(java.util.List.class));
-            // In Java 21+ List extends SequencedCollection extends Collection (d=2);
-            // in earlier JDKs List extends Collection directly (d=1). Be JDK-agnostic.
-            final Integer collDist = d.get(java.util.Collection.class);
-            assertNotNull(collDist);
-            assertTrue(collDist >= 1, "Collection must be reachable from List");
-            final Integer iterDist = d.get(Iterable.class);
-            assertNotNull(iterDist);
-            assertTrue(iterDist > collDist, "Iterable is a super-interface of Collection");
-            // Starting from an interface, Object is NOT reachable via the BFS:
-            // interface.getSuperclass() returns null, and Object is not in any interface's
-            // getInterfaces(). This is a *meaningful observation about the algorithm*:
-            // resolveCommonAssignableType will only find Object as a common ancestor when
-            // at least one of the two types is a concrete class (so the BFS climbs through
-            // its superclass chain to Object).
-            assertFalse(d.containsKey(Object.class), "Starting from an interface, Object is unreachable (interface.getSuperclass() == null)");
-        }
-
-        @Test
-        public void collectTypeDistances_terminates_noInfiniteLoop() throws Exception {
-            // Sanity check: BFS terminates and doesn't blow up.
-            assertNotNull(collectDistances(java.util.ArrayList.class));
-            assertNotNull(collectDistances(java.util.LinkedList.class));
-            assertNotNull(collectDistances(java.util.HashMap.class));
-            assertNotNull(collectDistances(Comparable.class));
-        }
-
-        // --------------------------------------------------------------------
-        // commonTypePenalty scenarios
-        // --------------------------------------------------------------------
-
-        @Test
-        public void commonTypePenalty_categories() throws Exception {
-            assertEquals(3, penalty(Object.class));
-            // Marker interfaces (no methods)
-            assertEquals(2, penalty(java.io.Serializable.class));
-            assertEquals(2, penalty(Cloneable.class));
-            assertEquals(2, penalty(java.util.RandomAccess.class));
-            // Non-marker interfaces
-            assertEquals(1, penalty(Comparable.class));
-            assertEquals(1, penalty(CharSequence.class));
-            assertEquals(1, penalty(java.util.List.class));
-            // Concrete classes
-            assertEquals(0, penalty(Integer.class));
-            assertEquals(0, penalty(Number.class));
-            assertEquals(0, penalty(String.class));
-        }
-
-        // --------------------------------------------------------------------
-        // resolveCommonAssignableType scenarios (1-10)
-        // --------------------------------------------------------------------
-
-        @Test
-        public void resolveCommonAssignableType_sameType_returnsThatType() throws Exception {
-            assertEquals(Integer.class, resolveCommon(Integer.class, Integer.class));
-            assertEquals(String.class, resolveCommon(String.class, String.class));
-        }
-
-        @Test
-        public void resolveCommonAssignableType_oneAssignableFromOther() throws Exception {
-            assertEquals(Number.class, resolveCommon(Number.class, Integer.class));
-            assertEquals(Number.class, resolveCommon(Integer.class, Number.class));
-            assertEquals(Object.class, resolveCommon(Object.class, String.class));
-        }
-
-        @Test
-        public void resolveCommonAssignableType_IntegerLong_resolvesToNumber() throws Exception {
-            // Both have Number at distance 1, Comparable at distance 1.
-            // Number penalty 0 (concrete) < Comparable penalty 1 (interface) => Number wins.
-            assertEquals(Number.class, resolveCommon(Integer.class, Long.class));
-        }
-
-        @Test
-        public void resolveCommonAssignableType_IntegerDouble_resolvesToNumber() throws Exception {
-            assertEquals(Number.class, resolveCommon(Integer.class, Double.class));
-        }
-
-        @Test
-        public void resolveCommonAssignableType_IntegerString_resolvesToComparable() throws Exception {
-            // Integer: Comparable d=1, Serializable d=2, Object d=2
-            // String:  Comparable d=1, Serializable d=1, Object d=1
-            // Comparable total=2 penalty=1
-            // Serializable total=3 penalty=2
-            // Object total=3 penalty=3
-            // => Comparable wins on smallest total distance.
-            assertEquals(Comparable.class, resolveCommon(Integer.class, String.class));
-        }
-
-        @Test
-        public void resolveCommonAssignableType_nullHandling() throws Exception {
-            assertEquals(Object.class, resolveCommon(null, null));
-            assertEquals(Integer.class, resolveCommon(null, Integer.class));
-            assertEquals(Integer.class, resolveCommon(Integer.class, null));
-        }
-
-        @Test
-        public void resolveCommonAssignableType_ArrayListLinkedList_resolvesToConcreteAncestor() throws Exception {
-            // ArrayList superclass chain: AbstractList -> AbstractCollection -> Object
-            // LinkedList superclass chain: AbstractSequentialList -> AbstractList -> AbstractCollection -> Object
-            // Common concrete ancestor: AbstractList (penalty 0)
-            // ArrayList -> AbstractList d=1
-            // LinkedList -> AbstractList d=2 (via AbstractSequentialList)
-            // total = 3, penalty 0
-            // Versus List interface: ArrayList d=1, LinkedList d=1 => total 2, penalty 1.
-            // List wins on smaller total distance (2 < 3).
-            assertEquals(java.util.List.class, resolveCommon(java.util.ArrayList.class, java.util.LinkedList.class));
-        }
-
-        // --------------------------------------------------------------------
-        // widenTargetElementType / inferTargetElementType end-to-end via ff.map
-        // Scenarios (1-9, 14-16)
+        // Inferred-type map end-to-end via ff.map
         // --------------------------------------------------------------------
 
         @Test
@@ -16510,15 +16338,14 @@ class ArraysTest extends TestBase {
             final Number[][] in = { { 1, 2 }, { 3, 4 } };
             final Number[][] out = ff.map(in, n -> n);
             assertEquals(Number[][].class, out.getClass());
-            // initial target = Number (from declared type), all values are Integer -> Number.isInstance(int) -> stays Number.
-            // The algorithm never narrows; declared type is preserved.
+            // target = Number (runtime component type of the input array); no narrowing happens.
         }
 
         @Test
         public void ff_map_mixedNumberSubtypes_resultArrayCanHoldAllValues() {
             // Object[][] declared, mapper returns Integer for first cell, Long for second.
-            // initial type = Object; widening short-circuits since current==Object.class.
-            // Result element type stays Object — and the array correctly holds Integer and Long.
+            // The element type is inferred as Object from the runtime component type,
+            // so the result array correctly holds both Integer and Long.
             final Object[][] in = { { "a", "b" } };
             final Object[][] out = ff.map(in, s -> ((String) s).length() % 2 == 0 ? (Object) 1L : (Object) 1);
             assertEquals(Object[][].class, out.getClass());
@@ -16529,7 +16356,7 @@ class ArraysTest extends TestBase {
         @Test
         public void ff_map_nullsInResult_doNotWidenTarget() {
             // Number[][] in, mapper returns nulls for some, Integer for others.
-            // initial = Number; nulls cause no widening; Integers fit Number. Result stays Number.
+            // target = Number (runtime component type); nulls and Integers both store fine.
             final Number[][] in = { { 1, 2 }, { 3, 4 } };
             final Number[][] out = ff.map(in, n -> n.intValue() % 2 == 0 ? null : n);
             assertEquals(Number[][].class, out.getClass());
@@ -16616,40 +16443,12 @@ class ArraysTest extends TestBase {
         }
 
         // --------------------------------------------------------------------
-        // Tie-break logic of resolveCommonAssignableType.
-        // Make sure equally-distant candidates pick concrete over interface,
-        // and the assignability tie-breaker prefers the more specific type.
+        // Verify the inferred result element type is assignable from every
+        // element actually placed in the result array.
         // --------------------------------------------------------------------
 
         @Test
-        public void resolveCommonAssignableType_concretePreferredOverInterface() throws Exception {
-            // Integer and Long: Number(d=2,pen=0) vs Comparable(d=2,pen=1). Number wins (lower penalty).
-            assertEquals(Number.class, resolveCommon(Integer.class, Long.class));
-            // Double and Long: same.
-            assertEquals(Number.class, resolveCommon(Double.class, Long.class));
-        }
-
-        @Test
-        public void resolveCommonAssignableType_StringBuilderAndStringBuffer_resolvesToCommonAbstract() throws Exception {
-            // Both extend AbstractStringBuilder (package-private). Their nearest *public* common
-            // class in the hierarchy: AbstractStringBuilder is package-private, Object is the
-            // first reachable concrete class via the BFS. Both implement CharSequence (d=1),
-            // Appendable (d=1), Serializable (d=1 for StringBuffer via class, ... varies), Comparable.
-            // We won't pin the exact tie since AbstractStringBuilder is package-private
-            // but distance metric still treats it as a real class. Just verify the result is
-            // a real common assignable type.
-            final Class<?> c = resolveCommon(StringBuilder.class, StringBuffer.class);
-            assertNotNull(c);
-            assertTrue(c.isAssignableFrom(StringBuilder.class) && c.isAssignableFrom(StringBuffer.class));
-        }
-
-        // --------------------------------------------------------------------
-        // Verify the widen-monotonicity contract: result type is assignable
-        // from every element actually placed in the result array.
-        // --------------------------------------------------------------------
-
-        @Test
-        public void widenTargetElementType_resultArrayAcceptsAllElements() {
+        public void inferredMap_resultArrayAcceptsAllElements() {
             // Use a Number[][] declared array but stuff Integers and Longs.
             final Number[][] in = { { 1, 2L }, { 3.0, 4f } };
             final Number[][] out = ff.map(in, n -> n);
