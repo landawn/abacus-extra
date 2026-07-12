@@ -32,7 +32,7 @@ import com.landawn.abacus.util.stream.Stream;
  * Base class for immutable tuples of primitive {@code boolean} values.
  *
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #copyOf(boolean[])} and the {@code of(...)} overloads select the matching subtype, while the
+ * {@link #from(boolean[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies reversal, containment, and functional helper operations.</p>
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
@@ -382,25 +382,25 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * <pre>{@code
      * // Create from 3-element array
      * boolean[] values = {true, false, true};
-     * BooleanTuple<?> t3 = BooleanTuple.copyOf(values);
+     * BooleanTuple<?> t3 = BooleanTuple.from(values);
      * int arity3 = t3.arity();                // 3
      * String s3 = t3.toString();              // "(true, false, true)"
      *
      * // Single element
-     * BooleanTuple<?> t1 = BooleanTuple.copyOf(new boolean[]{true});
+     * BooleanTuple<?> t1 = BooleanTuple.from(new boolean[]{true});
      * int arity1 = t1.arity();                // 1
      *
      * // Empty array returns empty tuple
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
      * int emptyArity = empty.arity();         // 0
      * String emptyStr = empty.toString();     // "()"
      *
      * // null array also returns empty tuple
-     * BooleanTuple<?> fromNull = BooleanTuple.copyOf(null);
+     * BooleanTuple<?> fromNull = BooleanTuple.from(null);
      * int nullArity = fromNull.arity();       // 0
      *
      * // length > 9 throws IllegalArgumentException
-     * // BooleanTuple.copyOf(new boolean[10]); // throws IllegalArgumentException
+     * // BooleanTuple.from(new boolean[10]); // throws IllegalArgumentException
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
@@ -415,7 +415,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @see #of(boolean)
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends BooleanTuple<TP>> TP copyOf(final boolean[] values) {
+    public static <TP extends BooleanTuple<TP>> TP from(final boolean[] values) {
         if (values == null || values.length == 0) {
             return (TP) BooleanTuple0.EMPTY;
         }
@@ -471,7 +471,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * String palStr = reversed.toString();              // "(true, false, true)" - palindrome
      *
      * // edge: empty tuple reverses to itself
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
      * String emptyRev = empty.reverse().toString();     // "()"
      *
      * // edge: single-element reverse has same value
@@ -507,7 +507,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean anyFalse = flags.contains(false);    // false
      *
      * // edge: empty tuple never contains any value
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
      * boolean emptyHasTrue = empty.contains(true);   // false
      * boolean emptyHasFalse = empty.contains(false); // false
      * }</pre>
@@ -536,7 +536,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean[] pairArray = pair.toArray(); // [true, false]
      *
      * // edge: empty tuple returns zero-length array
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
      * boolean[] emptyArr = empty.toArray(); // []
      * int len = emptyArr.length;            // 0
      *
@@ -574,7 +574,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean first = flagList.get(0);        // true
      *
      * // edge: empty tuple produces empty list
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
      * BooleanList emptyList = empty.toList();
      * int emptySize = emptyList.size();       // 0
      *
@@ -612,7 +612,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * // count is now 2
      *
      * // edge: empty tuple - consumer is never called
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
      * java.util.concurrent.atomic.AtomicInteger emptyCount = new java.util.concurrent.atomic.AtomicInteger();
      * empty.forEach(b -> emptyCount.incrementAndGet());  // emptyCount is still 0
      *
@@ -653,7 +653,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean anyTrue = flags.stream().anyMatch(b -> b);   // true
      *
      * // edge: empty tuple stream has count 0
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
      * long emptyCount = empty.stream().count();             // 0
      *
      * // edge: all-false tuple - allMatch(b -> !b) returns true
@@ -690,7 +690,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * int hf = f.hashCode();              // 1237 (Boolean.hashCode(false))
      *
      * // edge: empty tuple has a consistent hash code
-     * BooleanTuple<?> empty = BooleanTuple.copyOf(new boolean[0]);
+     * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
      * int emptyHash1 = empty.hashCode();
      * int emptyHash2 = empty.hashCode();
      * boolean consistent = (emptyHash1 == emptyHash2); // true
@@ -764,7 +764,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * An empty BooleanTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code BooleanTuple} type
-     * via the singleton instance returned by {@link #copyOf(boolean[])} when invoked with a
+     * via the singleton instance returned by {@link #from(boolean[])} when invoked with a
      * {@code null} or zero-length array.
      * </p>
      */

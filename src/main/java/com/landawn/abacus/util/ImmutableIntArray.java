@@ -28,7 +28,7 @@ import com.landawn.abacus.util.stream.IntStream;
  * the wrapper.</p>
  *
  * <p>The wrapper itself exposes no mutator methods, and accessors that return arrays
- * ({@link #copyOfRange(int, int)}) always return fresh copies. The {@link #stream()} method, however,
+ * ({@link #toArray()} and {@link #toArray(int, int)}) always return fresh copies. The {@link #stream()} method, however,
  * is constructed directly over the backing array; see its javadoc for the implications.</p>
  *
  * <p>This class is annotated with {@link Beta @Beta} and its API may evolve in future releases.</p>
@@ -581,45 +581,102 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * Returns a new int array containing a copy of the elements in the specified range.
+     * Returns a new int array containing all elements in this ImmutableIntArray.
      *
-     * <p>The range follows the standard half-open interval convention: {@code [fromIndex, toIndex)}.
-     * {@code fromIndex} is inclusive and {@code toIndex} is exclusive. The returned array length is
-     * {@code toIndex - fromIndex}. If {@code fromIndex == toIndex}, an empty array is returned.</p>
+     * <p>The returned array is a fresh copy and is independent of this ImmutableIntArray.
+     * Modifying it does not affect this object, including when this object was created by
+     * {@link #unsafeWrap(int[])}.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30});
+     * int[] copy = array.toArray();   // returns {10, 20, 30}
+     * copy[0] = 99;
+     * array.get(0);                   // still returns 10
+     *
+     * // Edge: an empty wrapper produces an empty array
+     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
+     * empty.toArray();   // returns {}
+     * }</pre>
+     *
+     * @return a newly allocated int array containing all elements in this ImmutableIntArray
+     * @see #toArray(int, int)
+     * @see #subArray(int, int)
+     */
+    public int[] toArray() {
+        return elements.clone();
+    }
+
+    /**
+     * Returns a new int array containing the elements in the specified range.
+     *
+     * <p>The range follows the half-open interval convention: {@code [fromIndex, toIndex)}.
+     * Both indices must be within this array; unlike {@link java.util.Arrays#copyOfRange(int[], int, int)},
+     * this method does not permit {@code toIndex > length()} and does not pad the result.</p>
      *
      * <p>The returned array is a fresh copy and is independent of this ImmutableIntArray.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
-     *
-     * // Basic: interior slice
-     * array.copyOfRange(1, 4);   // returns {20, 30, 40}
-     *
-     * // Basic: slice from the start
-     * array.copyOfRange(0, 3);   // returns {10, 20, 30}
-     *
-     * // Edge: equal indices produce an empty array (no exception)
-     * array.copyOfRange(2, 2);   // returns {} (length 0)
-     *
-     * // Edge: toIndex > length() throws IndexOutOfBoundsException
-     * array.copyOfRange(0, 10);   // throws IndexOutOfBoundsException
-     *
-     * // Edge: fromIndex > toIndex throws IndexOutOfBoundsException
-     * array.copyOfRange(3, 1);   // throws IndexOutOfBoundsException
+     * array.toArray(1, 4);   // returns {20, 30, 40}
+     * array.toArray(2, 2);   // returns {}
+     * array.toArray(0, 10);  // throws IndexOutOfBoundsException
      * }</pre>
      *
-     * @param fromIndex the starting index (inclusive) of the range to copy (must be {@code >= 0})
-     * @param toIndex the ending index (exclusive) of the range to copy (must be {@code <= length()})
+     * @param fromIndex the starting index (inclusive), must be {@code >= 0}
+     * @param toIndex the ending index (exclusive), must be {@code <= length()}
      * @return a newly allocated int array containing the elements in {@code [fromIndex, toIndex)}
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
      *                                   or {@code fromIndex > toIndex}
-     * @see java.util.Arrays#copyOfRange(int[], int, int)
+     * @see #toArray()
+     * @see #subArray(int, int)
      */
-    public int[] copyOfRange(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
+    public int[] toArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
 
         return N.copyOfRange(elements, fromIndex, toIndex);
+    }
+
+    /**
+     * Returns an ImmutableIntArray containing the elements in the specified range.
+     *
+     * <p>The range follows the half-open interval convention: {@code [fromIndex, toIndex)}.
+     * The returned object owns a copied array, so it is independent of this object's backing storage.
+     * Both indices must be within this array; the result is never padded.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
+     * ImmutableIntArray middle = array.subArray(1, 4);
+     * middle.toArray();        // returns {20, 30, 40}
+     * array.subArray(2, 2);    // returns an empty ImmutableIntArray
+     * }</pre>
+     *
+     * @param fromIndex the starting index (inclusive), must be {@code >= 0}
+     * @param toIndex the ending index (exclusive), must be {@code <= length()}
+     * @return a new ImmutableIntArray containing the elements in {@code [fromIndex, toIndex)}
+     * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
+     *                                   or {@code fromIndex > toIndex}
+     * @see #toArray(int, int)
+     */
+    public ImmutableIntArray subArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
+        return new ImmutableIntArray(toArray(fromIndex, toIndex));
+    }
+
+    /**
+     * Returns a new int array containing a copy of the elements in the specified range.
+     *
+     * @param fromIndex the starting index (inclusive), must be {@code >= 0}
+     * @param toIndex the ending index (exclusive), must be {@code <= length()}
+     * @return a newly allocated int array containing the elements in {@code [fromIndex, toIndex)}
+     * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
+     *                                   or {@code fromIndex > toIndex}
+     * @deprecated Use {@link #toArray(int, int)}. This method has the same strict bounds and does not pad the result.
+     */
+    @Deprecated
+    public int[] copyOfRange(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
+        return toArray(fromIndex, toIndex);
     }
 
     /**

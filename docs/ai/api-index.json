@@ -3573,13 +3573,13 @@
               "see_also": []
             },
             {
-              "name": "minSubArrayLength",
+              "name": "minImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int minSubArrayLength(final boolean[][] a)",
+              "signature": "public static int minImmediateSubArrayLength(final boolean[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -3597,13 +3597,13 @@
               "see_also": []
             },
             {
-              "name": "maxSubArrayLength",
+              "name": "maxImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int maxSubArrayLength(final boolean[][] a)",
+              "signature": "public static int maxImmediateSubArrayLength(final boolean[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -3617,7 +3617,7 @@
               "throws": [],
               "javadoc_summary": "Finds the maximum length among all sub-arrays in a two-dimensional boolean array.",
               "contract": [
-                "<p> <b> Usage Examples: </b> </p> <pre> {@code // Longest row has length 3 boolean[][] arr = {{true, false, true}, {true}, {false, true}}; int maxLen = Arrays.maxSubArrayLength(arr); // maxLen: 3 // Null sub-array is treated as length 0; does not affect max if other rows are longer boolean[][] sparse = {{true, false}, null, {true, false, true}}; int maxLen2 = Arrays.maxSubArrayLength(sparse); // maxLen2: 3 // Null input returns 0 int fromNull = Arrays.maxSubArrayLength((boolean[][]) null); // fromNull: 0 // Empty outer array returns 0 int fromEmpty = Arrays.maxSubArrayLength(new boolean[0][]); // fromEmpty: 0 } </pre>"
+                "<p> <b> Usage Examples: </b> </p> <pre> {@code // Longest row has length 3 boolean[][] arr = {{true, false, true}, {true}, {false, true}}; int maxLen = Arrays.maxImmediateSubArrayLength(arr); // maxLen: 3 // Null sub-array is treated as length 0; does not affect max if other rows are longer boolean[][] sparse = {{true, false}, null, {true, false, true}}; int maxLen2 = Arrays.maxImmediateSubArrayLength(sparse); // maxLen2: 3 // Null input returns 0 int fromNull = Arrays.maxImmediateSubArrayLength((boolean[][]) null); // fromNull: 0 // Empty outer array returns 0 int fromEmpty = Arrays.maxImmediateSubArrayLength(new boolean[0][]); // fromEmpty: 0 } </pre>"
               ],
               "examples": [],
               "see_also": []
@@ -4997,13 +4997,13 @@
               "see_also": []
             },
             {
-              "name": "minSubArrayLength",
+              "name": "minImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int minSubArrayLength(final char[][] a)",
+              "signature": "public static int minImmediateSubArrayLength(final char[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -5021,13 +5021,13 @@
               "see_also": []
             },
             {
-              "name": "maxSubArrayLength",
+              "name": "maxImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int maxSubArrayLength(final char[][] a)",
+              "signature": "public static int maxImmediateSubArrayLength(final char[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -6410,13 +6410,13 @@
               ]
             },
             {
-              "name": "minSubArrayLength",
+              "name": "minImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int minSubArrayLength(final byte[][] a)",
+              "signature": "public static int minImmediateSubArrayLength(final byte[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -6432,17 +6432,17 @@
               "contract": [],
               "examples": [],
               "see_also": [
-                "#maxSubArrayLength(byte[][])"
+                "#maxImmediateSubArrayLength(byte[][])"
               ]
             },
             {
-              "name": "maxSubArrayLength",
+              "name": "maxImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int maxSubArrayLength(final byte[][] a)",
+              "signature": "public static int maxImmediateSubArrayLength(final byte[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -6458,7 +6458,7 @@
               "contract": [],
               "examples": [],
               "see_also": [
-                "#minSubArrayLength(byte[][])"
+                "#minImmediateSubArrayLength(byte[][])"
               ]
             },
             {
@@ -7827,13 +7827,13 @@
               ]
             },
             {
-              "name": "minSubArrayLength",
+              "name": "minImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int minSubArrayLength(final short[][] a)",
+              "signature": "public static int minImmediateSubArrayLength(final short[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -7849,17 +7849,17 @@
               "contract": [],
               "examples": [],
               "see_also": [
-                "#maxSubArrayLength(short[][])"
+                "#maxImmediateSubArrayLength(short[][])"
               ]
             },
             {
-              "name": "maxSubArrayLength",
+              "name": "maxImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int maxSubArrayLength(final short[][] a)",
+              "signature": "public static int maxImmediateSubArrayLength(final short[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -7873,11 +7873,11 @@
               "throws": [],
               "javadoc_summary": "Finds the maximum length among all sub-arrays in a two-dimensional short array.",
               "contract": [
-                "<p> <b> Usage Examples: </b> </p> <pre> {@code // Basic: longest sub-array has 4 elements short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}}; int maxLen = Arrays.maxSubArrayLength(array); // maxLen == 4 // Basic: null sub-array is treated as length 0 - does not affect max if other rows exist short[][] withNull = {{1, 2}, null}; int maxWithNull = Arrays.maxSubArrayLength(withNull); // maxWithNull == 2 // Edge: null array - returns 0 int fromNull = Arrays.maxSubArrayLength((short[][]) null); // fromNull == 0 // Edge: empty outer array - returns 0 int fromEmpty = Arrays.maxSubArrayLength(new short[0][]); // fromEmpty == 0 } </pre>"
+                "<p> <b> Usage Examples: </b> </p> <pre> {@code // Basic: longest sub-array has 4 elements short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}}; int maxLen = Arrays.maxImmediateSubArrayLength(array); // maxLen == 4 // Basic: null sub-array is treated as length 0 - does not affect max if other rows exist short[][] withNull = {{1, 2}, null}; int maxWithNull = Arrays.maxImmediateSubArrayLength(withNull); // maxWithNull == 2 // Edge: null array - returns 0 int fromNull = Arrays.maxImmediateSubArrayLength((short[][]) null); // fromNull == 0 // Edge: empty outer array - returns 0 int fromEmpty = Arrays.maxImmediateSubArrayLength(new short[0][]); // fromEmpty == 0 } </pre>"
               ],
               "examples": [],
               "see_also": [
-                "#minSubArrayLength(short[][])"
+                "#minImmediateSubArrayLength(short[][])"
               ]
             },
             {
@@ -9258,13 +9258,13 @@
               ]
             },
             {
-              "name": "minSubArrayLength",
+              "name": "minImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int minSubArrayLength(final int[][] a)",
+              "signature": "public static int minImmediateSubArrayLength(final int[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -9280,17 +9280,17 @@
               "contract": [],
               "examples": [],
               "see_also": [
-                "#maxSubArrayLength(int[][])"
+                "#maxImmediateSubArrayLength(int[][])"
               ]
             },
             {
-              "name": "maxSubArrayLength",
+              "name": "maxImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int maxSubArrayLength(final int[][] a)",
+              "signature": "public static int maxImmediateSubArrayLength(final int[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -9306,7 +9306,7 @@
               "contract": [],
               "examples": [],
               "see_also": [
-                "#minSubArrayLength(int[][])"
+                "#minImmediateSubArrayLength(int[][])"
               ]
             },
             {
@@ -10683,13 +10683,13 @@
               ]
             },
             {
-              "name": "minSubArrayLength",
+              "name": "minImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int minSubArrayLength(final long[][] a)",
+              "signature": "public static int minImmediateSubArrayLength(final long[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -10705,17 +10705,17 @@
               "contract": [],
               "examples": [],
               "see_also": [
-                "#maxSubArrayLength(long[][])"
+                "#maxImmediateSubArrayLength(long[][])"
               ]
             },
             {
-              "name": "maxSubArrayLength",
+              "name": "maxImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int maxSubArrayLength(final long[][] a)",
+              "signature": "public static int maxImmediateSubArrayLength(final long[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -10731,7 +10731,7 @@
               "contract": [],
               "examples": [],
               "see_also": [
-                "#minSubArrayLength(long[][])"
+                "#minImmediateSubArrayLength(long[][])"
               ]
             },
             {
@@ -12105,13 +12105,13 @@
               "see_also": []
             },
             {
-              "name": "minSubArrayLength",
+              "name": "minImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int minSubArrayLength(final float[][] a)",
+              "signature": "public static int minImmediateSubArrayLength(final float[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -12129,13 +12129,13 @@
               "see_also": []
             },
             {
-              "name": "maxSubArrayLength",
+              "name": "maxImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int maxSubArrayLength(final float[][] a)",
+              "signature": "public static int maxImmediateSubArrayLength(final float[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -13522,13 +13522,13 @@
               "see_also": []
             },
             {
-              "name": "minSubArrayLength",
+              "name": "minImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int minSubArrayLength(final double[][] a)",
+              "signature": "public static int minImmediateSubArrayLength(final double[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -13546,13 +13546,13 @@
               "see_also": []
             },
             {
-              "name": "maxSubArrayLength",
+              "name": "maxImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int maxSubArrayLength(final double[][] a)",
+              "signature": "public static int maxImmediateSubArrayLength(final double[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -17569,13 +17569,13 @@
               "see_also": []
             },
             {
-              "name": "minSubArrayLength",
+              "name": "minImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int minSubArrayLength(final Object[][] a)",
+              "signature": "public static int minImmediateSubArrayLength(final Object[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [
@@ -17593,13 +17593,13 @@
               "see_also": []
             },
             {
-              "name": "maxSubArrayLength",
+              "name": "maxImmediateSubArrayLength",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static int maxSubArrayLength(final Object[][] a)",
+              "signature": "public static int maxImmediateSubArrayLength(final Object[][] a)",
               "return_type": "int",
               "type_params": [],
               "params": [

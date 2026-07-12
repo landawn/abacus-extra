@@ -34,7 +34,7 @@ import com.landawn.abacus.util.stream.CharStream;
  * Base class for immutable tuples of primitive {@code char} values.
  *
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #copyOf(char[])} and the {@code of(...)} overloads select the matching subtype, while the base
+ * {@link #from(char[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
@@ -323,24 +323,24 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: 3-element array creates a CharTuple3
-     * CharTuple.CharTuple3 t3 = CharTuple.copyOf(new char[]{'A', 'B', 'C'});
+     * CharTuple.CharTuple3 t3 = CharTuple.from(new char[]{'A', 'B', 'C'});
      * int arity = t3.arity();              // 3
      * char min = t3.min();                 // 'A'
      *
      * // Basic: 1-element array creates a CharTuple1
-     * CharTuple.CharTuple1 t1 = CharTuple.copyOf(new char[]{'X'});
+     * CharTuple.CharTuple1 t1 = CharTuple.from(new char[]{'X'});
      * char v = t1._1;                      // 'X'
      *
      * // Edge: null returns empty tuple (arity 0)
-     * CharTuple<?> fromNull = CharTuple.copyOf(null);
+     * CharTuple<?> fromNull = CharTuple.from(null);
      * int n1 = fromNull.arity();           // 0
      *
      * // Edge: empty array returns empty tuple
-     * CharTuple<?> fromEmpty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> fromEmpty = CharTuple.from(new char[0]);
      * int n2 = fromEmpty.arity();          // 0
      *
      * // Edge: array length 10 throws IllegalArgumentException
-     * CharTuple.copyOf(new char[10]);      // throws IllegalArgumentException
+     * CharTuple.from(new char[10]);      // throws IllegalArgumentException
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
@@ -355,7 +355,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @see #of(char)
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends CharTuple<TP>> TP copyOf(final char[] values) {
+    public static <TP extends CharTuple<TP>> TP from(final char[] values) {
         if (values == null || values.length == 0) {
             return (TP) CharTuple0.EMPTY;
         }
@@ -415,7 +415,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char min3 = t3.min();               // '\0'
      *
      * // Edge: empty tuple throws NoSuchElementException
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * empty.min();                         // throws NoSuchElementException
      * }</pre>
      *
@@ -456,7 +456,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char max3 = t3.max();               // 'z'
      *
      * // Edge: empty tuple throws NoSuchElementException
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * empty.max();                         // throws NoSuchElementException
      * }</pre>
      *
@@ -498,7 +498,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char median3 = t1.median();          // 'K'
      *
      * // Edge: empty tuple throws NoSuchElementException
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * empty.median();                      // throws NoSuchElementException
      * }</pre>
      *
@@ -537,7 +537,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * int sum2 = t2.sum();                  // 195
      *
      * // Edge: empty tuple - sum returns 0 (no exception)
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * int emptySum = empty.sum();           // 0
      *
      * // Edge: single null char '\0' - code unit is 0
@@ -574,7 +574,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * double avg3 = t3.average();                       // 66.5
      *
      * // Edge: empty tuple returns 0D
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * empty.average();                                  // returns 0.0
      * }</pre>
      *
@@ -638,7 +638,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * boolean hasZ = t.contains('Z');      // false
      *
      * // Edge: empty tuple never contains any value
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * boolean inEmpty = empty.contains('A'); // false
      *
      * // Edge: searching for first and last elements
@@ -671,7 +671,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char first = t.toArray()[0];         // still 'A'
      *
      * // Edge: empty tuple returns empty array
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * char[] emptyArr = empty.toArray();
      * int emptyLen = emptyArr.length;      // 0
      *
@@ -708,7 +708,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * int tupleArity = t.arity();          // still 3
      *
      * // Edge: empty tuple returns empty list
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * CharList emptyList = empty.toList();
      * int emptySize = emptyList.size();    // 0
      *
@@ -748,7 +748,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * int visited = count[0];              // 3
      *
      * // Edge: empty tuple - action is never invoked
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * int[] cnt = {0};
      * empty.forEach(ch -> cnt[0]++);       // action not invoked (empty)
      * int notCalled = cnt[0];              // 0
@@ -790,7 +790,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * long count = t2.stream().filter(c -> c > 'a').count();  // 1 (only 'b')
      *
      * // Edge: empty tuple produces an empty stream
-     * CharTuple<?> empty = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
      * long emptyCount = empty.stream().count();  // 0
      *
      * // Edge: stream count equals arity
@@ -826,8 +826,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * boolean diffHash = (t1.hashCode() == t3.hashCode()); // typically false
      *
      * // Edge: empty tuple has a consistent hash code
-     * CharTuple<?> empty1 = CharTuple.copyOf(new char[0]);
-     * CharTuple<?> empty2 = CharTuple.copyOf(new char[0]);
+     * CharTuple<?> empty1 = CharTuple.from(new char[0]);
+     * CharTuple<?> empty2 = CharTuple.from(new char[0]);
      * boolean emptyHash = (empty1.hashCode() == empty2.hashCode()); // true
      *
      * // Edge: single-element tuple
@@ -907,7 +907,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * An empty CharTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code CharTuple} type
-     * via the singleton instance returned by {@link #copyOf(char[])} when invoked with a
+     * via the singleton instance returned by {@link #from(char[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns {@code 0D}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
@@ -935,7 +935,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple<?> emptyTuple = CharTuple.copyOf(new char[0]);
+         * CharTuple<?> emptyTuple = CharTuple.from(new char[0]);
          * try {
          *     emptyTuple.min();            // throws NoSuchElementException
          * } catch (NoSuchElementException e) {
@@ -957,7 +957,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple<?> emptyTuple = CharTuple.copyOf(new char[0]);
+         * CharTuple<?> emptyTuple = CharTuple.from(new char[0]);
          * try {
          *     emptyTuple.max();            // throws NoSuchElementException
          * } catch (NoSuchElementException e) {
@@ -979,7 +979,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple<?> emptyTuple = CharTuple.copyOf(new char[0]);
+         * CharTuple<?> emptyTuple = CharTuple.from(new char[0]);
          * try {
          *     emptyTuple.median();         // throws NoSuchElementException
          * } catch (NoSuchElementException e) {

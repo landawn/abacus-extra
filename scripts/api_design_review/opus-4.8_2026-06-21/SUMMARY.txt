@@ -49,8 +49,8 @@ C3. Null-`a` handling is inconsistent within Arrays (and vs the rest of the lib)
 
 C4. Generic/object dimensional coverage lags the primitives (Arrays).
     1D object namespace `f` lacks updateAll/replaceIf/same-type map/zip that all
-    primitives have in 1D and objects have in 2D/3D; minSubArrayLength/
-    maxSubArrayLength exist only in 2D while elementCount spans 2D+3D. See
+    primitives have in 1D and objects have in 2D/3D; minImmediateSubArrayLength/
+    maxImmediateSubArrayLength exist only in 2D while elementCount spans 2D+3D. See
     Arrays.txt [B],[C].
 
 C5. Generic self-type copyOf footgun is library-wide across the tuple family.
@@ -140,7 +140,7 @@ P3.1  Decide & document the element-destructuring accept/map/filter cutoff at
       [IntTuple.txt [F3]]
 P3.2  Standardize the null-callback exception (C2) library-wide; low risk, mostly
       documentation.  [PrimitiveTuple.txt section 3]
-P3.3  Add minSubArrayLength/maxSubArrayLength 3D variants to match elementCount,
+P3.3  Add minImmediateSubArrayLength/maxImmediateSubArrayLength 3D variants to match elementCount,
       or document the 2D-only scope.  [Arrays.txt [C]]
 P3.4  Add BooleanTuple.count() (number of true) for aggregate parity.
       [BooleanTuple.txt #5]

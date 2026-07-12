@@ -15,7 +15,7 @@
 ## Arrays family (sealed Arrays + nested f/ff/fff; per-type template blocks)
 - Null-handling inconsistency: inferred-element-type generic overloads (reshape T[]/T[][], flatten T[][]/T[][][], map UnaryOperator, zip no-target) call N.checkArgNotNull(a) -> IAE on null `a` (20542/20590/22333/22387/20713/22515/21196/21435/23032/23277). ALL primitive variants + targetElementType generic overloads + mutateFlattened (checks action, not a: 20651/22451) treat null/empty as empty-result/no-op. Inconsistent contract for the same family.
 - Dimensional/coverage gaps in the OBJECT namespace: class `f` (1D object, 19903-20394) has only map(Function,Class)+mapToX — missing updateAll/replaceIf/map(UnaryOperator)/zip that exist for all primitives 1D and for objects 2D(ff)/3D(fff).
-- minSubArrayLength/maxSubArrayLength only 2D (all primitives + ff Object[][]); none 3D (fff). elementCount has both 2D(ff 22018)+3D(fff 23545). Asymmetry vs elementCount.
+- minImmediateSubArrayLength/maxImmediateSubArrayLength only 2D (all primitives + ff Object[][]); none 3D (fff). elementCount has both 2D(ff 22018)+3D(fff 23545). Asymmetry vs elementCount.
 - Conversion matrix toX(srcType[]) incomplete/asymmetric: char widens only to int (no char->long/float/double); long->int missing though int->long present; double->float missing though float->double + double->int/long present.
 - ff/fff object println are package-private (22134/23591); public entry = parent Arrays.println (148/202, delegate). Javadoc examples show inaccessible `ff.println(...)`.
 - println bundles I/O (System.out via N.println) with formatting; no pure toString/format variant.

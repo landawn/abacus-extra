@@ -136,29 +136,29 @@ class ByteTupleTest extends TestBase {
     @Test
     public void testCreate() {
         // Test empty array
-        ByteTuple<?> empty = ByteTuple.copyOf(null);
+        ByteTuple<?> empty = ByteTuple.from(null);
         assertEquals(0, empty.arity());
 
-        empty = ByteTuple.copyOf(new byte[0]);
+        empty = ByteTuple.from(new byte[0]);
         assertEquals(0, empty.arity());
 
         // Test array with 1 element
-        ByteTuple.ByteTuple1 tuple1 = ByteTuple.copyOf(new byte[] { 10 });
+        ByteTuple.ByteTuple1 tuple1 = ByteTuple.from(new byte[] { 10 });
         assertEquals(1, tuple1.arity());
         assertEquals(10, tuple1._1);
 
         // Test array with 5 elements
-        ByteTuple.ByteTuple5 tuple5 = ByteTuple.copyOf(new byte[] { 10, 20, 30, 40, 50 });
+        ByteTuple.ByteTuple5 tuple5 = ByteTuple.from(new byte[] { 10, 20, 30, 40, 50 });
         assertEquals(5, tuple5.arity());
         assertEquals(50, tuple5._5);
 
         // Test array with 9 elements
-        ByteTuple.ByteTuple9 tuple9 = ByteTuple.copyOf(new byte[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
+        ByteTuple.ByteTuple9 tuple9 = ByteTuple.from(new byte[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
         assertEquals(9, tuple9.arity());
         assertEquals(90, tuple9._9);
 
         // Test too many elements
-        assertThrows(IllegalArgumentException.class, () -> ByteTuple.copyOf(new byte[10]));
+        assertThrows(IllegalArgumentException.class, () -> ByteTuple.from(new byte[10]));
     }
 
     @Test
@@ -166,7 +166,7 @@ class ByteTupleTest extends TestBase {
         ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
         assertEquals(10, tuple.min());
 
-        ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);
+        ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> empty.min());
     }
 
@@ -175,7 +175,7 @@ class ByteTupleTest extends TestBase {
         ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
         assertEquals(30, tuple.max());
 
-        ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);
+        ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> empty.max());
     }
 
@@ -184,7 +184,7 @@ class ByteTupleTest extends TestBase {
         ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
         assertEquals(20, tuple.median());
 
-        ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);
+        ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());
     }
 
@@ -193,7 +193,7 @@ class ByteTupleTest extends TestBase {
         ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
         assertEquals(60, tuple.sum());
 
-        ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);
+        ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
         assertEquals(0, empty.sum());
     }
 
@@ -202,13 +202,13 @@ class ByteTupleTest extends TestBase {
         ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
         assertEquals(20.0, tuple.average());
 
-        ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);
+        ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
         assertEquals(0D, empty.average(), 0D);
     }
 
     @Test
     public void testInheritedAggregateEmptyBehavior() {
-        final ByteTuple.ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+        final ByteTuple.ByteTuple0 tuple = ByteTuple.from(new byte[0]);
 
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
@@ -220,7 +220,7 @@ class ByteTupleTest extends TestBase {
     @Test
     public void testReverse() {
         // Test Tuple0
-        ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);
+        ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
         ByteTuple.ByteTuple0 reversedEmpty = empty.reverse();
         assertEquals(0, reversedEmpty.arity());
 
@@ -255,7 +255,7 @@ class ByteTupleTest extends TestBase {
     @Test
     public void testContains() {
         // Test Tuple0
-        ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);
+        ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
         assertFalse(empty.contains((byte) 10));
 
         // Test Tuple1
@@ -375,7 +375,7 @@ class ByteTupleTest extends TestBase {
 
     @Test
     public void testToString() {
-        ByteTuple.ByteTuple0 empty = ByteTuple.copyOf(new byte[0]);
+        ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
         assertEquals("()", empty.toString());
 
         ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 10);
@@ -678,28 +678,28 @@ class ByteTupleTest extends TestBase {
         // Create method tests
         @Test
         public void testCreateEmpty() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void testCreateNull() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(null);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(null);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void testCreate1() {
-            ByteTuple1 tuple = ByteTuple.copyOf(new byte[] { (byte) 1 });
+            ByteTuple1 tuple = ByteTuple.from(new byte[] { (byte) 1 });
             assertEquals((byte) 1, tuple._1);
             assertEquals(1, tuple.arity());
         }
 
         @Test
         public void testCreate3() {
-            ByteTuple3 tuple = ByteTuple.copyOf(new byte[] { (byte) 1, (byte) 2, (byte) 3 });
+            ByteTuple3 tuple = ByteTuple.from(new byte[] { (byte) 1, (byte) 2, (byte) 3 });
             assertEquals((byte) 1, tuple._1);
             assertEquals((byte) 2, tuple._2);
             assertEquals((byte) 3, tuple._3);
@@ -707,7 +707,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testCreate9() {
-            ByteTuple9 tuple = ByteTuple.copyOf(new byte[] { (byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9 });
+            ByteTuple9 tuple = ByteTuple.from(new byte[] { (byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9 });
             assertEquals((byte) 1, tuple._1);
             assertEquals((byte) 9, tuple._9);
         }
@@ -715,7 +715,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testCreateTooMany() {
             assertThrows(IllegalArgumentException.class, () -> {
-                ByteTuple.copyOf(new byte[] { (byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9, (byte) 10 });
+                ByteTuple.from(new byte[] { (byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9, (byte) 10 });
             });
         }
 
@@ -734,7 +734,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testMinTuple0ThrowsException() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.min());
         }
 
@@ -753,7 +753,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testMaxTuple0ThrowsException() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.max());
         }
 
@@ -772,14 +772,14 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testMedianTuple0ThrowsException() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.median());
         }
 
         // Statistical method tests - sum
         @Test
         public void testSumTuple0() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             assertEquals(0, tuple.sum());
         }
 
@@ -810,14 +810,14 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testAverageTuple0ReturnsZero() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             assertEquals(0D, tuple.average(), 0D);
         }
 
         // Reverse tests
         @Test
         public void testReverseTuple0() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             ByteTuple<ByteTuple0> reversed = tuple.reverse();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
@@ -850,7 +850,7 @@ class ByteTupleTest extends TestBase {
         // Contains tests
         @Test
         public void testContainsTuple0() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             assertFalse(tuple.contains((byte) 1));
         }
 
@@ -878,7 +878,7 @@ class ByteTupleTest extends TestBase {
         // toArray tests
         @Test
         public void testToArrayTuple0() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             byte[] array = tuple.toArray();
             assertEquals(0, array.length);
         }
@@ -908,7 +908,7 @@ class ByteTupleTest extends TestBase {
         // toList tests
         @Test
         public void testToListTuple0() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             ByteList list = tuple.toList();
             assertEquals(0, list.size());
         }
@@ -934,7 +934,7 @@ class ByteTupleTest extends TestBase {
         // forEach tests
         @Test
         public void testForEachTuple0() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             List<Byte> result = new ArrayList<>();
             tuple.forEach(i -> result.add(i));
             assertEquals(0, result.size());
@@ -963,7 +963,7 @@ class ByteTupleTest extends TestBase {
         // stream tests
         @Test
         public void testStreamTuple0() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             ByteStream stream = tuple.stream();
             assertEquals(0, stream.count());
         }
@@ -1053,7 +1053,7 @@ class ByteTupleTest extends TestBase {
         // toString tests
         @Test
         public void testToStringTuple0() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
             assertEquals("()", tuple.toString());
         }
 
@@ -1154,7 +1154,7 @@ class ByteTupleTest extends TestBase {
         // arity tests for all tuple sizes
         @Test
         public void testArity() {
-            assertEquals(0, ByteTuple.copyOf(new byte[0]).arity());
+            assertEquals(0, ByteTuple.from(new byte[0]).arity());
             assertEquals(1, ByteTuple.of((byte) 1).arity());
             assertEquals(2, ByteTuple.of((byte) 1, (byte) 2).arity());
             assertEquals(3, ByteTuple.of((byte) 1, (byte) 2, (byte) 3).arity());
@@ -1380,27 +1380,27 @@ class ByteTupleTest extends TestBase {
         // Test create methods for sizes 2, 4-8
         @Test
         public void testCreate2Through8() {
-            ByteTuple2 tuple2 = ByteTuple.copyOf(new byte[] { 1, 2 });
+            ByteTuple2 tuple2 = ByteTuple.from(new byte[] { 1, 2 });
             assertEquals((byte) 1, tuple2._1);
             assertEquals((byte) 2, tuple2._2);
 
-            ByteTuple4 tuple4 = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4 });
+            ByteTuple4 tuple4 = ByteTuple.from(new byte[] { 1, 2, 3, 4 });
             assertEquals((byte) 1, tuple4._1);
             assertEquals((byte) 4, tuple4._4);
 
-            ByteTuple5 tuple5 = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5 });
+            ByteTuple5 tuple5 = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5 });
             assertEquals((byte) 1, tuple5._1);
             assertEquals((byte) 5, tuple5._5);
 
-            ByteTuple6 tuple6 = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5, 6 });
+            ByteTuple6 tuple6 = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5, 6 });
             assertEquals((byte) 1, tuple6._1);
             assertEquals((byte) 6, tuple6._6);
 
-            ByteTuple7 tuple7 = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5, 6, 7 });
+            ByteTuple7 tuple7 = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5, 6, 7 });
             assertEquals((byte) 1, tuple7._1);
             assertEquals((byte) 7, tuple7._7);
 
-            ByteTuple8 tuple8 = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+            ByteTuple8 tuple8 = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
             assertEquals((byte) 1, tuple8._1);
             assertEquals((byte) 8, tuple8._8);
         }
@@ -2117,105 +2117,105 @@ class ByteTupleTest extends TestBase {
             assertEquals(9, tuple.arity());
         }
 
-        // ============ Factory Method Tests - ByteTuple.copyOf() ============
+        // ============ Factory Method Tests - ByteTuple.from() ============
 
         @Test
         public void testCreate_nullArray() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(null);
+            ByteTuple<?> tuple = ByteTuple.from(null);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void testCreate_emptyArray() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void testCreate_array3() {
-            ByteTuple3 tuple = ByteTuple.copyOf(new byte[] { 10, 20, 30 });
+            ByteTuple3 tuple = ByteTuple.from(new byte[] { 10, 20, 30 });
             assertNotNull(tuple);
             assertEquals(3, tuple.arity());
         }
 
         @Test
         public void testCreate_array4() {
-            ByteTuple4 tuple = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4 });
+            ByteTuple4 tuple = ByteTuple.from(new byte[] { 1, 2, 3, 4 });
             assertEquals(4, tuple.arity());
         }
 
         @Test
         public void testCreate_array5() {
-            ByteTuple5 tuple = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5 });
+            ByteTuple5 tuple = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5 });
             assertEquals(5, tuple.arity());
         }
 
         @Test
         public void testCreate_array6() {
-            ByteTuple6 tuple = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5, 6 });
+            ByteTuple6 tuple = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5, 6 });
             assertEquals(6, tuple.arity());
         }
 
         @Test
         public void testCreate_array7() {
-            ByteTuple7 tuple = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5, 6, 7 });
+            ByteTuple7 tuple = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5, 6, 7 });
             assertEquals(7, tuple.arity());
         }
 
         @Test
         public void testCreate_array8() {
-            ByteTuple8 tuple = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+            ByteTuple8 tuple = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
             assertEquals(8, tuple.arity());
         }
 
         @Test
         public void testCreate_array9() {
-            ByteTuple9 tuple = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            ByteTuple9 tuple = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             assertEquals(9, tuple.arity());
         }
         // ============ ByteTuple0 Tests ============
 
         @Test
         public void testTuple0_arity() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void testTuple0_min_throwsException() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.min());
         }
 
         @Test
         public void testTuple0_max_throwsException() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.max());
         }
 
         @Test
         public void testTuple0_median_throwsException() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.median());
         }
 
         @Test
         public void testTuple0_sum() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             assertEquals(0, tuple.sum());
         }
 
         @Test
         public void testTuple0_average_returnsZero() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             assertEquals(0D, tuple.average(), 0D);
         }
 
         @Test
         public void testTuple0_reverse() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             ByteTuple<?> reversed = tuple.reverse();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
@@ -2223,13 +2223,13 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_contains() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             assertFalse(tuple.contains((byte) 10));
         }
 
         @Test
         public void testTuple0_toString() {
-            ByteTuple<?> tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
             assertEquals("()", tuple.toString());
         }
 
@@ -2686,7 +2686,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testCreate_singleElement() {
-            ByteTuple1 tuple = ByteTuple.copyOf(new byte[] { 10 });
+            ByteTuple1 tuple = ByteTuple.from(new byte[] { 10 });
             assertNotNull(tuple);
             assertEquals(1, tuple.arity());
             assertEquals((byte) 10, tuple._1);
@@ -2694,7 +2694,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testCreate_twoElements() {
-            ByteTuple2 tuple = ByteTuple.copyOf(new byte[] { 10, 20 });
+            ByteTuple2 tuple = ByteTuple.from(new byte[] { 10, 20 });
             assertNotNull(tuple);
             assertEquals(2, tuple.arity());
             assertEquals((byte) 10, tuple._1);
@@ -2703,7 +2703,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testCreate_nineElements() {
-            ByteTuple9 tuple = ByteTuple.copyOf(new byte[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
+            ByteTuple9 tuple = ByteTuple.from(new byte[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
             assertNotNull(tuple);
             assertEquals(9, tuple.arity());
             assertEquals((byte) 10, tuple._1);
@@ -2712,7 +2712,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testCreate_tooManyElements() {
-            assertThrows(IllegalArgumentException.class, () -> ByteTuple.copyOf(new byte[10]));
+            assertThrows(IllegalArgumentException.class, () -> ByteTuple.from(new byte[10]));
         }
 
         // ============ Accessor Tests - Direct Field Access ============
@@ -2742,7 +2742,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_min_throwsException() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.min());
         }
 
@@ -2768,7 +2768,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_max_throwsException() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.max());
         }
 
@@ -2794,7 +2794,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_median_throwsException() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.median());
         }
 
@@ -2826,7 +2826,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_sum() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertEquals(0, tuple.sum());
         }
 
@@ -2846,7 +2846,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_average_returnsZero() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertEquals(0D, tuple.average(), 0D);
         }
 
@@ -2878,7 +2878,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_reverse() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             ByteTuple0 reversed = tuple.reverse();
             assertNotNull(reversed);
             assertEquals(tuple, reversed);
@@ -2930,7 +2930,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_contains() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertFalse(tuple.contains((byte) 10));
             assertFalse(tuple.contains((byte) 20));
         }
@@ -2954,7 +2954,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_toArray() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             byte[] array = tuple.toArray();
             assertNotNull(array);
             assertEquals(0, array.length);
@@ -2998,7 +2998,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_toList() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             ByteList list = tuple.toList();
             assertNotNull(list);
             assertEquals(0, list.size());
@@ -3029,7 +3029,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_forEach() throws Exception {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             List<Byte> results = new ArrayList<>();
             tuple.forEach(b -> results.add(b));
             assertEquals(0, results.size());
@@ -3190,8 +3190,8 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_hashCode() {
-            ByteTuple0 tuple1 = ByteTuple.copyOf(new byte[0]);
-            ByteTuple0 tuple2 = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple1 = ByteTuple.from(new byte[0]);
+            ByteTuple0 tuple2 = ByteTuple.from(new byte[0]);
             assertEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
@@ -3214,8 +3214,8 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_equals() {
-            ByteTuple0 tuple1 = ByteTuple.copyOf(new byte[0]);
-            ByteTuple0 tuple2 = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple1 = ByteTuple.from(new byte[0]);
+            ByteTuple0 tuple2 = ByteTuple.from(new byte[0]);
             assertEquals(tuple1, tuple2);
         }
 
@@ -3285,7 +3285,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void testTuple0_toString() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertEquals("()", tuple.toString());
         }
 
@@ -3462,25 +3462,25 @@ class ByteTupleTest extends TestBase {
             assertEquals(9, tuple.arity());
         }
 
-        // ============ Factory Method Tests - ByteTuple.copyOf() ============
+        // ============ Factory Method Tests - ByteTuple.from() ============
 
         @Test
         public void test_create_nullArray() {
-            ByteTuple0 tuple = ByteTuple.copyOf(null);
+            ByteTuple0 tuple = ByteTuple.from(null);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void test_create_emptyArray() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void test_create_arraySize9() {
-            ByteTuple9 tuple = ByteTuple.copyOf(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            ByteTuple9 tuple = ByteTuple.from(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             assertNotNull(tuple);
             assertEquals(9, tuple.arity());
             assertEquals((byte) 1, tuple._1);
@@ -3490,7 +3490,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void test_create_arrayTooLarge() {
             assertThrows(IllegalArgumentException.class, () -> {
-                ByteTuple.copyOf(new byte[10]);
+                ByteTuple.from(new byte[10]);
             });
         }
 
@@ -3498,26 +3498,26 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void test_tuple0_arity() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void test_tuple0_reverse() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             ByteTuple0 reversed = tuple.reverse();
             assertSame(tuple, reversed);
         }
 
         @Test
         public void test_tuple0_contains() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             assertFalse(tuple.contains((byte) 10));
         }
 
         @Test
         public void test_tuple0_toList() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             ByteList list = tuple.toList();
             assertNotNull(list);
             assertTrue(list.isEmpty());
@@ -3525,7 +3525,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void test_tuple0_forEach() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             List<Byte> collected = new ArrayList<>();
             tuple.forEach(collected::add);
             assertTrue(collected.isEmpty());
@@ -3533,7 +3533,7 @@ class ByteTupleTest extends TestBase {
 
         @Test
         public void test_tuple0_stream() {
-            ByteTuple0 tuple = ByteTuple.copyOf(new byte[0]);
+            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
             long count = tuple.stream().count();
             assertEquals(0, count);
         }
@@ -4001,7 +4001,7 @@ class ByteTupleTest extends TestBase {
         public void test_create_allSizes() {
             for (int i = 0; i <= 9; i++) {
                 byte[] array = new byte[i];
-                ByteTuple<?> tuple = ByteTuple.copyOf(array);
+                ByteTuple<?> tuple = ByteTuple.from(array);
                 assertNotNull(tuple);
                 assertEquals(i, tuple.arity());
             }
@@ -4081,8 +4081,8 @@ class ByteTupleTest extends TestBase {
     // Regression tests for the report-driven uncovered tuple branches.
     @Test
     public void testCoverageRegression_EmptyTupleBaseMethods() {
-        ByteTuple<?> empty = ByteTuple.copyOf((byte[]) null);
-        assertEquals(ByteTuple.copyOf(new byte[0]), empty);
+        ByteTuple<?> empty = ByteTuple.from((byte[]) null);
+        assertEquals(ByteTuple.from(new byte[0]), empty);
         assertFalse(empty.equals("byte"));
         assertEquals("()", empty.toString());
         assertEquals(1, empty.hashCode());

@@ -5,8 +5,8 @@ MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
 STRUCTURE: sealed class Arrays (permits Arrays.f). The main class provides 2D/3D
 array utilities organized as REPEATING PER-TYPE BLOCKS (boolean/char/byte/short/
 int/long/float/double + generic Object/T), each block = {println, updateAll,
-replaceIf, reshape, flatten, mutateFlattened, zip, elementCount, minSubArrayLength,
-maxSubArrayLength}, plus a typed-conversion block (toBoolean..toDouble, lines
+replaceIf, reshape, flatten, mutateFlattened, zip, elementCount, minImmediateSubArrayLength,
+maxImmediateSubArrayLength}, plus a typed-conversion block (toBoolean..toDouble, lines
 ~16449-19864). Nested public final classes f (1D object), ff (2D object), fff
 (3D object) hold the functional/object-namespace helpers. Per-type repetition and
 f/ff/fff are INTENTIONAL template mirroring/dimensional variants, not duplication.
@@ -108,11 +108,11 @@ println(...) I/O coupling | Arrays.java:92,148,202 + all per-type overloads |
    zip is not intentionally delegated to N.zip / Stream elsewhere; if it is,
    document that instead of adding.
 
-[C] minSubArrayLength / maxSubArrayLength missing in 3D (and asymmetric with
+[C] minImmediateSubArrayLength / maxImmediateSubArrayLength missing in 3D (and asymmetric with
    elementCount) | present only as 2D for all primitives + ff Object[][] (22060/
    22103); NONE in fff; elementCount exists in BOTH ff(22018) and fff(23545) |
    Medium | Make consistent with elementCount: either add 3D
-   minSubArrayLength/maxSubArrayLength (primitive [][][] and T[][][]) returning
+   minImmediateSubArrayLength/maxImmediateSubArrayLength (primitive [][][] and T[][][]) returning
    the min/max innermost row length, or deliberately scope these as 2D-only and
    document it. (The 3D absence is at least uniform across all types today.)
 

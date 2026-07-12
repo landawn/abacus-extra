@@ -2698,96 +2698,96 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`double[][][]`) — the three-dimensional array (can be {@code null} ).
 - **Returns:** the total count of elements, or 0 if the input array is {@code null} or empty.
-##### minSubArrayLength(...) -> int
-- **Signature:** `public static int minSubArrayLength(final boolean[][] a)`
+##### minImmediateSubArrayLength(...) -> int
+- **Signature:** `public static int minImmediateSubArrayLength(final boolean[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional boolean array.
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array (can be {@code null} ).
 - **Returns:** the minimum length of sub-arrays, or 0 if array is empty.
-- **Signature:** `public static int minSubArrayLength(final char[][] a)`
+- **Signature:** `public static int minImmediateSubArrayLength(final char[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional character array.
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to inspect (can be {@code null} ).
 - **Returns:** the minimum length of any sub-array. Returns 0 if the input array is empty or {@code null} .
-- **Signature:** `public static int minSubArrayLength(final byte[][] a)`
+- **Signature:** `public static int minImmediateSubArrayLength(final byte[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional byte array.
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} or empty).
 - **Returns:** the minimum sub-array length, or 0 if the array is {@code null} or empty.
-- **See also:** #maxSubArrayLength(byte\[\]\[\])
-- **Signature:** `public static int minSubArrayLength(final short[][] a)`
+- **See also:** #maxImmediateSubArrayLength(byte\[\]\[\])
+- **Signature:** `public static int minImmediateSubArrayLength(final short[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional short array.
 - **Parameters:**
   - `a` (`short[][]`) — the two-dimensional array to examine (can be {@code null} or empty).
 - **Returns:** the minimum length of any sub-array, or 0 if array is {@code null} or empty.
-- **See also:** #maxSubArrayLength(short\[\]\[\])
-- **Signature:** `public static int minSubArrayLength(final int[][] a)`
+- **See also:** #maxImmediateSubArrayLength(short\[\]\[\])
+- **Signature:** `public static int minImmediateSubArrayLength(final int[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional integer array.
 - **Parameters:**
   - `a` (`int[][]`) — the two-dimensional integer array (can be {@code null} or empty).
 - **Returns:** the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #maxSubArrayLength(int\[\]\[\])
-- **Signature:** `public static int minSubArrayLength(final long[][] a)`
+- **See also:** #maxImmediateSubArrayLength(int\[\]\[\])
+- **Signature:** `public static int minImmediateSubArrayLength(final long[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional long array.
 - **Parameters:**
   - `a` (`long[][]`) — the two-dimensional long array (can be {@code null} or empty).
 - **Returns:** the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #maxSubArrayLength(long\[\]\[\])
-- **Signature:** `public static int minSubArrayLength(final float[][] a)`
+- **See also:** #maxImmediateSubArrayLength(long\[\]\[\])
+- **Signature:** `public static int minImmediateSubArrayLength(final float[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional float array.
 - **Parameters:**
   - `a` (`float[][]`) — the two-dimensional array to inspect (can be {@code null} ).
 - **Returns:** the minimum sub-array length, or 0 if the input array is {@code null} or empty.
-- **Signature:** `public static int minSubArrayLength(final double[][] a)`
+- **Signature:** `public static int minImmediateSubArrayLength(final double[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional double array.
 - **Parameters:**
   - `a` (`double[][]`) — the two-dimensional array (can be {@code null} ).
 - **Returns:** the minimum sub-array length, or 0 if the input array is {@code null} or empty.
-##### maxSubArrayLength(...) -> int
-- **Signature:** `public static int maxSubArrayLength(final boolean[][] a)`
+##### maxImmediateSubArrayLength(...) -> int
+- **Signature:** `public static int maxImmediateSubArrayLength(final boolean[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional boolean array.
 - **Contract:**
-  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Longest row has length 3 boolean\[\]\[\] arr = {{true, false, true}, {true}, {false, true}}; int maxLen = Arrays.maxSubArrayLength(arr); // maxLen: 3 // Null sub-array is treated as length 0; does not affect max if other rows are longer boolean\[\]\[\] sparse = {{true, false}, null, {true, false, true}}; int maxLen2 = Arrays.maxSubArrayLength(sparse); // maxLen2: 3 // Null input returns 0 int fromNull = Arrays.maxSubArrayLength((boolean\[\]\[\]) null); // fromNull: 0 // Empty outer array returns 0 int fromEmpty = Arrays.maxSubArrayLength(new boolean\[0\]\[\]); // fromEmpty: 0 } </pre>
+  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Longest row has length 3 boolean\[\]\[\] arr = {{true, false, true}, {true}, {false, true}}; int maxLen = Arrays.maxImmediateSubArrayLength(arr); // maxLen: 3 // Null sub-array is treated as length 0; does not affect max if other rows are longer boolean\[\]\[\] sparse = {{true, false}, null, {true, false, true}}; int maxLen2 = Arrays.maxImmediateSubArrayLength(sparse); // maxLen2: 3 // Null input returns 0 int fromNull = Arrays.maxImmediateSubArrayLength((boolean\[\]\[\]) null); // fromNull: 0 // Empty outer array returns 0 int fromEmpty = Arrays.maxImmediateSubArrayLength(new boolean\[0\]\[\]); // fromEmpty: 0 } </pre>
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array (can be {@code null} ).
 - **Returns:** the maximum length of sub-arrays, or 0 if array is empty.
-- **Signature:** `public static int maxSubArrayLength(final char[][] a)`
+- **Signature:** `public static int maxImmediateSubArrayLength(final char[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional character array.
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to inspect (can be {@code null} ).
 - **Returns:** the maximum length of any sub-array. Returns 0 if the input array is empty or {@code null} .
-- **Signature:** `public static int maxSubArrayLength(final byte[][] a)`
+- **Signature:** `public static int maxImmediateSubArrayLength(final byte[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional byte array.
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} or empty).
 - **Returns:** the maximum sub-array length, or 0 if the array is {@code null} or empty.
-- **See also:** #minSubArrayLength(byte\[\]\[\])
-- **Signature:** `public static int maxSubArrayLength(final short[][] a)`
+- **See also:** #minImmediateSubArrayLength(byte\[\]\[\])
+- **Signature:** `public static int maxImmediateSubArrayLength(final short[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional short array.
 - **Contract:**
-  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Basic: longest sub-array has 4 elements short\[\]\[\] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}}; int maxLen = Arrays.maxSubArrayLength(array); // maxLen == 4 // Basic: null sub-array is treated as length 0 - does not affect max if other rows exist short\[\]\[\] withNull = {{1, 2}, null}; int maxWithNull = Arrays.maxSubArrayLength(withNull); // maxWithNull == 2 // Edge: null array - returns 0 int fromNull = Arrays.maxSubArrayLength((short\[\]\[\]) null); // fromNull == 0 // Edge: empty outer array - returns 0 int fromEmpty = Arrays.maxSubArrayLength(new short\[0\]\[\]); // fromEmpty == 0 } </pre>
+  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Basic: longest sub-array has 4 elements short\[\]\[\] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}}; int maxLen = Arrays.maxImmediateSubArrayLength(array); // maxLen == 4 // Basic: null sub-array is treated as length 0 - does not affect max if other rows exist short\[\]\[\] withNull = {{1, 2}, null}; int maxWithNull = Arrays.maxImmediateSubArrayLength(withNull); // maxWithNull == 2 // Edge: null array - returns 0 int fromNull = Arrays.maxImmediateSubArrayLength((short\[\]\[\]) null); // fromNull == 0 // Edge: empty outer array - returns 0 int fromEmpty = Arrays.maxImmediateSubArrayLength(new short\[0\]\[\]); // fromEmpty == 0 } </pre>
 - **Parameters:**
   - `a` (`short[][]`) — the two-dimensional array to examine (can be {@code null} or empty).
 - **Returns:** the maximum length of any sub-array, or 0 if array is {@code null} or empty.
-- **See also:** #minSubArrayLength(short\[\]\[\])
-- **Signature:** `public static int maxSubArrayLength(final int[][] a)`
+- **See also:** #minImmediateSubArrayLength(short\[\]\[\])
+- **Signature:** `public static int maxImmediateSubArrayLength(final int[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional integer array.
 - **Parameters:**
   - `a` (`int[][]`) — the two-dimensional integer array (can be {@code null} or empty).
 - **Returns:** the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #minSubArrayLength(int\[\]\[\])
-- **Signature:** `public static int maxSubArrayLength(final long[][] a)`
+- **See also:** #minImmediateSubArrayLength(int\[\]\[\])
+- **Signature:** `public static int maxImmediateSubArrayLength(final long[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional long array.
 - **Parameters:**
   - `a` (`long[][]`) — the two-dimensional long array (can be {@code null} or empty).
 - **Returns:** the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #minSubArrayLength(long\[\]\[\])
-- **Signature:** `public static int maxSubArrayLength(final float[][] a)`
+- **See also:** #minImmediateSubArrayLength(long\[\]\[\])
+- **Signature:** `public static int maxImmediateSubArrayLength(final float[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional float array.
 - **Parameters:**
   - `a` (`float[][]`) — the two-dimensional array to inspect (can be {@code null} ).
 - **Returns:** the maximum sub-array length, or 0 if the input array is {@code null} or empty.
-- **Signature:** `public static int maxSubArrayLength(final double[][] a)`
+- **Signature:** `public static int maxImmediateSubArrayLength(final double[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional double array.
 - **Parameters:**
   - `a` (`double[][]`) — the two-dimensional array (can be {@code null} ).
@@ -3601,14 +3601,14 @@ Object-array helper namespace for two-dimensional arrays.
 - **Parameters:**
   - `a` (`Object[][]`) — the two-dimensional array to count elements in (can be {@code null} ).
 - **Returns:** the total number of elements across all sub-arrays, or 0 if the array is {@code null} or empty.
-##### minSubArrayLength(...) -> int
-- **Signature:** `public static int minSubArrayLength(final Object[][] a)`
+##### minImmediateSubArrayLength(...) -> int
+- **Signature:** `public static int minImmediateSubArrayLength(final Object[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional array.
 - **Parameters:**
   - `a` (`Object[][]`) — the two-dimensional array to examine (can be {@code null} ).
 - **Returns:** the minimum sub-array length, or 0 if the array is {@code null} or empty.
-##### maxSubArrayLength(...) -> int
-- **Signature:** `public static int maxSubArrayLength(final Object[][] a)`
+##### maxImmediateSubArrayLength(...) -> int
+- **Signature:** `public static int maxImmediateSubArrayLength(final Object[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional array.
 - **Parameters:**
   - `a` (`Object[][]`) — the two-dimensional array to examine (can be {@code null} ).

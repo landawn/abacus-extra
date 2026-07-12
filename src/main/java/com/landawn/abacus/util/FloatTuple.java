@@ -34,7 +34,7 @@ import com.landawn.abacus.util.stream.FloatStream;
  * Base class for immutable tuples of primitive {@code float} values.
  *
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #copyOf(float[])} and the {@code of(...)} overloads select the matching subtype, while the
+ * {@link #from(float[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
@@ -369,19 +369,19 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Three-element array produces a FloatTuple3
-     * FloatTuple.FloatTuple3 t3 = FloatTuple.copyOf(new float[]{1.0f, 2.0f, 3.0f});
+     * FloatTuple.FloatTuple3 t3 = FloatTuple.from(new float[]{1.0f, 2.0f, 3.0f});
      * assert t3._1 == 1.0f;
      *
      * // Single-element array produces a FloatTuple1
-     * FloatTuple.FloatTuple1 t1 = FloatTuple.copyOf(new float[]{3.14f});
+     * FloatTuple.FloatTuple1 t1 = FloatTuple.from(new float[]{3.14f});
      * assert t1._1 == 3.14f;
      *
      * // null or empty array produces the empty (arity-0) tuple
-     * FloatTuple.copyOf(null).arity();                 // returns 0
-     * FloatTuple.copyOf(new float[0]).arity();         // returns 0
+     * FloatTuple.from(null).arity();                 // returns 0
+     * FloatTuple.from(new float[0]).arity();         // returns 0
      *
      * // Array longer than 9 throws IllegalArgumentException
-     * FloatTuple.copyOf(new float[10]);                // throws IllegalArgumentException
+     * FloatTuple.from(new float[10]);                // throws IllegalArgumentException
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
@@ -396,7 +396,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #of(float)
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends FloatTuple<TP>> TP copyOf(final float[] values) {
+    public static <TP extends FloatTuple<TP>> TP from(final float[] values) {
         if (values == null || values.length == 0) {
             return (TP) FloatTuple0.EMPTY;
         }
@@ -458,7 +458,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(0.0f, Float.NEGATIVE_INFINITY).min();           // returns Float.NEGATIVE_INFINITY
      *
      * // Edge: empty tuple throws NoSuchElementException
-     * FloatTuple.copyOf(new float[0]).min();                        // throws NoSuchElementException
+     * FloatTuple.from(new float[0]).min();                        // throws NoSuchElementException
      * }</pre>
      *
      * @return the minimum float value in this tuple
@@ -502,7 +502,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).max();           // returns Float.POSITIVE_INFINITY
      *
      * // Edge: empty tuple throws NoSuchElementException
-     * FloatTuple.copyOf(new float[0]).max();                        // throws NoSuchElementException
+     * FloatTuple.from(new float[0]).max();                        // throws NoSuchElementException
      * }</pre>
      *
      * @return the maximum float value in this tuple
@@ -550,7 +550,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(1.0f, Float.NaN).median();                         // returns 1.0f
      *
      * // Edge: empty tuple throws NoSuchElementException
-     * FloatTuple.copyOf(new float[0]).median();                        // throws NoSuchElementException
+     * FloatTuple.from(new float[0]).median();                        // throws NoSuchElementException
      * }</pre>
      *
      * @return the median float element in this tuple
@@ -579,7 +579,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(1.5f, 2.5f).sum();                // returns 4.0f
      *
      * // Edge: empty tuple returns 0.0f (no exception)
-     * FloatTuple.copyOf(new float[0]).sum();            // returns 0.0f
+     * FloatTuple.from(new float[0]).sum();            // returns 0.0f
      *
      * // Edge: NaN propagates through sum
      * Float.isNaN(FloatTuple.of(1.0f, Float.NaN).sum());           // returns true
@@ -609,7 +609,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(1.0f, 2.0f).average();            // returns 1.5
      *
      * // Edge: empty tuple returns 0D
-     * FloatTuple.copyOf(new float[0]).average();        // returns 0.0
+     * FloatTuple.from(new float[0]).average();        // returns 0.0
      *
      * // Edge: NaN propagates - result is Double NaN
      * Double.isNaN(FloatTuple.of(1.0f, Float.NaN).average());      // returns true
@@ -649,7 +649,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert FloatTuple.of(5.0f).reverse()._1 == 5.0f;
      *
      * // Edge: empty tuple reverses to itself
-     * FloatTuple.copyOf(new float[0]).reverse().arity(); // returns 0
+     * FloatTuple.from(new float[0]).reverse().arity(); // returns 0
      * }</pre>
      *
      * @return a tuple with the elements in reverse order
@@ -677,7 +677,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(1.0f, Float.NaN).contains(Float.NaN);          // returns true
      *
      * // Edge: empty tuple never contains any value
-     * FloatTuple.copyOf(new float[0]).contains(0.0f);               // returns false
+     * FloatTuple.from(new float[0]).contains(0.0f);               // returns false
      * }</pre>
      *
      * @param valueToFind the float value to search for
@@ -706,7 +706,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert t._1 == 1.0f;
      *
      * // Edge: empty tuple returns a zero-length array (not null)
-     * assert FloatTuple.copyOf(new float[0]).toArray().length == 0;
+     * assert FloatTuple.from(new float[0]).toArray().length == 0;
      *
      * // Edge: single element
      * assert Float.isNaN(FloatTuple.of(Float.NaN).toArray()[0]); // (Float.isNaN == true)
@@ -740,7 +740,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * t.arity();                                       // still returns 2
      *
      * // Edge: empty tuple returns an empty list (not null)
-     * FloatTuple.copyOf(new float[0]).toList().size(); // returns 0
+     * FloatTuple.from(new float[0]).toList().size(); // returns 0
      *
      * // Edge: NaN element is preserved in the list
      * Float.isNaN(FloatTuple.of(Float.NaN).toList().get(0));        // returns true
@@ -776,7 +776,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * // Edge: empty tuple - action is never invoked
      * FloatList empty = FloatList.of();
-     * FloatTuple.copyOf(new float[0]).forEach(empty::add); // action not invoked (empty tuple)
+     * FloatTuple.from(new float[0]).forEach(empty::add); // action not invoked (empty tuple)
      * empty.size();                                         // returns 0
      *
      * // Edge: NaN element is passed to the action as-is
@@ -812,7 +812,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(1.5f, 2.5f).stream().filter(f -> f > 2.0f).count(); // returns 1
      *
      * // Edge: empty tuple produces an empty stream
-     * FloatTuple.copyOf(new float[0]).stream().count();             // returns 0
+     * FloatTuple.from(new float[0]).stream().count();             // returns 0
      *
      * // Edge: NaN element is streamed as-is
      * FloatTuple.of(Float.NaN).stream().count();                    // returns 1
@@ -846,7 +846,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert FloatTuple.of(Float.NaN).hashCode() == FloatTuple.of(Float.NaN).hashCode(); // returns true
      *
      * // Edge: empty tuple has a stable hash code
-     * assert FloatTuple.copyOf(new float[0]).hashCode() == FloatTuple.copyOf(new float[0]).hashCode(); // returns true
+     * assert FloatTuple.from(new float[0]).hashCode() == FloatTuple.from(new float[0]).hashCode(); // returns true
      * }</pre>
      *
      * @return a hash code value for this tuple
@@ -918,7 +918,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * An empty FloatTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code FloatTuple} type
-     * via the singleton instance returned by {@link #copyOf(float[])} when invoked with a
+     * via the singleton instance returned by {@link #from(float[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0.0f and {@link #average()} returns {@code 0D}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
@@ -1075,7 +1075,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.of(Float.POSITIVE_INFINITY).arity();  // returns 1
          *
          * // Edge: compare to empty tuple arity
-         * FloatTuple.copyOf(new float[0]).arity();         // returns 0
+         * FloatTuple.from(new float[0]).arity();         // returns 0
          * }</pre>
          *
          * @return 1

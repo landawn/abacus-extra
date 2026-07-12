@@ -154,17 +154,17 @@ class ArraysTest extends TestBase {
     }
 
     @Test
-    public void test_minSubArrayLength() {
+    public void test_minImmediateSubArrayLength() {
         final String[][] a = { { "a", "b" }, { "c", "d", "d" } };
         final String[][][] b = { { { "a", "b" } }, { { "1", "2" }, { "3", "4" } } };
         final int[][][] c = Arrays.reshape(Array.rangeClosed(1, 9), 2, 3);
 
-        assertEquals(2, ff.minSubArrayLength(a));
-        assertEquals(3, ff.maxSubArrayLength(a));
-        assertEquals(1, ff.minSubArrayLength(b));
-        assertEquals(2, ff.maxSubArrayLength(b));
-        assertEquals(1, ff.minSubArrayLength(c));
-        assertEquals(2, ff.maxSubArrayLength(c));
+        assertEquals(2, ff.minImmediateSubArrayLength(a));
+        assertEquals(3, ff.maxImmediateSubArrayLength(a));
+        assertEquals(1, ff.minImmediateSubArrayLength(b));
+        assertEquals(2, ff.maxImmediateSubArrayLength(b));
+        assertEquals(1, ff.minImmediateSubArrayLength(c));
+        assertEquals(2, ff.maxImmediateSubArrayLength(c));
 
     }
 
@@ -4469,57 +4469,57 @@ class ArraysTest extends TestBase {
         public void testMinSubArrayLen() {
             // Test normal array
             Object[][] array = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            int minLen = ff.minSubArrayLength(array);
+            int minLen = ff.minImmediateSubArrayLength(array);
             Assertions.assertEquals(0, minLen); // null counts as 0
 
             // Test without null
             Object[][] array2 = { { 1, 2, 3 }, { 4, 5 }, { 6 } };
-            int minLen2 = ff.minSubArrayLength(array2);
+            int minLen2 = ff.minImmediateSubArrayLength(array2);
             Assertions.assertEquals(1, minLen2);
 
             // Test empty array
             Object[][] emptyArray = {};
-            Assertions.assertEquals(0, ff.minSubArrayLength(emptyArray));
+            Assertions.assertEquals(0, ff.minImmediateSubArrayLength(emptyArray));
 
             // Test null array
             Object[][] nullArray = null;
-            Assertions.assertEquals(0, ff.minSubArrayLength(nullArray));
+            Assertions.assertEquals(0, ff.minImmediateSubArrayLength(nullArray));
 
             // Test with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, { 3, 4, 5 } };
-            Assertions.assertEquals(0, ff.minSubArrayLength(withEmpty));
+            Assertions.assertEquals(0, ff.minImmediateSubArrayLength(withEmpty));
 
             // Test uniform length
             Object[][] uniform = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-            Assertions.assertEquals(3, ff.minSubArrayLength(uniform));
+            Assertions.assertEquals(3, ff.minImmediateSubArrayLength(uniform));
         }
 
         @Test
         public void testMaxSubArrayLen() {
             // Test normal array
             Object[][] array = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            int maxLen = ff.maxSubArrayLength(array);
+            int maxLen = ff.maxImmediateSubArrayLength(array);
             Assertions.assertEquals(3, maxLen);
 
             // Test empty array
             Object[][] emptyArray = {};
-            Assertions.assertEquals(0, ff.maxSubArrayLength(emptyArray));
+            Assertions.assertEquals(0, ff.maxImmediateSubArrayLength(emptyArray));
 
             // Test null array
             Object[][] nullArray = null;
-            Assertions.assertEquals(0, ff.maxSubArrayLength(nullArray));
+            Assertions.assertEquals(0, ff.maxImmediateSubArrayLength(nullArray));
 
             // Test with all nulls
             Object[][] isAllNulls = { null, null, null };
-            Assertions.assertEquals(0, ff.maxSubArrayLength(isAllNulls));
+            Assertions.assertEquals(0, ff.maxImmediateSubArrayLength(isAllNulls));
 
             // Test with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, { 3, 4, 5, 6, 7 } };
-            Assertions.assertEquals(5, ff.maxSubArrayLength(withEmpty));
+            Assertions.assertEquals(5, ff.maxImmediateSubArrayLength(withEmpty));
 
             // Test uniform length
             Object[][] uniform = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
-            Assertions.assertEquals(2, ff.maxSubArrayLength(uniform));
+            Assertions.assertEquals(2, ff.maxImmediateSubArrayLength(uniform));
         }
     }
 
@@ -6213,13 +6213,13 @@ class ArraysTest extends TestBase {
         // Note: replaceIf for Object arrays is not available in Arrays.java
 
         // ============================================
-        // Tests for minSubArrayLength and maxSubArrayLength
+        // Tests for minImmediateSubArrayLength and maxImmediateSubArrayLength
         // ============================================
 
         @Test
         public void testMinSubArrayLen_Boolean2D() {
             boolean[][] a = { { true, false }, { true }, { true, false, true } };
-            int result = Arrays.minSubArrayLength(a);
+            int result = Arrays.minImmediateSubArrayLength(a);
 
             assertEquals(1, result);
         }
@@ -6227,7 +6227,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMaxSubArrayLen_Boolean2D() {
             boolean[][] a = { { true, false }, { true }, { true, false, true } };
-            int result = Arrays.maxSubArrayLength(a);
+            int result = Arrays.maxImmediateSubArrayLength(a);
 
             assertEquals(3, result);
         }
@@ -6235,7 +6235,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMinSubArrayLen_Char2D() {
             char[][] a = { { 'a', 'b' }, { 'c' }, { 'd', 'e', 'f' } };
-            int result = Arrays.minSubArrayLength(a);
+            int result = Arrays.minImmediateSubArrayLength(a);
 
             assertEquals(1, result);
         }
@@ -6243,7 +6243,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMaxSubArrayLen_Char2D() {
             char[][] a = { { 'a', 'b' }, { 'c' }, { 'd', 'e', 'f' } };
-            int result = Arrays.maxSubArrayLength(a);
+            int result = Arrays.maxImmediateSubArrayLength(a);
 
             assertEquals(3, result);
         }
@@ -6251,7 +6251,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMinSubArrayLen_Int2D() {
             int[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-            int result = Arrays.minSubArrayLength(a);
+            int result = Arrays.minImmediateSubArrayLength(a);
 
             assertEquals(1, result);
         }
@@ -6259,7 +6259,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMaxSubArrayLen_Int2D() {
             int[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-            int result = Arrays.maxSubArrayLength(a);
+            int result = Arrays.maxImmediateSubArrayLength(a);
 
             assertEquals(3, result);
         }
@@ -8344,7 +8344,7 @@ class ArraysTest extends TestBase {
      * - Array transformations (reshape, flatten, zip)
      * - In-place operations (updateAll, replaceIf)
      * - Type conversions (toBoolean, toByte, toChar, etc.)
-     * - Statistical operations (elementCount, minSubArrayLength, maxSubArrayLength)
+     * - Statistical operations (elementCount, minImmediateSubArrayLength, maxImmediateSubArrayLength)
      */
     @Tag("2510")
     class Arrays2510Test extends TestBase {
@@ -10654,66 +10654,66 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for minSubArrayLength methods
+        // Tests for minImmediateSubArrayLength methods
         // ============================================
 
         @Test
         public void testMinSubArrayLen_2D_Boolean() {
             boolean[][] arr = { { true, false, true }, { false }, { true, false } };
-            int minLen = Arrays.minSubArrayLength(arr);
+            int minLen = Arrays.minImmediateSubArrayLength(arr);
             assertEquals(1, minLen);
         }
 
         @Test
         public void testMinSubArrayLen_2D_Boolean_null() {
             boolean[][] arr = null;
-            int minLen = Arrays.minSubArrayLength(arr);
+            int minLen = Arrays.minImmediateSubArrayLength(arr);
             assertEquals(0, minLen);
         }
 
         @Test
         public void testMinSubArrayLen_2D_Int() {
             int[][] arr = { { 1, 2, 3 }, { 4, 5 }, { 6, 7, 8, 9 } };
-            int minLen = Arrays.minSubArrayLength(arr);
+            int minLen = Arrays.minImmediateSubArrayLength(arr);
             assertEquals(2, minLen);
         }
 
         @Test
         public void testMinSubArrayLen_2D_Double() {
             double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0, 5.0 }, { 6.0 } };
-            int minLen = Arrays.minSubArrayLength(arr);
+            int minLen = Arrays.minImmediateSubArrayLength(arr);
             assertEquals(1, minLen);
         }
 
         // ============================================
-        // Tests for maxSubArrayLength methods
+        // Tests for maxImmediateSubArrayLength methods
         // ============================================
 
         @Test
         public void testMaxSubArrayLen_2D_Boolean() {
             boolean[][] arr = { { true, false }, { true, false, true }, { false } };
-            int maxLen = Arrays.maxSubArrayLength(arr);
+            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
             assertEquals(3, maxLen);
         }
 
         @Test
         public void testMaxSubArrayLen_2D_Boolean_null() {
             boolean[][] arr = null;
-            int maxLen = Arrays.maxSubArrayLength(arr);
+            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
             assertEquals(0, maxLen);
         }
 
         @Test
         public void testMaxSubArrayLen_2D_Int() {
             int[][] arr = { { 1, 2 }, { 3, 4, 5, 6 }, { 7 } };
-            int maxLen = Arrays.maxSubArrayLength(arr);
+            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
             assertEquals(4, maxLen);
         }
 
         @Test
         public void testMaxSubArrayLen_2D_Double() {
             double[][] arr = { { 1.0 }, { 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
-            int maxLen = Arrays.maxSubArrayLength(arr);
+            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
             assertEquals(3, maxLen);
         }
 
@@ -11749,23 +11749,23 @@ class ArraysTest extends TestBase {
         @Test
         public void testMinSubArrayLen_boolean_2D_withNulls() {
             boolean[][] arr = { { true, false }, null, { true } };
-            int minLen = Arrays.minSubArrayLength(arr);
+            int minLen = Arrays.minImmediateSubArrayLength(arr);
             assertEquals(0, minLen);
         }
 
-        // ============ Arrays.maxSubArrayLength Tests ============
+        // ============ Arrays.maxImmediateSubArrayLength Tests ============
 
         @Test
         public void testMaxSubArrayLen_boolean_2D() {
             boolean[][] arr = { { true, false, true }, { false }, { true, false } };
-            int maxLen = Arrays.maxSubArrayLength(arr);
+            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
             assertEquals(3, maxLen);
         }
 
         @Test
         public void testMaxSubArrayLen_boolean_2D_withNulls() {
             boolean[][] arr = { { true }, null, { true, false, false } };
-            int maxLen = Arrays.maxSubArrayLength(arr);
+            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
             assertEquals(3, maxLen);
         }
 
@@ -12131,16 +12131,16 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testFF_minSubArrayLength() {
+        public void testFF_minImmediateSubArrayLength() {
             Object[][] arr = { { "a", "b", "c" }, { "d" }, { "e", "f" } };
-            int minLen = Arrays.ff.minSubArrayLength(arr);
+            int minLen = Arrays.ff.minImmediateSubArrayLength(arr);
             assertEquals(1, minLen);
         }
 
         @Test
-        public void testFF_maxSubArrayLength() {
+        public void testFF_maxImmediateSubArrayLength() {
             Object[][] arr = { { "a", "b", "c" }, { "d" }, { "e", "f" } };
-            int maxLen = Arrays.ff.maxSubArrayLength(arr);
+            int maxLen = Arrays.ff.maxImmediateSubArrayLength(arr);
             assertEquals(3, maxLen);
         }
 
@@ -12740,7 +12740,7 @@ class ArraysTest extends TestBase {
      * Comprehensive unit tests for Arrays utility class.
      * This class provides extensive array manipulation methods for primitive and object arrays.
      * Tests cover println, mapToObj, mapToLong, mapToDouble, mapToInt, updateAll, replaceIf,
-     * reshape, flatten, mutateFlattened, zip, elementCount, minSubArrayLength, maxSubArrayLength methods.
+     * reshape, flatten, mutateFlattened, zip, elementCount, minImmediateSubArrayLength, maxImmediateSubArrayLength methods.
      */
     @Tag("2512")
     class Arrays2512Test extends TestBase {
@@ -13442,52 +13442,52 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for minSubArrayLength(boolean[][])
+        // Tests for minImmediateSubArrayLength(boolean[][])
         // ============================================
 
         @Test
-        public void test_minSubArrayLength_booleanArray2D() {
+        public void test_minImmediateSubArrayLength_booleanArray2D() {
             boolean[][] arr = { { true, false, true }, { true } };
-            int min = Arrays.minSubArrayLength(arr);
+            int min = Arrays.minImmediateSubArrayLength(arr);
 
             assertEquals(1, min);
         }
 
         @Test
-        public void test_minSubArrayLength_booleanArray2DNull() {
-            int min = Arrays.minSubArrayLength((boolean[][]) null);
+        public void test_minImmediateSubArrayLength_booleanArray2DNull() {
+            int min = Arrays.minImmediateSubArrayLength((boolean[][]) null);
             assertEquals(0, min);
         }
 
         @Test
-        public void test_minSubArrayLength_booleanArray2DEmpty() {
+        public void test_minImmediateSubArrayLength_booleanArray2DEmpty() {
             boolean[][] arr = {};
-            int min = Arrays.minSubArrayLength(arr);
+            int min = Arrays.minImmediateSubArrayLength(arr);
             assertEquals(0, min);
         }
 
         // ============================================
-        // Tests for maxSubArrayLength(boolean[][])
+        // Tests for maxImmediateSubArrayLength(boolean[][])
         // ============================================
 
         @Test
-        public void test_maxSubArrayLength_booleanArray2D() {
+        public void test_maxImmediateSubArrayLength_booleanArray2D() {
             boolean[][] arr = { { true, false, true }, { true } };
-            int max = Arrays.maxSubArrayLength(arr);
+            int max = Arrays.maxImmediateSubArrayLength(arr);
 
             assertEquals(3, max);
         }
 
         @Test
-        public void test_maxSubArrayLength_booleanArray2DNull() {
-            int max = Arrays.maxSubArrayLength((boolean[][]) null);
+        public void test_maxImmediateSubArrayLength_booleanArray2DNull() {
+            int max = Arrays.maxImmediateSubArrayLength((boolean[][]) null);
             assertEquals(0, max);
         }
 
         @Test
-        public void test_maxSubArrayLength_booleanArray2DEmpty() {
+        public void test_maxImmediateSubArrayLength_booleanArray2DEmpty() {
             boolean[][] arr = {};
-            int max = Arrays.maxSubArrayLength(arr);
+            int max = Arrays.maxImmediateSubArrayLength(arr);
             assertEquals(0, max);
         }
 
@@ -13665,8 +13665,8 @@ class ArraysTest extends TestBase {
         public void testClassJavadoc_minMaxSubArrayLength() {
             // Line 156-158: {{1,2,3,4},{5,6,7,8},{9,10,11,12}} => minLen=4, maxLen=4
             int[][] array2D = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
-            assertEquals(4, Arrays.minSubArrayLength(array2D));
-            assertEquals(4, Arrays.maxSubArrayLength(array2D));
+            assertEquals(4, Arrays.minImmediateSubArrayLength(array2D));
+            assertEquals(4, Arrays.maxImmediateSubArrayLength(array2D));
         }
 
         // ========================
@@ -13932,7 +13932,7 @@ class ArraysTest extends TestBase {
         }
 
         // ========================
-        // boolean elementCount / minSubArrayLength / maxSubArrayLength
+        // boolean elementCount / minImmediateSubArrayLength / maxImmediateSubArrayLength
         // ========================
 
         @Test
@@ -13953,14 +13953,14 @@ class ArraysTest extends TestBase {
         public void testBooleanMinSubArrayLength() {
             // Line 2899-2901
             boolean[][] array = { { true, false, true }, { false }, { true, false } };
-            assertEquals(1, Arrays.minSubArrayLength(array));
+            assertEquals(1, Arrays.minImmediateSubArrayLength(array));
         }
 
         @Test
         public void testBooleanMaxSubArrayLength() {
             // Line 2927-2929
             boolean[][] array = { { true, false, true }, { false }, { true, false } };
-            assertEquals(3, Arrays.maxSubArrayLength(array));
+            assertEquals(3, Arrays.maxImmediateSubArrayLength(array));
         }
 
         // ========================
@@ -14039,7 +14039,7 @@ class ArraysTest extends TestBase {
         }
 
         // ========================
-        // byte elementCount / minSubArrayLength / maxSubArrayLength
+        // byte elementCount / minImmediateSubArrayLength / maxImmediateSubArrayLength
         // ========================
 
         @Test
@@ -14060,14 +14060,14 @@ class ArraysTest extends TestBase {
         public void testByteMinSubArrayLength() {
             // Line 5516-5517: {{1,2,3},{4,5},{6,7,8,9}} => minLen 2
             byte[][] array = { { 1, 2, 3 }, { 4, 5 }, { 6, 7, 8, 9 } };
-            assertEquals(2, Arrays.minSubArrayLength(array));
+            assertEquals(2, Arrays.minImmediateSubArrayLength(array));
         }
 
         @Test
         public void testByteMaxSubArrayLength() {
             // Line 5544-5545: {{1,2}, null, {3,4,5,6}} => maxLen 4
             byte[][] array = { { 1, 2 }, null, { 3, 4, 5, 6 } };
-            assertEquals(4, Arrays.maxSubArrayLength(array));
+            assertEquals(4, Arrays.maxImmediateSubArrayLength(array));
         }
 
         // ========================
@@ -14147,7 +14147,7 @@ class ArraysTest extends TestBase {
         }
 
         // ========================
-        // int elementCount / minSubArrayLength / maxSubArrayLength
+        // int elementCount / minImmediateSubArrayLength / maxImmediateSubArrayLength
         // ========================
 
         @Test
@@ -14168,14 +14168,14 @@ class ArraysTest extends TestBase {
         public void testIntMinSubArrayLength() {
             // Line 8085-8088: {{1,2,3},{4,5},null,{6}} => 0 (null sub-array has length 0)
             int[][] a = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            assertEquals(0, Arrays.minSubArrayLength(a));
+            assertEquals(0, Arrays.minImmediateSubArrayLength(a));
         }
 
         @Test
         public void testIntMaxSubArrayLength() {
             // Line 8113-8116: {{1},{2,3},null,{4,5,6}} => 3
             int[][] a = { { 1 }, { 2, 3 }, null, { 4, 5, 6 } };
-            assertEquals(3, Arrays.maxSubArrayLength(a));
+            assertEquals(3, Arrays.maxImmediateSubArrayLength(a));
         }
 
         // ========================
@@ -14325,8 +14325,8 @@ class ArraysTest extends TestBase {
         @Test
         public void testLongMinMaxSubArrayLength() {
             long[][] a = { { 1L, 2L, 3L }, { 4L, 5L }, null, { 6L } };
-            assertEquals(0, Arrays.minSubArrayLength(a));
-            assertEquals(3, Arrays.maxSubArrayLength(a));
+            assertEquals(0, Arrays.minImmediateSubArrayLength(a));
+            assertEquals(3, Arrays.maxImmediateSubArrayLength(a));
         }
 
         @Test
@@ -14444,9 +14444,9 @@ class ArraysTest extends TestBase {
         @Test
         public void testFloatMinMaxSubArrayLength() {
             float[][] grid = { { 1.0f, 2.0f }, { 3.0f }, null };
-            assertEquals(0, Arrays.minSubArrayLength(grid));
+            assertEquals(0, Arrays.minImmediateSubArrayLength(grid));
             float[][] grid2 = { { 1.0f }, { 2.0f, 3.0f, 4.0f }, null };
-            assertEquals(3, Arrays.maxSubArrayLength(grid2));
+            assertEquals(3, Arrays.maxImmediateSubArrayLength(grid2));
         }
 
         @Test
@@ -14556,8 +14556,8 @@ class ArraysTest extends TestBase {
             assertEquals(5L, Arrays.elementCount(grid));
             double[][][] cube = { { { 1 }, { 2, 3 } }, null, { { 4 } } };
             assertEquals(4L, Arrays.elementCount(cube));
-            assertEquals(0, Arrays.minSubArrayLength(grid));
-            assertEquals(3, Arrays.maxSubArrayLength(grid));
+            assertEquals(0, Arrays.minImmediateSubArrayLength(grid));
+            assertEquals(3, Arrays.maxImmediateSubArrayLength(grid));
         }
 
         @Test
@@ -14763,8 +14763,8 @@ class ArraysTest extends TestBase {
     @Test
     public void testFF_minMaxSubArrayLength() {
         Object[][] arr = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-        assertEquals(0, ff.minSubArrayLength(arr));
-        assertEquals(3, ff.maxSubArrayLength(arr));
+        assertEquals(0, ff.minImmediateSubArrayLength(arr));
+        assertEquals(3, ff.maxImmediateSubArrayLength(arr));
     }
 
     @Test
@@ -16974,7 +16974,7 @@ class ArraysTest extends TestBase {
         }
 
         // ------------------------------------------------------------------------------------------
-        // elementCount / minSubArrayLength / maxSubArrayLength
+        // elementCount / minImmediateSubArrayLength / maxImmediateSubArrayLength
         // ------------------------------------------------------------------------------------------
 
         @Test
@@ -16996,34 +16996,34 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void minSubArrayLength_nullRow_returnsZero_int() {
+        public void minImmediateSubArrayLength_nullRow_returnsZero_int() {
             // javadoc: "A null sub-array is considered to have a length of 0"
             final int[][] a = new int[][] { null, { 1 }, null, { 1, 2 } };
-            assertEquals(0, Arrays.minSubArrayLength(a));
+            assertEquals(0, Arrays.minImmediateSubArrayLength(a));
         }
 
         @Test
-        public void minSubArrayLength_emptyRow_returnsZero_int() {
+        public void minImmediateSubArrayLength_emptyRow_returnsZero_int() {
             final int[][] a = new int[][] { {} };
-            assertEquals(0, Arrays.minSubArrayLength(a));
+            assertEquals(0, Arrays.minImmediateSubArrayLength(a));
         }
 
         @Test
-        public void minSubArrayLength_emptyOuter_returnsZero_int() {
-            assertEquals(0, Arrays.minSubArrayLength(new int[0][]));
-            assertEquals(0, Arrays.minSubArrayLength((int[][]) null));
+        public void minImmediateSubArrayLength_emptyOuter_returnsZero_int() {
+            assertEquals(0, Arrays.minImmediateSubArrayLength(new int[0][]));
+            assertEquals(0, Arrays.minImmediateSubArrayLength((int[][]) null));
         }
 
         @Test
-        public void maxSubArrayLength_allNullRows_returnsZero_int() {
+        public void maxImmediateSubArrayLength_allNullRows_returnsZero_int() {
             final int[][] a = new int[][] { null, null };
-            assertEquals(0, Arrays.maxSubArrayLength(a));
+            assertEquals(0, Arrays.maxImmediateSubArrayLength(a));
         }
 
         @Test
-        public void maxSubArrayLength_mixedRows_int() {
+        public void maxImmediateSubArrayLength_mixedRows_int() {
             final int[][] a = new int[][] { { 1 }, { 2, 3 }, null, { 4, 5, 6 } };
-            assertEquals(3, Arrays.maxSubArrayLength(a));
+            assertEquals(3, Arrays.maxImmediateSubArrayLength(a));
         }
 
         // ------------------------------------------------------------------------------------------

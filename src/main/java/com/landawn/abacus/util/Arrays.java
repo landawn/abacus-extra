@@ -4149,27 +4149,27 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Shortest row has length 1
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
-     * int minLen = Arrays.minSubArrayLength(arr);
+     * int minLen = Arrays.minImmediateSubArrayLength(arr);
      * // minLen: 1
      *
      * // Null sub-array is treated as length 0
      * boolean[][] sparse = {{true, false}, null, {true}};
-     * int minLen2 = Arrays.minSubArrayLength(sparse);
+     * int minLen2 = Arrays.minImmediateSubArrayLength(sparse);
      * // minLen2: 0
      *
      * // Null input returns 0
-     * int fromNull = Arrays.minSubArrayLength((boolean[][]) null);
+     * int fromNull = Arrays.minImmediateSubArrayLength((boolean[][]) null);
      * // fromNull: 0
      *
      * // Empty outer array returns 0
-     * int fromEmpty = Arrays.minSubArrayLength(new boolean[0][]);
+     * int fromEmpty = Arrays.minImmediateSubArrayLength(new boolean[0][]);
      * // fromEmpty: 0
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the minimum length of sub-arrays, or 0 if array is empty.
      */
-    public static int minSubArrayLength(final boolean[][] a) {
+    public static int minImmediateSubArrayLength(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -4191,27 +4191,27 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Longest row has length 3
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
-     * int maxLen = Arrays.maxSubArrayLength(arr);
+     * int maxLen = Arrays.maxImmediateSubArrayLength(arr);
      * // maxLen: 3
      *
      * // Null sub-array is treated as length 0; does not affect max if other rows are longer
      * boolean[][] sparse = {{true, false}, null, {true, false, true}};
-     * int maxLen2 = Arrays.maxSubArrayLength(sparse);
+     * int maxLen2 = Arrays.maxImmediateSubArrayLength(sparse);
      * // maxLen2: 3
      *
      * // Null input returns 0
-     * int fromNull = Arrays.maxSubArrayLength((boolean[][]) null);
+     * int fromNull = Arrays.maxImmediateSubArrayLength((boolean[][]) null);
      * // fromNull: 0
      *
      * // Empty outer array returns 0
-     * int fromEmpty = Arrays.maxSubArrayLength(new boolean[0][]);
+     * int fromEmpty = Arrays.maxImmediateSubArrayLength(new boolean[0][]);
      * // fromEmpty: 0
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the maximum length of sub-arrays, or 0 if array is empty.
      */
-    public static int maxSubArrayLength(final boolean[][] a) {
+    public static int maxImmediateSubArrayLength(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -6013,32 +6013,32 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counts as length 0, which is the minimum
      * char[][] array = {{'a', 'b'}, {'c'}, null};
-     * int minLen = Arrays.minSubArrayLength(array);
+     * int minLen = Arrays.minImmediateSubArrayLength(array);
      * // minLen is 0
      *
      * // Basic: no null sub-arrays - returns the shortest non-null length
      * char[][] noNull = {{'a', 'b', 'c'}, {'d', 'e'}};
-     * int minLen2 = Arrays.minSubArrayLength(noNull);
+     * int minLen2 = Arrays.minImmediateSubArrayLength(noNull);
      * // minLen2 is 2
      *
      * // Edge: null outer array - returns 0
-     * int nullResult = Arrays.minSubArrayLength((char[][]) null);
+     * int nullResult = Arrays.minImmediateSubArrayLength((char[][]) null);
      * // nullResult is 0
      *
      * // Edge: empty outer array - returns 0
-     * int emptyResult = Arrays.minSubArrayLength(new char[0][]);
+     * int emptyResult = Arrays.minImmediateSubArrayLength(new char[0][]);
      * // emptyResult is 0
      *
      * // Edge: all single-element sub-arrays
      * char[][] singles = {{'a'}, {'b'}};
-     * int singleMin = Arrays.minSubArrayLength(singles);
+     * int singleMin = Arrays.minImmediateSubArrayLength(singles);
      * // singleMin is 1
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null}).
      * @return the minimum length of any sub-array. Returns 0 if the input array is empty or {@code null}.
      */
-    public static int minSubArrayLength(final char[][] a) {
+    public static int minImmediateSubArrayLength(final char[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -6060,32 +6060,32 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array treated as length 0; max is 3
      * char[][] array = {{'a'}, {'b', 'c', 'd'}, null};
-     * int maxLen = Arrays.maxSubArrayLength(array);
+     * int maxLen = Arrays.maxImmediateSubArrayLength(array);
      * // maxLen is 3
      *
      * // Basic: all sub-arrays same length
      * char[][] uniform = {{'a', 'b'}, {'c', 'd'}};
-     * int maxLen2 = Arrays.maxSubArrayLength(uniform);
+     * int maxLen2 = Arrays.maxImmediateSubArrayLength(uniform);
      * // maxLen2 is 2
      *
      * // Edge: null outer array - returns 0
-     * int nullResult = Arrays.maxSubArrayLength((char[][]) null);
+     * int nullResult = Arrays.maxImmediateSubArrayLength((char[][]) null);
      * // nullResult is 0
      *
      * // Edge: empty outer array - returns 0
-     * int emptyResult = Arrays.maxSubArrayLength(new char[0][]);
+     * int emptyResult = Arrays.maxImmediateSubArrayLength(new char[0][]);
      * // emptyResult is 0
      *
      * // Edge: only null sub-arrays - max is 0
      * char[][] allNull = {null, null};
-     * int allNullMax = Arrays.maxSubArrayLength(allNull);
+     * int allNullMax = Arrays.maxImmediateSubArrayLength(allNull);
      * // allNullMax is 0
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null}).
      * @return the maximum length of any sub-array. Returns 0 if the input array is empty or {@code null}.
      */
-    public static int maxSubArrayLength(final char[][] a) {
+    public static int maxImmediateSubArrayLength(final char[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -7828,28 +7828,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: shortest sub-array has 2 elements
      * byte[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen = Arrays.minSubArrayLength(array);   // returns 2
+     * int minLen = Arrays.minImmediateSubArrayLength(array);   // returns 2
      *
      * // Single sub-array
      * byte[][] single = {{1, 2, 3}};
-     * int minLen2 = Arrays.minSubArrayLength(single);   // returns 3
+     * int minLen2 = Arrays.minImmediateSubArrayLength(single);   // returns 3
      *
      * // Null sub-array is treated as length 0
      * byte[][] withNull = {{1, 2, 3}, null, {4, 5}};
-     * int minLen3 = Arrays.minSubArrayLength(withNull);   // returns 0
+     * int minLen3 = Arrays.minImmediateSubArrayLength(withNull);   // returns 0
      *
      * // Null array: returns 0
-     * int minLen4 = Arrays.minSubArrayLength((byte[][]) null);   // returns 0
+     * int minLen4 = Arrays.minImmediateSubArrayLength((byte[][]) null);   // returns 0
      *
      * // Empty array: returns 0
-     * int minLen5 = Arrays.minSubArrayLength(new byte[0][]);   // returns 0
+     * int minLen5 = Arrays.minImmediateSubArrayLength(new byte[0][]);   // returns 0
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null} or empty).
      * @return the minimum sub-array length, or 0 if the array is {@code null} or empty.
-     * @see #maxSubArrayLength(byte[][])
+     * @see #maxImmediateSubArrayLength(byte[][])
      */
-    public static int minSubArrayLength(final byte[][] a) {
+    public static int minImmediateSubArrayLength(final byte[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -7871,28 +7871,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array is treated as length 0; longest has 4 elements
      * byte[][] array = {{1, 2}, null, {3, 4, 5, 6}};
-     * int maxLen = Arrays.maxSubArrayLength(array);   // returns 4
+     * int maxLen = Arrays.maxImmediateSubArrayLength(array);   // returns 4
      *
      * // Single sub-array
      * byte[][] single = {{1, 2, 3}};
-     * int maxLen2 = Arrays.maxSubArrayLength(single);   // returns 3
+     * int maxLen2 = Arrays.maxImmediateSubArrayLength(single);   // returns 3
      *
      * // All null sub-arrays: returns 0
      * byte[][] allNull = {null, null};
-     * int maxLen3 = Arrays.maxSubArrayLength(allNull);   // returns 0
+     * int maxLen3 = Arrays.maxImmediateSubArrayLength(allNull);   // returns 0
      *
      * // Null array: returns 0
-     * int maxLen4 = Arrays.maxSubArrayLength((byte[][]) null);   // returns 0
+     * int maxLen4 = Arrays.maxImmediateSubArrayLength((byte[][]) null);   // returns 0
      *
      * // Empty array: returns 0
-     * int maxLen5 = Arrays.maxSubArrayLength(new byte[0][]);   // returns 0
+     * int maxLen5 = Arrays.maxImmediateSubArrayLength(new byte[0][]);   // returns 0
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null} or empty).
      * @return the maximum sub-array length, or 0 if the array is {@code null} or empty.
-     * @see #minSubArrayLength(byte[][])
+     * @see #minImmediateSubArrayLength(byte[][])
      */
-    public static int maxSubArrayLength(final byte[][] a) {
+    public static int maxImmediateSubArrayLength(final byte[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -9633,28 +9633,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: shortest sub-array has 2 elements
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen = Arrays.minSubArrayLength(array);
+     * int minLen = Arrays.minImmediateSubArrayLength(array);
      * // minLen == 2
      *
      * // Basic: null sub-array is treated as length 0 - result is 0
      * short[][] withNull = {{1, 2}, null, {3}};
-     * int minWithNull = Arrays.minSubArrayLength(withNull);
+     * int minWithNull = Arrays.minImmediateSubArrayLength(withNull);
      * // minWithNull == 0
      *
      * // Edge: null array - returns 0
-     * int fromNull = Arrays.minSubArrayLength((short[][]) null);
+     * int fromNull = Arrays.minImmediateSubArrayLength((short[][]) null);
      * // fromNull == 0
      *
      * // Edge: empty outer array - returns 0
-     * int fromEmpty = Arrays.minSubArrayLength(new short[0][]);
+     * int fromEmpty = Arrays.minImmediateSubArrayLength(new short[0][]);
      * // fromEmpty == 0
      * }</pre>
      *
      * @param a the two-dimensional array to examine (can be {@code null} or empty).
      * @return the minimum length of any sub-array, or 0 if array is {@code null} or empty.
-     * @see #maxSubArrayLength(short[][])
+     * @see #maxImmediateSubArrayLength(short[][])
      */
-    public static int minSubArrayLength(final short[][] a) {
+    public static int minImmediateSubArrayLength(final short[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -9676,28 +9676,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: longest sub-array has 4 elements
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int maxLen = Arrays.maxSubArrayLength(array);
+     * int maxLen = Arrays.maxImmediateSubArrayLength(array);
      * // maxLen == 4
      *
      * // Basic: null sub-array is treated as length 0 - does not affect max if other rows exist
      * short[][] withNull = {{1, 2}, null};
-     * int maxWithNull = Arrays.maxSubArrayLength(withNull);
+     * int maxWithNull = Arrays.maxImmediateSubArrayLength(withNull);
      * // maxWithNull == 2
      *
      * // Edge: null array - returns 0
-     * int fromNull = Arrays.maxSubArrayLength((short[][]) null);
+     * int fromNull = Arrays.maxImmediateSubArrayLength((short[][]) null);
      * // fromNull == 0
      *
      * // Edge: empty outer array - returns 0
-     * int fromEmpty = Arrays.maxSubArrayLength(new short[0][]);
+     * int fromEmpty = Arrays.maxImmediateSubArrayLength(new short[0][]);
      * // fromEmpty == 0
      * }</pre>
      *
      * @param a the two-dimensional array to examine (can be {@code null} or empty).
      * @return the maximum length of any sub-array, or 0 if array is {@code null} or empty.
-     * @see #minSubArrayLength(short[][])
+     * @see #minImmediateSubArrayLength(short[][])
      */
-    public static int maxSubArrayLength(final short[][] a) {
+    public static int maxImmediateSubArrayLength(final short[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -11504,32 +11504,32 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counts as length 0 - that is the minimum
      * int[][] a = {{1, 2, 3}, {4, 5}, null, {6}};
-     * int minLen = Arrays.minSubArrayLength(a);
+     * int minLen = Arrays.minImmediateSubArrayLength(a);
      * // minLen == 0
      *
      * // Basic: no null rows - returns shortest non-null row
      * int[][] a2 = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen2 = Arrays.minSubArrayLength(a2);
+     * int minLen2 = Arrays.minImmediateSubArrayLength(a2);
      * // minLen2 == 2
      *
      * // Edge: null input
-     * int minLen3 = Arrays.minSubArrayLength((int[][]) null);
+     * int minLen3 = Arrays.minImmediateSubArrayLength((int[][]) null);
      * // minLen3 == 0
      *
      * // Edge: empty 2D array
-     * int minLen4 = Arrays.minSubArrayLength(new int[0][]);
+     * int minLen4 = Arrays.minImmediateSubArrayLength(new int[0][]);
      * // minLen4 == 0
      *
      * // Edge: single row
-     * int minLen5 = Arrays.minSubArrayLength(new int[][]{{1, 2, 3}});
+     * int minLen5 = Arrays.minImmediateSubArrayLength(new int[][]{{1, 2, 3}});
      * // minLen5 == 3
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null} or empty).
      * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #maxSubArrayLength(int[][])
+     * @see #maxImmediateSubArrayLength(int[][])
      */
-    public static int minSubArrayLength(final int[][] a) {
+    public static int minImmediateSubArrayLength(final int[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -11551,31 +11551,31 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array has length 0, so max is the longest non-null row
      * int[][] a = {{1}, {2, 3}, null, {4, 5, 6}};
-     * int maxLen = Arrays.maxSubArrayLength(a);
+     * int maxLen = Arrays.maxImmediateSubArrayLength(a);
      * // maxLen == 3
      *
      * // Basic: all-null rows - max is 0
-     * int maxLen2 = Arrays.maxSubArrayLength(new int[][]{ null, null });
+     * int maxLen2 = Arrays.maxImmediateSubArrayLength(new int[][]{ null, null });
      * // maxLen2 == 0
      *
      * // Edge: null input
-     * int maxLen3 = Arrays.maxSubArrayLength((int[][]) null);
+     * int maxLen3 = Arrays.maxImmediateSubArrayLength((int[][]) null);
      * // maxLen3 == 0
      *
      * // Edge: empty 2D array
-     * int maxLen4 = Arrays.maxSubArrayLength(new int[0][]);
+     * int maxLen4 = Arrays.maxImmediateSubArrayLength(new int[0][]);
      * // maxLen4 == 0
      *
      * // Edge: single row
-     * int maxLen5 = Arrays.maxSubArrayLength(new int[][]{{1, 2, 3, 4, 5}});
+     * int maxLen5 = Arrays.maxImmediateSubArrayLength(new int[][]{{1, 2, 3, 4, 5}});
      * // maxLen5 == 5
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null} or empty).
      * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #minSubArrayLength(int[][])
+     * @see #minImmediateSubArrayLength(int[][])
      */
-    public static int maxSubArrayLength(final int[][] a) {
+    public static int maxImmediateSubArrayLength(final int[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -13236,27 +13236,27 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L, 2L, 3L}, {4L, 5L}, null, {6L}};
-     * int r1 = Arrays.minSubArrayLength(a);
+     * int r1 = Arrays.minImmediateSubArrayLength(a);
      * // r1 is 0  (null sub-array treated as length 0)
      *
      * long[][] b = {{1L, 2L}, {3L, 4L, 5L}, {6L}};
-     * int r2 = Arrays.minSubArrayLength(b);
+     * int r2 = Arrays.minImmediateSubArrayLength(b);
      * // r2 is 1
      *
      * // null input => 0
-     * int r3 = Arrays.minSubArrayLength((long[][]) null);
+     * int r3 = Arrays.minImmediateSubArrayLength((long[][]) null);
      * // r3 is 0
      *
      * // empty input => 0
-     * int r4 = Arrays.minSubArrayLength(new long[0][]);
+     * int r4 = Arrays.minImmediateSubArrayLength(new long[0][]);
      * // r4 is 0
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null} or empty).
      * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #maxSubArrayLength(long[][])
+     * @see #maxImmediateSubArrayLength(long[][])
      */
-    public static int minSubArrayLength(final long[][] a) {
+    public static int minImmediateSubArrayLength(final long[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -13277,27 +13277,27 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L}, {2L, 3L}, null, {4L, 5L, 6L}};
-     * int r1 = Arrays.maxSubArrayLength(a);
+     * int r1 = Arrays.maxImmediateSubArrayLength(a);
      * // r1 is 3  (null sub-array treated as length 0)
      *
      * long[][] b = {{1L, 2L}, {3L, 4L, 5L}, {6L}};
-     * int r2 = Arrays.maxSubArrayLength(b);
+     * int r2 = Arrays.maxImmediateSubArrayLength(b);
      * // r2 is 3
      *
      * // null input => 0
-     * int r3 = Arrays.maxSubArrayLength((long[][]) null);
+     * int r3 = Arrays.maxImmediateSubArrayLength((long[][]) null);
      * // r3 is 0
      *
      * // all null sub-arrays => 0
-     * int r4 = Arrays.maxSubArrayLength(new long[][]{null, null});
+     * int r4 = Arrays.maxImmediateSubArrayLength(new long[][]{null, null});
      * // r4 is 0
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null} or empty).
      * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #minSubArrayLength(long[][])
+     * @see #minImmediateSubArrayLength(long[][])
      */
-    public static int maxSubArrayLength(final long[][] a) {
+    public static int maxImmediateSubArrayLength(final long[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -15053,27 +15053,27 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counted as length 0, so minimum is 0
      * float[][] grid = {{1.0f, 2.0f}, {3.0f}, null};
-     * int minLen = Arrays.minSubArrayLength(grid);
+     * int minLen = Arrays.minImmediateSubArrayLength(grid);
      * // minLen is 0
      *
      * // Basic: no null sub-arrays - minimum is shortest non-null
      * float[][] g2 = {{1.0f, 2.0f}, {3.0f}};
-     * int m2 = Arrays.minSubArrayLength(g2);
+     * int m2 = Arrays.minImmediateSubArrayLength(g2);
      * // m2 is 1
      *
      * // Edge: null input returns 0
-     * int m3 = Arrays.minSubArrayLength((float[][]) null);
+     * int m3 = Arrays.minImmediateSubArrayLength((float[][]) null);
      * // m3 is 0
      *
      * // Edge: empty outer array returns 0
-     * int m4 = Arrays.minSubArrayLength(new float[0][]);
+     * int m4 = Arrays.minImmediateSubArrayLength(new float[0][]);
      * // m4 is 0
      * }</pre>
      *
      * @param a the two-dimensional array to inspect (can be {@code null}).
      * @return the minimum sub-array length, or 0 if the input array is {@code null} or empty.
      */
-    public static int minSubArrayLength(final float[][] a) {
+    public static int minImmediateSubArrayLength(final float[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -15095,28 +15095,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counted as length 0; max is the longest non-null
      * float[][] grid = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
-     * int maxLen = Arrays.maxSubArrayLength(grid);
+     * int maxLen = Arrays.maxImmediateSubArrayLength(grid);
      * // maxLen is 3
      *
      * // Basic: uniform-length sub-arrays
      * float[][] g2 = {{1.0f, 2.0f}, {3.0f, 4.0f}};
-     * int m2 = Arrays.maxSubArrayLength(g2);
+     * int m2 = Arrays.maxImmediateSubArrayLength(g2);
      * // m2 is 2
      *
      * // Edge: null input returns 0
-     * int m3 = Arrays.maxSubArrayLength((float[][]) null);
+     * int m3 = Arrays.maxImmediateSubArrayLength((float[][]) null);
      * // m3 is 0
      *
      * // Edge: all null sub-arrays - maximum is 0
      * float[][] g4 = {null, null};
-     * int m4 = Arrays.maxSubArrayLength(g4);
+     * int m4 = Arrays.maxImmediateSubArrayLength(g4);
      * // m4 is 0
      * }</pre>
      *
      * @param a the two-dimensional array to inspect (can be {@code null}).
      * @return the maximum sub-array length, or 0 if the input array is {@code null} or empty.
      */
-    public static int maxSubArrayLength(final float[][] a) {
+    public static int maxImmediateSubArrayLength(final float[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -16849,27 +16849,27 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counts as length 0
      * double[][] grid = {{1, 2, 3}, {4, 5}, null};
-     * int minLen = Arrays.minSubArrayLength(grid);
+     * int minLen = Arrays.minImmediateSubArrayLength(grid);
      * // minLen is 0
      *
      * // Basic: no null sub-arrays - returns the smallest non-null length
      * double[][] grid2 = {{1, 2, 3}, {4, 5}};
-     * int minLen2 = Arrays.minSubArrayLength(grid2);
+     * int minLen2 = Arrays.minImmediateSubArrayLength(grid2);
      * // minLen2 is 2
      *
      * // Edge: null input returns 0
-     * int zero = Arrays.minSubArrayLength((double[][]) null);
+     * int zero = Arrays.minImmediateSubArrayLength((double[][]) null);
      * // zero is 0
      *
      * // Edge: empty outer array returns 0
-     * int zeroEmpty = Arrays.minSubArrayLength(new double[0][]);
+     * int zeroEmpty = Arrays.minImmediateSubArrayLength(new double[0][]);
      * // zeroEmpty is 0
      * }</pre>
      *
      * @param a the two-dimensional array (can be {@code null}).
      * @return the minimum sub-array length, or 0 if the input array is {@code null} or empty.
      */
-    public static int minSubArrayLength(final double[][] a) {
+    public static int minImmediateSubArrayLength(final double[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -16891,28 +16891,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counts as length 0; max is the longest non-null row
      * double[][] grid = {{1, 2, 3}, {4, 5}, null};
-     * int maxLen = Arrays.maxSubArrayLength(grid);
+     * int maxLen = Arrays.maxImmediateSubArrayLength(grid);
      * // maxLen is 3
      *
      * // Basic: uniform rows
      * double[][] grid2 = {{1.0, 2.0}, {3.0, 4.0}};
-     * int maxLen2 = Arrays.maxSubArrayLength(grid2);
+     * int maxLen2 = Arrays.maxImmediateSubArrayLength(grid2);
      * // maxLen2 is 2
      *
      * // Edge: null input returns 0
-     * int zero = Arrays.maxSubArrayLength((double[][]) null);
+     * int zero = Arrays.maxImmediateSubArrayLength((double[][]) null);
      * // zero is 0
      *
      * // Edge: all null sub-arrays return 0
      * double[][] allNull = {null, null};
-     * int zeroAllNull = Arrays.maxSubArrayLength(allNull);
+     * int zeroAllNull = Arrays.maxImmediateSubArrayLength(allNull);
      * // zeroAllNull is 0
      * }</pre>
      *
      * @param a the two-dimensional array (can be {@code null}).
      * @return the maximum sub-array length, or 0 if the input array is {@code null} or empty.
      */
-    public static int maxSubArrayLength(final double[][] a) {
+    public static int maxImmediateSubArrayLength(final double[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -22739,27 +22739,27 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // Basic: null sub-array lowers the minimum to 0
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * int minLen = Arrays.ff.minSubArrayLength(array);
+         * int minLen = Arrays.ff.minImmediateSubArrayLength(array);
          * // minLen is 0  (null sub-array counts as length 0)
          *
          * // Typical: jagged array without nulls
          * Object[][] jagged = {{1, 2, 3}, {4, 5}, {6}};
-         * int min2 = Arrays.ff.minSubArrayLength(jagged);
+         * int min2 = Arrays.ff.minImmediateSubArrayLength(jagged);
          * // min2 is 1  (shortest non-null row has 1 element)
          *
          * // Edge: null input returns 0
-         * int r1 = Arrays.ff.minSubArrayLength(null);
+         * int r1 = Arrays.ff.minImmediateSubArrayLength(null);
          * // r1 is 0
          *
          * // Edge: empty outer array returns 0
-         * int r2 = Arrays.ff.minSubArrayLength(new Object[0][]);
+         * int r2 = Arrays.ff.minImmediateSubArrayLength(new Object[0][]);
          * // r2 is 0
          * }</pre>
          *
          * @param a the two-dimensional array to examine (can be {@code null}).
          * @return the minimum sub-array length, or 0 if the array is {@code null} or empty.
          */
-        public static int minSubArrayLength(final Object[][] a) {
+        public static int minImmediateSubArrayLength(final Object[][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }
@@ -22781,28 +22781,28 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // Basic: jagged array including a null sub-array
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * int maxLen = Arrays.ff.maxSubArrayLength(array);
+         * int maxLen = Arrays.ff.maxImmediateSubArrayLength(array);
          * // maxLen is 3  (from the first sub-array)
          *
          * // Typical: all rows the same length
          * Object[][] uniform = {{1, 2}, {3, 4}, {5, 6}};
-         * int max2 = Arrays.ff.maxSubArrayLength(uniform);
+         * int max2 = Arrays.ff.maxImmediateSubArrayLength(uniform);
          * // max2 is 2
          *
          * // Edge: null input returns 0
-         * int r1 = Arrays.ff.maxSubArrayLength(null);
+         * int r1 = Arrays.ff.maxImmediateSubArrayLength(null);
          * // r1 is 0
          *
          * // Edge: single-element array
          * Object[][] single = {{42}};
-         * int r2 = Arrays.ff.maxSubArrayLength(single);
+         * int r2 = Arrays.ff.maxImmediateSubArrayLength(single);
          * // r2 is 1
          * }</pre>
          *
          * @param a the two-dimensional array to examine (can be {@code null}).
          * @return the maximum sub-array length, or 0 if the array is {@code null} or empty.
          */
-        public static int maxSubArrayLength(final Object[][] a) {
+        public static int maxImmediateSubArrayLength(final Object[][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }

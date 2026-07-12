@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -651,66 +652,100 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         // ============================================
-        // Tests for copyOfRange() method
+        // Tests for toArray() methods
         // ============================================
 
         @Test
-        public void testCopyOfRange_FullRange() {
-            int[] data = { 1, 2, 3, 4, 5 };
-            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
+        public void testToArray_FullArray() {
+            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4, 5 });
 
-            int[] copy = immutable.copyOfRange(0, 5);
+            int[] first = immutable.toArray();
+            int[] second = immutable.toArray();
 
-            assertEquals(5, copy.length);
-            assertEquals(1, copy[0]);
-            assertEquals(5, copy[4]);
+            assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, first);
+            assertNotSame(first, second);
+            first[0] = 99;
+            assertEquals(1, immutable.get(0));
         }
 
         @Test
-        public void testCopyOfRange_PartialRange() {
+        public void testToArray_EmptyArray() {
+            int[] copy = ImmutableIntArray.unsafeWrap(null).toArray();
+
+            assertArrayEquals(new int[0], copy);
+        }
+
+        @Test
+        public void testToArray_PartialRange() {
+            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 10, 20, 30, 40, 50 });
+
+            int[] copy = immutable.toArray(1, 4);
+
+            assertArrayEquals(new int[] { 20, 30, 40 }, copy);
+            copy[0] = 99;
+            assertEquals(20, immutable.get(1));
+        }
+
+        @Test
+        public void testToArray_EmptyRange() {
+            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
+
+            assertArrayEquals(new int[0], immutable.toArray(1, 1));
+        }
+
+        @Test
+        public void testToArray_InvalidRange() {
+            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
+
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(-1, 2));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(0, 4));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(2, 1));
+        }
+
+        // ============================================
+        // Tests for subArray() method
+        // ============================================
+
+        @Test
+        public void testSubArray_PartialRange() {
             int[] data = { 10, 20, 30, 40, 50 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
-            int[] copy = immutable.copyOfRange(1, 4);
+            ImmutableIntArray subArray = immutable.subArray(1, 4);
 
-            assertEquals(3, copy.length);
-            assertEquals(20, copy[0]);
-            assertEquals(30, copy[1]);
-            assertEquals(40, copy[2]);
+            assertArrayEquals(new int[] { 20, 30, 40 }, subArray.toArray());
+            data[2] = 99;
+            assertEquals(30, subArray.get(1));
         }
 
         @Test
-        public void testCopyOfRange_EmptyRange() {
-            int[] data = { 1, 2, 3 };
-            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
+        public void testSubArray_FullAndEmptyRanges() {
+            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
 
-            int[] copy = immutable.copyOfRange(1, 1);
-
-            assertEquals(0, copy.length);
+            assertEquals(immutable, immutable.subArray(0, immutable.length()));
+            assertTrue(immutable.subArray(1, 1).isEmpty());
         }
 
         @Test
-        public void testCopyOfRange_InvalidFromIndex() {
-            int[] data = { 1, 2, 3 };
-            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
+        public void testSubArray_InvalidRange() {
+            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
 
-            assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(-1, 2));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.subArray(-1, 2));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.subArray(0, 4));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.subArray(2, 1));
         }
 
+        // ============================================
+        // Tests for deprecated copyOfRange() method
+        // ============================================
+
+        @SuppressWarnings("deprecation")
         @Test
-        public void testCopyOfRange_InvalidToIndex() {
-            int[] data = { 1, 2, 3 };
-            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
+        public void testCopyOfRange_CompatibilityAlias() {
+            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 10, 20, 30, 40, 50 });
 
-            assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(0, 10));
-        }
-
-        @Test
-        public void testCopyOfRange_FromIndexGreaterThanToIndex() {
-            int[] data = { 1, 2, 3 };
-            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
-
-            assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(2, 1));
+            assertArrayEquals(immutable.toArray(1, 4), immutable.copyOfRange(1, 4));
+            assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(0, 6));
         }
 
         // ============================================

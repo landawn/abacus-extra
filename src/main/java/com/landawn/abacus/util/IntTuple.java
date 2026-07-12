@@ -34,7 +34,7 @@ import com.landawn.abacus.util.stream.IntStream;
  * Base class for immutable tuples of primitive {@code int} values.
  *
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #copyOf(int[])} and the {@code of(...)} overloads select the matching subtype, while the base
+ * {@link #from(int[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
@@ -349,21 +349,21 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] values = {1, 2, 3};
-     * IntTuple.IntTuple3 tuple = IntTuple.copyOf(values);
+     * IntTuple.IntTuple3 tuple = IntTuple.from(values);
      * int first = tuple._1;  // returns 1
      *
-     * IntTuple.IntTuple1 single = IntTuple.copyOf(new int[]{42});
+     * IntTuple.IntTuple1 single = IntTuple.from(new int[]{42});
      * int sv = single._1;  // returns 42
      *
      * // null or empty array returns the shared empty tuple (arity 0)
-     * IntTuple<?> empty = IntTuple.copyOf(new int[0]);
+     * IntTuple<?> empty = IntTuple.from(new int[0]);
      * int arity = empty.arity();  // returns 0
      *
-     * IntTuple<?> fromNull = IntTuple.copyOf(null);
+     * IntTuple<?> fromNull = IntTuple.from(null);
      * int nullArity = fromNull.arity();  // returns 0
      *
      * // array length > 9 throws IllegalArgumentException
-     * IntTuple.copyOf(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});  // throws IllegalArgumentException
+     * IntTuple.from(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});  // throws IllegalArgumentException
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
@@ -378,7 +378,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #of(int)
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends IntTuple<TP>> TP copyOf(final int[] values) {
+    public static <TP extends IntTuple<TP>> TP from(final int[] values) {
         if (values == null || values.length == 0) {
             return (TP) IntTuple0.EMPTY;
         }
@@ -435,7 +435,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int negMin = neg.min();  // returns -5
      *
      * // empty tuple throws NoSuchElementException
-     * IntTuple.copyOf(new int[0]).min();  // throws NoSuchElementException
+     * IntTuple.from(new int[0]).min();  // throws NoSuchElementException
      * }</pre>
      *
      * @return the minimum int value in this tuple
@@ -472,7 +472,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int negMax = neg.max();  // returns 5
      *
      * // empty tuple throws NoSuchElementException
-     * IntTuple.copyOf(new int[0]).max();  // throws NoSuchElementException
+     * IntTuple.from(new int[0]).max();  // throws NoSuchElementException
      * }</pre>
      *
      * @return the maximum int value in this tuple
@@ -509,7 +509,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int singleMedian = single.median();  // returns 7
      *
      * // empty tuple throws NoSuchElementException
-     * IntTuple.copyOf(new int[0]).median();  // throws NoSuchElementException
+     * IntTuple.from(new int[0]).median();  // throws NoSuchElementException
      * }</pre>
      *
      * @return the median int value in this tuple
@@ -545,7 +545,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int total = pair.sum();  // returns 300
      *
      * // empty tuple sum is 0
-     * int emptySum = IntTuple.copyOf(new int[0]).sum();  // returns 0
+     * int emptySum = IntTuple.from(new int[0]).sum();  // returns 0
      *
      * // overflow throws ArithmeticException
      * IntTuple.of(Integer.MAX_VALUE, 1).sum();  // throws ArithmeticException
@@ -577,7 +577,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * double avgSingle = single.average();  // returns 42.0
      *
      * // empty tuple returns 0D
-     * IntTuple.copyOf(new int[0]).average();  // returns 0.0
+     * IntTuple.from(new int[0]).average();  // returns 0.0
      * }</pre>
      *
      * @return the arithmetic mean of all int values in this tuple as a {@code double}, or {@code 0D} if this tuple is empty
@@ -612,7 +612,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * // revSingle equals IntTuple.of(42)
      *
      * // edge: empty tuple reverses to itself
-     * IntTuple<?> empty = IntTuple.copyOf(new int[0]);
+     * IntTuple<?> empty = IntTuple.from(new int[0]);
      * IntTuple<?> revEmpty = empty.reverse();
      * // revEmpty == empty (same object)
      * }</pre>
@@ -642,7 +642,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * boolean hasOne = pair.contains(1);  // returns false
      *
      * // empty tuple never contains any value
-     * boolean emptyHas = IntTuple.copyOf(new int[0]).contains(0);  // returns false
+     * boolean emptyHas = IntTuple.from(new int[0]).contains(0);  // returns false
      * }</pre>
      *
      * @param valueToFind the int value to search for
@@ -671,7 +671,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int[] single = IntTuple.of(42).toArray();  // returns [42]
      *
      * // empty tuple returns a zero-length array
-     * int[] emptyArr = IntTuple.copyOf(new int[0]).toArray();  // returns []
+     * int[] emptyArr = IntTuple.from(new int[0]).toArray();  // returns []
      * }</pre>
      *
      * @return a new {@code int[]} array containing all tuple elements in order
@@ -704,7 +704,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * list.add(4);  // tuple is still IntTuple.of(1, 2, 3)
      *
      * // empty tuple produces an empty list
-     * IntList emptyList = IntTuple.copyOf(new int[0]).toList();
+     * IntList emptyList = IntTuple.from(new int[0]).toList();
      * int emptySize = emptyList.size();  // returns 0
      * }</pre>
      *
@@ -737,7 +737,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * IntTuple.of(10, 20).forEach(v -> collected.add(v));  // collected contains [10, 20]
      *
      * // empty tuple: action is never called
-     * IntTuple.copyOf(new int[0]).forEach(v -> { throw new RuntimeException("unreachable"); });
+     * IntTuple.from(new int[0]).forEach(v -> { throw new RuntimeException("unreachable"); });
      * // no exception thrown
      *
      * // null action throws IllegalArgumentException immediately
@@ -778,7 +778,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * // returns 2
      *
      * // empty tuple produces an empty stream
-     * long emptyCount = IntTuple.copyOf(new int[0]).stream().count();  // returns 0
+     * long emptyCount = IntTuple.from(new int[0]).stream().count();  // returns 0
      * }</pre>
      *
      * @return a sequential {@code IntStream} containing all tuple elements in order
@@ -809,8 +809,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * map.put(IntTuple.of(1, 2), "pair");  // map.get(IntTuple.of(1, 2)) returns "pair"
      *
      * // empty tuple has a stable hash code
-     * int emptyHash = IntTuple.copyOf(new int[0]).hashCode();
-     * // emptyHash == IntTuple.copyOf(new int[0]).hashCode()  (same each call)
+     * int emptyHash = IntTuple.from(new int[0]).hashCode();
+     * // emptyHash == IntTuple.from(new int[0]).hashCode()  (same each call)
      * }</pre>
      *
      * @return a hash code value for this tuple
@@ -879,7 +879,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * An empty IntTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code IntTuple} type
-     * via the singleton instance returned by {@link #copyOf(int[])} when invoked with a
+     * via the singleton instance returned by {@link #from(int[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns {@code 0D}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
@@ -1041,7 +1041,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * // contrasts with other arities
          * int a3 = IntTuple.of(1, 2).arity();  // returns 2
          *
-         * int a0 = IntTuple.copyOf(new int[0]).arity();  // returns 0
+         * int a0 = IntTuple.from(new int[0]).arity();  // returns 0
          * }</pre>
          *
          * @return 1

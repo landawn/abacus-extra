@@ -34,7 +34,7 @@ import com.landawn.abacus.util.stream.DoubleStream;
  * Base class for immutable tuples of primitive {@code double} values.
  *
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #copyOf(double[])} and the {@code of(...)} overloads select the matching subtype, while the
+ * {@link #from(double[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
@@ -313,8 +313,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * // toString format
      * String s = tuple.toString();   // "(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0)"
      *
-     * // Nine is the maximum arity; copyOf with 10 elements throws IllegalArgumentException
-     * // DoubleTuple.copyOf(new double[10]);   // throws IllegalArgumentException
+     * // Nine is the maximum arity; from with 10 elements throws IllegalArgumentException
+     * // DoubleTuple.from(new double[10]);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param _1 the first double value
@@ -349,22 +349,22 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <pre>{@code
      * // Create from 3-element array
      * double[] values = {1.0, 2.0, 3.0};
-     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.copyOf(values);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.from(values);
      * double third = tuple._3;   // 3.0
      *
      * // Single element
-     * DoubleTuple.DoubleTuple1 single = DoubleTuple.copyOf(new double[]{3.14});
+     * DoubleTuple.DoubleTuple1 single = DoubleTuple.from(new double[]{3.14});
      * double v = single._1;   // 3.14
      *
      * // null or empty array returns the empty singleton (arity 0)
-     * DoubleTuple<?> emptyFromNull = DoubleTuple.copyOf(null);
+     * DoubleTuple<?> emptyFromNull = DoubleTuple.from(null);
      * int arityNull = emptyFromNull.arity();   // 0
      *
-     * DoubleTuple<?> emptyFromArr = DoubleTuple.copyOf(new double[0]);
+     * DoubleTuple<?> emptyFromArr = DoubleTuple.from(new double[0]);
      * String s = emptyFromArr.toString();   // "()"
      *
      * // Array with more than 9 elements throws IllegalArgumentException
-     * // DoubleTuple.copyOf(new double[10]);   // throws IllegalArgumentException
+     * // DoubleTuple.from(new double[10]);   // throws IllegalArgumentException
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
@@ -379,7 +379,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #of(double)
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends DoubleTuple<TP>> TP copyOf(final double[] values) {
+    public static <TP extends DoubleTuple<TP>> TP from(final double[] values) {
         if (values == null || values.length == 0) {
             return (TP) DoubleTuple0.EMPTY;
         }
@@ -442,7 +442,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double nanMin = nanTuple.min();   // NaN
      *
      * // Empty tuple throws NoSuchElementException
-     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
      * // empty.min();   // throws NoSuchElementException
      * }</pre>
      *
@@ -488,7 +488,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double maxInf = inf.max();   // Double.POSITIVE_INFINITY
      *
      * // Empty tuple throws NoSuchElementException
-     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
      * // empty.max();   // throws NoSuchElementException
      * }</pre>
      *
@@ -540,7 +540,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double medNaN = nanTuple.median();   // 2.0
      *
      * // Empty tuple throws NoSuchElementException
-     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
      * // empty.median();   // throws NoSuchElementException
      * }</pre>
      *
@@ -573,7 +573,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double pairSum = pair.sum();   // 4.0
      *
      * // Empty tuple returns 0.0 - no exception
-     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
      * double emptySum = empty.sum();   // 0.0
      *
      * // NaN element propagates
@@ -608,7 +608,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double nanAvg = nanTuple.average();   // NaN
      *
      * // Empty tuple returns 0D
-     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
      * empty.average();   // returns 0.0
      * }</pre>
      *
@@ -707,7 +707,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double first = tuple._1;   // still 1.0
      *
      * // Empty tuple returns a zero-length array
-     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
      * double[] emptyArray = empty.toArray();
      * int len = emptyArray.length;   // 0
      *
@@ -746,7 +746,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * pairList.add(3.0);   // pairList now has 3 elements; tuple still has 2
      *
      * // Empty tuple produces an empty list
-     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
      * int emptySize = empty.toList().size();   // 0
      * }</pre>
      *
@@ -781,7 +781,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      *
      * // Empty tuple: consumer is never called
      * int[] count = {0};
-     * DoubleTuple.copyOf(new double[0]).forEach(d -> count[0]++);   // action not invoked (empty tuple)
+     * DoubleTuple.from(new double[0]).forEach(d -> count[0]++);   // action not invoked (empty tuple)
      * int callCount = count[0];                                     // 0
      *
      * // null action throws IllegalArgumentException
@@ -819,7 +819,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * long count = t.stream().filter(d -> d > 1.5).count();   // 2
      *
      * // Empty tuple produces an empty stream
-     * DoubleTuple<?> empty = DoubleTuple.copyOf(new double[0]);
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
      * long emptyCount = empty.stream().count();   // 0
      *
      * // Map and collect
@@ -933,7 +933,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * An empty DoubleTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code DoubleTuple} type
-     * via the singleton instance returned by {@link #copyOf(double[])} when invoked with a
+     * via the singleton instance returned by {@link #from(double[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0.0 and {@link #average()} returns {@code 0D}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>

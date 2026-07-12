@@ -34,7 +34,7 @@ import com.landawn.abacus.util.stream.LongStream;
  * Base class for immutable tuples of primitive {@code long} values.
  *
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #copyOf(long[])} and the {@code of(...)} overloads select the matching subtype, while the base
+ * {@link #from(long[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
@@ -359,21 +359,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <pre>{@code
      * // Create a 3-element tuple from an array
      * long[] values = {1L, 2L, 3L};
-     * LongTuple.LongTuple3 tuple = LongTuple.copyOf(values);
+     * LongTuple.LongTuple3 tuple = LongTuple.from(values);
      * tuple.sum();                                           // returns 6
      *
      * // Single element
-     * LongTuple.LongTuple1 single = LongTuple.copyOf(new long[]{42L});
+     * LongTuple.LongTuple1 single = LongTuple.from(new long[]{42L});
      * assert single._1 == 42;
      *
      * // null or empty array returns the shared empty tuple (arity == 0)
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * empty.arity();                                        // returns 0
-     * LongTuple<?> fromNull = LongTuple.copyOf(null);
+     * LongTuple<?> fromNull = LongTuple.from(null);
      * fromNull.arity();                                     // returns 0
      *
      * // Arrays longer than 9 elements throw
-     * LongTuple.copyOf(new long[10]);                       // throws IllegalArgumentException
+     * LongTuple.from(new long[10]);                       // throws IllegalArgumentException
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
@@ -388,7 +388,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see #of(long)
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends LongTuple<TP>> TP copyOf(final long[] values) {
+    public static <TP extends LongTuple<TP>> TP from(final long[] values) {
         if (values == null || values.length == 0) {
             return (TP) LongTuple0.EMPTY;
         }
@@ -464,7 +464,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple2 bounds = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE);
      * bounds.min();                                    // returns Long.MIN_VALUE
      *
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * empty.min();                                     // throws NoSuchElementException
      * }</pre>
      *
@@ -504,7 +504,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple2 bounds = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE);
      * bounds.max();                                    // returns Long.MAX_VALUE
      *
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * empty.max();                                     // throws NoSuchElementException
      * }</pre>
      *
@@ -549,7 +549,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * pair.median();                                   // returns 1
      *
      * // Empty tuple throws
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * empty.median();                                  // throws NoSuchElementException
      * }</pre>
      *
@@ -586,7 +586,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * long total = pair.sum();                         // returns 300
      *
      * // Empty tuple returns 0
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * empty.sum();                                     // returns 0
      *
      * // Overflow wraps silently (two's-complement)
@@ -629,7 +629,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * neg.average();                                   // returns -2.0
      *
      * // Empty tuple returns 0D
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * empty.average();                                 // returns 0.0
      * }</pre>
      *
@@ -695,7 +695,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * neg.contains(1L);                                // returns false
      *
      * // Empty tuple never contains anything
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * empty.contains(0L);                              // returns false
      * }</pre>
      *
@@ -725,7 +725,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * long[] pairArray = pair.toArray();               // returns [10, 20]
      *
      * // Empty tuple returns a zero-length array
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * assert empty.toArray().length == 0;
      * }</pre>
      *
@@ -761,7 +761,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * pairList.get(1);                                 // returns 20
      *
      * // Empty tuple returns an empty list
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * empty.toList().size();                           // returns 0
      * }</pre>
      *
@@ -796,7 +796,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * assert total[0] == 6;
      *
      * // Empty tuple: action is never called
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * long[] count = {0L};
      * empty.forEach(v -> count[0]++);                  // action not invoked (empty tuple)
      * assert count[0] == 0;
@@ -838,7 +838,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * long count = tuple.stream().filter(v -> v > 1L).count();   // returns 2
      *
      * // Empty tuple produces an empty stream
-     * LongTuple<?> empty = LongTuple.copyOf(new long[0]);
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
      * empty.stream().sum();                            // returns 0
      * }</pre>
      *
@@ -940,7 +940,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * An empty LongTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code LongTuple} type
-     * via the singleton instance returned by {@link #copyOf(long[])} when invoked with a
+     * via the singleton instance returned by {@link #from(long[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0L and {@link #average()} returns {@code 0D}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>

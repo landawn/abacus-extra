@@ -34,7 +34,7 @@ import com.landawn.abacus.util.stream.ByteStream;
  * Base class for immutable tuples of primitive {@code byte} values.
  *
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #copyOf(byte[])} and the {@code of(...)} overloads select the matching subtype, while the base
+ * {@link #from(byte[])} and the {@code of(...)} overloads select the matching subtype, while the base
  * class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
@@ -401,29 +401,29 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <pre>{@code
      * // typical: 3-element array
      * byte[] values = {(byte) 10, (byte) 20, (byte) 30};
-     * ByteTuple.ByteTuple3 t3 = ByteTuple.copyOf(values);
+     * ByteTuple.ByteTuple3 t3 = ByteTuple.from(values);
      * byte third = t3._3;   // 30
      *
      * // single element
-     * ByteTuple.ByteTuple1 t1 = ByteTuple.copyOf(new byte[]{(byte) 42});
+     * ByteTuple.ByteTuple1 t1 = ByteTuple.from(new byte[]{(byte) 42});
      * byte val = t1._1;   // 42
      *
      * // null -> empty tuple (arity 0)
-     * ByteTuple<?> fromNull = ByteTuple.copyOf(null);
+     * ByteTuple<?> fromNull = ByteTuple.from(null);
      * int nullArity = fromNull.arity();   // 0
      *
      * // empty array -> empty tuple (arity 0)
-     * ByteTuple<?> fromEmpty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> fromEmpty = ByteTuple.from(new byte[0]);
      * int emptyArity = fromEmpty.arity();   // 0
      *
      * // mutation safety: modifying the source array does not affect the tuple
      * byte[] src = {(byte) 1, (byte) 2};
-     * ByteTuple.ByteTuple2 t2 = ByteTuple.copyOf(src);
+     * ByteTuple.ByteTuple2 t2 = ByteTuple.from(src);
      * src[0] = (byte) 99;
      * byte unchanged = t2._1;   // 1
      *
      * // length > 9 -> throws IllegalArgumentException
-     * ByteTuple.copyOf(new byte[10]);   // throws IllegalArgumentException
+     * ByteTuple.from(new byte[10]);   // throws IllegalArgumentException
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
@@ -438,7 +438,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see #of(byte)
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends ByteTuple<TP>> TP copyOf(final byte[] values) {
+    public static <TP extends ByteTuple<TP>> TP from(final byte[] values) {
         if (values == null || values.length == 0) {
             return (TP) ByteTuple0.EMPTY;
         }
@@ -501,7 +501,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte boundsMin = bounds.min();   // -128
      *
      * // empty tuple -> throws NoSuchElementException
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * empty.min();   // throws NoSuchElementException
      * }</pre>
      *
@@ -545,7 +545,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte boundsMax = bounds.max();   // 127
      *
      * // empty tuple -> throws NoSuchElementException
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * empty.max();   // throws NoSuchElementException
      * }</pre>
      *
@@ -591,7 +591,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte negMedian = neg.median();   // -20 (sorted: -30, -20, -10)
      *
      * // empty tuple -> throws NoSuchElementException
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * empty.median();   // throws NoSuchElementException
      * }</pre>
      *
@@ -633,7 +633,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * int negSum = neg.sum();   // -60
      *
      * // empty tuple -> 0
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * int emptySum = empty.sum();   // 0
      * }</pre>
      *
@@ -669,7 +669,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * double negPosAvg = negPos.average();   // 0.0
      *
      * // empty tuple -> returns 0D
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * empty.average();   // returns 0.0
      * }</pre>
      *
@@ -702,7 +702,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.ByteTuple1 reversedSingle = single.reverse();   // (42)
      *
      * // edge: empty tuple reverses to itself
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * int emptyArity = empty.reverse().arity();   // 0
      * }</pre>
      *
@@ -738,7 +738,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * boolean noMatch = single.contains((byte) 6);    // false
      *
      * // empty tuple always returns false
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * boolean emptyContains = empty.contains((byte) 0);   // false
      * }</pre>
      *
@@ -769,7 +769,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte[] singleArr = single.toArray();   // [42]
      *
      * // empty tuple
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * byte[] emptyArr = empty.toArray();
      * int emptyLen = emptyArr.length;   // 0
      * }</pre>
@@ -807,7 +807,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * int singleSize = singleList.size();   // 1
      *
      * // empty tuple
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * ByteList emptyList = empty.toList();
      * int emptySize = emptyList.size();   // 0
      * }</pre>
@@ -843,7 +843,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * t.forEach(b -> collected.add(b));  // collected is [10, 20, 30]
      *
      * // empty tuple: consumer is never invoked
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * int[] count = {0};
      * empty.forEach(b -> count[0]++);  // count[0] remains 0
      *
@@ -885,7 +885,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * long singleCount = single.stream().count();   // 1
      *
      * // empty tuple
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * long emptyCount = empty.stream().count();   // 0
      * }</pre>
      *
@@ -917,7 +917,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * // t1.hashCode() != t3.hashCode() in most cases (not guaranteed, but typical)
      *
      * // empty tuple has a stable hash code
-     * ByteTuple<?> empty = ByteTuple.copyOf(new byte[0]);
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * int emptyHash = empty.hashCode();   // consistent across calls
      * }</pre>
      *
@@ -992,7 +992,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * An empty ByteTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code ByteTuple} type
-     * via the singleton instance returned by {@link #copyOf(byte[])} when invoked with a
+     * via the singleton instance returned by {@link #from(byte[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns {@code 0D}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>

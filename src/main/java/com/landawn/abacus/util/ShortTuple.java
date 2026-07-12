@@ -34,7 +34,7 @@ import com.landawn.abacus.util.stream.ShortStream;
  * Base class for immutable tuples of primitive {@code short} values.
  *
  * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #copyOf(short[])} and the {@code of(...)} overloads select the matching subtype, while the
+ * {@link #from(short[])} and the {@code of(...)} overloads select the matching subtype, while the
  * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
  *
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
@@ -378,24 +378,24 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <pre>{@code
      * // Typical 3-element array
      * short[] values = {1, 2, 3};
-     * ShortTuple.ShortTuple3 t3 = ShortTuple.copyOf(values);
+     * ShortTuple.ShortTuple3 t3 = ShortTuple.from(values);
      * assert t3._1 == 1;
      * assert t3._3 == 3;
      *
      * // Typical 1-element array
-     * ShortTuple.ShortTuple1 t1 = ShortTuple.copyOf(new short[]{42});
+     * ShortTuple.ShortTuple1 t1 = ShortTuple.from(new short[]{42});
      * assert t1._1 == 42;
      *
      * // Edge: null input returns the empty tuple
-     * ShortTuple<?> fromNull = ShortTuple.copyOf(null);
+     * ShortTuple<?> fromNull = ShortTuple.from(null);
      * fromNull.arity();                  // returns 0
      *
      * // Edge: empty array returns the empty tuple
-     * ShortTuple<?> fromEmpty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> fromEmpty = ShortTuple.from(new short[0]);
      * fromEmpty.toString();              // returns "()"
      *
      * // Edge: array length > 9 throws IllegalArgumentException
-     * ShortTuple.copyOf(new short[10]); // throws IllegalArgumentException
+     * ShortTuple.from(new short[10]); // throws IllegalArgumentException
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
@@ -410,7 +410,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @see #of(short)
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends ShortTuple<TP>> TP copyOf(final short[] values) {
+    public static <TP extends ShortTuple<TP>> TP from(final short[] values) {
         if (values == null || values.length == 0) {
             return (TP) ShortTuple0.EMPTY;
         }
@@ -469,7 +469,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * neg.min();                         // returns -3
      *
      * // Edge: empty tuple throws
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.min();                       // throws NoSuchElementException
      * }</pre>
      *
@@ -509,7 +509,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * neg.max();                         // returns -1
      *
      * // Edge: empty tuple throws
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.max();                       // throws NoSuchElementException
      * }</pre>
      *
@@ -549,7 +549,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * single.median();                   // returns 7
      *
      * // Edge: empty tuple throws
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.median();                    // throws NoSuchElementException
      * }</pre>
      *
@@ -586,7 +586,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * pair.sum();                        // returns 300
      *
      * // Edge: empty tuple returns 0
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.sum();                       // returns 0
      *
      * // Edge: negative values cancel
@@ -621,7 +621,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * single.average();                  // returns 7.0
      *
      * // Edge: empty tuple returns 0D
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.average();                   // returns 0.0
      * }</pre>
      *
@@ -658,7 +658,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * assert t1.reverse()._1 == 9;
      *
      * // Edge: empty tuple - returns the same instance
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.reverse().arity();           // returns 0
      * }</pre>
      *
@@ -685,7 +685,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * dup.contains((short) 10);          // returns true
      *
      * // Edge: empty tuple never contains anything
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.contains((short) 0);         // returns false
      *
      * // Edge: negative value search
@@ -718,7 +718,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * pair.toArray();                    // returns [10, 20]
      *
      * // Edge: empty tuple returns zero-length array
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * assert empty.toArray().length == 0;
      *
      * // Edge: single element
@@ -753,7 +753,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * pair.toList().get(1);              // returns 20
      *
      * // Edge: empty tuple gives empty list
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.toList().size();             // returns 0
      *
      * // Edge: list is mutable but independent - adding does not affect tuple
@@ -793,7 +793,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * assert visited.equals(java.util.List.of((short) 1, (short) 2, (short) 3));
      *
      * // Edge: empty tuple - consumer is never called
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * java.util.concurrent.atomic.AtomicInteger cnt = new java.util.concurrent.atomic.AtomicInteger();
      * empty.forEach(v -> cnt.incrementAndGet());   // action not invoked (empty tuple)
      * cnt.get();                                   // returns 0
@@ -832,7 +832,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * pair.stream().max().getAsShort();  // returns 20
      *
      * // Edge: empty tuple produces empty stream
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.stream().sum();              // returns 0
      * empty.stream().count();            // returns 0
      *
@@ -865,7 +865,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      *
      *
      * // Edge: empty tuple has a stable hash
-     * ShortTuple<?> empty = ShortTuple.copyOf(new short[0]);
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.hashCode();                  // does not throw
      *
      * // Edge: single-element tuple
@@ -942,7 +942,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * An empty ShortTuple containing no elements (arity 0).
      * <p>
      * This package-private class is exposed only through the base {@code ShortTuple} type
-     * via the singleton instance returned by {@link #copyOf(short[])} when invoked with a
+     * via the singleton instance returned by {@link #from(short[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns {@code 0D}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
