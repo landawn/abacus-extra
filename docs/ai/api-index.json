@@ -2,7 +2,7 @@
   "library": {
     "name": "abacus-extra",
     "version": "3.8.2",
-    "generated_at": "2026-07-12",
+    "generated_at": "2026-07-13",
     "java_target": "17",
     "source": {
       "git_sha": "unknown"
@@ -11,6 +11,7 @@
   "packages": [
     {
       "name": "com.landawn.abacus.util",
+      "summary": "Provides supplemental, primitive-specialized value types and array operations for Abacus.",
       "types": [
         {
           "fqn": "com.landawn.abacus.util.Arrays",

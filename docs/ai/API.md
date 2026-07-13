@@ -1,10 +1,10 @@
 # abacus-extra API Index (v3.8.2)
 - Build: unknown
 - Java: 17
-- Generated: 2026-07-12
+- Generated: 2026-07-13
 
 ## Packages
-- com.landawn.abacus.util
+- com.landawn.abacus.util — Provides supplemental, primitive-specialized value types and array operations for Abacus.
 
 ## com.landawn.abacus.util
 ### Class Arrays (com.landawn.abacus.util.Arrays)
