@@ -40,8 +40,8 @@ import com.landawn.abacus.util.stream.ByteStream;
  * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
  *
  * <p>All {@code byte} arithmetic in this class follows Java's signed semantics (range {@code -128}
- * to {@code 127}). Aggregates such as {@link #sum()} are widened to {@code int} and {@link #average()}
- * to {@code double} to avoid overflow.</p>
+ * to {@code 127}). {@link #sum()} is widened to {@code int} to avoid overflow, and {@link #average()}
+ * returns {@code double} to preserve fractional precision.</p>
  *
  * @param <TP> the concrete {@code ByteTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -647,8 +647,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     /**
      * Returns the average of all byte values in this tuple as a double.
      * <p>
-     * Note: The result is returned as a double to preserve precision. The average is
-     * calculated by converting byte values to double during computation.
+     * The sum is accumulated in a widened integral type before the division is performed in
+     * {@code double}, preserving fractional precision without intermediate byte overflow.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

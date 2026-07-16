@@ -16592,6 +16592,29 @@ class ArraysTest extends TestBase {
             assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(new int[] { 1 }, -1, 1));
         }
 
+        @Test
+        public void reshape_3D_dimensionProductMayExceedIntegerMaxValue() {
+            final int rows = 50_000;
+            final int columns = 50_000;
+
+            final boolean[][][] booleans = Arrays.reshape(new boolean[] { true }, rows, columns);
+            assertEquals(1, booleans.length);
+            assertEquals(1, booleans[0].length);
+            assertArrayEquals(new boolean[] { true }, booleans[0][0]);
+
+            assertArrayEquals(new char[] { 'a' }, Arrays.reshape(new char[] { 'a' }, rows, columns)[0][0]);
+            assertArrayEquals(new byte[] { 1 }, Arrays.reshape(new byte[] { 1 }, rows, columns)[0][0]);
+            assertArrayEquals(new short[] { 2 }, Arrays.reshape(new short[] { 2 }, rows, columns)[0][0]);
+            assertArrayEquals(new int[] { 3 }, Arrays.reshape(new int[] { 3 }, rows, columns)[0][0]);
+            assertArrayEquals(new long[] { 4L }, Arrays.reshape(new long[] { 4L }, rows, columns)[0][0]);
+            assertArrayEquals(new float[] { 5F }, Arrays.reshape(new float[] { 5F }, rows, columns)[0][0]);
+            assertArrayEquals(new double[] { 6D }, Arrays.reshape(new double[] { 6D }, rows, columns)[0][0]);
+
+            final String[][][] objects = fff.reshape(new String[] { "value" }, rows, columns);
+            assertEquals(String[][][].class, objects.getClass());
+            assertArrayEquals(new String[] { "value" }, objects[0][0]);
+        }
+
         // ------------------------------------------------------------------------------------------
         // flatten — 2D
         // ------------------------------------------------------------------------------------------
@@ -16993,6 +17016,12 @@ class ArraysTest extends TestBase {
         public void elementCount_3D_skipsNulls_int() {
             final int[][][] a = new int[][][] { { { 1 }, { 2, 3 } }, null, { { 4, 5, 6 } } };
             assertEquals(6L, Arrays.elementCount(a));
+        }
+
+        @Test
+        public void elementCount_3D_rejectsLongOverflow() {
+            assertEquals(Long.MAX_VALUE, Arrays.addElementCountExact(Long.MAX_VALUE - 1, 1));
+            assertThrows(ArithmeticException.class, () -> Arrays.addElementCountExact(Long.MAX_VALUE, 1));
         }
 
         @Test

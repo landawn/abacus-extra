@@ -235,6 +235,19 @@ class LongTupleTest extends TestBase {
     }
 
     @Test
+    public void testAverageRoundsExactMeanOnlyOnce() {
+        final long base = 1L << 62;
+
+        // The exact positive mean is base + 512.5, just above the midpoint between
+        // base and its next representable double. Prematurely converting the integer
+        // quotient rounded it down to base and lost the deciding fraction.
+        assertEquals(Math.nextUp((double) base), LongTuple.of(base + 1, base + 1024).average());
+
+        // Exercise the symmetric negative boundary as well.
+        assertEquals(Math.nextDown((double) -base), LongTuple.of(-base - 1, -base - 1024).average());
+    }
+
+    @Test
     public void testReverse() {
         // Test Tuple0
         LongTuple.LongTuple0 empty = LongTuple.from(new long[0]);

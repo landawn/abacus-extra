@@ -2943,6 +2943,8 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional boolean array into a three-dimensional boolean array with the specified number of rows and columns.
      * The array is divided into blocks of size rowCount × columnCount.
      *
+     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Even case: 8 elements into blocks of 2 rows × 2 cols => 2 complete blocks
@@ -2968,8 +2970,7 @@ public sealed class Arrays permits Arrays.f {
      * @param rowCount the number of rows for the reshaped subarray.
      * @param columnCount the number of columns for the reshaped subarray.
      * @return a three-dimensional boolean array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
-     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(boolean[], int) for reshaping into a two-dimensional array
      */
     public static boolean[][][] reshape(final boolean[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -2980,7 +2981,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
         final boolean[][][] result = new boolean[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
@@ -4116,6 +4117,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional boolean array (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}
      */
     public static long elementCount(final boolean[][][] a) {
         if (N.isEmpty(a)) {
@@ -4134,7 +4136,7 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                count += booleans.length;
+                count = addElementCountExact(count, booleans.length);
             }
         }
 
@@ -4815,6 +4817,8 @@ public sealed class Arrays permits Arrays.f {
      * If the input array's length is not a perfect multiple of {@code rowCount * columnCount},
      * the last sub-arrays may be shorter.
      *
+     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: reshape 7 chars into 2x2 blocks - trailing block may be smaller
@@ -4840,8 +4844,7 @@ public sealed class Arrays permits Arrays.f {
      * @param rowCount the number of rows in each two-dimensional sub-array.
      * @param columnCount the number of columns in each two-dimensional sub-array.
      * @return a new three-dimensional character array.
-     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
-     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(char[], int) for reshaping into a two-dimensional array
      */
     public static char[][][] reshape(final char[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -4852,7 +4855,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
         final char[][][] result = new char[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
@@ -5980,6 +5983,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional character array to count (can be {@code null}).
      * @return the total number of character elements in the array.
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}
      */
     public static long elementCount(final char[][][] a) {
         if (N.isEmpty(a)) {
@@ -5998,7 +6002,7 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                count += chars.length;
+                count = addElementCountExact(count, chars.length);
             }
         }
 
@@ -6697,6 +6701,8 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.
      * The array is divided into blocks of size rowCount × columnCount.
      *
+     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: 6 elements into 2x2 blocks - last block is partial
@@ -6725,8 +6731,7 @@ public sealed class Arrays permits Arrays.f {
      * @param rowCount the number of rows for the reshaped subarray (must be positive).
      * @param columnCount the number of columns for the reshaped subarray (must be positive).
      * @return a three-dimensional byte array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
-     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(byte[], int) for reshaping into a two-dimensional array
      */
     public static byte[][][] reshape(final byte[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -6737,7 +6742,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
         final byte[][][] result = new byte[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
@@ -7794,6 +7799,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional byte array (can be {@code null} or empty).
      * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}
      * @see #elementCount(byte[][]) for two-dimensional arrays
      */
     public static long elementCount(final byte[][][] a) {
@@ -7813,7 +7819,7 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                count += bytes.length;
+                count = addElementCountExact(count, bytes.length);
             }
         }
 
@@ -8493,6 +8499,8 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional short array into a three-dimensional array with the specified dimensions.
      * The array is divided into blocks of size rowCount×columnCount, with partial blocks allowed.
      *
+     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: 8 elements into blocks of 2 rows × 2 columns
@@ -8517,8 +8525,7 @@ public sealed class Arrays permits Arrays.f {
      * @param rowCount the number of rows in each two-dimensional block (must be positive).
      * @param columnCount the number of columns in each row (must be positive).
      * @return a three-dimensional array with the specified dimensions, or an empty three-dimensional array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
-     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(short[], int) for reshaping into a two-dimensional array
      */
     public static short[][][] reshape(final short[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -8529,7 +8536,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
         final short[][][] result = new short[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
@@ -9599,6 +9606,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional array to count elements in (can be {@code null} or empty).
      * @return the total number of elements across all sub-arrays, or 0 if array is {@code null} or empty.
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}
      * @see #elementCount(short[][]) for two-dimensional arrays
      */
     public static long elementCount(final short[][][] a) {
@@ -9618,7 +9626,7 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                count += shorts.length;
+                count = addElementCountExact(count, shorts.length);
             }
         }
 
@@ -10340,6 +10348,8 @@ public sealed class Arrays permits Arrays.f {
      * two-dimensional slices of the specified row and column counts. The last slice may be incomplete if the array length
      * is not evenly divisible by rowCount × columnCount. If the input array is {@code null} or empty, returns an empty three-dimensional array.</p>
      *
+     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: 8 elements into 2-row × 2-column blocks
@@ -10371,8 +10381,7 @@ public sealed class Arrays permits Arrays.f {
      * @param rowCount the number of rows in each two-dimensional slice (must be positive).
      * @param columnCount the number of columns in each row (must be positive).
      * @return a new three-dimensional array containing the reshaped data, or an empty three-dimensional array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
-     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(int[], int) for reshaping into a two-dimensional array
      */
     public static int[][][] reshape(final int[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -10383,7 +10392,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
         final int[][][] result = new int[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
@@ -11470,6 +11479,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional integer array (can be {@code null}).
      * @return the total count of integer elements across all sub-arrays at all depths, or 0 if the input array is {@code null} or empty.
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}
      * @see #elementCount(int[][]) for two-dimensional arrays
      */
     public static long elementCount(final int[][][] a) {
@@ -11489,7 +11499,7 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                count += ints.length;
+                count = addElementCountExact(count, ints.length);
             }
         }
 
@@ -12151,6 +12161,8 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional long array into a three-dimensional long array with a specified number of rows and columns.
      * The last sub-arrays may be shorter if the total element count is not perfectly divisible.
      *
+     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] a = {1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L};
@@ -12174,8 +12186,7 @@ public sealed class Arrays permits Arrays.f {
      * @param rowCount the number of rows in each two-dimensional sub-array (must be positive).
      * @param columnCount the number of columns in each two-dimensional sub-array (must be positive).
      * @return a new three-dimensional long array, or an empty three-dimensional array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
-     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(long[], int) for reshaping into a two-dimensional array
      */
     public static long[][][] reshape(final long[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -12186,7 +12197,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
         final long[][][] result = new long[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
@@ -13203,6 +13214,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional long array (can be {@code null} or empty).
      * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}
      * @see #elementCount(long[][]) for two-dimensional arrays
      */
     public static long elementCount(final long[][][] a) {
@@ -13222,7 +13234,7 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                count += longs.length;
+                count = addElementCountExact(count, longs.length);
             }
         }
 
@@ -13899,6 +13911,8 @@ public sealed class Arrays permits Arrays.f {
      * The last sub-array may be smaller if the total number of elements is not a multiple
      * of {@code rowCount * columnCount}.
      *
+     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: 7 elements into blocks of 2 rows x 2 cols (last block/row may be partial)
@@ -13924,8 +13938,7 @@ public sealed class Arrays permits Arrays.f {
      * @param rowCount the number of rows in each two-dimensional sub-array.
      * @param columnCount the number of columns in each two-dimensional sub-array.
      * @return a new three-dimensional array containing the elements of the input array, or an empty three-dimensional array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
-     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(float[], int) for reshaping into a two-dimensional array
      */
     public static float[][][] reshape(final float[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -13936,7 +13949,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
         final float[][][] result = new float[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
@@ -15020,6 +15033,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional array to count elements in (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}
      */
     public static long elementCount(final float[][][] a) {
         if (N.isEmpty(a)) {
@@ -15038,7 +15052,7 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                count += floats.length;
+                count = addElementCountExact(count, floats.length);
             }
         }
 
@@ -15733,6 +15747,8 @@ public sealed class Arrays permits Arrays.f {
      * The dimensions of the resulting array are determined based on the total element count.
      * The last sub-arrays may be shorter if the total count is not a multiple of {@code rowCount * columnCount}.
      *
+     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: reshape into blocks of 2 rows x 3 cols; last row may be partial
@@ -15757,8 +15773,7 @@ public sealed class Arrays permits Arrays.f {
      * @param rowCount the number of rows in each two-dimensional slice.
      * @param columnCount the number of columns in each two-dimensional slice.
      * @return a new three-dimensional array containing the elements of the input array, or an empty three-dimensional array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or
-     *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}.
+     * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(double[], int) for reshaping into a two-dimensional array
      */
     public static double[][][] reshape(final double[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -15769,7 +15784,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
         final double[][][] result = new double[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
@@ -16816,6 +16831,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional array (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}
      */
     public static long elementCount(final double[][][] a) {
         if (N.isEmpty(a)) {
@@ -16834,7 +16850,7 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                count += doubles.length;
+                count = addElementCountExact(count, doubles.length);
             }
         }
 
@@ -20649,6 +20665,18 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    /**
+     * Adds an innermost array length to a running three-dimensional element count.
+     *
+     * @param count the count accumulated so far
+     * @param additionalCount the number of elements to add
+     * @return the exact sum
+     * @throws ArithmeticException if the sum cannot be represented as a {@code long}
+     */
+    static long addElementCountExact(final long count, final int additionalCount) {
+        return Math.addExact(count, additionalCount);
+    }
+
     private static void checkColsForReshape(final int m) { // NOSONAR
         N.checkArgument(m > 0, "columnCount must be a positive number, but got: {}", m);
     }
@@ -20656,8 +20684,6 @@ public sealed class Arrays permits Arrays.f {
     private static void checkRowsAndColsForReshape(final int rowCount, final int columnCount) {
         N.checkArgument(rowCount > 0 && columnCount > 0, "rowCount and columnCount must be positive numbers: rowCount = {}, columnCount = {}", rowCount,
                 columnCount);
-        N.checkArgument((long) rowCount * (long) columnCount <= Integer.MAX_VALUE,
-                "rowCount * columnCount must be <= {}, but got: rowCount = {}, columnCount = {}", Integer.MAX_VALUE, rowCount, columnCount);
     }
 
     /**
@@ -21193,7 +21219,6 @@ public sealed class Arrays permits Arrays.f {
      * @see Arrays.f
      * @see Arrays.fff
      */
-    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class ff { // NOSONAR
 
         /**
@@ -22893,7 +22918,6 @@ public sealed class Arrays permits Arrays.f {
      * @see Arrays.f
      * @see Arrays.ff
      */
-    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class fff { // NOSONAR
 
         /**
@@ -23009,6 +23033,8 @@ public sealed class Arrays permits Arrays.f {
          * If the total number of elements doesn't evenly divide into the specified dimensions,
          * the last slices may be partially filled.</p>
          *
+         * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * // basic: 8 elements into 2 slices of 2x2
@@ -23033,8 +23059,7 @@ public sealed class Arrays permits Arrays.f {
          * @param rowCount the number of rows for each two-dimensional slice. Must be positive.
          * @param columnCount the number of columns for each two-dimensional slice. Must be positive.
          * @return a new three-dimensional array containing all elements from the input.
-         * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0},
-         *             {@code (long) rowCount * columnCount > Integer.MAX_VALUE}, or if {@code a} is {@code null}.
+         * @throws IllegalArgumentException if {@code rowCount <= 0}, {@code columnCount <= 0}, or {@code a} is {@code null}.
          */
         public static <T> T[][][] reshape(final T[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
             checkRowsAndColsForReshape(rowCount, columnCount);
@@ -23042,7 +23067,7 @@ public sealed class Arrays permits Arrays.f {
 
             final Class<T[]> arrayClass = (Class<T[]>) a.getClass();
             final int len = a.length;
-            final int n = Numbers.divide(len, rowCount * columnCount, RoundingMode.CEILING);
+            final int n = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
 
             final T[][][] c = N.newArray(N.newArray(arrayClass, 0).getClass(), n);
 
@@ -24376,6 +24401,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param a the three-dimensional array to count elements in (can be {@code null}).
          * @return the total number of elements across all sub-arrays, or 0 if the array is {@code null} or empty.
+         * @throws ArithmeticException if the total cannot be represented as a {@code long}
          */
         public static long elementCount(final Object[][][] a) {
             if (N.isEmpty(a)) {
@@ -24394,7 +24420,7 @@ public sealed class Arrays permits Arrays.f {
                         continue;
                     }
 
-                    count += ts.length;
+                    count = addElementCountExact(count, ts.length);
                 }
             }
 

@@ -604,8 +604,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     /**
      * Returns the average of all short values in this tuple as a {@code double}.
      * <p>
-     * The result is returned as a {@code double} to preserve precision; the values are
-     * widened to {@code double} during computation.
+     * The sum is accumulated in a widened integral type before the division is performed in
+     * {@code double}, preserving fractional precision without intermediate short overflow.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

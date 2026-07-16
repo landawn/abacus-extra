@@ -41,7 +41,8 @@
  * <h2>Mutation and ownership</h2>
  * <ul>
  *   <li>Array operations named {@code map}, {@code mapToXxx}, {@code reshape}, {@code flatten},
- *       {@code zip}, or {@code toXxx} allocate a result. Operations named {@code updateAll},
+ *       {@code zip}, or {@code toXxx} return a result array without modifying the supplied array.
+ *       Empty results may use a shared empty-array constant. Operations named {@code updateAll},
  *       {@code replaceIf}, or {@code mutateFlattened} modify the supplied array.</li>
  *   <li>{@link com.landawn.abacus.util.ImmutableIntArray#copyOf(int[]) ImmutableIntArray.copyOf}
  *       makes a defensive copy. In contrast,

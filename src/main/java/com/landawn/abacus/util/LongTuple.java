@@ -14,6 +14,8 @@
 
 package com.landawn.abacus.util;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
@@ -42,7 +44,7 @@ import com.landawn.abacus.util.stream.LongStream;
  * <p>All {@code long} arithmetic in this class follows Java's signed 64-bit semantics (range
  * {@code -9223372036854775808} to {@code 9223372036854775807}). {@link #sum()} returns a {@code long}
  * and wraps silently on overflow (two's-complement), while {@link #average()} is computed without
- * intermediate overflow and widened to {@code double} to preserve fractional precision.</p>
+ * intermediate overflow and rounds the exact arithmetic mean to the nearest representable {@code double}.</p>
  *
  * @param <TP> the concrete {@code LongTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -440,7 +442,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             remainderSum += value % count;
         }
 
-        return quotientSum + ((double) remainderSum) / count;
+        if (remainderSum == 0) {
+            return quotientSum;
+        }
+
+        // Converting quotientSum to double before adding the fractional remainder can
+        // double-round at large half-way values. Keep both parts in decimal until the
+        // final conversion so that the exact mean determines the adjacent double.
+        return BigDecimal.valueOf(quotientSum).add(BigDecimal.valueOf(remainderSum).divide(BigDecimal.valueOf(count), MathContext.DECIMAL128)).doubleValue();
     }
 
     /**
@@ -608,7 +617,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     /**
      * Returns the arithmetic mean of all long values in this tuple as a {@code double}.
      * <p>
-     * The result is returned as a {@code double} to preserve fractional precision.
+     * The computation avoids {@code long} overflow. The exact arithmetic mean is rounded once,
+     * using the normal round-to-nearest {@code double} conversion.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
