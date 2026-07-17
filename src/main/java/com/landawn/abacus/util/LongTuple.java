@@ -430,7 +430,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
     private static double averageOf(final long... values) {
         if (values.length == 0) {
-            throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
+            throw new NoSuchElementException("Cannot compute average() for an empty tuple");
         }
 
         final int count = values.length;

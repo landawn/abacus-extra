@@ -22845,10 +22845,13 @@ public sealed class Arrays permits Arrays.f {
          * Creates a string representation of a two-dimensional array and prints it to the console.
          * Each sub-array is formatted on a separate line for readability.
          *
+         * <p>This method is intentionally package-private; callers outside this package use
+         * {@link Arrays#println(Object[][])}, which delegates here.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[][] array = {{"a", "b"}, {"c", "d", "e"}};
-         * String result = ff.println(array);
+         * String result = Arrays.println(array);
          * // Prints:
          * // [[a, b],
          * //  [c, d, e]]
@@ -24436,10 +24439,13 @@ public sealed class Arrays permits Arrays.f {
          * to visualize the contents and structure of three-dimensional arrays. Each two-dimensional slice is
          * separated by line breaks for clarity.</p>
          *
+         * <p>This method is intentionally package-private; callers outside this package use
+         * {@link Arrays#println(Object[][][])}, which delegates here.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[][][] data = {{{"a", "b"}}, {{"c", "d"}, {"e"}}};
-         * String output = fff.println(data);
+         * String output = Arrays.println(data);
          * // Prints to console and returns:
          * // [[[a, b]],
          * //  [[c, d],
