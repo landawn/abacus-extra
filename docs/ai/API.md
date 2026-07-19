@@ -1,7 +1,7 @@
-# abacus-extra API Index (v3.8.2)
+# abacus-extra API Index (v3.8.4)
 - Build: unknown
 - Java: 17
-- Generated: 2026-07-13
+- Generated: 2026-07-18
 
 ## Packages
 - com.landawn.abacus.util — Provides supplemental, primitive-specialized value types and array operations for Abacus.
@@ -1045,7 +1045,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `columnCount` (`int`) — the number of columns for the reshaped subarray.
 - **Returns:** a three-dimensional boolean array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} or {@code columnCount <= 0} .
 - **See also:** #reshape(boolean\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static char[][] reshape(final char[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional character array into a two-dimensional character array with a specified number of columns.
@@ -1068,7 +1068,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `columnCount` (`int`) — the number of columns in each two-dimensional sub-array.
 - **Returns:** a new three-dimensional character array.
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} or {@code columnCount <= 0} .
 - **See also:** #reshape(char\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static byte[][] reshape(final byte[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional byte array into a two-dimensional byte array with the specified number of columns.
@@ -1089,7 +1089,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `columnCount` (`int`) — the number of columns for the reshaped subarray (must be positive).
 - **Returns:** a three-dimensional byte array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} or {@code columnCount <= 0} .
 - **See also:** #reshape(byte\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static short[][] reshape(final short[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional short array into a two-dimensional array with the specified number of columns.
@@ -1110,7 +1110,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `columnCount` (`int`) — the number of columns in each row (must be positive).
 - **Returns:** a three-dimensional array with the specified dimensions, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} or {@code columnCount <= 0} .
 - **See also:** #reshape(short\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static int[][] reshape(final int[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
@@ -1135,7 +1135,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `columnCount` (`int`) — the number of columns in each row (must be positive).
 - **Returns:** a new three-dimensional array containing the reshaped data, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} or {@code columnCount <= 0} .
 - **See also:** #reshape(int\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static long[][] reshape(final long[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional long array into a two-dimensional long array with a specified number of columns.
@@ -1158,7 +1158,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `columnCount` (`int`) — the number of columns in each two-dimensional sub-array (must be positive).
 - **Returns:** a new three-dimensional long array, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} or {@code columnCount <= 0} .
 - **See also:** #reshape(long\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static float[][] reshape(final float[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional float array into a two-dimensional float array with the specified number of columns.
@@ -1181,7 +1181,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `columnCount` (`int`) — the number of columns in each two-dimensional sub-array.
 - **Returns:** a new three-dimensional array containing the elements of the input array, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} or {@code columnCount <= 0} .
 - **See also:** #reshape(float\[\], int),for reshaping into a two-dimensional array
 - **Signature:** `public static double[][] reshape(final double[] a, final int columnCount) throws IllegalArgumentException`
 - **Summary:** Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
@@ -1204,7 +1204,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `columnCount` (`int`) — the number of columns in each two-dimensional slice.
 - **Returns:** a new three-dimensional array containing the elements of the input array, or an empty three-dimensional array if input is {@code null} or empty.
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} .
+  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} or {@code columnCount <= 0} .
 - **See also:** #reshape(double\[\], int),for reshaping into a two-dimensional array
 ##### flatten(...) -> boolean\[\]
 - **Signature:** `public static boolean[] flatten(final boolean[][] a)`
@@ -3719,7 +3719,7 @@ Object-array helper namespace for three-dimensional arrays.
   - `columnCount` (`int`) — the number of columns for each two-dimensional slice. Must be positive.
 - **Returns:** a new three-dimensional array containing all elements from the input.
 - **Throws:**
-  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , {@code (long) rowCount * columnCount > Integer.MAX_VALUE} , or if {@code a} is {@code null} .
+  - `java.lang.IllegalArgumentException` — if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code a} is {@code null} .
 ##### flatten(...) -> T\[\]
 - **Signature:** `public static <T> T[] flatten(final T[][][] a) throws IllegalArgumentException`
 - **Summary:** Flattens a three-dimensional array into a one-dimensional array by concatenating all elements in their natural order.

@@ -1,8 +1,8 @@
 {
   "library": {
     "name": "abacus-extra",
-    "version": "3.8.2",
-    "generated_at": "2026-07-13",
+    "version": "3.8.4",
+    "generated_at": "2026-07-18",
     "java_target": "17",
     "source": {
       "git_sha": "unknown"
@@ -2646,7 +2646,7 @@
               "throws": [
                 {
                   "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
+                  "condition": "if {@code rowCount <= 0} or {@code columnCount <= 0} ."
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional boolean array into a three-dimensional boolean array with the specified number of rows and columns.",
@@ -4076,7 +4076,7 @@
               "throws": [
                 {
                   "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
+                  "condition": "if {@code rowCount <= 0} or {@code columnCount <= 0} ."
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional character array into a three-dimensional character array with specified dimensions.",
@@ -5500,7 +5500,7 @@
               "throws": [
                 {
                   "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
+                  "condition": "if {@code rowCount <= 0} or {@code columnCount <= 0} ."
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.",
@@ -6925,7 +6925,7 @@
               "throws": [
                 {
                   "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
+                  "condition": "if {@code rowCount <= 0} or {@code columnCount <= 0} ."
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional short array into a three-dimensional array with the specified dimensions.",
@@ -8357,7 +8357,7 @@
               "throws": [
                 {
                   "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
+                  "condition": "if {@code rowCount <= 0} or {@code columnCount <= 0} ."
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional array into a three-dimensional array with the specified dimensions.",
@@ -9793,7 +9793,7 @@
               "throws": [
                 {
                   "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
+                  "condition": "if {@code rowCount <= 0} or {@code columnCount <= 0} ."
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional long array into a three-dimensional long array with a specified number of rows and columns.",
@@ -11227,7 +11227,7 @@
               "throws": [
                 {
                   "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
+                  "condition": "if {@code rowCount <= 0} or {@code columnCount <= 0} ."
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional float array into a three-dimensional float array with the specified number of rows and columns.",
@@ -12652,7 +12652,7 @@
               "throws": [
                 {
                   "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code (long) rowCount * columnCount > Integer.MAX_VALUE} ."
+                  "condition": "if {@code rowCount <= 0} or {@code columnCount <= 0} ."
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional array into a three-dimensional array with the specified number of rows and columns.",
@@ -17841,7 +17841,7 @@
               "throws": [
                 {
                   "type": "java.lang.IllegalArgumentException",
-                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , {@code (long) rowCount * columnCount > Integer.MAX_VALUE} , or if {@code a} is {@code null} ."
+                  "condition": "if {@code rowCount <= 0} , {@code columnCount <= 0} , or {@code a} is {@code null} ."
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional array into a three-dimensional array with the specified dimensions.",
