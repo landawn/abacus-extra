@@ -4164,4 +4164,14 @@ class LongTupleTest extends TestBase {
         assertFalse(tuple9.equals("tuple9"));
     }
 
+    // Pin the documented wrap-around contract: sum() accumulates with plain long
+    // arithmetic, so an overflowing total wraps (two's complement) instead of throwing.
+    @Test
+    public void testSum_overflowWrapsSilently() {
+        assertEquals(Long.MIN_VALUE, LongTuple.of(Long.MAX_VALUE, 1L).sum());
+        assertEquals(Long.MAX_VALUE, LongTuple.of(Long.MIN_VALUE, -1L).sum());
+        assertEquals(-2L, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE).sum());
+        assertEquals(Long.MAX_VALUE - 1, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, 1L).sum());
+    }
+
 }

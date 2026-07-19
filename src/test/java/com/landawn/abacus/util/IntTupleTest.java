@@ -4412,4 +4412,20 @@ class IntTupleTest extends TestBase {
         assertFalse(tuple9.equals("tuple9"));
     }
 
+    // Pin the documented overflow contract: sum() delegates to N.sum(int...), which
+    // accumulates into a long and throws ArithmeticException when the total leaves
+    // the int range (a silent wrap-around would be a regression).
+    @Test
+    public void testSum_overflowThrowsArithmeticException() {
+        assertThrows(ArithmeticException.class, () -> IntTuple.of(Integer.MAX_VALUE, 1).sum());
+        assertThrows(ArithmeticException.class, () -> IntTuple.of(Integer.MIN_VALUE, -1).sum());
+        assertThrows(ArithmeticException.class, () -> IntTuple.of(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE).sum());
+        assertThrows(ArithmeticException.class, () -> IntTuple.of(Integer.MAX_VALUE, 1, 1, 1, 1, 1, 1, 1, 1).sum());
+
+        // The accumulator is a long, so only the final total matters: values that
+        // cancel out along the way must not throw.
+        assertEquals(Integer.MAX_VALUE, IntTuple.of(Integer.MAX_VALUE, 1, -1).sum());
+        assertEquals(Integer.MIN_VALUE, IntTuple.of(Integer.MIN_VALUE, -1, 1).sum());
+    }
+
 }

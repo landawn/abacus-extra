@@ -3922,4 +3922,81 @@ class FloatTupleTest extends TestBase {
         assertFalse(tuple9.equals("tuple9"));
     }
 
+    // Pin the Javadoc contract that contains/equals follow Float.compare semantics:
+    // NaN matches NaN, and +0.0f does not match -0.0f. A regression to '==' or
+    // Float.floatToRawIntBits would silently break these invariants.
+    @Test
+    public void testFloatSemantics_NaN_and_signedZero() {
+        // ---- contains() must treat NaN as equal to NaN across all arities. ----
+        assertTrue(FloatTuple.of(Float.NaN).contains(Float.NaN));
+        assertTrue(FloatTuple.of(1f, Float.NaN).contains(Float.NaN));
+        assertTrue(FloatTuple.of(1f, 2f, Float.NaN).contains(Float.NaN));
+        assertTrue(FloatTuple.of(1f, 2f, 3f, Float.NaN).contains(Float.NaN));
+        assertTrue(FloatTuple.of(1f, 2f, 3f, 4f, Float.NaN).contains(Float.NaN));
+        assertTrue(FloatTuple.of(1f, 2f, 3f, 4f, 5f, Float.NaN).contains(Float.NaN));
+        assertTrue(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, Float.NaN).contains(Float.NaN));
+        assertTrue(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, Float.NaN).contains(Float.NaN));
+        assertTrue(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, Float.NaN).contains(Float.NaN));
+
+        // ---- contains() must NOT treat +0.0f and -0.0f as equal. ----
+        assertFalse(FloatTuple.of(0.0f).contains(-0.0f));
+        assertFalse(FloatTuple.of(-0.0f).contains(0.0f));
+        assertFalse(FloatTuple.of(1f, 0.0f).contains(-0.0f));
+        assertFalse(FloatTuple.of(1f, 2f, 0.0f).contains(-0.0f));
+        assertFalse(FloatTuple.of(1f, 2f, 3f, 0.0f).contains(-0.0f));
+        assertFalse(FloatTuple.of(1f, 2f, 3f, 4f, 0.0f).contains(-0.0f));
+        // Same value matches with sign preserved.
+        assertTrue(FloatTuple.of(0.0f).contains(0.0f));
+        assertTrue(FloatTuple.of(-0.0f).contains(-0.0f));
+
+        // ---- equals() must treat NaN as equal to NaN. ----
+        assertEquals(FloatTuple.of(Float.NaN), FloatTuple.of(Float.NaN));
+        assertEquals(FloatTuple.of(1f, Float.NaN), FloatTuple.of(1f, Float.NaN));
+        assertEquals(FloatTuple.of(1f, 2f, Float.NaN), FloatTuple.of(1f, 2f, Float.NaN));
+        assertEquals(FloatTuple.of(1f, 2f, 3f, Float.NaN), FloatTuple.of(1f, 2f, 3f, Float.NaN));
+        assertEquals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, Float.NaN), FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, Float.NaN));
+
+        // ---- equals() must NOT treat +0.0f and -0.0f as equal. ----
+        assertNotEquals(FloatTuple.of(0.0f), FloatTuple.of(-0.0f));
+        assertNotEquals(FloatTuple.of(0.0f, 1f), FloatTuple.of(-0.0f, 1f));
+        assertNotEquals(FloatTuple.of(1f, 0.0f, 2f), FloatTuple.of(1f, -0.0f, 2f));
+        assertNotEquals(FloatTuple.of(1f, 2f, 0.0f, 3f), FloatTuple.of(1f, 2f, -0.0f, 3f));
+        assertNotEquals(FloatTuple.of(1f, 2f, 3f, 0.0f, 4f), FloatTuple.of(1f, 2f, 3f, -0.0f, 4f));
+    }
+
+    // hashCode contract: equal tuples (per Float.compare) must have the same hash code.
+    // NaN hashes to a single canonical value; +0.0f and -0.0f are NOT equal and
+    // (correctly) hash differently because Float.hashCode is bit-pattern based.
+    @Test
+    public void testFloatSemantics_HashCode_NaN_and_signedZero() {
+        // NaN: equal -> equal hash.
+        assertEquals(FloatTuple.of(Float.NaN).hashCode(), FloatTuple.of(Float.NaN).hashCode());
+        assertEquals(FloatTuple.of(1f, Float.NaN).hashCode(), FloatTuple.of(1f, Float.NaN).hashCode());
+        assertEquals(FloatTuple.of(Float.NaN, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f).hashCode(),
+                FloatTuple.of(Float.NaN, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f).hashCode());
+
+        // +0.0f vs -0.0f: not equal; bit-pattern hash differs.
+        assertNotEquals(FloatTuple.of(0.0f).hashCode(), FloatTuple.of(-0.0f).hashCode());
+        assertNotEquals(FloatTuple.of(1f, 0.0f).hashCode(), FloatTuple.of(1f, -0.0f).hashCode());
+        assertNotEquals(FloatTuple.of(0.0f, 1f, 2f).hashCode(), FloatTuple.of(-0.0f, 1f, 2f).hashCode());
+    }
+
+    // Sum / average / min / max / median behavior with infinities, NaN, and signed zero.
+    @Test
+    public void testFloatSemantics_AggregatesWithSpecialValues() {
+        // Sum: +INF + (-INF) = NaN (IEEE-754); NaN propagates through sum/average.
+        assertTrue(Float.isNaN(FloatTuple.of(Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY).sum()));
+        assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, Float.NaN).sum()));
+        assertTrue(Double.isNaN(FloatTuple.of(1f, 2f, Float.NaN).average()));
+
+        // Min/max with -0.0f vs +0.0f: Math.min/max treats -0.0f as strictly less than +0.0f.
+        assertEquals(Float.floatToRawIntBits(-0.0f), Float.floatToRawIntBits(FloatTuple.of(0.0f, -0.0f).min()));
+        assertEquals(Float.floatToRawIntBits(+0.0f), Float.floatToRawIntBits(FloatTuple.of(0.0f, -0.0f).max()));
+        // Same for higher arities (Tuple4-9 use Math.min/max chains).
+        assertEquals(Float.floatToRawIntBits(-0.0f), Float.floatToRawIntBits(FloatTuple.of(1f, 0.0f, 2f, -0.0f, 3f, 4f, 5f, 6f, 7f).min()));
+
+        // Median for 2 elements uses Float.compare ordering, where NaN sorts last.
+        assertFalse(Float.isNaN(FloatTuple.of(1f, Float.NaN).median()));
+    }
+
 }

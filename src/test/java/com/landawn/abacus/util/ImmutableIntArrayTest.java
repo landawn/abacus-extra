@@ -1205,6 +1205,26 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
+        public void property_stream_sharesBackingAfterUnsafeWrap() {
+            final int[] src = { 1, 2, 3 };
+            final ImmutableIntArray array = ImmutableIntArray.unsafeWrap(src);
+
+            src[0] = 99; // documented: stream() is constructed directly over the backing array
+
+            assertArrayEquals(new int[] { 99, 2, 3 }, array.stream().toArray(), "stream over an unsafeWrap view must observe source mutations");
+        }
+
+        @Test
+        public void property_stream_isolatedAfterCopyOf() {
+            final int[] src = { 1, 2, 3 };
+            final ImmutableIntArray array = ImmutableIntArray.copyOf(src);
+
+            java.util.Arrays.fill(src, 0); // mutate the source after copying
+
+            assertArrayEquals(new int[] { 1, 2, 3 }, array.stream().toArray(), "stream over a copyOf snapshot must be isolated from the source");
+        }
+
+        @Test
         public void property_copyOfRange_returnsIndependentCopy() {
             final ImmutableIntArray array = ImmutableIntArray.copyOf(new int[] { 10, 20, 30, 40 });
             final int[] range = array.copyOfRange(1, 4);

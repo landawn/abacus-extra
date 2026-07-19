@@ -3465,4 +3465,20 @@ class BooleanTupleTest extends TestBase {
         assertFalse(tuple9.equals("tuple9"));
     }
 
+    // The arity-specific callback overloads carry their own null guards (the shared
+    // base-class guards are covered by PrimitiveTupleTest); pin the documented
+    // IllegalArgumentException and the @MayReturnNull pass-through of map().
+    @Test
+    public void testCallbackNullGuards_andNullMapResult() {
+        BooleanTuple.BooleanTuple2 tuple2 = BooleanTuple.of(true, false);
+
+        assertThrows(IllegalArgumentException.class, () -> tuple2.forEach(null));
+        assertThrows(IllegalArgumentException.class, () -> tuple2.accept((Throwables.BooleanBiConsumer<RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> tuple2.map((Throwables.BooleanBiFunction<String, RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> tuple2.filter((Throwables.BooleanBiPredicate<RuntimeException>) null));
+
+        Object mapped = tuple2.map((a, b) -> null);
+        assertEquals(null, mapped);
+    }
+
 }
