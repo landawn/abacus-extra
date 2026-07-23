@@ -863,7 +863,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * ShortTuple.ShortTuple3 b = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * assert a.hashCode() == b.hashCode(); // returns true (equal content -> equal hash)
      *
-     *
      * // Edge: empty tuple has a stable hash
      * ShortTuple<?> empty = ShortTuple.from(new short[0]);
      * empty.hashCode();                  // does not throw
@@ -3656,7 +3655,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * int[] count = {0};
          * t2.forEach(v -> { if (v < 0) count[0]++; });   // count[0] == 7 (all negative)
          *
-         * // throws IllegalArgumentException if action is null
          * // t.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
@@ -4030,7 +4028,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * int[] count = {0};
          * t2.forEach(v -> { if (v < 0) count[0]++; });   // count[0] == 8 (all negative)
          *
-         * // throws IllegalArgumentException if action is null
          * // t.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *
@@ -4410,7 +4407,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * int[] count = {0};
          * t2.forEach(v -> { if (v < 0) count[0]++; });   // count[0] == 9 (all negative)
          *
-         * // throws IllegalArgumentException if action is null
          * // t.forEach(null);   // throws IllegalArgumentException
          * }</pre>
          *

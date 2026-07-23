@@ -737,7 +737,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.FloatTuple2 t = FloatTuple.of(1.5f, 2.5f);
      * FloatList l = t.toList();
      * l.add(4.0f);                                    // modifies the copy, not the tuple
-     * t.arity();                                       // still returns 2
+     * t.arity();                                      // still returns 2
      *
      * // Edge: empty tuple returns an empty list (not null)
      * FloatTuple.from(new float[0]).toList().size(); // returns 0
@@ -768,8 +768,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * // Collect elements into a list in encounter order
      * FloatList collected = FloatList.of();
      * FloatTuple.of(1.0f, 2.0f, 3.0f).forEach(collected::add); // adds each value to collected
-     * collected.size();                                         // returns 3
-     * collected.get(0);                                         // returns 1.0f
+     * collected.size();                                        // returns 3
+     * collected.get(0);                                        // returns 1.0f
      *
      * // Action receives elements left-to-right
      * FloatTuple.of(1.5f, 2.5f).forEach(f -> System.out.print(f + " ")); // prints "1.5 2.5 "
@@ -777,12 +777,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * // Edge: empty tuple - action is never invoked
      * FloatList empty = FloatList.of();
      * FloatTuple.from(new float[0]).forEach(empty::add); // action not invoked (empty tuple)
-     * empty.size();                                         // returns 0
+     * empty.size();                                      // returns 0
      *
      * // Edge: NaN element is passed to the action as-is
      * FloatList nanList = FloatList.of();
      * FloatTuple.of(Float.NaN).forEach(nanList::add); // adds the NaN element to nanList
-     * Float.isNaN(nanList.get(0));                     // returns true
+     * Float.isNaN(nanList.get(0));                    // returns true
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action

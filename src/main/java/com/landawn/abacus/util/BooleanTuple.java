@@ -1289,8 +1289,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * BooleanTuple.BooleanTuple2 t1 = BooleanTuple.of(true, false);
          * BooleanTuple.BooleanTuple2 t2 = BooleanTuple.of(true, false);
          * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         * t1.hashCode();                    // returns 39398
-         *
+         * t1.hashCode();                         // returns 39398
          *
          * // All-false
          * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
@@ -1658,8 +1657,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * BooleanTuple.BooleanTuple3 t1 = BooleanTuple.of(true, false, true);
          * BooleanTuple.BooleanTuple3 t2 = BooleanTuple.of(true, false, true);
          * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         * t1.hashCode();                    // returns 1222569
-         *
+         * t1.hashCode();                         // returns 1222569
          *
          * // All-false
          * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
@@ -1901,7 +1899,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * BooleanTuple.BooleanTuple4 t1 = BooleanTuple.of(true, false, true, false);
          * BooleanTuple.BooleanTuple4 t2 = BooleanTuple.of(true, false, true, false);
          * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         *
          *
          * // All-true
          * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
@@ -2151,7 +2148,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * BooleanTuple.BooleanTuple5 t1 = BooleanTuple.of(true, false, true, false, true);
          * BooleanTuple.BooleanTuple5 t2 = BooleanTuple.of(true, false, true, false, true);
          * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         *
          *
          * // All-true
          * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);

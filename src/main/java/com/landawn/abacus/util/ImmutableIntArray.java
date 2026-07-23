@@ -667,6 +667,14 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns a new int array containing a copy of the elements in the specified range.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
+     * array.copyOfRange(1, 4);   // returns {20, 30, 40}
+     * array.copyOfRange(2, 2);   // returns {}
+     * array.copyOfRange(0, 10);  // throws IndexOutOfBoundsException
+     * }</pre>
+     *
      * @param fromIndex the starting index (inclusive), must be {@code >= 0}
      * @param toIndex the ending index (exclusive), must be {@code <= length()}
      * @return a newly allocated int array containing the elements in {@code [fromIndex, toIndex)}

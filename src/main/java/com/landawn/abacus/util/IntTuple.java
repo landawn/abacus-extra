@@ -2365,7 +2365,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.IntTuple4 t2 = IntTuple.of(1, 2, 3, 4);
          * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
          *
-         *
          * IntTuple.IntTuple4 t4 = IntTuple.of(0, 0, 0, 0);
          * t4.hashCode(); // returns 0
          * }</pre>
@@ -2730,7 +2729,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.IntTuple5 t1 = IntTuple.of(1, 2, 3, 4, 5);
          * IntTuple.IntTuple5 t2 = IntTuple.of(1, 2, 3, 4, 5);
          * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         *
          *
          * IntTuple.IntTuple5 t4 = IntTuple.of(0, 0, 0, 0, 0);
          * t4.hashCode(); // returns 0
@@ -3100,7 +3098,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.IntTuple6 t1 = IntTuple.of(1, 2, 3, 4, 5, 6);
          * IntTuple.IntTuple6 t2 = IntTuple.of(1, 2, 3, 4, 5, 6);
          * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         *
          *
          * IntTuple.IntTuple6 t4 = IntTuple.of(0, 0, 0, 0, 0, 0);
          * t4.hashCode(); // returns 0

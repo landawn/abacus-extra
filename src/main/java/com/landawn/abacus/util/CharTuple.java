@@ -1301,7 +1301,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * // Different elements - different hash codes
          * CharTuple.CharTuple1 t3 = CharTuple.of('A');
-         * CharTuple.CharTuple1 t4 = CharTuple.of('B');           // 'B' = 66
+         * CharTuple.CharTuple1 t4 = CharTuple.of('B');         // 'B' = 66
          * boolean diffHash = (t3.hashCode() != t4.hashCode()); // true
          * }</pre>
          *
@@ -2721,7 +2721,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple4 t4 = CharTuple.of('A', 'A', 'A', 'A');
-         * int h4 = t4.hashCode();                                        // consistent value
+         * int h4 = t4.hashCode();                                   // consistent value
          * assert CharTuple.of('A', 'A', 'A', 'A').hashCode() == h4; // true
          * }</pre>
          *

@@ -782,7 +782,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * // Empty tuple: consumer is never called
      * int[] count = {0};
      * DoubleTuple.from(new double[0]).forEach(d -> count[0]++);   // action not invoked (empty tuple)
-     * int callCount = count[0];                                     // 0
+     * int callCount = count[0];                                   // 0
      *
      * // null action throws IllegalArgumentException
      * // tuple.forEach(null);   // throws IllegalArgumentException
@@ -1620,9 +1620,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.of(-1.5, 2.5).forEach(list::add);   // list == [-1.5, 2.5]
          *
          * // NaN is passed through as-is
-        * DoubleTuple.of(Double.NaN, 1.0).forEach(v -> {
-        *     assert Double.isNaN(v) || v == 1.0;
-        * });
+         * DoubleTuple.of(Double.NaN, 1.0).forEach(v -> {
+         *     assert Double.isNaN(v) || v == 1.0;
+         * });
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action

@@ -4784,8 +4784,7 @@ public sealed class Arrays permits Arrays.f {
      * // nullResult is {} (length 0)
      *
      * // Edge: non-positive columnCount - throws IllegalArgumentException
-     * Arrays.reshape(new char[]{'a'}, 0);
-     * // throws IllegalArgumentException
+     * Arrays.reshape(new char[]{'a'}, 0); // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional character array to reshape (can be {@code null}).
@@ -4836,8 +4835,7 @@ public sealed class Arrays permits Arrays.f {
      * // nullResult is {} (length 0)
      *
      * // Edge: non-positive rowCount - throws IllegalArgumentException
-     * Arrays.reshape(new char[]{'a'}, 0, 2);
-     * // throws IllegalArgumentException
+     * Arrays.reshape(new char[]{'a'}, 0, 2); // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional character array to reshape (can be {@code null}).
@@ -15715,7 +15713,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty.length == 0
      *
      * // Edge: columnCount <= 0 throws IllegalArgumentException
-     * // Arrays.reshape(new double[]{1.0, 2.0}, 0); // throws IllegalArgumentException
+     * Arrays.reshape(new double[]{1.0, 2.0}, 0); // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
@@ -15766,7 +15764,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty.length == 0
      *
      * // Edge: rowCount <= 0 throws IllegalArgumentException
-     * // Arrays.reshape(new double[]{1.0}, 0, 2); // throws IllegalArgumentException
+     * Arrays.reshape(new double[]{1.0}, 0, 2); // throws IllegalArgumentException
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
@@ -16643,7 +16641,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: outer length = 1 (min of all); inner zip truncates to shorter sub-array
-     * // block 0: zip2D({1,2},null,{11,12},{13,14},{21,22},null) -> truncated to {{33,36}}
+     * // block 0: rows truncate to min(1, 2, 1) = 1 -> zip({1,2}, {11,12}, {21,22}) -> {{33.0, 36.0}}
      * double[][][] a = {{{1, 2}}};
      * double[][][] b = {{{11, 12}, {13, 14}}};
      * double[][][] c = {{{21, 22}}};
@@ -22331,8 +22329,7 @@ public sealed class Arrays permits Arrays.f {
          * // r is {{111, 222}}
          *
          * // Edge: null a throws IllegalArgumentException
-         * Arrays.ff.zip((Integer[][]) null, b, c, (x, y, z) -> x + y + z);
-         * // throws IllegalArgumentException
+         * Arrays.ff.zip((Integer[][]) null, b, c, (x, y, z) -> x + y + z); // throws IllegalArgumentException
          *
          * // Edge: one of b or c is null - treated as empty, outer length is min(lenA,0,lenC)=0
          * Integer[][] r2 = Arrays.ff.zip(a, (Integer[][]) null, c, (x, y, z) -> x + y + z);
