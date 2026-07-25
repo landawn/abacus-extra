@@ -21261,6 +21261,7 @@ public sealed class Arrays permits Arrays.f {
      * @see Arrays.f
      * @see Arrays.fff
      */
+    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class ff { // NOSONAR
 
         /**
@@ -22962,6 +22963,7 @@ public sealed class Arrays permits Arrays.f {
      * @see Arrays.f
      * @see Arrays.ff
      */
+    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class fff { // NOSONAR
 
         /**

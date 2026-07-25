@@ -13278,6 +13278,22 @@ class ArraysTest extends TestBase {
             assertEquals(0, result.length);
         }
 
+        @Test
+        public void test_reshape_booleanArray3DBlockCapacityExceedsIntRange() {
+            // 46341 * 46341 overflows int. The block capacity is computed with long arithmetic,
+            // so this is accepted and yields a single partial block rather than throwing.
+            boolean[] arr = { true, false, true };
+            boolean[][][] result = Arrays.reshape(arr, 46341, 46341);
+
+            assertEquals(1, result.length);
+            assertEquals(1, result[0].length);
+            assertArrayEquals(new boolean[] { true, false, true }, result[0][0]);
+
+            // Non-positive dimensions are still rejected.
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(arr, 0, 2));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(arr, 2, 0));
+        }
+
         // ============================================
         // Tests for flatten(boolean[][])
         // ============================================

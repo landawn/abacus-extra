@@ -41,7 +41,7 @@ import com.landawn.abacus.util.stream.ShortStream;
  *
  * <p>All {@code short} arithmetic in this class follows Java's signed semantics (range {@code -32768}
  * to {@code 32767}). {@link #sum()} is widened to {@code int} to avoid overflow, and {@link #average()}
- * to {@code double} to preserve precision.</p>
+ * is widened to {@code double} to preserve precision.</p>
  *
  * @param <TP> the concrete {@code ShortTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple

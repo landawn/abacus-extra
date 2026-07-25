@@ -41,7 +41,7 @@ import com.landawn.abacus.util.stream.ByteStream;
  *
  * <p>All {@code byte} arithmetic in this class follows Java's signed semantics (range {@code -128}
  * to {@code 127}). {@link #sum()} is widened to {@code int} to avoid overflow, and {@link #average()}
- * returns {@code double} to preserve fractional precision.</p>
+ * is widened to {@code double} to preserve precision.</p>
  *
  * @param <TP> the concrete {@code ByteTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
