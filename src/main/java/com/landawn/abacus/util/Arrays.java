@@ -20664,6 +20664,50 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Returns the runtime class of an object array while retaining its declared element type.
+     * The runtime class may have a narrower component type because Java arrays are covariant;
+     * preserving that class is intentional so newly allocated arrays keep the same store checks.
+     *
+     * @param <T> the declared element type
+     * @param array the source array
+     * @return the runtime array class
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> Class<T[]> runtimeArrayClass(final T[] array) {
+        return (Class<T[]>) array.getClass();
+    }
+
+    /**
+     * Returns the runtime element type after the two dimensions represented by {@code T[][]}.
+     * The returned type can be narrower than {@code T}; this deliberately preserves the
+     * source array's runtime component type and its array-store checks. If {@code T} is itself
+     * an array type, that additional dimension remains part of the returned class.
+     *
+     * @param <T> the declared element type after two dimensions
+     * @param array the two-dimensional source array
+     * @return the runtime element type after two dimensions
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> Class<T> runtimeComponentType2D(final T[][] array) {
+        return (Class<T>) array.getClass().getComponentType().getComponentType();
+    }
+
+    /**
+     * Returns the runtime element type after the three dimensions represented by {@code T[][][]}.
+     * The returned type can be narrower than {@code T}; this deliberately preserves the
+     * source array's runtime component type and its array-store checks. If {@code T} is itself
+     * an array type, that additional dimension remains part of the returned class.
+     *
+     * @param <T> the declared element type after three dimensions
+     * @param array the three-dimensional source array
+     * @return the runtime element type after three dimensions
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> Class<T> runtimeComponentType3D(final T[][][] array) {
+        return (Class<T>) array.getClass().getComponentType().getComponentType().getComponentType();
+    }
+
+    /**
      * Adds an innermost array length to a running three-dimensional element count.
      *
      * @param count the count accumulated so far
@@ -21374,7 +21418,7 @@ public sealed class Arrays permits Arrays.f {
 
             final int len = a.length;
             final int n = Numbers.divide(len, columnCount, RoundingMode.CEILING);
-            final Class<T[]> arrayClass = (Class<T[]>) a.getClass();
+            final Class<T[]> arrayClass = runtimeArrayClass(a);
             final T[][] c = N.newArray(arrayClass, n);
 
             for (int i = 0, from = 0; i < n; i++, from += columnCount) {
@@ -21426,7 +21470,7 @@ public sealed class Arrays permits Arrays.f {
 
             final int count = Numbers.toIntExact(elementCount(a));
 
-            final Class<T> componentType = (Class<T>) a.getClass().getComponentType().getComponentType();
+            final Class<T> componentType = runtimeComponentType2D(a);
             final T[] c = N.newArray(componentType, count);
             int from = 0;
 
@@ -21553,7 +21597,7 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(mapper, "mapper");
 
             N.checkArgNotNull(a, "a");
-            final Class<T> targetElementType = (Class<T>) a.getClass().getComponentType().getComponentType();
+            final Class<T> targetElementType = runtimeComponentType2D(a);
             try {
                 return map(a, value -> {
                     try {
@@ -22079,7 +22123,7 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, "zipFunction");
 
             N.checkArgNotNull(a, "a");
-            final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
+            final Class<A> targetElementType = runtimeComponentType2D(a);
             try {
                 return zip(a, b, (left, right) -> {
                     try {
@@ -22355,7 +22399,7 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, "zipFunction");
 
             N.checkArgNotNull(a, "a");
-            final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType();
+            final Class<A> targetElementType = runtimeComponentType2D(a);
             try {
                 return zip(a, b, c, (first, second, third) -> {
                     try {
@@ -23065,7 +23109,7 @@ public sealed class Arrays permits Arrays.f {
             checkRowsAndColsForReshape(rowCount, columnCount);
             N.checkArgNotNull(a, "a");
 
-            final Class<T[]> arrayClass = (Class<T[]>) a.getClass();
+            final Class<T[]> arrayClass = runtimeArrayClass(a);
             final int len = a.length;
             final int n = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
 
@@ -23087,8 +23131,8 @@ public sealed class Arrays permits Arrays.f {
          * all elements in their natural order. The method traverses the array depth-first,
          * preserving the order of elements as they appear in the original structure.
          *
-         * <p>This operation is the inverse of reshape, converting a multi-dimensional
-         * structure back into a linear representation. Empty sub-arrays are skipped.</p>
+         * <p>This operation is the linearizing counterpart to reshape, but it discards all
+         * block and row shape information. Null and empty sub-arrays are skipped.</p>
          *
          * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
          * this method throws {@link ArithmeticException} before allocating the result array.</p>
@@ -23125,7 +23169,7 @@ public sealed class Arrays permits Arrays.f {
 
             final int count = Numbers.toIntExact(elementCount(a));
 
-            final Class<T> componentType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
+            final Class<T> componentType = runtimeComponentType3D(a);
             final T[] c = N.newArray(componentType, count);
             int from = 0;
 
@@ -23257,7 +23301,7 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(mapper, "mapper");
 
             N.checkArgNotNull(a, "a");
-            final Class<T> targetElementType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
+            final Class<T> targetElementType = runtimeComponentType3D(a);
             try {
                 return map(a, value -> {
                     try {
@@ -23817,7 +23861,7 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, "zipFunction");
 
             N.checkArgNotNull(a, "a");
-            final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
+            final Class<A> targetElementType = runtimeComponentType3D(a);
             try {
                 return zip(a, b, (left, right) -> {
                     try {
@@ -24100,7 +24144,7 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, "zipFunction");
 
             N.checkArgNotNull(a, "a");
-            final Class<A> targetElementType = (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
+            final Class<A> targetElementType = runtimeComponentType3D(a);
             try {
                 return zip(a, b, c, (first, second, third) -> {
                     try {

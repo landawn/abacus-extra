@@ -378,7 +378,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(double)
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends DoubleTuple<TP>> TP from(final double[] values) {
         if (values == null || values.length == 0) {
             return (TP) DoubleTuple0.EMPTY;
@@ -914,7 +914,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
-            return N.equals(elements(), ((DoubleTuple<TP>) obj).elements());
+            return N.equals(elements(), ((DoubleTuple<?>) obj).elements());
         }
     }
 

@@ -112,7 +112,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * // Reverse produces a new tuple with elements swapped
      * assert pair.reverse()._1 == 2.5f;
      *
-     * // Edge: NaN element - min/max/median propagate NaN
+     * // Edge: NaN element - min/max propagate NaN
      * FloatTuple.FloatTuple2 nanPair = FloatTuple.of(1.0f, Float.NaN);
      * Float.isNaN(nanPair.min());                      // returns true
      *
@@ -395,7 +395,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(float)
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends FloatTuple<TP>> TP from(final float[] values) {
         if (values == null || values.length == 0) {
             return (TP) FloatTuple0.EMPTY;
@@ -899,7 +899,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
-            return N.equals(elements(), ((FloatTuple<TP>) obj).elements());
+            return N.equals(elements(), ((FloatTuple<?>) obj).elements());
         }
     }
 

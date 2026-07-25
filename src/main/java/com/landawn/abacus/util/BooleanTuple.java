@@ -414,7 +414,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(boolean)
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends BooleanTuple<TP>> TP from(final boolean[] values) {
         if (values == null || values.length == 0) {
             return (TP) BooleanTuple0.EMPTY;
@@ -745,7 +745,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
-            return N.equals(elements(), ((BooleanTuple<TP>) obj).elements());
+            return N.equals(elements(), ((BooleanTuple<?>) obj).elements());
         }
     }
 

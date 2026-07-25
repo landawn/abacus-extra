@@ -1525,7 +1525,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with integer coordinates and an integer value.
-         * This class is the most commonly used point type for general-purpose integer-based
+         * This class is the most commonly used 3D point type for general-purpose integer-based
          * coordinate systems and grid operations.
          *
          * <p>All instances are immutable and thread-safe.</p>

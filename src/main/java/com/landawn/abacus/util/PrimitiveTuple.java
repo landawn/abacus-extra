@@ -44,6 +44,17 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
     public abstract int arity();
 
     /**
+     * Returns this tuple as its self type. The cast is safe because the sealed tuple hierarchy binds
+     * {@code TP} to the concrete arity-specific subtype.
+     *
+     * @return this tuple as {@code TP}
+     */
+    @SuppressWarnings("unchecked")
+    private TP self() {
+        return (TP) this;
+    }
+
+    /**
      * Passes this tuple to the given action.
      *
      * @param <E> the type of exception that may be thrown by the action
@@ -56,7 +67,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
     public <E extends Exception> void accept(final Throwables.Consumer<? super TP, E> action) throws E {
         N.checkArgNotNull(action, "action");
 
-        action.accept((TP) this);
+        action.accept(self());
     }
 
     /**
@@ -75,7 +86,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
     public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws E {
         N.checkArgNotNull(mapper, "mapper");
 
-        return mapper.apply((TP) this);
+        return mapper.apply(self());
     }
 
     /**
@@ -94,7 +105,9 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
         N.checkArgNotNull(predicate, "predicate");
 
-        return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.empty();
+        final TP tuple = self();
+
+        return predicate.test(tuple) ? Optional.of(tuple) : Optional.empty();
     }
 
     /**
@@ -104,6 +117,6 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      * @see #filter(Throwables.Predicate)
      */
     public Optional<TP> toOptional() {
-        return Optional.of((TP) this);
+        return Optional.of(self());
     }
 }

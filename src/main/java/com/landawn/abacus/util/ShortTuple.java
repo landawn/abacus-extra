@@ -409,7 +409,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(short)
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends ShortTuple<TP>> TP from(final short[] values) {
         if (values == null || values.length == 0) {
             return (TP) ShortTuple0.EMPTY;
@@ -662,7 +662,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * empty.reverse().arity();           // returns 0
      * }</pre>
      *
-     * @return a new tuple of the same arity with the elements in reverse order
+     * @return a tuple of the same arity with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -790,7 +790,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * // Collect visited values
      * java.util.List<Short> visited = new java.util.ArrayList<>();
      * t.forEach(v -> visited.add(v));   // collects each value into visited
-     * assert visited.equals(java.util.List.of((short) 1, (short) 2, (short) 3));
+     * java.util.List<Short> expected = java.util.List.of((short) 1, (short) 2, (short) 3);
+     * assert visited.equals(expected);   // same encounter order as the tuple
      *
      * // Edge: empty tuple - consumer is never called
      * ShortTuple<?> empty = ShortTuple.from(new short[0]);
@@ -922,7 +923,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
-            return N.equals(elements(), ((ShortTuple<TP>) obj).elements());
+            return N.equals(elements(), ((ShortTuple<?>) obj).elements());
         }
     }
 

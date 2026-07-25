@@ -437,7 +437,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(byte)
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends ByteTuple<TP>> TP from(final byte[] values) {
         if (values == null || values.length == 0) {
             return (TP) ByteTuple0.EMPTY;
@@ -973,7 +973,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
-            return N.equals(elements(), ((ByteTuple<TP>) obj).elements());
+            return N.equals(elements(), ((ByteTuple<?>) obj).elements());
         }
     }
 

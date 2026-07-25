@@ -35,7 +35,7 @@
  *       {@link com.landawn.abacus.util.ShortTuple}, {@link com.landawn.abacus.util.IntTuple},
  *       {@link com.landawn.abacus.util.LongTuple}, {@link com.landawn.abacus.util.FloatTuple}, and
  *       {@link com.landawn.abacus.util.DoubleTuple} provide immutable, primitive-specialized tuples
- *       with fixed arities of up to nine elements.</li>
+ *       with fixed arities from zero through nine elements.</li>
  * </ul>
  *
  * <h2>Mutation and ownership</h2>

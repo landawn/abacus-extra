@@ -354,7 +354,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(char)
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends CharTuple<TP>> TP from(final char[] values) {
         if (values == null || values.length == 0) {
             return (TP) CharTuple0.EMPTY;
@@ -888,7 +888,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
-            return N.equals(elements(), ((CharTuple<TP>) obj).elements());
+            return N.equals(elements(), ((CharTuple<?>) obj).elements());
         }
     }
 

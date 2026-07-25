@@ -389,7 +389,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(long)
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends LongTuple<TP>> TP from(final long[] values) {
         if (values == null || values.length == 0) {
             return (TP) LongTuple0.EMPTY;
@@ -677,7 +677,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * assert pair._1 == 1;
      * }</pre>
      *
-     * @return a new tuple with the elements in reverse order
+     * @return a tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -931,7 +931,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
-            return N.equals(elements(), ((LongTuple<TP>) obj).elements());
+            return N.equals(elements(), ((LongTuple<?>) obj).elements());
         }
     }
 

@@ -377,7 +377,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(int)
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends IntTuple<TP>> TP from(final int[] values) {
         if (values == null || values.length == 0) {
             return (TP) IntTuple0.EMPTY;
@@ -860,7 +860,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
-            return N.equals(elements(), ((IntTuple<TP>) obj).elements());
+            return N.equals(elements(), ((IntTuple<?>) obj).elements());
         }
     }
 
