@@ -7617,7 +7617,7 @@ public sealed class Arrays permits Arrays.f {
      * byte[][][] c = {{{21, 22}}};
      * byte[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (byte)(x + y + z));
      * // result: [[[33, 36]]]
-     * // slice[0]: zip2D({1,2},{11,12},{21,22}): min rows=1 -> {1+11+21,2+12+22}={33,36}
+     * // slice 0: rows truncate to min(1, 2, 1) = 1 -> zip({1,2}, {11,12}, {21,22}) -> {{33, 36}}
      *
      * // Single element per slice
      * byte[][][] a2 = {{{1}}};
@@ -9410,7 +9410,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: outer length = min(1, 1, 1) = 1
-     * // slice 0: zip2D({{1,2}}, {{11,12},{13,14}}, {{21,22}}) -> outer min=1; row 0: {33, 36}
+     * // slice 0: rows truncate to min(1, 2, 1) = 1 -> zip({1,2}, {11,12}, {21,22}) -> {{33, 36}}
      * short[][][] a = {{{1, 2}}};
      * short[][][] b = {{{11, 12}, {13, 14}}};
      * short[][][] c = {{{21, 22}}};
@@ -9468,9 +9468,9 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: outer length = max(1, 1, 1) = 1
-     * // slice 0: zip2D({{1,2}}, {{11,12},{13,14}}, {{21,22}}, 0, 10, 20)
-     * //   inner max=2; row 0: zip({1,2},{11,12},{21,22},0,10,20) -> {33, 36}
-     * //              row 1: zip(null,{13,14},null,0,10,20) -> {33, 34}  (0+13+20, 0+14+20)
+     * // slice 0: rows pad to max(1, 2, 1) = 2 (defaults 0, 10, 20)
+     * //   row 0: zip({1,2},{11,12},{21,22},0,10,20) -> {33, 36}
+     * //   row 1: zip(null,{13,14},null,0,10,20) -> {33, 34}  (0+13+20, 0+14+20)
      * short[][][] a = {{{1, 2}}};
      * short[][][] b = {{{11, 12}, {13, 14}}};
      * short[][][] c = {{{21, 22}}};
@@ -9478,7 +9478,7 @@ public sealed class Arrays permits Arrays.f {
      * // result: {{{33, 36}, {33, 34}}}
      *
      * // Basic: one null array - treated as empty; its default fills all positions
-     * // b is null; slice 0: zip2D({{5,6}}, null, {{1,2}}, 0, 10, 20)
+     * // slice 0 (b is null): rows pad to max(1, 0, 1) = 1 (defaults 0, 10, 20)
      * //   row 0: zip({5,6},null,{1,2},0,10,20) -> {5+10+1, 6+10+2} = {16, 18}
      * short[][][] fromNull = Arrays.zip(new short[][][]{{{5, 6}}}, (short[][][]) null,
      *         new short[][][]{{{1, 2}}}, (short) 0, (short) 10, (short) 20,
