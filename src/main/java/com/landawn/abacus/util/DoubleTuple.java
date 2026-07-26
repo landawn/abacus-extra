@@ -2594,7 +2594,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple4 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
          * DoubleTuple.DoubleTuple4 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * assert t1.hashCode() == t2.hashCode();   // equal tuples have equal hash codes
          * }</pre>
          *
          * @return the hash code
@@ -2931,7 +2931,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple5 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
          * DoubleTuple.DoubleTuple5 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * assert t1.hashCode() == t2.hashCode();   // equal tuples have equal hash codes
          * }</pre>
          *
          * @return the hash code
@@ -3273,7 +3273,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <pre>{@code
          * DoubleTuple.DoubleTuple6 t1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
          * DoubleTuple.DoubleTuple6 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * assert t1.hashCode() == t2.hashCode();   // equal tuples have equal hash codes
          * }</pre>
          *
          * @return the hash code

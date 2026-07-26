@@ -1838,8 +1838,7 @@ public sealed class Arrays permits Arrays.f {
      * // Basic: divide each element (produces repeating decimals)
      * int[][] grid = {{10, 20}, {30, 40}};
      * double[][] result = Arrays.mapToDouble(grid, i -> i / 3.0);
-     * // returns {{10/3.0, 20/3.0}, {30/3.0, 40/3.0}}
-     * // i.e.  {{3.3333..., 6.6666...}, {10.0, 13.3333...}}
+     * // returns {{3.3333..., 6.6666...}, {10.0, 13.3333...}}
      *
      * // Basic: negative and zero values
      * int[][] neg = {{-2, 0}, {2, -4}};
@@ -3324,8 +3323,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param defaultValueA the default value to use when array {@code a} is shorter.
-     * @param defaultValueB the default value to use when array {@code b} is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
@@ -3459,9 +3458,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param defaultValueA the default value to use when array {@code a} is shorter.
-     * @param defaultValueB the default value to use when array {@code b} is shorter.
-     * @param defaultValueC the default value to use when array {@code c} is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
+     * @param defaultValueC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
@@ -4169,7 +4168,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
-     * @return the minimum length of sub-arrays, or 0 if array is empty.
+     * @return the minimum length of sub-arrays, or 0 if array is {@code null} or empty.
      */
     public static int minImmediateSubArrayLength(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -4211,7 +4210,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
-     * @return the maximum length of sub-arrays, or 0 if array is empty.
+     * @return the maximum length of sub-arrays, or 0 if array is {@code null} or empty.
      */
     public static int maxImmediateSubArrayLength(final boolean[][] a) {
         if (N.isEmpty(a)) {

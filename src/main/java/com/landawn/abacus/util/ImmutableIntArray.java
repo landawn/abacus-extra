@@ -28,8 +28,8 @@ import com.landawn.abacus.util.stream.IntStream;
  * the wrapper.</p>
  *
  * <p>The wrapper itself exposes no mutator methods, and accessors that return arrays
- * ({@link #toArray()} and {@link #toArray(int, int)}) always return fresh copies. The {@link #stream()} method, however,
- * is constructed directly over the backing array; see its javadoc for the implications.</p>
+ * ({@link #toArray()} and {@link #toArray(int, int)}) always return fresh copies. The stream returned by {@link #stream()}, however,
+ * is constructed directly over the backing array; see that method's javadoc for the implications.</p>
  *
  * <p>This class is annotated with {@link Beta @Beta} and its API may evolve in future releases.</p>
  *
