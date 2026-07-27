@@ -86,7 +86,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * // Edge: positive infinity
      * FloatTuple.FloatTuple1 infTuple = FloatTuple.of(Float.POSITIVE_INFINITY);
-     * assert infTuple._1 == Float.POSITIVE_INFINITY; // returns true
+     * assert infTuple._1 == Float.POSITIVE_INFINITY;
      *
      * // Edge: single-element operations all delegate to _1
      * FloatTuple.of(5.0f).min();                       // returns 5.0f
@@ -709,7 +709,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert FloatTuple.from(new float[0]).toArray().length == 0;
      *
      * // Edge: single element
-     * assert Float.isNaN(FloatTuple.of(Float.NaN).toArray()[0]); // (Float.isNaN == true)
+     * assert Float.isNaN(FloatTuple.of(Float.NaN).toArray()[0]); // NaN element is preserved
      * }</pre>
      *
      * @return a new float array containing all tuple elements
@@ -927,6 +927,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         private static final FloatTuple0 EMPTY = new FloatTuple0();
 
+        /**
+         * Package-private constructor for internal use.
+         */
         FloatTuple0() {
         }
 
@@ -1055,10 +1058,18 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The single float value in this tuple. */
         public final float _1;
 
+        /**
+         * Package-private no-arg constructor; the element is initialized to {@code 0.0f}.
+         */
         FloatTuple1() {
             this(0);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified element.
+         *
+         * @param _1 the float value to store in the tuple
+         */
         FloatTuple1(final float _1) {
             this._1 = _1;
         }
@@ -1398,10 +1409,19 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The second float value in this tuple. */
         public final float _2;
 
+        /**
+         * Package-private no-arg constructor; all elements are initialized to {@code 0.0f}.
+         */
         FloatTuple2() {
             this(0, 0);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified elements.
+         *
+         * @param _1 the first float value
+         * @param _2 the second float value
+         */
         FloatTuple2(final float _1, final float _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1906,10 +1926,20 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The third float value in this tuple. */
         public final float _3;
 
+        /**
+         * Package-private no-arg constructor; all elements are initialized to {@code 0.0f}.
+         */
         FloatTuple3() {
             this(0, 0, 0);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified elements.
+         *
+         * @param _1 the first float value
+         * @param _2 the second float value
+         * @param _3 the third float value
+         */
         FloatTuple3(final float _1, final float _2, final float _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2417,10 +2447,21 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The fourth float value in this tuple. */
         public final float _4;
 
+        /**
+         * Package-private no-arg constructor; all elements are initialized to {@code 0.0f}.
+         */
         FloatTuple4() {
             this(0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified elements.
+         *
+         * @param _1 the first float value
+         * @param _2 the second float value
+         * @param _3 the third float value
+         * @param _4 the fourth float value
+         */
         FloatTuple4(final float _1, final float _2, final float _3, final float _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2795,10 +2836,22 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The fifth float value in this tuple. */
         public final float _5;
 
+        /**
+         * Package-private no-arg constructor; all elements are initialized to {@code 0.0f}.
+         */
         FloatTuple5() {
             this(0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified elements.
+         *
+         * @param _1 the first float value
+         * @param _2 the second float value
+         * @param _3 the third float value
+         * @param _4 the fourth float value
+         * @param _5 the fifth float value
+         */
         FloatTuple5(final float _1, final float _2, final float _3, final float _4, final float _5) {
             this._1 = _1;
             this._2 = _2;
@@ -3179,10 +3232,23 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The sixth float value in this tuple. */
         public final float _6;
 
+        /**
+         * Package-private no-arg constructor; all elements are initialized to {@code 0.0f}.
+         */
         FloatTuple6() {
             this(0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified elements.
+         *
+         * @param _1 the first float value
+         * @param _2 the second float value
+         * @param _3 the third float value
+         * @param _4 the fourth float value
+         * @param _5 the fifth float value
+         * @param _6 the sixth float value
+         */
         FloatTuple6(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3569,10 +3635,24 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The seventh float value in this tuple. */
         public final float _7;
 
+        /**
+         * Package-private no-arg constructor; all elements are initialized to {@code 0.0f}.
+         */
         FloatTuple7() {
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified elements.
+         *
+         * @param _1 the first float value
+         * @param _2 the second float value
+         * @param _3 the third float value
+         * @param _4 the fourth float value
+         * @param _5 the fifth float value
+         * @param _6 the sixth float value
+         * @param _7 the seventh float value
+         */
         FloatTuple7(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7) {
             this._1 = _1;
             this._2 = _2;
@@ -3967,10 +4047,25 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The eighth float value in this tuple. */
         public final float _8;
 
+        /**
+         * Package-private no-arg constructor; all elements are initialized to {@code 0.0f}.
+         */
         FloatTuple8() {
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified elements.
+         *
+         * @param _1 the first float value
+         * @param _2 the second float value
+         * @param _3 the third float value
+         * @param _4 the fourth float value
+         * @param _5 the fifth float value
+         * @param _6 the sixth float value
+         * @param _7 the seventh float value
+         * @param _8 the eighth float value
+         */
         FloatTuple8(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7, final float _8) {
             this._1 = _1;
             this._2 = _2;
@@ -4376,10 +4471,26 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The ninth float value in this tuple. */
         public final float _9;
 
+        /**
+         * Package-private no-arg constructor; all elements are initialized to {@code 0.0f}.
+         */
         FloatTuple9() {
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified elements.
+         *
+         * @param _1 the first float value
+         * @param _2 the second float value
+         * @param _3 the third float value
+         * @param _4 the fourth float value
+         * @param _5 the fifth float value
+         * @param _6 the sixth float value
+         * @param _7 the seventh float value
+         * @param _8 the eighth float value
+         * @param _9 the ninth float value
+         */
         FloatTuple9(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7, final float _8,
                 final float _9) {
             this._1 = _1;

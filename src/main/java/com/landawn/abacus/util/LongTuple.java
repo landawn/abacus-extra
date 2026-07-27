@@ -653,10 +653,11 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged as tuples are immutable. The empty tuple returns itself.
+     * This method returns all elements in reversed order. Implementations may return {@code this}
+     * when reversal has no effect (the empty tuple returns itself). The original tuple remains
+     * unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -951,7 +952,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * This package-private class is exposed only through the base {@code LongTuple} type
      * via the singleton instance returned by {@link #from(long[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0L and {@link #average()} returns {@code 0D}, while
+     * {@code null} or zero-length array. {@link #sum()} returns {@code 0L} and {@link #average()} returns {@code 0D}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -959,13 +960,16 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         private static final LongTuple0 EMPTY = new LongTuple0();
 
+        /**
+         * Creates the empty tuple instance.
+         */
         LongTuple0() {
         }
 
         /**
          * Returns the number of elements in this tuple, which is always 0.
          *
-         * @return 0
+         * @return {@code 0}
          */
         @Override
         public int arity() {
@@ -1009,7 +1013,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the sum of all values in this tuple.
+         * Returns the sum of all values in this tuple as a long.
          * For an empty tuple, the sum is {@code 0L}.
          *
          * @return {@code 0L}
@@ -1056,7 +1060,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "()"
+         * @return {@code "()"}
          */
         @Override
         public String toString() {
@@ -1090,10 +1094,18 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The single long value stored in this tuple. */
         public final long _1;
 
+        /**
+         * Creates a tuple with the single element set to {@code 0}.
+         */
         LongTuple1() {
             this(0);
         }
 
+        /**
+         * Creates a tuple with the specified value.
+         *
+         * @param _1 the long value to store in the tuple
+         */
         LongTuple1(final long _1) {
             this._1 = _1;
         }
@@ -1410,10 +1422,19 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The second long value in this tuple. */
         public final long _2;
 
+        /**
+         * Creates a tuple with all elements set to {@code 0}.
+         */
         LongTuple2() {
             this(0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         */
         LongTuple2(final long _1, final long _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1892,10 +1913,20 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The third long value in this tuple. */
         public final long _3;
 
+        /**
+         * Creates a tuple with all elements set to {@code 0}.
+         */
         LongTuple3() {
             this(0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         */
         LongTuple3(final long _1, final long _2, final long _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2372,10 +2403,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The fourth long value in this tuple. */
         public final long _4;
 
+        /**
+         * Creates a tuple with all elements set to {@code 0}.
+         */
         LongTuple4() {
             this(0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         */
         LongTuple4(final long _1, final long _2, final long _3, final long _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2751,10 +2793,22 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The fifth long value in this tuple. */
         public final long _5;
 
+        /**
+         * Creates a tuple with all elements set to {@code 0}.
+         */
         LongTuple5() {
             this(0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         */
         LongTuple5(final long _1, final long _2, final long _3, final long _4, final long _5) {
             this._1 = _1;
             this._2 = _2;
@@ -3132,10 +3186,23 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The sixth long value in this tuple. */
         public final long _6;
 
+        /**
+         * Creates a tuple with all elements set to {@code 0}.
+         */
         LongTuple6() {
             this(0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         * @param _6 the sixth long value
+         */
         LongTuple6(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3519,10 +3586,24 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The seventh long value in this tuple. */
         public final long _7;
 
+        /**
+         * Creates a tuple with all elements set to {@code 0}.
+         */
         LongTuple7() {
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         * @param _6 the sixth long value
+         * @param _7 the seventh long value
+         */
         LongTuple7(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7) {
             this._1 = _1;
             this._2 = _2;
@@ -3864,10 +3945,25 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The eighth long value in this tuple. */
         public final long _8;
 
+        /**
+         * Creates a tuple with all elements set to {@code 0}.
+         */
         LongTuple8() {
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         * @param _6 the sixth long value
+         * @param _7 the seventh long value
+         * @param _8 the eighth long value
+         */
         LongTuple8(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8) {
             this._1 = _1;
             this._2 = _2;
@@ -4217,10 +4313,26 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The ninth long value in this tuple. */
         public final long _9;
 
+        /**
+         * Creates a tuple with all elements set to {@code 0}.
+         */
         LongTuple9() {
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         * @param _6 the sixth long value
+         * @param _7 the seventh long value
+         * @param _8 the eighth long value
+         * @param _9 the ninth long value
+         */
         LongTuple9(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8, final long _9) {
             this._1 = _1;
             this._2 = _2;

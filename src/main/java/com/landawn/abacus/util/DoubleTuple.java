@@ -41,9 +41,12 @@ import com.landawn.abacus.util.stream.DoubleStream;
  *
  * <p><b>Numeric semantics:</b> Aggregates follow IEEE-754 {@code double} arithmetic: a {@code NaN}
  * element propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and
- * {@link #average()}, while {@link #median()}, {@link #contains(double)}, and {@link #equals(Object)}
- * order and compare elements with {@link Double#compare(double, double)} semantics ({@code NaN} equal
- * to itself and greater than any other value, {@code -0.0} less than {@code 0.0}).</p>
+ * {@link #average()}, while {@link #contains(double)} and {@link #equals(Object)} compare elements
+ * with {@link Double#compare(double, double)} semantics ({@code NaN} equal to itself and greater than
+ * any other value, {@code -0.0} less than {@code 0.0}). {@link #median()} uses
+ * {@link Double#compare(double, double)} ordering for tuples with three or more elements; for
+ * two-element tuples it is computed with {@link Math#min(double, double)}, so a {@code NaN} element
+ * propagates there.</p>
  *
  * @param <TP> the concrete {@code DoubleTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -520,8 +523,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * For tuples with three or more elements, ordering is performed with
      * {@link Double#compare(double, double)} semantics, so {@code NaN} is treated as the
      * largest value (and equal to itself), and {@code -0.0} is treated as less than
-     * {@code +0.0}. The same ordering is used for two-element tuples, so a single
-     * {@code NaN} is treated as the larger element and the finite value is returned.
+     * {@code +0.0}. For two-element tuples the median is computed with
+     * {@link Math#min(double, double)}, so a single {@code NaN} propagates to the result
+     * instead of being treated as the larger element.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -942,13 +946,16 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         private static final DoubleTuple0 EMPTY = new DoubleTuple0();
 
+        /**
+         * Package-private constructor for the shared empty tuple instance.
+         */
         DoubleTuple0() {
         }
 
         /**
          * Returns the number of elements in this tuple, which is always 0.
          *
-         * @return 0
+         * @return {@code 0}
          */
         @Override
         public int arity() {
@@ -1039,7 +1046,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "()"
+         * @return {@code "()"}
          */
         @Override
         public String toString() {
@@ -1058,7 +1065,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly one double value.
+     * A tuple containing exactly one double value.
      * <p>
      * This class provides direct access to the single element through the public final field {@code _1}.
      * For single-element tuples, all statistical operations (min, max, median, sum, average) return
@@ -1067,13 +1074,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      */
     public static final class DoubleTuple1 extends DoubleTuple<DoubleTuple1> {
 
-        /** The single double value in this tuple. */
+        /** The single double value stored in this tuple. */
         public final double _1;
 
+        /**
+         * Package-private no-arg constructor that initializes the element to zero.
+         */
         DoubleTuple1() {
             this(0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified value.
+         *
+         * @param _1 the double value to store in the tuple
+         */
         DoubleTuple1(final double _1) {
             this._1 = _1;
         }
@@ -1400,10 +1415,19 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /** The second double value in this tuple. */
         public final double _2;
 
+        /**
+         * Package-private no-arg constructor that initializes all elements to zero.
+         */
         DoubleTuple2() {
             this(0, 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified values.
+         *
+         * @param _1 the first double value
+         * @param _2 the second double value
+         */
         DoubleTuple2(final double _1, final double _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1482,25 +1506,26 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the median of the two elements.
-         * Because there is an even number of elements, this is the lower of the
-         * two according to {@link Double#compare(double, double)}, not their average.
+         * Because there is an even number of elements, this is the smaller of the
+         * two as computed by {@link Math#min(double, double)}, not their average.
+         * If either element is {@code NaN}, the result is {@code NaN}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * double med1 = DoubleTuple.of(3.0, 4.0).median();   // 3.0  (lower of the two)
+         * double med1 = DoubleTuple.of(3.0, 4.0).median();   // 3.0  (smaller of the two)
          * double med2 = DoubleTuple.of(4.0, 3.0).median();   // 3.0  (order does not matter)
          *
          * // negative values - still returns the lesser
          * double med3 = DoubleTuple.of(-3.0, -1.0).median();   // -3.0
          *
-         * // NaN is ordered above finite values
-         * double medNaN = DoubleTuple.of(3.0, Double.NaN).median();   // 3.0
+         * // NaN propagates through Math.min
+         * double medNaN = DoubleTuple.of(3.0, Double.NaN).median();   // NaN
          *
          * // equal values
          * double medEq = DoubleTuple.of(2.5, 2.5).median();   // 2.5
          * }</pre>
          *
-         * @return the lower of {@code _1} and {@code _2} according to {@link Double#compare(double, double)}
+         * @return the smaller of {@code _1} and {@code _2} as computed by {@link Math#min(double, double)}
          */
         @Override
         public double median() {
@@ -1861,7 +1886,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly three double values.
+     * A tuple containing exactly three double values.
      * <p>
      * This class provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
      * DoubleTuple.DoubleTuple3 offers additional functional methods like {@link #accept(Throwables.DoubleTriConsumer)},
@@ -1878,10 +1903,20 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /** The third double value in this tuple. */
         public final double _3;
 
+        /**
+         * Package-private no-arg constructor that initializes all elements to zero.
+         */
         DoubleTuple3() {
             this(0, 0, 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified values.
+         *
+         * @param _1 the first double value
+         * @param _2 the second double value
+         * @param _3 the third double value
+         */
         DoubleTuple3(final double _1, final double _2, final double _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2336,12 +2371,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly four double values.
-     * <p>
-     * Provides direct access to elements via public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
-     * This arity does not expose the bi/tri-arg functional helpers that
-     * {@link DoubleTuple2} and {@link DoubleTuple3} provide.
-     * </p>
+     * A tuple containing exactly four double values.
+     * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     *
+     * <p>This arity does not expose the bi/tri-arg functional helpers that
+     * {@link DoubleTuple2} and {@link DoubleTuple3} provide.</p>
      */
     public static final class DoubleTuple4 extends DoubleTuple<DoubleTuple4> {
 
@@ -2354,10 +2388,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /** The fourth double value in this tuple. */
         public final double _4;
 
+        /**
+         * Package-private no-arg constructor that initializes all elements to zero.
+         */
         DoubleTuple4() {
             this(0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified values.
+         *
+         * @param _1 the first double value
+         * @param _2 the second double value
+         * @param _3 the third double value
+         * @param _4 the fourth double value
+         */
         DoubleTuple4(final double _1, final double _2, final double _3, final double _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2670,10 +2715,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly five double values.
-     * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _5}.
-     * </p>
+     * A tuple containing exactly five double values.
+     * The values are accessible through the public final fields {@code _1} through {@code _5}.
      */
     public static final class DoubleTuple5 extends DoubleTuple<DoubleTuple5> {
 
@@ -2688,10 +2731,22 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /** The fifth double value in this tuple. */
         public final double _5;
 
+        /**
+         * Package-private no-arg constructor that initializes all elements to zero.
+         */
         DoubleTuple5() {
             this(0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified values.
+         *
+         * @param _1 the first double value
+         * @param _2 the second double value
+         * @param _3 the third double value
+         * @param _4 the fourth double value
+         * @param _5 the fifth double value
+         */
         DoubleTuple5(final double _1, final double _2, final double _3, final double _4, final double _5) {
             this._1 = _1;
             this._2 = _2;
@@ -3008,10 +3063,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly six double values.
-     * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _6}.
-     * </p>
+     * A tuple containing exactly six double values.
+     * The values are accessible through the public final fields {@code _1} through {@code _6}.
      */
     public static final class DoubleTuple6 extends DoubleTuple<DoubleTuple6> {
 
@@ -3028,10 +3081,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /** The sixth double value in this tuple. */
         public final double _6;
 
+        /**
+         * Package-private no-arg constructor that initializes all elements to zero.
+         */
         DoubleTuple6() {
             this(0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified values.
+         *
+         * @param _1 the first double value
+         * @param _2 the second double value
+         * @param _3 the third double value
+         * @param _4 the fourth double value
+         * @param _5 the fifth double value
+         * @param _6 the sixth double value
+         */
         DoubleTuple6(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3352,10 +3418,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly seven double values.
-     * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _7}.
-     * </p>
+     * A tuple containing exactly seven double values.
+     * The values are accessible through the public final fields {@code _1} through {@code _7}.
      */
     public static final class DoubleTuple7 extends DoubleTuple<DoubleTuple7> {
 
@@ -3374,10 +3438,24 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /** The seventh double value in this tuple. */
         public final double _7;
 
+        /**
+         * Package-private no-arg constructor that initializes all elements to zero.
+         */
         DoubleTuple7() {
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified values.
+         *
+         * @param _1 the first double value
+         * @param _2 the second double value
+         * @param _3 the third double value
+         * @param _4 the fourth double value
+         * @param _5 the fifth double value
+         * @param _6 the sixth double value
+         * @param _7 the seventh double value
+         */
         DoubleTuple7(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7) {
             this._1 = _1;
             this._2 = _2;
@@ -3745,10 +3823,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly eight double values.
-     * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _8}.
-     * </p>
+     * A tuple containing exactly eight double values.
+     * The values are accessible through the public final fields {@code _1} through {@code _8}.
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more double values
      */
@@ -3772,10 +3848,25 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /** The eighth double value in this tuple. */
         public final double _8;
 
+        /**
+         * Package-private no-arg constructor that initializes all elements to zero.
+         */
         DoubleTuple8() {
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified values.
+         *
+         * @param _1 the first double value
+         * @param _2 the second double value
+         * @param _3 the third double value
+         * @param _4 the fourth double value
+         * @param _5 the fifth double value
+         * @param _6 the sixth double value
+         * @param _7 the seventh double value
+         * @param _8 the eighth double value
+         */
         DoubleTuple8(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7, final double _8) {
             this._1 = _1;
             this._2 = _2;
@@ -4147,10 +4238,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly nine double values.
-     * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _9}.
-     * </p>
+     * A tuple containing exactly nine double values.
+     * The values are accessible through the public final fields {@code _1} through {@code _9}.
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more double values
      */
@@ -4176,10 +4265,26 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /** The ninth double value in this tuple. */
         public final double _9;
 
+        /**
+         * Package-private no-arg constructor that initializes all elements to zero.
+         */
         DoubleTuple9() {
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified values.
+         *
+         * @param _1 the first double value
+         * @param _2 the second double value
+         * @param _3 the third double value
+         * @param _4 the fourth double value
+         * @param _5 the fifth double value
+         * @param _6 the sixth double value
+         * @param _7 the seventh double value
+         * @param _8 the eighth double value
+         * @param _9 the ninth double value
+         */
         DoubleTuple9(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7, final double _8,
                 final double _9) {
             this._1 = _1;

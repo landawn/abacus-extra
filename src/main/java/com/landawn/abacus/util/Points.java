@@ -17,7 +17,7 @@
 package com.landawn.abacus.util;
 
 /**
- * Namespace for small record-based point/value carriers used by geometry and coordinate helpers.
+ * Namespace for small record-based point/value carriers for geometry and coordinate data.
  *
  * <p>{@link D2} groups two-dimensional variants (coordinates {@code x}, {@code y}) and {@link D3}
  * groups three-dimensional variants (coordinates {@code x}, {@code y}, {@code z}). Every record

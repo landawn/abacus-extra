@@ -604,8 +604,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     /**
      * Returns the average of all short values in this tuple as a {@code double}.
      * <p>
-     * The sum is accumulated in a widened integral type before the division is performed in
-     * {@code double}, preserving fractional precision without intermediate short overflow.
+     * The result is returned as a {@code double} to preserve fractional precision.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -669,9 +668,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     /**
      * Checks if this tuple contains the specified short value.
      * <p>
-     * Each subclass implements this by comparing {@code valueToFind} against every
-     * element of the tuple. Returns {@code true} if at least one element equals the
-     * search value, {@code false} otherwise. For an empty tuple, always returns {@code false}.
+     * Returns {@code true} if at least one element of this tuple equals the specified
+     * value, {@code false} otherwise. For an empty tuple, always returns {@code false}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -951,6 +949,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         private static final ShortTuple0 EMPTY = new ShortTuple0();
 
+        /**
+         * Package-private constructor for internal use only; the empty tuple is exposed as a shared
+         * singleton via {@link ShortTuple#from(short[])}.
+         */
         ShortTuple0() {
         }
 
@@ -1048,7 +1050,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "()"
+         * @return {@code "()"}
          */
         @Override
         public String toString() {
@@ -1087,10 +1089,21 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /** The single short value stored in this tuple. */
         public final short _1;
 
+        /**
+         * Package-private no-argument constructor for internal use only; creates a tuple with the
+         * element set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
+         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         */
         ShortTuple1() {
             this((short) 0);
         }
 
+        /**
+         * Package-private constructor for internal use only. Use the static factory methods such as
+         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         *
+         * @param _1 the short value to store in the tuple
+         */
         ShortTuple1(final short _1) {
             this._1 = _1;
         }
@@ -1426,10 +1439,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /** The second short value in this tuple. */
         public final short _2;
 
+        /**
+         * Package-private no-argument constructor for internal use only; creates a tuple with all
+         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
+         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         */
         ShortTuple2() {
             this((short) 0, (short) 0);
         }
 
+        /**
+         * Package-private constructor for internal use only. Use the static factory methods such as
+         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         *
+         * @param _1 the first short value
+         * @param _2 the second short value
+         */
         ShortTuple2(final short _1, final short _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1924,10 +1949,23 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /** The third short value in this tuple. */
         public final short _3;
 
+        /**
+         * Package-private no-argument constructor for internal use only; creates a tuple with all
+         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
+         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         */
         ShortTuple3() {
             this((short) 0, (short) 0, (short) 0);
         }
 
+        /**
+         * Package-private constructor for internal use only. Use the static factory methods such as
+         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         *
+         * @param _1 the first short value
+         * @param _2 the second short value
+         * @param _3 the third short value
+         */
         ShortTuple3(final short _1, final short _2, final short _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2417,10 +2455,24 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /** The fourth short value in this tuple. */
         public final short _4;
 
+        /**
+         * Package-private no-argument constructor for internal use only; creates a tuple with all
+         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
+         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         */
         ShortTuple4() {
             this((short) 0, (short) 0, (short) 0, (short) 0);
         }
 
+        /**
+         * Package-private constructor for internal use only. Use the static factory methods such as
+         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         *
+         * @param _1 the first short value
+         * @param _2 the second short value
+         * @param _3 the third short value
+         * @param _4 the fourth short value
+         */
         ShortTuple4(final short _1, final short _2, final short _3, final short _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2752,10 +2804,25 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /** The fifth short value in this tuple. */
         public final short _5;
 
+        /**
+         * Package-private no-argument constructor for internal use only; creates a tuple with all
+         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
+         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         */
         ShortTuple5() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
+        /**
+         * Package-private constructor for internal use only. Use the static factory methods such as
+         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         *
+         * @param _1 the first short value
+         * @param _2 the second short value
+         * @param _3 the third short value
+         * @param _4 the fourth short value
+         * @param _5 the fifth short value
+         */
         ShortTuple5(final short _1, final short _2, final short _3, final short _4, final short _5) {
             this._1 = _1;
             this._2 = _2;
@@ -3091,10 +3158,26 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /** The sixth short value in this tuple. */
         public final short _6;
 
+        /**
+         * Package-private no-argument constructor for internal use only; creates a tuple with all
+         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
+         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         */
         ShortTuple6() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
+        /**
+         * Package-private constructor for internal use only. Use the static factory methods such as
+         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         *
+         * @param _1 the first short value
+         * @param _2 the second short value
+         * @param _3 the third short value
+         * @param _4 the fourth short value
+         * @param _5 the fifth short value
+         * @param _6 the sixth short value
+         */
         ShortTuple6(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3434,10 +3517,27 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /** The seventh short value in this tuple. */
         public final short _7;
 
+        /**
+         * Package-private no-argument constructor for internal use only; creates a tuple with all
+         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
+         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         */
         ShortTuple7() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
+        /**
+         * Package-private constructor for internal use only. Use the static factory methods such as
+         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         *
+         * @param _1 the first short value
+         * @param _2 the second short value
+         * @param _3 the third short value
+         * @param _4 the fourth short value
+         * @param _5 the fifth short value
+         * @param _6 the sixth short value
+         * @param _7 the seventh short value
+         */
         ShortTuple7(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7) {
             this._1 = _1;
             this._2 = _2;
@@ -3803,10 +3903,28 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /** The eighth short value in this tuple. */
         public final short _8;
 
+        /**
+         * Package-private no-argument constructor for internal use only; creates a tuple with all
+         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
+         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         */
         ShortTuple8() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
+        /**
+         * Package-private constructor for internal use only. Use the static factory methods such as
+         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         *
+         * @param _1 the first short value
+         * @param _2 the second short value
+         * @param _3 the third short value
+         * @param _4 the fourth short value
+         * @param _5 the fifth short value
+         * @param _6 the sixth short value
+         * @param _7 the seventh short value
+         * @param _8 the eighth short value
+         */
         ShortTuple8(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8) {
             this._1 = _1;
             this._2 = _2;
@@ -4180,10 +4298,29 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         /** The ninth short value in this tuple. */
         public final short _9;
 
+        /**
+         * Package-private no-argument constructor for internal use only; creates a tuple with all
+         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
+         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         */
         ShortTuple9() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
+        /**
+         * Package-private constructor for internal use only. Use the static factory methods such as
+         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         *
+         * @param _1 the first short value
+         * @param _2 the second short value
+         * @param _3 the third short value
+         * @param _4 the fourth short value
+         * @param _5 the fifth short value
+         * @param _6 the sixth short value
+         * @param _7 the seventh short value
+         * @param _8 the eighth short value
+         * @param _9 the ninth short value
+         */
         ShortTuple9(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8,
                 final short _9) {
             this._1 = _1;

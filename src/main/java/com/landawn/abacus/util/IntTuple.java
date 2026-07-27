@@ -888,6 +888,9 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         private static final IntTuple0 EMPTY = new IntTuple0();
 
+        /**
+         * Constructs an empty tuple containing no elements.
+         */
         IntTuple0() {
         }
 
@@ -1019,10 +1022,18 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         /** The single int value stored in this tuple. */
         public final int _1;
 
+        /**
+         * Constructs a tuple with the single element set to {@code 0}.
+         */
         IntTuple1() {
             this(0);
         }
 
+        /**
+         * Constructs a tuple with the specified single element.
+         *
+         * @param _1 the int value to store in this tuple
+         */
         IntTuple1(final int _1) {
             this._1 = _1;
         }
@@ -1298,10 +1309,19 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         /** The second int value in this tuple. */
         public final int _2;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         IntTuple2() {
             this(0, 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first int value
+         * @param _2 the second int value
+         */
         IntTuple2(final int _1, final int _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1708,10 +1728,20 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         /** The third int value in this tuple. */
         public final int _3;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         IntTuple3() {
             this(0, 0, 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first int value
+         * @param _2 the second int value
+         * @param _3 the third int value
+         */
         IntTuple3(final int _1, final int _2, final int _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2113,10 +2143,21 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         /** The fourth int value in this tuple. */
         public final int _4;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         IntTuple4() {
             this(0, 0, 0, 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first int value
+         * @param _2 the second int value
+         * @param _3 the third int value
+         * @param _4 the fourth int value
+         */
         IntTuple4(final int _1, final int _2, final int _3, final int _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2476,10 +2517,22 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         /** The fifth int value in this tuple. */
         public final int _5;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         IntTuple5() {
             this(0, 0, 0, 0, 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first int value
+         * @param _2 the second int value
+         * @param _3 the third int value
+         * @param _4 the fourth int value
+         * @param _5 the fifth int value
+         */
         IntTuple5(final int _1, final int _2, final int _3, final int _4, final int _5) {
             this._1 = _1;
             this._2 = _2;
@@ -2843,10 +2896,23 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         /** The sixth int value in this tuple. */
         public final int _6;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         IntTuple6() {
             this(0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first int value
+         * @param _2 the second int value
+         * @param _3 the third int value
+         * @param _4 the fourth int value
+         * @param _5 the fifth int value
+         * @param _6 the sixth int value
+         */
         IntTuple6(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3214,10 +3280,24 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         /** The seventh int value in this tuple. */
         public final int _7;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         IntTuple7() {
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first int value
+         * @param _2 the second int value
+         * @param _3 the third int value
+         * @param _4 the fourth int value
+         * @param _5 the fifth int value
+         * @param _6 the sixth int value
+         * @param _7 the seventh int value
+         */
         IntTuple7(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7) {
             this._1 = _1;
             this._2 = _2;
@@ -3595,10 +3675,25 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         /** The eighth int value in this tuple. */
         public final int _8;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         IntTuple8() {
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first int value
+         * @param _2 the second int value
+         * @param _3 the third int value
+         * @param _4 the fourth int value
+         * @param _5 the fifth int value
+         * @param _6 the sixth int value
+         * @param _7 the seventh int value
+         * @param _8 the eighth int value
+         */
         IntTuple8(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8) {
             this._1 = _1;
             this._2 = _2;
@@ -3981,10 +4076,26 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         /** The ninth int value in this tuple. */
         public final int _9;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         IntTuple9() {
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first int value
+         * @param _2 the second int value
+         * @param _3 the third int value
+         * @param _4 the fourth int value
+         * @param _5 the fifth int value
+         * @param _6 the sixth int value
+         * @param _7 the seventh int value
+         * @param _8 the eighth int value
+         * @param _9 the ninth int value
+         */
         IntTuple9(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8, final int _9) {
             this._1 = _1;
             this._2 = _2;

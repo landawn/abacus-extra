@@ -39,7 +39,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
     /**
      * Returns the fixed number of elements stored by this tuple type.
      *
-     * @return the tuple arity
+     * @return the number of elements in this tuple
      */
     public abstract int arity();
 

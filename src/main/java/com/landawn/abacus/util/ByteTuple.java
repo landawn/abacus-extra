@@ -1001,13 +1001,16 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
 
         private static final ByteTuple0 EMPTY = new ByteTuple0();
 
+        /**
+         * Constructs the empty tuple instance.
+         */
         ByteTuple0() {
         }
 
         /**
          * Returns the number of elements in this tuple, which is always 0.
          *
-         * @return 0
+         * @return {@code 0}
          */
         @Override
         public int arity() {
@@ -1098,7 +1101,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "()"
+         * @return {@code "()"}
          */
         @Override
         public String toString() {
@@ -1138,10 +1141,18 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** The single byte value stored in this tuple. */
         public final byte _1;
 
+        /**
+         * Constructs a tuple with the element set to {@code 0}.
+         */
         ByteTuple1() {
             this((byte) 0);
         }
 
+        /**
+         * Constructs a tuple with the specified element.
+         *
+         * @param _1 the byte value to store in this tuple
+         */
         ByteTuple1(final byte _1) {
             this._1 = _1;
         }
@@ -1469,10 +1480,19 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** The second byte value stored in this tuple. */
         public final byte _2;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         ByteTuple2() {
             this((byte) 0, (byte) 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first byte value
+         * @param _2 the second byte value
+         */
         ByteTuple2(final byte _1, final byte _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1558,7 +1578,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).median();      // returns -128
          * }</pre>
          *
-         * @return the median (lower) byte value
+         * @return the lower of the two byte values when sorted
          */
         @Override
         public byte median() {
@@ -1949,10 +1969,20 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** The third byte value stored in this tuple. */
         public final byte _3;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         ByteTuple3() {
             this((byte) 0, (byte) 0, (byte) 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first byte value
+         * @param _2 the second byte value
+         * @param _3 the third byte value
+         */
         ByteTuple3(final byte _1, final byte _2, final byte _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2075,8 +2105,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          *
          * // all same
          * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).average();          // returns 5.0
-         * // (-128 + 0 + 127) / 3 = -1/3 ~ -0.3333...
-         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).average();   // returns -1.0/3.0
+         * // (-128 + 0 + 127) / 3 = -1/3
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).average();   // returns -0.333... (i.e., -1.0 / 3.0)
          * }</pre>
          *
          * @return the average of all three byte values as a double
@@ -2435,10 +2465,21 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** The fourth byte value stored in this tuple. */
         public final byte _4;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         ByteTuple4() {
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first byte value
+         * @param _2 the second byte value
+         * @param _3 the third byte value
+         * @param _4 the fourth byte value
+         */
         ByteTuple4(final byte _1, final byte _2, final byte _3, final byte _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2800,10 +2841,22 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** The fifth byte value stored in this tuple. */
         public final byte _5;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         ByteTuple5() {
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first byte value
+         * @param _2 the second byte value
+         * @param _3 the third byte value
+         * @param _4 the fourth byte value
+         * @param _5 the fifth byte value
+         */
         ByteTuple5(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5) {
             this._1 = _1;
             this._2 = _2;
@@ -3169,10 +3222,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** The sixth byte value stored in this tuple. */
         public final byte _6;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         ByteTuple6() {
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first byte value
+         * @param _2 the second byte value
+         * @param _3 the third byte value
+         * @param _4 the fourth byte value
+         * @param _5 the fifth byte value
+         * @param _6 the sixth byte value
+         */
         ByteTuple6(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3542,10 +3608,24 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** The seventh byte value stored in this tuple. */
         public final byte _7;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         ByteTuple7() {
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first byte value
+         * @param _2 the second byte value
+         * @param _3 the third byte value
+         * @param _4 the fourth byte value
+         * @param _5 the fifth byte value
+         * @param _6 the sixth byte value
+         * @param _7 the seventh byte value
+         */
         ByteTuple7(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7) {
             this._1 = _1;
             this._2 = _2;
@@ -3946,10 +4026,25 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** The eighth byte value stored in this tuple. */
         public final byte _8;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         ByteTuple8() {
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first byte value
+         * @param _2 the second byte value
+         * @param _3 the third byte value
+         * @param _4 the fourth byte value
+         * @param _5 the fifth byte value
+         * @param _6 the sixth byte value
+         * @param _7 the seventh byte value
+         * @param _8 the eighth byte value
+         */
         ByteTuple8(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8) {
             this._1 = _1;
             this._2 = _2;
@@ -4368,10 +4463,26 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** The ninth byte value stored in this tuple. */
         public final byte _9;
 
+        /**
+         * Constructs a tuple with all elements set to {@code 0}.
+         */
         ByteTuple9() {
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
+        /**
+         * Constructs a tuple with the specified elements.
+         *
+         * @param _1 the first byte value
+         * @param _2 the second byte value
+         * @param _3 the third byte value
+         * @param _4 the fourth byte value
+         * @param _5 the fifth byte value
+         * @param _6 the sixth byte value
+         * @param _7 the seventh byte value
+         * @param _8 the eighth byte value
+         * @param _9 the ninth byte value
+         */
         ByteTuple9(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8, final byte _9) {
             this._1 = _1;
             this._2 = _2;

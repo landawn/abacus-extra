@@ -454,7 +454,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
      * This method returns a tuple containing all elements in reversed order. The original
      * tuple remains unchanged as tuples are immutable.
@@ -771,6 +771,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     static final class BooleanTuple0 extends BooleanTuple<BooleanTuple0> {
         private static final BooleanTuple0 EMPTY = new BooleanTuple0();
 
+        /** Package-private constructor for the empty tuple. */
         BooleanTuple0() {
         }
 
@@ -810,7 +811,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "()"
+         * @return {@code "()"}
          */
         @Override
         public String toString() {
@@ -829,12 +830,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A BooleanTuple containing exactly one boolean element.
-     * <p>
-     * Provides direct access to the element through the public final field {@code _1}.
-     * This is the simplest non-empty tuple type, useful for wrapping a single boolean
-     * value in a tuple context.
-     * </p>
+     * A tuple containing exactly one boolean value.
+     * The value is accessible through the public final field {@code _1}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -849,10 +846,16 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The single boolean value stored in this tuple. */
         public final boolean _1;
 
+        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple1() {
             this(false);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified value.
+         *
+         * @param _1 the boolean value to store in the tuple
+         */
         BooleanTuple1(final boolean _1) {
             this._1 = _1;
         }
@@ -877,9 +880,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns a new {@code BooleanTuple1} with the same element.
-         * Since this tuple has only one element, reversing has no effect on the contained value;
-         * however, a new instance is still returned for consistency with the {@link #reverse()} contract.
+         * Returns a new tuple with the elements in reverse order.
+         * For a single-element tuple, returns a new tuple with the same value.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -914,7 +916,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * }</pre>
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if the element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value equals {@code _1}, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -1039,15 +1041,22 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      */
     public static final class BooleanTuple2 extends BooleanTuple<BooleanTuple2> {
 
-        /** The first boolean value stored in this tuple. */
+        /** The first boolean value in this tuple. */
         public final boolean _1;
-        /** The second boolean value stored in this tuple. */
+        /** The second boolean value in this tuple. */
         public final boolean _2;
 
+        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple2() {
             this(false, false);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified values.
+         *
+         * @param _1 the first boolean value
+         * @param _2 the second boolean value
+         */
         BooleanTuple2(final boolean _1, final boolean _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1375,12 +1384,16 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A BooleanTuple containing exactly three boolean elements.
-     * <p>
-     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
-     * This tuple type supports specialized functional operations through {@link #accept}, {@link #map}, and
-     * {@link #filter} methods that work with all three elements simultaneously.
-     * </p>
+     * A tuple containing exactly three boolean values.
+     * The values are accessible through the public final fields {@code _1}, {@code _2}, and {@code _3}.
+     *
+     * <p>In addition to the operations inherited from {@link BooleanTuple}, this class provides
+     * functional helpers for working with triples:</p>
+     * <ul>
+     *   <li>{@link #accept(Throwables.BooleanTriConsumer)} - consume all three values</li>
+     *   <li>{@link #map(Throwables.BooleanTriFunction)} - transform the triple to a single value</li>
+     *   <li>{@link #filter(Throwables.BooleanTriPredicate)} - conditionally wrap in {@link Optional}</li>
+     * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1397,17 +1410,25 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      */
     public static final class BooleanTuple3 extends BooleanTuple<BooleanTuple3> {
 
-        /** The first boolean value stored in this tuple. */
+        /** The first boolean value in this tuple. */
         public final boolean _1;
-        /** The second boolean value stored in this tuple. */
+        /** The second boolean value in this tuple. */
         public final boolean _2;
-        /** The third boolean value stored in this tuple. */
+        /** The third boolean value in this tuple. */
         public final boolean _3;
 
+        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple3() {
             this(false, false, false);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified values.
+         *
+         * @param _1 the first boolean value
+         * @param _2 the second boolean value
+         * @param _3 the third boolean value
+         */
         BooleanTuple3(final boolean _1, final boolean _2, final boolean _3) {
             this._1 = _1;
             this._2 = _2;
@@ -1743,11 +1764,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A BooleanTuple containing exactly four boolean elements.
-     * <p>
-     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
-     * This tuple type is useful for grouping four related boolean values together.
-     * </p>
+     * A tuple containing exactly four boolean values.
+     * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1760,19 +1778,28 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      */
     public static final class BooleanTuple4 extends BooleanTuple<BooleanTuple4> {
 
-        /** The first boolean value stored in this tuple. */
+        /** The first boolean value in this tuple. */
         public final boolean _1;
-        /** The second boolean value stored in this tuple. */
+        /** The second boolean value in this tuple. */
         public final boolean _2;
-        /** The third boolean value stored in this tuple. */
+        /** The third boolean value in this tuple. */
         public final boolean _3;
-        /** The fourth boolean value stored in this tuple. */
+        /** The fourth boolean value in this tuple. */
         public final boolean _4;
 
+        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple4() {
             this(false, false, false, false);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified values.
+         *
+         * @param _1 the first boolean value
+         * @param _2 the second boolean value
+         * @param _3 the third boolean value
+         * @param _4 the fourth boolean value
+         */
         BooleanTuple4(final boolean _1, final boolean _2, final boolean _3, final boolean _4) {
             this._1 = _1;
             this._2 = _2;
@@ -1984,11 +2011,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A BooleanTuple containing exactly five boolean elements.
-     * <p>
-     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, {@code _4}, and {@code _5}.
-     * This tuple type is useful for grouping five related boolean values together.
-     * </p>
+     * A tuple containing exactly five boolean values.
+     * The values are accessible through the public final fields {@code _1} through {@code _5}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2001,21 +2025,31 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      */
     public static final class BooleanTuple5 extends BooleanTuple<BooleanTuple5> {
 
-        /** The first boolean value stored in this tuple. */
+        /** The first boolean value in this tuple. */
         public final boolean _1;
-        /** The second boolean value stored in this tuple. */
+        /** The second boolean value in this tuple. */
         public final boolean _2;
-        /** The third boolean value stored in this tuple. */
+        /** The third boolean value in this tuple. */
         public final boolean _3;
-        /** The fourth boolean value stored in this tuple. */
+        /** The fourth boolean value in this tuple. */
         public final boolean _4;
-        /** The fifth boolean value stored in this tuple. */
+        /** The fifth boolean value in this tuple. */
         public final boolean _5;
 
+        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple5() {
             this(false, false, false, false, false);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified values.
+         *
+         * @param _1 the first boolean value
+         * @param _2 the second boolean value
+         * @param _3 the third boolean value
+         * @param _4 the fourth boolean value
+         * @param _5 the fifth boolean value
+         */
         BooleanTuple5(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5) {
             this._1 = _1;
             this._2 = _2;
@@ -2240,11 +2274,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A BooleanTuple containing exactly six boolean elements.
-     * <p>
-     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, {@code _4}, {@code _5}, and {@code _6}.
-     * This tuple type is useful for grouping six related boolean values together.
-     * </p>
+     * A tuple containing exactly six boolean values.
+     * The values are accessible through the public final fields {@code _1} through {@code _6}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2257,23 +2288,34 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      */
     public static final class BooleanTuple6 extends BooleanTuple<BooleanTuple6> {
 
-        /** The first boolean value stored in this tuple. */
+        /** The first boolean value in this tuple. */
         public final boolean _1;
-        /** The second boolean value stored in this tuple. */
+        /** The second boolean value in this tuple. */
         public final boolean _2;
-        /** The third boolean value stored in this tuple. */
+        /** The third boolean value in this tuple. */
         public final boolean _3;
-        /** The fourth boolean value stored in this tuple. */
+        /** The fourth boolean value in this tuple. */
         public final boolean _4;
-        /** The fifth boolean value stored in this tuple. */
+        /** The fifth boolean value in this tuple. */
         public final boolean _5;
-        /** The sixth boolean value stored in this tuple. */
+        /** The sixth boolean value in this tuple. */
         public final boolean _6;
 
+        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple6() {
             this(false, false, false, false, false, false);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified values.
+         *
+         * @param _1 the first boolean value
+         * @param _2 the second boolean value
+         * @param _3 the third boolean value
+         * @param _4 the fourth boolean value
+         * @param _5 the fifth boolean value
+         * @param _6 the sixth boolean value
+         */
         BooleanTuple6(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6) {
             this._1 = _1;
             this._2 = _2;
@@ -2523,11 +2565,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A BooleanTuple containing exactly seven boolean elements.
-     * <p>
-     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, {@code _4}, {@code _5}, {@code _6}, and {@code _7}.
-     * This tuple type is useful for grouping seven related boolean values together.
-     * </p>
+     * A tuple containing exactly seven boolean values.
+     * The values are accessible through the public final fields {@code _1} through {@code _7}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2540,25 +2579,37 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      */
     public static final class BooleanTuple7 extends BooleanTuple<BooleanTuple7> {
 
-        /** The first boolean value stored in this tuple. */
+        /** The first boolean value in this tuple. */
         public final boolean _1;
-        /** The second boolean value stored in this tuple. */
+        /** The second boolean value in this tuple. */
         public final boolean _2;
-        /** The third boolean value stored in this tuple. */
+        /** The third boolean value in this tuple. */
         public final boolean _3;
-        /** The fourth boolean value stored in this tuple. */
+        /** The fourth boolean value in this tuple. */
         public final boolean _4;
-        /** The fifth boolean value stored in this tuple. */
+        /** The fifth boolean value in this tuple. */
         public final boolean _5;
-        /** The sixth boolean value stored in this tuple. */
+        /** The sixth boolean value in this tuple. */
         public final boolean _6;
-        /** The seventh boolean value stored in this tuple. */
+        /** The seventh boolean value in this tuple. */
         public final boolean _7;
 
+        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple7() {
             this(false, false, false, false, false, false, false);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified values.
+         *
+         * @param _1 the first boolean value
+         * @param _2 the second boolean value
+         * @param _3 the third boolean value
+         * @param _4 the fourth boolean value
+         * @param _5 the fifth boolean value
+         * @param _6 the sixth boolean value
+         * @param _7 the seventh boolean value
+         */
         BooleanTuple7(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7) {
             this._1 = _1;
             this._2 = _2;
@@ -2813,11 +2864,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A BooleanTuple containing exactly eight boolean elements.
-     * <p>
-     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
-     * This tuple type is useful for grouping eight related boolean values together.
-     * </p>
+     * A tuple containing exactly eight boolean values.
+     * The values are accessible through the public final fields {@code _1} through {@code _8}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2832,27 +2880,40 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     @Deprecated
     public static final class BooleanTuple8 extends BooleanTuple<BooleanTuple8> {
 
-        /** The first boolean value stored in this tuple. */
+        /** The first boolean value in this tuple. */
         public final boolean _1;
-        /** The second boolean value stored in this tuple. */
+        /** The second boolean value in this tuple. */
         public final boolean _2;
-        /** The third boolean value stored in this tuple. */
+        /** The third boolean value in this tuple. */
         public final boolean _3;
-        /** The fourth boolean value stored in this tuple. */
+        /** The fourth boolean value in this tuple. */
         public final boolean _4;
-        /** The fifth boolean value stored in this tuple. */
+        /** The fifth boolean value in this tuple. */
         public final boolean _5;
-        /** The sixth boolean value stored in this tuple. */
+        /** The sixth boolean value in this tuple. */
         public final boolean _6;
-        /** The seventh boolean value stored in this tuple. */
+        /** The seventh boolean value in this tuple. */
         public final boolean _7;
-        /** The eighth boolean value stored in this tuple. */
+        /** The eighth boolean value in this tuple. */
         public final boolean _8;
 
+        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple8() {
             this(false, false, false, false, false, false, false, false);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified values.
+         *
+         * @param _1 the first boolean value
+         * @param _2 the second boolean value
+         * @param _3 the third boolean value
+         * @param _4 the fourth boolean value
+         * @param _5 the fifth boolean value
+         * @param _6 the sixth boolean value
+         * @param _7 the seventh boolean value
+         * @param _8 the eighth boolean value
+         */
         BooleanTuple8(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
                 final boolean _8) {
             this._1 = _1;
@@ -3111,11 +3172,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A BooleanTuple containing exactly nine boolean elements.
-     * <p>
-     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
-     * This tuple type is useful for grouping nine related boolean values together.
-     * </p>
+     * A tuple containing exactly nine boolean values.
+     * The values are accessible through the public final fields {@code _1} through {@code _9}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3130,29 +3188,43 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     @Deprecated
     public static final class BooleanTuple9 extends BooleanTuple<BooleanTuple9> {
 
-        /** The first boolean value stored in this tuple. */
+        /** The first boolean value in this tuple. */
         public final boolean _1;
-        /** The second boolean value stored in this tuple. */
+        /** The second boolean value in this tuple. */
         public final boolean _2;
-        /** The third boolean value stored in this tuple. */
+        /** The third boolean value in this tuple. */
         public final boolean _3;
-        /** The fourth boolean value stored in this tuple. */
+        /** The fourth boolean value in this tuple. */
         public final boolean _4;
-        /** The fifth boolean value stored in this tuple. */
+        /** The fifth boolean value in this tuple. */
         public final boolean _5;
-        /** The sixth boolean value stored in this tuple. */
+        /** The sixth boolean value in this tuple. */
         public final boolean _6;
-        /** The seventh boolean value stored in this tuple. */
+        /** The seventh boolean value in this tuple. */
         public final boolean _7;
-        /** The eighth boolean value stored in this tuple. */
+        /** The eighth boolean value in this tuple. */
         public final boolean _8;
-        /** The ninth boolean value stored in this tuple. */
+        /** The ninth boolean value in this tuple. */
         public final boolean _9;
 
+        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple9() {
             this(false, false, false, false, false, false, false, false, false);
         }
 
+        /**
+         * Package-private constructor creating a tuple with the specified values.
+         *
+         * @param _1 the first boolean value
+         * @param _2 the second boolean value
+         * @param _3 the third boolean value
+         * @param _4 the fourth boolean value
+         * @param _5 the fifth boolean value
+         * @param _6 the sixth boolean value
+         * @param _7 the seventh boolean value
+         * @param _8 the eighth boolean value
+         * @param _9 the ninth boolean value
+         */
         BooleanTuple9(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
                 final boolean _8, final boolean _9) {
             this._1 = _1;

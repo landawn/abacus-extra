@@ -916,13 +916,17 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
 
         private static final CharTuple0 EMPTY = new CharTuple0();
 
+        /**
+         * Package-private constructor for internal use; creates an empty tuple.
+         * The shared empty tuple is normally obtained via {@link CharTuple#from(char[])}.
+         */
         CharTuple0() {
         }
 
         /**
          * Returns the number of elements in this tuple, which is always 0.
          *
-         * @return 0
+         * @return {@code 0}
          */
         @Override
         public int arity() {
@@ -1043,7 +1047,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "()"
+         * @return {@code "()"}
          */
         @Override
         public String toString() {
@@ -1074,10 +1078,19 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /** The single char value stored in this tuple. */
         public final char _1;
 
+        /**
+         * Package-private no-argument constructor; initializes the element to {@code (char) 0}.
+         * Tuples are normally created via the {@code CharTuple.of(...)} factory methods.
+         */
         CharTuple1() {
             this((char) 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified element.
+         *
+         * @param _1 the char value to store in this tuple
+         */
         CharTuple1(final char _1) {
             this._1 = _1;
         }
@@ -1405,10 +1418,20 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /** The second char value stored in this tuple. */
         public final char _2;
 
+        /**
+         * Package-private no-argument constructor; initializes all elements to {@code (char) 0}.
+         * Tuples are normally created via the {@code CharTuple.of(...)} factory methods.
+         */
         CharTuple2() {
             this((char) 0, (char) 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified elements.
+         *
+         * @param _1 the first char value
+         * @param _2 the second char value
+         */
         CharTuple2(final char _1, final char _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1917,10 +1940,21 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /** The third char value stored in this tuple. */
         public final char _3;
 
+        /**
+         * Package-private no-argument constructor; initializes all elements to {@code (char) 0}.
+         * Tuples are normally created via the {@code CharTuple.of(...)} factory methods.
+         */
         CharTuple3() {
             this((char) 0, (char) 0, (char) 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified elements.
+         *
+         * @param _1 the first char value
+         * @param _2 the second char value
+         * @param _3 the third char value
+         */
         CharTuple3(final char _1, final char _2, final char _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2430,10 +2464,22 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /** The fourth char value stored in this tuple. */
         public final char _4;
 
+        /**
+         * Package-private no-argument constructor; initializes all elements to {@code (char) 0}.
+         * Tuples are normally created via the {@code CharTuple.of(...)} factory methods.
+         */
         CharTuple4() {
             this((char) 0, (char) 0, (char) 0, (char) 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified elements.
+         *
+         * @param _1 the first char value
+         * @param _2 the second char value
+         * @param _3 the third char value
+         * @param _4 the fourth char value
+         */
         CharTuple4(final char _1, final char _2, final char _3, final char _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2832,10 +2878,23 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /** The fifth char value stored in this tuple. */
         public final char _5;
 
+        /**
+         * Package-private no-argument constructor; initializes all elements to {@code (char) 0}.
+         * Tuples are normally created via the {@code CharTuple.of(...)} factory methods.
+         */
         CharTuple5() {
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified elements.
+         *
+         * @param _1 the first char value
+         * @param _2 the second char value
+         * @param _3 the third char value
+         * @param _4 the fourth char value
+         * @param _5 the fifth char value
+         */
         CharTuple5(final char _1, final char _2, final char _3, final char _4, final char _5) {
             this._1 = _1;
             this._2 = _2;
@@ -3235,10 +3294,24 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /** The sixth char value stored in this tuple. */
         public final char _6;
 
+        /**
+         * Package-private no-argument constructor; initializes all elements to {@code (char) 0}.
+         * Tuples are normally created via the {@code CharTuple.of(...)} factory methods.
+         */
         CharTuple6() {
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified elements.
+         *
+         * @param _1 the first char value
+         * @param _2 the second char value
+         * @param _3 the third char value
+         * @param _4 the fourth char value
+         * @param _5 the fifth char value
+         * @param _6 the sixth char value
+         */
         CharTuple6(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3643,10 +3716,25 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /** The seventh char value stored in this tuple. */
         public final char _7;
 
+        /**
+         * Package-private no-argument constructor; initializes all elements to {@code (char) 0}.
+         * Tuples are normally created via the {@code CharTuple.of(...)} factory methods.
+         */
         CharTuple7() {
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified elements.
+         *
+         * @param _1 the first char value
+         * @param _2 the second char value
+         * @param _3 the third char value
+         * @param _4 the fourth char value
+         * @param _5 the fifth char value
+         * @param _6 the sixth char value
+         * @param _7 the seventh char value
+         */
         CharTuple7(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7) {
             this._1 = _1;
             this._2 = _2;
@@ -4059,10 +4147,26 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /** The eighth char value stored in this tuple. */
         public final char _8;
 
+        /**
+         * Package-private no-argument constructor; initializes all elements to {@code (char) 0}.
+         * Tuples are normally created via the {@code CharTuple.of(...)} factory methods.
+         */
         CharTuple8() {
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified elements.
+         *
+         * @param _1 the first char value
+         * @param _2 the second char value
+         * @param _3 the third char value
+         * @param _4 the fourth char value
+         * @param _5 the fifth char value
+         * @param _6 the sixth char value
+         * @param _7 the seventh char value
+         * @param _8 the eighth char value
+         */
         CharTuple8(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8) {
             this._1 = _1;
             this._2 = _2;
@@ -4481,10 +4585,27 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /** The ninth char value stored in this tuple. */
         public final char _9;
 
+        /**
+         * Package-private no-argument constructor; initializes all elements to {@code (char) 0}.
+         * Tuples are normally created via the {@code CharTuple.of(...)} factory methods.
+         */
         CharTuple9() {
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
+        /**
+         * Package-private constructor that creates a tuple with the specified elements.
+         *
+         * @param _1 the first char value
+         * @param _2 the second char value
+         * @param _3 the third char value
+         * @param _4 the fourth char value
+         * @param _5 the fifth char value
+         * @param _6 the sixth char value
+         * @param _7 the seventh char value
+         * @param _8 the eighth char value
+         * @param _9 the ninth char value
+         */
         CharTuple9(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8, final char _9) {
             this._1 = _1;
             this._2 = _2;
