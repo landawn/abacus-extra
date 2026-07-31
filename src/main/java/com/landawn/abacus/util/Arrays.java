@@ -28,7 +28,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * <p>The nested helper classes {@link Arrays.f}, {@link Arrays.ff}, and {@link Arrays.fff} group the object-array specific
  * operations by dimensionality.</p>
  *
- * <p>Element-wise transforms are named by source and result type: {@code updateAll} rewrites a primitive array
+ * <p>Element-wise transforms are named by source and result type: {@code updateAll} rewrites an array
  * in place, {@code mapToObj}/{@code mapToInt}/{@code mapToLong}/... return a new array of a different type, and
  * {@code map} on {@link Arrays.f}/{@link Arrays.ff}/{@link Arrays.fff} transforms object arrays into a new array.</p>
  */
@@ -2962,8 +2962,7 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional boolean array into a three-dimensional boolean array with the specified number of rows and columns.
      * The array is divided into blocks of size rowCount × columnCount.
      *
-     * <p>The block capacity is calculated with {@code long} arithmetic, and an {@link ArithmeticException}
-     * is thrown if the number of blocks exceeds {@code Integer.MAX_VALUE}.</p>
+     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2991,7 +2990,6 @@ public sealed class Arrays permits Arrays.f {
      * @param columnCount the number of columns for the reshaped subarray.
      * @return a three-dimensional boolean array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
-     * @throws ArithmeticException if the number of blocks exceeds {@code Integer.MAX_VALUE}.
      * @see #reshape(boolean[], int) for reshaping into a two-dimensional array
      */
     public static boolean[][][] reshape(final boolean[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -4026,8 +4024,8 @@ public sealed class Arrays permits Arrays.f {
      * boolean[][][] c3 = {};
      * boolean[][][] result3 = Arrays.zip(a3, b3, c3, false, false, true, (x, y, z) -> x && y && z);
      * // max outer = 2 (b3). c3 empty => all positions use defC=true
-     * // block 0: zip({{T}},{{F}},null,F,F,T,&&): T&&F&&T=F => {{{F}}}
-     * // block 1: zip(null,{{T}},null,F,F,T,&&): F&&T&&T=F => {{{F}}}
+     * // block 0: zip({{T}},{{F}},null,F,F,T,&&): T&&F&&T=F => {{F}}
+     * // block 1: zip(null,{{T}},null,F,F,T,&&): F&&T&&T=F => {{F}}
      * // result3: {{{false}}, {{false}}}
      * }</pre>
      *
@@ -4096,6 +4094,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
+     * @see #elementCount(boolean[][][]) for three-dimensional arrays
      */
     public static long elementCount(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -4139,6 +4138,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional boolean array (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}.
+     * @see #elementCount(boolean[][]) for two-dimensional arrays
      */
     public static long elementCount(final boolean[][][] a) {
         if (N.isEmpty(a)) {
@@ -4191,6 +4191,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the minimum length of sub-arrays, or 0 if array is {@code null} or empty.
+     * @see #maxImmediateSubArrayLength(boolean[][])
      */
     public static int minImmediateSubArrayLength(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -4233,6 +4234,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the maximum length of sub-arrays, or 0 if array is {@code null} or empty.
+     * @see #minImmediateSubArrayLength(boolean[][])
      */
     public static int maxImmediateSubArrayLength(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -6457,7 +6459,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Array with null sub-array: null sub-array is skipped
      * byte[][] withNull = {null, {1, 2}};
-     * Arrays.updateAll(withNull, b -> (byte)(b + 10));  // withNull is now {null, [11, 12]}
+     * Arrays.updateAll(withNull, b -> (byte)(b + 10));  // withNull is now {null, {11, 12}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -6598,7 +6600,7 @@ public sealed class Arrays permits Arrays.f {
      * // Array with null sub-array: null sub-array is skipped
      * byte[][] withNull = {null, {1, 2}};
      * Arrays.replaceIf(withNull, b -> b == 2, (byte) 10);
-     * // withNull is now {null, [1, 10]}
+     * // withNull is now {null, {1, 10}}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -7805,7 +7807,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Basic: null/empty sub-arrays at any level are skipped
+     * // Basic: all sub-arrays present and non-empty
      * byte[][][] array = {{{1, 2}, {3}}, {{4, 5, 6}}};
      * long count = Arrays.elementCount(array);   // returns 6
      *
@@ -13438,8 +13440,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Side effect:</b> This method both prints to the console and returns
-     * the formatted string for potential further use. Null sub-arrays are
-     * represented as "null" and empty sub-arrays as "[]" within the output.</p>
+     * the formatted string for potential further use.</p>
      *
      * @param a the two-dimensional long array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
@@ -13534,8 +13535,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * <p><b>&#9888;&#65039; Side effect:</b> This method both prints to the console and returns
-     * the formatted string for potential further use. Null sub-arrays at any level are
-     * represented as "null" and empty sub-arrays as "[]" within the output.</p>
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
      * @param a the three-dimensional long array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
@@ -15017,6 +15018,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array to count elements in (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
+     * @see #elementCount(float[][][]) for three-dimensional arrays
      */
     public static long elementCount(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -15034,7 +15036,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Calculates the total number of elements in a three-dimensional float array.
-     * This method recursively sums the lengths of all innermost sub-arrays.
+     * Empty or null sub-arrays at any level are skipped.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15061,6 +15063,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array to count elements in (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}
+     * @see #elementCount(float[][]) for two-dimensional arrays
      */
     public static long elementCount(final float[][][] a) {
         if (N.isEmpty(a)) {
@@ -15113,6 +15116,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array to inspect (can be {@code null}).
      * @return the minimum sub-array length, or 0 if the input array is {@code null} or empty.
+     * @see #maxImmediateSubArrayLength(float[][])
      */
     public static int minImmediateSubArrayLength(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -15156,6 +15160,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array to inspect (can be {@code null}).
      * @return the maximum sub-array length, or 0 if the input array is {@code null} or empty.
+     * @see #minImmediateSubArrayLength(float[][])
      */
     public static int maxImmediateSubArrayLength(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -16816,6 +16821,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
+     * @see #elementCount(double[][][]) for three-dimensional arrays
      */
     public static long elementCount(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -16859,6 +16865,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional array (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}
+     * @see #elementCount(double[][]) for two-dimensional arrays
      */
     public static long elementCount(final double[][][] a) {
         if (N.isEmpty(a)) {
@@ -16911,6 +16918,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array (can be {@code null}).
      * @return the minimum sub-array length, or 0 if the input array is {@code null} or empty.
+     * @see #maxImmediateSubArrayLength(double[][])
      */
     public static int minImmediateSubArrayLength(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -16954,6 +16962,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional array (can be {@code null}).
      * @return the maximum sub-array length, or 0 if the input array is {@code null} or empty.
+     * @see #minImmediateSubArrayLength(double[][])
      */
     public static int maxImmediateSubArrayLength(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -19867,7 +19876,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts a one-dimensional {@code long} array to a one-dimensional {@code float} array.
      * Each {@code long} element is widened to {@code float}; per JLS rules this is a widening conversion
-     * that may lose precision (values whose magnitude exceeds 2<sup>24</sup> are not exactly representable
+     * that may lose precision (values whose magnitude exceeds 2<sup>24</sup> may not be exactly representable
      * because {@code float} has only a 24-bit significand).
      *
      * <p><b>Usage Examples:</b></p>
@@ -20416,7 +20425,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts a one-dimensional {@code long} array to a one-dimensional {@code double} array.
      * Each {@code long} element is widened to {@code double}; per JLS rules this is a widening conversion
-     * that may lose precision (values whose magnitude exceeds 2<sup>53</sup> are not exactly representable
+     * that may lose precision (values whose magnitude exceeds 2<sup>53</sup> may not be exactly representable
      * because {@code double} has only a 53-bit significand).
      *
      * <p><b>Usage Examples:</b></p>

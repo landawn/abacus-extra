@@ -697,6 +697,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * }</pre>
      *
      * @return a hash code value for this tuple
+     * @see #equals(Object)
      */
     @Override
     public int hashCode() {
@@ -737,6 +738,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
+     * @see #hashCode()
      */
     @Override
     public boolean equals(final Object obj) {

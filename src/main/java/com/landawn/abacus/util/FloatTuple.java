@@ -464,6 +464,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @return the minimum float value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #max()
+     * @see #median()
      * @see Math#min(float, float)
      */
     public float min() {
@@ -508,6 +509,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @return the maximum float value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
+     * @see #median()
      * @see Math#max(float, float)
      */
     public float max() {
@@ -555,6 +557,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * @return the median float element in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
      * @see N#median(float...)
      */
     public float median() {

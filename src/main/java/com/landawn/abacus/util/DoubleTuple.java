@@ -41,12 +41,9 @@ import com.landawn.abacus.util.stream.DoubleStream;
  *
  * <p><b>Numeric semantics:</b> Aggregates follow IEEE-754 {@code double} arithmetic: a {@code NaN}
  * element propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and
- * {@link #average()}, while {@link #contains(double)} and {@link #equals(Object)} compare elements
- * with {@link Double#compare(double, double)} semantics ({@code NaN} equal to itself and greater than
- * any other value, {@code -0.0} less than {@code 0.0}). {@link #median()} uses
- * {@link Double#compare(double, double)} ordering for tuples with three or more elements; for
- * two-element tuples it is computed with {@link Math#min(double, double)}, so a {@code NaN} element
- * propagates there.</p>
+ * {@link #average()}, while {@link #median()}, {@link #contains(double)}, and {@link #equals(Object)}
+ * order and compare elements with {@link Double#compare(double, double)} semantics ({@code NaN} equal
+ * to itself and greater than any other value, {@code -0.0} less than {@code 0.0}).</p>
  *
  * @param <TP> the concrete {@code DoubleTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -452,6 +449,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @return the minimum double value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #max()
+     * @see #median()
      * @see Math#min(double, double)
      */
     public double min() {
@@ -498,6 +496,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @return the maximum double value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
+     * @see #median()
      * @see Math#max(double, double)
      */
     public double max() {
@@ -523,9 +522,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * For tuples with three or more elements, ordering is performed with
      * {@link Double#compare(double, double)} semantics, so {@code NaN} is treated as the
      * largest value (and equal to itself), and {@code -0.0} is treated as less than
-     * {@code +0.0}. For two-element tuples the median is computed with
-     * {@link Math#min(double, double)}, so a single {@code NaN} propagates to the result
-     * instead of being treated as the larger element.
+     * {@code +0.0}. The same ordering is used for two-element tuples, so a single
+     * {@code NaN} is treated as the larger element and the finite value is returned.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -550,6 +548,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      *
      * @return the median double element in this tuple
      * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
      * @see N#median(double...)
      */
     public double median() {
@@ -1506,26 +1506,25 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the median of the two elements.
-         * Because there is an even number of elements, this is the smaller of the
-         * two as computed by {@link Math#min(double, double)}, not their average.
-         * If either element is {@code NaN}, the result is {@code NaN}.
+         * Because there is an even number of elements, this is the lower of the
+         * two according to {@link Double#compare(double, double)}, not their average.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * double med1 = DoubleTuple.of(3.0, 4.0).median();   // 3.0  (smaller of the two)
+         * double med1 = DoubleTuple.of(3.0, 4.0).median();   // 3.0  (lower of the two)
          * double med2 = DoubleTuple.of(4.0, 3.0).median();   // 3.0  (order does not matter)
          *
          * // negative values - still returns the lesser
          * double med3 = DoubleTuple.of(-3.0, -1.0).median();   // -3.0
          *
-         * // NaN propagates through Math.min
-         * double medNaN = DoubleTuple.of(3.0, Double.NaN).median();   // NaN
+         * // NaN is ordered above finite values
+         * double medNaN = DoubleTuple.of(3.0, Double.NaN).median();   // 3.0
          *
          * // equal values
          * double medEq = DoubleTuple.of(2.5, 2.5).median();   // 2.5
          * }</pre>
          *
-         * @return the smaller of {@code _1} and {@code _2} as computed by {@link Math#min(double, double)}
+         * @return the lower of {@code _1} and {@code _2} according to {@link Double#compare(double, double)}
          */
         @Override
         public double median() {

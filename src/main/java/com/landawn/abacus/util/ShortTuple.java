@@ -634,11 +634,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * Returns a new tuple with the elements in reverse order.
+     * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method creates and returns a new tuple instance of the same arity-specific
-     * subtype with all elements in reversed order. The original tuple remains unchanged
-     * as tuples are immutable. The empty tuple returns itself.
+     * Non-empty built-in tuples return a new tuple instance of the same arity-specific
+     * subtype with all elements in reversed order; the empty tuple returns itself. The
+     * original tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

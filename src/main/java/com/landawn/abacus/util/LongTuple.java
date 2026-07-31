@@ -875,6 +875,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple3 b = LongTuple.of(1L, 2L, 3L);
      * assert a.hashCode() == b.hashCode(); // returns true (equal tuples have equal hash codes)
      *
+     * // different element order produces a different hash code
+     * LongTuple.LongTuple3 c = LongTuple.of(3L, 2L, 1L);
+     * assert a.hashCode() != c.hashCode(); // returns true
+     *
+     * // Edge: empty tuple has a stable hash code
+     * LongTuple<?> empty = LongTuple.from(new long[0]);
+     * assert empty.hashCode() == LongTuple.from(new long[0]).hashCode(); // returns true
      * }</pre>
      *
      * @return a hash code value for this tuple
