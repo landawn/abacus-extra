@@ -627,7 +627,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         for (final boolean element : elements()) {
             action.accept(element);
@@ -1164,7 +1164,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -1204,7 +1204,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see #map(Throwables.BooleanBiFunction)
          */
         public <E extends Exception> void accept(final Throwables.BooleanBiConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
         }
@@ -1246,7 +1246,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.BooleanBiFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
         }
@@ -1287,7 +1287,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see #map(Throwables.BooleanBiFunction)
          */
         public <E extends Exception> Optional<BooleanTuple2> filter(final Throwables.BooleanBiPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
@@ -1544,7 +1544,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -1585,7 +1585,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see #map(Throwables.BooleanTriFunction)
          */
         public <E extends Exception> void accept(final Throwables.BooleanTriConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
         }
@@ -1626,7 +1626,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.BooleanTriFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
         }
@@ -1667,7 +1667,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see #map(Throwables.BooleanTriFunction)
          */
         public <E extends Exception> Optional<BooleanTuple3> filter(final Throwables.BooleanTriPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
@@ -1912,7 +1912,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -2167,7 +2167,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -2444,7 +2444,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -2740,7 +2740,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3046,7 +3046,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3358,7 +3358,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);

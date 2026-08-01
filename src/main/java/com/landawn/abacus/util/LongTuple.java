@@ -822,7 +822,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         for (final long element : elements()) {
             action.accept(element);
@@ -1664,7 +1664,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -1707,7 +1707,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see #filter(Throwables.LongBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.LongBiConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
         }
@@ -1748,7 +1748,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.LongBiFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
         }
@@ -1788,7 +1788,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see #map(Throwables.LongBiFunction)
          */
         public <E extends Exception> Optional<LongTuple2> filter(final Throwables.LongBiPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
@@ -2157,7 +2157,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -2201,7 +2201,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see #filter(Throwables.LongTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.LongTriConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
         }
@@ -2243,7 +2243,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.LongTriFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
         }
@@ -2283,7 +2283,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see #map(Throwables.LongTriFunction)
          */
         public <E extends Exception> Optional<LongTuple3> filter(final Throwables.LongTriPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
@@ -2667,7 +2667,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3058,7 +3058,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3453,7 +3453,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3816,7 +3816,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -4178,7 +4178,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -4548,7 +4548,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);

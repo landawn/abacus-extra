@@ -764,7 +764,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         for (final char element : elements()) {
             action.accept(element);
@@ -1690,7 +1690,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -1732,7 +1732,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see #map(Throwables.CharBiFunction)
          */
         public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
         }
@@ -1773,7 +1773,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
         }
@@ -1816,7 +1816,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see #map(Throwables.CharBiFunction)
          */
         public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
@@ -2213,7 +2213,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -2256,7 +2256,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see #map(Throwables.CharTriFunction)
          */
         public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
         }
@@ -2297,7 +2297,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
         }
@@ -2340,7 +2340,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see #map(Throwables.CharTriFunction)
          */
         public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
@@ -2741,7 +2741,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3155,7 +3155,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3574,7 +3574,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3999,7 +3999,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -4433,7 +4433,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -4872,7 +4872,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);

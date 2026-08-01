@@ -795,7 +795,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         for (final float element : elements()) {
             action.accept(element);
@@ -1669,7 +1669,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -1710,7 +1710,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see #filter(Throwables.FloatBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
         }
@@ -1749,7 +1749,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatBiFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
         }
@@ -1791,7 +1791,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see #map(Throwables.FloatBiFunction)
          */
         public <E extends Exception> Optional<FloatTuple2> filter(final Throwables.FloatBiPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
@@ -2188,7 +2188,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -2229,7 +2229,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see #filter(Throwables.FloatTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
         }
@@ -2268,7 +2268,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatTriFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
         }
@@ -2310,7 +2310,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see #map(Throwables.FloatTriFunction)
          */
         public <E extends Exception> Optional<FloatTuple3> filter(final Throwables.FloatTriPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
@@ -2711,7 +2711,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3103,7 +3103,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3501,7 +3501,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3904,7 +3904,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -4324,7 +4324,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -4751,7 +4751,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);

@@ -750,7 +750,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         for (final int element : elements()) {
             action.accept(element);
@@ -1503,7 +1503,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -1542,7 +1542,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see #filter(Throwables.IntBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
         }
@@ -1579,7 +1579,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
         }
@@ -1617,7 +1617,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see #map(Throwables.IntBiFunction)
          */
         public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
@@ -1922,7 +1922,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -1962,7 +1962,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see #filter(Throwables.IntTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
         }
@@ -2000,7 +2000,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntTriFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
         }
@@ -2038,7 +2038,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see #map(Throwables.IntTriFunction)
          */
         public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
@@ -2387,7 +2387,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -2763,7 +2763,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3144,7 +3144,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3535,7 +3535,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3932,7 +3932,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -4335,7 +4335,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);

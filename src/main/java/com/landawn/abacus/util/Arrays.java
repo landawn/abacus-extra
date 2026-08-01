@@ -277,7 +277,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -335,7 +335,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -393,7 +393,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -449,7 +449,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -507,7 +507,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -565,7 +565,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -621,7 +621,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -679,7 +679,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -737,7 +737,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -793,7 +793,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -851,7 +851,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -909,7 +909,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -965,7 +965,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1023,7 +1023,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1081,7 +1081,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1137,7 +1137,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1195,7 +1195,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1254,7 +1254,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1310,7 +1310,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1368,7 +1368,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1426,7 +1426,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1482,7 +1482,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1540,7 +1540,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1598,7 +1598,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
         N.checkArgNotNull(targetElementType, "targetElementType");
 
         if (N.isEmpty(a)) {
@@ -1657,7 +1657,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToLong(int[][][], Throwables.IntToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[] mapToLong(final int[] a, final Throwables.IntToLongFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
@@ -1713,7 +1713,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToLong(int[][][], Throwables.IntToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[][] mapToLong(final int[][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -1774,7 +1774,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToLong(int[][], Throwables.IntToLongFunction) for two-dimensional arrays
      */
     public static <E extends Exception> long[][][] mapToLong(final int[][][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -1832,7 +1832,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToDouble(int[][][], Throwables.IntToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -1888,7 +1888,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToDouble(int[][][], Throwables.IntToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[][] mapToDouble(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -1944,7 +1944,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToDouble(int[][], Throwables.IntToDoubleFunction) for two-dimensional arrays
      */
     public static <E extends Exception> double[][][] mapToDouble(final int[][][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -2002,7 +2002,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToInt(long[][][], Throwables.LongToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[] mapToInt(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -2059,7 +2059,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToInt(long[][][], Throwables.LongToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[][] mapToInt(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -2116,7 +2116,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToInt(long[][], Throwables.LongToIntFunction) for two-dimensional arrays
      */
     public static <E extends Exception> int[][][] mapToInt(final long[][][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -2175,7 +2175,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToDouble(long[][][], Throwables.LongToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[] mapToDouble(final long[] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -2232,7 +2232,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToDouble(long[][][], Throwables.LongToDoubleFunction) for three-dimensional arrays
      */
     public static <E extends Exception> double[][] mapToDouble(final long[][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -2288,7 +2288,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToDouble(long[][], Throwables.LongToDoubleFunction) for two-dimensional arrays
      */
     public static <E extends Exception> double[][][] mapToDouble(final long[][][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -2342,7 +2342,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToInt(double[][][], Throwables.DoubleToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[] mapToInt(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -2399,7 +2399,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToInt(double[][][], Throwables.DoubleToIntFunction) for three-dimensional arrays
      */
     public static <E extends Exception> int[][] mapToInt(final double[][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -2456,7 +2456,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToInt(double[][], Throwables.DoubleToIntFunction) for two-dimensional arrays
      */
     public static <E extends Exception> int[][][] mapToInt(final double[][][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -2515,7 +2515,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToLong(double[][][], Throwables.DoubleToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[] mapToLong(final double[] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
@@ -2572,7 +2572,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToLong(double[][][], Throwables.DoubleToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[][] mapToLong(final double[][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -2629,7 +2629,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #mapToLong(double[][], Throwables.DoubleToLongFunction) for two-dimensional arrays
      */
     public static <E extends Exception> long[][][] mapToLong(final double[][][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
-        N.checkArgNotNull(mapper, "mapper");
+        N.checkArgNotNull(mapper, cs.mapper);
 
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -2678,7 +2678,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(boolean[][][], Throwables.BooleanUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final boolean[] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -2721,7 +2721,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(boolean[][][], Throwables.BooleanUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final boolean[][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -2764,7 +2764,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(boolean[][], Throwables.BooleanUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final boolean[][][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -2809,7 +2809,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(boolean[][][], Throwables.BooleanPredicate, boolean) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final boolean[] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -2855,7 +2855,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(boolean[][][], Throwables.BooleanPredicate, boolean) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final boolean[][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -2899,7 +2899,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(boolean[][], Throwables.BooleanPredicate, boolean) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final boolean[][][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -3173,7 +3173,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(boolean[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -3229,7 +3229,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(boolean[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -3293,7 +3293,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3352,7 +3352,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean defaultValueA, final boolean defaultValueB,
             final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3420,7 +3420,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3488,7 +3488,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c, final boolean defaultValueA,
             final boolean defaultValueB, final boolean defaultValueC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3555,7 +3555,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3620,7 +3620,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean defaultValueA, final boolean defaultValueB,
             final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3692,7 +3692,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3764,7 +3764,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean defaultValueA,
             final boolean defaultValueB, final boolean defaultValueC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3831,7 +3831,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3897,7 +3897,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean defaultValueA,
             final boolean defaultValueB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3970,7 +3970,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -4043,7 +4043,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c, final boolean defaultValueA,
             final boolean defaultValueB, final boolean defaultValueC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -4543,7 +4543,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final char[] a, final Throwables.CharUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -4587,7 +4587,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final char[][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -4632,7 +4632,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(char[][], Throwables.CharUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final char[][][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -4679,7 +4679,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(char[][][], Throwables.CharPredicate, char) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final char[] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -4728,7 +4728,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(char[][][], Throwables.CharPredicate, char) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final char[][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -4774,7 +4774,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(char[][], Throwables.CharPredicate, char) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final char[][][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -5055,7 +5055,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(char[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -5113,7 +5113,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(char[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -5177,7 +5177,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5235,7 +5235,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char defaultValueA, final char defaultValueB,
             final Throwables.CharBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5308,7 +5308,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final Throwables.CharTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5372,7 +5372,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final char defaultValueA, final char defaultValueB,
             final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5436,7 +5436,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5497,7 +5497,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char defaultValueA, final char defaultValueB,
             final Throwables.CharBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5569,7 +5569,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final Throwables.CharTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5635,7 +5635,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char defaultValueA, final char defaultValueB,
             final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5702,7 +5702,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5763,7 +5763,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char defaultValueA, final char defaultValueB,
             final Throwables.CharBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5837,7 +5837,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c,
             final Throwables.CharTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5904,7 +5904,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c, final char defaultValueA,
             final char defaultValueB, final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -6428,7 +6428,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(byte[][][], Throwables.ByteUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final byte[] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -6471,7 +6471,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(byte[][][], Throwables.ByteUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final byte[][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -6514,7 +6514,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(byte[][], Throwables.ByteUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final byte[][][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -6565,7 +6565,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(byte[][][], Throwables.BytePredicate, byte) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final byte[] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -6613,7 +6613,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(byte[][][], Throwables.BytePredicate, byte) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final byte[][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -6659,7 +6659,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(byte[][], Throwables.BytePredicate, byte) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final byte[][][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -6947,7 +6947,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(byte[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -7006,7 +7006,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(byte[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -7066,7 +7066,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7120,7 +7120,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte defaultValueA, final byte defaultValueB,
             final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7186,7 +7186,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final Throwables.ByteTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7247,7 +7247,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final byte defaultValueA, final byte defaultValueB,
             final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7307,7 +7307,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7362,7 +7362,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte defaultValueA, final byte defaultValueB,
             final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7429,7 +7429,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final Throwables.ByteTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7491,7 +7491,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte defaultValueA, final byte defaultValueB,
             final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7551,7 +7551,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7606,7 +7606,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte defaultValueA, final byte defaultValueB,
             final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7673,7 +7673,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c,
             final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7735,7 +7735,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte defaultValueA,
             final byte defaultValueB, final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -8235,7 +8235,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(short[][][], Throwables.ShortUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final short[] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -8278,7 +8278,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(short[][][], Throwables.ShortUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final short[][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -8322,7 +8322,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(short[][], Throwables.ShortUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final short[][][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -8368,7 +8368,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(short[][][], Throwables.ShortPredicate, short) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final short[] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -8416,7 +8416,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(short[][][], Throwables.ShortPredicate, short) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final short[][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -8461,7 +8461,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(short[][], Throwables.ShortPredicate, short) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final short[][][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -8733,7 +8733,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(short[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -8789,7 +8789,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(short[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -8849,7 +8849,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -8903,7 +8903,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short defaultValueA, final short defaultValueB,
             final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -8971,7 +8971,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final Throwables.ShortTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9032,7 +9032,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final short defaultValueA, final short defaultValueB,
             final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9093,7 +9093,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9152,7 +9152,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short defaultValueA, final short defaultValueB,
             final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9220,7 +9220,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c,
             final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9283,7 +9283,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final short defaultValueA,
             final short defaultValueB, final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9346,7 +9346,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final Throwables.ShortBinaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9404,7 +9404,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short defaultValueA, final short defaultValueB,
             final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9472,7 +9472,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c,
             final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9537,7 +9537,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c, final short defaultValueA,
             final short defaultValueB, final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10052,7 +10052,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(int[][][], Throwables.IntUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final int[] a, final Throwables.IntUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -10099,7 +10099,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(int[][][], Throwables.IntUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final int[][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -10142,7 +10142,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(int[][], Throwables.IntUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final int[][][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -10196,7 +10196,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(int[][][], Throwables.IntPredicate, int) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final int[] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -10248,7 +10248,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(int[][][], Throwables.IntPredicate, int) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final int[][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -10295,7 +10295,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(int[][], Throwables.IntPredicate, int) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final int[][][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -10612,7 +10612,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(int[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -10673,7 +10673,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(int[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -10737,7 +10737,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10791,7 +10791,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int defaultValueA, final int defaultValueB,
             final Throwables.IntBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10856,7 +10856,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10916,7 +10916,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final int defaultValueA, final int defaultValueB,
             final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10975,7 +10975,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11030,7 +11030,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int defaultValueA, final int defaultValueB,
             final Throwables.IntBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11098,7 +11098,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final Throwables.IntTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11160,7 +11160,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final int defaultValueA, final int defaultValueB,
             final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11220,7 +11220,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11275,7 +11275,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int defaultValueA, final int defaultValueB,
             final Throwables.IntBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11342,7 +11342,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c,
             final Throwables.IntTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11403,7 +11403,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final int defaultValueA, final int defaultValueB,
             final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11913,7 +11913,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(long[][][], Throwables.LongUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final long[] a, final Throwables.LongUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -11955,7 +11955,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(long[][][], Throwables.LongUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final long[][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -11997,7 +11997,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(long[][], Throwables.LongUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final long[][][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -12041,7 +12041,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(long[][][], Throwables.LongPredicate, long) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final long[] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -12086,7 +12086,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(long[][][], Throwables.LongPredicate, long) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final long[][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -12129,7 +12129,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(long[][], Throwables.LongPredicate, long) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final long[][][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -12391,7 +12391,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(long[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -12446,7 +12446,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(long[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -12504,7 +12504,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -12556,7 +12556,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long defaultValueA, final long defaultValueB,
             final Throwables.LongBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -12620,7 +12620,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final Throwables.LongTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -12678,7 +12678,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final long defaultValueA, final long defaultValueB,
             final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -12738,7 +12738,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -12792,7 +12792,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long defaultValueA, final long defaultValueB,
             final Throwables.LongBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -12857,7 +12857,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final Throwables.LongTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -12917,7 +12917,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final long defaultValueA, final long defaultValueB,
             final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -12975,7 +12975,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -13029,7 +13029,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long defaultValueA, final long defaultValueB,
             final Throwables.LongBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -13094,7 +13094,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c,
             final Throwables.LongTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -13153,7 +13153,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c, final long defaultValueA,
             final long defaultValueB, final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -13644,7 +13644,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(float[][][], Throwables.FloatUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final float[] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -13687,7 +13687,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(float[][][], Throwables.FloatUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final float[][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -13730,7 +13730,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(float[][], Throwables.FloatUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final float[][][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -13778,7 +13778,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(float[][][], Throwables.FloatPredicate, float) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final float[] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -13825,7 +13825,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(float[][][], Throwables.FloatPredicate, float) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final float[][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -13873,7 +13873,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(float[][], Throwables.FloatPredicate, float) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final float[][][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -14162,7 +14162,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(float[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -14219,7 +14219,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(float[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -14281,7 +14281,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14337,7 +14337,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float defaultValueA, final float defaultValueB,
             final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14406,7 +14406,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final Throwables.FloatTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14468,7 +14468,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final float defaultValueA, final float defaultValueB,
             final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14529,7 +14529,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14585,7 +14585,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float defaultValueA, final float defaultValueB,
             final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14654,7 +14654,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c,
             final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14716,7 +14716,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final float defaultValueA,
             final float defaultValueB, final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14779,7 +14779,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final Throwables.FloatBinaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14835,7 +14835,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float defaultValueA, final float defaultValueB,
             final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14904,7 +14904,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c,
             final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -14966,7 +14966,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c, final float defaultValueA,
             final float defaultValueB, final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -15489,7 +15489,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(double[][][], Throwables.DoubleUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final double[] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -15533,7 +15533,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(double[][][], Throwables.DoubleUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final double[][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -15577,7 +15577,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #updateAll(double[][], Throwables.DoubleUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final double[][][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
-        N.checkArgNotNull(operator, "operator");
+        N.checkArgNotNull(operator, cs.operator);
 
         if (N.isEmpty(a)) {
             return;
@@ -15622,7 +15622,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(double[][][], Throwables.DoublePredicate, double) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final double[] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -15669,7 +15669,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(double[][][], Throwables.DoublePredicate, double) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final double[][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -15714,7 +15714,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #replaceIf(double[][], Throwables.DoublePredicate, double) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final double[][][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
-        N.checkArgNotNull(predicate, "predicate");
+        N.checkArgNotNull(predicate, cs.predicate);
 
         if (N.isEmpty(a)) {
             return;
@@ -15989,7 +15989,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(double[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -16046,7 +16046,7 @@ public sealed class Arrays permits Arrays.f {
      * @see #flatten(double[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateFlattened(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
             return;
@@ -16108,7 +16108,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16160,7 +16160,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double defaultValueA, final double defaultValueB,
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16223,7 +16223,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c,
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16280,7 +16280,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c, final double defaultValueA,
             final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16339,7 +16339,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16396,7 +16396,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double defaultValueA, final double defaultValueB,
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16462,7 +16462,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c,
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16524,7 +16524,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c, final double defaultValueA,
             final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16585,7 +16585,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final Throwables.DoubleBinaryOperator<E> zipFunction)
             throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16642,7 +16642,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double defaultValueA, final double defaultValueB,
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16709,7 +16709,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c,
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -16770,7 +16770,7 @@ public sealed class Arrays permits Arrays.f {
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c, final double defaultValueA,
             final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
-        N.checkArgNotNull(zipFunction, "zipFunction");
+        N.checkArgNotNull(zipFunction, cs.zipFunction);
 
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -20830,7 +20830,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             if (N.isEmpty(a)) {
@@ -20886,7 +20886,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return N.EMPTY_BOOLEAN_ARRAY;
@@ -20941,7 +20941,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return N.EMPTY_CHAR_ARRAY;
@@ -20996,7 +20996,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return N.EMPTY_BYTE_ARRAY;
@@ -21051,7 +21051,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return N.EMPTY_SHORT_ARRAY;
@@ -21106,7 +21106,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return N.EMPTY_INT_ARRAY;
@@ -21161,7 +21161,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return N.EMPTY_LONG_ARRAY;
@@ -21216,7 +21216,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return N.EMPTY_FLOAT_ARRAY;
@@ -21271,7 +21271,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the mapping function throws an exception.
          */
         public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return N.EMPTY_DOUBLE_ARRAY;
@@ -21343,7 +21343,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the {@code operator} throws an exception during processing.
          */
         public static <T, E extends Exception> void updateAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
-            N.checkArgNotNull(operator, "operator");
+            N.checkArgNotNull(operator, cs.operator);
 
             if (N.isEmpty(a)) {
                 return;
@@ -21396,7 +21396,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the {@code predicate} throws an exception during testing.
          */
         public static <T, E extends Exception> void replaceIf(final T[][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             if (N.isEmpty(a)) {
                 return;
@@ -21570,7 +21570,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void mutateFlattened(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             if (N.isEmpty(a)) {
                 return;
@@ -21633,9 +21633,10 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             N.checkArgNotNull(a, "a");
+
             final Class<T> targetElementType = runtimeComponentType2D(a);
             try {
                 return map(a, value -> {
@@ -21696,7 +21697,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             if (N.isEmpty(a)) {
@@ -21747,7 +21748,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new boolean[0][];
@@ -21797,7 +21798,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new char[0][];
@@ -21847,7 +21848,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new byte[0][];
@@ -21897,7 +21898,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new short[0][];
@@ -21947,7 +21948,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new int[0][];
@@ -21997,7 +21998,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new long[0][];
@@ -22047,7 +22048,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new float[0][];
@@ -22097,7 +22098,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new double[0][];
@@ -22159,9 +22160,10 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
                 throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
 
             N.checkArgNotNull(a, "a");
+
             final Class<A> targetElementType = runtimeComponentType2D(a);
             try {
                 return zip(a, b, (left, right) -> {
@@ -22222,7 +22224,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             final int lenA = N.len(a);
@@ -22295,7 +22297,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
 
             final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
@@ -22364,7 +22366,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             final int lenA = N.len(a);
@@ -22435,9 +22437,10 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
 
             N.checkArgNotNull(a, "a");
+
             final Class<A> targetElementType = runtimeComponentType2D(a);
             try {
                 return zip(a, b, c, (first, second, third) -> {
@@ -22505,7 +22508,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             final int lenA = N.len(a);
@@ -22583,7 +22586,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
 
             final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
@@ -22658,7 +22661,7 @@ public sealed class Arrays permits Arrays.f {
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             final int lenA = N.len(a);
@@ -23049,7 +23052,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the {@code operator} throws an exception during execution.
          */
         public static <T, E extends Exception> void updateAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
-            N.checkArgNotNull(operator, "operator");
+            N.checkArgNotNull(operator, cs.operator);
 
             if (N.isEmpty(a)) {
                 return;
@@ -23097,7 +23100,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the {@code predicate} throws an exception during evaluation.
          */
         public static <T, E extends Exception> void replaceIf(final T[][][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             if (N.isEmpty(a)) {
                 return;
@@ -23273,7 +23276,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void mutateFlattened(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             if (N.isEmpty(a)) {
                 return;
@@ -23338,9 +23341,10 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             N.checkArgNotNull(a, "a");
+
             final Class<T> targetElementType = runtimeComponentType3D(a);
             try {
                 return map(a, value -> {
@@ -23402,7 +23406,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             if (N.isEmpty(a)) {
@@ -23458,7 +23462,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new boolean[0][][];
@@ -23511,7 +23515,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new char[0][][];
@@ -23565,7 +23569,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new byte[0][][];
@@ -23619,7 +23623,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new short[0][][];
@@ -23673,7 +23677,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new int[0][][];
@@ -23727,7 +23731,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new long[0][][];
@@ -23781,7 +23785,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new float[0][][];
@@ -23835,7 +23839,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             if (N.isEmpty(a)) {
                 return new double[0][][];
@@ -23898,9 +23902,10 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
 
             N.checkArgNotNull(a, "a");
+
             final Class<A> targetElementType = runtimeComponentType3D(a);
             try {
                 return zip(a, b, (left, right) -> {
@@ -23968,7 +23973,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             final int lenA = N.len(a);
@@ -24033,7 +24038,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
 
             final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
@@ -24103,7 +24108,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             final int lenA = N.len(a);
@@ -24181,9 +24186,10 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
 
             N.checkArgNotNull(a, "a");
+
             final Class<A> targetElementType = runtimeComponentType3D(a);
             try {
                 return zip(a, b, c, (first, second, third) -> {
@@ -24256,7 +24262,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             final int lenA = N.len(a);
@@ -24326,7 +24332,7 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
 
             final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
@@ -24404,7 +24410,7 @@ public sealed class Arrays permits Arrays.f {
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
-            N.checkArgNotNull(zipFunction, "zipFunction");
+            N.checkArgNotNull(zipFunction, cs.zipFunction);
             N.checkArgNotNull(targetElementType, "targetElementType");
 
             final int lenA = N.len(a);

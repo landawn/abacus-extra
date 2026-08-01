@@ -807,7 +807,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-        N.checkArgNotNull(action, "action");
+        N.checkArgNotNull(action, cs.action);
 
         for (final short element : elements()) {
             action.accept(element);
@@ -1697,7 +1697,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -1740,7 +1740,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * @see #filter(Throwables.ShortBiPredicate)
          */
         public <E extends Exception> void accept(final Throwables.ShortBiConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
         }
@@ -1778,7 +1778,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ShortBiFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
         }
@@ -1819,7 +1819,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * @see #map(Throwables.ShortBiFunction)
          */
         public <E extends Exception> Optional<ShortTuple2> filter(final Throwables.ShortBiPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
@@ -2208,7 +2208,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -2252,7 +2252,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * @see #filter(Throwables.ShortTriPredicate)
          */
         public <E extends Exception> void accept(final Throwables.ShortTriConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
         }
@@ -2290,7 +2290,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ShortTriFunction<U, E> mapper) throws E {
-            N.checkArgNotNull(mapper, "mapper");
+            N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
         }
@@ -2331,7 +2331,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * @see #map(Throwables.ShortTriFunction)
          */
         public <E extends Exception> Optional<ShortTuple3> filter(final Throwables.ShortTriPredicate<E> predicate) throws E {
-            N.checkArgNotNull(predicate, "predicate");
+            N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
@@ -2689,7 +2689,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3040,7 +3040,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3396,7 +3396,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -3766,7 +3766,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -4157,7 +4157,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
@@ -4555,7 +4555,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
-            N.checkArgNotNull(action, "action");
+            N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
             action.accept(_2);
