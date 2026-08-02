@@ -5,7 +5,7 @@
 
 	<groupId>com.landawn.abacus</groupId>
 	<artifactId>abacus-extra</artifactId>
-	<version>3.8.5</version>
+	<version>3.8.6</version>
 	<packaging>jar</packaging>
 	<name>abacus-extra</name>
 	<description>Abacus Data Access and Analysis</description>

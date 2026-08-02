@@ -1370,9 +1370,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a double array containing all elements of this tuple
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
@@ -1870,9 +1873,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a double array containing all elements of this tuple
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
@@ -2355,9 +2361,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a double array containing all elements of this tuple
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
@@ -2429,8 +2438,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the minimum value among the four elements.
-         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0} is
          * treated as less than {@code +0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -2454,8 +2462,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the maximum value among the four elements.
-         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0} is
          * treated as greater than {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -2653,6 +2660,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Double#compare(double, double)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0} is not equal to {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2663,6 +2672,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * t1.equals(t3);            // returns false (last element differs)
          * t1.equals(null);          // returns false
          * t1.equals("not a tuple"); // returns false
+         *
+         * // NaN equals NaN; +0.0 is not equal to -0.0
+         * DoubleTuple.DoubleTuple4 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0);
+         * withNaN.equals(DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0)); // returns true
+         * DoubleTuple.of(0.0, 1.0, 2.0, 3.0).equals(DoubleTuple.of(-0.0, 1.0, 2.0, 3.0)); // returns false
          * }</pre>
          *
          * @param obj the object to compare with
@@ -2699,9 +2713,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a double array containing all elements of this tuple
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
@@ -2774,8 +2791,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the minimum value among the five elements.
-         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0} is
          * treated as less than {@code +0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -2799,8 +2815,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the maximum value among the five elements.
-         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0} is
          * treated as greater than {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3001,6 +3016,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Double#compare(double, double)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0} is not equal to {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3011,6 +3028,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * t1.equals(t3);            // returns false (last element differs)
          * t1.equals(null);          // returns false
          * t1.equals("not a tuple"); // returns false
+         *
+         * // NaN equals NaN; +0.0 is not equal to -0.0
+         * DoubleTuple.DoubleTuple5 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0);
+         * withNaN.equals(DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0)); // returns true
+         * DoubleTuple.of(0.0, 1.0, 2.0, 3.0, 4.0).equals(DoubleTuple.of(-0.0, 1.0, 2.0, 3.0, 4.0)); // returns false
          * }</pre>
          *
          * @param obj the object to compare with
@@ -3047,9 +3069,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a double array containing all elements of this tuple
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
@@ -3126,8 +3151,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the minimum value among the six elements.
-         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0} is
          * treated as less than {@code +0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3151,8 +3175,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the maximum value among the six elements.
-         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0} is
          * treated as greater than {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3355,6 +3378,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Double#compare(double, double)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0} is not equal to {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3365,6 +3390,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * t1.equals(t3);            // returns false (last element differs)
          * t1.equals(null);          // returns false
          * t1.equals("not a tuple"); // returns false
+         *
+         * // NaN equals NaN; +0.0 is not equal to -0.0
+         * DoubleTuple.DoubleTuple6 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0);
+         * withNaN.equals(DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0)); // returns true
+         * DoubleTuple.of(0.0, 1.0, 2.0, 3.0, 4.0, 5.0).equals(DoubleTuple.of(-0.0, 1.0, 2.0, 3.0, 4.0, 5.0)); // returns false
          * }</pre>
          *
          * @param obj the object to compare with
@@ -3402,9 +3432,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a double array containing all elements of this tuple
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
@@ -3485,8 +3518,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the minimum value among the seven elements.
-         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0} is
          * treated as less than {@code +0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3513,8 +3545,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the maximum value among the seven elements.
-         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0} is
          * treated as greater than {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3747,6 +3778,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Double#compare(double, double)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0} is not equal to {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3763,6 +3796,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * DoubleTuple.DoubleTuple7 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * assert withNaN.equals(withNaN2);   // NaN equals NaN via Double.compare semantics
+         * DoubleTuple.of(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+         *     .equals(DoubleTuple.of(-0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)); // returns false
          * }</pre>
          *
          * @param obj the object to compare with
@@ -3807,9 +3842,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a double array containing all elements of this tuple
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
@@ -3898,8 +3936,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the minimum value among the eight elements.
-         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0} is
          * treated as less than {@code +0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3926,8 +3963,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the maximum value among the eight elements.
-         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0} is
          * treated as greater than {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -4162,6 +4198,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Double#compare(double, double)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0} is not equal to {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -4178,6 +4216,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.DoubleTuple8 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * DoubleTuple.DoubleTuple8 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
          * assert withNaN.equals(withNaN2);   // NaN equals NaN via Double.compare semantics
+         * DoubleTuple.of(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0)
+         *     .equals(DoubleTuple.of(-0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0)); // returns false
          * }</pre>
          *
          * @param obj the object to compare with
@@ -4222,9 +4262,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a double array containing all elements of this tuple
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
@@ -4318,8 +4361,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the minimum value among the nine elements.
-         * Uses {@link Math#min(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0} is
          * treated as less than {@code +0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -4346,8 +4388,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the maximum value among the nine elements.
-         * Uses {@link Math#max(double, double)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0} is
          * treated as greater than {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -4584,6 +4625,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Double#compare(double, double)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0} is not equal to {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -4600,6 +4643,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.DoubleTuple9 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
          * DoubleTuple.DoubleTuple9 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
          * assert withNaN.equals(withNaN2);   // NaN equals NaN via Double.compare semantics
+         * DoubleTuple.of(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0)
+         *     .equals(DoubleTuple.of(-0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0)); // returns false
          * }</pre>
          *
          * @param obj the object to compare with
@@ -4644,9 +4689,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a double array containing all elements of this tuple
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {

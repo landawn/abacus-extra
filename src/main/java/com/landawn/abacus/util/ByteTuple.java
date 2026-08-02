@@ -304,6 +304,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
+     * Deprecated: prefer a custom class with meaningful names when arity is 8.
      * Creates a ByteTuple.ByteTuple8 containing eight byte values.
      *
      * <p><b>Usage Examples:</b></p>
@@ -336,7 +337,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @param _7 the seventh byte value
      * @param _8 the eighth byte value
      * @return a new ByteTuple.ByteTuple8 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more byte values
+     * @deprecated Prefer a custom class with meaningful property names when dealing with 8 or more byte values
      */
     @Deprecated
     public static ByteTuple8 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8) {
@@ -344,6 +345,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
+     * Deprecated: prefer a custom class with meaningful names when arity is 9.
      * Creates a ByteTuple.ByteTuple9 containing nine byte values.
      *
      * <p><b>Usage Examples:</b></p>
@@ -379,7 +381,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @param _8 the eighth byte value
      * @param _9 the ninth byte value
      * @return a new ByteTuple.ByteTuple9 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values
+     * @deprecated Prefer a custom class with meaningful property names when dealing with 9 or more byte values
      */
     @Deprecated
     public static ByteTuple9 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8,
@@ -595,7 +597,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * empty.median();   // throws NoSuchElementException
      * }</pre>
      *
-     * @return the median byte value in this tuple
+     * @return the median byte value in this tuple (middle when sorted for odd arity; lower-middle when sorted for even arity)
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
      * @see #max()
@@ -612,11 +614,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the sum of all byte values in this tuple as an integer.
+     * Returns the sum of all byte values in this tuple as an {@code int}.
      * <p>
-     * This method calculates the sum by adding all byte values together. The result
-     * is returned as an int to prevent overflow issues that could occur if the sum
-     * exceeds the byte range (-128 to 127).
+     * Elements are treated as signed {@code byte} values. The result is an {@code int}
+     * (not truncated to {@code byte}). For an empty tuple, the sum is {@code 0}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -624,7 +625,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * int sum = t.sum();   // 60
      *
-     * // result can exceed byte range; int prevents overflow
+     * // result can exceed the byte range; returned as int (not truncated)
      * ByteTuple.ByteTuple2 large = ByteTuple.of((byte) 100, (byte) 50);
      * int largeSum = large.sum();   // 150
      *
@@ -637,7 +638,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * int emptySum = empty.sum();   // 0
      * }</pre>
      *
-     * @return the sum of all byte values in this tuple as an {@code int}; {@code 0} for an empty tuple
+     * @return the sum of all signed byte values in this tuple as an {@code int}; {@code 0} for an empty tuple
      * @see #average()
      */
     public int sum() {
@@ -645,10 +646,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the average of all byte values in this tuple as a double.
+     * Returns the arithmetic mean of all byte values in this tuple as a {@code double}.
      * <p>
-     * The sum is accumulated in a widened integral type before the division is performed in
-     * {@code double}, preserving fractional precision without intermediate byte overflow.
+     * Elements are treated as signed {@code byte} values. For an empty tuple, returns {@code 0D}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -673,7 +673,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * empty.average();   // returns 0.0
      * }</pre>
      *
-     * @return the average of all byte values in this tuple as a {@code double}, or {@code 0D} if this tuple is empty
+     * @return the arithmetic mean of all signed byte values as a {@code double}, or {@code 0D} if this tuple is empty
      * @see #sum()
      */
     public double average() {
@@ -1650,7 +1650,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * assert neg._2 == -1;
          * }</pre>
          *
-         * @return a new ByteTuple.ByteTuple2 with elements swapped
+         * @return a new ByteTuple.ByteTuple2 with the elements in reverse order
          */
         @Override
         public ByteTuple2 reverse() {
@@ -2577,7 +2577,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * byte med4 = neg.median();   // returns (byte) 0  (lower middle of sorted [-128,0,1,127])
          * }</pre>
          *
-         * @return the median byte value
+         * @return the lower-middle byte value when sorted
          */
         @Override
         public byte median() {
@@ -2955,7 +2955,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * byte med4 = neg.median();   // returns (byte) 0
          * }</pre>
          *
-         * @return the median byte value
+         * @return the middle byte value when sorted
          */
         @Override
         public byte median() {
@@ -3338,7 +3338,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * byte med4 = neg.median();   // returns (byte) -1  (lower middle of sorted [-10,-5,-1,1,5,10])
          * }</pre>
          *
-         * @return the median byte value
+         * @return the lower-middle byte value when sorted
          */
         @Override
         public byte median() {
@@ -3726,7 +3726,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * byte result4 = t4.median();   // returns 4 (middle of sorted [1,2,3,4,5,7,9])
          * }</pre>
          *
-         * @return the median byte value
+         * @return the middle byte value when sorted
          */
         @Override
         public byte median() {
@@ -4158,7 +4158,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * byte result4 = t4.median();   // returns 1 (lower middle of sorted [-128,-1,0,1,16,32,64,127])
          * }</pre>
          *
-         * @return the median byte value
+         * @return the lower-middle byte value when sorted
          */
         @Override
         public byte median() {
@@ -4602,7 +4602,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * byte result4 = t4.median();   // returns 5
          * }</pre>
          *
-         * @return the median byte value
+         * @return the middle byte value when sorted
          */
         @Override
         public byte median() {

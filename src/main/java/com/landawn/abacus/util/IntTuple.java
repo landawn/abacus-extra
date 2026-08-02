@@ -417,10 +417,9 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * Returns the minimum int value in this tuple.
+     * Returns the minimum (smallest) int value in this tuple.
      * <p>
-     * Iterates through all elements in the tuple and returns the smallest value.
-     * For single-element tuples, the element itself is returned.
+     * For a single-element tuple, returns that element.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -454,10 +453,9 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * Returns the maximum int value in this tuple.
+     * Returns the maximum (largest) int value in this tuple.
      * <p>
-     * Iterates through all elements in the tuple and returns the largest value.
-     * For single-element tuples, the element itself is returned.
+     * For a single-element tuple, returns that element.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -592,8 +590,9 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     /**
      * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method returns all elements in reversed order. Implementations may return {@code this}
-     * when reversal has no effect. The original tuple remains unchanged as tuples are immutable.
+     * Non-empty built-in tuples return a new tuple instance of the same arity-specific
+     * subtype with all elements in reversed order; the empty tuple returns itself. The
+     * original tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -606,7 +605,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * IntTuple.IntTuple2 reversedPair = pair.reverse();
      * // reversedPair equals IntTuple.of(2, 1)
      *
-     * // single-element tuple reverses to an equal tuple
+     * // single-element tuple reverses to an equal tuple (new instance)
      * IntTuple.IntTuple1 single = IntTuple.of(42);
      * IntTuple.IntTuple1 revSingle = single.reverse();
      * // revSingle equals IntTuple.of(42)
@@ -617,16 +616,15 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * // revEmpty == empty (same object)
      * }</pre>
      *
-     * @return a tuple with the elements in reverse order
+     * @return a tuple of the same arity with the elements in reverse order
      */
     public abstract TP reverse();
 
     /**
      * Checks if this tuple contains the specified int value.
      * <p>
-     * This method performs a linear search through all elements in the tuple to determine
-     * if any element matches the specified value. Returns {@code true} if at least one
-     * element equals the search value, {@code false} otherwise.
+     * Returns {@code true} if at least one element of this tuple equals the specified
+     * value, {@code false} otherwise. For an empty tuple, always returns {@code false}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -719,10 +717,9 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     /**
      * Performs the given action for each element in this tuple.
      * <p>
-     * Iterates through all elements in this tuple in order, executing the provided
-     * consumer action for each element. This method is primarily used for side effects
-     * such as logging, printing, or updating external state. Because tuples are immutable,
-     * the iteration does not modify this tuple.
+     * Invokes the action once per element from left to right. Does not modify this
+     * tuple. Primarily used for side effects such as logging, printing, or updating
+     * external state. A {@code null} action results in {@link IllegalArgumentException}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -792,9 +789,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     /**
      * Returns a hash code value for this tuple.
      * <p>
-     * The hash code is computed based on the contents of the tuple using a standard
-     * algorithm that ensures equal tuples have equal hash codes. This implementation
-     * is consistent with {@link #equals(Object)}.
+     * The hash code is content-based and consistent with {@link #equals(Object)}:
+     * equal tuples produce equal hash codes.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1269,9 +1265,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return an int array containing all elements of this tuple
+         * @return the internal array of int elements
          */
         @Override
         protected int[] elements() {
@@ -1412,7 +1411,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(Integer.MAX_VALUE, 1).sum();   // throws ArithmeticException
          * }</pre>
          *
-         * @return _1 + _2 as an int
+         * @return the sum of all elements as an {@code int}
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
@@ -1431,7 +1430,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(-5, -1).average();   // returns -3.0
          * }</pre>
          *
-         * @return (_1 + _2) / 2.0 as a double
+         * @return the arithmetic mean of the elements as a {@code double}
          */
         @Override
         public double average() {
@@ -1627,13 +1626,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.of(3, 5).hashCode();     // returns 31 * 3 + 5 == 98
+         * IntTuple.of(3, 5).hashCode();     // content-based; equal tuples share the same hash
          * IntTuple.of(0, 0).hashCode();     // returns 0
-         * IntTuple.of(-1, 0).hashCode();    // returns 31 * (-1) + 0 == -31
-         * IntTuple.of(0, 1).hashCode();     // returns 1 (order matters)
+         * IntTuple.of(-1, 0).hashCode();    // content-based; differs from of(0, -1)
+         * IntTuple.of(0, 1).hashCode();     // order matters relative to of(1, 0)
          * }</pre>
          *
-         * @return 31 * _1 + _2
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -1686,9 +1685,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return an int array containing all elements of this tuple
+         * @return the internal array of int elements
          */
         @Override
         protected int[] elements() {
@@ -1831,7 +1833,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(Integer.MAX_VALUE, Integer.MAX_VALUE, 1).sum();    // throws ArithmeticException
          * }</pre>
          *
-         * @return _1 + _2 + _3 as an int
+         * @return the sum of all elements as an {@code int}
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
@@ -1850,7 +1852,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(-3, -3, -3).average();   // returns -3.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3) / 3.0 as a double
+         * @return the arithmetic mean of the elements as a {@code double}
          */
         @Override
         public double average() {
@@ -2048,13 +2050,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.of(1, 2, 3).hashCode();     // returns (31 * (31 * 1 + 2)) + 3 == 1026
+         * IntTuple.of(1, 2, 3).hashCode();     // content-based; equal tuples share the same hash
          * IntTuple.of(0, 0, 0).hashCode();     // returns 0
-         * IntTuple.of(-1, 0, 0).hashCode();    // returns 31 * (31 * (-1) + 0) + 0 == -961
-         * IntTuple.of(0, 0, 1).hashCode();     // returns 1 (order matters)
+         * IntTuple.of(-1, 0, 0).hashCode();    // content-based; order and values matter
+         * IntTuple.of(0, 0, 1).hashCode();     // order matters relative to of(1, 0, 0)
          * }</pre>
          *
-         * @return (31 * (31 * _1 + _2)) + _3
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -2107,9 +2109,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return an int array containing all elements of this tuple
+         * @return the internal array of int elements
          */
         @Override
         protected int[] elements() {
@@ -2278,7 +2283,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * t4.sum(); // throws ArithmeticException (overflow)
          * }</pre>
          *
-         * @return _1 + _2 + _3 + _4 as an int
+         * @return the sum of all elements as an {@code int}
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
@@ -2304,7 +2309,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * t4.average(); // returns 1.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4) / 4.0 as a double
+         * @return the arithmetic mean of the elements as a {@code double}
          */
         @Override
         public double average() {
@@ -2397,20 +2402,19 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all four elements.
+         * The hash code is content-based and consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple4 t1 = IntTuple.of(1, 2, 3, 4);
          * IntTuple.IntTuple4 t2 = IntTuple.of(1, 2, 3, 4);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * IntTuple.IntTuple4 t4 = IntTuple.of(0, 0, 0, 0);
          * t4.hashCode(); // returns 0
          * }</pre>
          *
-         * @return a hash code based on all four elements
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -2479,9 +2483,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return an int array containing all elements of this tuple
+         * @return the internal array of int elements
          */
         @Override
         protected int[] elements() {
@@ -2654,7 +2661,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * t4.sum(); // throws ArithmeticException (overflow)
          * }</pre>
          *
-         * @return _1 + _2 + _3 + _4 + _5 as an int
+         * @return the sum of all elements as an {@code int}
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
@@ -2680,7 +2687,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * t4.average(); // returns 4.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5) / 5.0 as a double
+         * @return the arithmetic mean of the elements as a {@code double}
          */
         @Override
         public double average() {
@@ -2774,20 +2781,19 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all five elements.
+         * The hash code is content-based and consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple5 t1 = IntTuple.of(1, 2, 3, 4, 5);
          * IntTuple.IntTuple5 t2 = IntTuple.of(1, 2, 3, 4, 5);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * IntTuple.IntTuple5 t4 = IntTuple.of(0, 0, 0, 0, 0);
          * t4.hashCode(); // returns 0
          * }</pre>
          *
-         * @return a hash code based on all five elements
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -2856,9 +2862,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return an int array containing all elements of this tuple
+         * @return the internal array of int elements
          */
         @Override
         protected int[] elements() {
@@ -3035,7 +3044,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * t4.sum(); // throws ArithmeticException (overflow)
          * }</pre>
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 as an int
+         * @return the sum of all elements as an {@code int}
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
@@ -3061,7 +3070,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * t4.average(); // returns 0.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0 as a double
+         * @return the arithmetic mean of the elements as a {@code double}
          */
         @Override
         public double average() {
@@ -3156,20 +3165,19 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all six elements.
+         * The hash code is content-based and consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple6 t1 = IntTuple.of(1, 2, 3, 4, 5, 6);
          * IntTuple.IntTuple6 t2 = IntTuple.of(1, 2, 3, 4, 5, 6);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * IntTuple.IntTuple6 t4 = IntTuple.of(0, 0, 0, 0, 0, 0);
          * t4.hashCode(); // returns 0
          * }</pre>
          *
-         * @return a hash code based on all six elements
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -3238,9 +3246,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return an int array containing all elements of this tuple
+         * @return the internal array of int elements
          */
         @Override
         protected int[] elements() {
@@ -3422,7 +3433,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * overflow.sum();   // throws ArithmeticException
          * }</pre>
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 as an int
+         * @return the sum of all elements as an {@code int}
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
@@ -3448,7 +3459,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * double mixedAvg = mixed.average();   // 1.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0 as a double
+         * @return the arithmetic mean of the elements as a {@code double}
          */
         @Override
         public double average() {
@@ -3548,14 +3559,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all seven elements.
+         * The hash code is content-based and consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple7 t1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
          * IntTuple.IntTuple7 t2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-         * // t1.hashCode() == t2.hashCode()
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * IntTuple.IntTuple7 t3 = IntTuple.of(7, 6, 5, 4, 3, 2, 1);
          * // t1.hashCode() != t3.hashCode() (different element order)
@@ -3564,7 +3574,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * // zeros.hashCode() == 0
          * }</pre>
          *
-         * @return a hash code based on all seven elements
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -3629,9 +3639,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return an int array containing all elements of this tuple
+         * @return the internal array of int elements
          */
         @Override
         protected int[] elements() {
@@ -3819,7 +3832,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * overflow.sum();   // throws ArithmeticException
          * }</pre>
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 as an int
+         * @return the sum of all elements as an {@code int}
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
@@ -3845,7 +3858,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * double zeroAvg = zeros.average();   // 0.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0 as a double
+         * @return the arithmetic mean of the elements as a {@code double}
          */
         @Override
         public double average() {
@@ -3946,14 +3959,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all eight elements.
+         * The hash code is content-based and consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple8 t1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
          * IntTuple.IntTuple8 t2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-         * // t1.hashCode() == t2.hashCode()
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * IntTuple.IntTuple8 t3 = IntTuple.of(8, 7, 6, 5, 4, 3, 2, 1);
          * // t1.hashCode() != t3.hashCode() (different element order)
@@ -3962,7 +3974,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * // zeros.hashCode() == 0
          * }</pre>
          *
-         * @return a hash code based on all eight elements
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -4028,9 +4040,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return an int array containing all elements of this tuple
+         * @return the internal array of int elements
          */
         @Override
         protected int[] elements() {
@@ -4222,7 +4237,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * overflow.sum();   // throws ArithmeticException
          * }</pre>
          *
-         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9 as an int
+         * @return the sum of all elements as an {@code int}
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
@@ -4248,7 +4263,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * double zeroAvg = zeros.average();   // 0.0
          * }</pre>
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0 as a double
+         * @return the arithmetic mean of the elements as a {@code double}
          */
         @Override
         public double average() {
@@ -4350,14 +4365,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all nine elements.
+         * The hash code is content-based and consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple9 t1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
          * IntTuple.IntTuple9 t2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-         * // t1.hashCode() == t2.hashCode()
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * IntTuple.IntTuple9 t3 = IntTuple.of(9, 8, 7, 6, 5, 4, 3, 2, 1);
          * // t1.hashCode() != t3.hashCode() (different element order)
@@ -4366,7 +4380,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * // zeros.hashCode() == 0
          * }</pre>
          *
-         * @return a hash code based on all nine elements
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -4432,9 +4446,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return an int array containing all elements of this tuple
+         * @return the internal array of int elements
          */
         @Override
         protected int[] elements() {

@@ -31,7 +31,8 @@ package com.landawn.abacus.util;
  * value is stored as supplied without defensive copying, so thread-safety depends on the payload.</p>
  *
  * <p>Each nested record provides record-based equality and a static {@code of(...)} factory for
- * concise construction.</p>
+ * concise construction. Equality for {@code double} components uses {@link Double#compare(double, double)}
+ * (so {@code NaN} equals {@code NaN}).</p>
  *
  * <p>This class cannot be instantiated.</p>
  *
@@ -115,7 +116,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with byte coordinates and an integer value.
-         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * This record is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value requires the full integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -170,7 +171,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with byte coordinates and a long value.
-         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * This record is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value requires the full long integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -225,7 +226,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with byte coordinates and a double-precision floating-point value.
-         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * This record is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value requires floating-point precision.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -338,7 +339,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with integer coordinates and a byte value.
-         * This class is useful when coordinates require the full integer range
+         * This record is useful when coordinates require the full integer range
          * but the associated value is constrained to byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -392,7 +393,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with integer coordinates and an integer value.
-         * This class is the most commonly used point type for general-purpose integer-based
+         * This record is a general-purpose integer-based point type for
          * coordinate systems and grid operations.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -405,9 +406,7 @@ public final class Points {
 
             /**
              * Creates a new IntIntPoint with the specified coordinates and value.
-             * This is the most commonly used point type for general-purpose integer-based
-             * coordinate systems, providing a balanced approach with full integer range for
-             * both coordinates and the associated value.
+             * Provides full integer range for both coordinates and the associated value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -448,7 +447,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with integer coordinates and a long value.
-         * This class is useful when coordinates fit within the integer range
+         * This record is useful when coordinates fit within the integer range
          * but the associated value requires the full long integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -503,7 +502,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with integer coordinates and a double-precision floating-point value.
-         * This class is useful when coordinates fit within the integer range
+         * This record is useful when coordinates fit within the integer range
          * but the associated value requires floating-point precision.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -616,7 +615,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with long coordinates and a byte value.
-         * This class is useful when coordinates require the full long integer range
+         * This record is useful when coordinates require the full long integer range
          * but the associated value is constrained to byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -670,7 +669,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with long coordinates and an integer value.
-         * This class is useful when coordinates require the full long integer range
+         * This record is useful when coordinates require the full long integer range
          * but the associated value fits within the integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -725,7 +724,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with long coordinates and a long value.
-         * This class provides full long integer range for both coordinates and the associated value.
+         * This record provides full long integer range for both coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
          *
@@ -737,8 +736,8 @@ public final class Points {
 
             /**
              * Creates a new LongLongPoint with the specified coordinates and value.
-             * This factory method provides the maximum integer range for both coordinates and the
-             * associated value, suitable for very large coordinate spaces with large identifiers or timestamps.
+             * This factory method provides the full long range for coordinates and value,
+             * suitable for very large coordinate spaces with large identifiers or timestamps.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -779,7 +778,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with long coordinates and a double-precision floating-point value.
-         * This class is useful when coordinates require the full long integer range
+         * This record is useful when coordinates require the full long integer range
          * but the associated value requires floating-point precision.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -892,7 +891,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a byte value.
-         * This class is useful when coordinates require floating-point precision
+         * This record is useful when coordinates require floating-point precision
          * but the associated value is constrained to byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -946,7 +945,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with double-precision floating-point coordinates and an integer value.
-         * This class is useful when coordinates require floating-point precision
+         * This record is useful when coordinates require floating-point precision
          * but the associated value fits within the integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1001,7 +1000,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a long value.
-         * This class is useful when coordinates require floating-point precision
+         * This record is useful when coordinates require floating-point precision
          * but the associated value requires the full long integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1056,7 +1055,7 @@ public final class Points {
 
         /**
          * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a double-precision floating-point value.
-         * This class provides full double-precision floating-point support for both coordinates and the associated value.
+         * This record provides full double-precision floating-point support for both coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
          *
@@ -1239,7 +1238,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with byte coordinates and an integer value.
-         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * This record is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value requires the full integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1297,7 +1296,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with byte coordinates and a long value.
-         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * This record is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value requires the full long integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1354,7 +1353,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with byte coordinates and a double-precision floating-point value.
-         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * This record is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value requires floating-point precision.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1443,7 +1442,7 @@ public final class Points {
              * p2.x();      // returns (byte) -10
              * p2.value();  // returns 42
              *
-             * // Edge: boundary byte coords and null value
+             * // Edge: boundary byte coords and null value (records permit null components)
              * Points.D3.ByteObjPoint<String> p3 = Points.D3.ByteObjPoint.of(Byte.MIN_VALUE, Byte.MAX_VALUE, (byte) 0, null);
              * p3.x();      // returns (byte) -128
              * p3.y();      // returns (byte) 127
@@ -1468,7 +1467,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with integer coordinates and a byte value.
-         * This class is useful when coordinates require the full integer range
+         * This record is useful when coordinates require the full integer range
          * but the associated value is constrained to byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1525,7 +1524,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with integer coordinates and an integer value.
-         * This class is the most commonly used 3D point type for general-purpose integer-based
+         * This record is a general-purpose integer-based 3D point type for
          * coordinate systems and grid operations.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1539,9 +1538,7 @@ public final class Points {
 
             /**
              * Creates a new IntIntPoint with the specified coordinates and value.
-             * This is the most commonly used 3D point type for general-purpose integer-based
-             * coordinate systems, providing a balanced approach with full integer range for
-             * all three coordinates and the associated value.
+             * Provides full integer range for all three coordinates and the associated value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -1585,7 +1582,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with integer coordinates and a long value.
-         * This class is useful when coordinates fit within the integer range
+         * This record is useful when coordinates fit within the integer range
          * but the associated value requires the full long integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1643,7 +1640,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with integer coordinates and a double-precision floating-point value.
-         * This class is useful when coordinates fit within the integer range
+         * This record is useful when coordinates fit within the integer range
          * but the associated value requires floating-point precision.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1732,7 +1729,7 @@ public final class Points {
              * p2.x();      // returns -10
              * p2.value();  // returns 99
              *
-             * // Edge: Integer boundary coordinates and null value
+             * // Edge: Integer boundary coordinates and null value (records permit null components)
              * Points.D3.IntObjPoint<String> p3 = Points.D3.IntObjPoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, null);
              * p3.x();      // returns -2147483648
              * p3.y();      // returns 2147483647
@@ -1757,7 +1754,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with long coordinates and a byte value.
-         * This class is useful when coordinates require the full long integer range
+         * This record is useful when coordinates require the full long integer range
          * but the associated value is constrained to byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1814,7 +1811,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with long coordinates and an integer value.
-         * This class is useful when coordinates require the full long integer range
+         * This record is useful when coordinates require the full long integer range
          * but the associated value fits within the integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -1872,7 +1869,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with long coordinates and a long value.
-         * This class provides full long integer range for all three coordinates and the associated value.
+         * This record provides full long integer range for all three coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
          *
@@ -1885,8 +1882,8 @@ public final class Points {
 
             /**
              * Creates a new LongLongPoint with the specified coordinates and value.
-             * This factory method provides the maximum integer range for all three coordinates and the
-             * associated value, suitable for very large 3D coordinate spaces with large identifiers or timestamps.
+             * This factory method provides the full long range for coordinates and value,
+             * suitable for very large 3D coordinate spaces with large identifiers or timestamps.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -1929,7 +1926,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with long coordinates and a double-precision floating-point value.
-         * This class is useful when coordinates require the full long integer range
+         * This record is useful when coordinates require the full long integer range
          * but the associated value requires floating-point precision.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -2018,7 +2015,7 @@ public final class Points {
              * p2.x();      // returns -1000000L
              * p2.value();  // returns 42
              *
-             * // Edge: Long boundary coordinates and null value
+             * // Edge: Long boundary coordinates and null value (records permit null components)
              * Points.D3.LongObjPoint<String> p3 = Points.D3.LongObjPoint.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L, null);
              * p3.x();      // returns -9223372036854775808L
              * p3.y();      // returns 9223372036854775807L
@@ -2043,7 +2040,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with double-precision floating-point coordinates and a byte value.
-         * This class is useful when coordinates require floating-point precision
+         * This record is useful when coordinates require floating-point precision
          * but the associated value is constrained to byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -2099,7 +2096,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with double-precision floating-point coordinates and an integer value.
-         * This class is useful when coordinates require floating-point precision
+         * This record is useful when coordinates require floating-point precision
          * but the associated value fits within the integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -2156,7 +2153,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with double-precision floating-point coordinates and a long value.
-         * This class is useful when coordinates require floating-point precision
+         * This record is useful when coordinates require floating-point precision
          * but the associated value requires the full long integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
@@ -2213,7 +2210,7 @@ public final class Points {
 
         /**
          * Represents an immutable three-dimensional point with double-precision floating-point coordinates and a double-precision floating-point value.
-         * This class provides full double-precision floating-point support for all three coordinates and the associated value.
+         * This record provides full double-precision floating-point support for all three coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
          *
@@ -2302,7 +2299,7 @@ public final class Points {
              * p2.x();      // returns -3.14159
              * p2.value();  // returns 99
              *
-             * // Edge: double coordinates and null value
+             * // Edge: double coordinates and null value (records permit null components)
              * Points.D3.DoubleObjPoint<String> p3 = Points.D3.DoubleObjPoint.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NaN, null);
              * p3.value();            // returns null
              * Double.isNaN(p3.z());  // returns true

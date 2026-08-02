@@ -42,7 +42,8 @@ import com.landawn.abacus.util.stream.CharStream;
  * <p><b>Numeric semantics:</b> All ordering and arithmetic operations ({@link #min()}, {@link #max()},
  * {@link #median()}, {@link #sum()}, {@link #average()}) treat each {@code char} as its unsigned
  * 16-bit UTF-16 code unit value (range {@code 0..65535}). Surrogate code units are not paired or
- * interpreted as code points.</p>
+ * interpreted as code points. {@link #sum()} returns an {@code int} and {@link #average()} returns a
+ * {@code double} (widened from the code-unit values).</p>
  *
  * @param <TP> the concrete {@code CharTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -78,7 +79,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char value = t._1;                   // 'A'
      * int sum = t.sum();                   // 65 ('A' code unit)
      *
-     * // Edge: null char (code unit 0)
+     * // Edge: NUL / zero code unit '\0'
      * CharTuple.CharTuple1 t2 = CharTuple.of('\0');
      * char v2 = t2._1;                     // '\0'
      * int s2 = t2.sum();                   // 0
@@ -247,6 +248,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
+     * Deprecated: prefer a custom class with meaningful names when arity is 8.
      * Creates a CharTuple.CharTuple8 containing eight char values.
      *
      * <p><b>Usage Examples:</b></p>
@@ -270,7 +272,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @param _7 the seventh char value
      * @param _8 the eighth char value
      * @return a new CharTuple.CharTuple8 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more char values
+     * @deprecated Prefer a custom class with meaningful property names when dealing with 8 or more char values
      */
     @Deprecated
     public static CharTuple8 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8) {
@@ -278,6 +280,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
+     * Deprecated: prefer a custom class with meaningful names when arity is 9.
      * Creates a CharTuple.CharTuple9 containing nine char values.
      *
      * <p><b>Usage Examples:</b></p>
@@ -302,7 +305,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @param _8 the eighth char value
      * @param _9 the ninth char value
      * @return a new CharTuple.CharTuple9 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more char values
+     * @deprecated Prefer a custom class with meaningful property names when dealing with 9 or more char values
      */
     @Deprecated
     public static CharTuple9 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8,
@@ -502,7 +505,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * empty.median();                      // throws NoSuchElementException
      * }</pre>
      *
-     * @return the median char value in this tuple
+     * @return the median char value in this tuple (middle when sorted for odd arity; lower-middle when sorted for even arity; unsigned code-unit order)
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
      * @see #max()
@@ -519,11 +522,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the sum of all char values in this tuple as an integer.
+     * Returns the sum of all char values in this tuple as an {@code int}.
      * <p>
-     * This method calculates the sum by adding the unsigned 16-bit numeric values of all char
-     * elements together. The result is returned as an {@code int} to prevent overflow issues that
-     * could occur if the sum exceeds the char range (0 to 65535). For an empty tuple, the sum is 0.
+     * Elements are summed as unsigned 16-bit code-unit values. For an empty tuple, the sum is
+     * {@code 0}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -540,12 +542,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple<?> empty = CharTuple.from(new char[0]);
      * int emptySum = empty.sum();           // 0
      *
-     * // Edge: single null char '\0' - code unit is 0
+     * // Edge: single NUL / zero code unit '\0'
      * CharTuple.CharTuple1 t3 = CharTuple.of('\0');
      * int nullCharSum = t3.sum();           // 0
      * }</pre>
      *
-     * @return the sum of all char values in this tuple as an integer, or 0 if the tuple is empty
+     * @return the sum of all unsigned code-unit values as an {@code int}; {@code 0} for an empty tuple
      * @see #average()
      */
     public int sum() {
@@ -553,10 +555,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the average (arithmetic mean) of all char values in this tuple as a double.
+     * Returns the arithmetic mean of all char values in this tuple as a {@code double}.
      * <p>
-     * The average is computed from the unsigned 16-bit numeric values of the char elements.
-     * The result is returned as a {@code double} to preserve precision.
+     * The average is computed from the unsigned 16-bit code-unit values of the elements.
+     * For an empty tuple, returns {@code 0D}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -578,7 +580,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * empty.average();                                  // returns 0.0
      * }</pre>
      *
-     * @return the average of all char values in this tuple as a double, or {@code 0D} if this tuple is empty
+     * @return the average of all unsigned code-unit values as a {@code double}, or {@code 0D} if this tuple is empty
      * @see #sum()
      */
     public double average() {
@@ -590,9 +592,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method returns all elements in reversed order. Implementations may return {@code this}
-     * when reversal has no effect. The original tuple remains unchanged. For example, a tuple
-     * ('A', 'B', 'C') becomes ('C', 'B', 'A') when reversed.
+     * Non-empty built-in tuples return a NEW tuple of the same arity containing all elements in
+     * reversed order. The empty tuple returns itself. An arity-1 reverse returns a new instance
+     * equal to this one. The original tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -607,16 +609,20 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple.CharTuple2 rev2 = t2.reverse();
      * char r2 = rev2._1;                   // 'Y'
      *
-     * // Edge: single-element - reverse returns new tuple with same value
+     * // Edge: single-element - reverse returns a new equal instance
      * CharTuple.CharTuple1 t3 = CharTuple.of('Z');
      * CharTuple.CharTuple1 rev3 = t3.reverse();
      * char r3 = rev3._1;                   // 'Z'
+     *
+     * // Edge: empty tuple returns itself
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
+     * int emptyArity = empty.reverse().arity(); // 0
      *
      * // Edge: original tuple is not modified by reverse
      * char origFirst = t._1;               // still 'A'
      * }</pre>
      *
-     * @return a tuple with the elements in reverse order
+     * @return a tuple of the same arity with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -655,8 +661,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * Returns a new array containing all elements of this tuple.
      * <p>
-     * This method creates a defensive copy of the internal array. Changes to the
-     * returned array do not affect the tuple because tuples are immutable.
+     * Creates and returns a defensive copy of the internal element array. Modifications
+     * to the returned array do not affect the tuple, maintaining immutability. The
+     * returned array has the same length as the tuple's arity.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -680,7 +687,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char[] single = t1.toArray();        // ['Z']
      * }</pre>
      *
-     * @return a new char array containing all tuple elements
+     * @return a new char array containing all tuple elements (length equals arity)
      * @see #toList()
      * @see #stream()
      */
@@ -691,8 +698,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * Returns a new CharList containing all elements of this tuple.
      * <p>
-     * This method converts the tuple into a mutable CharList. The returned list is a new
-     * instance, and modifications to it do not affect the original tuple.
+     * Converts this tuple to a mutable {@link CharList} containing all elements
+     * in their original order. The returned list is a new instance and modifications
+     * to it do not affect the original tuple. The list size equals the tuple's arity.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -718,7 +726,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * int singleSize = single.size();      // 1
      * }</pre>
      *
-     * @return a new CharList containing all tuple elements
+     * @return a new CharList containing all tuple elements (size equals arity)
      * @see #toArray()
      * @see #stream()
      */
@@ -1112,7 +1120,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Edge: arity equals toArray().length
          * assert t1.arity() == t1.toArray().length; // true
          *
-         * // Edge: null char - arity still 1
+         * // Edge: NUL / zero code unit '\0' - arity still 1
          * CharTuple.CharTuple1 t3 = CharTuple.of('\0');
          * int a3 = t3.arity();                 // returns 1
          * }</pre>
@@ -1133,7 +1141,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple1 t = CharTuple.of('A');
          * char min = t.min();              // 'A'
          *
-         * // Edge: the null char ('\0', code unit 0) is valid and returned as-is
+         * // Edge: NUL / zero code unit '\0' is valid and returned as-is
          * CharTuple.CharTuple1 t2 = CharTuple.of('\0');
          * char min2 = t2.min();            // '\0'
          * }</pre>
@@ -1208,7 +1216,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sumMax = tupleMax.sum();                              // 65535
          * }</pre>
          *
-         * @return the numeric value of the single char in this tuple
+         * @return the unsigned code-unit value of the single char as an {@code int}
          */
         @Override
         public int sum() {
@@ -1236,7 +1244,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * double avgMax = tupleMax.average();                       // 65535.0
          * }</pre>
          *
-         * @return the numeric value of the single char in this tuple as a double
+         * @return the unsigned code-unit value of the single char as a {@code double}
          */
         @Override
         public double average() {
@@ -1544,7 +1552,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char medianBoundary = boundary.median();   // 'A'
          * }</pre>
          *
-         * @return the median char value in this tuple
+         * @return the lower-middle char value when sorted (unsigned code-unit order)
          */
         @Override
         public char median() {
@@ -1572,7 +1580,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sumMixed = mixed.sum();                  // 162
          * }</pre>
          *
-         * @return the sum of the numeric values of both chars
+         * @return the sum of both unsigned code-unit values as an {@code int}
          */
         @Override
         public int sum() {
@@ -1600,7 +1608,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * double avgMixed = mixed.average();           // 81.0
          * }</pre>
          *
-         * @return the average of the numeric values of both chars
+         * @return the average of both unsigned code-unit values as a {@code double}
          */
         @Override
         public double average() {
@@ -2067,7 +2075,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char medianBoundary = boundary.median();   // 'Z'
          * }</pre>
          *
-         * @return the middle char value when sorted
+         * @return the middle char value when sorted (unsigned code-unit order)
          */
         @Override
         public char median() {
@@ -2095,7 +2103,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sumMixed = mixed.sum();                       // 228
          * }</pre>
          *
-         * @return the sum of the numeric values of all three chars
+         * @return the sum of all three unsigned code-unit values as an {@code int}
          */
         @Override
         public int sum() {
@@ -2123,7 +2131,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * double avgMixed = mixed.average();                // 76.0
          * }</pre>
          *
-         * @return the average of the numeric values of all three chars
+         * @return the average of all three unsigned code-unit values as a {@code double}
          */
         @Override
         public double average() {
@@ -2592,7 +2600,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char median4 = t4.median();   // 'A'
          * }</pre>
          *
-         * @return the median char value in this tuple
+         * @return the lower-middle char value when sorted (unsigned code-unit order)
          */
         @Override
         public char median() {
@@ -2619,7 +2627,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sum4 = t4.sum();   // 128
          * }</pre>
          *
-         * @return the sum of the numeric values of all four chars
+         * @return the sum of all four unsigned code-unit values as an {@code int}
          */
         @Override
         public int sum() {
@@ -2647,7 +2655,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * double avg4 = t4.average();                                   // 48.5
          * }</pre>
          *
-         * @return the average of the numeric values of all four chars
+         * @return the average of all four unsigned code-unit values as a {@code double}
          */
         @Override
         public double average() {
@@ -3007,7 +3015,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char median4 = t4.median();   // 'M'
          * }</pre>
          *
-         * @return the median char value in this tuple
+         * @return the middle char value when sorted (unsigned code-unit order)
          */
         @Override
         public char median() {
@@ -3034,7 +3042,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sum4 = t4.sum();   // 160
          * }</pre>
          *
-         * @return the sum of the numeric values of all five chars
+         * @return the sum of all five unsigned code-unit values as an {@code int}
          */
         @Override
         public int sum() {
@@ -3061,7 +3069,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * double avg4 = t4.average();   // 32.0
          * }</pre>
          *
-         * @return the average of the numeric values of all five chars
+         * @return the average of all five unsigned code-unit values as a {@code double}
          */
         @Override
         public double average() {
@@ -3426,7 +3434,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char median4 = t4.median();   // 'M'
          * }</pre>
          *
-         * @return the median char value in this tuple
+         * @return the lower-middle char value when sorted (unsigned code-unit order)
          */
         @Override
         public char median() {
@@ -3453,7 +3461,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sum4 = t4.sum();   // 192
          * }</pre>
          *
-         * @return the sum of the numeric values of all six chars
+         * @return the sum of all six unsigned code-unit values as an {@code int}
          */
         @Override
         public int sum() {
@@ -3480,7 +3488,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * double avg4 = t4.average();   // 32.0
          * }</pre>
          *
-         * @return the average of the numeric values of all six chars
+         * @return the average of all six unsigned code-unit values as a {@code double}
          */
         @Override
         public double average() {
@@ -3849,7 +3857,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char median4 = dup.median();   // 'B'
          * }</pre>
          *
-         * @return the median char value in this tuple
+         * @return the middle char value when sorted (unsigned code-unit order)
          */
         @Override
         public char median() {
@@ -3876,7 +3884,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sum4 = mixed.sum();   // 65925
          * }</pre>
          *
-         * @return the sum of the numeric values of all seven chars
+         * @return the sum of all seven unsigned code-unit values as an {@code int}
          */
         @Override
         public int sum() {
@@ -3903,7 +3911,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * double avg4 = nonInt.average();   // ~ 65.285714...
          * }</pre>
          *
-         * @return the average of the numeric values of all seven chars
+         * @return the average of all seven unsigned code-unit values as a {@code double}
          */
         @Override
         public double average() {
@@ -4283,7 +4291,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char median4 = dup.median();   // 'B'
          * }</pre>
          *
-         * @return the median char value in this tuple
+         * @return the lower-middle char value when sorted (unsigned code-unit order)
          */
         @Override
         public char median() {
@@ -4310,7 +4318,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sum4 = mixed.sum();   // 65990
          * }</pre>
          *
-         * @return the sum of the numeric values of all eight chars
+         * @return the sum of all eight unsigned code-unit values as an {@code int}
          */
         @Override
         public int sum() {
@@ -4337,7 +4345,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * double avg4 = mixed.average();   // 8248.75
          * }</pre>
          *
-         * @return the average of the numeric values of all eight chars
+         * @return the average of all eight unsigned code-unit values as a {@code double}
          */
         @Override
         public double average() {
@@ -4722,7 +4730,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char median4 = dup.median();   // 'B'
          * }</pre>
          *
-         * @return the median char value in this tuple
+         * @return the middle char value when sorted (unsigned code-unit order)
          */
         @Override
         public char median() {
@@ -4749,7 +4757,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sum4 = mixed.sum();   // 66055
          * }</pre>
          *
-         * @return the sum of the numeric values of all nine chars
+         * @return the sum of all nine unsigned code-unit values as an {@code int}
          */
         @Override
         public int sum() {
@@ -4776,7 +4784,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * double avg4 = mixed.average();   // ~ 7339.444...
          * }</pre>
          *
-         * @return the average of the numeric values of all nine chars
+         * @return the average of all nine unsigned code-unit values as a {@code double}
          */
         @Override
         public double average() {

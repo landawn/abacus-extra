@@ -41,7 +41,7 @@ public sealed class Arrays permits Arrays.f {
     /** The {@code byte} value {@code 0}, used as a default element value. */
     static final byte BYTE_0 = (byte) 0;
 
-    /** The {@code byte} value {@code 1}. */
+    /** The {@code byte} value {@code 1}, used to encode {@code true} when mapping booleans to bytes. */
     static final byte BYTE_1 = (byte) 1;
 
     /** The {@code short} value {@code 0}, used as a default element value. */
@@ -269,8 +269,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
      * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
@@ -327,8 +326,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
      * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
@@ -385,8 +383,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
@@ -441,8 +438,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
      * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
@@ -499,8 +495,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
      * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
@@ -557,8 +552,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
      * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
@@ -613,8 +607,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
      * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
@@ -671,8 +664,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
      * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
@@ -729,8 +721,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
      * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
@@ -785,8 +776,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
      * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
@@ -843,8 +833,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
      * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
@@ -901,8 +890,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
      * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
@@ -957,8 +945,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
      * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
@@ -1015,8 +1002,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
      * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
@@ -1073,8 +1059,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
      * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
@@ -1129,8 +1114,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
      * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
@@ -1187,8 +1171,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
      * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
@@ -1246,8 +1229,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
      * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
@@ -1302,8 +1284,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
      * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
@@ -1360,8 +1341,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
      * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
@@ -1418,8 +1398,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
@@ -1474,8 +1453,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each double to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
@@ -1532,8 +1510,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each double to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
@@ -1590,8 +1567,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each double to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-     * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
@@ -2935,7 +2911,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape (can be {@code null}).
-     * @param columnCount the number of columns for the reshaped array.
+     * @param columnCount the number of columns for the reshaped array (must be positive).
      * @return a two-dimensional boolean array with the specified number of columns, or an empty two-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
      * @see #reshape(boolean[], int, int) for reshaping into a three-dimensional array
@@ -2986,8 +2962,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape (can be {@code null}).
-     * @param rowCount the number of rows for the reshaped subarray.
-     * @param columnCount the number of columns for the reshaped subarray.
+     * @param rowCount the number of rows for the reshaped subarray (must be positive).
+     * @param columnCount the number of columns for the reshaped subarray (must be positive).
      * @return a three-dimensional boolean array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(boolean[], int) for reshaping into a two-dimensional array
@@ -3044,7 +3020,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(boolean[][][]) for three-dimensional arrays
      * @see #mutateFlattened(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
@@ -3082,7 +3058,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Typical case: concatenates all sub-arrays depth-first
+     * // Typical case: concatenates all sub-arrays in row-major order
      * boolean[][][] cube = {{{true, false}, {true}}, {{false, true}}};
      * boolean[] flattened = Arrays.flatten(cube);
      * // flattened: [true, false, true, false, true]
@@ -3102,7 +3078,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(boolean[][]) for flattening two-dimensional arrays
      * @see #mutateFlattened(boolean[][][], Throwables.Consumer) for performing operations on flattened three-dimensional arrays
@@ -3288,7 +3264,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
-     * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @return a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
      * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
@@ -3515,7 +3491,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two two-dimensional boolean arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays (rows), stopping when the
      * shorter outer array is exhausted. Each pair of corresponding sub-arrays is zipped
-     * using the standard one-dimensional array zip logic.
+     * using the standard one-dimensional array zip logic. Null sub-arrays are treated as empty.
      *
      * <p>This method is useful for row-aligned operations where you want to combine
      * corresponding rows from two two-dimensional arrays.</p>
@@ -3649,7 +3625,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional boolean arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays (rows) from all three input arrays,
-     * stopping when the shortest outer array is exhausted.
+     * stopping when the shortest outer array is exhausted. Null sub-arrays are treated as empty.
      *
      * <p>This method extends the two-dimensional zip concept to three arrays, useful for combining
      * data from three different sources row by row.</p>
@@ -3665,7 +3641,7 @@ public sealed class Arrays permits Arrays.f {
      * // row 1: zip({F,T,F},{T,F},{F,F,T}) => {T,T}  (inner min 2)
      * // result: {{true, true}, {true, true}}
      *
-     * // c is the shortest outer array (1 row) - result has 1 row
+     * // a is the shortest outer array (1 row) - result has 1 row
      * boolean[][] a2 = {{true}};
      * boolean[][] b2 = {{false}, {true}};
      * boolean[][] c2 = {{true}, {false}, {true}};
@@ -4921,7 +4897,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(char[][][]) for three-dimensional arrays
      * @see #mutateFlattened(char[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -4979,7 +4955,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(char[][]) for two-dimensional arrays
      * @see #mutateFlattened(char[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -5046,7 +5022,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
-     * @param a the two-dimensional character array to operate on (can be {@code null}).
+     * @param a the two-dimensional character array to operate on (can be {@code null} or empty).
      * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -5104,7 +5080,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
-     * @param a the three-dimensional character array to operate on (can be {@code null}).
+     * @param a the three-dimensional character array to operate on (can be {@code null} or empty).
      * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -5172,7 +5148,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
-     * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @return a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
      * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
@@ -6005,7 +5981,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional character array to count (can be {@code null} or empty).
      * @return the total number of character elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
-     * @throws ArithmeticException if the total cannot be represented as a {@code long}
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}.
      * @see #elementCount(char[][]) for two-dimensional arrays
      */
     public static long elementCount(final char[][][] a) {
@@ -6814,7 +6790,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional byte array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(byte[][][]) for three-dimensional arrays
      * @see #mutateFlattened(byte[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -6875,7 +6851,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional byte array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(byte[][]) for two-dimensional arrays
      * @see #mutateFlattened(byte[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -7061,7 +7037,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
-     * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @return a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
      * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
@@ -7824,7 +7800,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional byte array (can be {@code null} or empty).
      * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
-     * @throws ArithmeticException if the total cannot be represented as a {@code long}
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}.
      * @see #elementCount(byte[][]) for two-dimensional arrays
      */
     public static long elementCount(final byte[][][] a) {
@@ -8383,7 +8359,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces elements in a two-dimensional short array that match the predicate with a new value.
-     * The predicate is applied to all elements in all sub-arrays.
+     * The predicate is applied to all elements in all sub-arrays. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8429,7 +8405,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces elements in a three-dimensional short array that match the predicate with a new value.
-     * The predicate is applied recursively to all elements in all sub-arrays.
+     * The predicate is applied iteratively across all nested sub-arrays. This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8605,7 +8581,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(short[][][]) for three-dimensional arrays
      * @see #mutateFlattened(short[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -8635,7 +8611,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a three-dimensional short array into a one-dimensional array.
-     * All elements from all sub-arrays at all levels are combined into a single array.
+     * All elements from all sub-arrays at all levels are combined into a single array in row-major order.
      * Null or empty sub-arrays at any level are skipped.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
@@ -8663,7 +8639,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(short[][]) for two-dimensional arrays
      * @see #mutateFlattened(short[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -8724,7 +8700,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
-     * @param a the two-dimensional array to operate on (can be {@code null}).
+     * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -8780,7 +8756,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
-     * @param a the three-dimensional array to operate on (can be {@code null}).
+     * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -8844,7 +8820,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
-     * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @return a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
      * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
@@ -9631,7 +9607,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional array to count elements in (can be {@code null} or empty).
      * @return the total number of elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
-     * @throws ArithmeticException if the total cannot be represented as a {@code long}
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}.
      * @see #elementCount(short[][]) for two-dimensional arrays
      */
     public static long elementCount(final short[][][] a) {
@@ -10472,7 +10448,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(int[][][]) for three-dimensional arrays
      * @see #mutateFlattened(int[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -10504,7 +10480,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a three-dimensional array into a one-dimensional array.
      *
      * <p>This method creates a new one-dimensional array containing all elements from the three-dimensional array
-     * in depth-first order. Null or empty sub-arrays at any level are skipped. If the input array
+     * in row-major order. Null or empty sub-arrays at any level are skipped. If the input array
      * is {@code null} or empty, returns an empty array.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
@@ -10537,7 +10513,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(int[][]) for two-dimensional arrays
      * @see #mutateFlattened(int[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -10603,7 +10579,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
-     * @param a the two-dimensional array to operate on (can be {@code null}).
+     * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -10664,7 +10640,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
-     * @param a the three-dimensional array to operate on (can be {@code null}).
+     * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to apply to the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -10732,7 +10708,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
-     * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @return a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
      * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
@@ -11504,7 +11480,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional integer array (can be {@code null}).
      * @return the total count of integer elements across all sub-arrays at all depths, or 0 if the input array is {@code null} or empty.
-     * @throws ArithmeticException if the total cannot be represented as a {@code long}
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}.
      * @see #elementCount(int[][]) for two-dimensional arrays
      */
     public static long elementCount(final int[][][] a) {
@@ -12241,7 +12217,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional long array into a one-dimensional long array by concatenating its rows.
+     * Flattens a two-dimensional long array into a one-dimensional long array by concatenating its rows
+     * in row-major order. Null or empty sub-arrays are skipped.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before allocating the result array.</p>
@@ -12267,7 +12244,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(long[][][]) for three-dimensional arrays
      * @see #mutateFlattened(long[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -12296,7 +12273,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional long array into a one-dimensional long array by concatenating its elements in order.
+     * Flattens a three-dimensional long array into a one-dimensional long array by concatenating its elements
+     * in row-major order. Null or empty sub-arrays at any level are skipped.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before allocating the result array.</p>
@@ -12322,7 +12300,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(long[][]) for two-dimensional arrays
      * @see #mutateFlattened(long[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -12382,7 +12360,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
-     * @param a the two-dimensional array to operate on (can be {@code null}).
+     * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -12437,7 +12415,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
-     * @param a the three-dimensional array to operate on (can be {@code null}).
+     * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -12499,7 +12477,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
-     * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @return a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
      * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
@@ -13243,7 +13221,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional long array (can be {@code null} or empty).
      * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
-     * @throws ArithmeticException if the total cannot be represented as a {@code long}
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}.
      * @see #elementCount(long[][]) for two-dimensional arrays
      */
     public static long elementCount(final long[][][] a) {
@@ -14027,7 +14005,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(float[][][]) for three-dimensional arrays
      * @see #mutateFlattened(float[][], Throwables.Consumer) for performing operations on flattened arrays
@@ -14057,7 +14035,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a three-dimensional float array into a new one-dimensional float array.
-     * This method concatenates all innermost sub-arrays into a single array.
+     * This method concatenates all innermost sub-arrays into a single array in row-major order.
      * Null or empty sub-arrays at any level are skipped.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
@@ -14070,7 +14048,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] array = Arrays.flatten(cube);
      * // array is {1.0, 2.0, 3.0, 4.0}
      *
-     * // Basic: jagged sub-arrays are concatenated in depth-first order
+     * // Basic: jagged sub-arrays are concatenated in row-major order
      * float[][][] c2 = {{{1.0f, 2.0f}}, {{3.0f}, {4.0f, 5.0f}}};
      * float[] a2 = Arrays.flatten(c2);
      * // a2 is {1.0, 2.0, 3.0, 4.0, 5.0}
@@ -14091,7 +14069,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(float[][]) for flattening two-dimensional arrays
      * @see #mutateFlattened(float[][][], Throwables.Consumer) for performing operations on flattened arrays
@@ -14153,7 +14131,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the two-dimensional array to operate on (can be {@code null}).
+     * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -14210,7 +14188,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the three-dimensional array to operate on (can be {@code null}).
+     * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -14276,7 +14254,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
-     * @return a new array containing the results of applying the zip function to corresponding elements.
+     * @return a new array containing the results of applying the zip function to corresponding elements, with length equal to the shorter input array.
      * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
      * @throws E if the zip function throws an exception.
      */
@@ -15062,7 +15040,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional array to count elements in (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
-     * @throws ArithmeticException if the total cannot be represented as a {@code long}
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}.
      * @see #elementCount(float[][]) for two-dimensional arrays
      */
     public static long elementCount(final float[][][] a) {
@@ -15751,7 +15729,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
-     * @param columnCount the number of columns in the new two-dimensional array.
+     * @param columnCount the number of columns in the new two-dimensional array (must be positive).
      * @return a new two-dimensional array containing the elements of the input array, or an empty two-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
      * @see #reshape(double[], int, int) for reshaping into a three-dimensional array
@@ -15802,8 +15780,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
-     * @param rowCount the number of rows in each two-dimensional slice.
-     * @param columnCount the number of columns in each two-dimensional slice.
+     * @param rowCount the number of rows in each two-dimensional slice (must be positive).
+     * @param columnCount the number of columns in each two-dimensional slice (must be positive).
      * @return a new three-dimensional array containing the elements of the input array, or an empty three-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(double[], int) for reshaping into a two-dimensional array
@@ -15860,7 +15838,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(double[][][]) for three-dimensional arrays
      * @see #mutateFlattened(double[][], Throwables.Consumer) for performing operations on flattened arrays
@@ -15889,8 +15867,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional array into a one-dimensional array by concatenating its elements in order.
-     * Null or empty sub-arrays are skipped.
+     * Flattens a three-dimensional array into a one-dimensional array by concatenating its elements in row-major order.
+     * Null or empty sub-arrays at any level are skipped.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before allocating the result array.</p>
@@ -15918,7 +15896,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is {@code null} or empty.
+     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(double[][]) for flattening two-dimensional arrays
      * @see #mutateFlattened(double[][][], Throwables.Consumer) for performing operations on flattened arrays
@@ -15980,7 +15958,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the two-dimensional array to operate on (can be {@code null}).
+     * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -16037,7 +16015,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the three-dimensional array to operate on (can be {@code null}).
+     * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -16864,7 +16842,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional array (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
-     * @throws ArithmeticException if the total cannot be represented as a {@code long}
+     * @throws ArithmeticException if the total cannot be represented as a {@code long}.
      * @see #elementCount(double[][]) for two-dimensional arrays
      */
     public static long elementCount(final double[][][] a) {
@@ -20435,9 +20413,9 @@ public sealed class Arrays permits Arrays.f {
      * double[] result = Arrays.toDouble(source);
      * // result is {1.0, 2.0, -3.0}
      *
-     * // Large value exactly representable: 2^53 = 9007199254740992L
-     * double[] r2 = Arrays.toDouble(new long[]{9007199254740992L});
-     * // r2 is {9.007199254740992E15}
+     * // Precision loss: 2^53+1 = 9007199254740993L is not exactly representable as double
+     * double[] r2 = Arrays.toDouble(new long[]{9007199254740993L});
+     * // r2 is {9.007199254740992E15}  (rounded to nearest even: 2^53)
      *
      * // null input returns empty array
      * double[] r3 = Arrays.toDouble((long[]) null);
@@ -20767,13 +20745,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Object-array helper namespace for one-dimensional arrays.
+     * Object-array helper namespace primarily for one-dimensional object arrays.
      *
      * <p>The short name supports concise references that mirror the dimensionality of the target
      * array: {@code f} for one-dimensional, {@link Arrays.ff} for two-dimensional, and {@link Arrays.fff} for
      * three-dimensional object arrays. Because this class extends {@link com.landawn.abacus.util.Arrays},
-     * code can call every public static method declared on the parent class through the {@code f}
-     * identifier (for example {@code f.flatten(...)} or {@code f.println(...)}).</p>
+     * public static methods declared on the parent class are also resolvable as {@code f.method(...)}
+     * (for example {@code f.println(...)} or primitive {@code f.flatten(...)} overloads). Multi-dimensional
+     * object-array operations such as {@code flatten(T[][])} live on {@link Arrays.ff} / {@link Arrays.fff},
+     * not as object-array overloads of {@code f.flatten}.</p>
      *
      * @see Arrays.ff
      * @see Arrays.fff
@@ -20789,7 +20769,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a new type using the provided mapping function.
-         * This is a convenience method for transforming object arrays.
+         * Returns a new array of {@code targetElementType}; {@code null} or empty input yields an empty array.
+         * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -20824,8 +20805,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the mapping function to apply to each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new array containing the mapped elements, or an empty array if input is {@code null} or empty.
-         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> mapper,
@@ -20849,7 +20829,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a boolean value using the provided function.
-         * This is a convenience method for transforming object arrays to boolean arrays.
+         * Returns a new {@code boolean[]} of the same length; {@code null} or empty input yields an empty array.
+         * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -20904,7 +20885,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a char value using the provided function.
-         * This is a convenience method for transforming object arrays to char arrays.
+         * Returns a new {@code char[]} of the same length; {@code null} or empty input yields an empty array.
+         * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -20959,7 +20941,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a byte value using the provided function.
-         * This is a convenience method for transforming object arrays to byte arrays.
+         * Returns a new {@code byte[]} of the same length; {@code null} or empty input yields an empty array.
+         * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21014,7 +20997,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a short value using the provided function.
-         * This is a convenience method for transforming object arrays to short arrays.
+         * Returns a new {@code short[]} of the same length; {@code null} or empty input yields an empty array.
+         * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21069,7 +21053,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to an int value using the provided function.
-         * This is a convenience method for transforming object arrays to int arrays.
+         * Returns a new {@code int[]} of the same length; {@code null} or empty input yields an empty array.
+         * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21124,7 +21109,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a long value using the provided function.
-         * This is a convenience method for transforming object arrays to long arrays.
+         * Returns a new {@code long[]} of the same length; {@code null} or empty input yields an empty array.
+         * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21179,7 +21165,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a float value using the provided function.
-         * This is a convenience method for transforming object arrays to float arrays.
+         * Returns a new {@code float[]} of the same length; {@code null} or empty input yields an empty array.
+         * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21234,7 +21221,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a double value using the provided function.
-         * This is a convenience method for transforming object arrays to double arrays.
+         * Returns a new {@code double[]} of the same length; {@code null} or empty input yields an empty array.
+         * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21313,8 +21301,8 @@ public sealed class Arrays permits Arrays.f {
          * Updates all elements in a two-dimensional array by applying the specified operator to each element.
          * The operation is performed in-place, modifying the original array.
          *
-         * <p>This method iterates through each element of the nested arrays and replaces it with
-         * the result of applying the operator. Null sub-arrays and empty sub-arrays are safely skipped.</p>
+         * <p>The operator is applied to every slot in each non-null, non-empty row (including slots that
+         * currently hold {@code null} elements). {@code null} or empty rows are safely skipped.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21563,7 +21551,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operation.
-         * @param a the two-dimensional array to operate on (can be {@code null}). The operation modifies this array in-place.
+         * @param a the two-dimensional array to operate on (can be {@code null} or empty). The operation modifies this array in-place.
          * @param action the consumer that operates on the flattened array (must not be {@code null}).
          * @throws IllegalArgumentException if {@code action} is {@code null}.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -21594,9 +21582,9 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a new value using the provided function.
          * Returns a NEW array; the original array is not modified.
          *
-         * <p>This method creates a new array with the same dimensions as the input array,
+         * <p>This method creates a new array with the same outer length as the input array,
          * where each element is the result of applying the function to the corresponding input element.
-         * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
+         * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          * The element type of the result is inferred from the runtime component type of {@code a};
          * mapped values must be assignable to that component type. Use the overload with
          * {@code targetElementType} for type-changing mappings.</p>
@@ -21627,9 +21615,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
          * @return a new two-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
-         * @throws IllegalArgumentException if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if a mapped value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
+         * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the inferred runtime element type (if the mapper itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
@@ -21658,10 +21644,10 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a new type using the provided function.
          * This method allows transformation between different element types.
          *
-         * <p>The resulting array has the same structure as the input array but with elements
+         * <p>The resulting array has the same outer length as the input array but with elements
          * of the target type. If the input is {@code null} or empty, an empty 2D array of the target
-         * type is returned. Null or empty sub-arrays are mapped to empty arrays; non-null sub-array
-         * lengths are preserved.</p>
+         * type is returned. Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null});
+         * non-null sub-array lengths are preserved.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21691,8 +21677,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new two-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
-         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
@@ -21715,8 +21700,8 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Maps each element of a two-dimensional array to a boolean value using the provided predicate.
-         * This method is useful for creating boolean masks or condition arrays.
+         * Maps each element of a two-dimensional array to a boolean value using the provided
+         * boolean-mapping function. This method is useful for creating boolean masks or condition arrays.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21742,7 +21727,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param mapper the predicate function to test each element (must not be {@code null}).
+         * @param mapper the boolean-mapping function to apply to each element (must not be {@code null}).
          * @return a new two-dimensional boolean array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception during mapping.
@@ -22117,7 +22102,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Combines corresponding elements from two two-dimensional arrays using a binary function.
          * The result has dimensions equal to the minimum dimensions of the input arrays; extra elements
-         * in either array are silently ignored.
+         * in either array are silently ignored. Null sub-arrays are treated as empty.
          *
          * <p>This method pairs elements at the same positions and applies the zip function.
          * Both the outer length and the inner (row) length are truncated to the shorter of the two arrays.</p>
@@ -22153,9 +22138,7 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second two-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the function to combine paired elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
-         * @throws IllegalArgumentException if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
+         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
@@ -22218,8 +22201,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine paired elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type containing combined elements.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
@@ -22290,9 +22272,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value used when second array has no element at a position.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred.
-         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}, or if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
@@ -22360,8 +22340,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
@@ -22430,9 +22409,7 @@ public sealed class Arrays permits Arrays.f {
          * @param c the third two-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
-         * @throws IllegalArgumentException if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
+         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
@@ -22502,8 +22479,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
@@ -22579,9 +22555,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueC default value for the third array.
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred.
-         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}, or if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
@@ -22654,8 +22628,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
@@ -23171,8 +23144,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Flattens a three-dimensional array into a one-dimensional array by concatenating
-         * all elements in their natural order. The method traverses the array depth-first,
-         * preserving the order of elements as they appear in the original structure.
+         * all elements in row-major order, preserving the order of elements as they appear
+         * in the original structure.
          *
          * <p>This operation is the linearizing counterpart to reshape, but it discards all
          * block and row shape information. Null and empty sub-arrays are skipped.</p>
@@ -23269,7 +23242,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operation.
-         * @param a the three-dimensional array to operate on (can be {@code null}). Modified in-place.
+         * @param a the three-dimensional array to operate on (can be {@code null} or empty). Modified in-place.
          * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
          * @throws IllegalArgumentException if {@code action} is {@code null}.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -23335,9 +23308,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
          * @return a new three-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
-         * @throws IllegalArgumentException if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if a mapped value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
+         * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the inferred runtime element type (if the mapper itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
@@ -23367,10 +23338,10 @@ public sealed class Arrays permits Arrays.f {
          * array of type R by applying a transformation function. This method allows for type
          * conversion while preserving the array structure.
          *
-         * <p>The resulting array has the same dimensions as the input array, with each element
+         * <p>The resulting array has the same outer length as the input array, with each element
          * transformed according to the provided function. This is useful for converting between
          * different data types or applying complex transformations. Null or empty sub-arrays at any
-         * nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.</p>
+         * nesting level are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -23400,8 +23371,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
-         * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
          * @throws E if the function throws an exception.
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
@@ -23425,12 +23395,12 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps a three-dimensional array to a three-dimensional boolean array by applying
-         * a predicate function to each element. This is useful for creating masks or
+         * a boolean-mapping function to each element. This is useful for creating masks or
          * performing element-wise comparisons.
          *
-         * <p>The resulting array has the same structure as the input, with each element
-         * replaced by the boolean result of the predicate evaluation. Null or empty sub-arrays at any
-         * nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.</p>
+         * <p>The resulting array has the same outer length as the input, with each element
+         * replaced by the boolean result of the mapping function. Null or empty sub-arrays at any
+         * nesting level are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -23456,7 +23426,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
-         * @param mapper the predicate function to test each element (must not be {@code null}).
+         * @param mapper the boolean-mapping function to apply to each element (must not be {@code null}).
          * @return a new three-dimensional boolean array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
@@ -23859,6 +23829,7 @@ public sealed class Arrays permits Arrays.f {
          * Combines two three-dimensional arrays element-wise using a binary function.
          * The resulting array has dimensions equal to the minimum dimensions of the input
          * arrays at each level, effectively truncating to the smaller array.
+         * Null sub-arrays at any level are treated as empty.
          *
          * <p>This method is useful for element-wise operations like addition, multiplication,
          * or any custom binary operation between corresponding elements.</p>
@@ -23895,9 +23866,7 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the binary function to combine corresponding elements (must not be {@code null}).
          * @return a new three-dimensional array with combined elements.
-         * @throws IllegalArgumentException if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
+         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
@@ -23967,8 +23936,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
@@ -24031,9 +23999,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value when second array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new three-dimensional array with combined elements.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred.
-         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}, or if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
@@ -24102,8 +24068,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
@@ -24179,9 +24144,7 @@ public sealed class Arrays permits Arrays.f {
          * @param c the third three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the ternary function to combine corresponding elements (must not be {@code null}).
          * @return a new three-dimensional array with combined elements.
-         * @throws IllegalArgumentException if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
+         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
@@ -24256,8 +24219,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
@@ -24325,9 +24287,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueC default value when third array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new three-dimensional array with combined elements.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred.
-         * @throws IllegalArgumentException if a combined value is not assignable to the inferred runtime element type.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}, or if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
@@ -24403,8 +24363,7 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} is {@code null}.
-         * @throws IllegalArgumentException if {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
@@ -24491,7 +24450,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param a the three-dimensional array to count elements in (can be {@code null}).
          * @return the total number of elements across all sub-arrays, or 0 if the array is {@code null} or empty.
-         * @throws ArithmeticException if the total cannot be represented as a {@code long}
+         * @throws ArithmeticException if the total cannot be represented as a {@code long}.
          */
         public static long elementCount(final Object[][][] a) {
             if (N.isEmpty(a)) {

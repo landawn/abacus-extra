@@ -449,11 +449,9 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * Returns the minimum short value in this tuple.
+     * Returns the minimum (smallest) short value in this tuple.
      * <p>
-     * Iterates through all elements in the tuple and returns the smallest value
-     * using signed short comparison. For single-element tuples, the element itself
-     * is returned.
+     * For a single-element tuple, returns that element. Uses signed short comparison.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -489,11 +487,9 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * Returns the maximum short value in this tuple.
+     * Returns the maximum (largest) short value in this tuple.
      * <p>
-     * Iterates through all elements in the tuple and returns the largest value
-     * using signed short comparison. For single-element tuples, the element itself
-     * is returned.
+     * For a single-element tuple, returns that element. Uses signed short comparison.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -770,10 +766,9 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     /**
      * Performs the given action for each element in this tuple.
      * <p>
-     * Iterates through all elements in this tuple in order, executing the provided
-     * consumer action for each element. This method is primarily used for side effects
-     * such as logging, printing, or updating external state. Because tuples are immutable,
-     * the iteration does not modify this tuple.
+     * Invokes the action once per element from left to right. Does not modify this
+     * tuple. Primarily used for side effects such as logging, printing, or updating
+     * external state. A {@code null} action results in {@link IllegalArgumentException}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -851,16 +846,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     /**
      * Returns a hash code value for this tuple.
      * <p>
-     * The hash code is computed based on the contents of the tuple using a standard
-     * algorithm that ensures equal tuples have equal hash codes. This implementation
-     * is consistent with {@link #equals(Object)}.
+     * The hash code is content-based and consistent with {@link #equals(Object)}:
+     * equal tuples produce equal hash codes.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 a = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * ShortTuple.ShortTuple3 b = ShortTuple.of((short) 1, (short) 2, (short) 3);
-     * assert a.hashCode() == b.hashCode(); // returns true (equal content -> equal hash)
+     * boolean same = a.hashCode() == b.hashCode(); // true
      *
      * // Edge: empty tuple has a stable hash
      * ShortTuple<?> empty = ShortTuple.from(new short[0]);
@@ -1399,9 +1393,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return a short array containing the single element
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
@@ -1907,9 +1904,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return a short array containing all elements in order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
@@ -2419,9 +2419,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return a short array containing all elements in order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
@@ -2672,7 +2675,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple4 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-         * List<Short> list = new ArrayList<>();
+         * java.util.List<Short> list = new java.util.ArrayList<>();
          * t.forEach(v -> list.add(v)); // list becomes [1, 2, 3, 4] in order
          *
          * ShortTuple.ShortTuple4 t2 = ShortTuple.of((short) -1, (short) 0, (short) 1, (short) 2);
@@ -2704,7 +2707,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple4 t1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
          * ShortTuple.ShortTuple4 t2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have same hash)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * }</pre>
          *
@@ -2766,9 +2769,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return a short array containing all elements in order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
@@ -3056,7 +3062,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple5 t1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
          * ShortTuple.ShortTuple5 t2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have same hash)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * }</pre>
          *
@@ -3118,9 +3124,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return a short array containing all elements in order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
@@ -3413,7 +3422,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple6 t1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
          * ShortTuple.ShortTuple6 t2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have same hash)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * }</pre>
          *
@@ -3475,9 +3484,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return a short array containing all elements in order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
@@ -3784,7 +3796,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple7 t1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
          * ShortTuple.ShortTuple7 t2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
-         * boolean same = (t1.hashCode() == t2.hashCode()); // returns true (equal tuples have equal hash)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * ShortTuple.ShortTuple7 t3 = ShortTuple.of((short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
@@ -3856,9 +3868,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return a short array containing all elements in order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
@@ -4176,7 +4191,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple8 t1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
          * ShortTuple.ShortTuple8 t2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
-         * boolean same = (t1.hashCode() == t2.hashCode()); // returns true (equal tuples have equal hash)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * ShortTuple.ShortTuple8 t3 = ShortTuple.of((short)8, (short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
@@ -4249,9 +4264,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return a short array containing all elements in order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
@@ -4575,7 +4593,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <pre>{@code
          * ShortTuple.ShortTuple9 t1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
          * ShortTuple.ShortTuple9 t2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
-         * boolean same = (t1.hashCode() == t2.hashCode()); // returns true (equal tuples have equal hash)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
          * ShortTuple.ShortTuple9 t3 = ShortTuple.of((short)9, (short)8, (short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
          * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
@@ -4648,9 +4666,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
+         * when a safely mutable copy is needed.
+         * </p>
          *
-         * @return a short array containing all elements in order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {

@@ -1353,24 +1353,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple1 t = FloatTuple.of(5.0f);
-         * float[] arr = t.toArray();   // returns [5.0f]
-         *
-         * FloatTuple.FloatTuple1 neg = FloatTuple.of(-2.5f);
-         * float[] negArr = neg.toArray();   // returns [-2.5f]
-         *
-         * FloatTuple.FloatTuple1 inf = FloatTuple.of(Float.POSITIVE_INFINITY);
-         * float[] infArr = inf.toArray();   // returns [Float.POSITIVE_INFINITY]
-         *
-         * FloatTuple.FloatTuple1 nan = FloatTuple.of(Float.NaN);
-         * float[] nanArr = nan.toArray();   // returns array with NaN element
-         * }</pre>
-         *
-         * @return a float array containing all elements of this tuple
+         * @return the internal array of float elements
          */
         @Override
         protected float[] elements() {
@@ -1580,7 +1568,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * double navg2 = nanT.average();   // returns NaN (as double)
          * }</pre>
          *
-         * @return the average of {@code _1} and {@code _2}
+         * @return the average of {@code _1} and {@code _2} as a {@code double}
          */
         @Override
         public double average() {
@@ -1883,24 +1871,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple2 t = FloatTuple.of(1.5f, 2.5f);
-         * float[] arr = t.toArray();   // returns [1.5f, 2.5f]
-         *
-         * FloatTuple.FloatTuple2 neg = FloatTuple.of(-1.0f, -2.0f);
-         * float[] negArr = neg.toArray();   // returns [-1.0f, -2.0f]
-         *
-         * FloatTuple.FloatTuple2 infT = FloatTuple.of(Float.POSITIVE_INFINITY, 0.0f);
-         * float[] infArr = infT.toArray();   // returns [Float.POSITIVE_INFINITY, 0.0f]
-         *
-         * FloatTuple.FloatTuple2 nanT = FloatTuple.of(Float.NaN, 1.0f);
-         * float[] nanArr = nanT.toArray();   // returns array with [NaN, 1.0f]
-         * }</pre>
-         *
-         * @return a float array containing all elements of this tuple
+         * @return the internal array of float elements
          */
         @Override
         protected float[] elements() {
@@ -2099,7 +2075,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * double navg2 = nanT.average();   // returns NaN (as double)
          * }</pre>
          *
-         * @return the average of {@code _1}, {@code _2}, and {@code _3}
+         * @return the average of {@code _1}, {@code _2}, and {@code _3} as a {@code double}
          */
         @Override
         public double average() {
@@ -2403,24 +2379,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple3 t = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * float[] arr = t.toArray();   // returns [1.0f, 2.0f, 3.0f]
-         *
-         * FloatTuple.FloatTuple3 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f);
-         * float[] negArr = neg.toArray();   // returns [-1.0f, -2.0f, -3.0f]
-         *
-         * FloatTuple.FloatTuple3 infT = FloatTuple.of(Float.POSITIVE_INFINITY, 0.0f, 1.0f);
-         * float[] infArr = infT.toArray();   // returns [Float.POSITIVE_INFINITY, 0.0f, 1.0f]
-         *
-         * FloatTuple.FloatTuple3 nanT = FloatTuple.of(Float.NaN, 1.0f, 2.0f);
-         * float[] nanArr = nanT.toArray();   // returns array with [NaN, 1.0f, 2.0f]
-         * }</pre>
-         *
-         * @return a float array containing all elements of this tuple
+         * @return the internal array of float elements
          */
         @Override
         protected float[] elements() {
@@ -2494,8 +2458,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the minimum value among the four elements.
-         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0f} is
          * treated as less than {@code +0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -2522,8 +2485,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the maximum value among the four elements.
-         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0f} is
          * treated as greater than {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -2621,7 +2583,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * double avg4 = withInf.average();   // returns Double.POSITIVE_INFINITY
          * }</pre>
          *
-         * @return the average of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
+         * @return the average of {@code _1}, {@code _2}, {@code _3}, and {@code _4} as a {@code double}
          */
         @Override
         public double average() {
@@ -2807,9 +2769,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a float array containing all elements of this tuple
+         * @return the internal array of float elements
          */
         @Override
         protected float[] elements() {
@@ -2885,8 +2850,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the minimum value among the five elements.
-         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0f} is
          * treated as less than {@code +0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -2913,8 +2877,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the maximum value among the five elements.
-         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0f} is
          * treated as greater than {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3012,7 +2975,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * double avg4 = withInf.average();   // returns Double.POSITIVE_INFINITY
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _5}
+         * @return the average of {@code _1} through {@code _5} as a {@code double}
          */
         @Override
         public double average() {
@@ -3201,9 +3164,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a float array containing all elements of this tuple
+         * @return the internal array of float elements
          */
         @Override
         protected float[] elements() {
@@ -3283,8 +3249,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the minimum value among the six elements.
-         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0f} is
          * treated as less than {@code +0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3311,8 +3276,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the maximum value among the six elements.
-         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0f} is
          * treated as greater than {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3410,7 +3374,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * double avg4 = withInf.average();   // returns Double.POSITIVE_INFINITY
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _6}
+         * @return the average of {@code _1} through {@code _6} as a {@code double}
          */
         @Override
         public double average() {
@@ -3602,9 +3566,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a float array containing all elements of this tuple
+         * @return the internal array of float elements
          */
         @Override
         protected float[] elements() {
@@ -3688,8 +3655,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the minimum value among the seven elements.
-         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0f} is
          * treated as less than {@code +0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3716,8 +3682,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the maximum value among the seven elements.
-         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0f} is
          * treated as greater than {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -3815,7 +3780,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * double infAvg = withInf.average(); // returns Double.POSITIVE_INFINITY
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _7}
+         * @return the average of {@code _1} through {@code _7} as a {@code double}
          */
         @Override
         public double average() {
@@ -4009,9 +3974,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a float array containing all elements of this tuple
+         * @return the internal array of float elements
          */
         @Override
         protected float[] elements() {
@@ -4108,8 +4076,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the minimum value among the eight elements.
-         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0f} is
          * treated as less than {@code +0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -4136,8 +4103,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the maximum value among the eight elements.
-         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0f} is
          * treated as greater than {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -4235,7 +4201,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * double infAvg = withInf.average(); // returns Double.POSITIVE_INFINITY
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _8}
+         * @return the average of {@code _1} through {@code _8} as a {@code double}
          */
         @Override
         public double average() {
@@ -4431,9 +4397,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a float array containing all elements of this tuple
+         * @return the internal array of float elements
          */
         @Override
         protected float[] elements() {
@@ -4535,8 +4504,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the minimum value among the nine elements.
-         * Uses {@link Math#min(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code -0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code -0.0f} is
          * treated as less than {@code +0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -4563,8 +4531,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the maximum value among the nine elements.
-         * Uses {@link Math#max(float, float)} pairwise: any {@code NaN}
-         * element causes the result to be {@code NaN}, and {@code +0.0f} is
+         * Any {@code NaN} element causes the result to be {@code NaN}, and {@code +0.0f} is
          * treated as greater than {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
@@ -4662,7 +4629,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * double infAvg = withInf.average(); // returns Double.POSITIVE_INFINITY
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _9}
+         * @return the average of {@code _1} through {@code _9} as a {@code double}
          */
         @Override
         public double average() {
@@ -4860,9 +4827,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a float array containing all elements of this tuple
+         * @return the internal array of float elements
          */
         @Override
         protected float[] elements() {

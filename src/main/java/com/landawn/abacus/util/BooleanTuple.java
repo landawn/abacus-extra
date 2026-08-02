@@ -57,7 +57,7 @@ import com.landawn.abacus.util.stream.Stream;
 public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> permits BooleanTuple0, BooleanTuple1, BooleanTuple2,
         BooleanTuple3, BooleanTuple4, BooleanTuple5, BooleanTuple6, BooleanTuple7, BooleanTuple8, BooleanTuple9 {
 
-    /** Lazily initialized cached array view of all tuple elements. */
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile boolean[] elements;
 
     /**
@@ -490,9 +490,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * Checks if this tuple contains the specified boolean value.
      * <p>
-     * This method performs a linear search through all elements in the tuple to determine
-     * if any element matches the specified value. Returns {@code true} if at least one
-     * element equals the search value, {@code false} otherwise.
+     * Returns {@code true} if any element of this tuple equals {@code valueToFind}.
+     * An empty tuple always returns {@code false}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -520,9 +519,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * Returns a new array containing all elements of this tuple.
      * <p>
-     * Creates and returns a defensive copy of the internal element array. Modifications
-     * to the returned array do not affect the tuple, maintaining immutability. The
-     * returned array has the same length as the tuple's arity.
+     * Returns a new {@code boolean[]} of length {@link #arity()} whose elements are this
+     * tuple's values in order. Mutations of the returned array do not affect this tuple.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -545,7 +543,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean[] singleArr = single.toArray(); // [false]
      * }</pre>
      *
-     * @return a new boolean array containing all tuple elements
+     * @return a new boolean array containing all tuple elements in order
      * @see #toList()
      * @see #stream()
      */
@@ -584,7 +582,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean val = singleList.get(0);        // false
      * }</pre>
      *
-     * @return a new BooleanList containing all tuple elements
+     * @return a new BooleanList containing all tuple elements in order
      * @see #toArray()
      * @see #stream()
      */
@@ -635,12 +633,9 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * Returns a Stream of Boolean objects containing all elements in this tuple.
+     * Returns a sequential Stream of boxed Boolean values containing all elements of this tuple in order.
      * <p>
-     * Converts this tuple to a sequential {@link Stream} of boxed Boolean objects.
-     * This allows using standard stream operations like filter, map, and collect
-     * on the tuple elements. Note that primitive boolean values are boxed to Boolean
-     * objects, which may have performance implications for large-scale operations.
+     * Primitive {@code boolean} values are boxed to {@link Boolean}. An empty tuple yields an empty stream.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -661,7 +656,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean allNegated = allFalse.stream().allMatch(b -> !b); // true
      * }</pre>
      *
-     * @return a Stream containing all tuple elements as Boolean objects
+     * @return a sequential Stream of boxed Boolean elements in order
      * @see #toArray()
      * @see #toList()
      */
@@ -672,22 +667,15 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * Returns a hash code value for this tuple.
      * <p>
-     * The hash code is computed based on the contents of the tuple using a standard
-     * algorithm that ensures equal tuples have equal hash codes. This implementation
-     * is consistent with {@link #equals(Object)}.
+     * The hash code is based on this tuple's element values and is consistent with
+     * {@link #equals(Object)}: equal tuples produce equal hash codes.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple2 a = BooleanTuple.of(true, false);
      * BooleanTuple.BooleanTuple2 b = BooleanTuple.of(true, false);
-     * boolean same = (a.hashCode() == b.hashCode()); // true (equal tuples have equal hash codes)
-     *
-     * BooleanTuple.BooleanTuple1 t = BooleanTuple.of(true);
-     * int h = t.hashCode();               // 1231 (Boolean.hashCode(true))
-     *
-     * BooleanTuple.BooleanTuple1 f = BooleanTuple.of(false);
-     * int hf = f.hashCode();              // 1237 (Boolean.hashCode(false))
+     * boolean same = a.hashCode() == b.hashCode(); // true (equal tuples have equal hash codes)
      *
      * // edge: empty tuple has a consistent hash code
      * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
@@ -707,13 +695,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * Compares this tuple to the specified object for equality.
      *
-     * <p>
-     * Two tuples are considered equal if and only if:
-     * </p>
+     * <p>Two tuples are considered equal if and only if either:</p>
      * <ul>
-     *   <li>they are the same object (reference equality), or</li>
-     *   <li>they are instances of the exact same runtime class (so tuples of different arity are never equal), and</li>
-     *   <li>they contain the same boolean values in the same order.</li>
+     *   <li>They are the same object (reference equality), or</li>
+     *   <li>The other object is non-null, is an instance of the exact same runtime class
+     *       (so a {@code BooleanTuple2} never equals a {@code BooleanTuple3}), and contains
+     *       the same boolean values in the same order.</li>
      * </ul>
      *
      * <p>This method is consistent with {@link #hashCode()}. The non-empty arity-specific subclasses
@@ -848,7 +835,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The single boolean value stored in this tuple. */
         public final boolean _1;
 
-        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
+        /** Package-private constructor creating a tuple with the element set to {@code false}. */
         BooleanTuple1() {
             this(false);
         }
@@ -1003,7 +990,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Prefer {@link #toArray()} when a safe, independent copy is needed.
+         * </p>
          *
          * @return a boolean array containing the single element
          */
@@ -1160,7 +1150,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if the action throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
@@ -1299,12 +1289,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple2 t1 = BooleanTuple.of(true, false);
          * BooleanTuple.BooleanTuple2 t2 = BooleanTuple.of(true, false);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         * t1.hashCode();                         // returns 39398
+         * boolean same = t1.hashCode() == t2.hashCode(); // true (equal tuples have equal hash codes)
          *
-         * // All-false
-         * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
-         * allFalse.hashCode();   // returns 39584
+         * // Equal all-false tuples also share a hash code
+         * BooleanTuple.BooleanTuple2 a = BooleanTuple.of(false, false);
+         * BooleanTuple.BooleanTuple2 b = BooleanTuple.of(false, false);
+         * boolean sameFalse = a.hashCode() == b.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from both elements
@@ -1371,7 +1361,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Prefer {@link #toArray()} when a safe, independent copy is needed.
+         * </p>
          *
          * @return a boolean array containing all elements in order
          */
@@ -1540,7 +1533,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if the action throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
@@ -1679,12 +1672,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 t1 = BooleanTuple.of(true, false, true);
          * BooleanTuple.BooleanTuple3 t2 = BooleanTuple.of(true, false, true);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
-         * t1.hashCode();                         // returns 1222569
+         * boolean same = t1.hashCode() == t2.hashCode(); // true (equal tuples have equal hash codes)
          *
-         * // All-false
-         * BooleanTuple.BooleanTuple3 allFalse = BooleanTuple.of(false, false, false);
-         * allFalse.hashCode();   // returns 1228341
+         * // Equal all-false tuples also share a hash code
+         * BooleanTuple.BooleanTuple3 a = BooleanTuple.of(false, false, false);
+         * BooleanTuple.BooleanTuple3 b = BooleanTuple.of(false, false, false);
+         * boolean sameFalse = a.hashCode() == b.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all three elements
@@ -1751,7 +1744,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Prefer {@link #toArray()} when a safe, independent copy is needed.
+         * </p>
          *
          * @return a boolean array containing all elements in order
          */
@@ -1908,7 +1904,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if the action throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
@@ -1927,11 +1923,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple4 t1 = BooleanTuple.of(true, false, true, false);
          * BooleanTuple.BooleanTuple4 t2 = BooleanTuple.of(true, false, true, false);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true (equal tuples have equal hash codes)
          *
-         * // All-true
-         * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
-         * allTrue.hashCode();   // returns 37895104
+         * // Equal all-true tuples also share a hash code
+         * BooleanTuple.BooleanTuple4 a = BooleanTuple.of(true, true, true, true);
+         * BooleanTuple.BooleanTuple4 b = BooleanTuple.of(true, true, true, true);
+         * boolean sameTrue = a.hashCode() == b.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all four elements
@@ -1998,7 +1995,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Prefer {@link #toArray()} when a safe, independent copy is needed.
+         * </p>
          *
          * @return a boolean array containing all elements in order
          */
@@ -2163,7 +2163,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if the action throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
@@ -2183,11 +2183,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * BooleanTuple.BooleanTuple5 t1 = BooleanTuple.of(true, false, true, false, true);
          * BooleanTuple.BooleanTuple5 t2 = BooleanTuple.of(true, false, true, false, true);
-         * assert t1.hashCode() == t2.hashCode(); // returns true (equal tuples have equal hash codes)
+         * boolean same = t1.hashCode() == t2.hashCode(); // true (equal tuples have equal hash codes)
          *
-         * // All-true
-         * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
-         * allTrue.hashCode();   // returns 1174749455
+         * // Equal all-true tuples also share a hash code
+         * BooleanTuple.BooleanTuple5 a = BooleanTuple.of(true, true, true, true, true);
+         * BooleanTuple.BooleanTuple5 b = BooleanTuple.of(true, true, true, true, true);
+         * boolean sameTrue = a.hashCode() == b.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all five elements
@@ -2261,7 +2262,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Prefer {@link #toArray()} when a safe, independent copy is needed.
+         * </p>
          *
          * @return a boolean array containing all elements in order
          */
@@ -2440,7 +2444,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if the action throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
@@ -2459,21 +2463,15 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * // Alternating true/false tuple
-         * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-         * int h1 = tuple.hashCode();   // returns 2063042866
-         *
-         * // All-true tuple has a distinct hash
-         * BooleanTuple.BooleanTuple6 allTrue = BooleanTuple.of(true, true, true, true, true, true);
-         * int h2 = allTrue.hashCode();   // returns 2057495968
-         *
-         * // All-false tuple has a distinct hash
-         * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
-         * int h3 = allFalse.hashCode();   // returns -2059970592
-         *
          * // Equal tuples always produce the same hash code
+         * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
          * BooleanTuple.BooleanTuple6 copy = BooleanTuple.of(true, false, true, false, true, false);
-         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // returns true
+         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // true
+         *
+         * // Equal all-true tuples also share a hash code
+         * BooleanTuple.BooleanTuple6 a = BooleanTuple.of(true, true, true, true, true, true);
+         * BooleanTuple.BooleanTuple6 b = BooleanTuple.of(true, true, true, true, true, true);
+         * boolean sameTrue = a.hashCode() == b.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all six elements
@@ -2552,7 +2550,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Prefer {@link #toArray()} when a safe, independent copy is needed.
+         * </p>
          *
          * @return a boolean array containing all elements in order
          */
@@ -2655,21 +2656,22 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * // Non-palindrome tuple; reverse is not equal to original
+         * // Non-palindrome: reverse differs in element sequence from original
          * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, false);
-         * BooleanTuple.BooleanTuple7 reversed = tuple.reverse();   // returns (false, false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple7 reversed = tuple.reverse();   // (false, false, true, false, true, false, true)
          *
-         * // Palindrome tuple reverses to itself
+         * // Palindrome: reverse is equal in value (same element sequence), not the same instance
          * BooleanTuple.BooleanTuple7 palindrome = BooleanTuple.of(true, false, true, false, true, false, true);
-         * BooleanTuple.BooleanTuple7 rev2 = palindrome.reverse();   // returns (true, false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple7 rev2 = palindrome.reverse();   // (true, false, true, false, true, false, true)
+         * boolean sameSeq = rev2.equals(palindrome); // true
          *
-         * // All-true tuple reverses to itself
+         * // All-true: reverse has the same element sequence
          * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
-         * BooleanTuple.BooleanTuple7 rev3 = allTrue.reverse();   // returns (true, true, true, true, true, true, true)
+         * BooleanTuple.BooleanTuple7 rev3 = allTrue.reverse();   // (true, true, true, true, true, true, true)
          *
-         * // All-false tuple reverses to itself
+         * // All-false: reverse has the same element sequence
          * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
-         * BooleanTuple.BooleanTuple7 rev4 = allFalse.reverse();   // returns (false, false, false, false, false, false, false)
+         * BooleanTuple.BooleanTuple7 rev4 = allFalse.reverse();   // (false, false, false, false, false, false, false)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple7 with the elements in reverse order
@@ -2736,7 +2738,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if the action throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
@@ -2756,21 +2758,15 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * // Alternating true/false tuple
-         * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-         * int h1 = tuple.hashCode();   // returns -470179363
-         *
-         * // All-true tuple has a distinct hash
-         * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
-         * int h2 = allTrue.hashCode();   // returns -642133201
-         *
-         * // All-false tuple has a distinct hash
-         * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
-         * int h3 = allFalse.hashCode();   // returns 565422325
-         *
          * // Equal tuples always produce the same hash code
+         * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
          * BooleanTuple.BooleanTuple7 copy = BooleanTuple.of(true, false, true, false, true, false, true);
-         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // returns true
+         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // true
+         *
+         * // Equal all-true tuples also share a hash code
+         * BooleanTuple.BooleanTuple7 a = BooleanTuple.of(true, true, true, true, true, true, true);
+         * BooleanTuple.BooleanTuple7 b = BooleanTuple.of(true, true, true, true, true, true, true);
+         * boolean sameTrue = a.hashCode() == b.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all seven elements
@@ -2851,7 +2847,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Prefer {@link #toArray()} when a safe, independent copy is needed.
+         * </p>
          *
          * @return a boolean array containing all elements in order
          */
@@ -2963,19 +2962,20 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * // Basic reversal of alternating values
          * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-         * BooleanTuple.BooleanTuple8 reversed = tuple.reverse();   // returns (false, true, false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple8 reversed = tuple.reverse();   // (false, true, false, true, false, true, false, true)
          *
-         * // All-true tuple reverses to itself
+         * // All-true: reverse has the same element sequence
          * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
-         * BooleanTuple.BooleanTuple8 rev2 = allTrue.reverse();   // returns (true, true, true, true, true, true, true, true)
+         * BooleanTuple.BooleanTuple8 rev2 = allTrue.reverse();   // (true, true, true, true, true, true, true, true)
          *
-         * // All-false tuple reverses to itself
+         * // All-false: reverse has the same element sequence
          * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
-         * BooleanTuple.BooleanTuple8 rev3 = allFalse.reverse();   // returns (false, false, false, false, false, false, false, false)
+         * BooleanTuple.BooleanTuple8 rev3 = allFalse.reverse();   // (false, false, false, false, false, false, false, false)
          *
-         * // Palindrome tuple; reversal equals the original
+         * // Palindrome: reverse is equal in value (same element sequence), not the same instance
          * BooleanTuple.BooleanTuple8 palindrome = BooleanTuple.of(true, false, false, false, false, false, false, true);
-         * BooleanTuple.BooleanTuple8 rev4 = palindrome.reverse();   // returns (true, false, false, false, false, false, false, true)
+         * BooleanTuple.BooleanTuple8 rev4 = palindrome.reverse();   // (true, false, false, false, false, false, false, true)
+         * boolean sameSeq = rev4.equals(palindrome); // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple8 with the elements in reverse order
@@ -3042,7 +3042,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if the action throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
@@ -3063,21 +3063,15 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * // Alternating true/false tuple
-         * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-         * int h1 = tuple.hashCode();   // returns -1690657128
-         *
-         * // All-true tuple has a distinct hash
-         * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
-         * int h2 = allTrue.hashCode();   // returns 1568708480
-         *
-         * // All-false tuple has a distinct hash
-         * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
-         * int h3 = allFalse.hashCode();   // returns 348224128
-         *
          * // Equal tuples always produce the same hash code
+         * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
          * BooleanTuple.BooleanTuple8 copy = BooleanTuple.of(true, false, true, false, true, false, true, false);
-         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // returns true
+         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // true
+         *
+         * // Equal all-true tuples also share a hash code
+         * BooleanTuple.BooleanTuple8 a = BooleanTuple.of(true, true, true, true, true, true, true, true);
+         * BooleanTuple.BooleanTuple8 b = BooleanTuple.of(true, true, true, true, true, true, true, true);
+         * boolean sameTrue = a.hashCode() == b.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all eight elements
@@ -3159,7 +3153,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Prefer {@link #toArray()} when a safe, independent copy is needed.
+         * </p>
          *
          * @return a boolean array containing all elements in order
          */
@@ -3273,21 +3270,22 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * // Palindrome tuple reverses to itself
+         * // Palindrome: reverse is equal in value (same element sequence), not the same instance
          * BooleanTuple.BooleanTuple9 palindrome = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-         * BooleanTuple.BooleanTuple9 rev1 = palindrome.reverse();   // returns (true, false, true, false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple9 rev1 = palindrome.reverse();   // (true, false, true, false, true, false, true, false, true)
+         * boolean sameSeq = rev1.equals(palindrome); // true
          *
-         * // Non-palindrome reversal
+         * // Non-palindrome: reverse differs in element sequence from original
          * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, false, false, false, false, false, false, false);
-         * BooleanTuple.BooleanTuple9 rev2 = tuple.reverse();   // returns (false, false, false, false, false, false, false, false, true)
+         * BooleanTuple.BooleanTuple9 rev2 = tuple.reverse();   // (false, false, false, false, false, false, false, false, true)
          *
-         * // All-true tuple reverses to itself
+         * // All-true: reverse has the same element sequence
          * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
-         * BooleanTuple.BooleanTuple9 rev3 = allTrue.reverse();   // returns (true, true, true, true, true, true, true, true, true)
+         * BooleanTuple.BooleanTuple9 rev3 = allTrue.reverse();   // (true, true, true, true, true, true, true, true, true)
          *
-         * // All-false tuple reverses to itself
+         * // All-false: reverse has the same element sequence
          * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
-         * BooleanTuple.BooleanTuple9 rev4 = allFalse.reverse();   // returns (false, false, false, false, false, false, false, false, false)
+         * BooleanTuple.BooleanTuple9 rev4 = allFalse.reverse();   // (false, false, false, false, false, false, false, false, false)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple9 with the elements in reverse order
@@ -3354,7 +3352,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if the action throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
@@ -3376,21 +3374,15 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * // Alternating true/false tuple
-         * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-         * int h1 = tuple.hashCode();   // returns -870762185
-         *
-         * // All-true tuple has a distinct hash
-         * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
-         * int h2 = allTrue.hashCode();   // returns 1385323855
-         *
-         * // All-false tuple has a distinct hash
-         * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
-         * int h3 = allFalse.hashCode();   // returns -2089952683
-         *
          * // Equal tuples always produce the same hash code
+         * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
          * BooleanTuple.BooleanTuple9 copy = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // returns true
+         * boolean sameHash = tuple.hashCode() == copy.hashCode(); // true
+         *
+         * // Equal all-true tuples also share a hash code
+         * BooleanTuple.BooleanTuple9 a = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+         * BooleanTuple.BooleanTuple9 b = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
+         * boolean sameTrue = a.hashCode() == b.hashCode(); // true
          * }</pre>
          *
          * @return a hash code value calculated from all nine elements
@@ -3472,7 +3464,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Prefer {@link #toArray()} when a safe, independent copy is needed.
+         * </p>
          *
          * @return a boolean array containing all elements in order
          */

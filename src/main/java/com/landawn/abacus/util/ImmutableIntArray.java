@@ -28,8 +28,9 @@ import com.landawn.abacus.util.stream.IntStream;
  * the wrapper.</p>
  *
  * <p>The wrapper itself exposes no mutator methods, and accessors that return arrays
- * ({@link #toArray()} and {@link #toArray(int, int)}) always return fresh copies. The stream returned by {@link #stream()}, however,
- * is constructed directly over the backing array; see that method's javadoc for the implications.</p>
+ * ({@link #toArray()} and {@link #toArray(int, int)}) always return fresh copies. For non-empty instances, the stream
+ * returned by {@link #stream()} is constructed directly over the backing array; empty instances use a shared empty
+ * stream. See that method's javadoc for the implications.</p>
  *
  * <p>This class is annotated with {@link Beta @Beta} and its API may evolve in future releases.</p>
  *
@@ -51,7 +52,7 @@ public final class ImmutableIntArray implements Immutable {
 
     /**
      * Package-private constructor that retains the provided array as the backing storage
-     * without copying. If {@code array} is {@code null}, {@link N#EMPTY_INT_ARRAY} is used instead.
+     * without copying. If {@code array} is {@code null}, an empty backing array is used instead.
      *
      * @param array the array to wrap, or {@code null} for an empty backing array
      */
@@ -206,10 +207,6 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns {@code true} if this ImmutableIntArray contains the specified value.
      *
-     * <p>This method performs a linear search through the array, checking each element
-     * for equality with the specified value. The time complexity is O(n) where n is the
-     * length of the array.</p>
-     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
@@ -251,9 +248,6 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns the minimum value among all elements in this array.
      *
-     * <p>This method scans every element, so its time complexity is O(n) where n is the
-     * length of the array.</p>
-     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: minimum of a multi-element array
@@ -288,9 +282,6 @@ public final class ImmutableIntArray implements Immutable {
 
     /**
      * Returns the maximum value among all elements in this array.
-     *
-     * <p>This method scans every element, so its time complexity is O(n) where n is the
-     * length of the array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -327,9 +318,8 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns the sum of all elements in this array as an {@code int}.
      *
-     * <p>The summation is performed in {@code long} precision and narrowed to {@code int};
-     * if the total does not fit in the {@code int} range, an {@link ArithmeticException} is thrown.
-     * For an empty array this method returns {@code 0}.</p>
+     * <p>Returns the total as an {@code int}. For an empty array this method returns {@code 0}.
+     * If the total overflows the {@code int} range, an {@link ArithmeticException} is thrown.</p>
      *
      * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array.</p>
      *
@@ -350,6 +340,10 @@ public final class ImmutableIntArray implements Immutable {
      * // Edge: negative elements are summed correctly
      * ImmutableIntArray neg = ImmutableIntArray.unsafeWrap(new int[] {-1, -2, -3});
      * neg.sum();   // returns -6
+     *
+     * // Edge: sum overflow throws ArithmeticException
+     * ImmutableIntArray overflow = ImmutableIntArray.unsafeWrap(new int[] {Integer.MAX_VALUE, 1});
+     * overflow.sum();   // throws ArithmeticException
      * }</pre>
      *
      * @return the sum of all elements in this array as an {@code int}, or {@code 0} if empty
@@ -367,6 +361,9 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p>The result is returned as a {@code double} to preserve fractional precision.
      * For an empty array this method returns {@code 0D} (it does not throw).</p>
+     *
+     * <p>Unlike {@link #sum()}, this method does not throw when intermediate totals exceed the
+     * {@code int} range; the mean is computed in wider arithmetic.</p>
      *
      * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array.</p>
      *
@@ -401,9 +398,9 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns the int element at the specified index in this ImmutableIntArray.
      *
-     * <p>This method provides constant-time O(1) access to elements by index.
-     * The index is zero-based, meaning the first element is at index 0 and the
-     * last element is at index {@code length() - 1}.</p>
+     * <p>The index is zero-based, meaning the first element is at index 0 and the
+     * last element is at index {@code length() - 1}. Out-of-range indices throw
+     * {@link ArrayIndexOutOfBoundsException}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

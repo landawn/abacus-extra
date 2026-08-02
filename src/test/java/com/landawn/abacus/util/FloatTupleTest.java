@@ -3972,8 +3972,7 @@ class FloatTupleTest extends TestBase {
         // NaN: equal -> equal hash.
         assertEquals(FloatTuple.of(Float.NaN).hashCode(), FloatTuple.of(Float.NaN).hashCode());
         assertEquals(FloatTuple.of(1f, Float.NaN).hashCode(), FloatTuple.of(1f, Float.NaN).hashCode());
-        assertEquals(FloatTuple.of(Float.NaN, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f).hashCode(),
-                FloatTuple.of(Float.NaN, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f).hashCode());
+        assertEquals(FloatTuple.of(Float.NaN, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f).hashCode(), FloatTuple.of(Float.NaN, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f).hashCode());
 
         // +0.0f vs -0.0f: not equal; bit-pattern hash differs.
         assertNotEquals(FloatTuple.of(0.0f).hashCode(), FloatTuple.of(-0.0f).hashCode());

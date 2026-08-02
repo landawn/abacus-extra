@@ -455,7 +455,6 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     /**
      * Returns the minimum long value in this tuple.
      * <p>
-     * Iterates through all elements in the tuple and returns the smallest value.
      * For single-element tuples, the element itself is returned.
      * </p>
      *
@@ -495,7 +494,6 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     /**
      * Returns the maximum long value in this tuple.
      * <p>
-     * Iterates through all elements in the tuple and returns the largest value.
      * For single-element tuples, the element itself is returned.
      * </p>
      *
@@ -607,7 +605,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * neg.sum();                                       // returns -10
      * }</pre>
      *
-     * @return the sum of all long values in this tuple as a {@code long}
+     * @return the sum of all long values in this tuple as a {@code long}, or {@code 0L} if empty
      * @see #average()
      */
     public long sum() {
@@ -655,9 +653,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     /**
      * Returns a tuple with the elements in reverse order.
      * <p>
-     * This method returns all elements in reversed order. Implementations may return {@code this}
-     * when reversal has no effect (the empty tuple returns itself). The original tuple remains
-     * unchanged as tuples are immutable.
+     * Built-in non-empty tuples return a new tuple instance with all elements in reversed order;
+     * the empty tuple returns itself. The original tuple remains unchanged. For example, a tuple
+     * (1, 2, 3) becomes (3, 2, 1) when reversed.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1388,9 +1386,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a long array containing all elements of this tuple
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
@@ -1811,7 +1812,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * int hn = neg.hashCode();   // == 31 * Long.hashCode(-1L) + Long.hashCode(-2L)
          * }</pre>
          *
-         * @return 31 * Long.hashCode(_1) + Long.hashCode(_2)
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -1877,9 +1878,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a long array containing all elements of this tuple
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
@@ -2306,7 +2310,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * int hn = neg.hashCode();   // consistent with equals
          * }</pre>
          *
-         * @return (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2))) + Long.hashCode(_3)
+         * @return a content-based hash code consistent with {@link #equals(Object)}
          */
         @Override
         public int hashCode() {
@@ -2372,9 +2376,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a long array containing all elements of this tuple
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
@@ -2676,9 +2683,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all four elements.
+         * Returns a content-based hash code value for this tuple, consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2760,9 +2765,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a long array containing all elements of this tuple
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
@@ -3068,9 +3076,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all five elements.
+         * Returns a content-based hash code value for this tuple, consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3152,9 +3158,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a long array containing all elements of this tuple
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
@@ -3464,9 +3473,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all six elements.
+         * Returns a content-based hash code value for this tuple, consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3549,9 +3556,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a long array containing all elements of this tuple
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
@@ -3828,9 +3838,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all seven elements.
+         * Returns a content-based hash code value for this tuple, consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3904,9 +3912,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a long array containing all elements of this tuple
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
@@ -4191,9 +4202,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all eight elements.
+         * Returns a content-based hash code value for this tuple, consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -4270,9 +4279,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a long array containing all elements of this tuple
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
@@ -4562,9 +4574,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a hash code value for this tuple.
-         * The hash code is computed using a polynomial hash function
-         * based on all nine elements.
+         * Returns a content-based hash code value for this tuple, consistent with {@link #equals(Object)}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -4641,9 +4651,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
-         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a long array containing all elements of this tuple
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
