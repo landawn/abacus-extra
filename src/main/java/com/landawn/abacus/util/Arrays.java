@@ -20729,7 +20729,7 @@ public sealed class Arrays permits Arrays.f {
      * @param count the count accumulated so far
      * @param additionalCount the number of elements to add
      * @return the exact sum
-     * @throws ArithmeticException if the sum cannot be represented as a {@code long}
+     * @throws ArithmeticException if the sum cannot be represented as a {@code long}.
      */
     static long addElementCountExact(final long count, final int additionalCount) {
         return Math.addExact(count, additionalCount);
