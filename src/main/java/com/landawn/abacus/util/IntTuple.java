@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.IntTuple.IntTuple0;
 import com.landawn.abacus.util.IntTuple.IntTuple1;
@@ -377,6 +378,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(int)
      */
+    @Beta
     @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends IntTuple<TP>> TP from(final int[] values) {
         if (values == null || values.length == 0) {

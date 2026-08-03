@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple0;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple1;
@@ -378,6 +379,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(double)
      */
+    @Beta
     @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends DoubleTuple<TP>> TP from(final double[] values) {
         if (values == null || values.length == 0) {

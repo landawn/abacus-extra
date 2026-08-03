@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.CharTuple.CharTuple0;
 import com.landawn.abacus.util.CharTuple.CharTuple1;
@@ -357,6 +358,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(char)
      */
+    @Beta
     @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends CharTuple<TP>> TP from(final char[] values) {
         if (values == null || values.length == 0) {

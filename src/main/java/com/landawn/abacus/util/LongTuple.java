@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.LongTuple.LongTuple0;
 import com.landawn.abacus.util.LongTuple.LongTuple1;
@@ -389,6 +390,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(long)
      */
+    @Beta
     @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends LongTuple<TP>> TP from(final long[] values) {
         if (values == null || values.length == 0) {

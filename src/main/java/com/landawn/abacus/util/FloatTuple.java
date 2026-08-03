@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.FloatTuple.FloatTuple0;
 import com.landawn.abacus.util.FloatTuple.FloatTuple1;
@@ -395,6 +396,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(float)
      */
+    @Beta
     @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends FloatTuple<TP>> TP from(final float[] values) {
         if (values == null || values.length == 0) {

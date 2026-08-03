@@ -14,6 +14,7 @@
 
 package com.landawn.abacus.util;
 
+import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple0;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple1;
@@ -414,6 +415,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(boolean)
      */
+    @Beta
     @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends BooleanTuple<TP>> TP from(final boolean[] values) {
         if (values == null || values.length == 0) {

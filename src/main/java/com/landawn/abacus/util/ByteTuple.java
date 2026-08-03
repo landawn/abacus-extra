@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.ByteTuple.ByteTuple0;
 import com.landawn.abacus.util.ByteTuple.ByteTuple1;
@@ -439,6 +440,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
      * @see #of(byte)
      */
+    @Beta
     @SuppressWarnings({ "deprecation", "unchecked" })
     public static <TP extends ByteTuple<TP>> TP from(final byte[] values) {
         if (values == null || values.length == 0) {
