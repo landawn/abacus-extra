@@ -3709,12 +3709,12 @@ class ArraysTest extends TestBase {
             Assertions.assertArrayEquals(new boolean[] {}, deepEmptyFlattened);
         }
 
-        // Tests for mutateAsFlatArray methods
+        // Tests for mutateViaFlatArray methods
         @Test
         public void testFlatOp_Boolean2DArray() {
             // Test sorting operation
             boolean[][] arr = { { true, false, true }, { false, true } };
-            Arrays.mutateAsFlatArray(arr, flatArr -> {
+            Arrays.mutateViaFlatArray(arr, flatArr -> {
                 // Sort to have all false values first
                 CommonUtil.sort(flatArr);
             });
@@ -3724,7 +3724,7 @@ class ArraysTest extends TestBase {
 
             // Test with operation that sets all to true
             boolean[][] arr2 = { { true, false }, { false, true } };
-            Arrays.mutateAsFlatArray(arr2, flatArr -> {
+            Arrays.mutateViaFlatArray(arr2, flatArr -> {
                 for (int i = 0; i < flatArr.length; i++) {
                     flatArr[i] = true;
                 }
@@ -3734,14 +3734,14 @@ class ArraysTest extends TestBase {
 
             // Test with empty array
             boolean[][] emptyArr = {};
-            Arrays.mutateAsFlatArray(emptyArr, flatArr -> {
+            Arrays.mutateViaFlatArray(emptyArr, flatArr -> {
                 // Should not be called
                 Assertions.fail("Operation should not be called on empty array");
             });
 
             // Test with array containing empty sub-arrays
             boolean[][] mixedArr = { { true, false }, {}, { true } };
-            Arrays.mutateAsFlatArray(mixedArr, flatArr -> {
+            Arrays.mutateViaFlatArray(mixedArr, flatArr -> {
                 for (int i = 0; i < flatArr.length; i++) {
                     flatArr[i] = !flatArr[i];
                 }
@@ -3755,7 +3755,7 @@ class ArraysTest extends TestBase {
         public void testFlatOp_Boolean3DArray() {
             // Test with normal three-dimensional array
             boolean[][][] arr = { { { true, false } }, { { false, true }, { true, true } } };
-            Arrays.mutateAsFlatArray(arr, flatArr -> {
+            Arrays.mutateViaFlatArray(arr, flatArr -> {
                 // Reverse all values
                 for (int i = 0; i < flatArr.length; i++) {
                     flatArr[i] = !flatArr[i];
@@ -3767,7 +3767,7 @@ class ArraysTest extends TestBase {
 
             // Test with empty three-dimensional array
             boolean[][][] emptyArr = {};
-            Arrays.mutateAsFlatArray(emptyArr, flatArr -> {
+            Arrays.mutateViaFlatArray(emptyArr, flatArr -> {
                 // Should not be called
                 Assertions.fail("Operation should not be called on empty array");
             });
@@ -3775,7 +3775,7 @@ class ArraysTest extends TestBase {
             // Test counting operation
             boolean[][][] countArr = { { { true, false, true } }, { { false, false } } };
             int[] trueCount = { 0 };
-            Arrays.mutateAsFlatArray(countArr, flatArr -> {
+            Arrays.mutateViaFlatArray(countArr, flatArr -> {
                 for (boolean b : flatArr) {
                     if (b)
                         trueCount[0]++;
@@ -3789,7 +3789,7 @@ class ArraysTest extends TestBase {
             boolean[][] arr = { { true, false }, { true } };
 
             Assertions.assertThrows(Exception.class, () -> {
-                Arrays.mutateAsFlatArray(arr, flatArr -> {
+                Arrays.mutateViaFlatArray(arr, flatArr -> {
                     throw new Exception("Test exception");
                 });
             });
@@ -3981,35 +3981,35 @@ class ArraysTest extends TestBase {
         public void testFlatOp() throws Exception {
             // Test sorting all elements
             Integer[][] array = { { 3, 1, 4 }, { 1, 5, 9 } };
-            ff.mutateAsFlatArray(array, arr -> java.util.Arrays.sort(arr));
+            ff.mutateViaFlatArray(array, arr -> java.util.Arrays.sort(arr));
             Assertions.assertArrayEquals(new Integer[] { 1, 1, 3 }, array[0]);
             Assertions.assertArrayEquals(new Integer[] { 4, 5, 9 }, array[1]);
 
             // Test with null sub-arrays
             Integer[][] arrayWithNulls = { { 5, 3 }, null, { 1, 4 } };
-            ff.mutateAsFlatArray(arrayWithNulls, arr -> java.util.Arrays.sort(arr));
+            ff.mutateViaFlatArray(arrayWithNulls, arr -> java.util.Arrays.sort(arr));
             Assertions.assertArrayEquals(new Integer[] { 1, 3 }, arrayWithNulls[0]);
             Assertions.assertNull(arrayWithNulls[1]);
             Assertions.assertArrayEquals(new Integer[] { 4, 5 }, arrayWithNulls[2]);
 
             // Test with empty sub-arrays
             Integer[][] arrayWithEmpty = { { 5, 3 }, {}, { 1, 4 } };
-            ff.mutateAsFlatArray(arrayWithEmpty, arr -> java.util.Arrays.sort(arr));
+            ff.mutateViaFlatArray(arrayWithEmpty, arr -> java.util.Arrays.sort(arr));
             Assertions.assertArrayEquals(new Integer[] { 1, 3 }, arrayWithEmpty[0]);
             Assertions.assertArrayEquals(new Integer[] {}, arrayWithEmpty[1]);
             Assertions.assertArrayEquals(new Integer[] { 4, 5 }, arrayWithEmpty[2]);
 
             // Test with empty array
             Integer[][] emptyArray = {};
-            ff.mutateAsFlatArray(emptyArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
+            ff.mutateViaFlatArray(emptyArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
 
             // Test with null array
             Integer[][] nullArray = null;
-            ff.mutateAsFlatArray(nullArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
+            ff.mutateViaFlatArray(nullArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
 
             // Test with custom operation
             Integer[][] array2 = { { 1, 2 }, { 3, 4 } };
-            ff.mutateAsFlatArray(array2, arr -> {
+            ff.mutateViaFlatArray(array2, arr -> {
                 for (int i = 0; i < arr.length; i++) {
                     arr[i] = arr[i] * 10;
                 }
@@ -4676,7 +4676,7 @@ class ArraysTest extends TestBase {
         public void testFlatOp() throws Exception {
             // Test sorting all elements
             Integer[][][] arr = { { { 5, 2 } }, { { 9, 1 } }, { { 3, 7 } } };
-            fff.mutateAsFlatArray(arr, flat -> java.util.Arrays.sort(flat));
+            fff.mutateViaFlatArray(arr, flat -> java.util.Arrays.sort(flat));
             Assertions.assertEquals(1, arr[0][0][0]);
             Assertions.assertEquals(2, arr[0][0][1]);
             Assertions.assertEquals(3, arr[1][0][0]);
@@ -4686,7 +4686,7 @@ class ArraysTest extends TestBase {
 
             // Test reversing elements
             Integer[][][] arr2 = { { { 1, 2 } }, { { 3, 4 } } };
-            fff.mutateAsFlatArray(arr2, flat -> {
+            fff.mutateViaFlatArray(arr2, flat -> {
                 for (int i = 0; i < flat.length / 2; i++) {
                     Integer temp = flat[i];
                     flat[i] = flat[flat.length - 1 - i];
@@ -4700,12 +4700,12 @@ class ArraysTest extends TestBase {
 
             // Test with empty array
             Integer[][][] emptyArr = new Integer[0][][];
-            fff.mutateAsFlatArray(emptyArr, flat -> java.util.Arrays.sort(flat));
+            fff.mutateViaFlatArray(emptyArr, flat -> java.util.Arrays.sort(flat));
             Assertions.assertEquals(0, emptyArr.length);
 
             // Test with null and empty sub-arrays
             Integer[][][] mixedArr = { { { 1, 2 } }, null, { {} }, { { 3, 4 } } };
-            fff.mutateAsFlatArray(mixedArr, flat -> {
+            fff.mutateViaFlatArray(mixedArr, flat -> {
                 for (int i = 0; i < flat.length; i++) {
                     flat[i] = flat[i] * 10;
                 }
@@ -6265,7 +6265,7 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray methods
+        // Tests for mutateViaFlatArray methods
         // ============================================
 
         @Test
@@ -6273,7 +6273,7 @@ class ArraysTest extends TestBase {
             boolean[][] a = { { true, false }, { true, false } };
             List<Boolean> result = new ArrayList<>();
 
-            Arrays.mutateAsFlatArray(a, subArray -> {
+            Arrays.mutateViaFlatArray(a, subArray -> {
                 for (boolean val : subArray) {
                     result.add(val);
                 }
@@ -6289,7 +6289,7 @@ class ArraysTest extends TestBase {
             int[][] a = { { 1, 2 }, { 3, 4 } };
             List<Integer> result = new ArrayList<>();
 
-            Arrays.mutateAsFlatArray(a, subArray -> {
+            Arrays.mutateViaFlatArray(a, subArray -> {
                 for (int val : subArray) {
                     result.add(val);
                 }
@@ -6305,7 +6305,7 @@ class ArraysTest extends TestBase {
             double[][] a = { { 1.0, 2.0 }, { 3.0, 4.0 } };
             List<Double> result = new ArrayList<>();
 
-            Arrays.mutateAsFlatArray(a, subArray -> {
+            Arrays.mutateViaFlatArray(a, subArray -> {
                 for (double val : subArray) {
                     result.add(val);
                 }
@@ -6320,7 +6320,7 @@ class ArraysTest extends TestBase {
             boolean[][][] a = { { { true, false } }, { { true } } };
             List<Boolean> result = new ArrayList<>();
 
-            Arrays.mutateAsFlatArray(a, subArray -> {
+            Arrays.mutateViaFlatArray(a, subArray -> {
                 for (boolean val : subArray) {
                     result.add(val);
                 }
@@ -6334,7 +6334,7 @@ class ArraysTest extends TestBase {
             int[][][] a = { { { 1, 2 } }, { { 3 } } };
             List<Integer> result = new ArrayList<>();
 
-            Arrays.mutateAsFlatArray(a, subArray -> {
+            Arrays.mutateViaFlatArray(a, subArray -> {
                 for (int val : subArray) {
                     result.add(val);
                 }
@@ -10077,14 +10077,14 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray methods - boolean
+        // Tests for mutateViaFlatArray methods - boolean
         // ============================================
 
         @Test
         public void testFlatOp_2D_Boolean_normal() {
             boolean[][] arr = { { true, false }, { false, true } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(4, count[0]);
         }
 
@@ -10092,19 +10092,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Boolean_normal() {
             boolean[][][] arr = { { { true, false } }, { { true } } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray methods - char
+        // Tests for mutateViaFlatArray methods - char
         // ============================================
 
         @Test
         public void testFlatOp_2D_Char_normal() {
             char[][] arr = { { 'a', 'b' }, { 'c' } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -10112,19 +10112,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Char_normal() {
             char[][][] arr = { { { 'x', 'y' } }, { { 'z' } } };
             final int[] sum = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> sum[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> sum[0] += subArr.length);
             assertEquals(3, sum[0]);
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray methods - byte
+        // Tests for mutateViaFlatArray methods - byte
         // ============================================
 
         @Test
         public void testFlatOp_2D_Byte_normal() {
             byte[][] arr = { { 1, 2 }, { 3, 4 } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(4, count[0]);
         }
 
@@ -10132,19 +10132,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Byte_normal() {
             byte[][][] arr = { { { 1, 2 } }, { { 3 } } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray methods - short
+        // Tests for mutateViaFlatArray methods - short
         // ============================================
 
         @Test
         public void testFlatOp_2D_Short_normal() {
             short[][] arr = { { 10, 20 }, { 30 } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -10152,19 +10152,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Short_normal() {
             short[][][] arr = { { { 100, 200 } }, { { 300 } } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray methods - int
+        // Tests for mutateViaFlatArray methods - int
         // ============================================
 
         @Test
         public void testFlatOp_2D_Int_normal() {
             int[][] arr = { { 1, 2, 3 }, { 4, 5 } };
             final int[] sum = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> {
+            Arrays.mutateViaFlatArray(arr, subArr -> {
                 for (int val : subArr) {
                     sum[0] += val;
                 }
@@ -10176,7 +10176,7 @@ class ArraysTest extends TestBase {
         public void testFlatOp_2D_Int_null() {
             int[][] arr = null;
             final int[] sum = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> sum[0]++); // Should not throw exception
+            Arrays.mutateViaFlatArray(arr, subArr -> sum[0]++); // Should not throw exception
             assertEquals(0, sum[0]);
         }
 
@@ -10184,19 +10184,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Int_normal() {
             int[][][] arr = { { { 1, 2 }, { 3 } }, { { 4 } } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(4, count[0]);
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray methods - long
+        // Tests for mutateViaFlatArray methods - long
         // ============================================
 
         @Test
         public void testFlatOp_2D_Long_normal() {
             long[][] arr = { { 100L, 200L }, { 300L } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -10204,19 +10204,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Long_normal() {
             long[][][] arr = { { { 1000L, 2000L } }, { { 3000L } } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray methods - float
+        // Tests for mutateViaFlatArray methods - float
         // ============================================
 
         @Test
         public void testFlatOp_2D_Float_normal() {
             float[][] arr = { { 1.1f, 2.2f }, { 3.3f } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -10224,19 +10224,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Float_normal() {
             float[][][] arr = { { { 1.0f, 2.0f } }, { { 3.0f } } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray methods - double
+        // Tests for mutateViaFlatArray methods - double
         // ============================================
 
         @Test
         public void testFlatOp_2D_Double_normal() {
             double[][] arr = { { 1.5, 2.5 }, { 3.5, 4.5 } };
             final double[] sum = { 0.0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> {
+            Arrays.mutateViaFlatArray(arr, subArr -> {
                 for (double val : subArr) {
                     sum[0] += val;
                 }
@@ -10248,7 +10248,7 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Double_normal() {
             double[][][] arr = { { { 10.5, 20.5 } }, { { 30.5 } } };
             final int[] count = { 0 };
-            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateViaFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -11632,12 +11632,12 @@ class ArraysTest extends TestBase {
             assertArrayEquals(new char[] { 'x', 'y', 'z' }, result);
         }
 
-        // ============ Arrays.mutateAsFlatArray Tests (boolean) ============
+        // ============ Arrays.mutateViaFlatArray Tests (boolean) ============
 
         @Test
         public void testFlatOp_boolean_2D_null() {
             boolean[][] arr = null;
-            assertDoesNotThrow(() -> Arrays.mutateAsFlatArray(arr, flat -> {
+            assertDoesNotThrow(() -> Arrays.mutateViaFlatArray(arr, flat -> {
                 // Should not execute
                 throw new RuntimeException("Should not be called");
             }));
@@ -11646,7 +11646,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testFlatOp_boolean_2D_valid() {
             boolean[][] arr = { { true, false, true }, { false, true, false } };
-            Arrays.mutateAsFlatArray(arr, flat -> {
+            Arrays.mutateViaFlatArray(arr, flat -> {
                 for (int i = 0; i < flat.length; i++) {
                     flat[i] = !flat[i];
                 }
@@ -11658,7 +11658,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testFlatOp_boolean_3D_valid() {
             boolean[][][] arr = { { { true, false } }, { { false, true } } };
-            Arrays.mutateAsFlatArray(arr, flat -> {
+            Arrays.mutateViaFlatArray(arr, flat -> {
                 for (int i = 0; i < flat.length; i++) {
                     flat[i] = true;
                 }
@@ -11995,17 +11995,17 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testFF_mutateAsFlatArray_null() {
+        public void testFF_mutateViaFlatArray_null() {
             String[][] arr = null;
-            assertDoesNotThrow(() -> Arrays.ff.mutateAsFlatArray(arr, flat -> {
+            assertDoesNotThrow(() -> Arrays.ff.mutateViaFlatArray(arr, flat -> {
                 throw new RuntimeException("Should not be called");
             }));
         }
 
         @Test
-        public void testFF_mutateAsFlatArray_valid() {
+        public void testFF_mutateViaFlatArray_valid() {
             Integer[][] arr = { { 3, 1, 4 }, { 1, 5, 9 } };
-            Arrays.ff.mutateAsFlatArray(arr, flat -> java.util.Arrays.sort(flat));
+            Arrays.ff.mutateViaFlatArray(arr, flat -> java.util.Arrays.sort(flat));
             assertArrayEquals(new Integer[] { 1, 1, 3 }, arr[0]);
             assertArrayEquals(new Integer[] { 4, 5, 9 }, arr[1]);
         }
@@ -12233,17 +12233,17 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testFFF_mutateAsFlatArray_null() {
+        public void testFFF_mutateViaFlatArray_null() {
             String[][][] arr = null;
-            assertDoesNotThrow(() -> Arrays.fff.mutateAsFlatArray(arr, flat -> {
+            assertDoesNotThrow(() -> Arrays.fff.mutateViaFlatArray(arr, flat -> {
                 throw new RuntimeException("Should not be called");
             }));
         }
 
         @Test
-        public void testFFF_mutateAsFlatArray_valid() {
+        public void testFFF_mutateViaFlatArray_valid() {
             Integer[][][] arr = { { { 5, 2 } }, { { 9, 1 } }, { { 3, 7 } } };
-            Arrays.fff.mutateAsFlatArray(arr, flat -> java.util.Arrays.sort(flat));
+            Arrays.fff.mutateViaFlatArray(arr, flat -> java.util.Arrays.sort(flat));
             assertArrayEquals(new Integer[] { 1, 2 }, arr[0][0]);
             assertArrayEquals(new Integer[] { 3, 5 }, arr[1][0]);
             assertArrayEquals(new Integer[] { 7, 9 }, arr[2][0]);
@@ -12740,7 +12740,7 @@ class ArraysTest extends TestBase {
      * Comprehensive unit tests for Arrays utility class.
      * This class provides extensive array manipulation methods for primitive and object arrays.
      * Tests cover println, mapToObj, mapToLong, mapToDouble, mapToInt, updateAll, replaceIf,
-     * reshape, flatten, mutateAsFlatArray, zip, totalElementCount, minRowLength, maxRowLength methods.
+     * reshape, flatten, mutateViaFlatArray, zip, totalElementCount, minRowLength, maxRowLength methods.
      */
     @Tag("2512")
     class Arrays2512Test extends TestBase {
@@ -13338,34 +13338,34 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for mutateAsFlatArray(boolean[][])
+        // Tests for mutateViaFlatArray(boolean[][])
         // ============================================
 
         @Test
-        public void test_mutateAsFlatArray_booleanArray2D() {
+        public void test_mutateViaFlatArray_booleanArray2D() {
             boolean[][] arr = { { true, false }, { true, false } };
             int[] count = { 0 };
 
-            Arrays.mutateAsFlatArray(arr, subArray -> count[0] += subArray.length);
+            Arrays.mutateViaFlatArray(arr, subArray -> count[0] += subArray.length);
 
             assertEquals(4, count[0]);
         }
 
         @Test
-        public void test_mutateAsFlatArray_booleanArray2DNull() {
+        public void test_mutateViaFlatArray_booleanArray2DNull() {
             boolean[] invoked = { false };
-            assertDoesNotThrow(() -> Arrays.mutateAsFlatArray((boolean[][]) null, subArray -> invoked[0] = true));
+            assertDoesNotThrow(() -> Arrays.mutateViaFlatArray((boolean[][]) null, subArray -> invoked[0] = true));
             assertFalse(invoked[0], "The callback should not run for a null 2D array");
         }
 
         @Test
-        public void test_mutateAsFlatArray_rejectsNullActionForEmptyInputs() {
-            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateAsFlatArray((boolean[][]) null, null));
-            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateAsFlatArray(new int[0][][], null));
-            assertThrows(IllegalArgumentException.class, () -> ff.mutateAsFlatArray((Integer[][]) null, null));
-            assertThrows(IllegalArgumentException.class, () -> ff.mutateAsFlatArray(new Integer[0][], null));
-            assertThrows(IllegalArgumentException.class, () -> fff.mutateAsFlatArray((Integer[][][]) null, null));
-            assertThrows(IllegalArgumentException.class, () -> fff.mutateAsFlatArray(new Integer[0][][], null));
+        public void test_mutateViaFlatArray_rejectsNullActionForEmptyInputs() {
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateViaFlatArray((boolean[][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateViaFlatArray(new int[0][][], null));
+            assertThrows(IllegalArgumentException.class, () -> ff.mutateViaFlatArray((Integer[][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> ff.mutateViaFlatArray(new Integer[0][], null));
+            assertThrows(IllegalArgumentException.class, () -> fff.mutateViaFlatArray((Integer[][][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> fff.mutateViaFlatArray(new Integer[0][][], null));
         }
 
         // ============================================
@@ -14274,14 +14274,14 @@ class ArraysTest extends TestBase {
         }
 
         // ========================
-        // mutateAsFlatArray examples
+        // mutateViaFlatArray examples
         // ========================
 
         @Test
         public void testByteApplyOnFlattened() {
-            // Line 4807-4809: mutateAsFlatArray({{3,1},{4,2}}, t -> sort(t)) => {{1,2},{3,4}}
+            // Line 4807-4809: mutateViaFlatArray({{3,1},{4,2}}, t -> sort(t)) => {{1,2},{3,4}}
             byte[][] arr = { { 3, 1 }, { 4, 2 } };
-            Arrays.mutateAsFlatArray(arr, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray(arr, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new byte[] { 1, 2 }, arr[0]);
             assertArrayEquals(new byte[] { 3, 4 }, arr[1]);
         }
@@ -14410,7 +14410,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testFloatApplyOnFlattened_Sort() {
             float[][] grid = { { 4.0f, 1.0f }, { 3.0f, 2.0f } };
-            Arrays.mutateAsFlatArray(grid, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray(grid, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new float[] { 1.0f, 2.0f }, grid[0], 0.0f);
             assertArrayEquals(new float[] { 3.0f, 4.0f }, grid[1], 0.0f);
         }
@@ -14527,7 +14527,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testDoubleApplyOnFlattened_3D() {
             double[][][] cube = { { { 9.0, 2.0 } }, { { 5.0 }, { 1.0 } } };
-            Arrays.mutateAsFlatArray(cube, arr -> java.util.Arrays.sort(arr));
+            Arrays.mutateViaFlatArray(cube, arr -> java.util.Arrays.sort(arr));
             assertArrayEquals(new double[] { 1.0, 2.0 }, cube[0][0], 0.0);
             assertArrayEquals(new double[] { 5.0 }, cube[1][0], 0.0);
             assertArrayEquals(new double[] { 9.0 }, cube[1][1], 0.0);
@@ -14784,9 +14784,9 @@ class ArraysTest extends TestBase {
     }
 
     @Test
-    public void testFF_mutateAsFlatArray_sortsAcrossRows() throws Exception {
+    public void testFF_mutateViaFlatArray_sortsAcrossRows() throws Exception {
         Integer[][] arr = { { 3, 1, 4 }, { 1, 5, 9 } };
-        ff.mutateAsFlatArray(arr, t -> java.util.Arrays.sort(t));
+        ff.mutateViaFlatArray(arr, t -> java.util.Arrays.sort(t));
         assertArrayEquals(new Integer[] { 1, 1, 3 }, arr[0]);
         assertArrayEquals(new Integer[] { 4, 5, 9 }, arr[1]);
     }
@@ -14863,9 +14863,9 @@ class ArraysTest extends TestBase {
     }
 
     @Test
-    public void testFFF_mutateAsFlatArray_sortsAcrossAllLevels() throws Exception {
+    public void testFFF_mutateViaFlatArray_sortsAcrossAllLevels() throws Exception {
         Integer[][][] arr = { { { 5, 2 } }, { { 9, 1 } }, { { 3, 7 } } };
-        fff.mutateAsFlatArray(arr, t -> java.util.Arrays.sort(t));
+        fff.mutateViaFlatArray(arr, t -> java.util.Arrays.sort(t));
         assertArrayEquals(new Integer[] { 1, 2 }, arr[0][0]);
         assertArrayEquals(new Integer[] { 3, 5 }, arr[1][0]);
         assertArrayEquals(new Integer[] { 7, 9 }, arr[2][0]);
@@ -16477,7 +16477,7 @@ class ArraysTest extends TestBase {
     }
 
     // ==========================================================================================
-    // Adversarial review of reshape / flatten / mutateAsFlatArray / zip / totalElementCount / minSub / maxSub.
+    // Adversarial review of reshape / flatten / mutateViaFlatArray / zip / totalElementCount / minSub / maxSub.
     // Exercises edge cases across multiple primitive types: boolean, char, byte, short, int, long,
     // float, double, and Object[] variants via f / ff / fff.
     // ==========================================================================================
@@ -16690,30 +16690,30 @@ class ArraysTest extends TestBase {
         }
 
         // ------------------------------------------------------------------------------------------
-        // mutateAsFlatArray — 2D
+        // mutateViaFlatArray — 2D
         // ------------------------------------------------------------------------------------------
 
         @Test
-        public void mutateAsFlatArray_2D_sortPreservesJaggedStructure_int() {
+        public void mutateViaFlatArray_2D_sortPreservesJaggedStructure_int() {
             final int[][] a = new int[][] { { 3, 1, 4 }, { 1, 5, 9 } };
-            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray(a, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new int[] { 1, 1, 3 }, a[0]);
             assertArrayEquals(new int[] { 4, 5, 9 }, a[1]);
         }
 
         @Test
-        public void mutateAsFlatArray_2D_sortPreservesJaggedStructure_double() {
+        public void mutateViaFlatArray_2D_sortPreservesJaggedStructure_double() {
             final double[][] a = new double[][] { { 3.0, 1.0, 4.0 }, { 1.5, 5.0, 9.5 } };
-            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray(a, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new double[] { 1.0, 1.5, 3.0 }, a[0]);
             assertArrayEquals(new double[] { 4.0, 5.0, 9.5 }, a[1]);
         }
 
         @Test
-        public void mutateAsFlatArray_2D_nullRowsArePreserved_int() {
+        public void mutateViaFlatArray_2D_nullRowsArePreserved_int() {
             // null rows must remain null after the round-trip.
             final int[][] a = new int[][] { { 3, 1 }, null, {}, { 7, 2 } };
-            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray(a, t -> java.util.Arrays.sort(t));
             // flattened = {3,1,7,2} -> sorted = {1,2,3,7}; copy back row-by-row, null/empty skipped.
             assertNull(a[1]);
             assertEquals(0, a[2].length);
@@ -16722,9 +16722,9 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void mutateAsFlatArray_2D_nullRowsArePreserved_byte() {
+        public void mutateViaFlatArray_2D_nullRowsArePreserved_byte() {
             final byte[][] a = new byte[][] { { 3, 1 }, null, {}, { 7, 2 } };
-            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray(a, t -> java.util.Arrays.sort(t));
             assertNull(a[1]);
             assertEquals(0, a[2].length);
             assertArrayEquals(new byte[] { 1, 2 }, a[0]);
@@ -16732,29 +16732,29 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void mutateAsFlatArray_2D_emptyOuter_isNoop() {
+        public void mutateViaFlatArray_2D_emptyOuter_isNoop() {
             // null input -> no-op (and no NPE)
-            Arrays.mutateAsFlatArray((int[][]) null, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray((int[][]) null, t -> java.util.Arrays.sort(t));
             // empty outer -> no-op
             final int[][] empty = new int[0][];
-            Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray(empty, t -> java.util.Arrays.sort(t));
             assertEquals(0, empty.length);
         }
 
         @Test
-        public void mutateAsFlatArray_2D_nullAction_throws() {
+        public void mutateViaFlatArray_2D_nullAction_throws() {
             final int[][] a = { { 1, 2 } };
-            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateAsFlatArray(a, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateViaFlatArray(a, null));
         }
 
         // ------------------------------------------------------------------------------------------
-        // mutateAsFlatArray — 3D
+        // mutateViaFlatArray — 3D
         // ------------------------------------------------------------------------------------------
 
         @Test
-        public void mutateAsFlatArray_3D_sortPreservesNested_int() {
+        public void mutateViaFlatArray_3D_sortPreservesNested_int() {
             final int[][][] a = new int[][][] { { { 5, 2 }, null }, { {}, { 8, 1 } } };
-            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray(a, t -> java.util.Arrays.sort(t));
             // flattened: {5,2,8,1} -> sorted {1,2,5,8}
             assertArrayEquals(new int[] { 1, 2 }, a[0][0]);
             assertNull(a[0][1]);
@@ -16763,9 +16763,9 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void mutateAsFlatArray_3D_sortPreservesNested_short() {
+        public void mutateViaFlatArray_3D_sortPreservesNested_short() {
             final short[][][] a = new short[][][] { { { 5, 2 }, null }, { {}, { 8, 1 } } };
-            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateViaFlatArray(a, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new short[] { 1, 2 }, a[0][0]);
             assertNull(a[0][1]);
             assertEquals(0, a[1][0].length);

@@ -2682,7 +2682,7 @@
               "examples": [],
               "see_also": [
                 "#flatten(boolean[][][]),for three-dimensional arrays",
-                "#mutateAsFlatArray(boolean[][], Throwables.Consumer),for performing operations on flattened arrays"
+                "#mutateViaFlatArray(boolean[][], Throwables.Consumer),for performing operations on flattened arrays"
               ]
             },
             {
@@ -2711,17 +2711,17 @@
               "examples": [],
               "see_also": [
                 "#flatten(boolean[][]),for flattening two-dimensional arrays",
-                "#mutateAsFlatArray(boolean[][][], Throwables.Consumer),for performing operations on flattened three-dimensional arrays"
+                "#mutateViaFlatArray(boolean[][][], Throwables.Consumer),for performing operations on flattened three-dimensional arrays"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -2754,22 +2754,22 @@
               "javadoc_summary": "Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.",
               "contract": [
                 "<p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.",
-                "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 2D structure boolean[][] arr = {{true, false}, {false, true}}; Arrays.mutateAsFlatArray(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; }); // arr is now: {{false, true}, {true, false}} // Set all elements to true via the flat view boolean[][] arr2 = {{false, false}, {false, false}}; Arrays.mutateAsFlatArray(arr2, t -> java.util.Arrays.fill(t, true)); // arr2 is now: {{true, true}, {true, true}} // Null array is a no-op; action must not be null Arrays.mutateAsFlatArray((boolean[][]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateAsFlatArray(new boolean[][]{{true}}, null); // throws IllegalArgumentException } </pre>"
+                "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 2D structure boolean[][] arr = {{true, false}, {false, true}}; Arrays.mutateViaFlatArray(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; }); // arr is now: {{false, true}, {true, false}} // Set all elements to true via the flat view boolean[][] arr2 = {{false, false}, {false, false}}; Arrays.mutateViaFlatArray(arr2, t -> java.util.Arrays.fill(t, true)); // arr2 is now: {{true, true}, {true, true}} // Null array is a no-op; action must not be null Arrays.mutateViaFlatArray((boolean[][]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateViaFlatArray(new boolean[][]{{true}}, null); // throws IllegalArgumentException } </pre>"
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(boolean[][][], Throwables.Consumer),for three-dimensional arrays",
+                "#mutateViaFlatArray(boolean[][][], Throwables.Consumer),for three-dimensional arrays",
                 "#flatten(boolean[][]),for flattening without copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -2802,11 +2802,11 @@
               "javadoc_summary": "Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.",
               "contract": [
                 "<p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.",
-                "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 3D structure boolean[][][] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}}; Arrays.mutateAsFlatArray(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; }); // cube is now: {{{true, false}, {false, true}}, {{false, true}, {true, false}}} // Set all elements to false via the flat view boolean[][][] cube2 = {{{true, true}}, {{true}}}; Arrays.mutateAsFlatArray(cube2, t -> java.util.Arrays.fill(t, false)); // cube2 is now: {{{false, false}}, {{false}}} // Null array is a no-op; action must not be null Arrays.mutateAsFlatArray((boolean[][][]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateAsFlatArray(new boolean[][][]{{{true}}}, null); // throws IllegalArgumentException } </pre>"
+                "</p> <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 3D structure boolean[][][] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}}; Arrays.mutateViaFlatArray(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; }); // cube is now: {{{true, false}, {false, true}}, {{false, true}, {true, false}}} // Set all elements to false via the flat view boolean[][][] cube2 = {{{true, true}}, {{true}}}; Arrays.mutateViaFlatArray(cube2, t -> java.util.Arrays.fill(t, false)); // cube2 is now: {{{false, false}}, {{false}}} // Null array is a no-op; action must not be null Arrays.mutateViaFlatArray((boolean[][][]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateViaFlatArray(new boolean[][][]{{{true}}}, null); // throws IllegalArgumentException } </pre>"
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(boolean[][], Throwables.Consumer),for two-dimensional arrays",
+                "#mutateViaFlatArray(boolean[][], Throwables.Consumer),for two-dimensional arrays",
                 "#flatten(boolean[][][]),for flattening without copy-back"
               ]
             },
@@ -4122,7 +4122,7 @@
               "examples": [],
               "see_also": [
                 "#flatten(char[][][]),for three-dimensional arrays",
-                "#mutateAsFlatArray(char[][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(char[][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
@@ -4151,17 +4151,17 @@
               "examples": [],
               "see_also": [
                 "#flatten(char[][]),for two-dimensional arrays",
-                "#mutateAsFlatArray(char[][][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(char[][][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -4197,18 +4197,18 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(char[][][], Throwables.Consumer),for three-dimensional arrays",
+                "#mutateViaFlatArray(char[][][], Throwables.Consumer),for three-dimensional arrays",
                 "#flatten(char[][]),for flattening without copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -4244,7 +4244,7 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(char[][], Throwables.Consumer),for two-dimensional arrays",
+                "#mutateViaFlatArray(char[][], Throwables.Consumer),for two-dimensional arrays",
                 "#flatten(char[][][]),for flattening without copy-back"
               ]
             },
@@ -5552,7 +5552,7 @@
               "examples": [],
               "see_also": [
                 "#flatten(byte[][][]),for three-dimensional arrays",
-                "#mutateAsFlatArray(byte[][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(byte[][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
@@ -5581,17 +5581,17 @@
               "examples": [],
               "see_also": [
                 "#flatten(byte[][]),for two-dimensional arrays",
-                "#mutateAsFlatArray(byte[][][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(byte[][][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -5627,18 +5627,18 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(byte[][][], Throwables.Consumer),for three-dimensional arrays",
+                "#mutateViaFlatArray(byte[][][], Throwables.Consumer),for three-dimensional arrays",
                 "#flatten(byte[][]),for flattening without copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -5674,7 +5674,7 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(byte[][], Throwables.Consumer),for two-dimensional arrays",
+                "#mutateViaFlatArray(byte[][], Throwables.Consumer),for two-dimensional arrays",
                 "#flatten(byte[][][]),for flattening without copy-back"
               ]
             },
@@ -6977,7 +6977,7 @@
               "examples": [],
               "see_also": [
                 "#flatten(short[][][]),for three-dimensional arrays",
-                "#mutateAsFlatArray(short[][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(short[][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
@@ -7006,17 +7006,17 @@
               "examples": [],
               "see_also": [
                 "#flatten(short[][]),for two-dimensional arrays",
-                "#mutateAsFlatArray(short[][][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(short[][][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -7052,18 +7052,18 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(short[][][], Throwables.Consumer),for three-dimensional arrays",
+                "#mutateViaFlatArray(short[][][], Throwables.Consumer),for three-dimensional arrays",
                 "#flatten(short[][]),for flattening without copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -7099,7 +7099,7 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(short[][], Throwables.Consumer),for two-dimensional arrays",
+                "#mutateViaFlatArray(short[][], Throwables.Consumer),for two-dimensional arrays",
                 "#flatten(short[][][]),for flattening without copy-back"
               ]
             },
@@ -8413,7 +8413,7 @@
               "examples": [],
               "see_also": [
                 "#flatten(int[][][]),for three-dimensional arrays",
-                "#mutateAsFlatArray(int[][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(int[][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
@@ -8443,17 +8443,17 @@
               "examples": [],
               "see_also": [
                 "#flatten(int[][]),for two-dimensional arrays",
-                "#mutateAsFlatArray(int[][][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(int[][][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -8489,18 +8489,18 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(int[][][], Throwables.Consumer),for three-dimensional arrays",
+                "#mutateViaFlatArray(int[][][], Throwables.Consumer),for three-dimensional arrays",
                 "#flatten(int[][]),for flattening without copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -8536,7 +8536,7 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(int[][], Throwables.Consumer),for two-dimensional arrays",
+                "#mutateViaFlatArray(int[][], Throwables.Consumer),for two-dimensional arrays",
                 "#flatten(int[][][]),for flattening without copy-back"
               ]
             },
@@ -9841,7 +9841,7 @@
               "examples": [],
               "see_also": [
                 "#flatten(long[][][]),for three-dimensional arrays",
-                "#mutateAsFlatArray(long[][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(long[][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
@@ -9870,17 +9870,17 @@
               "examples": [],
               "see_also": [
                 "#flatten(long[][]),for two-dimensional arrays",
-                "#mutateAsFlatArray(long[][][], Throwables.Consumer),for flatten-operate-copy-back"
+                "#mutateViaFlatArray(long[][][], Throwables.Consumer),for flatten-operate-copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -9916,18 +9916,18 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(long[][][], Throwables.Consumer),for three-dimensional arrays",
+                "#mutateViaFlatArray(long[][][], Throwables.Consumer),for three-dimensional arrays",
                 "#flatten(long[][]),for flattening without copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -9963,7 +9963,7 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(long[][], Throwables.Consumer),for two-dimensional arrays",
+                "#mutateViaFlatArray(long[][], Throwables.Consumer),for two-dimensional arrays",
                 "#flatten(long[][][]),for flattening without copy-back"
               ]
             },
@@ -11270,7 +11270,7 @@
               "examples": [],
               "see_also": [
                 "#flatten(float[][][]),for three-dimensional arrays",
-                "#mutateAsFlatArray(float[][], Throwables.Consumer),for performing operations on flattened arrays"
+                "#mutateViaFlatArray(float[][], Throwables.Consumer),for performing operations on flattened arrays"
               ]
             },
             {
@@ -11299,17 +11299,17 @@
               "examples": [],
               "see_also": [
                 "#flatten(float[][]),for flattening two-dimensional arrays",
-                "#mutateAsFlatArray(float[][][], Throwables.Consumer),for performing operations on flattened arrays"
+                "#mutateViaFlatArray(float[][][], Throwables.Consumer),for performing operations on flattened arrays"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -11345,18 +11345,18 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(float[][][], Throwables.Consumer),for three-dimensional arrays",
+                "#mutateViaFlatArray(float[][][], Throwables.Consumer),for three-dimensional arrays",
                 "#flatten(float[][]),for flattening without copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -11392,7 +11392,7 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(float[][], Throwables.Consumer),for two-dimensional arrays",
+                "#mutateViaFlatArray(float[][], Throwables.Consumer),for two-dimensional arrays",
                 "#flatten(float[][][]),for flattening without copy-back"
               ]
             },
@@ -12703,7 +12703,7 @@
               "examples": [],
               "see_also": [
                 "#flatten(double[][][]),for three-dimensional arrays",
-                "#mutateAsFlatArray(double[][], Throwables.Consumer),for performing operations on flattened arrays"
+                "#mutateViaFlatArray(double[][], Throwables.Consumer),for performing operations on flattened arrays"
               ]
             },
             {
@@ -12732,17 +12732,17 @@
               "examples": [],
               "see_also": [
                 "#flatten(double[][]),for flattening two-dimensional arrays",
-                "#mutateAsFlatArray(double[][][], Throwables.Consumer),for performing operations on flattened arrays"
+                "#mutateViaFlatArray(double[][][], Throwables.Consumer),for performing operations on flattened arrays"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -12778,18 +12778,18 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(double[][][], Throwables.Consumer),for three-dimensional arrays",
+                "#mutateViaFlatArray(double[][][], Throwables.Consumer),for three-dimensional arrays",
                 "#flatten(double[][]),for flattening without copy-back"
               ]
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <E extends Exception> void mutateAsFlatArray(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E",
+              "signature": "public static <E extends Exception> void mutateViaFlatArray(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -12825,7 +12825,7 @@
               ],
               "examples": [],
               "see_also": [
-                "#mutateAsFlatArray(double[][], Throwables.Consumer),for two-dimensional arrays",
+                "#mutateViaFlatArray(double[][], Throwables.Consumer),for two-dimensional arrays",
                 "#flatten(double[][][]),for flattening without copy-back"
               ]
             },
@@ -16443,13 +16443,13 @@
               "see_also": []
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <T, E extends Exception> void mutateAsFlatArray(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E",
+              "signature": "public static <T, E extends Exception> void mutateViaFlatArray(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {
@@ -17911,13 +17911,13 @@
               "see_also": []
             },
             {
-              "name": "mutateAsFlatArray",
+              "name": "mutateViaFlatArray",
               "kind": "static",
               "modifiers": [
                 "public",
                 "static"
               ],
-              "signature": "public static <T, E extends Exception> void mutateAsFlatArray(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E",
+              "signature": "public static <T, E extends Exception> void mutateViaFlatArray(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E",
               "return_type": "void",
               "type_params": [
                 {

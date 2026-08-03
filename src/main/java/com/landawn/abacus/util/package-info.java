@@ -43,7 +43,7 @@
  *   <li>Array operations named {@code map}, {@code mapToXxx}, {@code reshape}, {@code flatten},
  *       {@code zip}, or {@code toXxx} return a result array without modifying the supplied array.
  *       Empty results may use a shared empty-array constant. Operations named {@code updateAll},
- *       {@code replaceIf}, or {@code mutateAsFlatArray} modify the supplied array.</li>
+ *       {@code replaceIf}, or {@code mutateViaFlatArray} modify the supplied array.</li>
  *   <li>{@link com.landawn.abacus.util.ImmutableIntArray#copyOf(int[]) ImmutableIntArray.copyOf}
  *       makes a defensive copy. In contrast,
  *       {@link com.landawn.abacus.util.ImmutableIntArray#unsafeWrap(int[]) ImmutableIntArray.unsafeWrap}
