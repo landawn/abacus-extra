@@ -490,7 +490,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * Checks if this tuple contains the specified boolean value.
      * <p>
-     * Returns {@code true} if any element of this tuple equals {@code valueToFind}.
+     * Returns {@code true} if any element of this tuple equals {@code value}.
      * An empty tuple always returns {@code false}.
      * </p>
      *
@@ -511,10 +511,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean emptyHasFalse = empty.contains(false); // false
      * }</pre>
      *
-     * @param valueToFind the boolean value to search for
+     * @param value the boolean value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
-    public abstract boolean contains(boolean valueToFind);
+    public abstract boolean contains(boolean value);
 
     /**
      * Returns a new array containing all elements of this tuple.
@@ -789,11 +789,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * Checks if this tuple contains the specified boolean value.
          * Since this tuple is empty, this method always returns {@code false}.
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code false} always, because the tuple is empty
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
+        public boolean contains(final boolean value) {
             return false;
         }
 
@@ -904,12 +904,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * boolean fHasTrue = f.contains(true);   // false
          * }</pre>
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code true} if the value equals {@code _1}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
-            return _1 == valueToFind;
+        public boolean contains(final boolean value) {
+            return _1 == value;
         }
 
         /**
@@ -1117,12 +1117,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * allFalse.contains(false);  // returns true
          * }</pre>
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind;
+        public boolean contains(final boolean value) {
+            return _1 == value || _2 == value;
         }
 
         /**
@@ -1501,12 +1501,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * allFalse.contains(false);  // returns true
          * }</pre>
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind;
+        public boolean contains(final boolean value) {
+            return _1 == value || _2 == value || _3 == value;
         }
 
         /**
@@ -1872,12 +1872,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * allFalse.contains(false);  // returns true
          * }</pre>
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        public boolean contains(final boolean value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value;
         }
 
         /**
@@ -2131,12 +2131,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * allFalse.contains(false);  // returns true
          * }</pre>
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        public boolean contains(final boolean value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value;
         }
 
         /**
@@ -2409,12 +2409,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * boolean t3 = allFalse.contains(true);   // returns false
          * }</pre>
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        public boolean contains(final boolean value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value;
         }
 
         /**
@@ -2702,13 +2702,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * boolean t3 = allFalse.contains(true);   // returns false
          * }</pre>
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind;
+        public boolean contains(final boolean value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value;
         }
 
         /**
@@ -3006,13 +3005,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * boolean t3 = allFalse.contains(true);   // returns false
          * }</pre>
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind;
+        public boolean contains(final boolean value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value;
         }
 
         /**
@@ -3316,13 +3314,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * boolean t3 = allFalse.contains(true);   // returns false
          * }</pre>
          *
-         * @param valueToFind the boolean value to search for
+         * @param value the boolean value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final boolean valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        public boolean contains(final boolean value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value || _9 == value;
         }
 
         /**

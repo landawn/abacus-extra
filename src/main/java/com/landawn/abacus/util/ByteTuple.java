@@ -742,10 +742,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * boolean emptyContains = empty.contains((byte) 0);   // false
      * }</pre>
      *
-     * @param valueToFind the byte value to search for
+     * @param value the byte value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
-    public abstract boolean contains(byte valueToFind);
+    public abstract boolean contains(byte value);
 
     /**
      * Returns a new array containing all elements of this tuple.
@@ -1092,11 +1092,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * Checks if this tuple contains the specified byte value.
          * Since this tuple is empty, this method always returns {@code false}.
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code false} always, because the tuple is empty
          */
         @Override
-        public boolean contains(final byte valueToFind) {
+        public boolean contains(final byte value) {
             return false;
         }
 
@@ -1355,12 +1355,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.of(Byte.MIN_VALUE).contains(Byte.MAX_VALUE);    // returns false
          * }</pre>
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final byte valueToFind) {
-            return _1 == valueToFind;
+        public boolean contains(final byte value) {
+            return _1 == value;
         }
 
         /**
@@ -1674,12 +1674,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * tb.contains((byte) 0);         // returns false
          * }</pre>
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final byte valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind;
+        public boolean contains(final byte value) {
+            return _1 == value || _2 == value;
         }
 
         /**
@@ -2160,12 +2160,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * tb.contains((byte) 1);         // returns false
          * }</pre>
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final byte valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind;
+        public boolean contains(final byte value) {
+            return _1 == value || _2 == value || _3 == value;
         }
 
         /**
@@ -2674,12 +2674,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * boolean b4 = neg.contains((byte) 1);         // returns false
          * }</pre>
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final byte valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        public boolean contains(final byte value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value;
         }
 
         /**
@@ -3052,12 +3052,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * boolean b4 = neg.contains((byte) 50);        // returns false
          * }</pre>
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final byte valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        public boolean contains(final byte value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value;
         }
 
         /**
@@ -3435,12 +3435,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * boolean b4 = neg.contains((byte) 50);        // returns false
          * }</pre>
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final byte valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        public boolean contains(final byte value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value;
         }
 
         /**
@@ -3834,13 +3834,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * boolean g = t2.contains((byte) 2);         // returns false
          * }</pre>
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final byte valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind;
+        public boolean contains(final byte value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value;
         }
 
         /**
@@ -4267,13 +4266,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * boolean g = t2.contains((byte) 2);         // returns false
          * }</pre>
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final byte valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind;
+        public boolean contains(final byte value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value;
         }
 
         /**
@@ -4712,13 +4710,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * boolean g = t2.contains((byte) 2);         // returns false
          * }</pre>
          *
-         * @param valueToFind the byte value to search for
+         * @param value the byte value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final byte valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        public boolean contains(final byte value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value || _9 == value;
         }
 
         /**

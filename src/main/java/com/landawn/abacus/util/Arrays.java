@@ -3023,14 +3023,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(boolean[][][]) for three-dimensional arrays
-     * @see #mutateFlattened(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlatArray(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static boolean[] flatten(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_BOOLEAN_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final boolean[] result = new boolean[count];
         int from = 0;
@@ -3081,14 +3081,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(boolean[][]) for flattening two-dimensional arrays
-     * @see #mutateFlattened(boolean[][][], Throwables.Consumer) for performing operations on flattened three-dimensional arrays
+     * @see #mutateAsFlatArray(boolean[][][], Throwables.Consumer) for performing operations on flattened three-dimensional arrays
      */
     public static boolean[] flatten(final boolean[][][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_BOOLEAN_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final boolean[] result = new boolean[count];
         int from = 0;
@@ -3125,18 +3125,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Flip all elements while preserving the 2D structure
      * boolean[][] arr = {{true, false}, {false, true}};
-     * Arrays.mutateFlattened(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });
+     * Arrays.mutateAsFlatArray(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });
      * // arr is now: {{false, true}, {true, false}}
      *
      * // Set all elements to true via the flat view
      * boolean[][] arr2 = {{false, false}, {false, false}};
-     * Arrays.mutateFlattened(arr2, t -> java.util.Arrays.fill(t, true));  // arr2 is now: {{true, true}, {true, true}}
+     * Arrays.mutateAsFlatArray(arr2, t -> java.util.Arrays.fill(t, true));  // arr2 is now: {{true, true}, {true, true}}
      *
      * // Null array is a no-op; action must not be null
-     * Arrays.mutateFlattened((boolean[][]) null, t -> {});  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((boolean[][]) null, t -> {});  // no-op (input unchanged)
      *
      * // Null action throws IllegalArgumentException
-     * Arrays.mutateFlattened(new boolean[][]{{true}}, null);  // throws IllegalArgumentException
+     * Arrays.mutateAsFlatArray(new boolean[][]{{true}}, null);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -3145,10 +3145,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(boolean[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlatArray(boolean[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(boolean[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -3181,18 +3181,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Flip all elements while preserving the 3D structure
      * boolean[][][] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}};
-     * Arrays.mutateFlattened(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; });
+     * Arrays.mutateAsFlatArray(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; });
      * // cube is now: {{{true, false}, {false, true}}, {{false, true}, {true, false}}}
      *
      * // Set all elements to false via the flat view
      * boolean[][][] cube2 = {{{true, true}}, {{true}}};
-     * Arrays.mutateFlattened(cube2, t -> java.util.Arrays.fill(t, false));  // cube2 is now: {{{false, false}}, {{false}}}
+     * Arrays.mutateAsFlatArray(cube2, t -> java.util.Arrays.fill(t, false));  // cube2 is now: {{{false, false}}, {{false}}}
      *
      * // Null array is a no-op; action must not be null
-     * Arrays.mutateFlattened((boolean[][][]) null, t -> {});  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((boolean[][][]) null, t -> {});  // no-op (input unchanged)
      *
      * // Null action throws IllegalArgumentException
-     * Arrays.mutateFlattened(new boolean[][][]{{{true}}}, null);  // throws IllegalArgumentException
+     * Arrays.mutateAsFlatArray(new boolean[][][]{{{true}}}, null);  // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -3201,10 +3201,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(boolean[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlatArray(boolean[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(boolean[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -4051,28 +4051,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Typical case: 2 + 1 + 3 = 6 elements
      * boolean[][] arr = {{true, false}, {true}, {false, true, false}};
-     * long count = Arrays.elementCount(arr);
+     * long count = Arrays.totalElementCount(arr);
      * // count: 6
      *
      * // Null sub-arrays contribute 0
      * boolean[][] sparse = {{true, false}, null, {true}};
-     * long count2 = Arrays.elementCount(sparse);
+     * long count2 = Arrays.totalElementCount(sparse);
      * // count2: 3
      *
      * // Null input returns 0
-     * long fromNull = Arrays.elementCount((boolean[][]) null);
+     * long fromNull = Arrays.totalElementCount((boolean[][]) null);
      * // fromNull: 0
      *
      * // Empty outer array returns 0
-     * long fromEmpty = Arrays.elementCount(new boolean[0][]);
+     * long fromEmpty = Arrays.totalElementCount(new boolean[0][]);
      * // fromEmpty: 0
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
-     * @see #elementCount(boolean[][][]) for three-dimensional arrays
+     * @see #totalElementCount(boolean[][][]) for three-dimensional arrays
      */
-    public static long elementCount(final boolean[][] a) {
+    public static long totalElementCount(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -4094,29 +4094,29 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Typical case: (2+1) + (1+2) = 6 elements
      * boolean[][][] arr = {{{true, false}, {true}}, {{false}, {true, false}}};
-     * long count = Arrays.elementCount(arr);
+     * long count = Arrays.totalElementCount(arr);
      * // count: 6
      *
      * // Null and empty sub-arrays at any level contribute 0
      * boolean[][][] sparse = {{{true, false}, null}, null};
-     * long count2 = Arrays.elementCount(sparse);
+     * long count2 = Arrays.totalElementCount(sparse);
      * // count2: 2
      *
      * // Null input returns 0
-     * long fromNull = Arrays.elementCount((boolean[][][]) null);
+     * long fromNull = Arrays.totalElementCount((boolean[][][]) null);
      * // fromNull: 0
      *
      * // Empty outer array returns 0
-     * long fromEmpty = Arrays.elementCount(new boolean[0][][]);
+     * long fromEmpty = Arrays.totalElementCount(new boolean[0][][]);
      * // fromEmpty: 0
      * }</pre>
      *
      * @param a the three-dimensional boolean array (can be {@code null}).
      * @return the total number of elements across all sub-arrays.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}.
-     * @see #elementCount(boolean[][]) for two-dimensional arrays
+     * @see #totalElementCount(boolean[][]) for two-dimensional arrays
      */
-    public static long elementCount(final boolean[][][] a) {
+    public static long totalElementCount(final boolean[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -4148,28 +4148,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Shortest row has length 1
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
-     * int minLen = Arrays.minImmediateSubArrayLength(arr);
+     * int minLen = Arrays.minRowLength(arr);
      * // minLen: 1
      *
      * // Null sub-array is treated as length 0
      * boolean[][] sparse = {{true, false}, null, {true}};
-     * int minLen2 = Arrays.minImmediateSubArrayLength(sparse);
+     * int minLen2 = Arrays.minRowLength(sparse);
      * // minLen2: 0
      *
      * // Null input returns 0
-     * int fromNull = Arrays.minImmediateSubArrayLength((boolean[][]) null);
+     * int fromNull = Arrays.minRowLength((boolean[][]) null);
      * // fromNull: 0
      *
      * // Empty outer array returns 0
-     * int fromEmpty = Arrays.minImmediateSubArrayLength(new boolean[0][]);
+     * int fromEmpty = Arrays.minRowLength(new boolean[0][]);
      * // fromEmpty: 0
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the minimum length of sub-arrays, or 0 if array is {@code null} or empty.
-     * @see #maxImmediateSubArrayLength(boolean[][])
+     * @see #maxRowLength(boolean[][])
      */
-    public static int minImmediateSubArrayLength(final boolean[][] a) {
+    public static int minRowLength(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -4191,28 +4191,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Longest row has length 3
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
-     * int maxLen = Arrays.maxImmediateSubArrayLength(arr);
+     * int maxLen = Arrays.maxRowLength(arr);
      * // maxLen: 3
      *
      * // Null sub-array is treated as length 0; does not affect max if other rows are longer
      * boolean[][] sparse = {{true, false}, null, {true, false, true}};
-     * int maxLen2 = Arrays.maxImmediateSubArrayLength(sparse);
+     * int maxLen2 = Arrays.maxRowLength(sparse);
      * // maxLen2: 3
      *
      * // Null input returns 0
-     * int fromNull = Arrays.maxImmediateSubArrayLength((boolean[][]) null);
+     * int fromNull = Arrays.maxRowLength((boolean[][]) null);
      * // fromNull: 0
      *
      * // Empty outer array returns 0
-     * int fromEmpty = Arrays.maxImmediateSubArrayLength(new boolean[0][]);
+     * int fromEmpty = Arrays.maxRowLength(new boolean[0][]);
      * // fromEmpty: 0
      * }</pre>
      *
      * @param a the two-dimensional boolean array (can be {@code null}).
      * @return the maximum length of sub-arrays, or 0 if array is {@code null} or empty.
-     * @see #minImmediateSubArrayLength(boolean[][])
+     * @see #minRowLength(boolean[][])
      */
-    public static int maxImmediateSubArrayLength(final boolean[][] a) {
+    public static int maxRowLength(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -4900,14 +4900,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(char[][][]) for three-dimensional arrays
-     * @see #mutateFlattened(char[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(char[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static char[] flatten(final char[][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_CHAR_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final char[] result = new char[count];
         int from = 0;
@@ -4958,14 +4958,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(char[][]) for two-dimensional arrays
-     * @see #mutateFlattened(char[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(char[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static char[] flatten(final char[][][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_CHAR_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final char[] result = new char[count];
         int from = 0;
@@ -5001,11 +5001,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across rows, then copy back in row order
      * char[][] array = {{'c', 'a'}, {'b'}};
-     * Arrays.mutateFlattened(array, t -> java.util.Arrays.sort(t));  // array is now {{'a', 'b'}, {'c'}}
+     * Arrays.mutateAsFlatArray(array, t -> java.util.Arrays.sort(t));  // array is now {{'a', 'b'}, {'c'}}
      *
      * // Basic: reverse elements globally, preserving row lengths
      * char[][] grid = {{'d', 'c'}, {'b', 'a'}};
-     * Arrays.mutateFlattened(grid, t -> {
+     * Arrays.mutateAsFlatArray(grid, t -> {
      *     for (int i = 0, j = t.length - 1; i < j; i++, j--) {
      *         char tmp = t[i]; t[i] = t[j]; t[j] = tmp;
      *     }
@@ -5013,12 +5013,12 @@ public sealed class Arrays permits Arrays.f {
      * // grid is now {{'a', 'b'}, {'c', 'd'}}
      *
      * // Edge: null array - no-op, no exception thrown
-     * Arrays.mutateFlattened((char[][]) null, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlatArray((char[][]) null, t -> java.util.Arrays.sort(t));
      * // no-op
      *
      * // Edge: single-element array - action applied to a one-element flat array
      * char[][] single = {{'z'}};
-     * Arrays.mutateFlattened(single, t -> java.util.Arrays.sort(t));  // single is still {{'z'}}
+     * Arrays.mutateAsFlatArray(single, t -> java.util.Arrays.sort(t));  // single is still {{'z'}}
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -5027,10 +5027,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(char[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlatArray(char[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(char[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -5063,19 +5063,19 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across all levels, then copy back preserving structure
      * char[][][] array = {{{'d', 'a'}}, {{'c'}, {'b'}}};
-     * Arrays.mutateFlattened(array, t -> java.util.Arrays.sort(t));  // array is now {{{'a', 'b'}}, {{'c'}, {'d'}}}
+     * Arrays.mutateAsFlatArray(array, t -> java.util.Arrays.sort(t));  // array is now {{{'a', 'b'}}, {{'c'}, {'d'}}}
      *
      * // Basic: fill all positions with 'z' using the flattened view
      * char[][][] cube = {{{'a', 'b'}}, {{'c'}}};
-     * Arrays.mutateFlattened(cube, t -> java.util.Arrays.fill(t, 'z'));  // cube is now {{{'z', 'z'}}, {{'z'}}}
+     * Arrays.mutateAsFlatArray(cube, t -> java.util.Arrays.fill(t, 'z'));  // cube is now {{{'z', 'z'}}, {{'z'}}}
      *
      * // Edge: null array - no-op, no exception thrown
-     * Arrays.mutateFlattened((char[][][]) null, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlatArray((char[][][]) null, t -> java.util.Arrays.sort(t));
      * // no-op
      *
      * // Edge: empty outer array - no-op
      * char[][][] empty = new char[0][][];
-     * Arrays.mutateFlattened(empty, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));
      * // empty remains length 0
      * }</pre>
      *
@@ -5085,10 +5085,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(char[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlatArray(char[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(char[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -5912,34 +5912,34 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: counts elements across sub-arrays, skipping null sub-array
      * char[][] array = {{'a', 'b'}, {'c'}, null};
-     * long count = Arrays.elementCount(array);
+     * long count = Arrays.totalElementCount(array);
      * // count is 3
      *
      * // Basic: all sub-arrays non-null
      * char[][] full = {{'x', 'y', 'z'}, {'w'}};
-     * long count2 = Arrays.elementCount(full);
+     * long count2 = Arrays.totalElementCount(full);
      * // count2 is 4
      *
      * // Edge: null array - returns 0
-     * long nullCount = Arrays.elementCount((char[][]) null);
+     * long nullCount = Arrays.totalElementCount((char[][]) null);
      * // nullCount is 0
      *
      * // Edge: all sub-arrays are null - returns 0
      * char[][] allNull = {null, null};
-     * long allNullCount = Arrays.elementCount(allNull);
+     * long allNullCount = Arrays.totalElementCount(allNull);
      * // allNullCount is 0
      *
      * // Edge: single element in one sub-array
      * char[][] single = {{'z'}};
-     * long singleCount = Arrays.elementCount(single);
+     * long singleCount = Arrays.totalElementCount(single);
      * // singleCount is 1
      * }</pre>
      *
      * @param a the two-dimensional character array to count (can be {@code null} or empty).
      * @return the total number of character elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
-     * @see #elementCount(char[][][]) for three-dimensional arrays
+     * @see #totalElementCount(char[][][]) for three-dimensional arrays
      */
-    public static long elementCount(final char[][] a) {
+    public static long totalElementCount(final char[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -5961,30 +5961,30 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: skips the null outer sub-array; counts 1+2+1=4 elements
      * char[][][] array = {{{'a'}, {'b', 'c'}}, null, {{'d'}}};
-     * long count = Arrays.elementCount(array);
+     * long count = Arrays.totalElementCount(array);
      * // count is 4
      *
      * // Basic: all sub-arrays present and non-empty
      * char[][][] cube = {{{'x', 'y'}}, {{'z'}}};
-     * long count2 = Arrays.elementCount(cube);
+     * long count2 = Arrays.totalElementCount(cube);
      * // count2 is 3
      *
      * // Edge: null array - returns 0
-     * long nullCount = Arrays.elementCount((char[][][]) null);
+     * long nullCount = Arrays.totalElementCount((char[][][]) null);
      * // nullCount is 0
      *
      * // Edge: all outer sub-arrays are null - returns 0
      * char[][][] allNull = {null, null};
-     * long allNullCount = Arrays.elementCount(allNull);
+     * long allNullCount = Arrays.totalElementCount(allNull);
      * // allNullCount is 0
      * }</pre>
      *
      * @param a the three-dimensional character array to count (can be {@code null} or empty).
      * @return the total number of character elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}.
-     * @see #elementCount(char[][]) for two-dimensional arrays
+     * @see #totalElementCount(char[][]) for two-dimensional arrays
      */
-    public static long elementCount(final char[][][] a) {
+    public static long totalElementCount(final char[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -6016,33 +6016,33 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counts as length 0, which is the minimum
      * char[][] array = {{'a', 'b'}, {'c'}, null};
-     * int minLen = Arrays.minImmediateSubArrayLength(array);
+     * int minLen = Arrays.minRowLength(array);
      * // minLen is 0
      *
      * // Basic: no null sub-arrays - returns the shortest non-null length
      * char[][] noNull = {{'a', 'b', 'c'}, {'d', 'e'}};
-     * int minLen2 = Arrays.minImmediateSubArrayLength(noNull);
+     * int minLen2 = Arrays.minRowLength(noNull);
      * // minLen2 is 2
      *
      * // Edge: null outer array - returns 0
-     * int nullResult = Arrays.minImmediateSubArrayLength((char[][]) null);
+     * int nullResult = Arrays.minRowLength((char[][]) null);
      * // nullResult is 0
      *
      * // Edge: empty outer array - returns 0
-     * int emptyResult = Arrays.minImmediateSubArrayLength(new char[0][]);
+     * int emptyResult = Arrays.minRowLength(new char[0][]);
      * // emptyResult is 0
      *
      * // Edge: all single-element sub-arrays
      * char[][] singles = {{'a'}, {'b'}};
-     * int singleMin = Arrays.minImmediateSubArrayLength(singles);
+     * int singleMin = Arrays.minRowLength(singles);
      * // singleMin is 1
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null} or empty).
      * @return the minimum length of any sub-array, or 0 if the input array is empty or {@code null}.
-     * @see #maxImmediateSubArrayLength(char[][])
+     * @see #maxRowLength(char[][])
      */
-    public static int minImmediateSubArrayLength(final char[][] a) {
+    public static int minRowLength(final char[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -6064,33 +6064,33 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array treated as length 0; max is 3
      * char[][] array = {{'a'}, {'b', 'c', 'd'}, null};
-     * int maxLen = Arrays.maxImmediateSubArrayLength(array);
+     * int maxLen = Arrays.maxRowLength(array);
      * // maxLen is 3
      *
      * // Basic: all sub-arrays same length
      * char[][] uniform = {{'a', 'b'}, {'c', 'd'}};
-     * int maxLen2 = Arrays.maxImmediateSubArrayLength(uniform);
+     * int maxLen2 = Arrays.maxRowLength(uniform);
      * // maxLen2 is 2
      *
      * // Edge: null outer array - returns 0
-     * int nullResult = Arrays.maxImmediateSubArrayLength((char[][]) null);
+     * int nullResult = Arrays.maxRowLength((char[][]) null);
      * // nullResult is 0
      *
      * // Edge: empty outer array - returns 0
-     * int emptyResult = Arrays.maxImmediateSubArrayLength(new char[0][]);
+     * int emptyResult = Arrays.maxRowLength(new char[0][]);
      * // emptyResult is 0
      *
      * // Edge: only null sub-arrays - max is 0
      * char[][] allNull = {null, null};
-     * int allNullMax = Arrays.maxImmediateSubArrayLength(allNull);
+     * int allNullMax = Arrays.maxRowLength(allNull);
      * // allNullMax is 0
      * }</pre>
      *
      * @param a the two-dimensional character array to inspect (can be {@code null} or empty).
      * @return the maximum length of any sub-array, or 0 if the input array is empty or {@code null}.
-     * @see #minImmediateSubArrayLength(char[][])
+     * @see #minRowLength(char[][])
      */
-    public static int maxImmediateSubArrayLength(final char[][] a) {
+    public static int maxRowLength(final char[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -6793,14 +6793,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(byte[][][]) for three-dimensional arrays
-     * @see #mutateFlattened(byte[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(byte[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static byte[] flatten(final byte[][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_BYTE_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final byte[] result = new byte[count];
         int from = 0;
@@ -6854,14 +6854,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(byte[][]) for two-dimensional arrays
-     * @see #mutateFlattened(byte[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(byte[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static byte[] flatten(final byte[][][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_BYTE_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final byte[] result = new byte[count];
         int from = 0;
@@ -6896,21 +6896,21 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally, preserve 2D structure
      * byte[][] arr = {{3, 1}, {4, 2}};
-     * Arrays.mutateFlattened(arr, t -> java.util.Arrays.sort(t));  // arr is now {{1, 2}, {3, 4}}
+     * Arrays.mutateAsFlatArray(arr, t -> java.util.Arrays.sort(t));  // arr is now {{1, 2}, {3, 4}}
      *
      * // Replace all elements with 0 in-place
      * byte[][] arr2 = {{5, 3}, {8, 1}};
-     * Arrays.mutateFlattened(arr2, t -> java.util.Arrays.fill(t, (byte) 0));  // arr2 is now {{0, 0}, {0, 0}}
+     * Arrays.mutateAsFlatArray(arr2, t -> java.util.Arrays.fill(t, (byte) 0));  // arr2 is now {{0, 0}, {0, 0}}
      *
      * // Null array: no-op, no exception thrown
-     * Arrays.mutateFlattened((byte[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((byte[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Empty array: no-op
      * byte[][] empty = {};
-     * Arrays.mutateFlattened(empty, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Null action: throws IllegalArgumentException
-     * Arrays.mutateFlattened(new byte[][]{{1, 2}}, null);   // throws IllegalArgumentException
+     * Arrays.mutateAsFlatArray(new byte[][]{{1, 2}}, null);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -6919,10 +6919,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(byte[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlatArray(byte[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(byte[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -6955,21 +6955,21 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally, preserve 3D structure
      * byte[][][] cube = {{{3, 1}, {4, 2}}, {{6, 5}, {8, 7}}};
-     * Arrays.mutateFlattened(cube, arr -> java.util.Arrays.sort(arr));  // cube is now {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+     * Arrays.mutateAsFlatArray(cube, arr -> java.util.Arrays.sort(arr));  // cube is now {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
      *
      * // Zero-out all elements in-place
      * byte[][][] cube2 = {{{5, 3}}, {{8, 1}}};
-     * Arrays.mutateFlattened(cube2, arr -> java.util.Arrays.fill(arr, (byte) 0));  // cube2 is now {{{0, 0}}, {{0, 0}}}
+     * Arrays.mutateAsFlatArray(cube2, arr -> java.util.Arrays.fill(arr, (byte) 0));  // cube2 is now {{{0, 0}}, {{0, 0}}}
      *
      * // Null array: no-op, no exception thrown
-     * Arrays.mutateFlattened((byte[][][]) null, arr -> java.util.Arrays.sort(arr));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((byte[][][]) null, arr -> java.util.Arrays.sort(arr));  // no-op (input unchanged)
      *
      * // Empty array: no-op
      * byte[][][] empty = {};
-     * Arrays.mutateFlattened(empty, arr -> java.util.Arrays.sort(arr));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray(empty, arr -> java.util.Arrays.sort(arr));  // no-op (input unchanged)
      *
      * // Null action: throws IllegalArgumentException
-     * Arrays.mutateFlattened(new byte[][][]{{{1}}}, null);   // throws IllegalArgumentException
+     * Arrays.mutateAsFlatArray(new byte[][][]{{{1}}}, null);   // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -6978,10 +6978,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(byte[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlatArray(byte[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(byte[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -7743,27 +7743,27 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-arrays count as 0
      * byte[][] array = {{1, 2, 3}, null, {4, 5}};
-     * long count = Arrays.elementCount(array);   // returns 5
+     * long count = Arrays.totalElementCount(array);   // returns 5
      *
      * // All elements in each row
      * byte[][] grid = {{1, 2}, {3, 4}, {5, 6}};
-     * long count2 = Arrays.elementCount(grid);   // returns 6
+     * long count2 = Arrays.totalElementCount(grid);   // returns 6
      *
      * // Null array: returns 0
-     * long count3 = Arrays.elementCount((byte[][]) null);   // returns 0
+     * long count3 = Arrays.totalElementCount((byte[][]) null);   // returns 0
      *
      * // Empty array: returns 0
-     * long count4 = Arrays.elementCount(new byte[0][]);   // returns 0
+     * long count4 = Arrays.totalElementCount(new byte[0][]);   // returns 0
      *
      * // All null sub-arrays: returns 0
-     * long count5 = Arrays.elementCount(new byte[][]{null, null});   // returns 0
+     * long count5 = Arrays.totalElementCount(new byte[][]{null, null});   // returns 0
      * }</pre>
      *
      * @param a the two-dimensional byte array (can be {@code null} or empty).
      * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
-     * @see #elementCount(byte[][][]) for three-dimensional arrays
+     * @see #totalElementCount(byte[][][]) for three-dimensional arrays
      */
-    public static long elementCount(final byte[][] a) {
+    public static long totalElementCount(final byte[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -7785,25 +7785,25 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: all sub-arrays present and non-empty
      * byte[][][] array = {{{1, 2}, {3}}, {{4, 5, 6}}};
-     * long count = Arrays.elementCount(array);   // returns 6
+     * long count = Arrays.totalElementCount(array);   // returns 6
      *
      * // With null 2D sub-array
      * byte[][][] array2 = {null, {{1, 2}}};
-     * long count2 = Arrays.elementCount(array2);   // returns 2
+     * long count2 = Arrays.totalElementCount(array2);   // returns 2
      *
      * // Null array: returns 0
-     * long count3 = Arrays.elementCount((byte[][][]) null);   // returns 0
+     * long count3 = Arrays.totalElementCount((byte[][][]) null);   // returns 0
      *
      * // Empty array: returns 0
-     * long count4 = Arrays.elementCount(new byte[0][][]);   // returns 0
+     * long count4 = Arrays.totalElementCount(new byte[0][][]);   // returns 0
      * }</pre>
      *
      * @param a the three-dimensional byte array (can be {@code null} or empty).
      * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}.
-     * @see #elementCount(byte[][]) for two-dimensional arrays
+     * @see #totalElementCount(byte[][]) for two-dimensional arrays
      */
-    public static long elementCount(final byte[][][] a) {
+    public static long totalElementCount(final byte[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -7835,28 +7835,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: shortest sub-array has 2 elements
      * byte[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen = Arrays.minImmediateSubArrayLength(array);   // returns 2
+     * int minLen = Arrays.minRowLength(array);   // returns 2
      *
      * // Single sub-array
      * byte[][] single = {{1, 2, 3}};
-     * int minLen2 = Arrays.minImmediateSubArrayLength(single);   // returns 3
+     * int minLen2 = Arrays.minRowLength(single);   // returns 3
      *
      * // Null sub-array is treated as length 0
      * byte[][] withNull = {{1, 2, 3}, null, {4, 5}};
-     * int minLen3 = Arrays.minImmediateSubArrayLength(withNull);   // returns 0
+     * int minLen3 = Arrays.minRowLength(withNull);   // returns 0
      *
      * // Null array: returns 0
-     * int minLen4 = Arrays.minImmediateSubArrayLength((byte[][]) null);   // returns 0
+     * int minLen4 = Arrays.minRowLength((byte[][]) null);   // returns 0
      *
      * // Empty array: returns 0
-     * int minLen5 = Arrays.minImmediateSubArrayLength(new byte[0][]);   // returns 0
+     * int minLen5 = Arrays.minRowLength(new byte[0][]);   // returns 0
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null} or empty).
      * @return the minimum sub-array length, or 0 if the array is {@code null} or empty.
-     * @see #maxImmediateSubArrayLength(byte[][])
+     * @see #maxRowLength(byte[][])
      */
-    public static int minImmediateSubArrayLength(final byte[][] a) {
+    public static int minRowLength(final byte[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -7878,28 +7878,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array is treated as length 0; longest has 4 elements
      * byte[][] array = {{1, 2}, null, {3, 4, 5, 6}};
-     * int maxLen = Arrays.maxImmediateSubArrayLength(array);   // returns 4
+     * int maxLen = Arrays.maxRowLength(array);   // returns 4
      *
      * // Single sub-array
      * byte[][] single = {{1, 2, 3}};
-     * int maxLen2 = Arrays.maxImmediateSubArrayLength(single);   // returns 3
+     * int maxLen2 = Arrays.maxRowLength(single);   // returns 3
      *
      * // All null sub-arrays: returns 0
      * byte[][] allNull = {null, null};
-     * int maxLen3 = Arrays.maxImmediateSubArrayLength(allNull);   // returns 0
+     * int maxLen3 = Arrays.maxRowLength(allNull);   // returns 0
      *
      * // Null array: returns 0
-     * int maxLen4 = Arrays.maxImmediateSubArrayLength((byte[][]) null);   // returns 0
+     * int maxLen4 = Arrays.maxRowLength((byte[][]) null);   // returns 0
      *
      * // Empty array: returns 0
-     * int maxLen5 = Arrays.maxImmediateSubArrayLength(new byte[0][]);   // returns 0
+     * int maxLen5 = Arrays.maxRowLength(new byte[0][]);   // returns 0
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze (can be {@code null} or empty).
      * @return the maximum sub-array length, or 0 if the array is {@code null} or empty.
-     * @see #minImmediateSubArrayLength(byte[][])
+     * @see #minRowLength(byte[][])
      */
-    public static int maxImmediateSubArrayLength(final byte[][] a) {
+    public static int maxRowLength(final byte[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -8584,14 +8584,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(short[][][]) for three-dimensional arrays
-     * @see #mutateFlattened(short[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(short[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static short[] flatten(final short[][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_SHORT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final short[] result = new short[count];
         int from = 0;
@@ -8642,14 +8642,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(short[][]) for two-dimensional arrays
-     * @see #mutateFlattened(short[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(short[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static short[] flatten(final short[][][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_SHORT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final short[] result = new short[count];
         int from = 0;
@@ -8684,18 +8684,18 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across the 2D array
      * short[][] array = {{3, 1}, {4, 2}};
-     * Arrays.mutateFlattened(array, t -> java.util.Arrays.sort(t));  // array is now {{1, 2}, {3, 4}}
+     * Arrays.mutateAsFlatArray(array, t -> java.util.Arrays.sort(t));  // array is now {{1, 2}, {3, 4}}
      *
      * // Basic: null sub-arrays are skipped; only non-null rows participate and are updated
      * short[][] withNull = {null, {3, 1}};
-     * Arrays.mutateFlattened(withNull, t -> java.util.Arrays.sort(t));  // withNull[0] is still null; withNull[1] is now {1, 3}
+     * Arrays.mutateAsFlatArray(withNull, t -> java.util.Arrays.sort(t));  // withNull[0] is still null; withNull[1] is now {1, 3}
      *
      * // Edge: null outer array - no-op
-     * Arrays.mutateFlattened((short[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((short[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: empty outer array - no-op
      * short[][] empty = {};
-     * Arrays.mutateFlattened(empty, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));
      * // empty remains {}
      * }</pre>
      *
@@ -8705,10 +8705,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(short[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlatArray(short[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(short[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -8739,19 +8739,19 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across the 3D array
      * short[][][] array = {{{5, 2}}, {{3, 1}}};
-     * Arrays.mutateFlattened(array, t -> java.util.Arrays.sort(t));  // array is now {{{1, 2}}, {{3, 5}}}
+     * Arrays.mutateAsFlatArray(array, t -> java.util.Arrays.sort(t));  // array is now {{{1, 2}}, {{3, 5}}}
      *
      * // Basic: null sub-arrays at any level are skipped; non-null rows are updated in place
      * short[][][] withNull = {null, {{4, 2}, null}, {{1}}};
-     * Arrays.mutateFlattened(withNull, t -> java.util.Arrays.sort(t));  // elements 4, 2, 1 sorted to 1, 2, 4
+     * Arrays.mutateAsFlatArray(withNull, t -> java.util.Arrays.sort(t));  // elements 4, 2, 1 sorted to 1, 2, 4
      * // withNull[0] is still null; withNull[1][0] is {1, 2}; withNull[2][0] is {4}
      *
      * // Edge: null outer array - no-op
-     * Arrays.mutateFlattened((short[][][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((short[][][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: empty outer array - no-op
      * short[][][] empty = {};
-     * Arrays.mutateFlattened(empty, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));
      * // empty remains {}
      * }</pre>
      *
@@ -8761,10 +8761,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(short[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlatArray(short[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(short[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -9545,28 +9545,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-arrays count as 0
      * short[][] array = {{1, 2, 3}, {4, 5}, null, {6, 7, 8, 9}};
-     * long count = Arrays.elementCount(array);
+     * long count = Arrays.totalElementCount(array);
      * // count == 9  (3 + 2 + 0 + 4)
      *
      * // Basic: uniform rows
      * short[][] uniform = {{1, 2}, {3, 4}, {5, 6}};
-     * long count2 = Arrays.elementCount(uniform);
+     * long count2 = Arrays.totalElementCount(uniform);
      * // count2 == 6
      *
      * // Edge: null array - returns 0
-     * long fromNull = Arrays.elementCount((short[][]) null);
+     * long fromNull = Arrays.totalElementCount((short[][]) null);
      * // fromNull == 0
      *
      * // Edge: all-null sub-arrays - returns 0
-     * long allNull = Arrays.elementCount(new short[][]{null, null});
+     * long allNull = Arrays.totalElementCount(new short[][]{null, null});
      * // allNull == 0
      * }</pre>
      *
      * @param a the two-dimensional array to count elements in (can be {@code null} or empty).
      * @return the total number of elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
-     * @see #elementCount(short[][][]) for three-dimensional arrays
+     * @see #totalElementCount(short[][][]) for three-dimensional arrays
      */
-    public static long elementCount(final short[][] a) {
+    public static long totalElementCount(final short[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -9588,29 +9588,29 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-arrays at any level are counted as 0
      * short[][][] cube = {{{1, 2}, {3, 4, 5}}, null, {{6, 7}}};
-     * long count = Arrays.elementCount(cube);
+     * long count = Arrays.totalElementCount(cube);
      * // count == 7  (2+3 from first slice, 0 for null slice, 2 from third slice)
      *
      * // Basic: only null and empty sub-arrays in inner level
      * short[][][] mixed = {null, {{1, 2}, null, {}}, {{3}}};
-     * long count2 = Arrays.elementCount(mixed);
+     * long count2 = Arrays.totalElementCount(mixed);
      * // count2 == 3  (0 for null slice, 2+0+0=2 for second slice, 1 for third)
      *
      * // Edge: null array - returns 0
-     * long fromNull = Arrays.elementCount((short[][][]) null);
+     * long fromNull = Arrays.totalElementCount((short[][][]) null);
      * // fromNull == 0
      *
      * // Edge: all nulls at all levels - returns 0
-     * long allNull = Arrays.elementCount(new short[][][]{null, {null, null}});
+     * long allNull = Arrays.totalElementCount(new short[][][]{null, {null, null}});
      * // allNull == 0
      * }</pre>
      *
      * @param a the three-dimensional array to count elements in (can be {@code null} or empty).
      * @return the total number of elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}.
-     * @see #elementCount(short[][]) for two-dimensional arrays
+     * @see #totalElementCount(short[][]) for two-dimensional arrays
      */
-    public static long elementCount(final short[][][] a) {
+    public static long totalElementCount(final short[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -9642,28 +9642,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: shortest sub-array has 2 elements
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen = Arrays.minImmediateSubArrayLength(array);
+     * int minLen = Arrays.minRowLength(array);
      * // minLen == 2
      *
      * // Basic: null sub-array is treated as length 0 - result is 0
      * short[][] withNull = {{1, 2}, null, {3}};
-     * int minWithNull = Arrays.minImmediateSubArrayLength(withNull);
+     * int minWithNull = Arrays.minRowLength(withNull);
      * // minWithNull == 0
      *
      * // Edge: null array - returns 0
-     * int fromNull = Arrays.minImmediateSubArrayLength((short[][]) null);
+     * int fromNull = Arrays.minRowLength((short[][]) null);
      * // fromNull == 0
      *
      * // Edge: empty outer array - returns 0
-     * int fromEmpty = Arrays.minImmediateSubArrayLength(new short[0][]);
+     * int fromEmpty = Arrays.minRowLength(new short[0][]);
      * // fromEmpty == 0
      * }</pre>
      *
      * @param a the two-dimensional short array (can be {@code null} or empty).
      * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #maxImmediateSubArrayLength(short[][])
+     * @see #maxRowLength(short[][])
      */
-    public static int minImmediateSubArrayLength(final short[][] a) {
+    public static int minRowLength(final short[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -9685,28 +9685,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: longest sub-array has 4 elements
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int maxLen = Arrays.maxImmediateSubArrayLength(array);
+     * int maxLen = Arrays.maxRowLength(array);
      * // maxLen == 4
      *
      * // Basic: null sub-array is treated as length 0 - does not affect max if other rows exist
      * short[][] withNull = {{1, 2}, null};
-     * int maxWithNull = Arrays.maxImmediateSubArrayLength(withNull);
+     * int maxWithNull = Arrays.maxRowLength(withNull);
      * // maxWithNull == 2
      *
      * // Edge: null array - returns 0
-     * int fromNull = Arrays.maxImmediateSubArrayLength((short[][]) null);
+     * int fromNull = Arrays.maxRowLength((short[][]) null);
      * // fromNull == 0
      *
      * // Edge: empty outer array - returns 0
-     * int fromEmpty = Arrays.maxImmediateSubArrayLength(new short[0][]);
+     * int fromEmpty = Arrays.maxRowLength(new short[0][]);
      * // fromEmpty == 0
      * }</pre>
      *
      * @param a the two-dimensional short array (can be {@code null} or empty).
      * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #minImmediateSubArrayLength(short[][])
+     * @see #minRowLength(short[][])
      */
-    public static int maxImmediateSubArrayLength(final short[][] a) {
+    public static int maxRowLength(final short[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -10451,14 +10451,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(int[][][]) for three-dimensional arrays
-     * @see #mutateFlattened(int[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(int[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static int[] flatten(final int[][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final int[] result = new int[count];
         int from = 0;
@@ -10516,14 +10516,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(int[][]) for two-dimensional arrays
-     * @see #mutateFlattened(int[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(int[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static int[] flatten(final int[][][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final int[] result = new int[count];
         int from = 0;
@@ -10561,21 +10561,21 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements across rows, values distributed back by row length
      * int[][] arr = {{3, 1, 4}, {1, 5, 9}};
-     * Arrays.mutateFlattened(arr, t -> java.util.Arrays.sort(t));  // arr is now {{1, 1, 3}, {4, 5, 9}}
+     * Arrays.mutateAsFlatArray(arr, t -> java.util.Arrays.sort(t));  // arr is now {{1, 1, 3}, {4, 5, 9}}
      *
      * // Basic: single row
      * int[][] arr2 = {{5, 2, 8}};
-     * Arrays.mutateFlattened(arr2, t -> java.util.Arrays.sort(t));  // arr2 is now {{2, 5, 8}}
+     * Arrays.mutateAsFlatArray(arr2, t -> java.util.Arrays.sort(t));  // arr2 is now {{2, 5, 8}}
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.mutateFlattened((int[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((int[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[][] empty = new int[0][];
-     * Arrays.mutateFlattened(empty, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: null action throws IllegalArgumentException
-     * Arrays.mutateFlattened(new int[][]{{1, 2}}, null); // throws IllegalArgumentException
+     * Arrays.mutateAsFlatArray(new int[][]{{1, 2}}, null); // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -10584,10 +10584,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(int[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlatArray(int[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(int[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -10622,21 +10622,21 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally and distribute back into original 3D shape
      * int[][][] arr = {{{5, 2}}, {{8, 1}}};
-     * Arrays.mutateFlattened(arr, t -> java.util.Arrays.sort(t));  // arr is now {{{1, 2}}, {{5, 8}}}
+     * Arrays.mutateAsFlatArray(arr, t -> java.util.Arrays.sort(t));  // arr is now {{{1, 2}}, {{5, 8}}}
      *
      * // Basic: sort a ragged 3D array globally
      * int[][][] arr2 = {{{9, 3}}, {{7, 1, 5}}};
-     * Arrays.mutateFlattened(arr2, t -> java.util.Arrays.sort(t));  // arr2 is now {{{1, 3}}, {{5, 7, 9}}}
+     * Arrays.mutateAsFlatArray(arr2, t -> java.util.Arrays.sort(t));  // arr2 is now {{{1, 3}}, {{5, 7, 9}}}
      *
      * // Edge: null array - no-op, no exception
-     * Arrays.mutateFlattened((int[][][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((int[][][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: empty array - no-op
      * int[][][] empty = new int[0][][];
-     * Arrays.mutateFlattened(empty, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // Edge: null action throws IllegalArgumentException
-     * Arrays.mutateFlattened(new int[][][]{{{1, 2}}}, null); // throws IllegalArgumentException
+     * Arrays.mutateAsFlatArray(new int[][][]{{{1, 2}}}, null); // throws IllegalArgumentException
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
@@ -10645,10 +10645,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(int[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlatArray(int[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(int[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -11411,31 +11411,31 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: mixed row lengths; null and empty rows contribute 0
      * int[][] a = {{1, 2}, {3, 4, 5}, null, {}};
-     * long count = Arrays.elementCount(a);
+     * long count = Arrays.totalElementCount(a);
      * // count == 5
      *
      * // Basic: single row
-     * long count2 = Arrays.elementCount(new int[][]{{10, 20, 30}});
+     * long count2 = Arrays.totalElementCount(new int[][]{{10, 20, 30}});
      * // count2 == 3
      *
      * // Edge: null input
-     * long count3 = Arrays.elementCount((int[][]) null);
+     * long count3 = Arrays.totalElementCount((int[][]) null);
      * // count3 == 0
      *
      * // Edge: empty 2D array
-     * long count4 = Arrays.elementCount(new int[0][]);
+     * long count4 = Arrays.totalElementCount(new int[0][]);
      * // count4 == 0
      *
      * // Edge: all rows are null
-     * long count5 = Arrays.elementCount(new int[][]{ null, null });
+     * long count5 = Arrays.totalElementCount(new int[][]{ null, null });
      * // count5 == 0
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null}).
      * @return the total count of integer elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
-     * @see #elementCount(int[][][]) for three-dimensional arrays
+     * @see #totalElementCount(int[][][]) for three-dimensional arrays
      */
-    public static long elementCount(final int[][] a) {
+    public static long totalElementCount(final int[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -11457,33 +11457,33 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null 2D slice is skipped; counts 1+2+3 = 6
      * int[][][] a = {{{1}, {2, 3}}, null, {{4, 5, 6}}};
-     * long count = Arrays.elementCount(a);
+     * long count = Arrays.totalElementCount(a);
      * // count == 6
      *
      * // Basic: uniform 3D array
      * int[][][] a2 = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
-     * long count2 = Arrays.elementCount(a2);
+     * long count2 = Arrays.totalElementCount(a2);
      * // count2 == 8
      *
      * // Edge: null input
-     * long count3 = Arrays.elementCount((int[][][]) null);
+     * long count3 = Arrays.totalElementCount((int[][][]) null);
      * // count3 == 0
      *
      * // Edge: empty 3D array
-     * long count4 = Arrays.elementCount(new int[0][][]);
+     * long count4 = Arrays.totalElementCount(new int[0][][]);
      * // count4 == 0
      *
      * // Edge: all-null slices
-     * long count5 = Arrays.elementCount(new int[][][]{null, null});
+     * long count5 = Arrays.totalElementCount(new int[][][]{null, null});
      * // count5 == 0
      * }</pre>
      *
      * @param a the three-dimensional integer array (can be {@code null}).
      * @return the total count of integer elements across all sub-arrays at all depths, or 0 if the input array is {@code null} or empty.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}.
-     * @see #elementCount(int[][]) for two-dimensional arrays
+     * @see #totalElementCount(int[][]) for two-dimensional arrays
      */
-    public static long elementCount(final int[][][] a) {
+    public static long totalElementCount(final int[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -11515,32 +11515,32 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counts as length 0 - that is the minimum
      * int[][] a = {{1, 2, 3}, {4, 5}, null, {6}};
-     * int minLen = Arrays.minImmediateSubArrayLength(a);
+     * int minLen = Arrays.minRowLength(a);
      * // minLen == 0
      *
      * // Basic: no null rows - returns shortest non-null row
      * int[][] a2 = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen2 = Arrays.minImmediateSubArrayLength(a2);
+     * int minLen2 = Arrays.minRowLength(a2);
      * // minLen2 == 2
      *
      * // Edge: null input
-     * int minLen3 = Arrays.minImmediateSubArrayLength((int[][]) null);
+     * int minLen3 = Arrays.minRowLength((int[][]) null);
      * // minLen3 == 0
      *
      * // Edge: empty 2D array
-     * int minLen4 = Arrays.minImmediateSubArrayLength(new int[0][]);
+     * int minLen4 = Arrays.minRowLength(new int[0][]);
      * // minLen4 == 0
      *
      * // Edge: single row
-     * int minLen5 = Arrays.minImmediateSubArrayLength(new int[][]{{1, 2, 3}});
+     * int minLen5 = Arrays.minRowLength(new int[][]{{1, 2, 3}});
      * // minLen5 == 3
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null} or empty).
      * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #maxImmediateSubArrayLength(int[][])
+     * @see #maxRowLength(int[][])
      */
-    public static int minImmediateSubArrayLength(final int[][] a) {
+    public static int minRowLength(final int[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -11562,31 +11562,31 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array has length 0, so max is the longest non-null row
      * int[][] a = {{1}, {2, 3}, null, {4, 5, 6}};
-     * int maxLen = Arrays.maxImmediateSubArrayLength(a);
+     * int maxLen = Arrays.maxRowLength(a);
      * // maxLen == 3
      *
      * // Basic: all-null rows - max is 0
-     * int maxLen2 = Arrays.maxImmediateSubArrayLength(new int[][]{ null, null });
+     * int maxLen2 = Arrays.maxRowLength(new int[][]{ null, null });
      * // maxLen2 == 0
      *
      * // Edge: null input
-     * int maxLen3 = Arrays.maxImmediateSubArrayLength((int[][]) null);
+     * int maxLen3 = Arrays.maxRowLength((int[][]) null);
      * // maxLen3 == 0
      *
      * // Edge: empty 2D array
-     * int maxLen4 = Arrays.maxImmediateSubArrayLength(new int[0][]);
+     * int maxLen4 = Arrays.maxRowLength(new int[0][]);
      * // maxLen4 == 0
      *
      * // Edge: single row
-     * int maxLen5 = Arrays.maxImmediateSubArrayLength(new int[][]{{1, 2, 3, 4, 5}});
+     * int maxLen5 = Arrays.maxRowLength(new int[][]{{1, 2, 3, 4, 5}});
      * // maxLen5 == 5
      * }</pre>
      *
      * @param a the two-dimensional integer array (can be {@code null} or empty).
      * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #minImmediateSubArrayLength(int[][])
+     * @see #minRowLength(int[][])
      */
-    public static int maxImmediateSubArrayLength(final int[][] a) {
+    public static int maxRowLength(final int[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -12247,14 +12247,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(long[][][]) for three-dimensional arrays
-     * @see #mutateFlattened(long[][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(long[][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static long[] flatten(final long[][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final long[] result = new long[count];
         int from = 0;
@@ -12303,14 +12303,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(long[][]) for two-dimensional arrays
-     * @see #mutateFlattened(long[][][], Throwables.Consumer) for flatten-operate-copy-back
+     * @see #mutateAsFlatArray(long[][][], Throwables.Consumer) for flatten-operate-copy-back
      */
     public static long[] flatten(final long[][][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final long[] result = new long[count];
         int from = 0;
@@ -12343,19 +12343,19 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{3L, 1L}, {4L, 2L}};
-     * Arrays.mutateFlattened(a, t -> java.util.Arrays.sort(t));  // flattened [3,1,4,2] sorted to [1,2,3,4], copied back row-by-row
+     * Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));  // flattened [3,1,4,2] sorted to [1,2,3,4], copied back row-by-row
      * // a is now [[1, 2], [3, 4]]
      *
      * long[][] b = {{1L, 2L, 3L}};
-     * Arrays.mutateFlattened(b, t -> { long tmp = t[0]; t[0] = t[2]; t[2] = tmp; });
+     * Arrays.mutateAsFlatArray(b, t -> { long tmp = t[0]; t[0] = t[2]; t[2] = tmp; });
      * // b is now [[3, 2, 1]]
      *
      * // null array => no-op, no exception
-     * Arrays.mutateFlattened((long[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((long[][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // empty outer array => no-op
      * long[][] empty = new long[0][];
-     * Arrays.mutateFlattened(empty, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));
      * // empty is still []
      * }</pre>
      *
@@ -12365,10 +12365,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(long[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlatArray(long[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(long[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -12398,19 +12398,19 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] a = {{{3L}, {1L}}, {{4L, 2L}}};
-     * Arrays.mutateFlattened(a, t -> java.util.Arrays.sort(t));  // flattened [3,1,4,2] sorted to [1,2,3,4], copied back element-by-element
+     * Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));  // flattened [3,1,4,2] sorted to [1,2,3,4], copied back element-by-element
      * // a is now [[[1], [2]], [[3, 4]]]
      *
      * long[][][] b = {{{10L, 5L}}, {{8L, 3L}}};
-     * Arrays.mutateFlattened(b, t -> java.util.Arrays.sort(t));  // flattened [10,5,8,3] sorted to [3,5,8,10]
+     * Arrays.mutateAsFlatArray(b, t -> java.util.Arrays.sort(t));  // flattened [10,5,8,3] sorted to [3,5,8,10]
      * // b is now [[[3, 5]], [[8, 10]]]
      *
      * // null array => no-op, no exception
-     * Arrays.mutateFlattened((long[][][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
+     * Arrays.mutateAsFlatArray((long[][][]) null, t -> java.util.Arrays.sort(t));  // no-op (input unchanged)
      *
      * // empty outer array => no-op
      * long[][][] empty = new long[0][][];
-     * Arrays.mutateFlattened(empty, t -> java.util.Arrays.sort(t));
+     * Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));
      * // empty is still []
      * }</pre>
      *
@@ -12420,10 +12420,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(long[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlatArray(long[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(long[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -13162,27 +13162,27 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L, 2L}, {3L, 4L, 5L}, null};
-     * long r1 = Arrays.elementCount(a);
+     * long r1 = Arrays.totalElementCount(a);
      * // r1 is 5  (null sub-array treated as 0 elements)
      *
      * long[][] b = {{10L}, {20L, 30L}, {40L, 50L, 60L}};
-     * long r2 = Arrays.elementCount(b);
+     * long r2 = Arrays.totalElementCount(b);
      * // r2 is 6
      *
      * // null input => 0
-     * long r3 = Arrays.elementCount((long[][]) null);
+     * long r3 = Arrays.totalElementCount((long[][]) null);
      * // r3 is 0
      *
      * // all null sub-arrays => 0
-     * long r4 = Arrays.elementCount(new long[][]{null, null});
+     * long r4 = Arrays.totalElementCount(new long[][]{null, null});
      * // r4 is 0
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null} or empty).
      * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
-     * @see #elementCount(long[][][]) for three-dimensional arrays
+     * @see #totalElementCount(long[][][]) for three-dimensional arrays
      */
-    public static long elementCount(final long[][] a) {
+    public static long totalElementCount(final long[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -13203,28 +13203,28 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] a = {{{1L}, {2L, 3L}}, null, {{4L, 5L, 6L}}};
-     * long r1 = Arrays.elementCount(a);
+     * long r1 = Arrays.totalElementCount(a);
      * // r1 is 6  (null mid-level sub-array skipped)
      *
      * long[][][] b = {{{1L, 2L}}, {{3L, 4L}, {5L}}};
-     * long r2 = Arrays.elementCount(b);
+     * long r2 = Arrays.totalElementCount(b);
      * // r2 is 5
      *
      * // null input => 0
-     * long r3 = Arrays.elementCount((long[][][]) null);
+     * long r3 = Arrays.totalElementCount((long[][][]) null);
      * // r3 is 0
      *
      * // all null mid-level => 0
-     * long r4 = Arrays.elementCount(new long[][][]{null, null});
+     * long r4 = Arrays.totalElementCount(new long[][][]{null, null});
      * // r4 is 0
      * }</pre>
      *
      * @param a the three-dimensional long array (can be {@code null} or empty).
      * @return the total count of all elements across all sub-arrays, or 0 if the input array is {@code null} or empty.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}.
-     * @see #elementCount(long[][]) for two-dimensional arrays
+     * @see #totalElementCount(long[][]) for two-dimensional arrays
      */
-    public static long elementCount(final long[][][] a) {
+    public static long totalElementCount(final long[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -13255,27 +13255,27 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L, 2L, 3L}, {4L, 5L}, null, {6L}};
-     * int r1 = Arrays.minImmediateSubArrayLength(a);
+     * int r1 = Arrays.minRowLength(a);
      * // r1 is 0  (null sub-array treated as length 0)
      *
      * long[][] b = {{1L, 2L}, {3L, 4L, 5L}, {6L}};
-     * int r2 = Arrays.minImmediateSubArrayLength(b);
+     * int r2 = Arrays.minRowLength(b);
      * // r2 is 1
      *
      * // null input => 0
-     * int r3 = Arrays.minImmediateSubArrayLength((long[][]) null);
+     * int r3 = Arrays.minRowLength((long[][]) null);
      * // r3 is 0
      *
      * // empty input => 0
-     * int r4 = Arrays.minImmediateSubArrayLength(new long[0][]);
+     * int r4 = Arrays.minRowLength(new long[0][]);
      * // r4 is 0
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null} or empty).
      * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #maxImmediateSubArrayLength(long[][])
+     * @see #maxRowLength(long[][])
      */
-    public static int minImmediateSubArrayLength(final long[][] a) {
+    public static int minRowLength(final long[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -13296,27 +13296,27 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L}, {2L, 3L}, null, {4L, 5L, 6L}};
-     * int r1 = Arrays.maxImmediateSubArrayLength(a);
+     * int r1 = Arrays.maxRowLength(a);
      * // r1 is 3  (null sub-array treated as length 0)
      *
      * long[][] b = {{1L, 2L}, {3L, 4L, 5L}, {6L}};
-     * int r2 = Arrays.maxImmediateSubArrayLength(b);
+     * int r2 = Arrays.maxRowLength(b);
      * // r2 is 3
      *
      * // null input => 0
-     * int r3 = Arrays.maxImmediateSubArrayLength((long[][]) null);
+     * int r3 = Arrays.maxRowLength((long[][]) null);
      * // r3 is 0
      *
      * // all null sub-arrays => 0
-     * int r4 = Arrays.maxImmediateSubArrayLength(new long[][]{null, null});
+     * int r4 = Arrays.maxRowLength(new long[][]{null, null});
      * // r4 is 0
      * }</pre>
      *
      * @param a the two-dimensional long array (can be {@code null} or empty).
      * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-     * @see #minImmediateSubArrayLength(long[][])
+     * @see #minRowLength(long[][])
      */
-    public static int maxImmediateSubArrayLength(final long[][] a) {
+    public static int maxRowLength(final long[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -14008,14 +14008,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(float[][][]) for three-dimensional arrays
-     * @see #mutateFlattened(float[][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlatArray(float[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static float[] flatten(final float[][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_FLOAT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final float[] result = new float[count];
         int from = 0;
@@ -14072,14 +14072,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(float[][]) for flattening two-dimensional arrays
-     * @see #mutateFlattened(float[][][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlatArray(float[][][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static float[] flatten(final float[][][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_FLOAT_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final float[] result = new float[count];
         int from = 0;
@@ -14115,19 +14115,19 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across sub-arrays
      * float[][] grid = {{4.0f, 1.0f}, {3.0f, 2.0f}};
-     * Arrays.mutateFlattened(grid, N::sort);  // grid is now {{1.0, 2.0}, {3.0, 4.0}}
+     * Arrays.mutateAsFlatArray(grid, N::sort);  // grid is now {{1.0, 2.0}, {3.0, 4.0}}
      *
      * // Basic: negate all elements via flat view
      * float[][] g2 = {{3.0f, 1.0f}, {2.0f}};
-     * Arrays.mutateFlattened(g2, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = -arr[i]; });
+     * Arrays.mutateAsFlatArray(g2, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = -arr[i]; });
      * // g2 is now {{-3.0, -1.0}, {-2.0}}
      *
      * // Edge: null array - no-op (action is not called)
-     * Arrays.mutateFlattened((float[][]) null, N::sort);   // no exception, nothing happens
+     * Arrays.mutateAsFlatArray((float[][]) null, N::sort);   // no exception, nothing happens
      *
      * // Edge: NaN is placed last after sort (standard Java float sort behavior)
      * float[][] g3 = {{Float.NaN, 1.0f}, {3.0f, 2.0f}};
-     * Arrays.mutateFlattened(g3, arr -> java.util.Arrays.sort(arr));  // Flat sorted order: [1.0, 2.0, 3.0, NaN]; copied back: g3[0]={1.0,2.0}, g3[1]={3.0,NaN}
+     * Arrays.mutateAsFlatArray(g3, arr -> java.util.Arrays.sort(arr));  // Flat sorted order: [1.0, 2.0, 3.0, NaN]; copied back: g3[0]={1.0,2.0}, g3[1]={3.0,NaN}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -14136,10 +14136,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(float[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlatArray(float[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(float[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -14172,19 +14172,19 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: sort all elements globally across all sub-arrays
      * float[][][] cube = {{{4.0f, 1.0f}}, {{3.0f, 2.0f}}};
-     * Arrays.mutateFlattened(cube, N::sort);  // cube is now {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     * Arrays.mutateAsFlatArray(cube, N::sort);  // cube is now {{{1.0, 2.0}}, {{3.0, 4.0}}}
      *
      * // Basic: double all elements via flat view
      * float[][][] c2 = {{{5.0f, 3.0f}}, {{1.0f, 2.0f}}};
-     * Arrays.mutateFlattened(c2, arr -> { for (int i = 0; i < arr.length; i++) arr[i] *= 2; });
+     * Arrays.mutateAsFlatArray(c2, arr -> { for (int i = 0; i < arr.length; i++) arr[i] *= 2; });
      * // c2 is now {{{10.0, 6.0}}, {{2.0, 4.0}}}
      *
      * // Edge: null array - no-op (action is not called)
-     * Arrays.mutateFlattened((float[][][]) null, N::sort);   // no exception, nothing happens
+     * Arrays.mutateAsFlatArray((float[][][]) null, N::sort);   // no exception, nothing happens
      *
      * // Edge: NaN is placed last after sort (standard Java float sort behavior)
      * float[][][] c3 = {{{Float.NaN, 1.0f}}, {{3.0f, 2.0f}}};
-     * Arrays.mutateFlattened(c3, arr -> java.util.Arrays.sort(arr));  // Flat sorted order: [1.0, 2.0, 3.0, NaN]; c3[0][0]={1.0,2.0}, c3[1][0]={3.0,NaN}
+     * Arrays.mutateAsFlatArray(c3, arr -> java.util.Arrays.sort(arr));  // Flat sorted order: [1.0, 2.0, 3.0, NaN]; c3[0][0]={1.0,2.0}, c3[1][0]={3.0,NaN}
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -14193,10 +14193,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(float[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlatArray(float[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(float[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -14976,29 +14976,29 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-arrays count as 0
      * float[][] grid = {{1.0f}, {2.0f, 3.0f}, null};
-     * long count = Arrays.elementCount(grid);
+     * long count = Arrays.totalElementCount(grid);
      * // count is 3
      *
      * // Basic: all non-null sub-arrays
      * float[][] g2 = {{1.0f, 2.0f}, {3.0f, 4.0f, 5.0f}};
-     * long c2 = Arrays.elementCount(g2);
+     * long c2 = Arrays.totalElementCount(g2);
      * // c2 is 5
      *
      * // Edge: null input returns 0
-     * long c3 = Arrays.elementCount((float[][]) null);
+     * long c3 = Arrays.totalElementCount((float[][]) null);
      * // c3 is 0
      *
      * // Edge: all null sub-arrays - total is 0
      * float[][] g4 = {null, null};
-     * long c4 = Arrays.elementCount(g4);
+     * long c4 = Arrays.totalElementCount(g4);
      * // c4 is 0
      * }</pre>
      *
      * @param a the two-dimensional array to count elements in (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
-     * @see #elementCount(float[][][]) for three-dimensional arrays
+     * @see #totalElementCount(float[][][]) for three-dimensional arrays
      */
-    public static long elementCount(final float[][] a) {
+    public static long totalElementCount(final float[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -15020,30 +15020,30 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null at any level contributes 0 elements
      * float[][][] cube = {{{1.0f}}, {{2.0f, 3.0f}, null}, null};
-     * long count = Arrays.elementCount(cube);
+     * long count = Arrays.totalElementCount(cube);
      * // count is 3
      *
      * // Basic: fully populated cube
      * float[][][] c2 = {{{1.0f, 2.0f}}, {{3.0f, 4.0f, 5.0f}}};
-     * long c2count = Arrays.elementCount(c2);
+     * long c2count = Arrays.totalElementCount(c2);
      * // c2count is 5
      *
      * // Edge: null input returns 0
-     * long c3 = Arrays.elementCount((float[][][]) null);
+     * long c3 = Arrays.totalElementCount((float[][][]) null);
      * // c3 is 0
      *
      * // Edge: all-null outer and inner arrays - total is 0
      * float[][][] c4 = {null, null};
-     * long c4count = Arrays.elementCount(c4);
+     * long c4count = Arrays.totalElementCount(c4);
      * // c4count is 0
      * }</pre>
      *
      * @param a the three-dimensional array to count elements in (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}.
-     * @see #elementCount(float[][]) for two-dimensional arrays
+     * @see #totalElementCount(float[][]) for two-dimensional arrays
      */
-    public static long elementCount(final float[][][] a) {
+    public static long totalElementCount(final float[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -15075,28 +15075,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counted as length 0, so minimum is 0
      * float[][] grid = {{1.0f, 2.0f}, {3.0f}, null};
-     * int minLen = Arrays.minImmediateSubArrayLength(grid);
+     * int minLen = Arrays.minRowLength(grid);
      * // minLen is 0
      *
      * // Basic: no null sub-arrays - minimum is shortest non-null
      * float[][] g2 = {{1.0f, 2.0f}, {3.0f}};
-     * int m2 = Arrays.minImmediateSubArrayLength(g2);
+     * int m2 = Arrays.minRowLength(g2);
      * // m2 is 1
      *
      * // Edge: null input returns 0
-     * int m3 = Arrays.minImmediateSubArrayLength((float[][]) null);
+     * int m3 = Arrays.minRowLength((float[][]) null);
      * // m3 is 0
      *
      * // Edge: empty outer array returns 0
-     * int m4 = Arrays.minImmediateSubArrayLength(new float[0][]);
+     * int m4 = Arrays.minRowLength(new float[0][]);
      * // m4 is 0
      * }</pre>
      *
      * @param a the two-dimensional array to inspect (can be {@code null}).
      * @return the minimum sub-array length, or 0 if the input array is {@code null} or empty.
-     * @see #maxImmediateSubArrayLength(float[][])
+     * @see #maxRowLength(float[][])
      */
-    public static int minImmediateSubArrayLength(final float[][] a) {
+    public static int minRowLength(final float[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -15118,29 +15118,29 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counted as length 0; max is the longest non-null
      * float[][] grid = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
-     * int maxLen = Arrays.maxImmediateSubArrayLength(grid);
+     * int maxLen = Arrays.maxRowLength(grid);
      * // maxLen is 3
      *
      * // Basic: uniform-length sub-arrays
      * float[][] g2 = {{1.0f, 2.0f}, {3.0f, 4.0f}};
-     * int m2 = Arrays.maxImmediateSubArrayLength(g2);
+     * int m2 = Arrays.maxRowLength(g2);
      * // m2 is 2
      *
      * // Edge: null input returns 0
-     * int m3 = Arrays.maxImmediateSubArrayLength((float[][]) null);
+     * int m3 = Arrays.maxRowLength((float[][]) null);
      * // m3 is 0
      *
      * // Edge: all null sub-arrays - maximum is 0
      * float[][] g4 = {null, null};
-     * int m4 = Arrays.maxImmediateSubArrayLength(g4);
+     * int m4 = Arrays.maxRowLength(g4);
      * // m4 is 0
      * }</pre>
      *
      * @param a the two-dimensional array to inspect (can be {@code null}).
      * @return the maximum sub-array length, or 0 if the input array is {@code null} or empty.
-     * @see #minImmediateSubArrayLength(float[][])
+     * @see #minRowLength(float[][])
      */
-    public static int maxImmediateSubArrayLength(final float[][] a) {
+    public static int maxRowLength(final float[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -15841,14 +15841,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(double[][][]) for three-dimensional arrays
-     * @see #mutateFlattened(double[][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlatArray(double[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static double[] flatten(final double[][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final double[] result = new double[count];
         int from = 0;
@@ -15899,14 +15899,14 @@ public sealed class Arrays permits Arrays.f {
      * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(double[][]) for flattening two-dimensional arrays
-     * @see #mutateFlattened(double[][][], Throwables.Consumer) for performing operations on flattened arrays
+     * @see #mutateAsFlatArray(double[][][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static double[] flatten(final double[][][] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
         }
 
-        final int count = Numbers.toIntExact(elementCount(a));
+        final int count = Numbers.toIntExact(totalElementCount(a));
 
         final double[] result = new double[count];
         int from = 0;
@@ -15941,19 +15941,19 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: global sort across the entire 2D grid
      * double[][] grid = {{5.0, 2.0}, {8.0, 1.0}};
-     * Arrays.mutateFlattened(grid, arr -> java.util.Arrays.sort(arr));  // grid is now {{1.0, 2.0}, {5.0, 8.0}}
+     * Arrays.mutateAsFlatArray(grid, arr -> java.util.Arrays.sort(arr));  // grid is now {{1.0, 2.0}, {5.0, 8.0}}
      *
      * // Basic: sort a single-row grid via the flat view
      * double[][] grid2 = {{3.0, 1.0, 2.0}};
-     * Arrays.mutateFlattened(grid2, arr -> java.util.Arrays.sort(arr));  // grid2 is now {{1.0, 2.0, 3.0}}
+     * Arrays.mutateAsFlatArray(grid2, arr -> java.util.Arrays.sort(arr));  // grid2 is now {{1.0, 2.0, 3.0}}
      *
      * // Edge: null array is a no-op
-     * Arrays.mutateFlattened((double[][]) null, arr -> java.util.Arrays.sort(arr));
+     * Arrays.mutateAsFlatArray((double[][]) null, arr -> java.util.Arrays.sort(arr));
      * // no effect, no exception
      *
      * // Edge: empty array is a no-op
      * double[][] empty = {};
-     * Arrays.mutateFlattened(empty, arr -> java.util.Arrays.sort(arr));
+     * Arrays.mutateAsFlatArray(empty, arr -> java.util.Arrays.sort(arr));
      * // empty.length == 0, no exception
      * }</pre>
      *
@@ -15963,10 +15963,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(double[][][], Throwables.Consumer) for three-dimensional arrays
+     * @see #mutateAsFlatArray(double[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(double[][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -15998,19 +15998,19 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: global sort across the entire 3D cube
      * double[][][] cube = {{{9.0, 2.0}}, {{5.0}, {1.0}}};
-     * Arrays.mutateFlattened(cube, arr -> java.util.Arrays.sort(arr));  // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
+     * Arrays.mutateAsFlatArray(cube, arr -> java.util.Arrays.sort(arr));  // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
      *
      * // Basic: sort a single block
      * double[][][] cube2 = {{{4.0, 1.0}}};
-     * Arrays.mutateFlattened(cube2, arr -> java.util.Arrays.sort(arr));  // cube2 is now {{{1.0, 4.0}}}
+     * Arrays.mutateAsFlatArray(cube2, arr -> java.util.Arrays.sort(arr));  // cube2 is now {{{1.0, 4.0}}}
      *
      * // Edge: null array is a no-op
-     * Arrays.mutateFlattened((double[][][]) null, arr -> java.util.Arrays.sort(arr));
+     * Arrays.mutateAsFlatArray((double[][][]) null, arr -> java.util.Arrays.sort(arr));
      * // no effect, no exception
      *
      * // Edge: empty array is a no-op
      * double[][][] empty = {};
-     * Arrays.mutateFlattened(empty, arr -> java.util.Arrays.sort(arr));
+     * Arrays.mutateAsFlatArray(empty, arr -> java.util.Arrays.sort(arr));
      * // empty.length == 0, no exception
      * }</pre>
      *
@@ -16020,10 +16020,10 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
-     * @see #mutateFlattened(double[][], Throwables.Consumer) for two-dimensional arrays
+     * @see #mutateAsFlatArray(double[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(double[][][]) for flattening without copy-back
      */
-    public static <E extends Exception> void mutateFlattened(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E {
+    public static <E extends Exception> void mutateAsFlatArray(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -16779,29 +16779,29 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null and empty sub-arrays contribute 0 to the count
      * double[][] grid = {{1, 2}, {3, 4, 5}, null, {}};
-     * long count = Arrays.elementCount(grid);
+     * long count = Arrays.totalElementCount(grid);
      * // count is 5
      *
      * // Basic: uniform grid
      * double[][] grid2 = {{1.0, 2.0}, {3.0, 4.0}};
-     * long count2 = Arrays.elementCount(grid2);
+     * long count2 = Arrays.totalElementCount(grid2);
      * // count2 is 4
      *
      * // Edge: null array returns 0
-     * long zero = Arrays.elementCount((double[][]) null);
+     * long zero = Arrays.totalElementCount((double[][]) null);
      * // zero is 0
      *
      * // Edge: all-null sub-arrays return 0
      * double[][] allNull = {null, null};
-     * long zeroAllNull = Arrays.elementCount(allNull);
+     * long zeroAllNull = Arrays.totalElementCount(allNull);
      * // zeroAllNull is 0
      * }</pre>
      *
      * @param a the two-dimensional array (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
-     * @see #elementCount(double[][][]) for three-dimensional arrays
+     * @see #totalElementCount(double[][][]) for three-dimensional arrays
      */
-    public static long elementCount(final double[][] a) {
+    public static long totalElementCount(final double[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -16822,30 +16822,30 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null 2D blocks are skipped
      * double[][][] cube = {{{1}, {2, 3}}, null, {{4}}};
-     * long count = Arrays.elementCount(cube);
+     * long count = Arrays.totalElementCount(cube);
      * // count is 4
      *
      * // Basic: uniform 3D array
      * double[][][] cube2 = {{{1.0, 2.0}}, {{3.0, 4.0}}};
-     * long count2 = Arrays.elementCount(cube2);
+     * long count2 = Arrays.totalElementCount(cube2);
      * // count2 is 4
      *
      * // Edge: null array returns 0
-     * long zero = Arrays.elementCount((double[][][]) null);
+     * long zero = Arrays.totalElementCount((double[][][]) null);
      * // zero is 0
      *
      * // Edge: all-null sub-arrays return 0
      * double[][][] allNull = {null, null};
-     * long zeroAllNull = Arrays.elementCount(allNull);
+     * long zeroAllNull = Arrays.totalElementCount(allNull);
      * // zeroAllNull is 0
      * }</pre>
      *
      * @param a the three-dimensional array (can be {@code null}).
      * @return the total count of elements, or 0 if the input array is {@code null} or empty.
      * @throws ArithmeticException if the total cannot be represented as a {@code long}.
-     * @see #elementCount(double[][]) for two-dimensional arrays
+     * @see #totalElementCount(double[][]) for two-dimensional arrays
      */
-    public static long elementCount(final double[][][] a) {
+    public static long totalElementCount(final double[][][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -16877,28 +16877,28 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counts as length 0
      * double[][] grid = {{1, 2, 3}, {4, 5}, null};
-     * int minLen = Arrays.minImmediateSubArrayLength(grid);
+     * int minLen = Arrays.minRowLength(grid);
      * // minLen is 0
      *
      * // Basic: no null sub-arrays - returns the smallest non-null length
      * double[][] grid2 = {{1, 2, 3}, {4, 5}};
-     * int minLen2 = Arrays.minImmediateSubArrayLength(grid2);
+     * int minLen2 = Arrays.minRowLength(grid2);
      * // minLen2 is 2
      *
      * // Edge: null input returns 0
-     * int zero = Arrays.minImmediateSubArrayLength((double[][]) null);
+     * int zero = Arrays.minRowLength((double[][]) null);
      * // zero is 0
      *
      * // Edge: empty outer array returns 0
-     * int zeroEmpty = Arrays.minImmediateSubArrayLength(new double[0][]);
+     * int zeroEmpty = Arrays.minRowLength(new double[0][]);
      * // zeroEmpty is 0
      * }</pre>
      *
      * @param a the two-dimensional array (can be {@code null}).
      * @return the minimum sub-array length, or 0 if the input array is {@code null} or empty.
-     * @see #maxImmediateSubArrayLength(double[][])
+     * @see #maxRowLength(double[][])
      */
-    public static int minImmediateSubArrayLength(final double[][] a) {
+    public static int minRowLength(final double[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -16920,29 +16920,29 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * // Basic: null sub-array counts as length 0; max is the longest non-null row
      * double[][] grid = {{1, 2, 3}, {4, 5}, null};
-     * int maxLen = Arrays.maxImmediateSubArrayLength(grid);
+     * int maxLen = Arrays.maxRowLength(grid);
      * // maxLen is 3
      *
      * // Basic: uniform rows
      * double[][] grid2 = {{1.0, 2.0}, {3.0, 4.0}};
-     * int maxLen2 = Arrays.maxImmediateSubArrayLength(grid2);
+     * int maxLen2 = Arrays.maxRowLength(grid2);
      * // maxLen2 is 2
      *
      * // Edge: null input returns 0
-     * int zero = Arrays.maxImmediateSubArrayLength((double[][]) null);
+     * int zero = Arrays.maxRowLength((double[][]) null);
      * // zero is 0
      *
      * // Edge: all null sub-arrays return 0
      * double[][] allNull = {null, null};
-     * int zeroAllNull = Arrays.maxImmediateSubArrayLength(allNull);
+     * int zeroAllNull = Arrays.maxRowLength(allNull);
      * // zeroAllNull is 0
      * }</pre>
      *
      * @param a the two-dimensional array (can be {@code null}).
      * @return the maximum sub-array length, or 0 if the input array is {@code null} or empty.
-     * @see #minImmediateSubArrayLength(double[][])
+     * @see #minRowLength(double[][])
      */
-    public static int maxImmediateSubArrayLength(final double[][] a) {
+    public static int maxRowLength(final double[][] a) {
         if (N.isEmpty(a)) {
             return 0;
         }
@@ -21495,7 +21495,7 @@ public sealed class Arrays permits Arrays.f {
         public static <T> T[] flatten(final T[][] a) throws IllegalArgumentException {
             N.checkArgNotNull(a, "a");
 
-            final int count = Numbers.toIntExact(elementCount(a));
+            final int count = Numbers.toIntExact(totalElementCount(a));
 
             final Class<T> componentType = runtimeComponentType2D(a);
             final T[] c = N.newArray(componentType, count);
@@ -21528,11 +21528,11 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // Basic: sort all elements globally (preserving original row lengths)
          * Integer[][] array = {{3, 1, 4}, {1, 5, 9}};
-         * Arrays.ff.mutateFlattened(array, arr -> java.util.Arrays.sort(arr));  // array is now {{1, 1, 3}, {4, 5, 9}}
+         * Arrays.ff.mutateAsFlatArray(array, arr -> java.util.Arrays.sort(arr));  // array is now {{1, 1, 3}, {4, 5, 9}}
          *
          * // Typical: reverse all elements across the 2D array
          * String[][] words = {{"c", "a"}, {"b"}};
-         * Arrays.ff.mutateFlattened(words, arr -> {
+         * Arrays.ff.mutateAsFlatArray(words, arr -> {
          *     for (int i = 0, j = arr.length - 1; i < j; i++, j--) {
          *         String tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
          *     }
@@ -21540,12 +21540,12 @@ public sealed class Arrays permits Arrays.f {
          * // words is now {{"b", "a"}, {"c"}}
          *
          * // Edge: null array is a no-op (no exception thrown)
-         * Arrays.ff.mutateFlattened((Integer[][]) null, arr -> java.util.Arrays.sort(arr));
+         * Arrays.ff.mutateAsFlatArray((Integer[][]) null, arr -> java.util.Arrays.sort(arr));
          * // no exception, no effect
          *
          * // Edge: single-element array - action runs on a 1-element flat array
          * Integer[][] single = {{42}};
-         * Arrays.ff.mutateFlattened(single, arr -> {});   // no-op action
+         * Arrays.ff.mutateAsFlatArray(single, arr -> {});   // no-op action
          * // single is still {{42}}
          * }</pre>
          *
@@ -21557,7 +21557,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
          * @throws E if the operation throws an exception.
          */
-        public static <T, E extends Exception> void mutateFlattened(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E {
+        public static <T, E extends Exception> void mutateAsFlatArray(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E {
             N.checkArgNotNull(action, cs.action);
 
             if (N.isEmpty(a)) {
@@ -22777,28 +22777,28 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // Basic: jagged array including a null sub-array
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * long total = Arrays.ff.elementCount(array);
+         * long total = Arrays.ff.totalElementCount(array);
          * // total is 6  (3 + 2 + 0 + 1)
          *
          * // Typical: uniform 2x3 matrix
          * Object[][] grid = {{1, 2, 3}, {4, 5, 6}};
-         * long count = Arrays.ff.elementCount(grid);
+         * long count = Arrays.ff.totalElementCount(grid);
          * // count is 6
          *
          * // Edge: null input returns 0
-         * long r1 = Arrays.ff.elementCount(null);
+         * long r1 = Arrays.ff.totalElementCount(null);
          * // r1 is 0
          *
          * // Edge: all sub-arrays are null - still returns 0
          * Object[][] allNull = {null, null};
-         * long r2 = Arrays.ff.elementCount(allNull);
+         * long r2 = Arrays.ff.totalElementCount(allNull);
          * // r2 is 0
          * }</pre>
          *
          * @param a the two-dimensional array to count elements in (can be {@code null}).
          * @return the total number of elements across all sub-arrays, or 0 if the array is {@code null} or empty.
          */
-        public static long elementCount(final Object[][] a) {
+        public static long totalElementCount(final Object[][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }
@@ -22820,27 +22820,27 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // Basic: null sub-array lowers the minimum to 0
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * int minLen = Arrays.ff.minImmediateSubArrayLength(array);
+         * int minLen = Arrays.ff.minRowLength(array);
          * // minLen is 0  (null sub-array counts as length 0)
          *
          * // Typical: jagged array without nulls
          * Object[][] jagged = {{1, 2, 3}, {4, 5}, {6}};
-         * int min2 = Arrays.ff.minImmediateSubArrayLength(jagged);
+         * int min2 = Arrays.ff.minRowLength(jagged);
          * // min2 is 1  (shortest non-null row has 1 element)
          *
          * // Edge: null input returns 0
-         * int r1 = Arrays.ff.minImmediateSubArrayLength(null);
+         * int r1 = Arrays.ff.minRowLength(null);
          * // r1 is 0
          *
          * // Edge: empty outer array returns 0
-         * int r2 = Arrays.ff.minImmediateSubArrayLength(new Object[0][]);
+         * int r2 = Arrays.ff.minRowLength(new Object[0][]);
          * // r2 is 0
          * }</pre>
          *
          * @param a the two-dimensional array to examine (can be {@code null}).
          * @return the minimum sub-array length, or 0 if the array is {@code null} or empty.
          */
-        public static int minImmediateSubArrayLength(final Object[][] a) {
+        public static int minRowLength(final Object[][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }
@@ -22862,28 +22862,28 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // Basic: jagged array including a null sub-array
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
-         * int maxLen = Arrays.ff.maxImmediateSubArrayLength(array);
+         * int maxLen = Arrays.ff.maxRowLength(array);
          * // maxLen is 3  (from the first sub-array)
          *
          * // Typical: all rows the same length
          * Object[][] uniform = {{1, 2}, {3, 4}, {5, 6}};
-         * int max2 = Arrays.ff.maxImmediateSubArrayLength(uniform);
+         * int max2 = Arrays.ff.maxRowLength(uniform);
          * // max2 is 2
          *
          * // Edge: null input returns 0
-         * int r1 = Arrays.ff.maxImmediateSubArrayLength(null);
+         * int r1 = Arrays.ff.maxRowLength(null);
          * // r1 is 0
          *
          * // Edge: single-element array
          * Object[][] single = {{42}};
-         * int r2 = Arrays.ff.maxImmediateSubArrayLength(single);
+         * int r2 = Arrays.ff.maxRowLength(single);
          * // r2 is 1
          * }</pre>
          *
          * @param a the two-dimensional array to examine (can be {@code null}).
          * @return the maximum sub-array length, or 0 if the array is {@code null} or empty.
          */
-        public static int maxImmediateSubArrayLength(final Object[][] a) {
+        public static int maxRowLength(final Object[][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }
@@ -23183,7 +23183,7 @@ public sealed class Arrays permits Arrays.f {
         public static <T> T[] flatten(final T[][][] a) throws IllegalArgumentException {
             N.checkArgNotNull(a, "a");
 
-            final int count = Numbers.toIntExact(elementCount(a));
+            final int count = Numbers.toIntExact(totalElementCount(a));
 
             final Class<T> componentType = runtimeComponentType3D(a);
             final T[] c = N.newArray(componentType, count);
@@ -23224,19 +23224,19 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // basic: sort all elements across the full 3D structure
          * Integer[][][] arr = {{{5, 2}}, {{9, 1}}, {{3, 7}}};
-         * Arrays.fff.mutateFlattened(arr, flat -> java.util.Arrays.sort(flat));  // arr is now {{{1, 2}}, {{3, 5}}, {{7, 9}}}
+         * Arrays.fff.mutateAsFlatArray(arr, flat -> java.util.Arrays.sort(flat));  // arr is now {{{1, 2}}, {{3, 5}}, {{7, 9}}}
          *
          * // basic: fill every slot with a fixed value via flat index
          * String[][][] names = {{{"a", "b"}}, {{"c", "d"}}};
-         * Arrays.fff.mutateFlattened(names, flat -> java.util.Arrays.fill(flat, "x"));  // names is now {{{"x", "x"}}, {{"x", "x"}}}
+         * Arrays.fff.mutateAsFlatArray(names, flat -> java.util.Arrays.fill(flat, "x"));  // names is now {{{"x", "x"}}, {{"x", "x"}}}
          *
          * // edge: null array is a no-op - no exception thrown
-         * Arrays.fff.mutateFlattened((Integer[][][]) null, flat -> java.util.Arrays.sort(flat));
+         * Arrays.fff.mutateAsFlatArray((Integer[][][]) null, flat -> java.util.Arrays.sort(flat));
          * // no-op, no exception
          *
          * // edge: empty array is a no-op
          * Integer[][][] empty = new Integer[0][][];
-         * Arrays.fff.mutateFlattened(empty, flat -> java.util.Arrays.sort(flat));
+         * Arrays.fff.mutateAsFlatArray(empty, flat -> java.util.Arrays.sort(flat));
          * // empty remains unchanged, length still 0
          * }</pre>
          *
@@ -23248,7 +23248,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
          * @throws E if the operation throws an exception.
          */
-        public static <T, E extends Exception> void mutateFlattened(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E {
+        public static <T, E extends Exception> void mutateAsFlatArray(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E {
             N.checkArgNotNull(action, cs.action);
 
             if (N.isEmpty(a)) {
@@ -24431,20 +24431,20 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * // basic: jagged array with null 2D sub-array (skipped)
          * Object[][][] array = {{{1, 2}, {3}}, null, {{4, 5, 6}}};
-         * long count = Arrays.fff.elementCount(array);
+         * long count = Arrays.fff.totalElementCount(array);
          * // count is 6  (null sub-array at index 1 contributes 0)
          *
          * // basic: uniform 2x2x2 cube
          * Integer[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
-         * long cubeCount = Arrays.fff.elementCount(cube);
+         * long cubeCount = Arrays.fff.totalElementCount(cube);
          * // cubeCount is 8
          *
          * // edge: null array returns 0
-         * long zero = Arrays.fff.elementCount(null);
+         * long zero = Arrays.fff.totalElementCount(null);
          * // zero == 0
          *
          * // edge: empty outer array returns 0
-         * long emptyCount = Arrays.fff.elementCount(new Object[0][][]);
+         * long emptyCount = Arrays.fff.totalElementCount(new Object[0][][]);
          * // emptyCount == 0
          * }</pre>
          *
@@ -24452,7 +24452,7 @@ public sealed class Arrays permits Arrays.f {
          * @return the total number of elements across all sub-arrays, or 0 if the array is {@code null} or empty.
          * @throws ArithmeticException if the total cannot be represented as a {@code long}.
          */
-        public static long elementCount(final Object[][][] a) {
+        public static long totalElementCount(final Object[][][] a) {
             if (N.isEmpty(a)) {
                 return 0;
             }

@@ -653,10 +653,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * boolean hasY = t2.contains('Y');     // true
      * }</pre>
      *
-     * @param valueToFind the char value to search for
+     * @param value the char value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
-    public abstract boolean contains(char valueToFind);
+    public abstract boolean contains(char value);
 
     /**
      * Returns a new array containing all elements of this tuple.
@@ -1046,11 +1046,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * Checks if this tuple contains the specified char value.
          * Since this tuple is empty, this method always returns {@code false}.
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code false} always, because the tuple is empty
          */
         @Override
-        public boolean contains(final char valueToFind) {
+        public boolean contains(final char value) {
             return false;
         }
 
@@ -1301,12 +1301,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasMiss = tupleMax.contains('A');       // false
          * }</pre>
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final char valueToFind) {
-            return _1 == valueToFind;
+        public boolean contains(final char value) {
+            return _1 == value;
         }
 
         /**
@@ -1661,12 +1661,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasMax = tuple.contains('\uFFFF');   // false
          * }</pre>
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final char valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind;
+        public boolean contains(final char value) {
+            return _1 == value || _2 == value;
         }
 
         /**
@@ -2184,12 +2184,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasMax = tuple.contains('\uFFFF');   // false
          * }</pre>
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final char valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind;
+        public boolean contains(final char value) {
+            return _1 == value || _2 == value || _3 == value;
         }
 
         /**
@@ -2709,12 +2709,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasMid = t2.contains('A');        // false
          * }</pre>
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final char valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        public boolean contains(final char value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value;
         }
 
         /**
@@ -3123,12 +3123,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasMid = t2.contains('A');        // false
          * }</pre>
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final char valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        public boolean contains(final char value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value;
         }
 
         /**
@@ -3542,12 +3542,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasMid = t2.contains('A');        // false
          * }</pre>
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final char valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        public boolean contains(final char value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value;
         }
 
         /**
@@ -3966,13 +3966,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasB = dup.contains('B');   // false
          * }</pre>
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final char valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind;
+        public boolean contains(final char value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value;
         }
 
         /**
@@ -4400,13 +4399,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasB = dup.contains('B');   // false
          * }</pre>
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final char valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind;
+        public boolean contains(final char value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value;
         }
 
         /**
@@ -4839,13 +4837,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasB = dup.contains('B');   // false
          * }</pre>
          *
-         * @param valueToFind the char value to search for
+         * @param value the char value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final char valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        public boolean contains(final char value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value || _9 == value;
         }
 
         /**

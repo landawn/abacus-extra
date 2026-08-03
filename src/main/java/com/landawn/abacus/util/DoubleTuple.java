@@ -688,11 +688,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * boolean hasPosZero = negZero.contains(0.0);    // false
      * }</pre>
      *
-     * @param valueToFind the double value to search for
+     * @param value the double value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      * @see Double#compare(double, double)
      */
-    public abstract boolean contains(double valueToFind);
+    public abstract boolean contains(double value);
 
     /**
      * Returns a new array containing all elements of this tuple.
@@ -1035,11 +1035,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * Checks if this tuple contains the specified double value.
          * Since this tuple is empty, this method always returns {@code false}.
          *
-         * @param valueToFind the double value to search for
+         * @param value the double value to search for
          * @return {@code false} always, because the tuple is empty
          */
         @Override
-        public boolean contains(final double valueToFind) {
+        public boolean contains(final double value) {
             return false;
         }
 
@@ -1281,12 +1281,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * boolean negZero = DoubleTuple.of(-0.0).contains(0.0);   // false
          * }</pre>
          *
-         * @param valueToFind the double value to search for
-         * @return {@code true} if {@code _1} equals {@code valueToFind}, {@code false} otherwise
+         * @param value the double value to search for
+         * @return {@code true} if {@code _1} equals {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind);
+        public boolean contains(final double value) {
+            return N.equals(_1, value);
         }
 
         /**
@@ -1624,13 +1624,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * boolean negZero = DoubleTuple.of(-0.0, 1.0).contains(0.0);   // false
          * }</pre>
          *
-         * @param valueToFind the double value to search for
-         * @return {@code true} if {@code _1} or {@code _2} equals {@code valueToFind},
+         * @param value the double value to search for
+         * @return {@code true} if {@code _1} or {@code _2} equals {@code value},
          *         {@code false} otherwise
          */
         @Override
-        public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind);
+        public boolean contains(final double value) {
+            return N.equals(_1, value) || N.equals(_2, value);
         }
 
         /**
@@ -2107,13 +2107,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * boolean negZero = DoubleTuple.of(-0.0, 1.0, 2.0).contains(0.0);   // false
          * }</pre>
          *
-         * @param valueToFind the double value to search for
+         * @param value the double value to search for
          * @return {@code true} if any of {@code _1}, {@code _2}, {@code _3} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind);
+        public boolean contains(final double value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value);
         }
 
         /**
@@ -2601,13 +2601,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * tZero.contains(0.0); // returns false
          * }</pre>
          *
-         * @param valueToFind the double value to search for
+         * @param value the double value to search for
          * @return {@code true} if any of {@code _1} through {@code _4} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind);
+        public boolean contains(final double value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value);
         }
 
         /**
@@ -2954,14 +2954,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * tZero.contains(0.0); // returns false
          * }</pre>
          *
-         * @param valueToFind the double value to search for
+         * @param value the double value to search for
          * @return {@code true} if any of {@code _1} through {@code _5} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
-                    || N.equals(_5, valueToFind);
+        public boolean contains(final double value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value);
         }
 
         /**
@@ -3314,14 +3313,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * tZero.contains(0.0); // returns false
          * }</pre>
          *
-         * @param valueToFind the double value to search for
+         * @param value the double value to search for
          * @return {@code true} if any of {@code _1} through {@code _6} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
-                    || N.equals(_6, valueToFind);
+        public boolean contains(final double value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value);
         }
 
         /**
@@ -3694,14 +3692,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * boolean notNeg = withNeg.contains(4.0);    // returns false
          * }</pre>
          *
-         * @param valueToFind the double value to search for
+         * @param value the double value to search for
          * @return {@code true} if any of {@code _1} through {@code _7} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
-                    || N.equals(_6, valueToFind) || N.equals(_7, valueToFind);
+        public boolean contains(final double value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
+                    || N.equals(_7, value);
         }
 
         /**
@@ -4112,14 +4110,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * boolean notNeg = withNeg.contains(4.0);    // returns false
          * }</pre>
          *
-         * @param valueToFind the double value to search for
+         * @param value the double value to search for
          * @return {@code true} if any of {@code _1} through {@code _8} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
-                    || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind);
+        public boolean contains(final double value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
+                    || N.equals(_7, value) || N.equals(_8, value);
         }
 
         /**
@@ -4537,14 +4535,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * boolean notNeg = withNeg.contains(4.0);    // returns false
          * }</pre>
          *
-         * @param valueToFind the double value to search for
+         * @param value the double value to search for
          * @return {@code true} if any of {@code _1} through {@code _9} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
-                    || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind) || N.equals(_9, valueToFind);
+        public boolean contains(final double value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
+                    || N.equals(_7, value) || N.equals(_8, value) || N.equals(_9, value);
         }
 
         /**

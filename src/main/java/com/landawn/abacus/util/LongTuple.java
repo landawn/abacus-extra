@@ -708,10 +708,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * empty.contains(0L);                              // returns false
      * }</pre>
      *
-     * @param valueToFind the long value to search for
+     * @param value the long value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
-    public abstract boolean contains(long valueToFind);
+    public abstract boolean contains(long value);
 
     /**
      * Returns a new array containing all elements of this tuple.
@@ -1054,11 +1054,11 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * Checks if this tuple contains the specified long value.
          * Since this tuple is empty, this method always returns {@code false}.
          *
-         * @param valueToFind the long value to search for
+         * @param value the long value to search for
          * @return {@code false} always, because the tuple is empty
          */
         @Override
-        public boolean contains(final long valueToFind) {
+        public boolean contains(final long value) {
             return false;
         }
 
@@ -1296,12 +1296,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * boolean hasMirror = neg.contains(9L); // returns false
          * }</pre>
          *
-         * @param valueToFind the long value to search for
+         * @param value the long value to search for
          * @return {@code true} if the value equals _1, {@code false} otherwise
          */
         @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind;
+        public boolean contains(final long value) {
+            return _1 == value;
         }
 
         /**
@@ -1636,12 +1636,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * boolean noVal  = dup.contains(6L);   // returns false
          * }</pre>
          *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals _1 or _2
+         * @param value the long value to search for
+         * @return {@code true} if value equals _1 or _2
          */
         @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind;
+        public boolean contains(final long value) {
+            return _1 == value || _2 == value;
         }
 
         /**
@@ -2132,12 +2132,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * boolean noVal  = dup.contains(0L);   // returns false
          * }</pre>
          *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals _1, _2, or _3
+         * @param value the long value to search for
+         * @return {@code true} if value equals _1, _2, or _3
          */
         @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind;
+        public boolean contains(final long value) {
+            return _1 == value || _2 == value || _3 == value;
         }
 
         /**
@@ -2638,12 +2638,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * boolean hasMax = bounds.contains(Long.MAX_VALUE);   // true
          * }</pre>
          *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the four elements
+         * @param value the long value to search for
+         * @return {@code true} if value equals any of the four elements
          */
         @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        public boolean contains(final long value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value;
         }
 
         /**
@@ -3030,12 +3030,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * boolean hasEight = dup.contains(8L);   // false
          * }</pre>
          *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the five elements
+         * @param value the long value to search for
+         * @return {@code true} if value equals any of the five elements
          */
         @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        public boolean contains(final long value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value;
         }
 
         /**
@@ -3426,12 +3426,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * boolean hasEight = dup.contains(8L);   // false
          * }</pre>
          *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the six elements
+         * @param value the long value to search for
+         * @return {@code true} if value equals any of the six elements
          */
         @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        public boolean contains(final long value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value;
         }
 
         /**
@@ -3795,13 +3795,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * t.contains(8L); // returns false
          * }</pre>
          *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the seven elements
+         * @param value the long value to search for
+         * @return {@code true} if value equals any of the seven elements
          */
         @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind;
+        public boolean contains(final long value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value;
         }
 
         /**
@@ -4158,13 +4157,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * t.contains(9L); // returns false
          * }</pre>
          *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the eight elements
+         * @param value the long value to search for
+         * @return {@code true} if value equals any of the eight elements
          */
         @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind;
+        public boolean contains(final long value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value;
         }
 
         /**
@@ -4529,13 +4527,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * t.contains(10L); // returns false
          * }</pre>
          *
-         * @param valueToFind the long value to search for
-         * @return {@code true} if valueToFind equals any of the nine elements
+         * @param value the long value to search for
+         * @return {@code true} if value equals any of the nine elements
          */
         @Override
-        public boolean contains(final long valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        public boolean contains(final long value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value || _9 == value;
         }
 
         /**

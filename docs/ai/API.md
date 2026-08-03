@@ -1203,7 +1203,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(boolean\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(boolean\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+- **See also:** #flatten(boolean\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlatArray(boolean\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static boolean[] flatten(final boolean[][][] a)`
 - **Summary:** Flattens a three-dimensional boolean array into a one-dimensional boolean array.
 - **Contract:**
@@ -1211,7 +1211,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`boolean[][][]`) — the three-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(boolean\[\]\[\]),for flattening two-dimensional arrays, #mutateFlattened(boolean\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened three-dimensional arrays
+- **See also:** #flatten(boolean\[\]\[\]),for flattening two-dimensional arrays, #mutateAsFlatArray(boolean\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened three-dimensional arrays
 - **Signature:** `public static char[] flatten(final char[][] a)`
 - **Summary:** Flattens a two-dimensional character array into a one-dimensional character array.
 - **Contract:**
@@ -1219,7 +1219,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(char\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(char\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(char\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlatArray(char\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static char[] flatten(final char[][][] a)`
 - **Summary:** Flattens a three-dimensional character array into a one-dimensional character array.
 - **Contract:**
@@ -1227,7 +1227,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`char[][][]`) — the three-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(char\[\]\[\]),for two-dimensional arrays, #mutateFlattened(char\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(char\[\]\[\]),for two-dimensional arrays, #mutateAsFlatArray(char\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static byte[] flatten(final byte[][] a)`
 - **Summary:** Flattens a two-dimensional byte array into a new one-dimensional byte array by concatenating all its sub-arrays.
 - **Contract:**
@@ -1235,7 +1235,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(byte\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(byte\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(byte\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlatArray(byte\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static byte[] flatten(final byte[][][] a)`
 - **Summary:** Flattens a three-dimensional byte array into a new one-dimensional byte array by concatenating all its innermost sub-arrays in row-major order.
 - **Contract:**
@@ -1243,7 +1243,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`byte[][][]`) — the three-dimensional byte array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(byte\[\]\[\]),for two-dimensional arrays, #mutateFlattened(byte\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(byte\[\]\[\]),for two-dimensional arrays, #mutateAsFlatArray(byte\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static short[] flatten(final short[][] a)`
 - **Summary:** Flattens a two-dimensional short array into a one-dimensional array.
 - **Contract:**
@@ -1251,7 +1251,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`short[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(short\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(short\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(short\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlatArray(short\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static short[] flatten(final short[][][] a)`
 - **Summary:** Flattens a three-dimensional short array into a one-dimensional array.
 - **Contract:**
@@ -1259,7 +1259,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`short[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(short\[\]\[\]),for two-dimensional arrays, #mutateFlattened(short\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(short\[\]\[\]),for two-dimensional arrays, #mutateAsFlatArray(short\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static int[] flatten(final int[][] a)`
 - **Summary:** Flattens a two-dimensional array into a one-dimensional array.
 - **Contract:**
@@ -1268,7 +1268,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`int[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(int\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(int\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(int\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlatArray(int\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static int[] flatten(final int[][][] a)`
 - **Summary:** Flattens a three-dimensional array into a one-dimensional array.
 - **Contract:**
@@ -1277,7 +1277,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`int[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(int\[\]\[\]),for two-dimensional arrays, #mutateFlattened(int\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(int\[\]\[\]),for two-dimensional arrays, #mutateAsFlatArray(int\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static long[] flatten(final long[][] a)`
 - **Summary:** Flattens a two-dimensional long array into a one-dimensional long array by concatenating its rows in row-major order.
 - **Contract:**
@@ -1285,7 +1285,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`long[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(long\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(long\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(long\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlatArray(long\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static long[] flatten(final long[][][] a)`
 - **Summary:** Flattens a three-dimensional long array into a one-dimensional long array by concatenating its elements in row-major order.
 - **Contract:**
@@ -1293,7 +1293,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`long[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(long\[\]\[\]),for two-dimensional arrays, #mutateFlattened(long\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
+- **See also:** #flatten(long\[\]\[\]),for two-dimensional arrays, #mutateAsFlatArray(long\[\]\[\]\[\], Throwables.Consumer),for flatten-operate-copy-back
 - **Signature:** `public static float[] flatten(final float[][] a)`
 - **Summary:** Flattens a two-dimensional float array into a new one-dimensional float array.
 - **Contract:**
@@ -1301,7 +1301,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`float[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(float\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(float\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+- **See also:** #flatten(float\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlatArray(float\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static float[] flatten(final float[][][] a)`
 - **Summary:** Flattens a three-dimensional float array into a new one-dimensional float array.
 - **Contract:**
@@ -1309,7 +1309,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`float[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(float\[\]\[\]),for flattening two-dimensional arrays, #mutateFlattened(float\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+- **See also:** #flatten(float\[\]\[\]),for flattening two-dimensional arrays, #mutateAsFlatArray(float\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static double[] flatten(final double[][] a)`
 - **Summary:** Flattens a two-dimensional array into a one-dimensional array by concatenating its rows.
 - **Contract:**
@@ -1317,7 +1317,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`double[][]`) — the two-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(double\[\]\[\]\[\]),for three-dimensional arrays, #mutateFlattened(double\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+- **See also:** #flatten(double\[\]\[\]\[\]),for three-dimensional arrays, #mutateAsFlatArray(double\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
 - **Signature:** `public static double[] flatten(final double[][][] a)`
 - **Summary:** Flattens a three-dimensional array into a one-dimensional array by concatenating its elements in row-major order.
 - **Contract:**
@@ -1325,31 +1325,31 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
 - **Parameters:**
   - `a` (`double[][][]`) — the three-dimensional array to flatten (can be {@code null} ).
 - **Returns:** a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null} , empty, or has no elements after skipping null/empty sub-arrays.
-- **See also:** #flatten(double\[\]\[\]),for flattening two-dimensional arrays, #mutateFlattened(double\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
-##### mutateFlattened(...) -> void
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
+- **See also:** #flatten(double\[\]\[\]),for flattening two-dimensional arrays, #mutateAsFlatArray(double\[\]\[\]\[\], Throwables.Consumer),for performing operations on flattened arrays
+##### mutateAsFlatArray(...) -> void
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
-  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 2D structure boolean\[\]\[\] arr = {{true, false}, {false, true}}; Arrays.mutateFlattened(arr, t -> { for (int i = 0; i < t.length; i++) t\[i\] = !t\[i\]; }); // arr is now: {{false, true}, {true, false}} // Set all elements to true via the flat view boolean\[\]\[\] arr2 = {{false, false}, {false, false}}; Arrays.mutateFlattened(arr2, t -> java.util.Arrays.fill(t, true)); // arr2 is now: {{true, true}, {true, true}} // Null array is a no-op; action must not be null Arrays.mutateFlattened((boolean\[\]\[\]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateFlattened(new boolean\[\]\[\]{{true}}, null); // throws IllegalArgumentException } </pre>
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 2D structure boolean\[\]\[\] arr = {{true, false}, {false, true}}; Arrays.mutateAsFlatArray(arr, t -> { for (int i = 0; i < t.length; i++) t\[i\] = !t\[i\]; }); // arr is now: {{false, true}, {true, false}} // Set all elements to true via the flat view boolean\[\]\[\] arr2 = {{false, false}, {false, false}}; Arrays.mutateAsFlatArray(arr2, t -> java.util.Arrays.fill(t, true)); // arr2 is now: {{true, true}, {true, true}} // Null array is a no-op; action must not be null Arrays.mutateAsFlatArray((boolean\[\]\[\]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateAsFlatArray(new boolean\[\]\[\]{{true}}, null); // throws IllegalArgumentException } </pre>
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array to operate on (can be {@code null} or empty).
   - `action` (`Throwables.Consumer<? super boolean[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(boolean\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(boolean\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(boolean\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(boolean\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
-  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 3D structure boolean\[\]\[\]\[\] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}}; Arrays.mutateFlattened(cube, arr -> { for (int i = 0; i < arr.length; i++) arr\[i\] = !arr\[i\]; }); // cube is now: {{{true, false}, {false, true}}, {{false, true}, {true, false}}} // Set all elements to false via the flat view boolean\[\]\[\]\[\] cube2 = {{{true, true}}, {{true}}}; Arrays.mutateFlattened(cube2, t -> java.util.Arrays.fill(t, false)); // cube2 is now: {{{false, false}}, {{false}}} // Null array is a no-op; action must not be null Arrays.mutateFlattened((boolean\[\]\[\]\[\]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateFlattened(new boolean\[\]\[\]\[\]{{{true}}}, null); // throws IllegalArgumentException } </pre>
+  - </p> <p> <b> Usage Examples: </b> </p> <pre> {@code // Flip all elements while preserving the 3D structure boolean\[\]\[\]\[\] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}}; Arrays.mutateAsFlatArray(cube, arr -> { for (int i = 0; i < arr.length; i++) arr\[i\] = !arr\[i\]; }); // cube is now: {{{true, false}, {false, true}}, {{false, true}, {true, false}}} // Set all elements to false via the flat view boolean\[\]\[\]\[\] cube2 = {{{true, true}}, {{true}}}; Arrays.mutateAsFlatArray(cube2, t -> java.util.Arrays.fill(t, false)); // cube2 is now: {{{false, false}}, {{false}}} // Null array is a no-op; action must not be null Arrays.mutateAsFlatArray((boolean\[\]\[\]\[\]) null, t -> {}); // no-op (input unchanged) // Null action throws IllegalArgumentException Arrays.mutateAsFlatArray(new boolean\[\]\[\]\[\]{{{true}}}, null); // throws IllegalArgumentException } </pre>
 - **Parameters:**
   - `a` (`boolean[][][]`) — the three-dimensional boolean array to operate on (can be {@code null} or empty).
   - `action` (`Throwables.Consumer<? super boolean[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(boolean\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(boolean\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(boolean\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(boolean\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final char[][] a, final Throwables.Consumer<? super char[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1358,8 +1358,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super char[], E>`) — the consumer operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(char\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(char\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(char\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(char\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final char[][][] a, final Throwables.Consumer<? super char[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1368,8 +1368,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super char[], E>`) — the consumer operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(char\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(char\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(char\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(char\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final byte[][] a, final Throwables.Consumer<? super byte[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1378,8 +1378,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super byte[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(byte\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(byte\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(byte\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(byte\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1388,8 +1388,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super byte[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(byte\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(byte\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(byte\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(byte\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final short[][] a, final Throwables.Consumer<? super short[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1398,8 +1398,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super short[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(short\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(short\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(short\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(short\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final short[][][] a, final Throwables.Consumer<? super short[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1408,8 +1408,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super short[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(short\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(short\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(short\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(short\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final int[][] a, final Throwables.Consumer<? super int[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Contract:**
   - </p> <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1418,8 +1418,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super int[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(int\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(int\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(int\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(int\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final int[][][] a, final Throwables.Consumer<? super int[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
   - </p> <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1428,8 +1428,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super int[], E>`) — the operation to apply to the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(int\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(int\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(int\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(int\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final long[][] a, final Throwables.Consumer<? super long[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1438,8 +1438,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super long[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(long\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(long\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(long\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(long\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final long[][][] a, final Throwables.Consumer<? super long[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1448,8 +1448,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super long[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(long\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(long\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(long\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(long\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final float[][] a, final Throwables.Consumer<? super float[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1458,8 +1458,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super float[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(float\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(float\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(float\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(float\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final float[][][] a, final Throwables.Consumer<? super float[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1468,8 +1468,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super float[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(float\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(float\[\]\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(float\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(float\[\]\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final double[][] a, final Throwables.Consumer<? super double[], E> action) throws E`
 - **Summary:** Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1478,8 +1478,8 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super double[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(double\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(double\[\]\[\]),for flattening without copy-back
-- **Signature:** `public static <E extends Exception> void mutateFlattened(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E`
+- **See also:** #mutateAsFlatArray(double\[\]\[\]\[\], Throwables.Consumer),for three-dimensional arrays, #flatten(double\[\]\[\]),for flattening without copy-back
+- **Signature:** `public static <E extends Exception> void mutateAsFlatArray(final double[][][] a, final Throwables.Consumer<? super double[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
 - **Contract:**
   - <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -1488,7 +1488,7 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `action` (`Throwables.Consumer<? super double[], E>`) — the operation to perform on the flattened array (must not be {@code null} ).
 - **Throws:**
   - `E` — if the operation throws an exception.
-- **See also:** #mutateFlattened(double\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(double\[\]\[\]\[\]),for flattening without copy-back
+- **See also:** #mutateAsFlatArray(double\[\]\[\], Throwables.Consumer),for two-dimensional arrays, #flatten(double\[\]\[\]\[\]),for flattening without copy-back
 ##### zip(...) -> boolean\[\]
 - **Signature:** `public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E`
 - **Summary:** Combines elements from two boolean arrays using the provided zip function.
@@ -2755,108 +2755,108 @@ Utility methods for one-, two-, and three-dimensional arrays of primitives and o
   - `a` (`double[][][]`) — the three-dimensional array (can be {@code null} ).
 - **Returns:** the total count of elements, or 0 if the input array is {@code null} or empty.
 - **See also:** #elementCount(double\[\]\[\]),for two-dimensional arrays
-##### minImmediateSubArrayLength(...) -> int
-- **Signature:** `public static int minImmediateSubArrayLength(final boolean[][] a)`
+##### minRowLength(...) -> int
+- **Signature:** `public static int minRowLength(final boolean[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional boolean array.
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array (can be {@code null} ).
 - **Returns:** the minimum length of sub-arrays, or 0 if array is {@code null} or empty.
-- **See also:** #maxImmediateSubArrayLength(boolean\[\]\[\])
-- **Signature:** `public static int minImmediateSubArrayLength(final char[][] a)`
+- **See also:** #maxRowLength(boolean\[\]\[\])
+- **Signature:** `public static int minRowLength(final char[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional character array.
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to inspect (can be {@code null} or empty).
 - **Returns:** the minimum length of any sub-array, or 0 if the input array is empty or {@code null} .
-- **See also:** #maxImmediateSubArrayLength(char\[\]\[\])
-- **Signature:** `public static int minImmediateSubArrayLength(final byte[][] a)`
+- **See also:** #maxRowLength(char\[\]\[\])
+- **Signature:** `public static int minRowLength(final byte[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional byte array.
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} or empty).
 - **Returns:** the minimum sub-array length, or 0 if the array is {@code null} or empty.
-- **See also:** #maxImmediateSubArrayLength(byte\[\]\[\])
-- **Signature:** `public static int minImmediateSubArrayLength(final short[][] a)`
+- **See also:** #maxRowLength(byte\[\]\[\])
+- **Signature:** `public static int minRowLength(final short[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional short array.
 - **Parameters:**
   - `a` (`short[][]`) — the two-dimensional short array (can be {@code null} or empty).
 - **Returns:** the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #maxImmediateSubArrayLength(short\[\]\[\])
-- **Signature:** `public static int minImmediateSubArrayLength(final int[][] a)`
+- **See also:** #maxRowLength(short\[\]\[\])
+- **Signature:** `public static int minRowLength(final int[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional integer array.
 - **Parameters:**
   - `a` (`int[][]`) — the two-dimensional integer array (can be {@code null} or empty).
 - **Returns:** the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #maxImmediateSubArrayLength(int\[\]\[\])
-- **Signature:** `public static int minImmediateSubArrayLength(final long[][] a)`
+- **See also:** #maxRowLength(int\[\]\[\])
+- **Signature:** `public static int minRowLength(final long[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional long array.
 - **Parameters:**
   - `a` (`long[][]`) — the two-dimensional long array (can be {@code null} or empty).
 - **Returns:** the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #maxImmediateSubArrayLength(long\[\]\[\])
-- **Signature:** `public static int minImmediateSubArrayLength(final float[][] a)`
+- **See also:** #maxRowLength(long\[\]\[\])
+- **Signature:** `public static int minRowLength(final float[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional float array.
 - **Parameters:**
   - `a` (`float[][]`) — the two-dimensional array to inspect (can be {@code null} ).
 - **Returns:** the minimum sub-array length, or 0 if the input array is {@code null} or empty.
-- **See also:** #maxImmediateSubArrayLength(float\[\]\[\])
-- **Signature:** `public static int minImmediateSubArrayLength(final double[][] a)`
+- **See also:** #maxRowLength(float\[\]\[\])
+- **Signature:** `public static int minRowLength(final double[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional double array.
 - **Parameters:**
   - `a` (`double[][]`) — the two-dimensional array (can be {@code null} ).
 - **Returns:** the minimum sub-array length, or 0 if the input array is {@code null} or empty.
-- **See also:** #maxImmediateSubArrayLength(double\[\]\[\])
-##### maxImmediateSubArrayLength(...) -> int
-- **Signature:** `public static int maxImmediateSubArrayLength(final boolean[][] a)`
+- **See also:** #maxRowLength(double\[\]\[\])
+##### maxRowLength(...) -> int
+- **Signature:** `public static int maxRowLength(final boolean[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional boolean array.
 - **Contract:**
-  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Longest row has length 3 boolean\[\]\[\] arr = {{true, false, true}, {true}, {false, true}}; int maxLen = Arrays.maxImmediateSubArrayLength(arr); // maxLen: 3 // Null sub-array is treated as length 0; does not affect max if other rows are longer boolean\[\]\[\] sparse = {{true, false}, null, {true, false, true}}; int maxLen2 = Arrays.maxImmediateSubArrayLength(sparse); // maxLen2: 3 // Null input returns 0 int fromNull = Arrays.maxImmediateSubArrayLength((boolean\[\]\[\]) null); // fromNull: 0 // Empty outer array returns 0 int fromEmpty = Arrays.maxImmediateSubArrayLength(new boolean\[0\]\[\]); // fromEmpty: 0 } </pre>
+  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Longest row has length 3 boolean\[\]\[\] arr = {{true, false, true}, {true}, {false, true}}; int maxLen = Arrays.maxRowLength(arr); // maxLen: 3 // Null sub-array is treated as length 0; does not affect max if other rows are longer boolean\[\]\[\] sparse = {{true, false}, null, {true, false, true}}; int maxLen2 = Arrays.maxRowLength(sparse); // maxLen2: 3 // Null input returns 0 int fromNull = Arrays.maxRowLength((boolean\[\]\[\]) null); // fromNull: 0 // Empty outer array returns 0 int fromEmpty = Arrays.maxRowLength(new boolean\[0\]\[\]); // fromEmpty: 0 } </pre>
 - **Parameters:**
   - `a` (`boolean[][]`) — the two-dimensional boolean array (can be {@code null} ).
 - **Returns:** the maximum length of sub-arrays, or 0 if array is {@code null} or empty.
-- **See also:** #minImmediateSubArrayLength(boolean\[\]\[\])
-- **Signature:** `public static int maxImmediateSubArrayLength(final char[][] a)`
+- **See also:** #minRowLength(boolean\[\]\[\])
+- **Signature:** `public static int maxRowLength(final char[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional character array.
 - **Parameters:**
   - `a` (`char[][]`) — the two-dimensional character array to inspect (can be {@code null} or empty).
 - **Returns:** the maximum length of any sub-array, or 0 if the input array is empty or {@code null} .
-- **See also:** #minImmediateSubArrayLength(char\[\]\[\])
-- **Signature:** `public static int maxImmediateSubArrayLength(final byte[][] a)`
+- **See also:** #minRowLength(char\[\]\[\])
+- **Signature:** `public static int maxRowLength(final byte[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional byte array.
 - **Parameters:**
   - `a` (`byte[][]`) — the two-dimensional byte array to analyze (can be {@code null} or empty).
 - **Returns:** the maximum sub-array length, or 0 if the array is {@code null} or empty.
-- **See also:** #minImmediateSubArrayLength(byte\[\]\[\])
-- **Signature:** `public static int maxImmediateSubArrayLength(final short[][] a)`
+- **See also:** #minRowLength(byte\[\]\[\])
+- **Signature:** `public static int maxRowLength(final short[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional short array.
 - **Contract:**
-  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Basic: longest sub-array has 4 elements short\[\]\[\] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}}; int maxLen = Arrays.maxImmediateSubArrayLength(array); // maxLen == 4 // Basic: null sub-array is treated as length 0 - does not affect max if other rows exist short\[\]\[\] withNull = {{1, 2}, null}; int maxWithNull = Arrays.maxImmediateSubArrayLength(withNull); // maxWithNull == 2 // Edge: null array - returns 0 int fromNull = Arrays.maxImmediateSubArrayLength((short\[\]\[\]) null); // fromNull == 0 // Edge: empty outer array - returns 0 int fromEmpty = Arrays.maxImmediateSubArrayLength(new short\[0\]\[\]); // fromEmpty == 0 } </pre>
+  - <p> <b> Usage Examples: </b> </p> <pre> {@code // Basic: longest sub-array has 4 elements short\[\]\[\] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}}; int maxLen = Arrays.maxRowLength(array); // maxLen == 4 // Basic: null sub-array is treated as length 0 - does not affect max if other rows exist short\[\]\[\] withNull = {{1, 2}, null}; int maxWithNull = Arrays.maxRowLength(withNull); // maxWithNull == 2 // Edge: null array - returns 0 int fromNull = Arrays.maxRowLength((short\[\]\[\]) null); // fromNull == 0 // Edge: empty outer array - returns 0 int fromEmpty = Arrays.maxRowLength(new short\[0\]\[\]); // fromEmpty == 0 } </pre>
 - **Parameters:**
   - `a` (`short[][]`) — the two-dimensional short array (can be {@code null} or empty).
 - **Returns:** the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #minImmediateSubArrayLength(short\[\]\[\])
-- **Signature:** `public static int maxImmediateSubArrayLength(final int[][] a)`
+- **See also:** #minRowLength(short\[\]\[\])
+- **Signature:** `public static int maxRowLength(final int[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional integer array.
 - **Parameters:**
   - `a` (`int[][]`) — the two-dimensional integer array (can be {@code null} or empty).
 - **Returns:** the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #minImmediateSubArrayLength(int\[\]\[\])
-- **Signature:** `public static int maxImmediateSubArrayLength(final long[][] a)`
+- **See also:** #minRowLength(int\[\]\[\])
+- **Signature:** `public static int maxRowLength(final long[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional long array.
 - **Parameters:**
   - `a` (`long[][]`) — the two-dimensional long array (can be {@code null} or empty).
 - **Returns:** the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
-- **See also:** #minImmediateSubArrayLength(long\[\]\[\])
-- **Signature:** `public static int maxImmediateSubArrayLength(final float[][] a)`
+- **See also:** #minRowLength(long\[\]\[\])
+- **Signature:** `public static int maxRowLength(final float[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional float array.
 - **Parameters:**
   - `a` (`float[][]`) — the two-dimensional array to inspect (can be {@code null} ).
 - **Returns:** the maximum sub-array length, or 0 if the input array is {@code null} or empty.
-- **See also:** #minImmediateSubArrayLength(float\[\]\[\])
-- **Signature:** `public static int maxImmediateSubArrayLength(final double[][] a)`
+- **See also:** #minRowLength(float\[\]\[\])
+- **Signature:** `public static int maxRowLength(final double[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional double array.
 - **Parameters:**
   - `a` (`double[][]`) — the two-dimensional array (can be {@code null} ).
 - **Returns:** the maximum sub-array length, or 0 if the input array is {@code null} or empty.
-- **See also:** #minImmediateSubArrayLength(double\[\]\[\])
+- **See also:** #minRowLength(double\[\]\[\])
 ##### toBoolean(...) -> boolean\[\]
 - **Signature:** `public static boolean[] toBoolean(final byte[] a)`
 - **Summary:** Converts an array of bytes to an array of booleans.
@@ -3463,8 +3463,8 @@ Object-array helper namespace for two-dimensional arrays.
 - **Returns:** a new one-dimensional array containing all elements from the input array.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code a} is {@code null} .
-##### mutateFlattened(...) -> void
-- **Signature:** `public static <T, E extends Exception> void mutateFlattened(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E`
+##### mutateAsFlatArray(...) -> void
+- **Signature:** `public static <T, E extends Exception> void mutateAsFlatArray(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E`
 - **Summary:** Performs an operation on a flattened view of a two-dimensional array, then copies the modified elements back to the original array structure.
 - **Contract:**
   - </p> <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.
@@ -3670,14 +3670,14 @@ Object-array helper namespace for two-dimensional arrays.
 - **Parameters:**
   - `a` (`Object[][]`) — the two-dimensional array to count elements in (can be {@code null} ).
 - **Returns:** the total number of elements across all sub-arrays, or 0 if the array is {@code null} or empty.
-##### minImmediateSubArrayLength(...) -> int
-- **Signature:** `public static int minImmediateSubArrayLength(final Object[][] a)`
+##### minRowLength(...) -> int
+- **Signature:** `public static int minRowLength(final Object[][] a)`
 - **Summary:** Finds the minimum length among all sub-arrays in a two-dimensional array.
 - **Parameters:**
   - `a` (`Object[][]`) — the two-dimensional array to examine (can be {@code null} ).
 - **Returns:** the minimum sub-array length, or 0 if the array is {@code null} or empty.
-##### maxImmediateSubArrayLength(...) -> int
-- **Signature:** `public static int maxImmediateSubArrayLength(final Object[][] a)`
+##### maxRowLength(...) -> int
+- **Signature:** `public static int maxRowLength(final Object[][] a)`
 - **Summary:** Finds the maximum length among all sub-arrays in a two-dimensional array.
 - **Parameters:**
   - `a` (`Object[][]`) — the two-dimensional array to examine (can be {@code null} ).
@@ -3735,8 +3735,8 @@ Object-array helper namespace for three-dimensional arrays.
 - **Returns:** a new one-dimensional array containing all elements in order.
 - **Throws:**
   - `java.lang.IllegalArgumentException` — if {@code a} is {@code null} .
-##### mutateFlattened(...) -> void
-- **Signature:** `public static <T, E extends Exception> void mutateFlattened(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E`
+##### mutateAsFlatArray(...) -> void
+- **Signature:** `public static <T, E extends Exception> void mutateAsFlatArray(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E`
 - **Summary:** Flattens a three-dimensional array, applies an operation to the flattened result, then copies the modified elements back into the original three-dimensional structure.
 - **Contract:**
   - </p> <p> <b> &#9888; &#65039; Size limit: </b> If the logical element count exceeds {@code Integer.MAX_VALUE} , this method throws {@link ArithmeticException} before invoking the action or copying elements back.

@@ -643,10 +643,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * boolean emptyHas = IntTuple.from(new int[0]).contains(0);  // returns false
      * }</pre>
      *
-     * @param valueToFind the int value to search for
+     * @param value the int value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
-    public abstract boolean contains(int valueToFind);
+    public abstract boolean contains(int value);
 
     /**
      * Returns a new array containing all elements of this tuple.
@@ -973,11 +973,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * Checks if this tuple contains the specified int value.
          * Since this tuple is empty, this method always returns {@code false}.
          *
-         * @param valueToFind the int value to search for
+         * @param value the int value to search for
          * @return {@code false} always, because the tuple is empty
          */
         @Override
-        public boolean contains(final int valueToFind) {
+        public boolean contains(final int value) {
             return false;
         }
 
@@ -1193,12 +1193,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(Integer.MAX_VALUE).contains(Integer.MIN_VALUE);    // returns false
          * }</pre>
          *
-         * @param valueToFind the int value to search for
+         * @param value the int value to search for
          * @return {@code true} if the value equals _1, {@code false} otherwise
          */
         @Override
-        public boolean contains(final int valueToFind) {
-            return _1 == valueToFind;
+        public boolean contains(final int value) {
+            return _1 == value;
         }
 
         /**
@@ -1467,12 +1467,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(3, 5).contains(-3);    // returns false
          * }</pre>
          *
-         * @param valueToFind the int value to search for
-         * @return {@code true} if valueToFind equals _1 or _2
+         * @param value the int value to search for
+         * @return {@code true} if value equals _1 or _2
          */
         @Override
-        public boolean contains(final int valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind;
+        public boolean contains(final int value) {
+            return _1 == value || _2 == value;
         }
 
         /**
@@ -1889,12 +1889,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(1, 2, 3).contains(-1);    // returns false
          * }</pre>
          *
-         * @param valueToFind the int value to search for
-         * @return {@code true} if valueToFind equals _1, _2, or _3
+         * @param value the int value to search for
+         * @return {@code true} if value equals _1, _2, or _3
          */
         @Override
-        public boolean contains(final int valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind;
+        public boolean contains(final int value) {
+            return _1 == value || _2 == value || _3 == value;
         }
 
         /**
@@ -2358,12 +2358,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * t2.contains(-1); // returns false
          * }</pre>
          *
-         * @param valueToFind the int value to search for
-         * @return {@code true} if valueToFind equals any of the four elements
+         * @param value the int value to search for
+         * @return {@code true} if value equals any of the four elements
          */
         @Override
-        public boolean contains(final int valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        public boolean contains(final int value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value;
         }
 
         /**
@@ -2736,12 +2736,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * t2.contains(-1); // returns false
          * }</pre>
          *
-         * @param valueToFind the int value to search for
-         * @return {@code true} if valueToFind equals any of the five elements
+         * @param value the int value to search for
+         * @return {@code true} if value equals any of the five elements
          */
         @Override
-        public boolean contains(final int valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        public boolean contains(final int value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value;
         }
 
         /**
@@ -3119,12 +3119,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * t2.contains(-1); // returns false
          * }</pre>
          *
-         * @param valueToFind the int value to search for
-         * @return {@code true} if valueToFind equals any of the six elements
+         * @param value the int value to search for
+         * @return {@code true} if value equals any of the six elements
          */
         @Override
-        public boolean contains(final int valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        public boolean contains(final int value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value;
         }
 
         /**
@@ -3513,13 +3513,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * boolean hasMissing = neg.contains(-10);   // false
          * }</pre>
          *
-         * @param valueToFind the int value to search for
-         * @return {@code true} if valueToFind equals any of the seven elements
+         * @param value the int value to search for
+         * @return {@code true} if value equals any of the seven elements
          */
         @Override
-        public boolean contains(final int valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind;
+        public boolean contains(final int value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value;
         }
 
         /**
@@ -3912,13 +3911,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * boolean hasMissing = neg.contains(0);   // false
          * }</pre>
          *
-         * @param valueToFind the int value to search for
-         * @return {@code true} if valueToFind equals any of the eight elements
+         * @param value the int value to search for
+         * @return {@code true} if value equals any of the eight elements
          */
         @Override
-        public boolean contains(final int valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind;
+        public boolean contains(final int value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value;
         }
 
         /**
@@ -4317,13 +4315,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * boolean hasMissing = neg.contains(5);   // false
          * }</pre>
          *
-         * @param valueToFind the int value to search for
-         * @return {@code true} if valueToFind equals any of the nine elements
+         * @param value the int value to search for
+         * @return {@code true} if value equals any of the nine elements
          */
         @Override
-        public boolean contains(final int valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        public boolean contains(final int value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value || _9 == value;
         }
 
         /**

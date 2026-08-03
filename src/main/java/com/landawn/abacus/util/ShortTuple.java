@@ -688,10 +688,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * neg.contains((short) 1);           // returns false
      * }</pre>
      *
-     * @param valueToFind the short value to search for
+     * @param value the short value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
-    public abstract boolean contains(short valueToFind);
+    public abstract boolean contains(short value);
 
     /**
      * Returns a new array containing all elements of this tuple.
@@ -1033,11 +1033,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * Checks if this tuple contains the specified short value.
          * Since this tuple is empty, this method always returns {@code false}.
          *
-         * @param valueToFind the short value to search for
+         * @param value the short value to search for
          * @return {@code false} always, because the tuple is empty
          */
         @Override
-        public boolean contains(final short valueToFind) {
+        public boolean contains(final short value) {
             return false;
         }
 
@@ -1300,12 +1300,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * boolean hasMin = minVal.contains(Short.MIN_VALUE);   // returns true
          * }</pre>
          *
-         * @param valueToFind the short value to search for
-         * @return {@code true} if the element equals {@code valueToFind}, {@code false} otherwise
+         * @param value the short value to search for
+         * @return {@code true} if the element equals {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final short valueToFind) {
-            return _1 == valueToFind;
+        public boolean contains(final short value) {
+            return _1 == value;
         }
 
         /**
@@ -1655,12 +1655,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * boolean hasMin = bounds.contains(Short.MIN_VALUE);   // returns true
          * }</pre>
          *
-         * @param valueToFind the short value to search for
+         * @param value the short value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final short valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind;
+        public boolean contains(final short value) {
+            return _1 == value || _2 == value;
         }
 
         /**
@@ -2169,12 +2169,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * boolean hasMax   = bounds.contains(Short.MAX_VALUE);   // returns true
          * }</pre>
          *
-         * @param valueToFind the short value to search for
+         * @param value the short value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final short valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind;
+        public boolean contains(final short value) {
+            return _1 == value || _2 == value || _3 == value;
         }
 
         /**
@@ -2661,12 +2661,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * t2.contains((short) 1);       // returns false
          * }</pre>
          *
-         * @param valueToFind the short value to search for
+         * @param value the short value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final short valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        public boolean contains(final short value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value;
         }
 
         /**
@@ -3015,12 +3015,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * t2.contains((short) 2);       // returns false
          * }</pre>
          *
-         * @param valueToFind the short value to search for
+         * @param value the short value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final short valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        public boolean contains(final short value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value;
         }
 
         /**
@@ -3374,12 +3374,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * t2.contains((short) 3);       // returns false
          * }</pre>
          *
-         * @param valueToFind the short value to search for
+         * @param value the short value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final short valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        public boolean contains(final short value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value;
         }
 
         /**
@@ -3746,13 +3746,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * boolean b6 = t2.contains((short)7);    // returns false (wrong sign)
          * }</pre>
          *
-         * @param valueToFind the short value to search for
+         * @param value the short value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final short valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind;
+        public boolean contains(final short value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value;
         }
 
         /**
@@ -4140,13 +4139,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * boolean b6 = t2.contains((short)8);    // returns false (wrong sign)
          * }</pre>
          *
-         * @param valueToFind the short value to search for
+         * @param value the short value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final short valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind;
+        public boolean contains(final short value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value;
         }
 
         /**
@@ -4541,13 +4539,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * boolean b6 = t2.contains((short)9);    // returns false (wrong sign)
          * }</pre>
          *
-         * @param valueToFind the short value to search for
+         * @param value the short value to search for
          * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
-        public boolean contains(final short valueToFind) {
-            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
-                    || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        public boolean contains(final short value) {
+            return _1 == value || _2 == value || _3 == value || _4 == value || _5 == value || _6 == value || _7 == value || _8 == value || _9 == value;
         }
 
         /**

@@ -5,8 +5,8 @@ MODEL=opus-4.8  DATE=2026-06-21  EXECUTION=PARALLEL (orchestrator-verified)
 STRUCTURE: sealed class Arrays (permits Arrays.f). The main class provides 2D/3D
 array utilities organized as REPEATING PER-TYPE BLOCKS (boolean/char/byte/short/
 int/long/float/double + generic Object/T), each block = {println, updateAll,
-replaceIf, reshape, flatten, mutateFlattened, zip, elementCount, minImmediateSubArrayLength,
-maxImmediateSubArrayLength}, plus a typed-conversion block (toBoolean..toDouble, lines
+replaceIf, reshape, flatten, mutateAsFlatArray, zip, elementCount, minRowLength,
+maxRowLength}, plus a typed-conversion block (toBoolean..toDouble, lines
 ~16449-19864). Nested public final classes f (1D object), ff (2D object), fff
 (3D object) hold the functional/object-namespace helpers. Per-type repetition and
 f/ff/fff are INTENTIONAL template mirroring/dimensional variants, not duplication.
@@ -30,10 +30,10 @@ found in the mirrored primitive code.
 --------------------------------------------------------------------------------
 2. NAMING ISSUES
 --------------------------------------------------------------------------------
-mutateFlattened(...) | Arrays.java:10069-10088 (int 2D) + all 18 overloads | Low |
+mutateAsFlatArray(...) | Arrays.java:10069-10088 (int 2D) + all 18 overloads | Low |
    Clarify name/doc. The action receives a TEMPORARY flattened copy (flatten(a)),
    and results are copied back position-by-position bounded by the original row
-   lengths (10082-10087). "mutateFlattened" reads as "mutate the array as if flat",
+   lengths (10082-10087). "mutateAsFlatArray" reads as "mutate the array as if flat",
    but the user mutates a throwaway buffer and a global reordering (e.g. sort)
    redistributes values across rows. Recommend documenting that if the action
    changes the flat length, trailing/leading elements are silently dropped/
@@ -55,7 +55,7 @@ intentional and internally consistent across all blocks — NOT a finding.)
      zip no-target 2D 21196 / 3D 23032 and the 3-arg forms 21435 / 23277.
    In contrast, EVERY primitive variant (e.g. reshape int 9821-9824, flatten int
    9944-9946), the targetElementType generic overloads (e.g. ff.map(...,Class)
-   20759, generic zip(...,targetElementType) 21242/21488), and mutateFlattened
+   20759, generic zip(...,targetElementType) 21242/21488), and mutateAsFlatArray
    (which checks `action`, not `a`: 20651/22451) all treat null/empty `a` as an
    empty result / no-op. So the null contract depends on which overload you pick.
    Recommend: make the inferred-type generic overloads return an empty result on
@@ -108,11 +108,11 @@ println(...) I/O coupling | Arrays.java:92,148,202 + all per-type overloads |
    zip is not intentionally delegated to N.zip / Stream elsewhere; if it is,
    document that instead of adding.
 
-[C] minImmediateSubArrayLength / maxImmediateSubArrayLength missing in 3D (and asymmetric with
+[C] minRowLength / maxRowLength missing in 3D (and asymmetric with
    elementCount) | present only as 2D for all primitives + ff Object[][] (22060/
    22103); NONE in fff; elementCount exists in BOTH ff(22018) and fff(23545) |
    Medium | Make consistent with elementCount: either add 3D
-   minImmediateSubArrayLength/maxImmediateSubArrayLength (primitive [][][] and T[][][]) returning
+   minRowLength/maxRowLength (primitive [][][] and T[][][]) returning
    the min/max innermost row length, or deliberately scope these as 2D-only and
    document it. (The 3D absence is at least uniform across all types today.)
 

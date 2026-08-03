@@ -684,11 +684,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.from(new float[0]).contains(0.0f);               // returns false
      * }</pre>
      *
-     * @param valueToFind the float value to search for
+     * @param value the float value to search for
      * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      * @see Float#compare(float, float)
      */
-    public abstract boolean contains(float valueToFind);
+    public abstract boolean contains(float value);
 
     /**
      * Returns a new array containing all elements of this tuple.
@@ -1020,11 +1020,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * Checks if this tuple contains the specified float value.
          * Since this tuple is empty, this method always returns {@code false}.
          *
-         * @param valueToFind the float value to search for
+         * @param value the float value to search for
          * @return {@code false} always, because the tuple is empty
          */
         @Override
-        public boolean contains(final float valueToFind) {
+        public boolean contains(final float value) {
             return false;
         }
 
@@ -1260,12 +1260,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean negInfMissing = infTuple.contains(Float.NEGATIVE_INFINITY);   // returns false
          * }</pre>
          *
-         * @param valueToFind the float value to search for
-         * @return {@code true} if {@code _1} equals {@code valueToFind}, {@code false} otherwise
+         * @param value the float value to search for
+         * @return {@code true} if {@code _1} equals {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind);
+        public boolean contains(final float value) {
+            return N.equals(_1, value);
         }
 
         /**
@@ -1619,13 +1619,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean negInfMissing = infT.contains(Float.NEGATIVE_INFINITY);   // returns false
          * }</pre>
          *
-         * @param valueToFind the float value to search for
-         * @return {@code true} if {@code _1} or {@code _2} equals {@code valueToFind},
+         * @param value the float value to search for
+         * @return {@code true} if {@code _1} or {@code _2} equals {@code value},
          *         {@code false} otherwise
          */
         @Override
-        public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind);
+        public boolean contains(final float value) {
+            return N.equals(_1, value) || N.equals(_2, value);
         }
 
         /**
@@ -2126,13 +2126,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean negInfMissing = infT.contains(Float.NEGATIVE_INFINITY);   // returns false
          * }</pre>
          *
-         * @param valueToFind the float value to search for
+         * @param value the float value to search for
          * @return {@code true} if any of {@code _1}, {@code _2}, {@code _3} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind);
+        public boolean contains(final float value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value);
         }
 
         /**
@@ -2638,13 +2638,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean b5 = withInf.contains(Float.NEGATIVE_INFINITY);   // returns false
          * }</pre>
          *
-         * @param valueToFind the float value to search for
+         * @param value the float value to search for
          * @return {@code true} if any of {@code _1} through {@code _4} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind);
+        public boolean contains(final float value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value);
         }
 
         /**
@@ -3030,14 +3030,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean b5 = withInf.contains(Float.POSITIVE_INFINITY);   // returns false
          * }</pre>
          *
-         * @param valueToFind the float value to search for
+         * @param value the float value to search for
          * @return {@code true} if any of {@code _1} through {@code _5} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
-                    || N.equals(_5, valueToFind);
+        public boolean contains(final float value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value);
         }
 
         /**
@@ -3429,14 +3428,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean b5 = withInf.contains(Float.POSITIVE_INFINITY);   // returns false
          * }</pre>
          *
-         * @param valueToFind the float value to search for
+         * @param value the float value to search for
          * @return {@code true} if any of {@code _1} through {@code _6} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
-                    || N.equals(_6, valueToFind);
+        public boolean contains(final float value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value);
         }
 
         /**
@@ -3831,14 +3829,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean hasMissing = withInf.contains(-1.0f);               // returns false
          * }</pre>
          *
-         * @param valueToFind the float value to search for
+         * @param value the float value to search for
          * @return {@code true} if any of {@code _1} through {@code _7} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
-                    || N.equals(_6, valueToFind) || N.equals(_7, valueToFind);
+        public boolean contains(final float value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
+                    || N.equals(_7, value);
         }
 
         /**
@@ -4252,14 +4250,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean hasMissing = withInf.contains(-1.0f);               // returns false
          * }</pre>
          *
-         * @param valueToFind the float value to search for
+         * @param value the float value to search for
          * @return {@code true} if any of {@code _1} through {@code _8} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
-                    || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind);
+        public boolean contains(final float value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
+                    || N.equals(_7, value) || N.equals(_8, value);
         }
 
         /**
@@ -4680,14 +4678,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean hasMissing = withInf.contains(-1.0f);               // returns false
          * }</pre>
          *
-         * @param valueToFind the float value to search for
+         * @param value the float value to search for
          * @return {@code true} if any of {@code _1} through {@code _9} equals
-         *         {@code valueToFind}, {@code false} otherwise
+         *         {@code value}, {@code false} otherwise
          */
         @Override
-        public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
-                    || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind) || N.equals(_9, valueToFind);
+        public boolean contains(final float value) {
+            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
+                    || N.equals(_7, value) || N.equals(_8, value) || N.equals(_9, value);
         }
 
         /**

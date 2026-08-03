@@ -154,17 +154,17 @@ class ArraysTest extends TestBase {
     }
 
     @Test
-    public void test_minImmediateSubArrayLength() {
+    public void test_minRowLength() {
         final String[][] a = { { "a", "b" }, { "c", "d", "d" } };
         final String[][][] b = { { { "a", "b" } }, { { "1", "2" }, { "3", "4" } } };
         final int[][][] c = Arrays.reshape(Array.rangeClosed(1, 9), 2, 3);
 
-        assertEquals(2, ff.minImmediateSubArrayLength(a));
-        assertEquals(3, ff.maxImmediateSubArrayLength(a));
-        assertEquals(1, ff.minImmediateSubArrayLength(b));
-        assertEquals(2, ff.maxImmediateSubArrayLength(b));
-        assertEquals(1, ff.minImmediateSubArrayLength(c));
-        assertEquals(2, ff.maxImmediateSubArrayLength(c));
+        assertEquals(2, ff.minRowLength(a));
+        assertEquals(3, ff.maxRowLength(a));
+        assertEquals(1, ff.minRowLength(b));
+        assertEquals(2, ff.maxRowLength(b));
+        assertEquals(1, ff.minRowLength(c));
+        assertEquals(2, ff.maxRowLength(c));
 
     }
 
@@ -3709,12 +3709,12 @@ class ArraysTest extends TestBase {
             Assertions.assertArrayEquals(new boolean[] {}, deepEmptyFlattened);
         }
 
-        // Tests for mutateFlattened methods
+        // Tests for mutateAsFlatArray methods
         @Test
         public void testFlatOp_Boolean2DArray() {
             // Test sorting operation
             boolean[][] arr = { { true, false, true }, { false, true } };
-            Arrays.mutateFlattened(arr, flatArr -> {
+            Arrays.mutateAsFlatArray(arr, flatArr -> {
                 // Sort to have all false values first
                 CommonUtil.sort(flatArr);
             });
@@ -3724,7 +3724,7 @@ class ArraysTest extends TestBase {
 
             // Test with operation that sets all to true
             boolean[][] arr2 = { { true, false }, { false, true } };
-            Arrays.mutateFlattened(arr2, flatArr -> {
+            Arrays.mutateAsFlatArray(arr2, flatArr -> {
                 for (int i = 0; i < flatArr.length; i++) {
                     flatArr[i] = true;
                 }
@@ -3734,14 +3734,14 @@ class ArraysTest extends TestBase {
 
             // Test with empty array
             boolean[][] emptyArr = {};
-            Arrays.mutateFlattened(emptyArr, flatArr -> {
+            Arrays.mutateAsFlatArray(emptyArr, flatArr -> {
                 // Should not be called
                 Assertions.fail("Operation should not be called on empty array");
             });
 
             // Test with array containing empty sub-arrays
             boolean[][] mixedArr = { { true, false }, {}, { true } };
-            Arrays.mutateFlattened(mixedArr, flatArr -> {
+            Arrays.mutateAsFlatArray(mixedArr, flatArr -> {
                 for (int i = 0; i < flatArr.length; i++) {
                     flatArr[i] = !flatArr[i];
                 }
@@ -3755,7 +3755,7 @@ class ArraysTest extends TestBase {
         public void testFlatOp_Boolean3DArray() {
             // Test with normal three-dimensional array
             boolean[][][] arr = { { { true, false } }, { { false, true }, { true, true } } };
-            Arrays.mutateFlattened(arr, flatArr -> {
+            Arrays.mutateAsFlatArray(arr, flatArr -> {
                 // Reverse all values
                 for (int i = 0; i < flatArr.length; i++) {
                     flatArr[i] = !flatArr[i];
@@ -3767,7 +3767,7 @@ class ArraysTest extends TestBase {
 
             // Test with empty three-dimensional array
             boolean[][][] emptyArr = {};
-            Arrays.mutateFlattened(emptyArr, flatArr -> {
+            Arrays.mutateAsFlatArray(emptyArr, flatArr -> {
                 // Should not be called
                 Assertions.fail("Operation should not be called on empty array");
             });
@@ -3775,7 +3775,7 @@ class ArraysTest extends TestBase {
             // Test counting operation
             boolean[][][] countArr = { { { true, false, true } }, { { false, false } } };
             int[] trueCount = { 0 };
-            Arrays.mutateFlattened(countArr, flatArr -> {
+            Arrays.mutateAsFlatArray(countArr, flatArr -> {
                 for (boolean b : flatArr) {
                     if (b)
                         trueCount[0]++;
@@ -3789,7 +3789,7 @@ class ArraysTest extends TestBase {
             boolean[][] arr = { { true, false }, { true } };
 
             Assertions.assertThrows(Exception.class, () -> {
-                Arrays.mutateFlattened(arr, flatArr -> {
+                Arrays.mutateAsFlatArray(arr, flatArr -> {
                     throw new Exception("Test exception");
                 });
             });
@@ -3981,35 +3981,35 @@ class ArraysTest extends TestBase {
         public void testFlatOp() throws Exception {
             // Test sorting all elements
             Integer[][] array = { { 3, 1, 4 }, { 1, 5, 9 } };
-            ff.mutateFlattened(array, arr -> java.util.Arrays.sort(arr));
+            ff.mutateAsFlatArray(array, arr -> java.util.Arrays.sort(arr));
             Assertions.assertArrayEquals(new Integer[] { 1, 1, 3 }, array[0]);
             Assertions.assertArrayEquals(new Integer[] { 4, 5, 9 }, array[1]);
 
             // Test with null sub-arrays
             Integer[][] arrayWithNulls = { { 5, 3 }, null, { 1, 4 } };
-            ff.mutateFlattened(arrayWithNulls, arr -> java.util.Arrays.sort(arr));
+            ff.mutateAsFlatArray(arrayWithNulls, arr -> java.util.Arrays.sort(arr));
             Assertions.assertArrayEquals(new Integer[] { 1, 3 }, arrayWithNulls[0]);
             Assertions.assertNull(arrayWithNulls[1]);
             Assertions.assertArrayEquals(new Integer[] { 4, 5 }, arrayWithNulls[2]);
 
             // Test with empty sub-arrays
             Integer[][] arrayWithEmpty = { { 5, 3 }, {}, { 1, 4 } };
-            ff.mutateFlattened(arrayWithEmpty, arr -> java.util.Arrays.sort(arr));
+            ff.mutateAsFlatArray(arrayWithEmpty, arr -> java.util.Arrays.sort(arr));
             Assertions.assertArrayEquals(new Integer[] { 1, 3 }, arrayWithEmpty[0]);
             Assertions.assertArrayEquals(new Integer[] {}, arrayWithEmpty[1]);
             Assertions.assertArrayEquals(new Integer[] { 4, 5 }, arrayWithEmpty[2]);
 
             // Test with empty array
             Integer[][] emptyArray = {};
-            ff.mutateFlattened(emptyArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
+            ff.mutateAsFlatArray(emptyArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
 
             // Test with null array
             Integer[][] nullArray = null;
-            ff.mutateFlattened(nullArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
+            ff.mutateAsFlatArray(nullArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
 
             // Test with custom operation
             Integer[][] array2 = { { 1, 2 }, { 3, 4 } };
-            ff.mutateFlattened(array2, arr -> {
+            ff.mutateAsFlatArray(array2, arr -> {
                 for (int i = 0; i < arr.length; i++) {
                     arr[i] = arr[i] * 10;
                 }
@@ -4438,88 +4438,88 @@ class ArraysTest extends TestBase {
         public void testTotalCountOfElements() {
             // Test normal array
             Object[][] array = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            long total = ff.elementCount(array);
+            long total = ff.totalElementCount(array);
             Assertions.assertEquals(6, total);
 
             // Test empty array
             Object[][] emptyArray = {};
-            Assertions.assertEquals(0, ff.elementCount(emptyArray));
+            Assertions.assertEquals(0, ff.totalElementCount(emptyArray));
 
             // Test null array
             Object[][] nullArray = null;
-            Assertions.assertEquals(0, ff.elementCount(nullArray));
+            Assertions.assertEquals(0, ff.totalElementCount(nullArray));
 
             // Test array with all nulls
             Object[][] isAllNulls = { null, null, null };
-            Assertions.assertEquals(0, ff.elementCount(isAllNulls));
+            Assertions.assertEquals(0, ff.totalElementCount(isAllNulls));
 
             // Test array with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, {}, { 3, 4, 5 } };
-            Assertions.assertEquals(5, ff.elementCount(withEmpty));
+            Assertions.assertEquals(5, ff.totalElementCount(withEmpty));
 
             // Test large array
             Object[][] largeArray = new Object[1000][];
             for (int i = 0; i < 1000; i++) {
                 largeArray[i] = new Object[10];
             }
-            Assertions.assertEquals(10000, ff.elementCount(largeArray));
+            Assertions.assertEquals(10000, ff.totalElementCount(largeArray));
         }
 
         @Test
         public void testMinSubArrayLen() {
             // Test normal array
             Object[][] array = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            int minLen = ff.minImmediateSubArrayLength(array);
+            int minLen = ff.minRowLength(array);
             Assertions.assertEquals(0, minLen); // null counts as 0
 
             // Test without null
             Object[][] array2 = { { 1, 2, 3 }, { 4, 5 }, { 6 } };
-            int minLen2 = ff.minImmediateSubArrayLength(array2);
+            int minLen2 = ff.minRowLength(array2);
             Assertions.assertEquals(1, minLen2);
 
             // Test empty array
             Object[][] emptyArray = {};
-            Assertions.assertEquals(0, ff.minImmediateSubArrayLength(emptyArray));
+            Assertions.assertEquals(0, ff.minRowLength(emptyArray));
 
             // Test null array
             Object[][] nullArray = null;
-            Assertions.assertEquals(0, ff.minImmediateSubArrayLength(nullArray));
+            Assertions.assertEquals(0, ff.minRowLength(nullArray));
 
             // Test with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, { 3, 4, 5 } };
-            Assertions.assertEquals(0, ff.minImmediateSubArrayLength(withEmpty));
+            Assertions.assertEquals(0, ff.minRowLength(withEmpty));
 
             // Test uniform length
             Object[][] uniform = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-            Assertions.assertEquals(3, ff.minImmediateSubArrayLength(uniform));
+            Assertions.assertEquals(3, ff.minRowLength(uniform));
         }
 
         @Test
         public void testMaxSubArrayLen() {
             // Test normal array
             Object[][] array = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            int maxLen = ff.maxImmediateSubArrayLength(array);
+            int maxLen = ff.maxRowLength(array);
             Assertions.assertEquals(3, maxLen);
 
             // Test empty array
             Object[][] emptyArray = {};
-            Assertions.assertEquals(0, ff.maxImmediateSubArrayLength(emptyArray));
+            Assertions.assertEquals(0, ff.maxRowLength(emptyArray));
 
             // Test null array
             Object[][] nullArray = null;
-            Assertions.assertEquals(0, ff.maxImmediateSubArrayLength(nullArray));
+            Assertions.assertEquals(0, ff.maxRowLength(nullArray));
 
             // Test with all nulls
             Object[][] isAllNulls = { null, null, null };
-            Assertions.assertEquals(0, ff.maxImmediateSubArrayLength(isAllNulls));
+            Assertions.assertEquals(0, ff.maxRowLength(isAllNulls));
 
             // Test with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, { 3, 4, 5, 6, 7 } };
-            Assertions.assertEquals(5, ff.maxImmediateSubArrayLength(withEmpty));
+            Assertions.assertEquals(5, ff.maxRowLength(withEmpty));
 
             // Test uniform length
             Object[][] uniform = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
-            Assertions.assertEquals(2, ff.maxImmediateSubArrayLength(uniform));
+            Assertions.assertEquals(2, ff.maxRowLength(uniform));
         }
     }
 
@@ -4676,7 +4676,7 @@ class ArraysTest extends TestBase {
         public void testFlatOp() throws Exception {
             // Test sorting all elements
             Integer[][][] arr = { { { 5, 2 } }, { { 9, 1 } }, { { 3, 7 } } };
-            fff.mutateFlattened(arr, flat -> java.util.Arrays.sort(flat));
+            fff.mutateAsFlatArray(arr, flat -> java.util.Arrays.sort(flat));
             Assertions.assertEquals(1, arr[0][0][0]);
             Assertions.assertEquals(2, arr[0][0][1]);
             Assertions.assertEquals(3, arr[1][0][0]);
@@ -4686,7 +4686,7 @@ class ArraysTest extends TestBase {
 
             // Test reversing elements
             Integer[][][] arr2 = { { { 1, 2 } }, { { 3, 4 } } };
-            fff.mutateFlattened(arr2, flat -> {
+            fff.mutateAsFlatArray(arr2, flat -> {
                 for (int i = 0; i < flat.length / 2; i++) {
                     Integer temp = flat[i];
                     flat[i] = flat[flat.length - 1 - i];
@@ -4700,12 +4700,12 @@ class ArraysTest extends TestBase {
 
             // Test with empty array
             Integer[][][] emptyArr = new Integer[0][][];
-            fff.mutateFlattened(emptyArr, flat -> java.util.Arrays.sort(flat));
+            fff.mutateAsFlatArray(emptyArr, flat -> java.util.Arrays.sort(flat));
             Assertions.assertEquals(0, emptyArr.length);
 
             // Test with null and empty sub-arrays
             Integer[][][] mixedArr = { { { 1, 2 } }, null, { {} }, { { 3, 4 } } };
-            fff.mutateFlattened(mixedArr, flat -> {
+            fff.mutateAsFlatArray(mixedArr, flat -> {
                 for (int i = 0; i < flat.length; i++) {
                     flat[i] = flat[i] * 10;
                 }
@@ -5151,27 +5151,27 @@ class ArraysTest extends TestBase {
         public void testTotalCountOfElements() {
             // Test with regular array
             Object[][][] array = { { { 1, 2 }, { 3 } }, null, { { 4, 5, 6 } } };
-            long count = fff.elementCount(array);
+            long count = fff.totalElementCount(array);
             Assertions.assertEquals(6, count);
 
             // Test with empty array
             Object[][][] emptyArray = new Object[0][][];
-            long emptyCount = fff.elementCount(emptyArray);
+            long emptyCount = fff.totalElementCount(emptyArray);
             Assertions.assertEquals(0, emptyCount);
 
             // Test with all null/empty elements
             Object[][][] nullArray = { null, { null, {} }, { {} } };
-            long nullCount = fff.elementCount(nullArray);
+            long nullCount = fff.totalElementCount(nullArray);
             Assertions.assertEquals(0, nullCount);
 
             // Test with mixed elements
             Object[][][] mixedArray = { { { 1, 2, 3 } }, { {} }, { { 4 } }, null, { { 5, 6, 7, 8 } } };
-            long mixedCount = fff.elementCount(mixedArray);
+            long mixedCount = fff.totalElementCount(mixedArray);
             Assertions.assertEquals(8, mixedCount);
 
             // Test with jagged array
             Object[][][] jaggedArray = { { { 1 }, { 2, 3 }, { 4, 5, 6 } }, { { 7, 8 } }, { { 9, 10, 11, 12 } } };
-            long jaggedCount = fff.elementCount(jaggedArray);
+            long jaggedCount = fff.totalElementCount(jaggedArray);
             Assertions.assertEquals(12, jaggedCount);
         }
 
@@ -5248,8 +5248,8 @@ class ArraysTest extends TestBase {
                 }
             }
 
-            // Test elementCount
-            long count = fff.elementCount(largeArr);
+            // Test totalElementCount
+            long count = fff.totalElementCount(largeArr);
             Assertions.assertEquals(1000, count);
 
             // Test flatten
@@ -6213,13 +6213,13 @@ class ArraysTest extends TestBase {
         // Note: replaceIf for Object arrays is not available in Arrays.java
 
         // ============================================
-        // Tests for minImmediateSubArrayLength and maxImmediateSubArrayLength
+        // Tests for minRowLength and maxRowLength
         // ============================================
 
         @Test
         public void testMinSubArrayLen_Boolean2D() {
             boolean[][] a = { { true, false }, { true }, { true, false, true } };
-            int result = Arrays.minImmediateSubArrayLength(a);
+            int result = Arrays.minRowLength(a);
 
             assertEquals(1, result);
         }
@@ -6227,7 +6227,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMaxSubArrayLen_Boolean2D() {
             boolean[][] a = { { true, false }, { true }, { true, false, true } };
-            int result = Arrays.maxImmediateSubArrayLength(a);
+            int result = Arrays.maxRowLength(a);
 
             assertEquals(3, result);
         }
@@ -6235,7 +6235,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMinSubArrayLen_Char2D() {
             char[][] a = { { 'a', 'b' }, { 'c' }, { 'd', 'e', 'f' } };
-            int result = Arrays.minImmediateSubArrayLength(a);
+            int result = Arrays.minRowLength(a);
 
             assertEquals(1, result);
         }
@@ -6243,7 +6243,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMaxSubArrayLen_Char2D() {
             char[][] a = { { 'a', 'b' }, { 'c' }, { 'd', 'e', 'f' } };
-            int result = Arrays.maxImmediateSubArrayLength(a);
+            int result = Arrays.maxRowLength(a);
 
             assertEquals(3, result);
         }
@@ -6251,7 +6251,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testMinSubArrayLen_Int2D() {
             int[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-            int result = Arrays.minImmediateSubArrayLength(a);
+            int result = Arrays.minRowLength(a);
 
             assertEquals(1, result);
         }
@@ -6259,13 +6259,13 @@ class ArraysTest extends TestBase {
         @Test
         public void testMaxSubArrayLen_Int2D() {
             int[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-            int result = Arrays.maxImmediateSubArrayLength(a);
+            int result = Arrays.maxRowLength(a);
 
             assertEquals(3, result);
         }
 
         // ============================================
-        // Tests for mutateFlattened methods
+        // Tests for mutateAsFlatArray methods
         // ============================================
 
         @Test
@@ -6273,7 +6273,7 @@ class ArraysTest extends TestBase {
             boolean[][] a = { { true, false }, { true, false } };
             List<Boolean> result = new ArrayList<>();
 
-            Arrays.mutateFlattened(a, subArray -> {
+            Arrays.mutateAsFlatArray(a, subArray -> {
                 for (boolean val : subArray) {
                     result.add(val);
                 }
@@ -6289,7 +6289,7 @@ class ArraysTest extends TestBase {
             int[][] a = { { 1, 2 }, { 3, 4 } };
             List<Integer> result = new ArrayList<>();
 
-            Arrays.mutateFlattened(a, subArray -> {
+            Arrays.mutateAsFlatArray(a, subArray -> {
                 for (int val : subArray) {
                     result.add(val);
                 }
@@ -6305,7 +6305,7 @@ class ArraysTest extends TestBase {
             double[][] a = { { 1.0, 2.0 }, { 3.0, 4.0 } };
             List<Double> result = new ArrayList<>();
 
-            Arrays.mutateFlattened(a, subArray -> {
+            Arrays.mutateAsFlatArray(a, subArray -> {
                 for (double val : subArray) {
                     result.add(val);
                 }
@@ -6320,7 +6320,7 @@ class ArraysTest extends TestBase {
             boolean[][][] a = { { { true, false } }, { { true } } };
             List<Boolean> result = new ArrayList<>();
 
-            Arrays.mutateFlattened(a, subArray -> {
+            Arrays.mutateAsFlatArray(a, subArray -> {
                 for (boolean val : subArray) {
                     result.add(val);
                 }
@@ -6334,7 +6334,7 @@ class ArraysTest extends TestBase {
             int[][][] a = { { { 1, 2 } }, { { 3 } } };
             List<Integer> result = new ArrayList<>();
 
-            Arrays.mutateFlattened(a, subArray -> {
+            Arrays.mutateAsFlatArray(a, subArray -> {
                 for (int val : subArray) {
                     result.add(val);
                 }
@@ -6970,118 +6970,118 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for elementCount methods
+        // Tests for totalElementCount methods
         // ============================================
 
         @Test
         public void testTotalCountOfElements_Boolean2D() {
             boolean[][] a = { { true, false }, { true }, { true, false, true } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(6, result);
         }
 
         @Test
         public void testTotalCountOfElements_Boolean3D() {
             boolean[][][] a = { { { true, false }, { true } }, { { false } } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(4, result);
         }
 
         @Test
         public void testTotalCountOfElements_Char2D() {
             char[][] a = { { 'a', 'b' }, { 'c' }, { 'd', 'e', 'f' } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(6, result);
         }
 
         @Test
         public void testTotalCountOfElements_Char3D() {
             char[][][] a = { { { 'a', 'b' }, { 'c' } }, { { 'd' } } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(4, result);
         }
 
         @Test
         public void testTotalCountOfElements_Byte2D() {
             byte[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(6, result);
         }
 
         @Test
         public void testTotalCountOfElements_Byte3D() {
             byte[][][] a = { { { 1, 2 }, { 3 } }, { { 4 } } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(4, result);
         }
 
         @Test
         public void testTotalCountOfElements_Short2D() {
             short[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(6, result);
         }
 
         @Test
         public void testTotalCountOfElements_Short3D() {
             short[][][] a = { { { 1, 2 }, { 3 } }, { { 4 } } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(4, result);
         }
 
         @Test
         public void testTotalCountOfElements_Int2D() {
             int[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(6, result);
         }
 
         @Test
         public void testTotalCountOfElements_Int3D() {
             int[][][] a = { { { 1, 2 }, { 3 } }, { { 4 } } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(4, result);
         }
 
         @Test
         public void testTotalCountOfElements_Long2D() {
             long[][] a = { { 1L, 2L }, { 3L }, { 4L, 5L, 6L } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(6, result);
         }
 
         @Test
         public void testTotalCountOfElements_Long3D() {
             long[][][] a = { { { 1L, 2L }, { 3L } }, { { 4L } } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(4, result);
         }
 
         @Test
         public void testTotalCountOfElements_Float2D() {
             float[][] a = { { 1.0f, 2.0f }, { 3.0f }, { 4.0f, 5.0f, 6.0f } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(6, result);
         }
 
         @Test
         public void testTotalCountOfElements_Float3D() {
             float[][][] a = { { { 1.0f, 2.0f }, { 3.0f } }, { { 4.0f } } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(4, result);
         }
 
         @Test
         public void testTotalCountOfElements_Double2D() {
             double[][] a = { { 1.0, 2.0 }, { 3.0 }, { 4.0, 5.0, 6.0 } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(6, result);
         }
 
         @Test
         public void testTotalCountOfElements_Double3D() {
             double[][][] a = { { { 1.0, 2.0 }, { 3.0 } }, { { 4.0 } } };
-            long result = Arrays.elementCount(a);
+            long result = Arrays.totalElementCount(a);
             assertEquals(4, result);
         }
 
@@ -8344,7 +8344,7 @@ class ArraysTest extends TestBase {
      * - Array transformations (reshape, flatten, zip)
      * - In-place operations (updateAll, replaceIf)
      * - Type conversions (toBoolean, toByte, toChar, etc.)
-     * - Statistical operations (elementCount, minImmediateSubArrayLength, maxImmediateSubArrayLength)
+     * - Statistical operations (totalElementCount, minRowLength, maxRowLength)
      */
     @Tag("2510")
     class Arrays2510Test extends TestBase {
@@ -10077,14 +10077,14 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for mutateFlattened methods - boolean
+        // Tests for mutateAsFlatArray methods - boolean
         // ============================================
 
         @Test
         public void testFlatOp_2D_Boolean_normal() {
             boolean[][] arr = { { true, false }, { false, true } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(4, count[0]);
         }
 
@@ -10092,19 +10092,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Boolean_normal() {
             boolean[][][] arr = { { { true, false } }, { { true } } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateFlattened methods - char
+        // Tests for mutateAsFlatArray methods - char
         // ============================================
 
         @Test
         public void testFlatOp_2D_Char_normal() {
             char[][] arr = { { 'a', 'b' }, { 'c' } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -10112,19 +10112,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Char_normal() {
             char[][][] arr = { { { 'x', 'y' } }, { { 'z' } } };
             final int[] sum = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> sum[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> sum[0] += subArr.length);
             assertEquals(3, sum[0]);
         }
 
         // ============================================
-        // Tests for mutateFlattened methods - byte
+        // Tests for mutateAsFlatArray methods - byte
         // ============================================
 
         @Test
         public void testFlatOp_2D_Byte_normal() {
             byte[][] arr = { { 1, 2 }, { 3, 4 } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(4, count[0]);
         }
 
@@ -10132,19 +10132,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Byte_normal() {
             byte[][][] arr = { { { 1, 2 } }, { { 3 } } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateFlattened methods - short
+        // Tests for mutateAsFlatArray methods - short
         // ============================================
 
         @Test
         public void testFlatOp_2D_Short_normal() {
             short[][] arr = { { 10, 20 }, { 30 } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -10152,19 +10152,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Short_normal() {
             short[][][] arr = { { { 100, 200 } }, { { 300 } } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateFlattened methods - int
+        // Tests for mutateAsFlatArray methods - int
         // ============================================
 
         @Test
         public void testFlatOp_2D_Int_normal() {
             int[][] arr = { { 1, 2, 3 }, { 4, 5 } };
             final int[] sum = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> {
+            Arrays.mutateAsFlatArray(arr, subArr -> {
                 for (int val : subArr) {
                     sum[0] += val;
                 }
@@ -10176,7 +10176,7 @@ class ArraysTest extends TestBase {
         public void testFlatOp_2D_Int_null() {
             int[][] arr = null;
             final int[] sum = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> sum[0]++); // Should not throw exception
+            Arrays.mutateAsFlatArray(arr, subArr -> sum[0]++); // Should not throw exception
             assertEquals(0, sum[0]);
         }
 
@@ -10184,19 +10184,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Int_normal() {
             int[][][] arr = { { { 1, 2 }, { 3 } }, { { 4 } } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(4, count[0]);
         }
 
         // ============================================
-        // Tests for mutateFlattened methods - long
+        // Tests for mutateAsFlatArray methods - long
         // ============================================
 
         @Test
         public void testFlatOp_2D_Long_normal() {
             long[][] arr = { { 100L, 200L }, { 300L } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -10204,19 +10204,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Long_normal() {
             long[][][] arr = { { { 1000L, 2000L } }, { { 3000L } } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateFlattened methods - float
+        // Tests for mutateAsFlatArray methods - float
         // ============================================
 
         @Test
         public void testFlatOp_2D_Float_normal() {
             float[][] arr = { { 1.1f, 2.2f }, { 3.3f } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -10224,19 +10224,19 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Float_normal() {
             float[][][] arr = { { { 1.0f, 2.0f } }, { { 3.0f } } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
         // ============================================
-        // Tests for mutateFlattened methods - double
+        // Tests for mutateAsFlatArray methods - double
         // ============================================
 
         @Test
         public void testFlatOp_2D_Double_normal() {
             double[][] arr = { { 1.5, 2.5 }, { 3.5, 4.5 } };
             final double[] sum = { 0.0 };
-            Arrays.mutateFlattened(arr, subArr -> {
+            Arrays.mutateAsFlatArray(arr, subArr -> {
                 for (double val : subArr) {
                     sum[0] += val;
                 }
@@ -10248,7 +10248,7 @@ class ArraysTest extends TestBase {
         public void testFlatOp_3D_Double_normal() {
             double[][][] arr = { { { 10.5, 20.5 } }, { { 30.5 } } };
             final int[] count = { 0 };
-            Arrays.mutateFlattened(arr, subArr -> count[0] += subArr.length);
+            Arrays.mutateAsFlatArray(arr, subArr -> count[0] += subArr.length);
             assertEquals(3, count[0]);
         }
 
@@ -10615,105 +10615,105 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for elementCount methods
+        // Tests for totalElementCount methods
         // ============================================
 
         @Test
         public void testTotalCountOfElements_2D_Boolean() {
             boolean[][] arr = { { true, false }, { true, false, true } };
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
             assertEquals(5L, count);
         }
 
         @Test
         public void testTotalCountOfElements_2D_Boolean_null() {
             boolean[][] arr = null;
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
             assertEquals(0L, count);
         }
 
         @Test
         public void testTotalCountOfElements_3D_Boolean() {
             boolean[][][] arr = { { { true, false }, { true } }, { { false } } };
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
             assertEquals(4L, count);
         }
 
         @Test
         public void testTotalCountOfElements_2D_Int() {
             int[][] arr = { { 1, 2, 3 }, { 4, 5 } };
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
             assertEquals(5L, count);
         }
 
         @Test
         public void testTotalCountOfElements_3D_Double() {
             double[][][] arr = { { { 1.0, 2.0 }, { 3.0 } }, { { 4.0, 5.0 } } };
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
             assertEquals(5L, count);
         }
 
         // ============================================
-        // Tests for minImmediateSubArrayLength methods
+        // Tests for minRowLength methods
         // ============================================
 
         @Test
         public void testMinSubArrayLen_2D_Boolean() {
             boolean[][] arr = { { true, false, true }, { false }, { true, false } };
-            int minLen = Arrays.minImmediateSubArrayLength(arr);
+            int minLen = Arrays.minRowLength(arr);
             assertEquals(1, minLen);
         }
 
         @Test
         public void testMinSubArrayLen_2D_Boolean_null() {
             boolean[][] arr = null;
-            int minLen = Arrays.minImmediateSubArrayLength(arr);
+            int minLen = Arrays.minRowLength(arr);
             assertEquals(0, minLen);
         }
 
         @Test
         public void testMinSubArrayLen_2D_Int() {
             int[][] arr = { { 1, 2, 3 }, { 4, 5 }, { 6, 7, 8, 9 } };
-            int minLen = Arrays.minImmediateSubArrayLength(arr);
+            int minLen = Arrays.minRowLength(arr);
             assertEquals(2, minLen);
         }
 
         @Test
         public void testMinSubArrayLen_2D_Double() {
             double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0, 5.0 }, { 6.0 } };
-            int minLen = Arrays.minImmediateSubArrayLength(arr);
+            int minLen = Arrays.minRowLength(arr);
             assertEquals(1, minLen);
         }
 
         // ============================================
-        // Tests for maxImmediateSubArrayLength methods
+        // Tests for maxRowLength methods
         // ============================================
 
         @Test
         public void testMaxSubArrayLen_2D_Boolean() {
             boolean[][] arr = { { true, false }, { true, false, true }, { false } };
-            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
+            int maxLen = Arrays.maxRowLength(arr);
             assertEquals(3, maxLen);
         }
 
         @Test
         public void testMaxSubArrayLen_2D_Boolean_null() {
             boolean[][] arr = null;
-            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
+            int maxLen = Arrays.maxRowLength(arr);
             assertEquals(0, maxLen);
         }
 
         @Test
         public void testMaxSubArrayLen_2D_Int() {
             int[][] arr = { { 1, 2 }, { 3, 4, 5, 6 }, { 7 } };
-            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
+            int maxLen = Arrays.maxRowLength(arr);
             assertEquals(4, maxLen);
         }
 
         @Test
         public void testMaxSubArrayLen_2D_Double() {
             double[][] arr = { { 1.0 }, { 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
-            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
+            int maxLen = Arrays.maxRowLength(arr);
             assertEquals(3, maxLen);
         }
 
@@ -11632,12 +11632,12 @@ class ArraysTest extends TestBase {
             assertArrayEquals(new char[] { 'x', 'y', 'z' }, result);
         }
 
-        // ============ Arrays.mutateFlattened Tests (boolean) ============
+        // ============ Arrays.mutateAsFlatArray Tests (boolean) ============
 
         @Test
         public void testFlatOp_boolean_2D_null() {
             boolean[][] arr = null;
-            assertDoesNotThrow(() -> Arrays.mutateFlattened(arr, flat -> {
+            assertDoesNotThrow(() -> Arrays.mutateAsFlatArray(arr, flat -> {
                 // Should not execute
                 throw new RuntimeException("Should not be called");
             }));
@@ -11646,7 +11646,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testFlatOp_boolean_2D_valid() {
             boolean[][] arr = { { true, false, true }, { false, true, false } };
-            Arrays.mutateFlattened(arr, flat -> {
+            Arrays.mutateAsFlatArray(arr, flat -> {
                 for (int i = 0; i < flat.length; i++) {
                     flat[i] = !flat[i];
                 }
@@ -11658,7 +11658,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testFlatOp_boolean_3D_valid() {
             boolean[][][] arr = { { { true, false } }, { { false, true } } };
-            Arrays.mutateFlattened(arr, flat -> {
+            Arrays.mutateAsFlatArray(arr, flat -> {
                 for (int i = 0; i < flat.length; i++) {
                     flat[i] = true;
                 }
@@ -11730,42 +11730,42 @@ class ArraysTest extends TestBase {
             assertArrayEquals(new char[] { 'x', 'y' }, result[0]);
         }
 
-        // ============ Arrays.elementCount Tests ============
+        // ============ Arrays.totalElementCount Tests ============
 
         @Test
         public void testTotalCountOfElements_boolean_2D() {
             boolean[][] arr = { { true, false }, { true }, { false, true, false } };
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
             assertEquals(6L, count);
         }
 
         @Test
         public void testTotalCountOfElements_boolean_2D_withNulls() {
             boolean[][] arr = { { true }, null, { false, false } };
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
             assertEquals(3L, count);
         }
 
         @Test
         public void testMinSubArrayLen_boolean_2D_withNulls() {
             boolean[][] arr = { { true, false }, null, { true } };
-            int minLen = Arrays.minImmediateSubArrayLength(arr);
+            int minLen = Arrays.minRowLength(arr);
             assertEquals(0, minLen);
         }
 
-        // ============ Arrays.maxImmediateSubArrayLength Tests ============
+        // ============ Arrays.maxRowLength Tests ============
 
         @Test
         public void testMaxSubArrayLen_boolean_2D() {
             boolean[][] arr = { { true, false, true }, { false }, { true, false } };
-            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
+            int maxLen = Arrays.maxRowLength(arr);
             assertEquals(3, maxLen);
         }
 
         @Test
         public void testMaxSubArrayLen_boolean_2D_withNulls() {
             boolean[][] arr = { { true }, null, { true, false, false } };
-            int maxLen = Arrays.maxImmediateSubArrayLength(arr);
+            int maxLen = Arrays.maxRowLength(arr);
             assertEquals(3, maxLen);
         }
 
@@ -11995,17 +11995,17 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testFF_mutateFlattened_null() {
+        public void testFF_mutateAsFlatArray_null() {
             String[][] arr = null;
-            assertDoesNotThrow(() -> Arrays.ff.mutateFlattened(arr, flat -> {
+            assertDoesNotThrow(() -> Arrays.ff.mutateAsFlatArray(arr, flat -> {
                 throw new RuntimeException("Should not be called");
             }));
         }
 
         @Test
-        public void testFF_mutateFlattened_valid() {
+        public void testFF_mutateAsFlatArray_valid() {
             Integer[][] arr = { { 3, 1, 4 }, { 1, 5, 9 } };
-            Arrays.ff.mutateFlattened(arr, flat -> java.util.Arrays.sort(flat));
+            Arrays.ff.mutateAsFlatArray(arr, flat -> java.util.Arrays.sort(flat));
             assertArrayEquals(new Integer[] { 1, 1, 3 }, arr[0]);
             assertArrayEquals(new Integer[] { 4, 5, 9 }, arr[1]);
         }
@@ -12124,23 +12124,23 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testFF_elementCount() {
+        public void testFF_totalElementCount() {
             Object[][] arr = { { "a", "b" }, { "c" }, { "d", "e", "f" } };
-            long count = Arrays.ff.elementCount(arr);
+            long count = Arrays.ff.totalElementCount(arr);
             assertEquals(6L, count);
         }
 
         @Test
-        public void testFF_minImmediateSubArrayLength() {
+        public void testFF_minRowLength() {
             Object[][] arr = { { "a", "b", "c" }, { "d" }, { "e", "f" } };
-            int minLen = Arrays.ff.minImmediateSubArrayLength(arr);
+            int minLen = Arrays.ff.minRowLength(arr);
             assertEquals(1, minLen);
         }
 
         @Test
-        public void testFF_maxImmediateSubArrayLength() {
+        public void testFF_maxRowLength() {
             Object[][] arr = { { "a", "b", "c" }, { "d" }, { "e", "f" } };
-            int maxLen = Arrays.ff.maxImmediateSubArrayLength(arr);
+            int maxLen = Arrays.ff.maxRowLength(arr);
             assertEquals(3, maxLen);
         }
 
@@ -12233,17 +12233,17 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testFFF_mutateFlattened_null() {
+        public void testFFF_mutateAsFlatArray_null() {
             String[][][] arr = null;
-            assertDoesNotThrow(() -> Arrays.fff.mutateFlattened(arr, flat -> {
+            assertDoesNotThrow(() -> Arrays.fff.mutateAsFlatArray(arr, flat -> {
                 throw new RuntimeException("Should not be called");
             }));
         }
 
         @Test
-        public void testFFF_mutateFlattened_valid() {
+        public void testFFF_mutateAsFlatArray_valid() {
             Integer[][][] arr = { { { 5, 2 } }, { { 9, 1 } }, { { 3, 7 } } };
-            Arrays.fff.mutateFlattened(arr, flat -> java.util.Arrays.sort(flat));
+            Arrays.fff.mutateAsFlatArray(arr, flat -> java.util.Arrays.sort(flat));
             assertArrayEquals(new Integer[] { 1, 2 }, arr[0][0]);
             assertArrayEquals(new Integer[] { 3, 5 }, arr[1][0]);
             assertArrayEquals(new Integer[] { 7, 9 }, arr[2][0]);
@@ -12360,9 +12360,9 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testFFF_elementCount() {
+        public void testFFF_totalElementCount() {
             Object[][][] arr = { { { "a", "b" }, { "c" } }, { { "d", "e", "f" } } };
-            long count = Arrays.fff.elementCount(arr);
+            long count = Arrays.fff.totalElementCount(arr);
             assertEquals(6L, count);
         }
 
@@ -12740,7 +12740,7 @@ class ArraysTest extends TestBase {
      * Comprehensive unit tests for Arrays utility class.
      * This class provides extensive array manipulation methods for primitive and object arrays.
      * Tests cover println, mapToObj, mapToLong, mapToDouble, mapToInt, updateAll, replaceIf,
-     * reshape, flatten, mutateFlattened, zip, elementCount, minImmediateSubArrayLength, maxImmediateSubArrayLength methods.
+     * reshape, flatten, mutateAsFlatArray, zip, totalElementCount, minRowLength, maxRowLength methods.
      */
     @Tag("2512")
     class Arrays2512Test extends TestBase {
@@ -13338,34 +13338,34 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for mutateFlattened(boolean[][])
+        // Tests for mutateAsFlatArray(boolean[][])
         // ============================================
 
         @Test
-        public void test_mutateFlattened_booleanArray2D() {
+        public void test_mutateAsFlatArray_booleanArray2D() {
             boolean[][] arr = { { true, false }, { true, false } };
             int[] count = { 0 };
 
-            Arrays.mutateFlattened(arr, subArray -> count[0] += subArray.length);
+            Arrays.mutateAsFlatArray(arr, subArray -> count[0] += subArray.length);
 
             assertEquals(4, count[0]);
         }
 
         @Test
-        public void test_mutateFlattened_booleanArray2DNull() {
+        public void test_mutateAsFlatArray_booleanArray2DNull() {
             boolean[] invoked = { false };
-            assertDoesNotThrow(() -> Arrays.mutateFlattened((boolean[][]) null, subArray -> invoked[0] = true));
+            assertDoesNotThrow(() -> Arrays.mutateAsFlatArray((boolean[][]) null, subArray -> invoked[0] = true));
             assertFalse(invoked[0], "The callback should not run for a null 2D array");
         }
 
         @Test
-        public void test_mutateFlattened_rejectsNullActionForEmptyInputs() {
-            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateFlattened((boolean[][]) null, null));
-            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateFlattened(new int[0][][], null));
-            assertThrows(IllegalArgumentException.class, () -> ff.mutateFlattened((Integer[][]) null, null));
-            assertThrows(IllegalArgumentException.class, () -> ff.mutateFlattened(new Integer[0][], null));
-            assertThrows(IllegalArgumentException.class, () -> fff.mutateFlattened((Integer[][][]) null, null));
-            assertThrows(IllegalArgumentException.class, () -> fff.mutateFlattened(new Integer[0][][], null));
+        public void test_mutateAsFlatArray_rejectsNullActionForEmptyInputs() {
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateAsFlatArray((boolean[][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateAsFlatArray(new int[0][][], null));
+            assertThrows(IllegalArgumentException.class, () -> ff.mutateAsFlatArray((Integer[][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> ff.mutateAsFlatArray(new Integer[0][], null));
+            assertThrows(IllegalArgumentException.class, () -> fff.mutateAsFlatArray((Integer[][][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> fff.mutateAsFlatArray(new Integer[0][][], null));
         }
 
         // ============================================
@@ -13415,95 +13415,95 @@ class ArraysTest extends TestBase {
         }
 
         // ============================================
-        // Tests for elementCount(boolean[][])
+        // Tests for totalElementCount(boolean[][])
         // ============================================
 
         @Test
-        public void test_elementCount_booleanArray2D() {
+        public void test_totalElementCount_booleanArray2D() {
             boolean[][] arr = { { true, false }, { true, false, true } };
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
 
             assertEquals(5, count);
         }
 
         @Test
-        public void test_elementCount_booleanArray2DNull() {
-            long count = Arrays.elementCount((boolean[][]) null);
+        public void test_totalElementCount_booleanArray2DNull() {
+            long count = Arrays.totalElementCount((boolean[][]) null);
             assertEquals(0, count);
         }
 
         @Test
-        public void test_elementCount_booleanArray2DEmpty() {
+        public void test_totalElementCount_booleanArray2DEmpty() {
             boolean[][] arr = {};
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
             assertEquals(0, count);
         }
 
         // ============================================
-        // Tests for elementCount(boolean[][][])
+        // Tests for totalElementCount(boolean[][][])
         // ============================================
 
         @Test
-        public void test_elementCount_booleanArray3D() {
+        public void test_totalElementCount_booleanArray3D() {
             boolean[][][] arr = { { { true, false }, { true } } };
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
 
             assertEquals(3, count);
         }
 
         @Test
-        public void test_elementCount_booleanArray3DNull() {
-            long count = Arrays.elementCount((boolean[][][]) null);
+        public void test_totalElementCount_booleanArray3DNull() {
+            long count = Arrays.totalElementCount((boolean[][][]) null);
             assertEquals(0, count);
         }
 
         // ============================================
-        // Tests for minImmediateSubArrayLength(boolean[][])
+        // Tests for minRowLength(boolean[][])
         // ============================================
 
         @Test
-        public void test_minImmediateSubArrayLength_booleanArray2D() {
+        public void test_minRowLength_booleanArray2D() {
             boolean[][] arr = { { true, false, true }, { true } };
-            int min = Arrays.minImmediateSubArrayLength(arr);
+            int min = Arrays.minRowLength(arr);
 
             assertEquals(1, min);
         }
 
         @Test
-        public void test_minImmediateSubArrayLength_booleanArray2DNull() {
-            int min = Arrays.minImmediateSubArrayLength((boolean[][]) null);
+        public void test_minRowLength_booleanArray2DNull() {
+            int min = Arrays.minRowLength((boolean[][]) null);
             assertEquals(0, min);
         }
 
         @Test
-        public void test_minImmediateSubArrayLength_booleanArray2DEmpty() {
+        public void test_minRowLength_booleanArray2DEmpty() {
             boolean[][] arr = {};
-            int min = Arrays.minImmediateSubArrayLength(arr);
+            int min = Arrays.minRowLength(arr);
             assertEquals(0, min);
         }
 
         // ============================================
-        // Tests for maxImmediateSubArrayLength(boolean[][])
+        // Tests for maxRowLength(boolean[][])
         // ============================================
 
         @Test
-        public void test_maxImmediateSubArrayLength_booleanArray2D() {
+        public void test_maxRowLength_booleanArray2D() {
             boolean[][] arr = { { true, false, true }, { true } };
-            int max = Arrays.maxImmediateSubArrayLength(arr);
+            int max = Arrays.maxRowLength(arr);
 
             assertEquals(3, max);
         }
 
         @Test
-        public void test_maxImmediateSubArrayLength_booleanArray2DNull() {
-            int max = Arrays.maxImmediateSubArrayLength((boolean[][]) null);
+        public void test_maxRowLength_booleanArray2DNull() {
+            int max = Arrays.maxRowLength((boolean[][]) null);
             assertEquals(0, max);
         }
 
         @Test
-        public void test_maxImmediateSubArrayLength_booleanArray2DEmpty() {
+        public void test_maxRowLength_booleanArray2DEmpty() {
             boolean[][] arr = {};
-            int max = Arrays.maxImmediateSubArrayLength(arr);
+            int max = Arrays.maxRowLength(arr);
             assertEquals(0, max);
         }
 
@@ -13555,9 +13555,9 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void test_elementCount_charArray2D() {
+        public void test_totalElementCount_charArray2D() {
             char[][] arr = { { 'a', 'b' }, { 'c', 'd', 'e' } };
-            long count = Arrays.elementCount(arr);
+            long count = Arrays.totalElementCount(arr);
 
             assertEquals(5, count);
         }
@@ -13670,10 +13670,10 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testClassJavadoc_elementCount3D() {
+        public void testClassJavadoc_totalElementCount3D() {
             // Line 152-153: 2x3x4 cube => 24 total elements
             int[][][] cube = new int[2][3][4];
-            long totalElements = Arrays.elementCount(cube);
+            long totalElements = Arrays.totalElementCount(cube);
             assertEquals(24, totalElements);
         }
 
@@ -13681,8 +13681,8 @@ class ArraysTest extends TestBase {
         public void testClassJavadoc_minMaxSubArrayLength() {
             // Line 156-158: {{1,2,3,4},{5,6,7,8},{9,10,11,12}} => minLen=4, maxLen=4
             int[][] array2D = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
-            assertEquals(4, Arrays.minImmediateSubArrayLength(array2D));
-            assertEquals(4, Arrays.maxImmediateSubArrayLength(array2D));
+            assertEquals(4, Arrays.minRowLength(array2D));
+            assertEquals(4, Arrays.maxRowLength(array2D));
         }
 
         // ========================
@@ -13948,35 +13948,35 @@ class ArraysTest extends TestBase {
         }
 
         // ========================
-        // boolean elementCount / minImmediateSubArrayLength / maxImmediateSubArrayLength
+        // boolean totalElementCount / minRowLength / maxRowLength
         // ========================
 
         @Test
         public void testBooleanTotalCountOfElements2D() {
             // Line 2833-2835
             boolean[][] array = { { true, false, true }, null, { false, true, false } };
-            assertEquals(6, Arrays.elementCount(array));
+            assertEquals(6, Arrays.totalElementCount(array));
         }
 
         @Test
         public void testBooleanTotalCountOfElements3D() {
             // Line 2861-2863
             boolean[][][] array = { { { true, false }, { true } }, { { false, true, false } } };
-            assertEquals(6, Arrays.elementCount(array));
+            assertEquals(6, Arrays.totalElementCount(array));
         }
 
         @Test
         public void testBooleanMinSubArrayLength() {
             // Line 2899-2901
             boolean[][] array = { { true, false, true }, { false }, { true, false } };
-            assertEquals(1, Arrays.minImmediateSubArrayLength(array));
+            assertEquals(1, Arrays.minRowLength(array));
         }
 
         @Test
         public void testBooleanMaxSubArrayLength() {
             // Line 2927-2929
             boolean[][] array = { { true, false, true }, { false }, { true, false } };
-            assertEquals(3, Arrays.maxImmediateSubArrayLength(array));
+            assertEquals(3, Arrays.maxRowLength(array));
         }
 
         // ========================
@@ -14055,35 +14055,35 @@ class ArraysTest extends TestBase {
         }
 
         // ========================
-        // byte elementCount / minImmediateSubArrayLength / maxImmediateSubArrayLength
+        // byte totalElementCount / minRowLength / maxRowLength
         // ========================
 
         @Test
         public void testByteTotalCountOfElements2D() {
             // Line 5451-5452: {{1,2,3}, null, {4,5}} => 5
             byte[][] array = { { 1, 2, 3 }, null, { 4, 5 } };
-            assertEquals(5, Arrays.elementCount(array));
+            assertEquals(5, Arrays.totalElementCount(array));
         }
 
         @Test
         public void testByteTotalCountOfElements3D() {
             // Line 5478-5479: {{{1,2},{3}},{{4,5,6}}} => 6
             byte[][][] array = { { { 1, 2 }, { 3 } }, { { 4, 5, 6 } } };
-            assertEquals(6, Arrays.elementCount(array));
+            assertEquals(6, Arrays.totalElementCount(array));
         }
 
         @Test
         public void testByteMinSubArrayLength() {
             // Line 5516-5517: {{1,2,3},{4,5},{6,7,8,9}} => minLen 2
             byte[][] array = { { 1, 2, 3 }, { 4, 5 }, { 6, 7, 8, 9 } };
-            assertEquals(2, Arrays.minImmediateSubArrayLength(array));
+            assertEquals(2, Arrays.minRowLength(array));
         }
 
         @Test
         public void testByteMaxSubArrayLength() {
             // Line 5544-5545: {{1,2}, null, {3,4,5,6}} => maxLen 4
             byte[][] array = { { 1, 2 }, null, { 3, 4, 5, 6 } };
-            assertEquals(4, Arrays.maxImmediateSubArrayLength(array));
+            assertEquals(4, Arrays.maxRowLength(array));
         }
 
         // ========================
@@ -14163,35 +14163,35 @@ class ArraysTest extends TestBase {
         }
 
         // ========================
-        // int elementCount / minImmediateSubArrayLength / maxImmediateSubArrayLength
+        // int totalElementCount / minRowLength / maxRowLength
         // ========================
 
         @Test
         public void testIntTotalCountOfElements2D() {
             // Line 8020-8022: {{1,2},{3,4,5},null,{}} => 5
             int[][] a = { { 1, 2 }, { 3, 4, 5 }, null, {} };
-            assertEquals(5, Arrays.elementCount(a));
+            assertEquals(5, Arrays.totalElementCount(a));
         }
 
         @Test
         public void testIntTotalCountOfElements3D() {
             // Line 8048-8050: {{{1},{2,3}},null,{{4,5,6}}} => 6
             int[][][] a = { { { 1 }, { 2, 3 } }, null, { { 4, 5, 6 } } };
-            assertEquals(6, Arrays.elementCount(a));
+            assertEquals(6, Arrays.totalElementCount(a));
         }
 
         @Test
         public void testIntMinSubArrayLength() {
             // Line 8085-8088: {{1,2,3},{4,5},null,{6}} => 0 (null sub-array has length 0)
             int[][] a = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-            assertEquals(0, Arrays.minImmediateSubArrayLength(a));
+            assertEquals(0, Arrays.minRowLength(a));
         }
 
         @Test
         public void testIntMaxSubArrayLength() {
             // Line 8113-8116: {{1},{2,3},null,{4,5,6}} => 3
             int[][] a = { { 1 }, { 2, 3 }, null, { 4, 5, 6 } };
-            assertEquals(3, Arrays.maxImmediateSubArrayLength(a));
+            assertEquals(3, Arrays.maxRowLength(a));
         }
 
         // ========================
@@ -14274,14 +14274,14 @@ class ArraysTest extends TestBase {
         }
 
         // ========================
-        // mutateFlattened examples
+        // mutateAsFlatArray examples
         // ========================
 
         @Test
         public void testByteApplyOnFlattened() {
-            // Line 4807-4809: mutateFlattened({{3,1},{4,2}}, t -> sort(t)) => {{1,2},{3,4}}
+            // Line 4807-4809: mutateAsFlatArray({{3,1},{4,2}}, t -> sort(t)) => {{1,2},{3,4}}
             byte[][] arr = { { 3, 1 }, { 4, 2 } };
-            Arrays.mutateFlattened(arr, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray(arr, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new byte[] { 1, 2 }, arr[0]);
             assertArrayEquals(new byte[] { 3, 4 }, arr[1]);
         }
@@ -14331,18 +14331,18 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testLongElementCount2DAnd3D() {
+        public void testLongTotalElementCount2DAnd3D() {
             long[][] a2 = { { 1, 2 }, { 3, 4, 5 }, null };
-            assertEquals(5L, Arrays.elementCount(a2));
+            assertEquals(5L, Arrays.totalElementCount(a2));
             long[][][] a3 = { { { 1 }, { 2, 3 } }, null, { { 4, 5, 6 } } };
-            assertEquals(6L, Arrays.elementCount(a3));
+            assertEquals(6L, Arrays.totalElementCount(a3));
         }
 
         @Test
         public void testLongMinMaxSubArrayLength() {
             long[][] a = { { 1L, 2L, 3L }, { 4L, 5L }, null, { 6L } };
-            assertEquals(0, Arrays.minImmediateSubArrayLength(a));
-            assertEquals(3, Arrays.maxImmediateSubArrayLength(a));
+            assertEquals(0, Arrays.minRowLength(a));
+            assertEquals(3, Arrays.maxRowLength(a));
         }
 
         @Test
@@ -14410,7 +14410,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testFloatApplyOnFlattened_Sort() {
             float[][] grid = { { 4.0f, 1.0f }, { 3.0f, 2.0f } };
-            Arrays.mutateFlattened(grid, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray(grid, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new float[] { 1.0f, 2.0f }, grid[0], 0.0f);
             assertArrayEquals(new float[] { 3.0f, 4.0f }, grid[1], 0.0f);
         }
@@ -14450,19 +14450,19 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testFloatElementCount() {
+        public void testFloatTotalElementCount() {
             float[][] grid = { { 1.0f }, { 2.0f, 3.0f }, null };
-            assertEquals(3L, Arrays.elementCount(grid));
+            assertEquals(3L, Arrays.totalElementCount(grid));
             float[][][] cube = { { { 1.0f } }, { { 2.0f, 3.0f }, null }, null };
-            assertEquals(3L, Arrays.elementCount(cube));
+            assertEquals(3L, Arrays.totalElementCount(cube));
         }
 
         @Test
         public void testFloatMinMaxSubArrayLength() {
             float[][] grid = { { 1.0f, 2.0f }, { 3.0f }, null };
-            assertEquals(0, Arrays.minImmediateSubArrayLength(grid));
+            assertEquals(0, Arrays.minRowLength(grid));
             float[][] grid2 = { { 1.0f }, { 2.0f, 3.0f, 4.0f }, null };
-            assertEquals(3, Arrays.maxImmediateSubArrayLength(grid2));
+            assertEquals(3, Arrays.maxRowLength(grid2));
         }
 
         @Test
@@ -14527,7 +14527,7 @@ class ArraysTest extends TestBase {
         @Test
         public void testDoubleApplyOnFlattened_3D() {
             double[][][] cube = { { { 9.0, 2.0 } }, { { 5.0 }, { 1.0 } } };
-            Arrays.mutateFlattened(cube, arr -> java.util.Arrays.sort(arr));
+            Arrays.mutateAsFlatArray(cube, arr -> java.util.Arrays.sort(arr));
             assertArrayEquals(new double[] { 1.0, 2.0 }, cube[0][0], 0.0);
             assertArrayEquals(new double[] { 5.0 }, cube[1][0], 0.0);
             assertArrayEquals(new double[] { 9.0 }, cube[1][1], 0.0);
@@ -14567,13 +14567,13 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void testDoubleElementCountAndMinMax() {
+        public void testDoubleTotalElementCountAndMinMax() {
             double[][] grid = { { 1, 2 }, { 3, 4, 5 }, null, {} };
-            assertEquals(5L, Arrays.elementCount(grid));
+            assertEquals(5L, Arrays.totalElementCount(grid));
             double[][][] cube = { { { 1 }, { 2, 3 } }, null, { { 4 } } };
-            assertEquals(4L, Arrays.elementCount(cube));
-            assertEquals(0, Arrays.minImmediateSubArrayLength(grid));
-            assertEquals(3, Arrays.maxImmediateSubArrayLength(grid));
+            assertEquals(4L, Arrays.totalElementCount(cube));
+            assertEquals(0, Arrays.minRowLength(grid));
+            assertEquals(3, Arrays.maxRowLength(grid));
         }
 
         @Test
@@ -14771,22 +14771,22 @@ class ArraysTest extends TestBase {
     }
 
     @Test
-    public void testFF_elementCount_handlesNullSubArrays() {
+    public void testFF_totalElementCount_handlesNullSubArrays() {
         Object[][] arr = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-        assertEquals(6L, ff.elementCount(arr));
+        assertEquals(6L, ff.totalElementCount(arr));
     }
 
     @Test
     public void testFF_minMaxSubArrayLength() {
         Object[][] arr = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
-        assertEquals(0, ff.minImmediateSubArrayLength(arr));
-        assertEquals(3, ff.maxImmediateSubArrayLength(arr));
+        assertEquals(0, ff.minRowLength(arr));
+        assertEquals(3, ff.maxRowLength(arr));
     }
 
     @Test
-    public void testFF_mutateFlattened_sortsAcrossRows() throws Exception {
+    public void testFF_mutateAsFlatArray_sortsAcrossRows() throws Exception {
         Integer[][] arr = { { 3, 1, 4 }, { 1, 5, 9 } };
-        ff.mutateFlattened(arr, t -> java.util.Arrays.sort(t));
+        ff.mutateAsFlatArray(arr, t -> java.util.Arrays.sort(t));
         assertArrayEquals(new Integer[] { 1, 1, 3 }, arr[0]);
         assertArrayEquals(new Integer[] { 4, 5, 9 }, arr[1]);
     }
@@ -14863,18 +14863,18 @@ class ArraysTest extends TestBase {
     }
 
     @Test
-    public void testFFF_mutateFlattened_sortsAcrossAllLevels() throws Exception {
+    public void testFFF_mutateAsFlatArray_sortsAcrossAllLevels() throws Exception {
         Integer[][][] arr = { { { 5, 2 } }, { { 9, 1 } }, { { 3, 7 } } };
-        fff.mutateFlattened(arr, t -> java.util.Arrays.sort(t));
+        fff.mutateAsFlatArray(arr, t -> java.util.Arrays.sort(t));
         assertArrayEquals(new Integer[] { 1, 2 }, arr[0][0]);
         assertArrayEquals(new Integer[] { 3, 5 }, arr[1][0]);
         assertArrayEquals(new Integer[] { 7, 9 }, arr[2][0]);
     }
 
     @Test
-    public void testFFF_elementCount_handlesNullsAtAllLevels() {
+    public void testFFF_totalElementCount_handlesNullsAtAllLevels() {
         Object[][][] arr = { { { 1, 2 }, { 3 } }, null, { null, { 4, 5, 6 } } };
-        assertEquals(6L, fff.elementCount(arr));
+        assertEquals(6L, fff.totalElementCount(arr));
     }
 
     @Test
@@ -16477,7 +16477,7 @@ class ArraysTest extends TestBase {
     }
 
     // ==========================================================================================
-    // Adversarial review of reshape / flatten / mutateFlattened / zip / elementCount / minSub / maxSub.
+    // Adversarial review of reshape / flatten / mutateAsFlatArray / zip / totalElementCount / minSub / maxSub.
     // Exercises edge cases across multiple primitive types: boolean, char, byte, short, int, long,
     // float, double, and Object[] variants via f / ff / fff.
     // ==========================================================================================
@@ -16690,30 +16690,30 @@ class ArraysTest extends TestBase {
         }
 
         // ------------------------------------------------------------------------------------------
-        // mutateFlattened — 2D
+        // mutateAsFlatArray — 2D
         // ------------------------------------------------------------------------------------------
 
         @Test
-        public void mutateFlattened_2D_sortPreservesJaggedStructure_int() {
+        public void mutateAsFlatArray_2D_sortPreservesJaggedStructure_int() {
             final int[][] a = new int[][] { { 3, 1, 4 }, { 1, 5, 9 } };
-            Arrays.mutateFlattened(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new int[] { 1, 1, 3 }, a[0]);
             assertArrayEquals(new int[] { 4, 5, 9 }, a[1]);
         }
 
         @Test
-        public void mutateFlattened_2D_sortPreservesJaggedStructure_double() {
+        public void mutateAsFlatArray_2D_sortPreservesJaggedStructure_double() {
             final double[][] a = new double[][] { { 3.0, 1.0, 4.0 }, { 1.5, 5.0, 9.5 } };
-            Arrays.mutateFlattened(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new double[] { 1.0, 1.5, 3.0 }, a[0]);
             assertArrayEquals(new double[] { 4.0, 5.0, 9.5 }, a[1]);
         }
 
         @Test
-        public void mutateFlattened_2D_nullRowsArePreserved_int() {
+        public void mutateAsFlatArray_2D_nullRowsArePreserved_int() {
             // null rows must remain null after the round-trip.
             final int[][] a = new int[][] { { 3, 1 }, null, {}, { 7, 2 } };
-            Arrays.mutateFlattened(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
             // flattened = {3,1,7,2} -> sorted = {1,2,3,7}; copy back row-by-row, null/empty skipped.
             assertNull(a[1]);
             assertEquals(0, a[2].length);
@@ -16722,9 +16722,9 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void mutateFlattened_2D_nullRowsArePreserved_byte() {
+        public void mutateAsFlatArray_2D_nullRowsArePreserved_byte() {
             final byte[][] a = new byte[][] { { 3, 1 }, null, {}, { 7, 2 } };
-            Arrays.mutateFlattened(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
             assertNull(a[1]);
             assertEquals(0, a[2].length);
             assertArrayEquals(new byte[] { 1, 2 }, a[0]);
@@ -16732,29 +16732,29 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void mutateFlattened_2D_emptyOuter_isNoop() {
+        public void mutateAsFlatArray_2D_emptyOuter_isNoop() {
             // null input -> no-op (and no NPE)
-            Arrays.mutateFlattened((int[][]) null, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray((int[][]) null, t -> java.util.Arrays.sort(t));
             // empty outer -> no-op
             final int[][] empty = new int[0][];
-            Arrays.mutateFlattened(empty, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray(empty, t -> java.util.Arrays.sort(t));
             assertEquals(0, empty.length);
         }
 
         @Test
-        public void mutateFlattened_2D_nullAction_throws() {
+        public void mutateAsFlatArray_2D_nullAction_throws() {
             final int[][] a = { { 1, 2 } };
-            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateFlattened(a, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mutateAsFlatArray(a, null));
         }
 
         // ------------------------------------------------------------------------------------------
-        // mutateFlattened — 3D
+        // mutateAsFlatArray — 3D
         // ------------------------------------------------------------------------------------------
 
         @Test
-        public void mutateFlattened_3D_sortPreservesNested_int() {
+        public void mutateAsFlatArray_3D_sortPreservesNested_int() {
             final int[][][] a = new int[][][] { { { 5, 2 }, null }, { {}, { 8, 1 } } };
-            Arrays.mutateFlattened(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
             // flattened: {5,2,8,1} -> sorted {1,2,5,8}
             assertArrayEquals(new int[] { 1, 2 }, a[0][0]);
             assertNull(a[0][1]);
@@ -16763,9 +16763,9 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void mutateFlattened_3D_sortPreservesNested_short() {
+        public void mutateAsFlatArray_3D_sortPreservesNested_short() {
             final short[][][] a = new short[][][] { { { 5, 2 }, null }, { {}, { 8, 1 } } };
-            Arrays.mutateFlattened(a, t -> java.util.Arrays.sort(t));
+            Arrays.mutateAsFlatArray(a, t -> java.util.Arrays.sort(t));
             assertArrayEquals(new short[] { 1, 2 }, a[0][0]);
             assertNull(a[0][1]);
             assertEquals(0, a[1][0].length);
@@ -17013,66 +17013,66 @@ class ArraysTest extends TestBase {
         }
 
         // ------------------------------------------------------------------------------------------
-        // elementCount / minImmediateSubArrayLength / maxImmediateSubArrayLength
+        // totalElementCount / minRowLength / maxRowLength
         // ------------------------------------------------------------------------------------------
 
         @Test
-        public void elementCount_2D_skipsNulls_int() {
+        public void totalElementCount_2D_skipsNulls_int() {
             final int[][] a = new int[][] { null, { 1, 2 }, null };
-            assertEquals(2L, Arrays.elementCount(a));
+            assertEquals(2L, Arrays.totalElementCount(a));
         }
 
         @Test
-        public void elementCount_2D_skipsNulls_boolean() {
+        public void totalElementCount_2D_skipsNulls_boolean() {
             final boolean[][] a = new boolean[][] { null, { true, false, true }, null, {} };
-            assertEquals(3L, Arrays.elementCount(a));
+            assertEquals(3L, Arrays.totalElementCount(a));
         }
 
         @Test
-        public void elementCount_3D_skipsNulls_int() {
+        public void totalElementCount_3D_skipsNulls_int() {
             final int[][][] a = new int[][][] { { { 1 }, { 2, 3 } }, null, { { 4, 5, 6 } } };
-            assertEquals(6L, Arrays.elementCount(a));
+            assertEquals(6L, Arrays.totalElementCount(a));
         }
 
         @Test
-        public void elementCount_3D_rejectsLongOverflow() {
+        public void totalElementCount_3D_rejectsLongOverflow() {
             assertEquals(Long.MAX_VALUE, Arrays.addElementCountExact(Long.MAX_VALUE - 1, 1));
             assertThrows(ArithmeticException.class, () -> Arrays.addElementCountExact(Long.MAX_VALUE, 1));
         }
 
         @Test
-        public void minImmediateSubArrayLength_nullRow_returnsZero_int() {
+        public void minRowLength_nullRow_returnsZero_int() {
             // javadoc: "A null sub-array is considered to have a length of 0"
             final int[][] a = new int[][] { null, { 1 }, null, { 1, 2 } };
-            assertEquals(0, Arrays.minImmediateSubArrayLength(a));
+            assertEquals(0, Arrays.minRowLength(a));
         }
 
         @Test
-        public void minImmediateSubArrayLength_emptyRow_returnsZero_int() {
+        public void minRowLength_emptyRow_returnsZero_int() {
             final int[][] a = new int[][] { {} };
-            assertEquals(0, Arrays.minImmediateSubArrayLength(a));
+            assertEquals(0, Arrays.minRowLength(a));
         }
 
         @Test
-        public void minImmediateSubArrayLength_emptyOuter_returnsZero_int() {
-            assertEquals(0, Arrays.minImmediateSubArrayLength(new int[0][]));
-            assertEquals(0, Arrays.minImmediateSubArrayLength((int[][]) null));
+        public void minRowLength_emptyOuter_returnsZero_int() {
+            assertEquals(0, Arrays.minRowLength(new int[0][]));
+            assertEquals(0, Arrays.minRowLength((int[][]) null));
         }
 
         @Test
-        public void maxImmediateSubArrayLength_allNullRows_returnsZero_int() {
+        public void maxRowLength_allNullRows_returnsZero_int() {
             final int[][] a = new int[][] { null, null };
-            assertEquals(0, Arrays.maxImmediateSubArrayLength(a));
+            assertEquals(0, Arrays.maxRowLength(a));
         }
 
         @Test
-        public void maxImmediateSubArrayLength_mixedRows_int() {
+        public void maxRowLength_mixedRows_int() {
             final int[][] a = new int[][] { { 1 }, { 2, 3 }, null, { 4, 5, 6 } };
-            assertEquals(3, Arrays.maxImmediateSubArrayLength(a));
+            assertEquals(3, Arrays.maxRowLength(a));
         }
 
         // ------------------------------------------------------------------------------------------
-        // Object-array variant (ff) — flatten and ff.elementCount for completeness
+        // Object-array variant (ff) — flatten and ff.totalElementCount for completeness
         // ------------------------------------------------------------------------------------------
 
         @Test
@@ -17083,9 +17083,9 @@ class ArraysTest extends TestBase {
         }
 
         @Test
-        public void ff_elementCount_skipsNulls() {
+        public void ff_totalElementCount_skipsNulls() {
             final Integer[][] a = new Integer[][] { null, { 1, 2 }, null };
-            assertEquals(2L, ff.elementCount(a));
+            assertEquals(2L, ff.totalElementCount(a));
         }
     }
 
