@@ -269,7 +269,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
      * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
@@ -277,7 +277,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
@@ -326,7 +326,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
      * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
@@ -334,7 +334,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
@@ -383,7 +383,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
@@ -391,7 +391,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -438,7 +438,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
      * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
@@ -446,7 +446,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
@@ -495,7 +495,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
      * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
@@ -503,7 +503,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
@@ -552,7 +552,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
      * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
@@ -560,7 +560,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -607,7 +607,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
      * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
@@ -615,7 +615,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
@@ -664,7 +664,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
      * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
@@ -672,7 +672,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
@@ -721,7 +721,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
      * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
@@ -729,7 +729,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -776,7 +776,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
      * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
@@ -784,7 +784,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
@@ -833,7 +833,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
      * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
@@ -841,7 +841,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
@@ -890,7 +890,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
      * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
@@ -898,7 +898,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -945,7 +945,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
      * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
@@ -953,7 +953,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
@@ -1002,7 +1002,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
      * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
@@ -1010,7 +1010,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
@@ -1059,7 +1059,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
      * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
@@ -1067,7 +1067,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -1114,7 +1114,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
      * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
@@ -1122,7 +1122,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
@@ -1171,7 +1171,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
      * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
@@ -1179,7 +1179,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
@@ -1229,7 +1229,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
      * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
@@ -1237,7 +1237,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -1284,7 +1284,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
      * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
@@ -1292,7 +1292,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
@@ -1341,7 +1341,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
      * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
@@ -1349,7 +1349,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
@@ -1398,7 +1398,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
@@ -1406,7 +1406,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -1453,7 +1453,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each double to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
@@ -1461,7 +1461,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(targetElementType, 0);
@@ -1510,7 +1510,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each double to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
@@ -1518,7 +1518,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
@@ -1567,7 +1567,7 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each double to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
@@ -1575,7 +1575,7 @@ public sealed class Arrays permits Arrays.f {
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         N.checkArgNotNull(mapper, cs.mapper);
-        N.checkArgNotNull(targetElementType, "targetElementType");
+        checkTargetElementType(targetElementType);
 
         if (N.isEmpty(a)) {
             return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -20735,6 +20735,23 @@ public sealed class Arrays permits Arrays.f {
         return Math.addExact(count, additionalCount);
     }
 
+    /**
+     * Validates the component type used to allocate an object-array result.
+     * Although primitive class literals such as {@code int.class} have the generic type
+     * {@code Class<Integer>}, an array created from one is an {@code int[]} and cannot be
+     * returned through the object-array return types used by the mapping and zipping APIs.
+     *
+     * @param targetElementType the requested result component type
+     * @throws IllegalArgumentException if the type is {@code null} or primitive
+     */
+    private static void checkTargetElementType(final Class<?> targetElementType) {
+        N.checkArgNotNull(targetElementType, "targetElementType");
+
+        if (targetElementType.isPrimitive()) {
+            throw new IllegalArgumentException("'targetElementType' must be a reference type, but got: " + targetElementType.getTypeName());
+        }
+    }
+
     private static void checkColsForReshape(final int m) { // NOSONAR
         N.checkArgument(m > 0, "columnCount must be a positive number, but got: {}", m);
     }
@@ -20805,13 +20822,13 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the mapping function to apply to each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new array containing the mapped elements, or an empty array if input is {@code null} or empty.
-         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the mapping function throws an exception.
          */
         public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             if (N.isEmpty(a)) {
                 return N.newArray(targetElementType, 0);
@@ -21677,13 +21694,13 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new two-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
-         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             if (N.isEmpty(a)) {
                 return N.newArray(N.newArray(targetElementType, 0).getClass(), 0); // NOSONAR
@@ -22201,13 +22218,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine paired elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type containing combined elements.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -22340,13 +22357,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -22479,13 +22496,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -22628,14 +22645,14 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -23371,13 +23388,13 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
-         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the function throws an exception.
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             if (N.isEmpty(a)) {
                 return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -23936,13 +23953,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -24068,13 +24085,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -24219,13 +24236,13 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -24363,14 +24380,14 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
-            N.checkArgNotNull(targetElementType, "targetElementType");
+            checkTargetElementType(targetElementType);
 
             final int lenA = N.len(a);
             final int lenB = N.len(b);
