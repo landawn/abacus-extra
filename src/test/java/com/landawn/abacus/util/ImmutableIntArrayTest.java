@@ -361,44 +361,44 @@ class ImmutableIntArrayTest extends TestBase {
         @Test
         public void testAverage_TypicalValues() {
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4 });
-            assertEquals(2.5d, array.average(), 0.0);
+            assertEquals(2.5d, array.average().getAsDouble(), 0.0);
         }
 
         @Test
         public void testAverage_SingleElement() {
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 42 });
-            assertEquals(42.0d, array.average(), 0.0);
+            assertEquals(42.0d, array.average().getAsDouble(), 0.0);
         }
 
         @Test
         public void testAverage_AllSameValue() {
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { 7, 7, 7, 7, 7 });
-            assertEquals(7.0d, array.average(), 0.0);
+            assertEquals(7.0d, array.average().getAsDouble(), 0.0);
         }
 
         @Test
         public void testAverage_NegativeValues() {
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { -2, -4, -6 });
-            assertEquals(-4.0d, array.average(), 0.0);
+            assertEquals(-4.0d, array.average().getAsDouble(), 0.0);
         }
 
         @Test
-        public void testAverage_EmptyArrayReturnsZero() {
+        public void testAverage_EmptyArrayReturnsEmpty() {
             ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
-            assertEquals(0.0d, empty.average(), 0.0);
+            assertTrue(empty.average().isEmpty());
         }
 
         @Test
-        public void testAverage_NullInputReturnsZero() {
+        public void testAverage_NullInputReturnsEmpty() {
             ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
-            assertEquals(0.0d, empty.average(), 0.0);
+            assertTrue(empty.average().isEmpty());
         }
 
         @Test
         public void testAverage_NoOverflowOnLargeValues() {
             // sum() would overflow int, but average() uses long internally, so it should not
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { Integer.MAX_VALUE, Integer.MAX_VALUE });
-            assertEquals((double) Integer.MAX_VALUE, array.average(), 0.0);
+            assertEquals((double) Integer.MAX_VALUE, array.average().getAsDouble(), 0.0);
         }
 
         // ============================================
@@ -1256,7 +1256,7 @@ class ImmutableIntArrayTest extends TestBase {
                 assertEquals((int) expectedSum, array.sum());
                 assertEquals(expectedMin, array.min());
                 assertEquals(expectedMax, array.max());
-                assertEquals(expectedSum / (double) len, array.average(), 1e-9);
+                assertEquals(expectedSum / (double) len, array.average().getAsDouble(), 1e-9);
 
                 // get(i), stream(), copyOfRange(0,len) and forEach must all agree.
                 assertArrayEquals(data, array.stream().toArray());
@@ -1277,7 +1277,7 @@ class ImmutableIntArrayTest extends TestBase {
             assertTrue(empty.isEmpty());
             assertEquals(0, empty.length());
             assertEquals(0, empty.sum());
-            assertEquals(0d, empty.average(), 0d);
+            assertTrue(empty.average().isEmpty());
             assertThrows(java.util.NoSuchElementException.class, empty::min);
             assertThrows(java.util.NoSuchElementException.class, empty::max);
         }

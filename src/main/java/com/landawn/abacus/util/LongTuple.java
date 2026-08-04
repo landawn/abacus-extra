@@ -31,6 +31,7 @@ import com.landawn.abacus.util.LongTuple.LongTuple7;
 import com.landawn.abacus.util.LongTuple.LongTuple8;
 import com.landawn.abacus.util.LongTuple.LongTuple9;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.u.OptionalDouble;
 import com.landawn.abacus.util.stream.LongStream;
 
 /**
@@ -44,8 +45,9 @@ import com.landawn.abacus.util.stream.LongStream;
  *
  * <p>All {@code long} arithmetic in this class follows Java's signed 64-bit semantics (range
  * {@code -9223372036854775808} to {@code 9223372036854775807}). {@link #sum()} returns a {@code long}
- * and wraps silently on overflow (two's-complement), while {@link #average()} is computed without
- * intermediate overflow and rounds the exact arithmetic mean to the nearest representable {@code double}.</p>
+ * and wraps silently on overflow (two's-complement), while {@link #average()} returns the mean in an
+ * {@link com.landawn.abacus.util.u.OptionalDouble}, computed without intermediate overflow and rounded
+ * to the nearest representable {@code double}.</p>
  *
  * @param <TP> the concrete {@code LongTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -61,7 +63,7 @@ import com.landawn.abacus.util.stream.LongStream;
 public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP>
         permits LongTuple0, LongTuple1, LongTuple2, LongTuple3, LongTuple4, LongTuple5, LongTuple6, LongTuple7, LongTuple8, LongTuple9 {
 
-    /** Lazily initialized cached array view of all tuple elements. */
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile long[] elements;
 
     /**
@@ -129,7 +131,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
-     * double average = triple.average();   // returns 2.0
+     * triple.average();                    // returns OptionalDouble.of(2.0)
      *
      * LongTuple.LongTuple3 desc = LongTuple.of(5L, 3L, 1L);
      * desc.min();                          // returns 1
@@ -196,7 +198,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * neg.max();                      // returns -1
      *
      * LongTuple.LongTuple5 mixed = LongTuple.of(-2L, -1L, 0L, 1L, 2L);
-     * mixed.average();                // returns 0.0
+     * mixed.average();                // returns OptionalDouble.of(0.0)
      * }</pre>
      *
      * @param _1 the first long value
@@ -226,7 +228,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * neg.min();                      // returns -6
      *
      * LongTuple.LongTuple6 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L);
-     * zeros.average();                // returns 0.0
+     * zeros.average();                // returns OptionalDouble.of(0.0)
      * }</pre>
      *
      * @param _1 the first long value
@@ -258,7 +260,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * allSame.max();                  // returns 5
      *
      * LongTuple.LongTuple7 neg = LongTuple.of(-7L, -6L, -5L, -4L, -3L, -2L, -1L);
-     * neg.average();                  // returns -4.0
+     * neg.average();                  // returns OptionalDouble.of(-4.0)
      * }</pre>
      *
      * @param _1 the first long value
@@ -580,11 +582,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
     /**
      * Returns the sum of all long values in this tuple as a {@code long}.
-     * <p>
-     * Note: this method does not check for overflow. If the true total exceeds the range of
+     * <p><b>&#9888;&#65039; Warning:</b> This method does not check for overflow. If the true total exceeds the range of
      * {@code long}, the result wraps around according to standard two's-complement long arithmetic
-     * rather than throwing an exception. For an empty tuple this method returns {@code 0L}.
-     * </p>
+     * rather than throwing an exception. For an empty tuple this method returns {@code 0L}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -615,7 +615,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the arithmetic mean of all long values in this tuple as a {@code double}.
+     * Returns the arithmetic mean of all long values in this tuple as an {@code OptionalDouble}.
      * <p>
      * The computation avoids {@code long} overflow. The exact arithmetic mean is rounded once,
      * using the normal round-to-nearest {@code double} conversion.
@@ -624,32 +624,32 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * double avg = tuple.average();                    // returns 2.0
+     * tuple.average();                                 // returns OptionalDouble.of(2.0)
      *
      * // Fractional result
      * LongTuple.LongTuple2 pair = LongTuple.of(1L, 2L);
-     * pair.average();                                  // returns 1.5
+     * pair.average();                                  // returns OptionalDouble.of(1.5)
      *
      * // Single-element tuple
      * LongTuple.LongTuple1 single = LongTuple.of(7L);
-     * single.average();                                // returns 7.0
+     * single.average();                                // returns OptionalDouble.of(7.0)
      *
      * // All-negative tuple
      * LongTuple.LongTuple2 neg = LongTuple.of(-3L, -1L);
-     * neg.average();                                   // returns -2.0
+     * neg.average();                                   // returns OptionalDouble.of(-2.0)
      *
-     * // Empty tuple returns 0D
+     * // Empty tuple returns an empty OptionalDouble
      * LongTuple<?> empty = LongTuple.from(new long[0]);
-     * empty.average();                                 // returns 0.0
+     * empty.average();                                 // returns OptionalDouble.empty()
      * }</pre>
      *
-     * @return the arithmetic mean of all long values in this tuple as a {@code double}, or {@code 0D} if this tuple is empty
+     * @return the arithmetic mean of all long values in this tuple as an {@code OptionalDouble}, or an empty {@code OptionalDouble} if this tuple is empty
      * @see #sum()
      */
-    public double average() {
+    public OptionalDouble average() {
         final long[] arr = elements();
 
-        return arr.length == 0 ? 0D : averageOf(arr);
+        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(averageOf(arr));
     }
 
     /**
@@ -678,7 +678,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * assert pair._1 == 1;
      * }</pre>
      *
-     * @return a tuple with the elements in reverse order
+     * @return a tuple of the same arity with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -959,7 +959,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * This package-private class is exposed only through the base {@code LongTuple} type
      * via the singleton instance returned by {@link #from(long[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns {@code 0L} and {@link #average()} returns {@code 0D}, while
+     * {@code null} or zero-length array. {@link #sum()} returns {@code 0L} and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -1032,13 +1032,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all long values in this tuple.
-         * Since this tuple is empty, this method always returns {@code 0D}.
+         * Since this tuple is empty, this method always returns an empty {@code OptionalDouble}.
          *
-         * @return {@code 0D}
+         * @return an empty {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return 0D;
+        public OptionalDouble average() {
+            return OptionalDouble.empty();
         }
 
         /**
@@ -1233,28 +1233,28 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all values in this tuple.
-         * For a single-element tuple, this is the element value converted to {@code double}.
+         * For a single-element tuple, this is the element value wrapped in an {@code OptionalDouble}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple1 t = LongTuple.of(7L);
-         * double avg = t.average();   // returns 7.0
+         * t.average();   // returns OptionalDouble.of(7.0)
          *
          * LongTuple.LongTuple1 neg = LongTuple.of(-5L);
-         * double avgNeg = neg.average();   // returns -5.0
+         * neg.average();   // returns OptionalDouble.of(-5.0)
          *
          * LongTuple.LongTuple1 zero = LongTuple.of(0L);
-         * double avgZero = zero.average();   // returns 0.0
+         * zero.average();   // returns OptionalDouble.of(0.0)
          *
          * LongTuple.LongTuple1 boundary = LongTuple.of(Long.MAX_VALUE);
-         * double avgMax = boundary.average();   // returns (double) Long.MAX_VALUE
+         * boundary.average();   // returns OptionalDouble.of((double) Long.MAX_VALUE)
          * }</pre>
          *
-         * @return {@code _1} converted to {@code double}
+         * @return {@code _1} wrapped in an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return _1;
+        public OptionalDouble average() {
+            return OptionalDouble.of(_1);
         }
 
         /**
@@ -1577,24 +1577,24 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple2 t = LongTuple.of(1L, 2L);
-         * double avg = t.average();   // returns 1.5
+         * t.average();   // returns OptionalDouble.of(1.5)
          *
          * LongTuple.LongTuple2 cancel = LongTuple.of(-1L, 1L);
-         * double avgC = cancel.average();   // returns 0.0
+         * cancel.average();   // returns OptionalDouble.of(0.0)
          *
          * LongTuple.LongTuple2 same = LongTuple.of(6L, 6L);
-         * double avgS = same.average();   // returns 6.0
+         * same.average();   // returns OptionalDouble.of(6.0)
          *
          * LongTuple.LongTuple2 negPair = LongTuple.of(-10L, -4L);
-         * double avgN = negPair.average();   // returns -7.0
+         * negPair.average();   // returns OptionalDouble.of(-7.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the two values as a {@code double}, computed without
+         * @return the arithmetic mean of the two values in an {@code OptionalDouble}, computed without
          *         overflowing intermediate {@code long} addition
          */
         @Override
-        public double average() {
-            return averageOf(_1, _2);
+        public OptionalDouble average() {
+            return OptionalDouble.of(averageOf(_1, _2));
         }
 
         /**
@@ -2073,24 +2073,24 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple3 t = LongTuple.of(1L, 2L, 3L);
-         * double avg = t.average();   // returns 2.0
+         * t.average();   // returns OptionalDouble.of(2.0)
          *
          * LongTuple.LongTuple3 cancel = LongTuple.of(-1L, 0L, 1L);
-         * double avgC = cancel.average();   // returns 0.0
+         * cancel.average();   // returns OptionalDouble.of(0.0)
          *
          * LongTuple.LongTuple3 same = LongTuple.of(6L, 6L, 6L);
-         * double avgS = same.average();   // returns 6.0
+         * same.average();   // returns OptionalDouble.of(6.0)
          *
          * LongTuple.LongTuple3 negTri = LongTuple.of(-3L, -6L, -9L);
-         * double avgN = negTri.average();   // returns -6.0
+         * negTri.average();   // returns OptionalDouble.of(-6.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the three values as a {@code double}, computed without
+         * @return the arithmetic mean of the three values in an {@code OptionalDouble}, computed without
          *         overflowing intermediate {@code long} addition
          */
         @Override
-        public double average() {
-            return averageOf(_1, _2, _3);
+        public OptionalDouble average() {
+            return OptionalDouble.of(averageOf(_1, _2, _3));
         }
 
         /**
@@ -2568,24 +2568,24 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple4 t = LongTuple.of(1L, 2L, 3L, 4L);
-         * double avg = t.average();   // 2.5
+         * t.average();   // returns OptionalDouble.of(2.5)
          *
          * LongTuple.LongTuple4 neg = LongTuple.of(-3L, -1L, 0L, 2L);
-         * double avgNeg = neg.average();   // -0.5
+         * neg.average();   // returns OptionalDouble.of(-0.5)
          *
          * LongTuple.LongTuple4 zeros = LongTuple.of(0L, 0L, 0L, 0L);
-         * double avgZero = zeros.average();   // 0.0
+         * zeros.average();   // returns OptionalDouble.of(0.0)
          *
          * LongTuple.LongTuple4 dup = LongTuple.of(6L, 6L, 6L, 6L);
-         * double avgDup = dup.average();   // 6.0
+         * dup.average();   // returns OptionalDouble.of(6.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the four values as a {@code double}, computed without
+         * @return the arithmetic mean of the four values in an {@code OptionalDouble}, computed without
          *         overflowing intermediate {@code long} addition
          */
         @Override
-        public double average() {
-            return averageOf(_1, _2, _3, _4);
+        public OptionalDouble average() {
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4));
         }
 
         /**
@@ -2791,7 +2791,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-     * double avg = tuple.average();                      // 3.0
+     * tuple.average();                                 // returns OptionalDouble.of(3.0)
      * long median = tuple.median();                      // 3
      * LongTuple.LongTuple5 reversed = tuple.reverse();   // (5, 4, 3, 2, 1)
      * }</pre>
@@ -2961,24 +2961,24 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple5 t = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-         * double avg = t.average();   // 3.0
+         * t.average();   // returns OptionalDouble.of(3.0)
          *
          * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -2L, 0L, 3L, 7L);
-         * double avgNeg = neg.average();   // 0.6
+         * neg.average();   // returns OptionalDouble.of(0.6)
          *
          * LongTuple.LongTuple5 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L);
-         * double avgZero = zeros.average();   // 0.0
+         * zeros.average();   // returns OptionalDouble.of(0.0)
          *
          * LongTuple.LongTuple5 dup = LongTuple.of(8L, 8L, 8L, 8L, 8L);
-         * double avgDup = dup.average();   // 8.0
+         * dup.average();   // returns OptionalDouble.of(8.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the five values as a {@code double}, computed without
+         * @return the arithmetic mean of the five values in an {@code OptionalDouble}, computed without
          *         overflowing intermediate {@code long} addition
          */
         @Override
-        public double average() {
-            return averageOf(_1, _2, _3, _4, _5);
+        public OptionalDouble average() {
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3185,7 +3185,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <pre>{@code
      * LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
      * long sum = tuple.sum();         // 21
-     * double avg = tuple.average();   // 3.5
+     * tuple.average();                // returns OptionalDouble.of(3.5)
      * }</pre>
      *
      */
@@ -3357,24 +3357,24 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple6 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-         * double avg = t.average();   // 3.5
+         * t.average();   // returns OptionalDouble.of(3.5)
          *
          * LongTuple.LongTuple6 neg = LongTuple.of(-3L, -2L, -1L, 0L, 1L, 2L);
-         * double avgNeg = neg.average();   // -0.5
+         * neg.average();   // returns OptionalDouble.of(-0.5)
          *
          * LongTuple.LongTuple6 zeros = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L);
-         * double avgZero = zeros.average();   // 0.0
+         * zeros.average();   // returns OptionalDouble.of(0.0)
          *
          * LongTuple.LongTuple6 dup = LongTuple.of(7L, 7L, 7L, 7L, 7L, 7L);
-         * double avgDup = dup.average();   // 7.0
+         * dup.average();   // returns OptionalDouble.of(7.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the six values as a {@code double}, computed without
+         * @return the arithmetic mean of the six values in an {@code OptionalDouble}, computed without
          *         overflowing intermediate {@code long} addition
          */
         @Override
-        public double average() {
-            return averageOf(_1, _2, _3, _4, _5, _6);
+        public OptionalDouble average() {
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3747,21 +3747,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-         * t.average(); // returns 4.0
+         * t.average(); // returns OptionalDouble.of(4.0)
          * LongTuple.LongTuple7 t2 = LongTuple.of(-3L, -2L, -1L, 0L, 1L, 2L, 3L);
-         * t2.average(); // returns 0.0
+         * t2.average(); // returns OptionalDouble.of(0.0)
          * LongTuple.LongTuple7 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 7L);
-         * t3.average(); // returns 1.0
+         * t3.average(); // returns OptionalDouble.of(1.0)
          * LongTuple.LongTuple7 t4 = LongTuple.of(-7L, -6L, -5L, -4L, -3L, -2L, -1L);
-         * t4.average(); // returns -4.0
+         * t4.average(); // returns OptionalDouble.of(-4.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the seven values as a {@code double}, computed without
+         * @return the arithmetic mean of the seven values in an {@code OptionalDouble}, computed without
          *         overflowing intermediate {@code long} addition
          */
         @Override
-        public double average() {
-            return averageOf(_1, _2, _3, _4, _5, _6, _7);
+        public OptionalDouble average() {
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -3938,7 +3938,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <pre>{@code
      * LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
      * long sum = tuple.sum();                   // 36
-     * double avg = tuple.average();             // 4.5
+     * tuple.average();                          // returns OptionalDouble.of(4.5)
      * boolean contains5 = tuple.contains(5L);   // true
      * }</pre>
      *
@@ -4109,21 +4109,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-         * t.average(); // returns 4.5
+         * t.average(); // returns OptionalDouble.of(4.5)
          * LongTuple.LongTuple8 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 1L, 2L, 3L, 4L);
-         * t2.average(); // returns 0.0
+         * t2.average(); // returns OptionalDouble.of(0.0)
          * LongTuple.LongTuple8 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 8L);
-         * t3.average(); // returns 1.0
+         * t3.average(); // returns OptionalDouble.of(1.0)
          * LongTuple.LongTuple8 t4 = LongTuple.of(-8L, -7L, -6L, -5L, -4L, -3L, -2L, -1L);
-         * t4.average(); // returns -4.5
+         * t4.average(); // returns OptionalDouble.of(-4.5)
          * }</pre>
          *
-         * @return the arithmetic mean of the eight values as a {@code double}, computed without
+         * @return the arithmetic mean of the eight values in an {@code OptionalDouble}, computed without
          *         overflowing intermediate {@code long} addition
          */
         @Override
-        public double average() {
-            return averageOf(_1, _2, _3, _4, _5, _6, _7, _8);
+        public OptionalDouble average() {
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4305,7 +4305,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
      * long sum = tuple.sum();         // 45
      * long median = tuple.median();   // 5
-     * double avg = tuple.average();   // 5.0
+     * tuple.average();                // returns OptionalDouble.of(5.0)
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more long values
@@ -4479,21 +4479,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-         * t.average(); // returns 5.0
+         * t.average(); // returns OptionalDouble.of(5.0)
          * LongTuple.LongTuple9 t2 = LongTuple.of(-4L, -3L, -2L, -1L, 0L, 1L, 2L, 3L, 4L);
-         * t2.average(); // returns 0.0
+         * t2.average(); // returns OptionalDouble.of(0.0)
          * LongTuple.LongTuple9 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 9L);
-         * t3.average(); // returns 1.0
+         * t3.average(); // returns OptionalDouble.of(1.0)
          * LongTuple.LongTuple9 t4 = LongTuple.of(-9L, -8L, -7L, -6L, -5L, -4L, -3L, -2L, -1L);
-         * t4.average(); // returns -5.0
+         * t4.average(); // returns OptionalDouble.of(-5.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the nine values as a {@code double}, computed without
+         * @return the arithmetic mean of the nine values in an {@code OptionalDouble}, computed without
          *         overflowing intermediate {@code long} addition
          */
         @Override
-        public double average() {
-            return averageOf(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        public OptionalDouble average() {
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**

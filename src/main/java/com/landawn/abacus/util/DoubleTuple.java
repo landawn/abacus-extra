@@ -29,6 +29,7 @@ import com.landawn.abacus.util.DoubleTuple.DoubleTuple7;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple8;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple9;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.u.OptionalDouble;
 import com.landawn.abacus.util.stream.DoubleStream;
 
 /**
@@ -60,7 +61,7 @@ import com.landawn.abacus.util.stream.DoubleStream;
 public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP>
         permits DoubleTuple0, DoubleTuple1, DoubleTuple2, DoubleTuple3, DoubleTuple4, DoubleTuple5, DoubleTuple6, DoubleTuple7, DoubleTuple8, DoubleTuple9 {
 
-    /** Lazily initialized cached array view of all tuple elements. */
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile double[] elements;
 
     /**
@@ -107,7 +108,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      *
      * // Sum and average
      * double sum = pair.sum();       // 4.0
-     * double avg = pair.average();   // 2.0
+     * pair.average();   // returns OptionalDouble.of(2.0)
      *
      * // Infinity is a valid element
      * DoubleTuple.DoubleTuple2 inf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0);
@@ -191,7 +192,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double sum = tuple.sum();         // 15.0
      *
      * // Average of five elements
-     * double avg = tuple.average();   // 3.0
+     * tuple.average();   // returns OptionalDouble.of(3.0)
      *
      * // Verify arity and containment
      * int arity = tuple.arity();               // 5
@@ -217,7 +218,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <pre>{@code
      * DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
      * double sum = tuple.sum();       // 21.0
-     * double avg = tuple.average();   // 3.5
+     * tuple.average();   // returns OptionalDouble.of(3.5)
      *
      * // Even arity: median returns lower middle value when sorted
      * double median = tuple.median();   // 3.0
@@ -486,7 +487,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * double maxPair = pair.max();   // 2.5
      *
-     * // Positive infinity is the largest finite/infinite value
+     * // Positive infinity is greater than any finite value
      * DoubleTuple.DoubleTuple3 inf = DoubleTuple.of(1.0, Double.POSITIVE_INFINITY, 3.0);
      * double maxInf = inf.max();   // Double.POSITIVE_INFINITY
      *
@@ -604,27 +605,27 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-     * double avg = tuple.average();   // 2.0
+     * tuple.average();   // returns OptionalDouble.of(2.0)
      *
      * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.0, 2.0);
-     * double avgPair = pair.average();   // 1.5
+     * pair.average();   // returns OptionalDouble.of(1.5)
      *
      * // NaN element propagates to the result
      * DoubleTuple.DoubleTuple2 nanTuple = DoubleTuple.of(1.0, Double.NaN);
-     * double nanAvg = nanTuple.average();   // NaN
+     * nanTuple.average();   // returns OptionalDouble.of(Double.NaN)
      *
-     * // Empty tuple returns 0D
+     * // Empty tuple returns an empty OptionalDouble
      * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
-     * empty.average();   // returns 0.0
+     * empty.average();   // returns OptionalDouble.empty()
      * }</pre>
      *
-     * @return the arithmetic mean of all double values in this tuple, or {@code 0D} if this tuple is empty
+     * @return the arithmetic mean of all double values in this tuple as an {@code OptionalDouble}, or an empty {@code OptionalDouble} if this tuple is empty
      * @see #sum()
      */
-    public double average() {
+    public OptionalDouble average() {
         final double[] arr = elements();
 
-        return arr.length == 0 ? 0D : N.average(arr);
+        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
     }
 
     /**
@@ -654,7 +655,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double val = revSingle._1;   // 5.0
      * }</pre>
      *
-     * @return a tuple with the elements in reverse order
+     * @return a tuple of the same arity with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -940,7 +941,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <p>
      * This package-private class is exposed only through the base {@code DoubleTuple} type
      * via the singleton instance returned by {@link #from(double[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0.0 and {@link #average()} returns {@code 0D}, while
+     * {@code null} or zero-length array. {@link #sum()} returns 0.0 and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -1013,13 +1014,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the average of all elements in this tuple.
-         * Since this tuple is empty, this method always returns {@code 0D}.
+         * Since this tuple is empty, this method always returns an empty {@code OptionalDouble}.
          *
-         * @return {@code 0D}
+         * @return an empty {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return 0D;
+        public OptionalDouble average() {
+            return OptionalDouble.empty();
         }
 
         /**
@@ -1071,7 +1072,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <p>
      * This class provides direct access to the single element through the public final field {@code _1}.
      * For single-element tuples, all statistical operations (min, max, median, sum, average) return
-     * or are based on that single element.
+     * or wrap that single element.
      * </p>
      */
     public static final class DoubleTuple1 extends DoubleTuple<DoubleTuple1> {
@@ -1218,23 +1219,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple1 t = DoubleTuple.of(3.5);
-         * double avg = t.average();   // 3.5
+         * t.average();   // returns OptionalDouble.of(3.5)
          *
          * DoubleTuple.DoubleTuple1 neg = DoubleTuple.of(-1.5);
-         * double avgNeg = neg.average();   // -1.5
+         * neg.average();   // returns OptionalDouble.of(-1.5)
          *
          * DoubleTuple.DoubleTuple1 nan = DoubleTuple.of(Double.NaN);
-         * double avgNan = nan.average();   // NaN
+         * nan.average();   // returns OptionalDouble.of(Double.NaN)
          *
          * DoubleTuple.DoubleTuple1 inf = DoubleTuple.of(Double.POSITIVE_INFINITY);
-         * double avgInf = inf.average();   // Infinity
+         * inf.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the value of {@code _1}
+         * @return an {@code OptionalDouble} containing the value of {@code _1}
          */
         @Override
-        public double average() {
-            return _1;
+        public OptionalDouble average() {
+            return OptionalDouble.of(_1);
         }
 
         /**
@@ -1409,7 +1410,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double sum = t.sum();       // 4.0
      * double min = t.min();       // 1.5
      * double max = t.max();       // 2.5
-     * double avg = t.average();   // 2.0
+     * t.average();   // returns OptionalDouble.of(2.0)
      * }</pre>
      *
      */
@@ -1565,21 +1566,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * double avg1 = DoubleTuple.of(3.0, 4.0).average();    // 3.5
-         * double avg2 = DoubleTuple.of(-1.0, -3.0).average();  // -2.0
+         * DoubleTuple.of(3.0, 4.0).average();    // returns OptionalDouble.of(3.5)
+         * DoubleTuple.of(-1.0, -3.0).average();  // returns OptionalDouble.of(-2.0)
          *
          * // NaN propagates
-         * double avgNaN = DoubleTuple.of(Double.NaN, 1.0).average();   // NaN
+         * DoubleTuple.of(Double.NaN, 1.0).average();   // returns OptionalDouble.of(Double.NaN)
          *
          * // two Infinities of the same sign
-         * double avgInf = DoubleTuple.of(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY).average();   // Infinity
+         * DoubleTuple.of(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY).average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1} and {@code _2}
+         * @return an {@code OptionalDouble} containing the average of {@code _1} and {@code _2}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2));
         }
 
         /**
@@ -2049,21 +2050,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * double avg1 = DoubleTuple.of(1.0, 2.0, 3.0).average();    // 2.0
-         * double avg2 = DoubleTuple.of(-1.0, 0.0, 1.0).average();   // 0.0
+         * DoubleTuple.of(1.0, 2.0, 3.0).average();    // returns OptionalDouble.of(2.0)
+         * DoubleTuple.of(-1.0, 0.0, 1.0).average();   // returns OptionalDouble.of(0.0)
          *
          * // NaN propagates
-         * double avgNaN = DoubleTuple.of(Double.NaN, 1.0, 2.0).average();   // NaN
+         * DoubleTuple.of(Double.NaN, 1.0, 2.0).average();   // returns OptionalDouble.of(Double.NaN)
          *
          * // all-negative
-         * double avgNeg = DoubleTuple.of(-1.0, -1.0, -1.0).average();   // -1.0
+         * DoubleTuple.of(-1.0, -1.0, -1.0).average();   // returns OptionalDouble.of(-1.0)
          * }</pre>
          *
-         * @return the average of {@code _1}, {@code _2}, and {@code _3}
+         * @return an {@code OptionalDouble} containing the average of {@code _1}, {@code _2}, and {@code _3}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3));
         }
 
         /**
@@ -2545,20 +2546,20 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple4 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-         * t.average(); // returns 2.5
+         * t.average(); // returns OptionalDouble.of(2.5)
          * DoubleTuple.DoubleTuple4 t2 = DoubleTuple.of(-2.0, -1.0, 1.0, 2.0);
-         * t2.average(); // returns 0.0
+         * t2.average(); // returns OptionalDouble.of(0.0)
          * DoubleTuple.DoubleTuple4 tNaN = DoubleTuple.of(1.0, Double.NaN, 3.0, 4.0);
-         * Double.isNaN(tNaN.average()); // returns true
+         * tNaN.average().getAsDouble(); // returns Double.NaN
          * DoubleTuple.DoubleTuple4 tSame = DoubleTuple.of(3.0, 3.0, 3.0, 3.0);
-         * tSame.average(); // returns 3.0
+         * tSame.average(); // returns OptionalDouble.of(3.0)
          * }</pre>
          *
-         * @return the average of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
+         * @return an {@code OptionalDouble} containing the average of {@code _1}, {@code _2}, {@code _3}, and {@code _4}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4));
         }
 
         /**
@@ -2898,20 +2899,20 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple5 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-         * t.average(); // returns 3.0
+         * t.average(); // returns OptionalDouble.of(3.0)
          * DoubleTuple.DoubleTuple5 t2 = DoubleTuple.of(-2.0, -1.0, 0.0, 1.0, 2.0);
-         * t2.average(); // returns 0.0
+         * t2.average(); // returns OptionalDouble.of(0.0)
          * DoubleTuple.DoubleTuple5 tNaN = DoubleTuple.of(1.0, Double.NaN, 3.0, 4.0, 5.0);
-         * Double.isNaN(tNaN.average()); // returns true
+         * tNaN.average().getAsDouble(); // returns Double.NaN
          * DoubleTuple.DoubleTuple5 tSame = DoubleTuple.of(4.0, 4.0, 4.0, 4.0, 4.0);
-         * tSame.average(); // returns 4.0
+         * tSame.average(); // returns OptionalDouble.of(4.0)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _5}
+         * @return an {@code OptionalDouble} containing the average of {@code _1} through {@code _5}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3257,20 +3258,20 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple6 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-         * t.average(); // returns 3.5
+         * t.average(); // returns OptionalDouble.of(3.5)
          * DoubleTuple.DoubleTuple6 t2 = DoubleTuple.of(-2.0, -1.0, 0.0, 1.0, 2.0, 3.0);
-         * t2.average(); // returns 0.5
+         * t2.average(); // returns OptionalDouble.of(0.5)
          * DoubleTuple.DoubleTuple6 tNaN = DoubleTuple.of(1.0, Double.NaN, 3.0, 4.0, 5.0, 6.0);
-         * Double.isNaN(tNaN.average()); // returns true
+         * tNaN.average().getAsDouble(); // returns Double.NaN
          * DoubleTuple.DoubleTuple6 tSame = DoubleTuple.of(5.0, 5.0, 5.0, 5.0, 5.0, 5.0);
-         * tSame.average(); // returns 5.0
+         * tSame.average(); // returns OptionalDouble.of(5.0)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _6}
+         * @return an {@code OptionalDouble} containing the average of {@code _1} through {@code _6}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3631,23 +3632,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple7 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * double avg = t.average();   // returns 4.0  (28.0 / 7)
+         * t.average();   // returns OptionalDouble.of(4.0)  (28.0 / 7)
          *
          * DoubleTuple.DoubleTuple7 neg = DoubleTuple.of(-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0);
-         * double avgn = neg.average();   // returns 0.0
+         * neg.average();   // returns OptionalDouble.of(0.0)
          *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0, 7.0);
-         * assert Double.isNaN(withNaN.average());   // NaN propagates
+         * assert Double.isNaN(withNaN.average().getAsDouble());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple7 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-         * double avgi = withInf.average();   // returns Double.POSITIVE_INFINITY
+         * withInf.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _7}
+         * @return an {@code OptionalDouble} containing the average of {@code _1} through {@code _7}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -4049,23 +4050,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple8 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * double avg = t.average();   // returns 4.5  (36.0 / 8)
+         * t.average();   // returns OptionalDouble.of(4.5)  (36.0 / 8)
          *
          * DoubleTuple.DoubleTuple8 neg = DoubleTuple.of(-4.0, -3.0, -2.0, -1.0, 1.0, 2.0, 3.0, 4.0);
-         * double avgn = neg.average();   // returns 0.0
+         * neg.average();   // returns OptionalDouble.of(0.0)
          *
          * DoubleTuple.DoubleTuple8 withNaN = DoubleTuple.of(1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * assert Double.isNaN(withNaN.average());   // NaN propagates
+         * assert Double.isNaN(withNaN.average().getAsDouble());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple8 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * double avgi = withInf.average();   // returns Double.POSITIVE_INFINITY
+         * withInf.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _8}
+         * @return an {@code OptionalDouble} containing the average of {@code _1} through {@code _8}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4474,23 +4475,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple9 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * double avg = t.average();   // returns 5.0  (45.0 / 9)
+         * t.average();   // returns OptionalDouble.of(5.0)  (45.0 / 9)
          *
          * DoubleTuple.DoubleTuple9 neg = DoubleTuple.of(-4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0);
-         * double avgn = neg.average();   // returns 0.0
+         * neg.average();   // returns OptionalDouble.of(0.0)
          *
          * DoubleTuple.DoubleTuple9 withNaN = DoubleTuple.of(1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * assert Double.isNaN(withNaN.average());   // NaN propagates
+         * assert Double.isNaN(withNaN.average().getAsDouble());   // NaN propagates
          *
          * DoubleTuple.DoubleTuple9 withInf = DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * double avgi = withInf.average();   // returns Double.POSITIVE_INFINITY
+         * withInf.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _9}
+         * @return an {@code OptionalDouble} containing the average of {@code _1} through {@code _9}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**

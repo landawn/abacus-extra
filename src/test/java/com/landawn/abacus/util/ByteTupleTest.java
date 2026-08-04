@@ -200,10 +200,10 @@ class ByteTupleTest extends TestBase {
     @Test
     public void testAverage() {
         ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-        assertEquals(20.0, tuple.average());
+        assertEquals(20.0, tuple.average().getAsDouble());
 
         ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
-        assertEquals(0D, empty.average(), 0D);
+        assertTrue(empty.average().isEmpty());
     }
 
     @Test
@@ -213,7 +213,7 @@ class ByteTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertEquals(0D, tuple.average(), 0D);
+        assertTrue(tuple.average().isEmpty());
         assertEquals(0, tuple.sum());
     }
 
@@ -433,7 +433,7 @@ class ByteTupleTest extends TestBase {
         assertEquals(10, tuple.max());
         assertEquals(10, tuple.median());
         assertEquals(10, tuple.sum());
-        assertEquals(10.0, tuple.average());
+        assertEquals(10.0, tuple.average().getAsDouble());
     }
 
     @Test
@@ -459,7 +459,7 @@ class ByteTupleTest extends TestBase {
         assertEquals(9, tuple.max());
         assertEquals(2, tuple.median());
         assertEquals(17, tuple.sum());
-        assertEquals(4.25, tuple.average());
+        assertEquals(4.25, tuple.average().getAsDouble());
         assertArrayEquals(new byte[] { 9, 2, 5, 1 }, firstArray);
         assertArrayEquals(firstArray, secondArray);
         assertNotSame(firstArray, secondArray);
@@ -799,19 +799,19 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testAverageTuple1() {
             ByteTuple1 tuple = ByteTuple.of((byte) 1);
-            assertEquals(1.0, tuple.average(), 0.001);
+            assertEquals(1.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverageTuple3() {
             ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            assertEquals(2.0, tuple.average(), 0.001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
-        public void testAverageTuple0ReturnsZero() {
+        public void testAverageTuple0ReturnsEmpty() {
             ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         // Reverse tests
@@ -1237,7 +1237,7 @@ class ByteTupleTest extends TestBase {
             assertEquals((byte) 4, tuple.max());
             assertEquals((byte) 2, tuple.median());
             assertEquals(10, tuple.sum());
-            assertEquals(2.5, tuple.average(), 0.001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             ByteTuple4 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
@@ -1274,7 +1274,7 @@ class ByteTupleTest extends TestBase {
             assertEquals((byte) 5, tuple.max());
             assertEquals((byte) 3, tuple.median());
             assertEquals(15, tuple.sum());
-            assertEquals(3.0, tuple.average(), 0.001);
+            assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
             // Test equals
             ByteTuple5 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
@@ -1302,7 +1302,7 @@ class ByteTupleTest extends TestBase {
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 6, tuple.max());
             assertEquals(21, tuple.sum());
-            assertEquals(3.5, tuple.average(), 0.001);
+            assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1326,7 +1326,7 @@ class ByteTupleTest extends TestBase {
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 7, tuple.max());
             assertEquals(28, tuple.sum());
-            assertEquals(4.0, tuple.average(), 0.001);
+            assertEquals(4.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1350,7 +1350,7 @@ class ByteTupleTest extends TestBase {
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 8, tuple.max());
             assertEquals(36, tuple.sum());
-            assertEquals(4.5, tuple.average(), 0.001);
+            assertEquals(4.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1374,7 +1374,7 @@ class ByteTupleTest extends TestBase {
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 9, tuple.max());
             assertEquals(45, tuple.sum());
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         // Test create methods for sizes 2, 4-8
@@ -1539,7 +1539,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testByteTuple1_average() {
             ByteTuple.ByteTuple1 tuple = ByteTuple.of((byte) 1);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         // ============ ByteTuple2 Nested Class Tests ============
@@ -1619,7 +1619,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testByteTuple2_average() {
             ByteTuple.ByteTuple2 tuple = ByteTuple.of((byte) 1, (byte) 2);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -1721,7 +1721,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testByteTuple3_average() {
             ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -2208,9 +2208,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple0_average_returnsZero() {
+        public void testTuple0_average_returnsEmpty() {
             ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -2244,7 +2244,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testTuple1_average() {
             ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertEquals(10.0, tuple.average(), 0.001);
+            assertEquals(10.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2301,7 +2301,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testTuple2_average() {
             ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            assertEquals(15.0, tuple.average(), 0.001);
+            assertEquals(15.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2379,7 +2379,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testTuple3_average() {
             ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            assertEquals(20.0, tuple.average(), 0.001);
+            assertEquals(20.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2845,33 +2845,33 @@ class ByteTupleTest extends TestBase {
         // ============ Average Tests ============
 
         @Test
-        public void testTuple0_average_returnsZero() {
+        public void testTuple0_average_returnsEmpty() {
             ByteTuple0 tuple = ByteTuple.from(new byte[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
         public void testTuple1_average() {
             ByteTuple1 tuple = ByteTuple.of((byte) 42);
-            assertEquals(42.0, tuple.average());
+            assertEquals(42.0, tuple.average().getAsDouble());
         }
 
         @Test
         public void testTuple2_average() {
             ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            assertEquals(15.0, tuple.average());
+            assertEquals(15.0, tuple.average().getAsDouble());
         }
 
         @Test
         public void testTuple3_average() {
             ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            assertEquals(20.0, tuple.average());
+            assertEquals(20.0, tuple.average().getAsDouble());
         }
 
         @Test
         public void testTuple5_average() {
             ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
-            assertEquals(30.0, tuple.average());
+            assertEquals(30.0, tuple.average().getAsDouble());
         }
 
         // ============ Reverse Tests ============
@@ -3357,7 +3357,7 @@ class ByteTupleTest extends TestBase {
             ByteTuple3 tuple = ByteTuple.of((byte) 0, (byte) 0, (byte) 0);
             assertTrue(tuple.contains((byte) 0));
             assertEquals(0, tuple.sum());
-            assertEquals(0.0, tuple.average());
+            assertEquals(0.0, tuple.average().getAsDouble());
         }
 
         @Test
@@ -3565,7 +3565,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void test_tuple1_average() {
             ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertEquals(10.0, tuple.average(), 0.0001);
+            assertEquals(10.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3682,7 +3682,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void test_tuple2_average() {
             ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            assertEquals(15.0, tuple.average(), 0.0001);
+            assertEquals(15.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3804,7 +3804,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void test_tuple3_average() {
             ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            assertEquals(20.0, tuple.average(), 0.0001);
+            assertEquals(20.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3884,7 +3884,7 @@ class ByteTupleTest extends TestBase {
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 4, tuple.max());
             assertEquals(10, tuple.sum());
-            assertEquals(2.5, tuple.average(), 0.0001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.0001);
             assertTrue(tuple.contains((byte) 3));
             ByteTuple4 reversed = tuple.reverse();
             assertEquals((byte) 4, reversed._1);
@@ -3909,7 +3909,7 @@ class ByteTupleTest extends TestBase {
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 6, tuple.max());
             assertEquals(21, tuple.sum());
-            assertEquals(3.5, tuple.average(), 0.0001);
+            assertEquals(3.5, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3934,7 +3934,7 @@ class ByteTupleTest extends TestBase {
             assertEquals(9, tuple.arity());
             assertEquals(9, tuple.toArray().length);
             assertEquals(45, tuple.sum());
-            assertEquals(5.0, tuple.average(), 0.0001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         // ============ Edge Cases and Additional Coverage ============
@@ -4044,11 +4044,11 @@ class ByteTupleTest extends TestBase {
         public void testByteTupleClassLevelExamples() {
             // byte min = triple.min();   // 10
             // byte max = triple.max();   // 30
-            // double avg = triple.average();   // 20.0
+            // triple.average();   // OptionalDouble.of(20.0)
             ByteTuple.ByteTuple3 triple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
             assertEquals((byte) 10, triple.min());
             assertEquals((byte) 30, triple.max());
-            assertEquals(20.0, triple.average(), 0.001);
+            assertEquals(20.0, triple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -4134,7 +4134,7 @@ class ByteTupleTest extends TestBase {
         assertEquals((byte) 9, tuple4.max());
         assertEquals((byte) 3, tuple4.median());
         assertEquals(20, tuple4.sum());
-        assertEquals(5.0, tuple4.average());
+        assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains((byte) 3));
 
         ByteTuple.ByteTuple5 tuple5 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);

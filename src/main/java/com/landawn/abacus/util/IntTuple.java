@@ -29,6 +29,7 @@ import com.landawn.abacus.util.IntTuple.IntTuple7;
 import com.landawn.abacus.util.IntTuple.IntTuple8;
 import com.landawn.abacus.util.IntTuple.IntTuple9;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.u.OptionalDouble;
 import com.landawn.abacus.util.stream.IntStream;
 
 /**
@@ -42,8 +43,8 @@ import com.landawn.abacus.util.stream.IntStream;
  *
  * <p>All {@code int} arithmetic in this class follows Java's signed 32-bit semantics (range
  * {@code -2147483648} to {@code 2147483647}). {@link #sum()} returns an {@code int} and throws
- * {@link ArithmeticException} if the total overflows that range, while {@link #average()} is widened
- * to {@code double} to preserve precision.</p>
+ * {@link ArithmeticException} if the total overflows that range, while {@link #average()} returns an
+ * {@code OptionalDouble} to preserve precision.</p>
  *
  * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -59,7 +60,7 @@ import com.landawn.abacus.util.stream.IntStream;
 public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP>
         permits IntTuple0, IntTuple1, IntTuple2, IntTuple3, IntTuple4, IntTuple5, IntTuple6, IntTuple7, IntTuple8, IntTuple9 {
 
-    /** Lazily initialized cached array view of all tuple elements. */
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile int[] elements;
 
     /**
@@ -128,7 +129,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
-     * double average = triple.average();  // returns 2.0
+     * triple.average();  // returns OptionalDouble.of(2.0)
      *
      * IntTuple.IntTuple3 rev = IntTuple.of(1, 2, 3).reverse();
      * int last = rev._1;  // returns 3
@@ -159,7 +160,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int fourth = quad._4;  // returns 4
      *
      * IntTuple.IntTuple4 avg4 = IntTuple.of(1, 2, 3, 4);
-     * double avg = avg4.average();  // returns 2.5
+     * avg4.average();  // returns OptionalDouble.of(2.5)
      *
      * IntTuple.IntTuple4 neg = IntTuple.of(-4, -3, -2, -1);
      * int mn = neg.min();  // returns -4
@@ -560,33 +561,34 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * Returns the arithmetic mean of all int values in this tuple as a {@code double}.
+     * Returns the arithmetic mean of all int values in this tuple as an {@code OptionalDouble}.
      * <p>
-     * The result is returned as a {@code double} to preserve fractional precision.
+     * The result is returned as an {@code OptionalDouble} to preserve fractional precision;
+     * it is empty if this tuple has no elements.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-     * double avg = tuple.average();  // returns 2.5
+     * tuple.average();  // returns OptionalDouble.of(2.5)
      *
      * IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
-     * double avg3 = triple.average();  // returns 2.0
+     * triple.average();  // returns OptionalDouble.of(2.0)
      *
      * IntTuple.IntTuple1 single = IntTuple.of(42);
-     * double avgSingle = single.average();  // returns 42.0
+     * single.average();  // returns OptionalDouble.of(42.0)
      *
-     * // empty tuple returns 0D
-     * IntTuple.from(new int[0]).average();  // returns 0.0
+     * // empty tuple returns an empty OptionalDouble
+     * IntTuple.from(new int[0]).average();  // returns OptionalDouble.empty()
      * }</pre>
      *
-     * @return the arithmetic mean of all int values in this tuple as a {@code double}, or {@code 0D} if this tuple is empty
+     * @return the arithmetic mean of all int values in this tuple as an {@code OptionalDouble}, or an empty {@code OptionalDouble} if this tuple is empty
      * @see #sum()
      */
-    public double average() {
+    public OptionalDouble average() {
         final int[] arr = elements();
 
-        return arr.length == 0 ? 0D : N.average(arr);
+        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
     }
 
     /**
@@ -878,7 +880,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p>
      * This package-private class is exposed only through the base {@code IntTuple} type
      * via the singleton instance returned by {@link #from(int[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns {@code 0D}, while
+     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -951,13 +953,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the average of all int values in this tuple.
-         * Since this tuple is empty, this method always returns {@code 0D}.
+         * Since this tuple is empty, this method always returns an empty {@code OptionalDouble}.
          *
-         * @return {@code 0D}
+         * @return an empty {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return 0D;
+        public OptionalDouble average() {
+            return OptionalDouble.empty();
         }
 
         /**
@@ -1151,17 +1153,17 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.of(7).average();                    // returns 7.0
-         * IntTuple.of(0).average();                    // returns 0.0
-         * IntTuple.of(-3).average();                   // returns -3.0
-         * IntTuple.of(Integer.MAX_VALUE).average();    // returns 2147483647.0
+         * IntTuple.of(7).average();                    // returns OptionalDouble.of(7.0)
+         * IntTuple.of(0).average();                    // returns OptionalDouble.of(0.0)
+         * IntTuple.of(-3).average();                   // returns OptionalDouble.of(-3.0)
+         * IntTuple.of(Integer.MAX_VALUE).average();    // returns OptionalDouble.of(2147483647.0)
          * }</pre>
          *
-         * @return the single element value as a double
+         * @return the single element value as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return _1;
+        public OptionalDouble average() {
+            return OptionalDouble.of(_1);
         }
 
         /**
@@ -1426,17 +1428,17 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.of(3, 5).average();     // returns 4.0
-         * IntTuple.of(-3, 3).average();    // returns 0.0
-         * IntTuple.of(2, 3).average();     // returns 2.5
-         * IntTuple.of(-5, -1).average();   // returns -3.0
+         * IntTuple.of(3, 5).average();     // returns OptionalDouble.of(4.0)
+         * IntTuple.of(-3, 3).average();    // returns OptionalDouble.of(0.0)
+         * IntTuple.of(2, 3).average();     // returns OptionalDouble.of(2.5)
+         * IntTuple.of(-5, -1).average();   // returns OptionalDouble.of(-3.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the elements as a {@code double}
+         * @return the arithmetic mean of the elements as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2));
         }
 
         /**
@@ -1848,17 +1850,17 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.of(1, 2, 3).average();      // returns 2.0
-         * IntTuple.of(-1, 0, 1).average();     // returns 0.0
-         * IntTuple.of(1, 2, 4).average();      // returns 2.3333333333333335
-         * IntTuple.of(-3, -3, -3).average();   // returns -3.0
+         * IntTuple.of(1, 2, 3).average();      // returns OptionalDouble.of(2.0)
+         * IntTuple.of(-1, 0, 1).average();     // returns OptionalDouble.of(0.0)
+         * IntTuple.of(1, 2, 4).average();      // returns OptionalDouble.of(2.3333333333333335)
+         * IntTuple.of(-3, -3, -3).average();   // returns OptionalDouble.of(-3.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the elements as a {@code double}
+         * @return the arithmetic mean of the elements as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3));
         }
 
         /**
@@ -2135,7 +2137,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple4 quad = IntTuple.of(1, 2, 3, 4);
-     * double avg = quad.average();   // 2.5
+     * quad.average();   // returns OptionalDouble.of(2.5)
      * }</pre>
      *
      */
@@ -2299,23 +2301,23 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple4 t = IntTuple.of(1, 2, 3, 4);
-         * t.average(); // returns 2.5
+         * t.average(); // returns OptionalDouble.of(2.5)
          *
          * IntTuple.IntTuple4 t2 = IntTuple.of(-2, -1, 1, 2);
-         * t2.average(); // returns 0.0
+         * t2.average(); // returns OptionalDouble.of(0.0)
          *
          * IntTuple.IntTuple4 t3 = IntTuple.of(5, 5, 5, 5);
-         * t3.average(); // returns 5.0
+         * t3.average(); // returns OptionalDouble.of(5.0)
          *
          * IntTuple.IntTuple4 t4 = IntTuple.of(0, 0, 0, 4);
-         * t4.average(); // returns 1.0
+         * t4.average(); // returns OptionalDouble.of(1.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the elements as a {@code double}
+         * @return the arithmetic mean of the elements as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4));
         }
 
         /**
@@ -2677,23 +2679,23 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple5 t = IntTuple.of(1, 2, 3, 4, 5);
-         * t.average(); // returns 3.0
+         * t.average(); // returns OptionalDouble.of(3.0)
          *
          * IntTuple.IntTuple5 t2 = IntTuple.of(-2, -1, 0, 1, 2);
-         * t2.average(); // returns 0.0
+         * t2.average(); // returns OptionalDouble.of(0.0)
          *
          * IntTuple.IntTuple5 t3 = IntTuple.of(1, 1, 1, 1, 2);
-         * t3.average(); // returns 1.2
+         * t3.average(); // returns OptionalDouble.of(1.2)
          *
          * IntTuple.IntTuple5 t4 = IntTuple.of(4, 4, 4, 4, 4);
-         * t4.average(); // returns 4.0
+         * t4.average(); // returns OptionalDouble.of(4.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the elements as a {@code double}
+         * @return the arithmetic mean of the elements as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3060,23 +3062,23 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple6 t = IntTuple.of(1, 2, 3, 4, 5, 6);
-         * t.average(); // returns 3.5
+         * t.average(); // returns OptionalDouble.of(3.5)
          *
          * IntTuple.IntTuple6 t2 = IntTuple.of(-3, -1, 0, 1, 2, 4);
-         * t2.average(); // returns 0.5
+         * t2.average(); // returns OptionalDouble.of(0.5)
          *
          * IntTuple.IntTuple6 t3 = IntTuple.of(4, 4, 4, 4, 4, 4);
-         * t3.average(); // returns 4.0
+         * t3.average(); // returns OptionalDouble.of(4.0)
          *
          * IntTuple.IntTuple6 t4 = IntTuple.of(0, 0, 0, 0, 0, 0);
-         * t4.average(); // returns 0.0
+         * t4.average(); // returns OptionalDouble.of(0.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the elements as a {@code double}
+         * @return the arithmetic mean of the elements as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3449,23 +3451,23 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple7 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-         * double avg = t.average();   // 4.0
+         * t.average();   // returns OptionalDouble.of(4.0)
          *
          * IntTuple.IntTuple7 evens = IntTuple.of(2, 4, 6, 8, 10, 12, 14);
-         * double evenAvg = evens.average();   // 8.0
+         * evens.average();   // returns OptionalDouble.of(8.0)
          *
          * IntTuple.IntTuple7 neg = IntTuple.of(-7, -6, -5, -4, -3, -2, -1);
-         * double negAvg = neg.average();   // -4.0
+         * neg.average();   // returns OptionalDouble.of(-4.0)
          *
          * IntTuple.IntTuple7 mixed = IntTuple.of(0, 0, 0, 0, 0, 0, 7);
-         * double mixedAvg = mixed.average();   // 1.0
+         * mixed.average();   // returns OptionalDouble.of(1.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the elements as a {@code double}
+         * @return the arithmetic mean of the elements as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -3847,23 +3849,23 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple8 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-         * double avg = t.average();   // 4.5
+         * t.average();   // returns OptionalDouble.of(4.5)
          *
          * IntTuple.IntTuple8 evens = IntTuple.of(2, 4, 6, 8, 10, 12, 14, 16);
-         * double evenAvg = evens.average();   // 9.0
+         * evens.average();   // returns OptionalDouble.of(9.0)
          *
          * IntTuple.IntTuple8 neg = IntTuple.of(-8, -7, -6, -5, -4, -3, -2, -1);
-         * double negAvg = neg.average();   // -4.5
+         * neg.average();   // returns OptionalDouble.of(-4.5)
          *
          * IntTuple.IntTuple8 zeros = IntTuple.of(0, 0, 0, 0, 0, 0, 0, 0);
-         * double zeroAvg = zeros.average();   // 0.0
+         * zeros.average();   // returns OptionalDouble.of(0.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the elements as a {@code double}
+         * @return the arithmetic mean of the elements as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4064,7 +4066,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-     * double avg = tuple.average();   // 5.0
+     * tuple.average();   // returns OptionalDouble.of(5.0)
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more int values
@@ -4251,23 +4253,23 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple9 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-         * double avg = t.average();   // 5.0
+         * t.average();   // returns OptionalDouble.of(5.0)
          *
          * IntTuple.IntTuple9 evens = IntTuple.of(2, 4, 6, 8, 10, 12, 14, 16, 18);
-         * double evenAvg = evens.average();   // 10.0
+         * evens.average();   // returns OptionalDouble.of(10.0)
          *
          * IntTuple.IntTuple9 neg = IntTuple.of(-9, -8, -7, -6, -5, -4, -3, -2, -1);
-         * double negAvg = neg.average();   // -5.0
+         * neg.average();   // returns OptionalDouble.of(-5.0)
          *
          * IntTuple.IntTuple9 zeros = IntTuple.of(0, 0, 0, 0, 0, 0, 0, 0, 0);
-         * double zeroAvg = zeros.average();   // 0.0
+         * zeros.average();   // returns OptionalDouble.of(0.0)
          * }</pre>
          *
-         * @return the arithmetic mean of the elements as a {@code double}
+         * @return the arithmetic mean of the elements as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**

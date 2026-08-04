@@ -29,6 +29,7 @@ import com.landawn.abacus.util.ShortTuple.ShortTuple7;
 import com.landawn.abacus.util.ShortTuple.ShortTuple8;
 import com.landawn.abacus.util.ShortTuple.ShortTuple9;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.u.OptionalDouble;
 import com.landawn.abacus.util.stream.ShortStream;
 
 /**
@@ -42,7 +43,7 @@ import com.landawn.abacus.util.stream.ShortStream;
  *
  * <p>All {@code short} arithmetic in this class follows Java's signed semantics (range {@code -32768}
  * to {@code 32767}). {@link #sum()} is widened to {@code int} to avoid overflow, and {@link #average()}
- * is widened to {@code double} to preserve precision.</p>
+ * returns an {@code OptionalDouble} with the result widened to {@code double} to preserve precision.</p>
  *
  * @param <TP> the concrete {@code ShortTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -58,7 +59,7 @@ import com.landawn.abacus.util.stream.ShortStream;
 public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP>
         permits ShortTuple0, ShortTuple1, ShortTuple2, ShortTuple3, ShortTuple4, ShortTuple5, ShortTuple6, ShortTuple7, ShortTuple8, ShortTuple9 {
 
-    /** Lazily initialized cached array view of all tuple elements. */
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile short[] elements;
 
     /**
@@ -130,7 +131,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <pre>{@code
      * ShortTuple.ShortTuple3 t = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * t.sum();                           // returns 6
-     * t.average();                       // returns 2.0
+     * t.average();                       // returns OptionalDouble.of(2.0)
      * t.toString();                      // returns "(1, 2, 3)"
      *
      * // Edge: unsorted input - min/max/median still correct
@@ -163,7 +164,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * assert t._1 == 1;
      * assert t._4 == 4;
      * t.sum();                           // returns 10
-     * t.average();                       // returns 2.5
+     * t.average();                       // returns OptionalDouble.of(2.5)
      *
      * // Edge: even arity median returns lower middle
      * t.median();                        // returns 2 (lower of the two middle values when sorted)
@@ -600,35 +601,35 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * Returns the average of all short values in this tuple as a {@code double}.
+     * Returns the average of all short values in this tuple as an {@code OptionalDouble}.
      * <p>
-     * The result is returned as a {@code double} to preserve fractional precision.
+     * The result is wrapped in an {@code OptionalDouble} to preserve fractional precision.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple4 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-     * t.average();                       // returns 2.5
+     * t.average();                       // returns OptionalDouble.of(2.5)
      *
      * ShortTuple.ShortTuple3 whole = ShortTuple.of((short) 1, (short) 2, (short) 3);
-     * whole.average();                   // returns 2.0
+     * whole.average();                   // returns OptionalDouble.of(2.0)
      *
      * // Edge: single element
      * ShortTuple.ShortTuple1 single = ShortTuple.of((short) 7);
-     * single.average();                  // returns 7.0
+     * single.average();                  // returns OptionalDouble.of(7.0)
      *
-     * // Edge: empty tuple returns 0D
+     * // Edge: empty tuple returns an empty OptionalDouble
      * ShortTuple<?> empty = ShortTuple.from(new short[0]);
-     * empty.average();                   // returns 0.0
+     * empty.average();                   // returns OptionalDouble.empty()
      * }</pre>
      *
-     * @return the average of all short values in this tuple as a {@code double}, or {@code 0D} if this tuple is empty
+     * @return the average of all short values in this tuple as an {@code OptionalDouble}, or an empty {@code OptionalDouble} if this tuple is empty
      * @see #sum()
      */
-    public double average() {
+    public OptionalDouble average() {
         final short[] arr = elements();
 
-        return arr.length == 0 ? 0D : N.average(arr);
+        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
     }
 
     /**
@@ -937,7 +938,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <p>
      * This package-private class is exposed only through the base {@code ShortTuple} type
      * via the singleton instance returned by {@link #from(short[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns {@code 0D}, while
+     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -1011,13 +1012,13 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the average of all short values in this tuple.
-         * Since this tuple is empty, this method always returns {@code 0D}.
+         * Since this tuple is empty, this method always returns an empty {@code OptionalDouble}.
          *
-         * @return {@code 0D}
+         * @return an empty {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return 0D;
+        public OptionalDouble average() {
+            return OptionalDouble.empty();
         }
 
         /**
@@ -1231,29 +1232,29 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the average of all short values in this tuple as a double.
-         * Since this tuple contains only one element, it returns that element converted to a {@code double}.
+         * Returns the average of all short values in this tuple as an OptionalDouble.
+         * Since this tuple contains only one element, it returns that element wrapped in an {@code OptionalDouble}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple1 t = ShortTuple.of((short) 5);
-         * double avg = t.average();   // returns 5.0
+         * t.average();   // returns OptionalDouble.of(5.0)
          *
          * ShortTuple.ShortTuple1 neg = ShortTuple.of((short) -10);
-         * double navg = neg.average();   // returns -10.0
+         * neg.average();   // returns OptionalDouble.of(-10.0)
          *
          * ShortTuple.ShortTuple1 zero = ShortTuple.of((short) 0);
-         * double zavg = zero.average();   // returns 0.0
+         * zero.average();   // returns OptionalDouble.of(0.0)
          *
          * ShortTuple.ShortTuple1 maxVal = ShortTuple.of(Short.MAX_VALUE);
-         * double mavg = maxVal.average();   // returns 32767.0
+         * maxVal.average();   // returns OptionalDouble.of(32767.0)
          * }</pre>
          *
-         * @return the single short value as a {@code double}
+         * @return the single short value wrapped in an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return _1;
+        public OptionalDouble average() {
+            return OptionalDouble.of(_1);
         }
 
         /**
@@ -1541,7 +1542,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple2 t = ShortTuple.of((short) 3, (short) 7);
-         * short med = t.median();   // returns 3 (lower of the two when sorted: [3], 7)
+         * short med = t.median();   // returns 3 (sorted: [3, 7], lower middle)
          *
          * ShortTuple.ShortTuple2 rev = ShortTuple.of((short) 7, (short) 3);
          * short rmed = rev.median();   // returns 3 (lower middle regardless of input order)
@@ -1586,28 +1587,28 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the average of all short values in this tuple as a double.
+         * Returns the average of all short values in this tuple as an OptionalDouble.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple2 t = ShortTuple.of((short) 3, (short) 7);
-         * double avg = t.average();   // returns 5.0
+         * t.average();   // returns OptionalDouble.of(5.0)
          *
          * ShortTuple.ShortTuple2 odd = ShortTuple.of((short) 1, (short) 2);
-         * double oa = odd.average();   // returns 1.5
+         * odd.average();   // returns OptionalDouble.of(1.5)
          *
          * ShortTuple.ShortTuple2 neg = ShortTuple.of((short) -3, (short) -7);
-         * double na = neg.average();   // returns -5.0
+         * neg.average();   // returns OptionalDouble.of(-5.0)
          *
          * ShortTuple.ShortTuple2 mixed = ShortTuple.of((short) -1, (short) 1);
-         * double ma = mixed.average();   // returns 0.0
+         * mixed.average();   // returns OptionalDouble.of(0.0)
          * }</pre>
          *
-         * @return the average of both short values as a {@code double}
+         * @return the average of both short values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2));
         }
 
         /**
@@ -2101,28 +2102,28 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the average of all short values in this tuple as a double.
+         * Returns the average of all short values in this tuple as an OptionalDouble.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple3 t = ShortTuple.of((short) 1, (short) 2, (short) 3);
-         * double avg = t.average();   // returns 2.0
+         * t.average();   // returns OptionalDouble.of(2.0)
          *
          * ShortTuple.ShortTuple3 odd = ShortTuple.of((short) 0, (short) 1, (short) 2);
-         * double oa = odd.average();   // returns 1.0
+         * odd.average();   // returns OptionalDouble.of(1.0)
          *
          * ShortTuple.ShortTuple3 neg = ShortTuple.of((short) -3, (short) -3, (short) -3);
-         * double na = neg.average();   // returns -3.0
+         * neg.average();   // returns OptionalDouble.of(-3.0)
          *
          * ShortTuple.ShortTuple3 mixed = ShortTuple.of((short) -1, (short) 0, (short) 1);
-         * double ma = mixed.average();   // returns 0.0
+         * mixed.average();   // returns OptionalDouble.of(0.0)
          * }</pre>
          *
-         * @return the average of all three short values as a {@code double}
+         * @return the average of all three short values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3));
         }
 
         /**
@@ -2445,7 +2446,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple4 quad = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
-     * double avg = quad.average();   // 2.5
+     * quad.average();   // returns OptionalDouble.of(2.5)
      * }</pre>
      *
      */
@@ -2600,28 +2601,28 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the average of all short values in this tuple as a double.
+         * Returns the average of all short values in this tuple as an OptionalDouble.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple4 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-         * t.average(); // returns 2.5
+         * t.average(); // returns OptionalDouble.of(2.5)
          *
          * ShortTuple.ShortTuple4 t2 = ShortTuple.of((short) -1, (short) -2, (short) -3, (short) -4);
-         * t2.average(); // returns -2.5
+         * t2.average(); // returns OptionalDouble.of(-2.5)
          *
          * ShortTuple.ShortTuple4 t3 = ShortTuple.of((short) 0, (short) 0, (short) 0, (short) 0);
-         * t3.average(); // returns 0.0
+         * t3.average(); // returns OptionalDouble.of(0.0)
          *
          * ShortTuple.ShortTuple4 t4 = ShortTuple.of(Short.MIN_VALUE, (short) -1, (short) 0, Short.MAX_VALUE);
-         * t4.average(); // returns -0.5
+         * t4.average(); // returns OptionalDouble.of(-0.5)
          * }</pre>
          *
-         * @return the average of all four short values as a {@code double}
+         * @return the average of all four short values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4));
         }
 
         /**
@@ -2954,28 +2955,28 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the average of all short values in this tuple as a double.
+         * Returns the average of all short values in this tuple as an OptionalDouble.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple5 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-         * t.average(); // returns 3.0
+         * t.average(); // returns OptionalDouble.of(3.0)
          *
          * ShortTuple.ShortTuple5 t2 = ShortTuple.of((short) -5, (short) -3, (short) -1, (short) 1, (short) 3);
-         * t2.average(); // returns -1.0
+         * t2.average(); // returns OptionalDouble.of(-1.0)
          *
          * ShortTuple.ShortTuple5 t3 = ShortTuple.of((short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
-         * t3.average(); // returns 0.0
+         * t3.average(); // returns OptionalDouble.of(0.0)
          *
          * ShortTuple.ShortTuple5 t4 = ShortTuple.of((short) -2, (short) -1, (short) 0, (short) 1, (short) 2);
-         * t4.average(); // returns 0.0
+         * t4.average(); // returns OptionalDouble.of(0.0)
          * }</pre>
          *
-         * @return the average of all five short values as a {@code double}
+         * @return the average of all five short values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3031,7 +3032,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple5 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-         * List<Short> list = new ArrayList<>();
+         * java.util.List<Short> list = new java.util.ArrayList<>();
          * t.forEach(v -> list.add(v)); // list becomes [1, 2, 3, 4, 5] in order
          *
          * ShortTuple.ShortTuple5 t2 = ShortTuple.of((short) -2, (short) -1, (short) 0, (short) 1, (short) 2);
@@ -3313,28 +3314,28 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the average of all short values in this tuple as a double.
+         * Returns the average of all short values in this tuple as an OptionalDouble.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple6 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-         * t.average(); // returns 3.5
+         * t.average(); // returns OptionalDouble.of(3.5)
          *
          * ShortTuple.ShortTuple6 t2 = ShortTuple.of((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
-         * t2.average(); // returns 0.0
+         * t2.average(); // returns OptionalDouble.of(0.0)
          *
          * ShortTuple.ShortTuple6 t3 = ShortTuple.of((short) -3, (short) -2, (short) -1, (short) 1, (short) 2, (short) 3);
-         * t3.average(); // returns 0.0
+         * t3.average(); // returns OptionalDouble.of(0.0)
          *
          * ShortTuple.ShortTuple6 t4 = ShortTuple.of((short) -1, (short) -2, (short) -3, (short) -4, (short) -5, (short) -6);
-         * t4.average(); // returns -3.5
+         * t4.average(); // returns OptionalDouble.of(-3.5)
          * }</pre>
          *
-         * @return the average of all six short values as a {@code double}
+         * @return the average of all six short values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3390,7 +3391,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple6 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-         * List<Short> list = new ArrayList<>();
+         * java.util.List<Short> list = new java.util.ArrayList<>();
          * t.forEach(v -> list.add(v)); // list becomes [1, 2, 3, 4, 5, 6] in order
          *
          * ShortTuple.ShortTuple6 t2 = ShortTuple.of((short) -3, (short) -2, (short) -1, (short) 1, (short) 2, (short) 3);
@@ -3683,28 +3684,28 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the average of all short values in this tuple as a double.
+         * Returns the average of all short values in this tuple as an OptionalDouble.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple7 t = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
-         * double avg = t.average();   // returns 4.0
+         * t.average();   // returns OptionalDouble.of(4.0)
          *
          * ShortTuple.ShortTuple7 t2 = ShortTuple.of((short)-3, (short)-2, (short)-1, (short)0, (short)1, (short)2, (short)3);
-         * double avg2 = t2.average();   // returns 0.0
+         * t2.average();   // returns OptionalDouble.of(0.0)
          *
          * ShortTuple.ShortTuple7 t3 = ShortTuple.of((short)1, (short)1, (short)1, (short)1, (short)1, (short)1, (short)1);
-         * double avg3 = t3.average();   // returns 1.0
+         * t3.average();   // returns OptionalDouble.of(1.0)
          *
          * ShortTuple.ShortTuple7 t4 = ShortTuple.of((short)0, (short)0, (short)0, (short)1, (short)1, (short)1, (short)1);
-         * double avg4 = t4.average();   // returns 4.0 / 7.0 (approximately 0.5714)
+         * t4.average();   // returns OptionalDouble.of(~0.5714) (4.0 / 7.0)
          * }</pre>
          *
-         * @return the average of all seven short values as a {@code double}
+         * @return the average of all seven short values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -4076,28 +4077,28 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the average of all short values in this tuple as a double.
+         * Returns the average of all short values in this tuple as an OptionalDouble.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple8 t = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
-         * double avg = t.average();   // returns 4.5
+         * t.average();   // returns OptionalDouble.of(4.5)
          *
          * ShortTuple.ShortTuple8 t2 = ShortTuple.of((short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0);
-         * double avg2 = t2.average();   // returns 0.0
+         * t2.average();   // returns OptionalDouble.of(0.0)
          *
          * ShortTuple.ShortTuple8 t3 = ShortTuple.of((short)-4, (short)-3, (short)-2, (short)-1, (short)0, (short)1, (short)2, (short)3);
-         * double avg3 = t3.average();   // returns -0.5 (sum=-4, divided by 8)
+         * t3.average();   // returns OptionalDouble.of(-0.5) (sum=-4, divided by 8)
          *
          * ShortTuple.ShortTuple8 t4 = ShortTuple.of((short)1, (short)1, (short)1, (short)1, (short)1, (short)1, (short)1, (short)1);
-         * double avg4 = t4.average();   // returns 1.0
+         * t4.average();   // returns OptionalDouble.of(1.0)
          * }</pre>
          *
-         * @return the average of all eight short values as a {@code double}
+         * @return the average of all eight short values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4289,7 +4290,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <pre>{@code
      * ShortTuple.ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5,
      *                                    (short)6, (short)7, (short)8, (short)9);
-     * double avg = tuple.average();   // 5.0
+     * tuple.average();   // returns OptionalDouble.of(5.0)
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more short values
@@ -4476,28 +4477,28 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the average of all short values in this tuple as a double.
+         * Returns the average of all short values in this tuple as an OptionalDouble.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple9 t = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
-         * double avg = t.average();   // returns 5.0
+         * t.average();   // returns OptionalDouble.of(5.0)
          *
          * ShortTuple.ShortTuple9 t2 = ShortTuple.of((short)-4, (short)-3, (short)-2, (short)-1, (short)0, (short)1, (short)2, (short)3, (short)4);
-         * double avg2 = t2.average();   // returns 0.0
+         * t2.average();   // returns OptionalDouble.of(0.0)
          *
          * ShortTuple.ShortTuple9 t3 = ShortTuple.of((short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0);
-         * double avg3 = t3.average();   // returns 0.0
+         * t3.average();   // returns OptionalDouble.of(0.0)
          *
          * ShortTuple.ShortTuple9 t4 = ShortTuple.of((short)1, (short)1, (short)1, (short)1, (short)1, (short)1, (short)1, (short)1, (short)1);
-         * double avg4 = t4.average();   // returns 1.0
+         * t4.average();   // returns OptionalDouble.of(1.0)
          * }</pre>
          *
-         * @return the average of all nine short values as a {@code double}
+         * @return the average of all nine short values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**

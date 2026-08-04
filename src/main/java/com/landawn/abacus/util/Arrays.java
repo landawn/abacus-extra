@@ -240,7 +240,6 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each boolean element to an object using the provided mapper function.
-     * Each boolean value in the array is transformed according to the provided mapping function.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -409,7 +408,6 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each char element to an object using the provided mapper function.
-     * Each character in the array is transformed according to the provided mapping function.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -578,7 +576,6 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each byte element to an object using the provided mapper function.
-     * Each byte value in the array is transformed according to the provided mapping function.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -747,7 +744,6 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each short element to an object using the provided mapper function.
-     * Each short value in the array is transformed according to the provided mapping function.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -916,7 +912,6 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each int element to an object using the provided mapper function.
-     * Each int value in the array is transformed according to the provided mapping function.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1085,7 +1080,6 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each long element to an object using the provided mapper function.
-     * Each long value in the array is transformed according to the provided mapping function.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1255,7 +1249,6 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each float element to an object using the provided mapper function.
-     * Each float value in the array is transformed according to the provided mapping function.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1424,7 +1417,6 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each double element to an object using the provided mapper function.
-     * Each double value in the array is transformed according to the provided mapping function.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2911,7 +2903,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape (can be {@code null}).
-     * @param columnCount the number of columns for the reshaped array (must be positive).
+     * @param columnCount the number of columns in each row (must be positive).
      * @return a two-dimensional boolean array with the specified number of columns, or an empty two-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
      * @see #reshape(boolean[], int, int) for reshaping into a three-dimensional array
@@ -2937,8 +2929,9 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Reshapes a one-dimensional boolean array into a three-dimensional boolean array with the specified number of rows and columns.
      * The array is divided into blocks of size rowCount × columnCount.
+     * The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount.
      *
-     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     * <p>The per-block capacity ({@code rowCount * columnCount}) is computed with {@code long} arithmetic, so a product larger than {@code Integer.MAX_VALUE} does not overflow.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2962,8 +2955,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape (can be {@code null}).
-     * @param rowCount the number of rows for the reshaped subarray (must be positive).
-     * @param columnCount the number of columns for the reshaped subarray (must be positive).
+     * @param rowCount the number of rows in each two-dimensional sub-array (must be positive).
+     * @param columnCount the number of columns in each row of the two-dimensional sub-arrays (must be positive).
      * @return a three-dimensional boolean array with the specified number of rows and columns, or an empty three-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(boolean[], int) for reshaping into a two-dimensional array
@@ -4812,10 +4805,9 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional character array into a three-dimensional character array with specified dimensions.
-     * If the input array's length is not a perfect multiple of {@code rowCount * columnCount},
-     * the last sub-arrays may be shorter.
+     * The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount.
      *
-     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     * <p>The per-block capacity ({@code rowCount * columnCount}) is computed with {@code long} arithmetic, so a product larger than {@code Integer.MAX_VALUE} does not overflow.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -6701,8 +6693,9 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.
      * The array is divided into blocks of size rowCount × columnCount.
+     * The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount.
      *
-     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     * <p>The per-block capacity ({@code rowCount * columnCount}) is computed with {@code long} arithmetic, so a product larger than {@code Integer.MAX_VALUE} does not overflow.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7852,8 +7845,8 @@ public sealed class Arrays permits Arrays.f {
      * int minLen5 = Arrays.minRowLength(new byte[0][]);   // returns 0
      * }</pre>
      *
-     * @param a the two-dimensional byte array to analyze (can be {@code null} or empty).
-     * @return the minimum sub-array length, or 0 if the array is {@code null} or empty.
+     * @param a the two-dimensional byte array (can be {@code null} or empty).
+     * @return the minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
      * @see #maxRowLength(byte[][])
      */
     public static int minRowLength(final byte[][] a) {
@@ -7895,8 +7888,8 @@ public sealed class Arrays permits Arrays.f {
      * int maxLen5 = Arrays.maxRowLength(new byte[0][]);   // returns 0
      * }</pre>
      *
-     * @param a the two-dimensional byte array to analyze (can be {@code null} or empty).
-     * @return the maximum sub-array length, or 0 if the array is {@code null} or empty.
+     * @param a the two-dimensional byte array (can be {@code null} or empty).
+     * @return the maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
      * @see #minRowLength(byte[][])
      */
     public static int maxRowLength(final byte[][] a) {
@@ -8498,9 +8491,10 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional short array into a three-dimensional array with the specified dimensions.
-     * The array is divided into blocks of size rowCount×columnCount, with partial blocks allowed.
+     * The array is divided into blocks of size rowCount×columnCount.
+     * The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount.
      *
-     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     * <p>The per-block capacity ({@code rowCount * columnCount}) is computed with {@code long} arithmetic, so a product larger than {@code Integer.MAX_VALUE} does not overflow.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10349,7 +10343,7 @@ public sealed class Arrays permits Arrays.f {
      * two-dimensional slices of the specified row and column counts. The last slice may be incomplete if the array length
      * is not evenly divisible by rowCount × columnCount. If the input array is {@code null} or empty, returns an empty three-dimensional array.</p>
      *
-     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     * <p>The per-block capacity ({@code rowCount * columnCount}) is computed with {@code long} arithmetic, so a product larger than {@code Integer.MAX_VALUE} does not overflow.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12164,9 +12158,9 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional long array into a three-dimensional long array with the specified number of rows and columns.
-     * The last sub-arrays may be shorter if the total element count is not perfectly divisible.
+     * The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount.
      *
-     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     * <p>The per-block capacity ({@code rowCount * columnCount}) is computed with {@code long} arithmetic, so a product larger than {@code Integer.MAX_VALUE} does not overflow.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13914,10 +13908,9 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional float array into a three-dimensional float array with the specified number of rows and columns.
-     * The last sub-array may be smaller if the total number of elements is not a multiple
-     * of {@code rowCount * columnCount}.
+     * The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount.
      *
-     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     * <p>The per-block capacity ({@code rowCount * columnCount}) is computed with {@code long} arithmetic, so a product larger than {@code Integer.MAX_VALUE} does not overflow.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15755,9 +15748,9 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Reshapes a one-dimensional array into a three-dimensional array with the specified number of rows and columns.
      * The dimensions of the resulting array are determined based on the total element count.
-     * The last sub-arrays may be shorter if the total count is not a multiple of {@code rowCount * columnCount}.
+     * The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount.
      *
-     * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+     * <p>The per-block capacity ({@code rowCount * columnCount}) is computed with {@code long} arithmetic, so a product larger than {@code Integer.MAX_VALUE} does not overflow.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -16773,7 +16766,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of double elements in a jagged two-dimensional array.
+     * Calculates the total number of elements in a two-dimensional double array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -16816,7 +16809,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of double elements in a jagged three-dimensional array.
+     * Calculates the total number of elements in a three-dimensional double array.
+     * Empty or null sub-arrays at any level are skipped.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -21296,8 +21290,8 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Object-array helper namespace for two-dimensional arrays.
      *
-     * <p>This class groups the bulk update, reshape, flatten, map, and zip operations that are specific
-     * to {@code T[][]}. The short name is intentional so callers can use concise static imports when they
+     * <p>This class groups the bulk update, reshape, flatten, map, and zip operations, plus size statistics
+     * ({@code totalElementCount}, {@code minRowLength}, {@code maxRowLength}), that are specific to {@code T[][]}. The short name is intentional so callers can use concise static imports when they
      * work heavily with multidimensional object arrays. Unlike {@link Arrays.f}, this class does not extend
      * {@link Arrays}; it only exposes the 2D-specific helpers declared here.</p>
      *
@@ -21604,7 +21598,7 @@ public sealed class Arrays permits Arrays.f {
          * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          * The element type of the result is inferred from the runtime component type of {@code a};
          * mapped values must be assignable to that component type. Use the overload with
-         * {@code targetElementType} for type-changing mappings.</p>
+         * {@code targetElementType} for type-changing mappings. The operator is invoked for every slot, including slots whose value is {@code null}.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -21664,7 +21658,7 @@ public sealed class Arrays permits Arrays.f {
          * <p>The resulting array has the same outer length as the input array but with elements
          * of the target type. If the input is {@code null} or empty, an empty 2D array of the target
          * type is returned. Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null});
-         * non-null sub-array lengths are preserved.</p>
+         * non-null sub-array lengths are preserved. The function is invoked for every slot, including slots whose value is {@code null}.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22420,7 +22414,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
-         * @param <E> the type of exception that may be thrown.
+         * @param <E> the type of exception that may be thrown by the zip function.
          * @param a the first two-dimensional array (must not be {@code null}; used to infer the result element type).
          * @param b the second two-dimensional array (can be {@code null}, treated as empty).
          * @param c the third two-dimensional array (can be {@code null}, treated as empty).
@@ -22489,7 +22483,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
          * @param <R> the element type of the result array.
-         * @param <E> the type of exception that may be thrown.
+         * @param <E> the type of exception that may be thrown by the zip function.
          * @param a the first two-dimensional array (can be {@code null}, treated as empty).
          * @param b the second two-dimensional array (can be {@code null}, treated as empty).
          * @param c the third two-dimensional array (can be {@code null}, treated as empty).
@@ -22563,7 +22557,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
-         * @param <E> the type of exception that may be thrown.
+         * @param <E> the type of exception that may be thrown by the zip function.
          * @param a the first two-dimensional array (can be {@code null}).
          * @param b the second two-dimensional array (can be {@code null}).
          * @param c the third two-dimensional array (can be {@code null}).
@@ -22635,7 +22629,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
          * @param <R> the element type of the result array.
-         * @param <E> the type of exception that may be thrown.
+         * @param <E> the type of exception that may be thrown by the zip function.
          * @param a the first two-dimensional array (can be {@code null}).
          * @param b the second two-dimensional array (can be {@code null}).
          * @param c the third two-dimensional array (can be {@code null}).
@@ -22987,7 +22981,7 @@ public sealed class Arrays permits Arrays.f {
      * Object-array helper namespace for three-dimensional arrays.
      *
      * <p>This class contains the {@code T[][][]} variants of the bulk update, reshape, flatten, map,
-     * and zip operations exposed by {@link Arrays}. The compact name is deliberate and mirrors
+     * and zip operations, plus size statistics ({@code totalElementCount}), exposed by {@link Arrays}. The compact name is deliberate and mirrors
      * {@link Arrays.f} and {@link Arrays.ff} for convenient static import usage. Like {@link Arrays.ff}, this class does
      * not extend {@link Arrays}; only {@link Arrays.f} inherits the parent class's static methods.</p>
      *
@@ -22999,7 +22993,6 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Private constructor to prevent instantiation of this utility class.
-         * This class is designed to be used statically only.
          */
         private fff() {
             // utility class
@@ -23107,10 +23100,9 @@ public sealed class Arrays permits Arrays.f {
          * where each two-dimensional slice has the specified number of rows and columns.
          *
          * <p>The reshaping process fills the three-dimensional array in order, creating new two-dimensional slices as needed.
-         * If the total number of elements doesn't evenly divide into the specified dimensions,
-         * the last slices may be partially filled.</p>
+         * The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount.</p>
          *
-         * <p>The block capacity is calculated with {@code long} arithmetic, so its value may exceed {@code Integer.MAX_VALUE}.</p>
+         * <p>The per-block capacity ({@code rowCount * columnCount}) is computed with {@code long} arithmetic, so a product larger than {@code Integer.MAX_VALUE} does not overflow.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -23358,7 +23350,8 @@ public sealed class Arrays permits Arrays.f {
          * <p>The resulting array has the same outer length as the input array, with each element
          * transformed according to the provided function. This is useful for converting between
          * different data types or applying complex transformations. Null or empty sub-arrays at any
-         * nesting level are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.</p>
+         * nesting level are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
+         * The function is invoked for every slot, including slots whose value is {@code null}.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -23550,7 +23543,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
-         * @param mapper the function to convert each element to byte (must not be {@code null}).
+         * @param mapper the function to convert each element to a byte (must not be {@code null}).
          * @return a new three-dimensional byte array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
@@ -23604,7 +23597,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
-         * @param mapper the function to convert each element to short (must not be {@code null}).
+         * @param mapper the function to convert each element to a short (must not be {@code null}).
          * @return a new three-dimensional short array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
@@ -23658,7 +23651,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
-         * @param mapper the function to convert each element to int (must not be {@code null}).
+         * @param mapper the function to convert each element to an int (must not be {@code null}).
          * @return a new three-dimensional int array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
@@ -23712,7 +23705,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
-         * @param mapper the function to convert each element to long (must not be {@code null}).
+         * @param mapper the function to convert each element to a long (must not be {@code null}).
          * @return a new three-dimensional long array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
@@ -23766,7 +23759,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
-         * @param mapper the function to convert each element to float (must not be {@code null}).
+         * @param mapper the function to convert each element to a float (must not be {@code null}).
          * @return a new three-dimensional float array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
@@ -23820,7 +23813,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (can be {@code null}).
-         * @param mapper the function to convert each element to double (must not be {@code null}).
+         * @param mapper the function to convert each element to a double (must not be {@code null}).
          * @return a new three-dimensional double array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
          * @throws E if the function throws an exception.
@@ -24117,7 +24110,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines three three-dimensional arrays element-wise using a ternary function.
+         * Combines three three-dimensional arrays element-wise using a tri-function.
          * The resulting array dimensions are truncated to the minimum dimensions of all
          * three input arrays.
          *
@@ -24159,7 +24152,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first three-dimensional array (must not be {@code null}; used to infer the result element type).
          * @param b the second three-dimensional array (can be {@code null}, treated as empty).
          * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-         * @param zipFunction the ternary function to combine corresponding elements (must not be {@code null}).
+         * @param zipFunction the tri-function to combine corresponding elements (must not be {@code null}).
          * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
@@ -24188,7 +24181,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines three three-dimensional arrays element-wise using a ternary function,
+         * Combines three three-dimensional arrays element-wise using a tri-function,
          * producing a result array of a specified type. This allows for type transformation
          * while combining three arrays.
          *

@@ -204,10 +204,10 @@ class IntTupleTest extends TestBase {
     @Test
     public void testAverage() {
         IntTuple.IntTuple3 tuple = IntTuple.of(10, 20, 30);
-        assertEquals(20.0, tuple.average());
+        assertEquals(20.0, tuple.average().getAsDouble());
 
         IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
-        assertEquals(0D, empty.average(), 0D);
+        assertTrue(empty.average().isEmpty());
     }
 
     @Test
@@ -217,7 +217,7 @@ class IntTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertEquals(0D, tuple.average(), 0D);
+        assertTrue(tuple.average().isEmpty());
         assertEquals(0, tuple.sum());
     }
 
@@ -437,7 +437,7 @@ class IntTupleTest extends TestBase {
         assertEquals(10, tuple.max());
         assertEquals(10, tuple.median());
         assertEquals(10, tuple.sum());
-        assertEquals(10.0, tuple.average());
+        assertEquals(10.0, tuple.average().getAsDouble());
     }
 
     @Test
@@ -460,7 +460,7 @@ class IntTupleTest extends TestBase {
         assertEquals(4, tuple.max());
         assertEquals(2, tuple.median());
         assertEquals(10, tuple.sum());
-        assertEquals(2.5, tuple.average());
+        assertEquals(2.5, tuple.average().getAsDouble());
         assertTrue(tuple.contains(3));
         assertFalse(tuple.contains(8));
         assertEquals(4, tuple.toArray()[0]);
@@ -789,19 +789,19 @@ class IntTupleTest extends TestBase {
         @Test
         public void testAverageTuple1() {
             IntTuple1 tuple = IntTuple.of(42);
-            assertEquals(42.0, tuple.average(), 0.001);
+            assertEquals(42.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverageTuple2() {
             IntTuple2 tuple = IntTuple.of(10, 20);
-            assertEquals(15.0, tuple.average(), 0.001);
+            assertEquals(15.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
-        public void testAverageTuple0ReturnsZero() {
+        public void testAverageTuple0ReturnsEmpty() {
             IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         // Reverse tests
@@ -1101,7 +1101,7 @@ class IntTupleTest extends TestBase {
             assertEquals(5, tuple.max());
             assertEquals(5, tuple.median());
             assertEquals(15, tuple.sum());
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         // Edge cases with extreme values
@@ -1192,7 +1192,7 @@ class IntTupleTest extends TestBase {
             assertEquals(4, tuple.max());
             assertEquals(2, tuple.median());
             assertEquals(10, tuple.sum());
-            assertEquals(2.5, tuple.average(), 0.001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             IntTuple4 tuple2 = IntTuple.of(1, 2, 3, 4);
@@ -1230,7 +1230,7 @@ class IntTupleTest extends TestBase {
             assertEquals(5, tuple.max());
             assertEquals(3, tuple.median());
             assertEquals(15, tuple.sum());
-            assertEquals(3.0, tuple.average(), 0.001);
+            assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             IntTuple5 tuple2 = IntTuple.of(1, 2, 3, 4, 5);
@@ -1269,7 +1269,7 @@ class IntTupleTest extends TestBase {
             assertEquals(6, tuple.max());
             assertEquals(3, tuple.median());
             assertEquals(21, tuple.sum());
-            assertEquals(3.5, tuple.average(), 0.001);
+            assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             IntTuple6 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6);
@@ -1309,7 +1309,7 @@ class IntTupleTest extends TestBase {
             assertEquals(7, tuple.max());
             assertEquals(4, tuple.median());
             assertEquals(28, tuple.sum());
-            assertEquals(4.0, tuple.average(), 0.001);
+            assertEquals(4.0, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             IntTuple7 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
@@ -1350,7 +1350,7 @@ class IntTupleTest extends TestBase {
             assertEquals(8, tuple.max());
             assertEquals(4, tuple.median());
             assertEquals(36, tuple.sum());
-            assertEquals(4.5, tuple.average(), 0.001);
+            assertEquals(4.5, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             IntTuple8 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
@@ -1392,7 +1392,7 @@ class IntTupleTest extends TestBase {
             assertEquals(9, tuple.max());
             assertEquals(5, tuple.median());
             assertEquals(45, tuple.sum());
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             IntTuple9 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
@@ -1605,7 +1605,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTuple1_average() {
             IntTuple.IntTuple1 tuple = IntTuple.of(1);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         // ============ IntTuple2 Nested Class Tests ============
@@ -1685,7 +1685,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTuple2_average() {
             IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -1787,7 +1787,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTuple3_average() {
             IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -2338,19 +2338,19 @@ class IntTupleTest extends TestBase {
         @Test
         public void testAverage_tuple2() {
             IntTuple2 tuple = IntTuple.of(4, 6);
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverage_tuple3() {
             IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertEquals(2.0, tuple.average(), 0.001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverage_tuple4() {
             IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            assertEquals(2.5, tuple.average(), 0.001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2641,7 +2641,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testTuple0_average() {
             IntTuple<?> tuple = IntTuple.from(null);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -2670,7 +2670,7 @@ class IntTupleTest extends TestBase {
             assertEquals(5, tuple.max());
             assertEquals(3, tuple.median());
             assertEquals(15, tuple.sum());
-            assertEquals(3.0, tuple.average(), 0.001);
+            assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
             assertTrue(tuple.contains(3));
             assertFalse(tuple.contains(10));
         }
@@ -2717,7 +2717,7 @@ class IntTupleTest extends TestBase {
             assertEquals(9, tuple.arity());
             assertEquals(5, tuple.median());
             assertEquals(45, tuple.sum());
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -3001,19 +3001,19 @@ class IntTupleTest extends TestBase {
         @Test
         public void testAverage_single() {
             IntTuple1 tuple = IntTuple.of(42);
-            assertEquals(42.0, tuple.average());
+            assertEquals(42.0, tuple.average().getAsDouble());
         }
 
         @Test
         public void testAverage_multiple() {
             IntTuple3 tuple = IntTuple.of(10, 20, 30);
-            assertEquals(20.0, tuple.average());
+            assertEquals(20.0, tuple.average().getAsDouble());
         }
 
         @Test
         public void testAverage_odd() {
             IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertEquals(2.0, tuple.average());
+            assertEquals(2.0, tuple.average().getAsDouble());
         }
 
         // ============ Reverse Tests ============
@@ -3383,7 +3383,7 @@ class IntTupleTest extends TestBase {
             assertEquals(500, tuple.max());
             assertEquals(300, tuple.median());
             assertEquals(1500, tuple.sum());
-            assertEquals(300.0, tuple.average());
+            assertEquals(300.0, tuple.average().getAsDouble());
         }
 
         @Test
@@ -3405,7 +3405,7 @@ class IntTupleTest extends TestBase {
             assertEquals(42, tuple.min());
             assertEquals(42, tuple.max());
             assertEquals(42, tuple.median());
-            assertEquals(42.0, tuple.average());
+            assertEquals(42.0, tuple.average().getAsDouble());
             assertEquals(42, tuple.sum());
             assertTrue(tuple.contains(42));
             assertFalse(tuple.contains(99));
@@ -3427,7 +3427,7 @@ class IntTupleTest extends TestBase {
             assertEquals(0, tuple.min());
             assertEquals(0, tuple.max());
             assertEquals(0, tuple.sum());
-            assertEquals(0.0, tuple.average());
+            assertEquals(0.0, tuple.average().getAsDouble());
             assertTrue(tuple.contains(0));
         }
 
@@ -3437,7 +3437,7 @@ class IntTupleTest extends TestBase {
             assertEquals(-100, tuple.min());
             assertEquals(100, tuple.max());
             assertEquals(0, tuple.sum());
-            assertEquals(0.0, tuple.average());
+            assertEquals(0.0, tuple.average().getAsDouble());
             assertTrue(tuple.contains(-100));
             assertTrue(tuple.contains(100));
         }
@@ -3446,7 +3446,7 @@ class IntTupleTest extends TestBase {
         public void testLargeSum() {
             IntTuple3 tuple = IntTuple.of(1000000, 2000000, 3000000);
             assertEquals(6000000, tuple.sum());
-            assertEquals(2000000.0, tuple.average());
+            assertEquals(2000000.0, tuple.average().getAsDouble());
         }
     }
 
@@ -3593,9 +3593,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void test_IntTuple0_average_returnsZero() {
+        public void test_IntTuple0_average_returnsEmpty() {
             IntTuple0 tuple = IntTuple.from(new int[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -3652,7 +3652,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void test_IntTuple1_average() {
             IntTuple1 tuple = IntTuple.of(5);
-            assertEquals(5.0, tuple.average(), 0.0001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3749,7 +3749,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void test_IntTuple2_average() {
             IntTuple2 tuple = IntTuple.of(1, 3);
-            assertEquals(2.0, tuple.average(), 0.0001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3862,7 +3862,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void test_IntTuple3_average() {
             IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertEquals(2.0, tuple.average(), 0.0001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3925,7 +3925,7 @@ class IntTupleTest extends TestBase {
             assertEquals(1, tuple.min());
             assertEquals(4, tuple.max());
             assertEquals(10, tuple.sum());
-            assertEquals(2.5, tuple.average(), 0.0001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -4111,9 +4111,9 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTupleOf3Average() {
             // IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
-            // double average = triple.average();   // 2.0
+            // triple.average();   // OptionalDouble.of(2.0)
             IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
-            assertEquals(2.0, triple.average(), 0.001);
+            assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -4171,11 +4171,11 @@ class IntTupleTest extends TestBase {
         public void testIntTupleClassLevelExamples() {
             // int min = triple.min();         // 1
             // int max = triple.max();         // 3
-            // double avg = triple.average();  // 2.0
+            // triple.average();  // OptionalDouble.of(2.0)
             IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
             assertEquals(1, triple.min());
             assertEquals(3, triple.max());
-            assertEquals(2.0, triple.average(), 0.001);
+            assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -4233,9 +4233,9 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTupleAverage() {
             // IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            // double avg = tuple.average();   // 2.5
+            // tuple.average();   // OptionalDouble.of(2.5)
             IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            assertEquals(2.5, tuple.average(), 0.001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -4351,7 +4351,7 @@ class IntTupleTest extends TestBase {
         assertEquals(9, tuple4.max());
         assertEquals(3, tuple4.median());
         assertEquals(20, tuple4.sum());
-        assertEquals(5.0, tuple4.average());
+        assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains(3));
 
         IntTuple.IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);

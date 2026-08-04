@@ -205,10 +205,10 @@ class FloatTupleTest extends TestBase {
     @Test
     public void testAverage() {
         FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-        assertEquals(2.0f, tuple.average(), DELTA);
+        assertEquals(2.0f, tuple.average().getAsDouble(), DELTA);
 
         FloatTuple.FloatTuple0 empty = FloatTuple.from(new float[0]);
-        assertEquals(0D, empty.average(), 0D);
+        assertTrue(empty.average().isEmpty());
     }
 
     @Test
@@ -427,7 +427,7 @@ class FloatTupleTest extends TestBase {
         assertEquals(1.5f, tuple.max(), DELTA);
         assertEquals(1.5f, tuple.median(), DELTA);
         assertEquals(1.5f, tuple.sum(), DELTA);
-        assertEquals(1.5f, tuple.average(), DELTA);
+        assertEquals(1.5f, tuple.average().getAsDouble(), DELTA);
     }
 
     @Test
@@ -450,7 +450,7 @@ class FloatTupleTest extends TestBase {
         assertEquals(4.5f, tuple.max(), DELTA);
         assertEquals(2.5f, tuple.median(), DELTA);
         assertEquals(12.0f, tuple.sum(), DELTA);
-        assertEquals(3.0, tuple.average(), DELTA);
+        assertEquals(3.0, tuple.average().getAsDouble(), DELTA);
         assertTrue(tuple.contains(3.5f));
         assertFalse(tuple.contains(8.5f));
         assertEquals(4.5f, tuple.toArray()[0], DELTA);
@@ -491,12 +491,12 @@ class FloatTupleTest extends TestBase {
         assertEquals(1.0f, FloatTuple.of(1.0f, Float.NaN).median(), 0.0f);
         assertEquals(1.0f, FloatTuple.of(Float.NaN, 1.0f).median(), 0.0f);
 
-        // Empty min/max/median must throw NoSuchElementException; average() deliberately returns 0D.
+        // Empty min/max/median must throw NoSuchElementException; average() returns an empty OptionalDouble.
         final FloatTuple.FloatTuple0 empty = FloatTuple.from(new float[0]);
         assertThrows(NoSuchElementException.class, empty::min);
         assertThrows(NoSuchElementException.class, empty::max);
         assertThrows(NoSuchElementException.class, empty::median);
-        assertEquals(0D, empty.average(), 0D);
+        assertTrue(empty.average().isEmpty());
     }
 
     // Exercise zero-initialized tuple constructors and cached element materialization.
@@ -816,19 +816,19 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testAverageTuple1() {
             FloatTuple1 tuple = FloatTuple.of(1.0f);
-            assertEquals(1.0, tuple.average(), 0.001);
+            assertEquals(1.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverageTuple3() {
             FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(2.0, tuple.average(), 0.001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
-        public void testAverageTuple0ReturnsZero() {
+        public void testAverageTuple0ReturnsEmpty() {
             FloatTuple<FloatTuple0> tuple = FloatTuple.from(new float[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         // Reverse tests
@@ -1239,7 +1239,7 @@ class FloatTupleTest extends TestBase {
             assertEquals(4.0f, tuple.max(), 0.001f);
             assertEquals(2.0f, tuple.median(), 0.001f);
             assertEquals(10.0f, tuple.sum(), 0.001f);
-            assertEquals(2.5, tuple.average(), 0.001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             FloatTuple4 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
@@ -1276,7 +1276,7 @@ class FloatTupleTest extends TestBase {
             assertEquals(5.0f, tuple.max(), 0.001f);
             assertEquals(3.0f, tuple.median(), 0.001f);
             assertEquals(15.0f, tuple.sum(), 0.001f);
-            assertEquals(3.0, tuple.average(), 0.001);
+            assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
             // Test equals
             FloatTuple5 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
@@ -1304,7 +1304,7 @@ class FloatTupleTest extends TestBase {
             assertEquals(1.0f, tuple.min(), 0.001f);
             assertEquals(6.0f, tuple.max(), 0.001f);
             assertEquals(21.0f, tuple.sum(), 0.001f);
-            assertEquals(3.5, tuple.average(), 0.001);
+            assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1328,7 +1328,7 @@ class FloatTupleTest extends TestBase {
             assertEquals(1.0f, tuple.min(), 0.001f);
             assertEquals(7.0f, tuple.max(), 0.001f);
             assertEquals(28.0f, tuple.sum(), 0.001f);
-            assertEquals(4.0, tuple.average(), 0.001);
+            assertEquals(4.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1352,7 +1352,7 @@ class FloatTupleTest extends TestBase {
             assertEquals(1.0f, tuple.min(), 0.001f);
             assertEquals(8.0f, tuple.max(), 0.001f);
             assertEquals(36.0f, tuple.sum(), 0.001f);
-            assertEquals(4.5, tuple.average(), 0.001);
+            assertEquals(4.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1376,7 +1376,7 @@ class FloatTupleTest extends TestBase {
             assertEquals(1.0f, tuple.min(), 0.001f);
             assertEquals(9.0f, tuple.max(), 0.001f);
             assertEquals(45.0f, tuple.sum(), 0.001f);
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         // Test create methods for sizes 2, 4-8
@@ -1541,7 +1541,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testFloatTuple1_average() {
             FloatTuple.FloatTuple1 tuple = FloatTuple.of(1.0f);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         // ============ FloatTuple2 Nested Class Tests ============
@@ -1621,7 +1621,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testFloatTuple2_average() {
             FloatTuple.FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -1723,7 +1723,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testFloatTuple3_average() {
             FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -2182,19 +2182,19 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testAverageTuple1() {
             FloatTuple1 tuple = FloatTuple.of(42.0f);
-            assertEquals(42.0, tuple.average(), 0.001);
+            assertEquals(42.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverageTuple2() {
             FloatTuple2 tuple = FloatTuple.of(10.0f, 20.0f);
-            assertEquals(15.0, tuple.average(), 0.001);
+            assertEquals(15.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverageTuple6() {
             FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-            assertEquals(3.5, tuple.average(), 0.001);
+            assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2724,25 +2724,25 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testAverage_tuple1() {
             FloatTuple1 tuple = FloatTuple.of(5.0f);
-            assertEquals(5.0, tuple.average());
+            assertEquals(5.0, tuple.average().getAsDouble());
         }
 
         @Test
         public void testAverage_tuple3() {
             FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(2.0, tuple.average());
+            assertEquals(2.0, tuple.average().getAsDouble());
         }
 
         @Test
         public void testAverage_tuple5() {
             FloatTuple5 tuple = FloatTuple.of(2.0f, 4.0f, 6.0f, 8.0f, 10.0f);
-            assertEquals(6.0, tuple.average());
+            assertEquals(6.0, tuple.average().getAsDouble());
         }
 
         @Test
         public void testAverage_emptyTuple() {
             FloatTuple<?> tuple = FloatTuple.from(new float[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         // ============ Reverse Tests ============
@@ -3216,9 +3216,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void test_FloatTuple0_average_returnsZero() {
+        public void test_FloatTuple0_average_returnsEmpty() {
             FloatTuple0 tuple = FloatTuple.from(new float[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -3275,7 +3275,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void test_FloatTuple1_average() {
             FloatTuple1 tuple = FloatTuple.of(5.0f);
-            assertEquals(5.0, tuple.average(), 0.0001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3372,7 +3372,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void test_FloatTuple2_average() {
             FloatTuple2 tuple = FloatTuple.of(1.0f, 3.0f);
-            assertEquals(2.0, tuple.average(), 0.0001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3485,7 +3485,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void test_FloatTuple3_average() {
             FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(2.0, tuple.average(), 0.0001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3548,7 +3548,7 @@ class FloatTupleTest extends TestBase {
             assertEquals(1.0f, tuple.min(), 0.0001f);
             assertEquals(4.0f, tuple.max(), 0.0001f);
             assertEquals(10.0f, tuple.sum(), 0.0001f);
-            assertEquals(2.5, tuple.average(), 0.0001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3768,11 +3768,11 @@ class FloatTupleTest extends TestBase {
         public void testFloatTupleClassLevelExamples() {
             // float min = triple.min();   // 1.0f
             // float max = triple.max();   // 3.0f
-            // double avg = triple.average();   // 2.0
+            // OptionalDouble avg = triple.average();   // OptionalDouble.of(2.0)
             FloatTuple.FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
             assertEquals(1.0f, triple.min(), 0.001f);
             assertEquals(3.0f, triple.max(), 0.001f);
-            assertEquals(2.0, triple.average(), 0.001);
+            assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -3861,7 +3861,7 @@ class FloatTupleTest extends TestBase {
         assertEquals(9f, tuple4.max(), 0.0f);
         assertEquals(3f, tuple4.median(), 0.0f);
         assertEquals(20f, tuple4.sum(), 0.0f);
-        assertEquals(5.0, tuple4.average());
+        assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains(3f));
 
         FloatTuple.FloatTuple5 tuple5 = FloatTuple.of(1f, 2f, 3f, 4f, 5f);
@@ -3986,7 +3986,7 @@ class FloatTupleTest extends TestBase {
         // Sum: +INF + (-INF) = NaN (IEEE-754); NaN propagates through sum/average.
         assertTrue(Float.isNaN(FloatTuple.of(Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY).sum()));
         assertTrue(Float.isNaN(FloatTuple.of(1f, 2f, Float.NaN).sum()));
-        assertTrue(Double.isNaN(FloatTuple.of(1f, 2f, Float.NaN).average()));
+        assertTrue(Double.isNaN(FloatTuple.of(1f, 2f, Float.NaN).average().getAsDouble()));
 
         // Min/max with -0.0f vs +0.0f: Math.min/max treats -0.0f as strictly less than +0.0f.
         assertEquals(Float.floatToRawIntBits(-0.0f), Float.floatToRawIntBits(FloatTuple.of(0.0f, -0.0f).min()));

@@ -204,10 +204,10 @@ class ShortTupleTest extends TestBase {
     @Test
     public void testAverage() {
         ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 5, (short) 10, (short) 15);
-        assertEquals(10.0, tuple.average());
+        assertEquals(10.0, tuple.average().getAsDouble());
 
         ShortTuple.ShortTuple0 empty = ShortTuple.from(new short[0]);
-        assertEquals(0D, empty.average(), 0D);
+        assertTrue(empty.average().isEmpty());
     }
 
     @Test
@@ -217,7 +217,7 @@ class ShortTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertEquals(0D, tuple.average(), 0D);
+        assertTrue(tuple.average().isEmpty());
         assertEquals(0, tuple.sum());
     }
 
@@ -437,7 +437,7 @@ class ShortTupleTest extends TestBase {
         assertEquals(5, tuple.max());
         assertEquals(5, tuple.median());
         assertEquals(5, tuple.sum());
-        assertEquals(5.0, tuple.average());
+        assertEquals(5.0, tuple.average().getAsDouble());
     }
 
     @Test
@@ -463,7 +463,7 @@ class ShortTupleTest extends TestBase {
         assertEquals(9, tuple.max());
         assertEquals(2, tuple.median());
         assertEquals(17, tuple.sum());
-        assertEquals(4.25, tuple.average());
+        assertEquals(4.25, tuple.average().getAsDouble());
         assertArrayEquals(new short[] { 9, 2, 5, 1 }, firstArray);
         assertArrayEquals(firstArray, secondArray);
         assertNotSame(firstArray, secondArray);
@@ -621,20 +621,20 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testShortTupleOf3Average() {
             // ShortTuple.ShortTuple3 triple = ShortTuple.of((short)1, (short)2, (short)3);
-            // double average = triple.average();   // 2.0
+            // triple.average();   // OptionalDouble.of(2.0)
             ShortTuple.ShortTuple3 triple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(2.0, triple.average(), 0.001);
+            assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testShortTupleClassLevelExamples() {
             // short min = triple.min();         // 1
             // short max = triple.max();         // 3
-            // double avg = triple.average();    // 2.0
+            // triple.average();    // OptionalDouble.of(2.0)
             ShortTuple.ShortTuple3 triple = ShortTuple.of((short) 1, (short) 2, (short) 3);
             assertEquals((short) 1, triple.min());
             assertEquals((short) 3, triple.max());
-            assertEquals(2.0, triple.average(), 0.001);
+            assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -837,13 +837,13 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testAverageTuple1() {
             ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertEquals(1.0, tuple.average(), 0.001);
+            assertEquals(1.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
-        public void testAverageTuple0ReturnsZero() {
+        public void testAverageTuple0ReturnsEmpty() {
             ShortTuple<ShortTuple0> tuple = ShortTuple.from(new short[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         // Reverse tests
@@ -1223,7 +1223,7 @@ class ShortTupleTest extends TestBase {
             assertEquals((short) 4, tuple.max());
             assertEquals((short) 2, tuple.median());
             assertEquals(10, tuple.sum());
-            assertEquals(2.5, tuple.average(), 0.001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             ShortTuple4 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
@@ -1260,7 +1260,7 @@ class ShortTupleTest extends TestBase {
             assertEquals((short) 5, tuple.max());
             assertEquals((short) 3, tuple.median());
             assertEquals(15, tuple.sum());
-            assertEquals(3.0, tuple.average(), 0.001);
+            assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
             // Test equals
             ShortTuple5 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
@@ -1288,7 +1288,7 @@ class ShortTupleTest extends TestBase {
             assertEquals((short) 1, tuple.min());
             assertEquals((short) 6, tuple.max());
             assertEquals(21, tuple.sum());
-            assertEquals(3.5, tuple.average(), 0.001);
+            assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1312,7 +1312,7 @@ class ShortTupleTest extends TestBase {
             assertEquals((short) 1, tuple.min());
             assertEquals((short) 7, tuple.max());
             assertEquals(28, tuple.sum());
-            assertEquals(4.0, tuple.average(), 0.001);
+            assertEquals(4.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1336,7 +1336,7 @@ class ShortTupleTest extends TestBase {
             assertEquals((short) 1, tuple.min());
             assertEquals((short) 8, tuple.max());
             assertEquals(36, tuple.sum());
-            assertEquals(4.5, tuple.average(), 0.001);
+            assertEquals(4.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1360,7 +1360,7 @@ class ShortTupleTest extends TestBase {
             assertEquals((short) 1, tuple.min());
             assertEquals((short) 9, tuple.max());
             assertEquals(45, tuple.sum());
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         // Test create methods for sizes 2, 4-8
@@ -1525,7 +1525,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testShortTuple1_average() {
             ShortTuple.ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         // ============ ShortTuple2 Nested Class Tests ============
@@ -1605,7 +1605,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testShortTuple2_average() {
             ShortTuple.ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -1707,7 +1707,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testShortTuple3_average() {
             ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -2272,25 +2272,25 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testAverage_tuple1() {
             ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverage_tuple2() {
             ShortTuple2 tuple = ShortTuple.of((short) 4, (short) 6);
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverage_tuple3() {
             ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(2.0, tuple.average(), 0.001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverage_tuple4() {
             ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            assertEquals(2.5, tuple.average(), 0.001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2596,7 +2596,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testTuple0_average() {
             ShortTuple<?> tuple = ShortTuple.from(null);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -2625,7 +2625,7 @@ class ShortTupleTest extends TestBase {
             assertEquals((short) 5, tuple.max());
             assertEquals((short) 3, tuple.median());
             assertEquals(15, tuple.sum());
-            assertEquals(3.0, tuple.average(), 0.001);
+            assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
             assertTrue(tuple.contains((short) 3));
             assertFalse(tuple.contains((short) 10));
         }
@@ -2672,7 +2672,7 @@ class ShortTupleTest extends TestBase {
             assertEquals(9, tuple.arity());
             assertEquals((short) 5, tuple.median());
             assertEquals(45, tuple.sum());
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2862,8 +2862,8 @@ class ShortTupleTest extends TestBase {
 
         @Test
         public void testAverage() {
-            assertEquals(20.0, ShortTuple.of((short) 10, (short) 20, (short) 30).average(), 0.0001);
-            assertEquals(3.0, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5).average(), 0.0001);
+            assertEquals(20.0, ShortTuple.of((short) 10, (short) 20, (short) 30).average().getAsDouble(), 0.0001);
+            assertEquals(3.0, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5).average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -2883,7 +2883,7 @@ class ShortTupleTest extends TestBase {
 
         @Test
         public void testAverage_Empty() {
-            assertEquals(0D, ShortTuple.from(null).average(), 0D);
+            assertTrue(ShortTuple.from(null).average().isEmpty());
         }
 
         // ====== Reverse Tests ======
@@ -3132,7 +3132,7 @@ class ShortTupleTest extends TestBase {
             assertEquals((short) 42, tuple.max());
             assertEquals((short) 42, tuple.median());
             assertEquals(42, tuple.sum());
-            assertEquals(42.0, tuple.average(), 0.0001);
+            assertEquals(42.0, tuple.average().getAsDouble(), 0.0001);
             assertTrue(tuple.contains((short) 42));
         }
 
@@ -3359,9 +3359,9 @@ class ShortTupleTest extends TestBase {
         }
 
         @Test
-        public void test_ShortTuple0_average_returnsZero() {
+        public void test_ShortTuple0_average_returnsEmpty() {
             ShortTuple0 tuple = ShortTuple.from(new short[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -3418,7 +3418,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void test_ShortTuple1_average() {
             ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertEquals(5.0, tuple.average(), 0.0001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3521,7 +3521,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void test_ShortTuple2_average() {
             ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 3);
-            assertEquals(2.0, tuple.average(), 0.0001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3640,7 +3640,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void test_ShortTuple3_average() {
             ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(2.0, tuple.average(), 0.0001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3703,7 +3703,7 @@ class ShortTupleTest extends TestBase {
             assertEquals((short) 1, tuple.min());
             assertEquals((short) 4, tuple.max());
             assertEquals(10, tuple.sum());
-            assertEquals(2.5, tuple.average(), 0.0001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3918,7 +3918,7 @@ class ShortTupleTest extends TestBase {
         assertEquals((short) 9, tuple4.max());
         assertEquals((short) 3, tuple4.median());
         assertEquals(20, tuple4.sum());
-        assertEquals(5.0, tuple4.average());
+        assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains((short) 3));
 
         ShortTuple.ShortTuple5 tuple5 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);

@@ -29,6 +29,7 @@ import com.landawn.abacus.util.FloatTuple.FloatTuple7;
 import com.landawn.abacus.util.FloatTuple.FloatTuple8;
 import com.landawn.abacus.util.FloatTuple.FloatTuple9;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.u.OptionalDouble;
 import com.landawn.abacus.util.stream.FloatStream;
 
 /**
@@ -45,7 +46,7 @@ import com.landawn.abacus.util.stream.FloatStream;
  * {@link #average()}, while {@link #median()}, {@link #contains(float)}, and {@link #equals(Object)}
  * order and compare elements with {@link Float#compare(float, float)} semantics ({@code NaN} equal
  * to itself and greater than any other value, {@code -0.0f} less than {@code 0.0f}).
- * {@link #average()} is widened to {@code double} to preserve precision.</p>
+ * {@link #average()} returns an {@code OptionalDouble} (empty for an empty tuple) to preserve precision.</p>
  *
  * @param <TP> the concrete {@code FloatTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -61,7 +62,7 @@ import com.landawn.abacus.util.stream.FloatStream;
 public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP>
         permits FloatTuple0, FloatTuple1, FloatTuple2, FloatTuple3, FloatTuple4, FloatTuple5, FloatTuple6, FloatTuple7, FloatTuple8, FloatTuple9 {
 
-    /** Lazily initialized cached array view of all tuple elements. */
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile float[] elements;
 
     /**
@@ -142,7 +143,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(30.0f, 10.0f, 20.0f).median();    // returns 20.0f
      *
      * // Edge: NaN propagates through sum
-     * FloatTuple.of(1.0f, Float.NaN, 3.0f).sum();     // returns NaN (Float.isNaN == true)
+     * FloatTuple.of(1.0f, Float.NaN, 3.0f).sum();     // returns NaN (NaN propagates)
      *
      * // Edge: reversed triple
      * assert FloatTuple.of(1.0f, 2.0f, 3.0f).reverse()._1 == 3.0f;
@@ -173,7 +174,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(-4.0f, -1.0f, -3.0f, -2.0f).min(); // returns -4.0f
      *
      * // Edge: NaN propagates through average
-     * Double.isNaN(FloatTuple.of(1.0f, Float.NaN, 3.0f, 4.0f).average()); // returns true
+     * Double.isNaN(FloatTuple.of(1.0f, Float.NaN, 3.0f, 4.0f).average().getAsDouble()); // returns true
      * }</pre>
      *
      * @param _1 the first float value
@@ -193,7 +194,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <pre>{@code
      * FloatTuple.FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
      * tuple.median();                                  // returns 3.0f
-     * tuple.average();                                 // returns 3.0
+     * tuple.average();                                 // returns OptionalDouble.of(3.0)
      *
      * // Reverse produces a new tuple
      * assert tuple.reverse()._1 == 5.0f;
@@ -223,7 +224,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <pre>{@code
      * FloatTuple.FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
      * tuple.sum();                                     // returns 21.0f
-     * tuple.average();                                 // returns 3.5
+     * tuple.average();                                 // returns OptionalDouble.of(3.5)
      *
      * // Median of six (even count): lower middle value when sorted
      * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).median();  // returns 3.0f
@@ -298,7 +299,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * tuple.contains(9.0f);                            // returns false
      *
      * // Edge: NaN element - average produces NaN
-     * Double.isNaN(FloatTuple.of(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,Float.NaN).average()); // returns true
+     * Double.isNaN(FloatTuple.of(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,Float.NaN).average().getAsDouble()); // returns true
      * }</pre>
      *
      * @param _1 the first float value
@@ -604,33 +605,33 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     /**
      * Returns the arithmetic mean of all float values in this tuple.
      * <p>
-     * The result is returned as a {@code double} to preserve precision.
+     * The result is returned as an {@code OptionalDouble} to preserve precision.
      * If any element is {@code NaN}, the result is {@code NaN}. Infinities
      * follow standard IEEE-754 rules.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple.of(1.0f, 2.0f, 3.0f).average();      // returns 2.0
-     * FloatTuple.of(1.0f, 2.0f).average();            // returns 1.5
+     * FloatTuple.of(1.0f, 2.0f, 3.0f).average();      // returns OptionalDouble.of(2.0)
+     * FloatTuple.of(1.0f, 2.0f).average();            // returns OptionalDouble.of(1.5)
      *
-     * // Edge: empty tuple returns 0D
-     * FloatTuple.from(new float[0]).average();        // returns 0.0
+     * // Edge: empty tuple returns an empty OptionalDouble
+     * FloatTuple.from(new float[0]).average();        // returns OptionalDouble.empty()
      *
      * // Edge: NaN propagates - result is Double NaN
-     * Double.isNaN(FloatTuple.of(1.0f, Float.NaN).average());      // returns true
+     * Double.isNaN(FloatTuple.of(1.0f, Float.NaN).average().getAsDouble());      // returns true
      *
      * // Edge: infinity
-     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).average();      // returns Double.POSITIVE_INFINITY
+     * FloatTuple.of(1.0f, Float.POSITIVE_INFINITY).average();      // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
      * }</pre>
      *
-     * @return the average of all float values in this tuple as a {@code double}, or {@code 0D} if this tuple is empty
+     * @return the average of all float values in this tuple as an {@code OptionalDouble}, or an empty {@code OptionalDouble} if this tuple is empty
      * @see #sum()
      */
-    public double average() {
+    public OptionalDouble average() {
         final float[] arr = elements();
 
-        return arr.length == 0 ? 0D : N.average(arr);
+        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
     }
 
     /**
@@ -658,7 +659,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.from(new float[0]).reverse().arity(); // returns 0
      * }</pre>
      *
-     * @return a tuple with the elements in reverse order
+     * @return a tuple of the same arity with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -925,7 +926,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p>
      * This package-private class is exposed only through the base {@code FloatTuple} type
      * via the singleton instance returned by {@link #from(float[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0.0f and {@link #average()} returns {@code 0D}, while
+     * {@code null} or zero-length array. {@link #sum()} returns 0.0f and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -998,13 +999,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the average of all elements in this tuple.
-         * Since this tuple is empty, this method always returns {@code 0D}.
+         * Since this tuple is empty, this method always returns an empty {@code OptionalDouble}.
          *
-         * @return {@code 0D}
+         * @return an empty {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return 0D;
+        public OptionalDouble average() {
+            return OptionalDouble.empty();
         }
 
         /**
@@ -1033,7 +1034,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "()"
+         * @return {@code "()"}
          */
         @Override
         public String toString() {
@@ -1199,23 +1200,23 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple1 t = FloatTuple.of(4.0f);
-         * double avg = t.average();   // returns 4.0
+         * t.average();   // returns OptionalDouble.of(4.0)
          *
          * FloatTuple.FloatTuple1 neg = FloatTuple.of(-1.0f);
-         * double navg = neg.average();   // returns -1.0
+         * neg.average();   // returns OptionalDouble.of(-1.0)
          *
          * FloatTuple.FloatTuple1 inf = FloatTuple.of(Float.POSITIVE_INFINITY);
-         * double iavg = inf.average();   // returns Double.POSITIVE_INFINITY
+         * inf.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          *
          * FloatTuple.FloatTuple1 nan = FloatTuple.of(Float.NaN);
-         * double navg2 = nan.average();   // returns NaN (as double)
+         * nan.average();   // returns OptionalDouble.of(Double.NaN)
          * }</pre>
          *
-         * @return the value of {@code _1} as a double
+         * @return the value of {@code _1} as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return _1;
+        public OptionalDouble average() {
+            return OptionalDouble.of(_1);
         }
 
         /**
@@ -1373,7 +1374,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A tuple containing exactly two float values.
+     * A FloatTuple containing exactly two float values.
      * The values are accessible through the public final fields {@code _1} and {@code _2}.
      *
      * <p>In addition to the operations inherited from {@link FloatTuple}, this class provides
@@ -1392,7 +1393,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * float sum = t.sum();       // 4.0f
      * float min = t.min();       // 1.5f
      * float max = t.max();       // 2.5f
-     * double avg = t.average();  // 2.0
+     * t.average();               // returns OptionalDouble.of(2.0)
      * }</pre>
      *
      */
@@ -1552,29 +1553,29 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the arithmetic mean of the two elements as a {@code double}.
+         * Returns the arithmetic mean of the two elements as an {@code OptionalDouble}.
          * If either element is {@code NaN} the result is {@code NaN}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple2 t = FloatTuple.of(1.0f, 3.0f);
-         * double avg = t.average();   // returns 2.0
+         * t.average();   // returns OptionalDouble.of(2.0)
          *
          * FloatTuple.FloatTuple2 neg = FloatTuple.of(-3.0f, -1.0f);
-         * double navg = neg.average();   // returns -2.0
+         * neg.average();   // returns OptionalDouble.of(-2.0)
          *
          * FloatTuple.FloatTuple2 infT = FloatTuple.of(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
-         * double iavg = infT.average();   // returns Double.POSITIVE_INFINITY
+         * infT.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          *
          * FloatTuple.FloatTuple2 nanT = FloatTuple.of(Float.NaN, 1.0f);
-         * double navg2 = nanT.average();   // returns NaN (as double)
+         * nanT.average();   // returns OptionalDouble.of(Double.NaN)
          * }</pre>
          *
-         * @return the average of {@code _1} and {@code _2} as a {@code double}
+         * @return the average of {@code _1} and {@code _2} as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2));
         }
 
         /**
@@ -2059,29 +2060,29 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the arithmetic mean of the three elements as a {@code double}.
+         * Returns the arithmetic mean of the three elements as an {@code OptionalDouble}.
          * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple3 t = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * double avg = t.average();   // returns 2.0
+         * t.average();   // returns OptionalDouble.of(2.0)
          *
          * FloatTuple.FloatTuple3 neg = FloatTuple.of(-3.0f, 0.0f, 3.0f);
-         * double navg = neg.average();   // returns 0.0
+         * neg.average();   // returns OptionalDouble.of(0.0)
          *
          * FloatTuple.FloatTuple3 infT = FloatTuple.of(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
-         * double iavg = infT.average();   // returns Double.POSITIVE_INFINITY
+         * infT.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          *
          * FloatTuple.FloatTuple3 nanT = FloatTuple.of(Float.NaN, 1.0f, 2.0f);
-         * double navg2 = nanT.average();   // returns NaN (as double)
+         * nanT.average();   // returns OptionalDouble.of(Double.NaN)
          * }</pre>
          *
-         * @return the average of {@code _1}, {@code _2}, and {@code _3} as a {@code double}
+         * @return the average of {@code _1}, {@code _2}, and {@code _3} as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3));
         }
 
         /**
@@ -2567,29 +2568,29 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the arithmetic mean of the four elements as a {@code double}.
+         * Returns the arithmetic mean of the four elements as an {@code OptionalDouble}.
          * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple4 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-         * double avg = t.average();   // returns 2.5
+         * t.average();   // returns OptionalDouble.of(2.5)
          *
          * FloatTuple.FloatTuple4 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f);
-         * double avg2 = neg.average();   // returns -2.5
+         * neg.average();   // returns OptionalDouble.of(-2.5)
          *
          * FloatTuple.FloatTuple4 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f);
-         * double avg3 = withNaN.average();   // returns NaN
+         * withNaN.average();   // returns OptionalDouble.of(Double.NaN)
          *
          * FloatTuple.FloatTuple4 withInf = FloatTuple.of(Float.POSITIVE_INFINITY, 1.0f, 2.0f, 3.0f);
-         * double avg4 = withInf.average();   // returns Double.POSITIVE_INFINITY
+         * withInf.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1}, {@code _2}, {@code _3}, and {@code _4} as a {@code double}
+         * @return the average of {@code _1}, {@code _2}, {@code _3}, and {@code _4} as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4));
         }
 
         /**
@@ -2959,29 +2960,29 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the arithmetic mean of the five elements as a {@code double}.
+         * Returns the arithmetic mean of the five elements as an {@code OptionalDouble}.
          * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple5 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * double avg = t.average();   // returns 3.0
+         * t.average();   // returns OptionalDouble.of(3.0)
          *
          * FloatTuple.FloatTuple5 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f);
-         * double avg2 = neg.average();   // returns -3.0
+         * neg.average();   // returns OptionalDouble.of(-3.0)
          *
          * FloatTuple.FloatTuple5 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f, 4.0f);
-         * double avg3 = withNaN.average();   // returns NaN
+         * withNaN.average();   // returns OptionalDouble.of(Double.NaN)
          *
          * FloatTuple.FloatTuple5 withInf = FloatTuple.of(Float.POSITIVE_INFINITY, 1.0f, 2.0f, 3.0f, 4.0f);
-         * double avg4 = withInf.average();   // returns Double.POSITIVE_INFINITY
+         * withInf.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _5} as a {@code double}
+         * @return the average of {@code _1} through {@code _5} as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3357,29 +3358,29 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the arithmetic mean of the six elements as a {@code double}.
+         * Returns the arithmetic mean of the six elements as an {@code OptionalDouble}.
          * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple6 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * double avg = t.average();   // returns 3.5
+         * t.average();   // returns OptionalDouble.of(3.5)
          *
          * FloatTuple.FloatTuple6 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f);
-         * double avg2 = neg.average();   // returns -3.5
+         * neg.average();   // returns OptionalDouble.of(-3.5)
          *
          * FloatTuple.FloatTuple6 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * double avg3 = withNaN.average();   // returns NaN
+         * withNaN.average();   // returns OptionalDouble.of(Double.NaN)
          *
          * FloatTuple.FloatTuple6 withInf = FloatTuple.of(Float.POSITIVE_INFINITY, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * double avg4 = withInf.average();   // returns Double.POSITIVE_INFINITY
+         * withInf.average();   // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _6} as a {@code double}
+         * @return the average of {@code _1} through {@code _6} as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3762,29 +3763,29 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the arithmetic mean of the seven elements as a {@code double}.
+         * Returns the arithmetic mean of the seven elements as an {@code OptionalDouble}.
          * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple7 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-         * double avg = t.average(); // returns 4.0
+         * t.average(); // returns OptionalDouble.of(4.0)
          *
          * FloatTuple.FloatTuple7 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f, -7.0f);
-         * double negAvg = neg.average(); // returns -4.0
+         * neg.average(); // returns OptionalDouble.of(-4.0)
          *
          * FloatTuple.FloatTuple7 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * double nanAvg = withNaN.average(); // returns NaN
+         * withNaN.average(); // returns OptionalDouble.of(Double.NaN)
          *
          * FloatTuple.FloatTuple7 withInf = FloatTuple.of(Float.POSITIVE_INFINITY, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * double infAvg = withInf.average(); // returns Double.POSITIVE_INFINITY
+         * withInf.average(); // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _7} as a {@code double}
+         * @return the average of {@code _1} through {@code _7} as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -4183,29 +4184,29 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the arithmetic mean of the eight elements as a {@code double}.
+         * Returns the arithmetic mean of the eight elements as an {@code OptionalDouble}.
          * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple8 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-         * double avg = t.average(); // returns 4.5
+         * t.average(); // returns OptionalDouble.of(4.5)
          *
          * FloatTuple.FloatTuple8 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f, -7.0f, -8.0f);
-         * double negAvg = neg.average(); // returns -4.5
+         * neg.average(); // returns OptionalDouble.of(-4.5)
          *
          * FloatTuple.FloatTuple8 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-         * double nanAvg = withNaN.average(); // returns NaN
+         * withNaN.average(); // returns OptionalDouble.of(Double.NaN)
          *
          * FloatTuple.FloatTuple8 withInf = FloatTuple.of(Float.POSITIVE_INFINITY, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-         * double infAvg = withInf.average(); // returns Double.POSITIVE_INFINITY
+         * withInf.average(); // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _8} as a {@code double}
+         * @return the average of {@code _1} through {@code _8} as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4611,29 +4612,29 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the arithmetic mean of the nine elements as a {@code double}.
+         * Returns the arithmetic mean of the nine elements as an {@code OptionalDouble}.
          * If any element is {@code NaN}, the result is {@code NaN}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple9 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-         * double avg = t.average(); // returns 5.0
+         * t.average(); // returns OptionalDouble.of(5.0)
          *
          * FloatTuple.FloatTuple9 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f, -7.0f, -8.0f, -9.0f);
-         * double negAvg = neg.average(); // returns -5.0
+         * neg.average(); // returns OptionalDouble.of(-5.0)
          *
          * FloatTuple.FloatTuple9 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-         * double nanAvg = withNaN.average(); // returns NaN
+         * withNaN.average(); // returns OptionalDouble.of(Double.NaN)
          *
          * FloatTuple.FloatTuple9 withInf = FloatTuple.of(Float.POSITIVE_INFINITY, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-         * double infAvg = withInf.average(); // returns Double.POSITIVE_INFINITY
+         * withInf.average(); // returns OptionalDouble.of(Double.POSITIVE_INFINITY)
          * }</pre>
          *
-         * @return the average of {@code _1} through {@code _9} as a {@code double}
+         * @return the average of {@code _1} through {@code _9} as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**

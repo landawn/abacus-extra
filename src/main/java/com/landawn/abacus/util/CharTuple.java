@@ -29,6 +29,7 @@ import com.landawn.abacus.util.CharTuple.CharTuple7;
 import com.landawn.abacus.util.CharTuple.CharTuple8;
 import com.landawn.abacus.util.CharTuple.CharTuple9;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.u.OptionalDouble;
 import com.landawn.abacus.util.stream.CharStream;
 
 /**
@@ -43,8 +44,8 @@ import com.landawn.abacus.util.stream.CharStream;
  * <p><b>Numeric semantics:</b> All ordering and arithmetic operations ({@link #min()}, {@link #max()},
  * {@link #median()}, {@link #sum()}, {@link #average()}) treat each {@code char} as its unsigned
  * 16-bit UTF-16 code unit value (range {@code 0..65535}). Surrogate code units are not paired or
- * interpreted as code points. {@link #sum()} returns an {@code int} and {@link #average()} returns a
- * {@code double} (widened from the code-unit values).</p>
+ * interpreted as code points. {@link #sum()} returns an {@code int} and {@link #average()} returns an
+ * {@code OptionalDouble} (widened from the code-unit values).</p>
  *
  * @param <TP> the concrete {@code CharTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -60,7 +61,7 @@ import com.landawn.abacus.util.stream.CharStream;
 public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP>
         permits CharTuple0, CharTuple1, CharTuple2, CharTuple3, CharTuple4, CharTuple5, CharTuple6, CharTuple7, CharTuple8, CharTuple9 {
 
-    /** Lazily initialized cached array view of all tuple elements. */
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile char[] elements;
 
     /**
@@ -200,7 +201,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <pre>{@code
      * CharTuple.CharTuple6 t = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
      * int sum = t.sum();                    // 405 (65+66+67+68+69+70)
-     * double avg = t.average();             // 67.5
+     * t.average();                        // returns OptionalDouble.of(67.5)
      *
      * // Edge: reversed order input - result is same-arity tuple
      * CharTuple.CharTuple6 t2 = CharTuple.of('F', 'E', 'D', 'C', 'B', 'A');
@@ -249,7 +250,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * Deprecated: prefer a custom class with meaningful names when arity is 8.
      * Creates a CharTuple.CharTuple8 containing eight char values.
      *
      * <p><b>Usage Examples:</b></p>
@@ -273,7 +273,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @param _7 the seventh char value
      * @param _8 the eighth char value
      * @return a new CharTuple.CharTuple8 containing the specified values
-     * @deprecated Prefer a custom class with meaningful property names when dealing with 8 or more char values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more char values
      */
     @Deprecated
     public static CharTuple8 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8) {
@@ -281,7 +281,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * Deprecated: prefer a custom class with meaningful names when arity is 9.
      * Creates a CharTuple.CharTuple9 containing nine char values.
      *
      * <p><b>Usage Examples:</b></p>
@@ -306,7 +305,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @param _8 the eighth char value
      * @param _9 the ninth char value
      * @return a new CharTuple.CharTuple9 containing the specified values
-     * @deprecated Prefer a custom class with meaningful property names when dealing with 9 or more char values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more char values
      */
     @Deprecated
     public static CharTuple9 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8,
@@ -557,38 +556,38 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the arithmetic mean of all char values in this tuple as a {@code double}.
+     * Returns the arithmetic mean of all char values in this tuple as an {@code OptionalDouble}.
      * <p>
      * The average is computed from the unsigned 16-bit code-unit values of the elements.
-     * For an empty tuple, returns {@code 0D}.
+     * For an empty tuple, returns an empty {@code OptionalDouble}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: 'A'=65, 'B'=66, 'C'=67 -> average = 66.0
      * CharTuple.CharTuple3 t = CharTuple.of('A', 'B', 'C');
-     * double avg = t.average();                         // 66.0
+     * t.average();                                      // returns OptionalDouble.of(66.0)
      *
      * // Basic: 'a'=97, 'c'=99 -> average = 98.0
      * CharTuple.CharTuple2 t2 = CharTuple.of('a', 'c');
-     * double avg2 = t2.average();                       // 98.0
+     * t2.average();                                     // returns OptionalDouble.of(98.0)
      *
      * // Edge: even element count yields fractional result
      * CharTuple.CharTuple2 t3 = CharTuple.of('A', 'D'); // 65 + 68 = 133
-     * double avg3 = t3.average();                       // 66.5
+     * t3.average();                                     // returns OptionalDouble.of(66.5)
      *
-     * // Edge: empty tuple returns 0D
+     * // Edge: empty tuple returns an empty OptionalDouble
      * CharTuple<?> empty = CharTuple.from(new char[0]);
-     * empty.average();                                  // returns 0.0
+     * empty.average();                                  // returns OptionalDouble.empty()
      * }</pre>
      *
-     * @return the average of all unsigned code-unit values as a {@code double}, or {@code 0D} if this tuple is empty
+     * @return the average of all unsigned code-unit values as an {@code OptionalDouble}, or an empty {@code OptionalDouble} if this tuple is empty
      * @see #sum()
      */
-    public double average() {
+    public OptionalDouble average() {
         final char[] arr = elements();
 
-        return arr.length == 0 ? 0D : N.average(arr);
+        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
     }
 
     /**
@@ -920,7 +919,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p>
      * This package-private class is exposed only through the base {@code CharTuple} type
      * via the singleton instance returned by {@link #from(char[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns {@code 0D}, while
+     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty
+     * {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -1024,13 +1024,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all char values in this tuple.
-         * Since this tuple is empty, this method always returns {@code 0D}.
+         * Since this tuple is empty, this method always returns an empty {@code OptionalDouble}.
          *
-         * @return {@code 0D}
+         * @return an empty {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return 0D;
+        public OptionalDouble average() {
+            return OptionalDouble.empty();
         }
 
         /**
@@ -1227,30 +1227,30 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all char values in this tuple.
-         * Since this tuple contains only one element, it returns the numeric value of that element as a double.
+         * Since this tuple contains only one element, it returns the numeric value of that element as an {@code OptionalDouble}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple1 tupleA = CharTuple.of('A');   // 'A' = 65
-         * double avgA = tupleA.average();                    // 65.0
+         * tupleA.average();                                  // returns OptionalDouble.of(65.0)
          *
          * CharTuple.CharTuple1 tupleZ = CharTuple.of('Z');   // 'Z' = 90
-         * double avgZ = tupleZ.average();                    // 90.0
+         * tupleZ.average();                                  // returns OptionalDouble.of(90.0)
          *
          * // Lower-case char
          * CharTuple.CharTuple1 tupleLower = CharTuple.of('a');  // 'a' = 97
-         * double avgLower = tupleLower.average();               // 97.0
+         * tupleLower.average();                                 // returns OptionalDouble.of(97.0)
          *
          * // Boundary: max char (code unit 65535)
          * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');   // '\uFFFF' = 65535
-         * double avgMax = tupleMax.average();                       // 65535.0
+         * tupleMax.average();                                   // returns OptionalDouble.of(65535.0)
          * }</pre>
          *
-         * @return the unsigned code-unit value of the single char as a {@code double}
+         * @return the unsigned code-unit value of the single char as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return _1;
+        public OptionalDouble average() {
+            return OptionalDouble.of(_1);
         }
 
         /**
@@ -1401,6 +1401,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a char array containing the single element
          */
@@ -1595,26 +1599,26 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple2 tuple = CharTuple.of('A', 'C');   // 'A'=65, 'C'=67
-         * double avg = tuple.average();                          // 66.0
+         * tuple.average();                                     // returns OptionalDouble.of(66.0)
          *
          * // Non-integer average: ('A'=65 + 'B'=66) / 2 = 65.5
          * CharTuple.CharTuple2 ab = CharTuple.of('A', 'B');
-         * double avgAB = ab.average();                 // 65.5
+         * ab.average();                              // returns OptionalDouble.of(65.5)
          *
          * // Duplicates: same value, same average
          * CharTuple.CharTuple2 dup = CharTuple.of('Z', 'Z');   // 'Z'=90
-         * double avgDup = dup.average();                       // 90.0
+         * dup.average();                                     // returns OptionalDouble.of(90.0)
          *
          * // Upper and lower: (65 + 97) / 2 = 81.0
          * CharTuple.CharTuple2 mixed = CharTuple.of('A', 'a');
-         * double avgMixed = mixed.average();           // 81.0
+         * mixed.average();                           // returns OptionalDouble.of(81.0)
          * }</pre>
          *
-         * @return the average of both unsigned code-unit values as a {@code double}
+         * @return the average of both unsigned code-unit values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2));
         }
 
         /**
@@ -1921,6 +1925,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a char array containing all elements in order
          */
@@ -2118,26 +2126,26 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C');   // 65+66+67=198, /3
-         * double avg = tuple.average();                               // 66.0
+         * tuple.average();                                          // returns OptionalDouble.of(66.0)
          *
          * // Non-integer average: 65+66+68=199, /3
          * CharTuple.CharTuple3 nonInt = CharTuple.of('A', 'B', 'D');
-         * double avgNonInt = nonInt.average();              // 66.33333333333333
+         * nonInt.average();                               // returns OptionalDouble.of(66.33333333333333)
          *
          * // All same chars: 90*3/3
          * CharTuple.CharTuple3 same = CharTuple.of('Z', 'Z', 'Z');
-         * double avgSame = same.average();                  // 90.0
+         * same.average();                                 // returns OptionalDouble.of(90.0)
          *
          * // Mixed case: (65+66+97)/3 = 228/3
          * CharTuple.CharTuple3 mixed = CharTuple.of('A', 'B', 'a');
-         * double avgMixed = mixed.average();                // 76.0
+         * mixed.average();                                // returns OptionalDouble.of(76.0)
          * }</pre>
          *
-         * @return the average of all three unsigned code-unit values as a {@code double}
+         * @return the average of all three unsigned code-unit values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3));
         }
 
         /**
@@ -2445,6 +2453,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a char array containing all elements in order
          */
@@ -2637,31 +2649,31 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the average of all char values in this tuple as a double.
+         * Returns the average of all char values in this tuple as an {@code OptionalDouble}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');   // 65+66+67+68 = 266
-         * double avg = tuple.average();                                    // 66.5
+         * tuple.average();                                               // returns OptionalDouble.of(66.5)
          *
          * // all same chars
          * CharTuple.CharTuple4 t2 = CharTuple.of('M', 'M', 'M', 'M');
-         * double avg2 = t2.average();   // 77.0
+         * t2.average();   // returns OptionalDouble.of(77.0)
          *
          * // non-integer average
          * CharTuple.CharTuple4 t3 = CharTuple.of('A', 'B', 'C', 'E');   // 65+66+67+69 = 267
-         * double avg3 = t3.average();                                   // 66.75
+         * t3.average();                                               // returns OptionalDouble.of(66.75)
          *
          * // boundary: space char (32)
          * CharTuple.CharTuple4 t4 = CharTuple.of(' ', ' ', 'A', 'A');   // 32+32+65+65 = 194
-         * double avg4 = t4.average();                                   // 48.5
+         * t4.average();                                               // returns OptionalDouble.of(48.5)
          * }</pre>
          *
-         * @return the average of all four unsigned code-unit values as a {@code double}
+         * @return the average of all four unsigned code-unit values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4));
         }
 
         /**
@@ -2857,6 +2869,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a char array containing all elements in order
          */
@@ -3052,30 +3068,30 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the average of all char values in this tuple as a double.
+         * Returns the average of all char values in this tuple as an {@code OptionalDouble}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');   // 65+66+67+68+69 = 335
-         * double avg = tuple.average();                                         // 67.0
+         * tuple.average();                                                    // returns OptionalDouble.of(67.0)
          *
          * CharTuple.CharTuple5 t2 = CharTuple.of('a', 'b', 'c', 'd', 'e');   // 97+98+99+100+101 = 495
-         * double avg2 = t2.average();                                        // 99.0
+         * t2.average();                                                    // returns OptionalDouble.of(99.0)
          *
          * // all same chars
          * CharTuple.CharTuple5 t3 = CharTuple.of('M', 'M', 'M', 'M', 'M');
-         * double avg3 = t3.average();   // 77.0
+         * t3.average();   // returns OptionalDouble.of(77.0)
          *
          * // boundary: space char (32)
          * CharTuple.CharTuple5 t4 = CharTuple.of(' ', ' ', ' ', ' ', ' ');
-         * double avg4 = t4.average();   // 32.0
+         * t4.average();   // returns OptionalDouble.of(32.0)
          * }</pre>
          *
-         * @return the average of all five unsigned code-unit values as a {@code double}
+         * @return the average of all five unsigned code-unit values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3271,6 +3287,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a char array containing all elements in order
          */
@@ -3471,30 +3491,30 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the average of all char values in this tuple as a double.
+         * Returns the average of all char values in this tuple as an {@code OptionalDouble}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');   // 65+66+67+68+69+70 = 405
-         * double avg = tuple.average();                                              // 67.5
+         * tuple.average();                                                         // returns OptionalDouble.of(67.5)
          *
          * CharTuple.CharTuple6 t2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');   // 97+...+102 = 597
-         * double avg2 = t2.average();                                             // 99.5
+         * t2.average();                                                         // returns OptionalDouble.of(99.5)
          *
          * // all same chars
          * CharTuple.CharTuple6 t3 = CharTuple.of('M', 'M', 'M', 'M', 'M', 'M');
-         * double avg3 = t3.average();   // 77.0
+         * t3.average();   // returns OptionalDouble.of(77.0)
          *
          * // boundary: space char (32)
          * CharTuple.CharTuple6 t4 = CharTuple.of(' ', ' ', ' ', ' ', ' ', ' ');
-         * double avg4 = t4.average();   // 32.0
+         * t4.average();   // returns OptionalDouble.of(32.0)
          * }</pre>
          *
-         * @return the average of all six unsigned code-unit values as a {@code double}
+         * @return the average of all six unsigned code-unit values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3691,6 +3711,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a char array containing all elements in order
          */
@@ -3899,25 +3923,25 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');   // 65, 66, 67, 68, 69, 70, 71
-         * double avg = tuple.average();                                                   // 68.0
+         * tuple.average();                                                              // returns OptionalDouble.of(68.0)
          *
          * CharTuple.CharTuple7 same = CharTuple.of('a', 'a', 'a', 'a', 'a', 'a', 'a');   // 'a' = 97
-         * double avg2 = same.average();                                                  // 97.0
+         * same.average();                                                              // returns OptionalDouble.of(97.0)
          *
          * // boundary: all space chars (' ' = 32)
          * CharTuple.CharTuple7 spaces = CharTuple.of(' ', ' ', ' ', ' ', ' ', ' ', ' ');
-         * double avg3 = spaces.average();   // 32.0
+         * spaces.average();   // returns OptionalDouble.of(32.0)
          *
          * // non-integer result: five 'A' (65) + two 'B' (66) = 457/7 ~ 65.285...
          * CharTuple.CharTuple7 nonInt = CharTuple.of('A', 'A', 'A', 'A', 'A', 'B', 'B');
-         * double avg4 = nonInt.average();   // ~ 65.285714...
+         * nonInt.average();   // returns OptionalDouble.of(65.285714...)
          * }</pre>
          *
-         * @return the average of all seven unsigned code-unit values as a {@code double}
+         * @return the average of all seven unsigned code-unit values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -4116,6 +4140,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a char array containing all elements in order
          */
@@ -4332,25 +4360,25 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');   // 65-72
-         * double avg = tuple.average();                                                        // 68.5
+         * tuple.average();                                                                   // returns OptionalDouble.of(68.5)
          *
          * CharTuple.CharTuple8 same = CharTuple.of('a', 'a', 'a', 'a', 'a', 'a', 'a', 'a');   // 'a' = 97
-         * double avg2 = same.average();                                                       // 97.0
+         * same.average();                                                                   // returns OptionalDouble.of(97.0)
          *
          * // boundary: all space chars (' ' = 32)
          * CharTuple.CharTuple8 spaces = CharTuple.of(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-         * double avg3 = spaces.average();   // 32.0
+         * spaces.average();   // returns OptionalDouble.of(32.0)
          *
          * // boundary: (65535 + 65 * 7) / 8 = 65990 / 8 = 8248.75
          * CharTuple.CharTuple8 mixed = CharTuple.of('\uFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
-         * double avg4 = mixed.average();   // 8248.75
+         * mixed.average();   // returns OptionalDouble.of(8248.75)
          * }</pre>
          *
-         * @return the average of all eight unsigned code-unit values as a {@code double}
+         * @return the average of all eight unsigned code-unit values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4551,6 +4579,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a char array containing all elements in order
          */
@@ -4770,25 +4802,25 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');   // 65-73
-         * double avg = tuple.average();                                                             // 69.0
+         * tuple.average();                                                                        // returns OptionalDouble.of(69.0)
          *
          * CharTuple.CharTuple9 same = CharTuple.of('a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a');   // 'a' = 97
-         * double avg2 = same.average();                                                            // 97.0
+         * same.average();                                                                        // returns OptionalDouble.of(97.0)
          *
          * // boundary: all space chars (' ' = 32)
          * CharTuple.CharTuple9 spaces = CharTuple.of(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-         * double avg3 = spaces.average();   // 32.0
+         * spaces.average();   // returns OptionalDouble.of(32.0)
          *
          * // boundary: (65535 + 65 * 8) / 9 = 66055 / 9 ~ 7339.444...
          * CharTuple.CharTuple9 mixed = CharTuple.of('\uFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
-         * double avg4 = mixed.average();   // ~ 7339.444...
+         * mixed.average();   // returns OptionalDouble.of(7339.444...)
          * }</pre>
          *
-         * @return the average of all nine unsigned code-unit values as a {@code double}
+         * @return the average of all nine unsigned code-unit values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**
@@ -4990,6 +5022,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         /**
          * Returns the internal array of char elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a char array containing all elements in order
          */

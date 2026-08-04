@@ -203,10 +203,10 @@ class LongTupleTest extends TestBase {
     @Test
     public void testAverage() {
         LongTuple.LongTuple3 tuple = LongTuple.of(100L, 200L, 300L);
-        assertEquals(200.0, tuple.average());
+        assertEquals(200.0, tuple.average().getAsDouble());
 
         LongTuple.LongTuple0 empty = LongTuple.from(new long[0]);
-        assertEquals(0D, empty.average(), 0D);
+        assertTrue(empty.average().isEmpty());
     }
 
     @Test
@@ -216,22 +216,22 @@ class LongTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertEquals(0D, tuple.average(), 0D);
+        assertTrue(tuple.average().isEmpty());
         assertEquals(0L, tuple.sum());
     }
 
     @Test
     public void testAverageDoesNotOverflow() {
-        assertEquals((double) Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE).average());
-        assertEquals((double) Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE).average());
-        assertEquals(-0.5d, LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE).average());
+        assertEquals((double) Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE).average().getAsDouble());
+        assertEquals((double) Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE).average().getAsDouble());
+        assertEquals(-0.5d, LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE).average().getAsDouble());
 
         LongTuple.LongTuple8 tuple8 = LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE, 1L, -1L, 5L, -5L, 9L, -9L);
-        assertEquals(-0.125d, tuple8.average());
+        assertEquals(-0.125d, tuple8.average().getAsDouble());
 
         LongTuple.LongTuple9 tuple9 = LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE,
                 Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE);
-        assertEquals((double) Long.MAX_VALUE, tuple9.average());
+        assertEquals((double) Long.MAX_VALUE, tuple9.average().getAsDouble());
     }
 
     @Test
@@ -241,10 +241,10 @@ class LongTupleTest extends TestBase {
         // The exact positive mean is base + 512.5, just above the midpoint between
         // base and its next representable double. Prematurely converting the integer
         // quotient rounded it down to base and lost the deciding fraction.
-        assertEquals(Math.nextUp((double) base), LongTuple.of(base + 1, base + 1024).average());
+        assertEquals(Math.nextUp((double) base), LongTuple.of(base + 1, base + 1024).average().getAsDouble());
 
         // Exercise the symmetric negative boundary as well.
-        assertEquals(Math.nextDown((double) -base), LongTuple.of(-base - 1, -base - 1024).average());
+        assertEquals(Math.nextDown((double) -base), LongTuple.of(-base - 1, -base - 1024).average().getAsDouble());
     }
 
     @Test
@@ -463,7 +463,7 @@ class LongTupleTest extends TestBase {
         assertEquals(100L, tuple.max());
         assertEquals(100L, tuple.median());
         assertEquals(100L, tuple.sum());
-        assertEquals(100.0, tuple.average());
+        assertEquals(100.0, tuple.average().getAsDouble());
     }
 
     @Test
@@ -486,8 +486,8 @@ class LongTupleTest extends TestBase {
         assertEquals(4L, tuple.max());
         assertEquals(2L, tuple.median());
         assertEquals(10L, tuple.sum());
-        assertEquals(2.5, tuple.average());
-        assertEquals(-0.5d, LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE).average());
+        assertEquals(2.5, tuple.average().getAsDouble());
+        assertEquals(-0.5d, LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE).average().getAsDouble());
         assertTrue(tuple.contains(3L));
         assertFalse(tuple.contains(8L));
         assertEquals(4L, tuple.toArray()[0]);
@@ -613,20 +613,20 @@ class LongTupleTest extends TestBase {
         @Test
         public void testLongTupleOf3Average() {
             // LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
-            // double average = triple.average();   // 2.0
+            // OptionalDouble average = triple.average();   // OptionalDouble.of(2.0)
             LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
-            assertEquals(2.0, triple.average(), 0.001);
+            assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testLongTupleClassLevelExamples() {
             // long min = triple.min();         // 1
             // long max = triple.max();         // 3
-            // double avg = triple.average();   // 2.0
+            // OptionalDouble avg = triple.average();   // OptionalDouble.of(2.0)
             LongTuple.LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
             assertEquals(1L, triple.min());
             assertEquals(3L, triple.max());
-            assertEquals(2.0, triple.average(), 0.001);
+            assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -642,10 +642,10 @@ class LongTupleTest extends TestBase {
         @Test
         public void testLongTupleOf5() {
             // LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            // double avg = tuple.average();   // 3.0
+            // OptionalDouble avg = tuple.average();   // OptionalDouble.of(3.0)
             // long median = tuple.median();   // 3
             LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            assertEquals(3.0, tuple.average(), 0.001);
+            assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
             assertEquals(3L, tuple.median());
         }
 
@@ -653,10 +653,10 @@ class LongTupleTest extends TestBase {
         public void testLongTupleOf6() {
             // LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
             // long sum = tuple.sum();         // 21
-            // double avg = tuple.average();   // 3.5
+            // OptionalDouble avg = tuple.average();   // OptionalDouble.of(3.5)
             LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
             assertEquals(21L, tuple.sum());
-            assertEquals(3.5, tuple.average(), 0.001);
+            assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -673,11 +673,11 @@ class LongTupleTest extends TestBase {
         public void testLongTupleOf8() {
             // LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
             // long sum = tuple.sum();                   // 36
-            // double avg = tuple.average();             // 4.5
+            // OptionalDouble avg = tuple.average();             // OptionalDouble.of(4.5)
             // boolean contains5 = tuple.contains(5L);   // true
             LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
             assertEquals(36L, tuple.sum());
-            assertEquals(4.5, tuple.average(), 0.001);
+            assertEquals(4.5, tuple.average().getAsDouble(), 0.001);
             assertTrue(tuple.contains(5L));
         }
 
@@ -686,11 +686,11 @@ class LongTupleTest extends TestBase {
             // LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
             // long sum = tuple.sum();         // 45
             // long median = tuple.median();   // 5
-            // double avg = tuple.average();   // 5.0
+            // OptionalDouble avg = tuple.average();   // OptionalDouble.of(5.0)
             LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
             assertEquals(45L, tuple.sum());
             assertEquals(5L, tuple.median());
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -944,19 +944,19 @@ class LongTupleTest extends TestBase {
         @Test
         public void testAverageTuple1() {
             LongTuple1 tuple = LongTuple.of(1L);
-            assertEquals(1.0, tuple.average(), 0.001);
+            assertEquals(1.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverageTuple3() {
             LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertEquals(2.0, tuple.average(), 0.001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
-        public void testAverageTuple0ReturnsZero() {
+        public void testAverageTuple0ReturnsEmpty() {
             LongTuple<LongTuple0> tuple = LongTuple.from(new long[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         // Reverse tests
@@ -1337,7 +1337,7 @@ class LongTupleTest extends TestBase {
             assertEquals(4L, tuple.max());
             assertEquals(2L, tuple.median());
             assertEquals(10L, tuple.sum());
-            assertEquals(2.5, tuple.average(), 0.001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             LongTuple4 tuple2 = LongTuple.of(1L, 2L, 3L, 4L);
@@ -1374,7 +1374,7 @@ class LongTupleTest extends TestBase {
             assertEquals(5L, tuple.max());
             assertEquals(3L, tuple.median());
             assertEquals(15L, tuple.sum());
-            assertEquals(3.0, tuple.average(), 0.001);
+            assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
             // Test equals
             LongTuple5 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
@@ -1402,7 +1402,7 @@ class LongTupleTest extends TestBase {
             assertEquals(1L, tuple.min());
             assertEquals(6L, tuple.max());
             assertEquals(21L, tuple.sum());
-            assertEquals(3.5, tuple.average(), 0.001);
+            assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1426,7 +1426,7 @@ class LongTupleTest extends TestBase {
             assertEquals(1L, tuple.min());
             assertEquals(7L, tuple.max());
             assertEquals(28L, tuple.sum());
-            assertEquals(4.0, tuple.average(), 0.001);
+            assertEquals(4.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1450,7 +1450,7 @@ class LongTupleTest extends TestBase {
             assertEquals(1L, tuple.min());
             assertEquals(8L, tuple.max());
             assertEquals(36L, tuple.sum());
-            assertEquals(4.5, tuple.average(), 0.001);
+            assertEquals(4.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1474,7 +1474,7 @@ class LongTupleTest extends TestBase {
             assertEquals(1L, tuple.min());
             assertEquals(9L, tuple.max());
             assertEquals(45L, tuple.sum());
-            assertEquals(5.0, tuple.average(), 0.001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
         // Test create methods for sizes 2, 4-8
@@ -1639,7 +1639,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testLongTuple1_average() {
             LongTuple.LongTuple1 tuple = LongTuple.of(1L);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         // ============ LongTuple2 Nested Class Tests ============
@@ -1719,7 +1719,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testLongTuple2_average() {
             LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -1821,7 +1821,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testLongTuple3_average() {
             LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -2408,19 +2408,19 @@ class LongTupleTest extends TestBase {
         @Test
         public void testAverage_tuple1() {
             LongTuple1 tuple = LongTuple.of(42L);
-            assertEquals(42.0, tuple.average(), 0.001);
+            assertEquals(42.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverage_tuple2() {
             LongTuple2 tuple = LongTuple.of(10L, 20L);
-            assertEquals(15.0, tuple.average(), 0.001);
+            assertEquals(15.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverage_tuple3() {
             LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
-            assertEquals(20.0, tuple.average(), 0.001);
+            assertEquals(20.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2751,7 +2751,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testTuple0_average() {
             LongTuple<?> tuple = LongTuple.from(null);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -2780,7 +2780,7 @@ class LongTupleTest extends TestBase {
             assertEquals(5L, tuple.max());
             assertEquals(3L, tuple.median());
             assertEquals(15L, tuple.sum());
-            assertEquals(3.0, tuple.average(), 0.001);
+            assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
             assertTrue(tuple.contains(3L));
             assertFalse(tuple.contains(10L));
         }
@@ -2962,7 +2962,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testTuple6_average() {
             LongTuple6 tuple = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L);
-            assertEquals(35.0, tuple.average(), 0.001);
+            assertEquals(35.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -3058,8 +3058,8 @@ class LongTupleTest extends TestBase {
 
         @Test
         public void testAverage() {
-            assertEquals(20.0, LongTuple.of(10L, 20L, 30L).average(), 0.0001);
-            assertEquals(3.0, LongTuple.of(1L, 2L, 3L, 4L, 5L).average(), 0.0001);
+            assertEquals(20.0, LongTuple.of(10L, 20L, 30L).average().getAsDouble(), 0.0001);
+            assertEquals(3.0, LongTuple.of(1L, 2L, 3L, 4L, 5L).average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3079,7 +3079,7 @@ class LongTupleTest extends TestBase {
 
         @Test
         public void testAverage_Empty() {
-            assertEquals(0D, LongTuple.from(null).average(), 0D);
+            assertTrue(LongTuple.from(null).average().isEmpty());
         }
 
         // ====== Reverse Tests ======
@@ -3328,7 +3328,7 @@ class LongTupleTest extends TestBase {
             assertEquals(42L, tuple.max());
             assertEquals(42L, tuple.median());
             assertEquals(42L, tuple.sum());
-            assertEquals(42.0, tuple.average(), 0.0001);
+            assertEquals(42.0, tuple.average().getAsDouble(), 0.0001);
             assertTrue(tuple.contains(42L));
         }
 
@@ -3555,9 +3555,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void test_LongTuple0_average_returnsZero() {
+        public void test_LongTuple0_average_returnsEmpty() {
             LongTuple0 tuple = LongTuple.from(new long[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -3614,7 +3614,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_LongTuple1_average() {
             LongTuple1 tuple = LongTuple.of(5L);
-            assertEquals(5.0, tuple.average(), 0.0001);
+            assertEquals(5.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3711,7 +3711,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_LongTuple2_average() {
             LongTuple2 tuple = LongTuple.of(1L, 3L);
-            assertEquals(2.0, tuple.average(), 0.0001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3824,7 +3824,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_LongTuple3_average() {
             LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertEquals(2.0, tuple.average(), 0.0001);
+            assertEquals(2.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3887,7 +3887,7 @@ class LongTupleTest extends TestBase {
             assertEquals(1L, tuple.min());
             assertEquals(4L, tuple.max());
             assertEquals(10L, tuple.sum());
-            assertEquals(2.5, tuple.average(), 0.0001);
+            assertEquals(2.5, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -4033,7 +4033,7 @@ class LongTupleTest extends TestBase {
             assertEquals(8L, t.max());
             assertEquals(4L, t.median());
             assertEquals(36L, t.sum());
-            assertEquals(36.0 / 8.0, t.average(), 0d);
+            assertEquals(36.0 / 8.0, t.average().getAsDouble(), 0d);
         }
 
         @Test
@@ -4043,7 +4043,7 @@ class LongTupleTest extends TestBase {
             assertEquals(9L, t.max());
             assertEquals(5L, t.median());
             assertEquals(45L, t.sum());
-            assertEquals(45.0 / 9.0, t.average(), 0d);
+            assertEquals(45.0 / 9.0, t.average().getAsDouble(), 0d);
         }
     }
 
@@ -4103,7 +4103,7 @@ class LongTupleTest extends TestBase {
         assertEquals(9L, tuple4.max());
         assertEquals(3L, tuple4.median());
         assertEquals(20L, tuple4.sum());
-        assertEquals(5.0, tuple4.average());
+        assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains(3L));
 
         LongTuple.LongTuple5 tuple5 = LongTuple.of(1L, 2L, 3L, 4L, 5L);

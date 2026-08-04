@@ -18,6 +18,7 @@ import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.stream.IntStream;
+import com.landawn.abacus.util.u.OptionalDouble;
 
 /**
  * Immutable-style wrapper around an {@code int[]}.
@@ -29,8 +30,8 @@ import com.landawn.abacus.util.stream.IntStream;
  *
  * <p>The wrapper itself exposes no mutator methods, and accessors that return arrays
  * ({@link #toArray()} and {@link #toArray(int, int)}) always return fresh copies. For non-empty instances, the stream
- * returned by {@link #stream()} is constructed directly over the backing array; empty instances use a shared empty
- * stream. See that method's javadoc for the implications.</p>
+ * returned by {@link #stream()} is constructed directly over the backing array; for empty instances it returns a
+ * fresh empty stream that is not tied to the backing array. See that method's javadoc for the implications.</p>
  *
  * <p>This class is annotated with {@link Beta @Beta} and its API may evolve in future releases.</p>
  *
@@ -318,7 +319,7 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns the sum of all elements in this array as an {@code int}.
      *
-     * <p>Returns the total as an {@code int}. For an empty array this method returns {@code 0}.
+     * <p>For an empty array this method returns {@code 0}.
      * If the total overflows the {@code int} range, an {@link ArithmeticException} is thrown.</p>
      *
      * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array.</p>
@@ -357,42 +358,43 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * Returns the arithmetic mean of all elements in this array as a {@code double}.
+     * Returns the arithmetic mean of all elements in this array as an {@code OptionalDouble}.
      *
-     * <p>The result is returned as a {@code double} to preserve fractional precision.
-     * For an empty array this method returns {@code 0D} (it does not throw).</p>
+     * <p>The result is returned as an {@code OptionalDouble} to preserve fractional precision.
+     * For an empty array this method returns an empty {@code OptionalDouble} (it does not throw).</p>
      *
      * <p>Unlike {@link #sum()}, this method does not throw when intermediate totals exceed the
      * {@code int} range; the mean is computed in wider arithmetic.</p>
      *
-     * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array.</p>
+     * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array;
+     * it returns an empty {@code OptionalDouble} instead.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: fractional average
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {1, 2, 3, 4});
-     * array.average();   // returns 2.5
+     * array.average();   // returns OptionalDouble.of(2.5)
      *
      * // Basic: whole-number average
      * ImmutableIntArray even = ImmutableIntArray.unsafeWrap(new int[] {2, 4, 6});
-     * even.average();   // returns 4.0
+     * even.average();   // returns OptionalDouble.of(4.0)
      *
-     * // Edge: empty array returns 0.0 (no exception)
+     * // Edge: empty array returns an empty OptionalDouble (no exception)
      * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
-     * empty.average();   // returns 0.0
+     * empty.average();   // returns OptionalDouble.empty()
      *
      * // Edge: single-element average equals that element as double
      * ImmutableIntArray single = ImmutableIntArray.unsafeWrap(new int[] {10});
-     * single.average();   // returns 10.0
+     * single.average();   // returns OptionalDouble.of(10.0)
      * }</pre>
      *
-     * @return the average of all elements in this array as a {@code double}, or {@code 0D} if empty
+     * @return the average of all elements in this array as an {@code OptionalDouble}, or an empty {@code OptionalDouble} if empty
      * @see #sum()
      * @see #min()
      * @see #max()
      */
-    public double average() {
-        return N.average(elements);
+    public OptionalDouble average() {
+        return elements.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(elements));
     }
 
     /**

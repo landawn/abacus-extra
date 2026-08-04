@@ -29,6 +29,7 @@ import com.landawn.abacus.util.ByteTuple.ByteTuple7;
 import com.landawn.abacus.util.ByteTuple.ByteTuple8;
 import com.landawn.abacus.util.ByteTuple.ByteTuple9;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.u.OptionalDouble;
 import com.landawn.abacus.util.stream.ByteStream;
 
 /**
@@ -42,7 +43,7 @@ import com.landawn.abacus.util.stream.ByteStream;
  *
  * <p>All {@code byte} arithmetic in this class follows Java's signed semantics (range {@code -128}
  * to {@code 127}). {@link #sum()} is widened to {@code int} to avoid overflow, and {@link #average()}
- * is widened to {@code double} to preserve precision.</p>
+ * is computed with {@code double} precision and returned as an {@code OptionalDouble}.</p>
  *
  * @param <TP> the concrete {@code ByteTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -58,7 +59,7 @@ import com.landawn.abacus.util.stream.ByteStream;
 public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP>
         permits ByteTuple0, ByteTuple1, ByteTuple2, ByteTuple3, ByteTuple4, ByteTuple5, ByteTuple6, ByteTuple7, ByteTuple8, ByteTuple9 {
 
-    /** Lazily initialized cached array view of all tuple elements. */
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile byte[] elements;
 
     /**
@@ -305,7 +306,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * Deprecated: prefer a custom class with meaningful names when arity is 8.
      * Creates a ByteTuple.ByteTuple8 containing eight byte values.
      *
      * <p><b>Usage Examples:</b></p>
@@ -338,7 +338,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @param _7 the seventh byte value
      * @param _8 the eighth byte value
      * @return a new ByteTuple.ByteTuple8 containing the specified values
-     * @deprecated Prefer a custom class with meaningful property names when dealing with 8 or more byte values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more byte values
      */
     @Deprecated
     public static ByteTuple8 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8) {
@@ -346,7 +346,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * Deprecated: prefer a custom class with meaningful names when arity is 9.
      * Creates a ByteTuple.ByteTuple9 containing nine byte values.
      *
      * <p><b>Usage Examples:</b></p>
@@ -382,7 +381,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @param _8 the eighth byte value
      * @param _9 the ninth byte value
      * @return a new ByteTuple.ByteTuple9 containing the specified values
-     * @deprecated Prefer a custom class with meaningful property names when dealing with 9 or more byte values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values
      */
     @Deprecated
     public static ByteTuple9 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8,
@@ -648,40 +647,40 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the arithmetic mean of all byte values in this tuple as a {@code double}.
+     * Returns the arithmetic mean of all byte values in this tuple as an {@code OptionalDouble}.
      * <p>
-     * Elements are treated as signed {@code byte} values. For an empty tuple, returns {@code 0D}.
+     * Elements are treated as signed {@code byte} values. For an empty tuple, returns an empty {@code OptionalDouble}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * double avg = t.average();   // 20.0
+     * t.average();   // returns OptionalDouble.of(20.0)
      *
      * // non-integer average
      * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
-     * double pairAvg = pair.average();   // 7.5
+     * pair.average();   // returns OptionalDouble.of(7.5)
      *
      * // single element
      * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 42);
-     * double singleAvg = single.average();   // 42.0
+     * single.average();   // returns OptionalDouble.of(42.0)
      *
      * // negative and positive values
      * ByteTuple.ByteTuple2 negPos = ByteTuple.of((byte) -10, (byte) 10);
-     * double negPosAvg = negPos.average();   // 0.0
+     * negPos.average();   // returns OptionalDouble.of(0.0)
      *
-     * // empty tuple -> returns 0D
+     * // empty tuple -> returns an empty OptionalDouble
      * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
-     * empty.average();   // returns 0.0
+     * empty.average();   // returns OptionalDouble.empty()
      * }</pre>
      *
-     * @return the arithmetic mean of all signed byte values as a {@code double}, or {@code 0D} if this tuple is empty
+     * @return the arithmetic mean of all signed byte values as an {@code OptionalDouble}, or an empty {@code OptionalDouble} if this tuple is empty
      * @see #sum()
      */
-    public double average() {
+    public OptionalDouble average() {
         final byte[] arr = elements();
 
-        return arr.length == 0 ? 0D : N.average(arr);
+        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
     }
 
     /**
@@ -997,7 +996,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * This package-private class is exposed only through the base {@code ByteTuple} type
      * via the singleton instance returned by {@link #from(byte[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns {@code 0D}, while
+     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -1070,13 +1069,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all byte values in this tuple.
-         * Since this tuple is empty, this method always returns {@code 0D}.
+         * Since this tuple is empty, this method always returns an empty {@code OptionalDouble}.
          *
-         * @return {@code 0D}
+         * @return an empty {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return 0D;
+        public OptionalDouble average() {
+            return OptionalDouble.empty();
         }
 
         /**
@@ -1296,25 +1295,25 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all byte values in this tuple.
-         * Since this tuple contains only one element, it returns that element converted to a {@code double}.
+         * Since this tuple contains only one element, it returns that element wrapped in an {@code OptionalDouble}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 5);
-         * t.average();   // returns 5.0
+         * t.average();   // returns OptionalDouble.of(5.0)
          *
-         * ByteTuple.of((byte) -3).average();   // returns -3.0
+         * ByteTuple.of((byte) -3).average();   // returns OptionalDouble.of(-3.0)
          *
          * // boundary values
-         * ByteTuple.of(Byte.MAX_VALUE).average();   // returns 127.0
-         * ByteTuple.of(Byte.MIN_VALUE).average();   // returns -128.0
+         * ByteTuple.of(Byte.MAX_VALUE).average();   // returns OptionalDouble.of(127.0)
+         * ByteTuple.of(Byte.MIN_VALUE).average();   // returns OptionalDouble.of(-128.0)
          * }</pre>
          *
-         * @return the single byte value as a {@code double}
+         * @return the single byte value as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return _1;
+        public OptionalDouble average() {
+            return OptionalDouble.of(_1);
         }
 
         /**
@@ -1440,6 +1439,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a byte array containing the single element
          */
@@ -1616,21 +1619,21 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ByteTuple.of((byte) 3, (byte) 7).average();          // returns 5.0
-         * ByteTuple.of((byte) -5, (byte) 5).average();         // returns 0.0
+         * ByteTuple.of((byte) 3, (byte) 7).average();          // returns OptionalDouble.of(5.0)
+         * ByteTuple.of((byte) -5, (byte) 5).average();         // returns OptionalDouble.of(0.0)
          *
          * // duplicate and boundary values
-         * ByteTuple.of((byte) 5, (byte) 5).average();          // returns 5.0
-         * ByteTuple.of((byte) -5, (byte) -10).average();       // returns -7.5
+         * ByteTuple.of((byte) 5, (byte) 5).average();          // returns OptionalDouble.of(5.0)
+         * ByteTuple.of((byte) -5, (byte) -10).average();       // returns OptionalDouble.of(-7.5)
          * // (-128 + 127) / 2 = -0.5
-         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).average();   // returns -0.5
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).average();   // returns OptionalDouble.of(-0.5)
          * }</pre>
          *
-         * @return the average of both byte values as a double
+         * @return the average of both byte values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2));
         }
 
         /**
@@ -1929,6 +1932,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a byte array containing all elements in order
          */
@@ -1960,7 +1967,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * // Using statistical operations
      * byte min = tuple.min();         // 10
      * byte max = tuple.max();         // 30
-     * double avg = tuple.average();   // 20.0
+     * OptionalDouble avg = tuple.average();   // OptionalDouble.of(20.0)
      * }</pre>
      *
      */
@@ -2104,20 +2111,20 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).average();          // returns 2.0
-         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).average();       // returns -5.0
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).average();          // returns OptionalDouble.of(2.0)
+         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).average();       // returns OptionalDouble.of(-5.0)
          *
          * // all same
-         * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).average();          // returns 5.0
+         * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).average();          // returns OptionalDouble.of(5.0)
          * // (-128 + 0 + 127) / 3 = -1/3
-         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).average();   // returns -0.333... (i.e., -1.0 / 3.0)
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).average();   // returns OptionalDouble.of(-0.333...) (i.e., -1.0 / 3.0)
          * }</pre>
          *
-         * @return the average of all three byte values as a double
+         * @return the average of all three byte values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3));
         }
 
         /**
@@ -2337,7 +2344,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          *
          * // Chain with other operations
          * tuple.filter((a, b, c) -> a + b + c > 0)
-         *      .map(t -> t.average())
+         *      .map(t -> t.average().getAsDouble())
          *      .ifPresent(System.out::println);   // Prints: 20.0
          * }</pre>
          *
@@ -2429,6 +2436,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a byte array containing all elements in order
          */
@@ -2617,23 +2628,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-         * double avg = t.average();   // returns 2.5
+         * t.average();   // returns OptionalDouble.of(2.5)
          *
          * ByteTuple.ByteTuple4 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4);
-         * double avg2 = neg.average();   // returns -2.5
+         * neg.average();   // returns OptionalDouble.of(-2.5)
          *
          * ByteTuple.ByteTuple4 boundary = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, Byte.MAX_VALUE);
-         * double avg3 = boundary.average();   // returns 0.0
+         * boundary.average();   // returns OptionalDouble.of(0.0)
          *
          * ByteTuple.ByteTuple4 allSame = ByteTuple.of((byte) 10, (byte) 10, (byte) 10, (byte) 10);
-         * double avg4 = allSame.average();   // returns 10.0
+         * allSame.average();   // returns OptionalDouble.of(10.0)
          * }</pre>
          *
-         * @return the average of all four byte values as a double
+         * @return the average of all four byte values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4));
         }
 
         /**
@@ -2803,6 +2814,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a byte array containing all elements in order
          */
@@ -2995,23 +3010,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-         * double avg = t.average();   // returns 3.0
+         * t.average();   // returns OptionalDouble.of(3.0)
          *
          * ByteTuple.ByteTuple5 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5);
-         * double avg2 = neg.average();   // returns -3.0
+         * neg.average();   // returns OptionalDouble.of(-3.0)
          *
          * ByteTuple.ByteTuple5 mixed = ByteTuple.of((byte) -10, (byte) -5, (byte) 0, (byte) 5, (byte) 10);
-         * double avg3 = mixed.average();   // returns 0.0
+         * mixed.average();   // returns OptionalDouble.of(0.0)
          *
          * ByteTuple.ByteTuple5 allSame = ByteTuple.of((byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10);
-         * double avg4 = allSame.average();   // returns 10.0
+         * allSame.average();   // returns OptionalDouble.of(10.0)
          * }</pre>
          *
-         * @return the average of all five byte values as a double
+         * @return the average of all five byte values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3182,6 +3197,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a byte array containing all elements in order
          */
@@ -3378,23 +3397,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-         * double avg = t.average();   // returns 3.5
+         * t.average();   // returns OptionalDouble.of(3.5)
          *
          * ByteTuple.ByteTuple6 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6);
-         * double avg2 = neg.average();   // returns -3.5
+         * neg.average();   // returns OptionalDouble.of(-3.5)
          *
          * ByteTuple.ByteTuple6 mixed = ByteTuple.of((byte) -10, (byte) -5, (byte) -1, (byte) 1, (byte) 5, (byte) 10);
-         * double avg3 = mixed.average();   // returns 0.0
+         * mixed.average();   // returns OptionalDouble.of(0.0)
          *
          * ByteTuple.ByteTuple6 allSame = ByteTuple.of((byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10, (byte) 10);
-         * double avg4 = allSame.average();   // returns 10.0
+         * allSame.average();   // returns OptionalDouble.of(10.0)
          * }</pre>
          *
-         * @return the average of all six byte values as a double
+         * @return the average of all six byte values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3566,6 +3585,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a byte array containing all elements in order
          */
@@ -3768,23 +3791,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-         * double result = t.average();   // returns 4.0
+         * t.average();   // returns OptionalDouble.of(4.0)
          *
          * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
-         * double result2 = t2.average();   // returns 5.0
+         * t2.average();   // returns OptionalDouble.of(5.0)
          *
          * ByteTuple.ByteTuple7 t3 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
-         * double result3 = t3.average();   // returns 0.0
+         * t3.average();   // returns OptionalDouble.of(0.0)
          *
          * ByteTuple.ByteTuple7 t4 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7);
-         * double result4 = t4.average();   // returns -4.0
+         * t4.average();   // returns OptionalDouble.of(-4.0)
          * }</pre>
          *
-         * @return the average of all seven byte values as a double
+         * @return the average of all seven byte values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -3979,6 +4002,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a byte array containing all elements in order
          */
@@ -4200,23 +4227,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-         * double result = t.average();   // returns 4.5
+         * t.average();   // returns OptionalDouble.of(4.5)
          *
          * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) 6, (byte) 6, (byte) 6, (byte) 6, (byte) 6, (byte) 6, (byte) 6, (byte) 6);
-         * double result2 = t2.average();   // returns 6.0
+         * t2.average();   // returns OptionalDouble.of(6.0)
          *
          * ByteTuple.ByteTuple8 t3 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
-         * double result3 = t3.average();   // returns 0.0
+         * t3.average();   // returns OptionalDouble.of(0.0)
          *
          * ByteTuple.ByteTuple8 t4 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8);
-         * double result4 = t4.average();   // returns -4.5
+         * t4.average();   // returns OptionalDouble.of(-4.5)
          * }</pre>
          *
-         * @return the average of all eight byte values as a double
+         * @return the average of all eight byte values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4413,6 +4440,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a byte array containing all elements in order
          */
@@ -4643,23 +4674,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-         * double result = t.average();   // returns 5.0
+         * t.average();   // returns OptionalDouble.of(5.0)
          *
          * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3);
-         * double result2 = t2.average();   // returns 3.0
+         * t2.average();   // returns OptionalDouble.of(3.0)
          *
          * ByteTuple.ByteTuple9 t3 = ByteTuple.of((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
-         * double result3 = t3.average();   // returns 0.0
+         * t3.average();   // returns OptionalDouble.of(0.0)
          *
          * ByteTuple.ByteTuple9 t4 = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8, (byte) -9);
-         * double result4 = t4.average();   // returns -5.0
+         * t4.average();   // returns OptionalDouble.of(-5.0)
          * }</pre>
          *
-         * @return the average of all nine byte values as a double
+         * @return the average of all nine byte values as an {@code OptionalDouble}
          */
         @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        public OptionalDouble average() {
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**
@@ -4860,6 +4891,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
          * @return a byte array containing all elements in order
          */

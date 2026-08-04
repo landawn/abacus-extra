@@ -230,7 +230,7 @@ class CharTupleTest extends TestBase {
     @Test
     public void testAverage() {
         CharTuple.CharTuple2 tuple = CharTuple.of('a', 'c');
-        double average = tuple.average();
+        double average = tuple.average().getAsDouble();
         assertEquals(('a' + 'c') / 2.0, average, 0.001);
     }
 
@@ -248,7 +248,7 @@ class CharTupleTest extends TestBase {
         assertEquals('d', tuple.max());
         assertEquals('b', tuple.median());
         assertEquals('d' + 'a' + 'c' + 'b', tuple.sum());
-        assertEquals(('d' + 'a' + 'c' + 'b') / 4.0, tuple.average(), 0.001);
+        assertEquals(('d' + 'a' + 'c' + 'b') / 4.0, tuple.average().getAsDouble(), 0.001);
         assertArrayEquals(new char[] { 'd', 'a', 'c', 'b' }, firstArray);
         assertArrayEquals(firstArray, secondArray);
         assertNotSame(firstArray, secondArray);
@@ -271,7 +271,7 @@ class CharTupleTest extends TestBase {
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
         assertThrows(NoSuchElementException.class, tuple::median);
-        assertEquals(0D, tuple.average(), 0D);
+        assertTrue(tuple.average().isEmpty());
         assertEquals(0, tuple.sum());
     }
 
@@ -599,19 +599,19 @@ class CharTupleTest extends TestBase {
         @Test
         public void testAverageTuple1() {
             CharTuple1 tuple = CharTuple.of('a');
-            assertEquals(97.0, tuple.average(), 0.001);
+            assertEquals(97.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
         public void testAverageTuple3() {
             CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            assertEquals(98.0, tuple.average(), 0.001);
+            assertEquals(98.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
-        public void testAverageTuple0ReturnsZero() {
+        public void testAverageTuple0ReturnsEmpty() {
             CharTuple<CharTuple0> tuple = CharTuple.from(new char[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         // Reverse tests
@@ -1195,7 +1195,7 @@ class CharTupleTest extends TestBase {
             assertEquals('d', tuple.max());
             assertEquals('b', tuple.median());
             assertEquals(394, tuple.sum()); // 97+98+99+100
-            assertEquals(98.5, tuple.average(), 0.001);
+            assertEquals(98.5, tuple.average().getAsDouble(), 0.001);
 
             // Test hashCode and equals
             CharTuple4 tuple2 = CharTuple.of('a', 'b', 'c', 'd');
@@ -1232,7 +1232,7 @@ class CharTupleTest extends TestBase {
             assertEquals('e', tuple.max());
             assertEquals('c', tuple.median());
             assertEquals(495, tuple.sum()); // 97+98+99+100+101
-            assertEquals(99.0, tuple.average(), 0.001);
+            assertEquals(99.0, tuple.average().getAsDouble(), 0.001);
 
             // Test equals
             CharTuple5 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e');
@@ -1260,7 +1260,7 @@ class CharTupleTest extends TestBase {
             assertEquals('a', tuple.min());
             assertEquals('f', tuple.max());
             assertEquals(597, tuple.sum()); // 97+98+99+100+101+102
-            assertEquals(99.5, tuple.average(), 0.001);
+            assertEquals(99.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1284,7 +1284,7 @@ class CharTupleTest extends TestBase {
             assertEquals('a', tuple.min());
             assertEquals('g', tuple.max());
             assertEquals(700, tuple.sum()); // 97+98+99+100+101+102+103
-            assertEquals(100.0, tuple.average(), 0.001);
+            assertEquals(100.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1308,7 +1308,7 @@ class CharTupleTest extends TestBase {
             assertEquals('a', tuple.min());
             assertEquals('h', tuple.max());
             assertEquals(804, tuple.sum()); // 97+98+99+100+101+102+103+104
-            assertEquals(100.5, tuple.average(), 0.001);
+            assertEquals(100.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -1332,7 +1332,7 @@ class CharTupleTest extends TestBase {
             assertEquals('a', tuple.min());
             assertEquals('i', tuple.max());
             assertEquals(909, tuple.sum()); // 97+98+99+100+101+102+103+104+105
-            assertEquals(101.0, tuple.average(), 0.001);
+            assertEquals(101.0, tuple.average().getAsDouble(), 0.001);
         }
 
         // Test create methods for sizes 2, 4-8
@@ -1497,7 +1497,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testCharTuple1_average() {
             CharTuple.CharTuple1 tuple = CharTuple.of('a');
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         // ============ CharTuple2 Nested Class Tests ============
@@ -1577,7 +1577,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testCharTuple2_average() {
             CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -1679,7 +1679,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testCharTuple3_average() {
             CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+            assertTrue(tuple.average().getAsDouble() >= 0 || tuple.average().getAsDouble() < 0);
         }
 
         @Test
@@ -2146,9 +2146,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple0_average_returnsZero() {
+        public void testTuple0_average_returnsEmpty() {
             CharTuple<?> tuple = CharTuple.from(new char[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -2188,7 +2188,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testTuple1_average() {
             CharTuple1 tuple = CharTuple.of('A');
-            assertEquals(65.0, tuple.average(), 0.001);
+            assertEquals(65.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2251,7 +2251,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testTuple2_average() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals(65.5, tuple.average(), 0.001);
+            assertEquals(65.5, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2343,7 +2343,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testTuple3_average() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertEquals(66.0, tuple.average(), 0.001);
+            assertEquals(66.0, tuple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -2707,13 +2707,13 @@ class CharTupleTest extends TestBase {
         @Test
         public void testAverage_single() {
             CharTuple1 tuple = CharTuple.of('A'); // 65
-            assertEquals(65.0, tuple.average());
+            assertEquals(65.0, tuple.average().getAsDouble());
         }
 
         @Test
         public void testAverage_multiple() {
             CharTuple2 tuple = CharTuple.of('A', 'C'); // (65 + 67) / 2 = 66.0
-            assertEquals(66.0, tuple.average());
+            assertEquals(66.0, tuple.average().getAsDouble());
         }
 
         // ============ Reverse Tests ============
@@ -3003,7 +3003,7 @@ class CharTupleTest extends TestBase {
             assertEquals('E', tuple.max());
             assertEquals('C', tuple.median());
             assertEquals(65 + 69 + 67 + 66 + 68, tuple.sum()); // A(65)+E(69)+C(67)+B(66)+D(68)
-            assertTrue(tuple.average() > 0);
+            assertTrue(tuple.average().getAsDouble() > 0);
         }
 
         @Test
@@ -3025,7 +3025,7 @@ class CharTupleTest extends TestBase {
             assertEquals('X', tuple.min());
             assertEquals('X', tuple.max());
             assertEquals('X', tuple.median());
-            assertEquals('X', tuple.average()); // 88.0
+            assertEquals('X', tuple.average().getAsDouble()); // 88.0
             assertEquals(88, tuple.sum());
             assertTrue(tuple.contains('X'));
             assertFalse(tuple.contains('Y'));
@@ -3217,9 +3217,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple0_average_returnsZero() {
+        public void test_tuple0_average_returnsEmpty() {
             CharTuple0 tuple = CharTuple.from(new char[0]);
-            assertEquals(0D, tuple.average(), 0D);
+            assertTrue(tuple.average().isEmpty());
         }
 
         @Test
@@ -3299,7 +3299,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple1_average() {
             CharTuple1 tuple = CharTuple.of('A');
-            assertEquals('A', tuple.average(), 0.0001);
+            assertEquals('A', tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3416,7 +3416,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple2_average() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals(('A' + 'B') / 2.0, tuple.average(), 0.0001);
+            assertEquals(('A' + 'B') / 2.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3551,7 +3551,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple3_average() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertEquals(('A' + 'B' + 'C') / 3.0, tuple.average(), 0.0001);
+            assertEquals(('A' + 'B' + 'C') / 3.0, tuple.average().getAsDouble(), 0.0001);
         }
 
         @Test
@@ -3819,11 +3819,11 @@ class CharTupleTest extends TestBase {
         public void testCharTupleClassLevelExamples() {
             // char min = triple.min();   // 'A'
             // char max = triple.max();   // 'C'
-            // double avg = triple.average();   // 66.0 (average of ASCII values)
+            // OptionalDouble avg = triple.average();   // OptionalDouble.of(66.0) (average of ASCII values)
             CharTuple.CharTuple3 triple = CharTuple.of('A', 'B', 'C');
             assertEquals('A', triple.min());
             assertEquals('C', triple.max());
-            assertEquals(66.0, triple.average(), 0.001);
+            assertEquals(66.0, triple.average().getAsDouble(), 0.001);
         }
 
         @Test
@@ -3922,7 +3922,7 @@ class CharTupleTest extends TestBase {
         assertEquals('i', tuple4.max());
         assertEquals('c', tuple4.median());
         assertEquals('i' + 'a' + 'g' + 'c', tuple4.sum());
-        assertEquals(((double) 'i' + 'a' + 'g' + 'c') / 4, tuple4.average());
+        assertEquals(((double) 'i' + 'a' + 'g' + 'c') / 4, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains('c'));
 
         CharTuple.CharTuple5 tuple5 = CharTuple.of('a', 'b', 'c', 'd', 'e');

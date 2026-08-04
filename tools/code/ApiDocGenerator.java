@@ -17,6 +17,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.lang.model.element.Modifier;
@@ -93,6 +95,11 @@ public final class ApiDocGenerator {
         String condition;
     }
 
+    private static final class DocThrowInfo {
+        String type;
+        String condition;
+    }
+
     private static final class ConstructorInfo {
         String signature;
         String javadocSummary;
@@ -164,16 +171,20 @@ public final class ApiDocGenerator {
 
     private static final class DocInfo {
         String summary;
+        String fullBody;
         String since;
+        boolean deprecated;
         String deprecatedMessage;
         String returns;
         Map<String, String> paramDocs = new LinkedHashMap<>();
-        Map<String, String> throwsDocs = new LinkedHashMap<>();
+        List<DocThrowInfo> throwsList = new ArrayList<>();
         List<String> seeAlso = new ArrayList<>();
         List<String> contract = new ArrayList<>();
         String performance;
+        List<String> examples = new ArrayList<>();
     }
 
+    private static final Pattern PRE_BLOCK_PATTERN = Pattern.compile("(?is)<pre\\b[^>]*>(.*?)</pre>");
     private static int methodOrder;
 
     public static void main(final String[] args) throws Exception {
@@ -201,10 +212,6 @@ public final class ApiDocGenerator {
         final List<CompilationUnitTree> parsedUnits = new ArrayList<>();
         for (final CompilationUnitTree unit : task.parse()) {
             parsedUnits.add(unit);
-        }
-        try {
-            task.analyze();
-        } catch (final Throwable ignored) {
         }
         fileManager.close();
 
@@ -282,6 +289,8 @@ public final class ApiDocGenerator {
             p.types.sort(Comparator.comparingInt(t -> t.order));
         }
 
+        createParentDirectories(markdownOut);
+        createParentDirectories(jsonOut);
         Files.writeString(markdownOut, toMarkdown(library, packages), StandardCharsets.UTF_8);
         Files.writeString(jsonOut, toJson(library, packages), StandardCharsets.UTF_8);
 
@@ -314,6 +323,17 @@ public final class ApiDocGenerator {
         type.name = simpleName;
         type.kind = mapTypeKind(classTree.getKind());
         type.modifiers = sortedModifiers(classTree.getModifiers(), parentType);
+        if (classTree.getKind() == Tree.Kind.RECORD) {
+            if (parentType != null && !type.modifiers.contains("static")) {
+                type.modifiers.add("static");
+            }
+            if (!type.modifiers.contains("final")) {
+                type.modifiers.add("final");
+            }
+        } else if (parentType != null && ("interface".equals(parentType.kind) || "annotation".equals(parentType.kind))
+                && !type.modifiers.contains("static")) {
+            type.modifiers.add("static");
+        }
         type.typeParams = readTypeParams(classTree.getTypeParameters());
         type.nullability = inferNullability(classTree.getModifiers().getAnnotations(), "");
 
@@ -321,9 +341,12 @@ public final class ApiDocGenerator {
         if (typeDoc != null) {
             type.javadocSummary = typeDoc.summary;
             type.since = typeDoc.since;
+            type.threadSafety = inferThreadSafety(typeDoc.fullBody);
         }
         type.deprecated = readDeprecated(classTree.getModifiers(), typeDoc);
 
+        final List<VariableTree> recordComponents = readRecordComponents(classTree);
+        boolean hasCanonicalRecordConstructor = false;
         for (final Tree member : classTree.getMembers()) {
             if (member instanceof VariableTree varTree) {
                 if (!isPublicField(varTree, classTree)) {
@@ -342,17 +365,31 @@ public final class ApiDocGenerator {
                 }
                 type.fields.add(field);
             } else if (member instanceof MethodTree methodTree) {
-                if (isConstructor(methodTree, classTree)) {
+                if (isConstructor(methodTree)) {
+                    final boolean compactRecordConstructor = classTree.getKind() == Tree.Kind.RECORD
+                            && isCompactRecordConstructor(unitData, sourcePositions, classTree, methodTree);
+                    if (classTree.getKind() == Tree.Kind.RECORD
+                            && (compactRecordConstructor || isCanonicalRecordConstructor(methodTree, recordComponents))) {
+                        hasCanonicalRecordConstructor = true;
+                    }
                     if (!isPublicConstructor(methodTree, classTree)) {
                         continue;
                     }
                     final DocInfo ctorDoc = readDoc(docTrees, new TreePath(typePath, methodTree));
                     final ConstructorInfo ctor = new ConstructorInfo();
-                    ctor.signature = readMethodSignature(unitData, sourcePositions, methodTree);
+                    ctor.signature = compactRecordConstructor ? buildRecordConstructorSignature(simpleName, recordComponents)
+                            : readMethodSignature(unitData, sourcePositions, classTree, methodTree);
                     ctor.javadocSummary = ctorDoc == null ? null : ctorDoc.summary;
                     ctor.since = ctorDoc == null ? null : ctorDoc.since;
                     ctor.deprecated = readDeprecated(methodTree.getModifiers(), ctorDoc);
-                    ctor.params = readParams(methodTree, ctorDoc);
+                    if (compactRecordConstructor) {
+                        final DocInfo paramDoc = ctorDoc == null ? typeDoc : ctorDoc;
+                        for (final VariableTree component : recordComponents) {
+                            ctor.params.add(readParam(component, paramDoc));
+                        }
+                    } else {
+                        ctor.params = readParams(methodTree, ctorDoc == null && classTree.getKind() == Tree.Kind.RECORD ? typeDoc : ctorDoc);
+                    }
                     ctor.throwsList = readThrows(methodTree, ctorDoc, unitData, typesByPackage, allTypes, type);
                     type.constructors.add(ctor);
                 } else {
@@ -365,7 +402,7 @@ public final class ApiDocGenerator {
                     method.name = methodTree.getName().toString();
                     method.kind = methodTree.getModifiers().getFlags().contains(Modifier.STATIC) ? "static" : "instance";
                     method.modifiers = sortedModifiers(methodTree.getModifiers(), type);
-                    method.signature = readMethodSignature(unitData, sourcePositions, methodTree);
+                    method.signature = readMethodSignature(unitData, sourcePositions, classTree, methodTree);
                     method.returnType = normalize(methodTree.getReturnType() == null ? "void" : methodTree.getReturnType().toString());
                     method.typeParams = readTypeParams(methodTree.getTypeParameters());
                     method.params = readParams(methodTree, methodDoc);
@@ -376,6 +413,7 @@ public final class ApiDocGenerator {
                         method.since = methodDoc.since;
                         method.contract = methodDoc.contract;
                         method.performance = methodDoc.performance;
+                        method.examples = methodDoc.examples;
                         method.seeAlso = methodDoc.seeAlso;
                     }
                     method.deprecated = readDeprecated(methodTree.getModifiers(), methodDoc);
@@ -385,6 +423,16 @@ public final class ApiDocGenerator {
                 nextOrder = collectType(new TreePath(typePath, nested), unitData, type, fqn, packageMap, typesByPackage, allTypes, docTrees, sourcePositions,
                         nextOrder);
             }
+        }
+
+        if (classTree.getKind() == Tree.Kind.RECORD && !hasCanonicalRecordConstructor) {
+            final ConstructorInfo ctor = new ConstructorInfo();
+            ctor.signature = buildRecordConstructorSignature(simpleName, recordComponents);
+            ctor.since = typeDoc == null ? null : typeDoc.since;
+            for (final VariableTree component : recordComponents) {
+                ctor.params.add(readParam(component, typeDoc));
+            }
+            type.constructors.add(0, ctor);
         }
 
         packageMap.get(unitData.packageName).types.add(type);
@@ -405,8 +453,54 @@ public final class ApiDocGenerator {
         return false;
     }
 
-    private static boolean isConstructor(final MethodTree methodTree, final ClassTree owner) {
-        return methodTree.getReturnType() == null && methodTree.getName().contentEquals(owner.getSimpleName());
+    private static boolean isConstructor(final MethodTree methodTree) {
+        return methodTree.getReturnType() == null;
+    }
+
+    private static List<VariableTree> readRecordComponents(final ClassTree classTree) {
+        if (classTree.getKind() != Tree.Kind.RECORD) {
+            return List.of();
+        }
+        return classTree.getMembers()
+                .stream()
+                .filter(VariableTree.class::isInstance)
+                .map(VariableTree.class::cast)
+                .filter(component -> !component.getModifiers().getFlags().contains(Modifier.STATIC))
+                .collect(Collectors.toList());
+    }
+
+    private static boolean isCanonicalRecordConstructor(final MethodTree constructor, final List<VariableTree> components) {
+        if (constructor.getParameters().size() != components.size()) {
+            return false;
+        }
+        for (int i = 0; i < components.size(); i++) {
+            final String constructorType = normalize(constructor.getParameters().get(i).getType().toString());
+            final String componentType = normalize(components.get(i).getType().toString());
+            if (!Objects.equals(constructorType, componentType)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean isCompactRecordConstructor(final UnitData unitData, final SourcePositions sourcePositions, final ClassTree owner,
+            final MethodTree constructor) {
+        final BlockTree body = constructor.getBody();
+        if (body == null) {
+            return false;
+        }
+        final long start = sourcePositions.getStartPosition(unitData.unit, constructor);
+        final long bodyStart = sourcePositions.getStartPosition(unitData.unit, body);
+        if (start < 0 || bodyStart <= start || bodyStart > unitData.source.length()) {
+            return false;
+        }
+        final String header = unitData.source.substring((int) start, (int) bodyStart).trim();
+        return header.matches("(?s).*\\b" + Pattern.quote(owner.getSimpleName().toString()) + "\\s*$");
+    }
+
+    private static String buildRecordConstructorSignature(final String recordName, final List<VariableTree> components) {
+        return "public " + recordName + "("
+                + components.stream().map(component -> normalize(component.getType() + " " + component.getName())).collect(Collectors.joining(", ")) + ")";
     }
 
     private static boolean isPublicConstructor(final MethodTree methodTree, final ClassTree owner) {
@@ -442,14 +536,15 @@ public final class ApiDocGenerator {
     private static List<String> sortedModifiers(final ModifiersTree modifiers, final TypeInfo ownerType) {
         final LinkedHashSet<String> out = new LinkedHashSet<>();
         final List<Modifier> order = List.of(Modifier.PUBLIC, Modifier.PROTECTED, Modifier.PRIVATE, Modifier.ABSTRACT, Modifier.STATIC, Modifier.FINAL,
-                Modifier.TRANSIENT, Modifier.VOLATILE, Modifier.SYNCHRONIZED, Modifier.NATIVE, Modifier.STRICTFP, Modifier.DEFAULT);
+                Modifier.SEALED, Modifier.NON_SEALED, Modifier.TRANSIENT, Modifier.VOLATILE, Modifier.SYNCHRONIZED, Modifier.NATIVE, Modifier.STRICTFP,
+                Modifier.DEFAULT);
+        if (ownerType != null && ("interface".equals(ownerType.kind) || "annotation".equals(ownerType.kind))) {
+            out.add("public");
+        }
         for (final Modifier m : order) {
             if (modifiers.getFlags().contains(m)) {
                 out.add(m.toString().toLowerCase(Locale.ROOT));
             }
-        }
-        if (ownerType != null && ("interface".equals(ownerType.kind) || "annotation".equals(ownerType.kind))) {
-            out.add("public");
         }
         return new ArrayList<>(out);
     }
@@ -471,12 +566,13 @@ public final class ApiDocGenerator {
         return out;
     }
 
-    private static String readMethodSignature(final UnitData unitData, final SourcePositions sourcePositions, final MethodTree methodTree) {
+    private static String readMethodSignature(final UnitData unitData, final SourcePositions sourcePositions, final ClassTree owner,
+            final MethodTree methodTree) {
         final long start = sourcePositions.getStartPosition(unitData.unit, methodTree);
-        if (start < 0 || start >= unitData.source.length()) {
-            return normalize(methodTree.toString());
-        }
         long end = sourcePositions.getEndPosition(unitData.unit, methodTree);
+        if (start < 0 || start >= unitData.source.length() || end < 0) {
+            return buildMethodSignature(owner, methodTree);
+        }
         final BlockTree body = methodTree.getBody();
         if (body != null) {
             final long bodyStart = sourcePositions.getStartPosition(unitData.unit, body);
@@ -485,7 +581,7 @@ public final class ApiDocGenerator {
             }
         }
         if (end < 0 || end > unitData.source.length()) {
-            end = unitData.source.length();
+            return buildMethodSignature(owner, methodTree);
         }
         String value = unitData.source.substring((int) start, (int) end).trim();
         if (value.endsWith("{")) {
@@ -495,6 +591,30 @@ public final class ApiDocGenerator {
             value = value.substring(0, value.length() - 1).trim();
         }
         return normalize(value);
+    }
+
+    private static String buildMethodSignature(final ClassTree owner, final MethodTree methodTree) {
+        final StringBuilder sb = new StringBuilder();
+        final List<String> modifiers = sortedModifiers(methodTree.getModifiers(), null);
+        if (!modifiers.isEmpty()) {
+            sb.append(String.join(" ", modifiers)).append(' ');
+        }
+        if (!methodTree.getTypeParameters().isEmpty()) {
+            sb.append('<').append(methodTree.getTypeParameters().stream().map(Objects::toString).collect(Collectors.joining(", "))).append("> ");
+        }
+        if (isConstructor(methodTree)) {
+            sb.append(owner.getSimpleName());
+        } else {
+            sb.append(methodTree.getReturnType()).append(' ').append(methodTree.getName());
+        }
+        sb.append('(').append(methodTree.getParameters().stream().map(Objects::toString).collect(Collectors.joining(", "))).append(')');
+        if (!methodTree.getThrows().isEmpty()) {
+            sb.append(" throws ").append(methodTree.getThrows().stream().map(Objects::toString).collect(Collectors.joining(", ")));
+        }
+        if (methodTree.getDefaultValue() != null) {
+            sb.append(" default ").append(methodTree.getDefaultValue());
+        }
+        return normalize(sb.toString());
     }
 
     private static DocInfo readDoc(final DocTrees docTrees, final TreePath path) {
@@ -508,7 +628,11 @@ public final class ApiDocGenerator {
 
         final DocInfo doc = new DocInfo();
         doc.summary = normalizeDocText(comment.getFirstSentence());
-        final String body = normalizeDocText(comment.getFullBody());
+        final String rawBody = rawDocText(comment.getFullBody());
+        doc.fullBody = normalize(rawBody);
+        doc.examples = extractExamples(rawBody);
+        final String narrativeBody = stripPreformatted(rawBody);
+        final String body = normalize(narrativeBody == null ? null : narrativeBody.replaceAll("<[^>]+>", " "));
         if (!isBlank(body)) {
             for (final String sentence : body.split("(?<=[.!?])\\s+")) {
                 final String s = sentence.trim();
@@ -526,7 +650,7 @@ public final class ApiDocGenerator {
 
         for (final DocTree tag : comment.getBlockTags()) {
             switch (tag.getKind()) {
-                case SINCE -> doc.since = normalize(tag.toString().replaceFirst("@since", ""));
+                case SINCE -> doc.since = normalize(tag.toString().replaceFirst("^@since\\s*", ""));
                 case PARAM -> {
                     final ParamTree p = (ParamTree) tag;
                     doc.paramDocs.put(p.getName().toString(), normalizeDocText(p.getDescription()));
@@ -537,20 +661,21 @@ public final class ApiDocGenerator {
                 }
                 case THROWS, EXCEPTION -> {
                     final ThrowsTree t = (ThrowsTree) tag;
-                    final String key = normalize(t.getExceptionName().toString());
-                    final String value = normalizeDocText(t.getDescription());
-                    doc.throwsDocs.put(key, value);
-                    doc.throwsDocs.putIfAbsent(simpleName(key), value);
+                    final DocThrowInfo info = new DocThrowInfo();
+                    info.type = normalize(t.getExceptionName().toString());
+                    info.condition = normalizeDocText(t.getDescription());
+                    doc.throwsList.add(info);
                 }
                 case SEE -> {
                     final SeeTree s = (SeeTree) tag;
-                    final String ref = normalize(s.getReference().toString());
+                    final String ref = normalizeSeparatedDocText(s.getReference());
                     if (!isBlank(ref)) {
                         doc.seeAlso.add(ref);
                     }
                 }
                 case DEPRECATED -> {
                     final DeprecatedTree d = (DeprecatedTree) tag;
+                    doc.deprecated = true;
                     doc.deprecatedMessage = normalizeDocText(d.getBody());
                 }
                 default -> {
@@ -561,26 +686,83 @@ public final class ApiDocGenerator {
     }
 
     private static String normalizeDocText(final List<? extends DocTree> trees) {
-        if (trees == null || trees.isEmpty()) {
+        return normalize(rawDocText(trees));
+    }
+
+    private static String normalizeSeparatedDocText(final List<? extends DocTree> trees) {
+        return trees == null || trees.isEmpty() ? null : normalize(trees.stream().map(Objects::toString).collect(Collectors.joining(" ")));
+    }
+
+    private static String rawDocText(final List<? extends DocTree> trees) {
+        return trees == null || trees.isEmpty() ? null : trees.stream().map(Objects::toString).collect(Collectors.joining());
+    }
+
+    private static List<String> extractExamples(final String rawBody) {
+        final List<String> examples = new ArrayList<>();
+        if (isBlank(rawBody)) {
+            return examples;
+        }
+
+        final Matcher matcher = PRE_BLOCK_PATTERN.matcher(rawBody);
+        while (matcher.find()) {
+            String example = matcher.group(1).trim();
+            if (example.startsWith("{@code")) {
+                example = example.substring("{@code".length()).stripLeading();
+                if (example.endsWith("}")) {
+                    example = example.substring(0, example.length() - 1);
+                }
+            } else {
+                example = example.replaceFirst("(?is)^<code\\b[^>]*>", "").replaceFirst("(?is)</code>\\s*$", "");
+            }
+            example = stripCommonIndent(example);
+            if (!isBlank(example)) {
+                examples.add(example);
+            }
+        }
+        return examples;
+    }
+
+    private static String stripPreformatted(final String text) {
+        return text == null ? null : PRE_BLOCK_PATTERN.matcher(text).replaceAll(" ");
+    }
+
+    private static String stripCommonIndent(final String text) {
+        final String[] lines = text.replace("\r\n", "\n").replace('\r', '\n').strip().split("\n", -1);
+        int indent = Integer.MAX_VALUE;
+        for (final String line : lines) {
+            if (!line.isBlank()) {
+                int current = 0;
+                while (current < line.length() && Character.isWhitespace(line.charAt(current))) {
+                    current++;
+                }
+                indent = Math.min(indent, current);
+            }
+        }
+        if (indent == Integer.MAX_VALUE) {
             return null;
         }
-        final String raw = trees.stream().map(Objects::toString).collect(Collectors.joining(" "));
-        return normalize(raw);
+        final int commonIndent = indent;
+        return java.util.Arrays.stream(lines).map(line -> line.isBlank() ? "" : line.substring(Math.min(commonIndent, line.length())))
+                .collect(Collectors.joining("\n"));
     }
 
     private static List<ParamInfo> readParams(final MethodTree methodTree, final DocInfo doc) {
         final List<ParamInfo> out = new ArrayList<>();
         for (final VariableTree param : methodTree.getParameters()) {
-            final ParamInfo p = new ParamInfo();
-            p.name = param.getName().toString();
-            final String annotations = param.getModifiers().getAnnotations().stream().map(a -> normalize(a.toString())).collect(Collectors.joining(" "));
-            final String type = normalize(param.getType() == null ? "" : param.getType().toString());
-            p.type = annotations.isEmpty() ? type : annotations + " " + type;
-            p.javadoc = doc == null ? null : doc.paramDocs.get(p.name);
-            p.nullability = inferNullability(param.getModifiers().getAnnotations(), p.type);
-            out.add(p);
+            out.add(readParam(param, doc));
         }
         return out;
+    }
+
+    private static ParamInfo readParam(final VariableTree param, final DocInfo doc) {
+        final ParamInfo p = new ParamInfo();
+        p.name = param.getName().toString();
+        final String annotations = param.getModifiers().getAnnotations().stream().map(a -> normalize(a.toString())).collect(Collectors.joining(" "));
+        final String type = normalize(param.getType() == null ? "" : param.getType().toString());
+        p.type = annotations.isEmpty() ? type : annotations + " " + type;
+        p.javadoc = doc == null ? null : doc.paramDocs.get(p.name);
+        p.nullability = inferNullability(param.getModifiers().getAnnotations(), p.type);
+        return p;
     }
 
     private static List<ThrowInfo> readThrows(final MethodTree methodTree, final DocInfo doc, final UnitData unitData,
@@ -593,15 +775,41 @@ public final class ApiDocGenerator {
             final ThrowInfo t = new ThrowInfo();
             t.type = resolveExceptionType(declared, unitData, typesByPackage, allTypes, ownerTypeParams, methodTypeParams);
             if (doc != null) {
-                String condition = doc.throwsDocs.get(declared);
-                if (isBlank(condition)) {
-                    condition = doc.throwsDocs.get(simpleName(declared));
+                for (final DocThrowInfo documented : doc.throwsList) {
+                    if (sameExceptionType(declared, documented.type)) {
+                        t.condition = documented.condition;
+                        break;
+                    }
                 }
-                t.condition = condition;
             }
             out.add(t);
         }
+
+        if (doc != null) {
+            for (final DocThrowInfo documented : doc.throwsList) {
+                boolean alreadyPresent = false;
+                for (final ThrowInfo existing : out) {
+                    if (sameExceptionType(existing.type, documented.type)) {
+                        if (isBlank(existing.condition)) {
+                            existing.condition = documented.condition;
+                        }
+                        alreadyPresent = true;
+                        break;
+                    }
+                }
+                if (!alreadyPresent) {
+                    final ThrowInfo t = new ThrowInfo();
+                    t.type = resolveExceptionType(documented.type, unitData, typesByPackage, allTypes, ownerTypeParams, methodTypeParams);
+                    t.condition = documented.condition;
+                    out.add(t);
+                }
+            }
+        }
         return out;
+    }
+
+    private static boolean sameExceptionType(final String left, final String right) {
+        return Objects.equals(left, right) || Objects.equals(simpleName(left), simpleName(right));
     }
 
     private static String resolveExceptionType(final String declared, final UnitData unitData, final Map<String, Map<String, String>> typesByPackage,
@@ -645,7 +853,7 @@ public final class ApiDocGenerator {
             }
         }
 
-        final boolean deprecatedTag = doc != null && !isBlank(doc.deprecatedMessage);
+        final boolean deprecatedTag = doc != null && doc.deprecated;
         if (deprecatedAnn == null && !deprecatedTag) {
             return null;
         }
@@ -678,6 +886,24 @@ public final class ApiDocGenerator {
         }
         if (txt.contains("nonnull") || txt.contains("notnull") || txt.contains("non_null")) {
             return "non-null";
+        }
+        return "unspecified";
+    }
+
+    private static String inferThreadSafety(final String javadoc) {
+        if (isBlank(javadoc)) {
+            return "unspecified";
+        }
+        final String text = javadoc.replaceAll("<[^>]+>", " ").replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
+        if (text.contains("not thread-safe") || text.contains("not thread safe")) {
+            return "not-thread-safe";
+        }
+        if (text.contains("thread-safe only") || text.contains("thread safe only") || text.contains("thread-safety depends")
+                || text.contains("thread safety depends") || text.contains("conditionally thread-safe") || text.contains("conditionally thread safe")) {
+            return "conditional";
+        }
+        if (text.contains("thread-safe") || text.contains("thread safe")) {
+            return "thread-safe";
         }
         return "unspecified";
     }
@@ -753,6 +979,13 @@ public final class ApiDocGenerator {
         });
         files.sort(Comparator.comparing(Path::toString));
         return files;
+    }
+
+    private static void createParentDirectories(final Path file) throws IOException {
+        final Path parent = file.toAbsolutePath().getParent();
+        if (parent != null) {
+            Files.createDirectories(parent);
+        }
     }
 
     private static String toMarkdown(final LibraryInfo library, final List<PackageInfoData> packages) {
@@ -859,6 +1092,16 @@ public final class ApiDocGenerator {
                 }
                 if (!isBlank(m.performance)) {
                     sb.append("- **Performance:** ").append(md(m.performance)).append('\n');
+                }
+                if (!m.examples.isEmpty()) {
+                    sb.append("- **Examples:**\n");
+                    for (final String example : m.examples) {
+                        sb.append("  ```java\n");
+                        for (final String line : example.split("\\n", -1)) {
+                            sb.append("  ").append(line).append('\n');
+                        }
+                        sb.append("  ```\n");
+                    }
                 }
                 if (!m.seeAlso.isEmpty()) {
                     sb.append("- **See also:** ").append(md(String.join(", ", m.seeAlso))).append('\n');
